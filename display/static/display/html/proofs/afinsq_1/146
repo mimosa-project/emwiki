@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">x</font>, <font color="Maroon" title="c2">y</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="funct_4.html#K8" title="FUNCT_4:func.8">+~</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span></span><br/>
+
+
+
+<span class="lab"><font color="Green" title="E56">A1</font></span>:  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><span class="p2"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="funct_4.html#K8" title="FUNCT_4:func.8">+~</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>)</span>)</span> = 
+ <a href="afinsq_1.html#K2" title="AFINSQ_1:func.2">dom</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_4.html#T99" onmouseover="rs('funct_4/T99')" onmouseout="rh()">FUNCT_4:99</a></span>
+<br/>.= 
+ <a href="card_1.html#K5" title="CARD_1:func.5">Segm</a> 1
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_1.html#T33" target="_self" onmouseover="rs('afinsq_1/T33')" onmouseout="rh()">Th30</a></span>
+;<br/>
+<a NAME="E2:146"/><span class="kw">then </span>
+<span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="funct_4.html#K8" title="FUNCT_4:func.8">+~</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>) is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finset_1.html#T10" onmouseover="rs('finset_1/T10')" onmouseout="rh()">FINSET_1:10</a></span>;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c3">p</font> = <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="funct_4.html#K8" title="FUNCT_4:func.8">+~</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>) as   <a href="afinsq_1.html#NM1" title="AFINSQ_1:NM.1">XFinSequence</a> <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:146"><span class="lab"><font color="Green" title="E56">A1</font></span></a>, <a class="ref" href="ordinal1.html#D7" onmouseover="rs('ordinal1/D7')" onmouseout="rh()">ORDINAL1:def 7</a></span>;<br/>
+<a NAME="E4:146"/><span class="lab"><font color="Green" title="E57">A2</font></span>: 
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_1.html#T33" target="_self" onmouseover="rs('afinsq_1/T33')" onmouseout="rh()">Th30</a></span>;<br/>
+<a NAME="E5:146"/><span class="kw">then </span>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c3">p</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <span class="p1">(<span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> <a href="subset_1.html#K6" title="SUBSET_1:func.6">\</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_4.html#T104" onmouseover="rs('funct_4/T104')" onmouseout="rh()">FUNCT_4:104</a></span>;<br/>
+<a NAME="E6:146"/><span class="kw">then </span>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c3">p</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_1.html#T37" onmouseover="rs('xboole_1/T37')" onmouseout="rh()">XBOOLE_1:37</a></span>;<br/>
+<a NAME="E7:146"/><span class="kw">then </span><span class="lab"><font color="Green" title="E58">A3</font></span>: 
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c3">p</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+;<br/>
+<a NAME="E8:146"/>
+<font color="Maroon" title="c1">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:146"><span class="lab"><font color="Green" title="E57">A2</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<a NAME="E9:146"/><span class="kw">then </span>
+<font color="Maroon" title="c2">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c3">p</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_4.html#T101" onmouseover="rs('funct_4/T101')" onmouseout="rh()">FUNCT_4:101</a></span>;<br/>
+<a NAME="E10:146"/><span class="kw">then </span>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c3">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E7:146"><span class="lab"><font color="Green" title="E58">A3</font></span></a>, <a class="ref" href="zfmisc_1.html#T33" onmouseover="rs('zfmisc_1/T33')" onmouseout="rh()">ZFMISC_1:33</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E11:146"/>
+<span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="funct_4.html#K8" title="FUNCT_4:func.8">+~</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:146"><span class="lab"><font color="Green" title="E56">A1</font></span></a>, <a class="ref" href="afinsq_1.html#T33" target="_self" onmouseover="rs('afinsq_1/T33')" onmouseout="rh()">Th30</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

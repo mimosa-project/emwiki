@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c1">S</font> =  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>;<br/>
+<span class="kw">set </span><font color="Maroon" title="c2">A</font> =  the   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>;<br/>
+<span class="kw">take </span>
+ the   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a> st  the   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a> is   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font></span><br/>
+
+<span class="kw">take </span>
+ the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a> is   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a></span><br/>
+
+<span class="kw">thus </span><a NAME="E1:60_1_1"/>
+ the   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a> is   <a href="msualg_6.html#V1" title="MSUALG_6:attr.1">feasible</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over  the   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

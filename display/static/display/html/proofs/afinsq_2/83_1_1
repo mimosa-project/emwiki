@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:83_1_1"/>
+ <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <font color="Maroon" title="c2">F</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <a href="binop_2.html#K23" title="BINOP_2:func.23">addnat</a> <a href="afinsq_2.html#K6" title="AFINSQ_2:func.6">"**"</a> <font color="Maroon" title="c2">F</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_2.html#T51" target="_self" onmouseover="rs('afinsq_2/T51')" onmouseout="rh()">Th50</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:83_1_1"/>
+ <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <font color="Maroon" title="c2">F</font> is  <a href="ordinal1.html#V7" title="ORDINAL1:attr.7">natural</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

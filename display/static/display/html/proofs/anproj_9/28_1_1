@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:28_1_1"/>
+<font color="Maroon" title="c1">h1</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"> { <span class="default"> <span class="p2">(<span class="default"><a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Olive" title="b1">N</font></span>)</span> where <font color="Olive" title="b1">N</font> is   <a href="matrix_6.html#V1" title="MATRIX_6:attr.1">invertible</a>  <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of 3,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> : verum </span> } </span> 
+ 
+;<br/>
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c3">N1</font> being   <a href="matrix_6.html#V1" title="MATRIX_6:attr.1">invertible</a>  <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of 3,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a><span class="kw"> such that </span><br/><a NAME="E3:28_1_1"/><span class="lab"><font color="Green" title="E22">A1</font></span>: 
+<font color="Maroon" title="c1">h1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Maroon" title="c3">N1</font>
+ ;<br/>
+<a NAME="E4:28_1_1"/>
+<font color="Maroon" title="c2">h2</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"> { <span class="default"> <span class="p2">(<span class="default"><a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Olive" title="b1">N</font></span>)</span> where <font color="Olive" title="b1">N</font> is   <a href="matrix_6.html#V1" title="MATRIX_6:attr.1">invertible</a>  <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of 3,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> : verum </span> } </span> 
+ 
+;<br/>
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c4">N2</font> being   <a href="matrix_6.html#V1" title="MATRIX_6:attr.1">invertible</a>  <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of 3,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a><span class="kw"> such that </span><br/><a NAME="E6:28_1_1"/><span class="lab"><font color="Green" title="E23">A2</font></span>: 
+<font color="Maroon" title="c2">h2</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Maroon" title="c4">N2</font>
+ ;<br/>
+<a NAME="E7:28_1_1"/>
+ <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">N1</font> <a href="matrix_3.html#K4" title="MATRIX_3:func.4">*</a> <font color="Maroon" title="c4">N2</font></span>)</span> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="anproj_9.html#K1" title="ANPROJ_9:func.1">EnsHomography3</a> 
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E8:28_1_1"/>
+ ex <font color="Olive">b<sub>1</sub></font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="anproj_9.html#K1" title="ANPROJ_9:func.1">EnsHomography3</a>  ex <font color="Olive" title="b2">N1</font>, <font color="Olive" title="b3">N2</font> being   <a href="matrix_6.html#V1" title="MATRIX_6:attr.1">invertible</a>  <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of 3,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> st <br/>( <font color="Maroon" title="c1">h1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Olive" title="b2">N1</font> &amp; <font color="Maroon" title="c2">h2</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <font color="Olive" title="b3">N2</font> &amp; <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">N1</font> <a href="matrix_3.html#K4" title="MATRIX_3:func.4">*</a> <font color="Olive" title="b3">N2</font></span>)</span> )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:28_1_1"><span class="lab"><font color="Green" title="E22">A1</font></span></a>, <a class="txt" href="#E6:28_1_1"><span class="lab"><font color="Green" title="E23">A2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

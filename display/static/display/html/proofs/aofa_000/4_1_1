@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">assume </span><a NAME="E1:4_1_1"/>
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1">(<span class="default"><font color="Maroon" title="c1">p</font> <a href="finseq_1.html#K7" title="FINSEQ_1:func.7">^</a> <font color="Maroon" title="c2">q</font></span>)</span>
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="relat_1.html#D9" onmouseover="rs('relat_1/D9')" onmouseout="rh()">RELAT_1:def 9</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E2:4_1_1"/><span class="kw">then </span>
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1">(<span class="default"><a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c1">p</font></span>)</span> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <span class="p1">(<span class="default"><a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c2">q</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T31" onmouseover="rs('finseq_1/T31')" onmouseout="rh()">FINSEQ_1:31</a></span>;<br/>
+<a NAME="E3:4_1_1"/><span class="kw">then </span>
+(  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c1">p</font> or  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c2">q</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_0.html#D3" onmouseover="rs('xboole_0/D3')" onmouseout="rh()">XBOOLE_0:def 3</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:4_1_1"/>
+contradiction
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:32_1_1"/>
+(  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <span class="p1">(<span class="default"><a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a> <font color="Maroon" title="c2">Y</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">Y</font> &amp;  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <span class="p1">(<span class="default"><a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a> <font color="Maroon" title="c2">Y</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">Y</font> )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:32_1_1"/>
+ <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a> <font color="Maroon" title="c2">Y</font> is   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <font color="Maroon" title="c2">Y</font>,<font color="Maroon" title="c1">X</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:32"><span class="lab"><font color="Green" title="E14">A1</font></span></a>, <a class="ref" href="funct_2.html#T2" onmouseover="rs('funct_2/T2')" onmouseout="rh()">FUNCT_2:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

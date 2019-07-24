@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">reconsider </span><font color="Maroon" title="c2">jj</font> = 1 as    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>  <span class="kw">by</span> <span class="lab"><a class="ref" href="numbers.html#T19" onmouseover="rs('numbers/T19')" onmouseout="rh()">NUMBERS:19</a></span>;<br/>
+<span class="kw">let </span><font color="Maroon" title="c3">x</font>, <font color="Maroon" title="c4">y</font> be    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c4">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  implies  <a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<span class="p1">(<span class="default"><a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c3">x</font>,<font color="Maroon" title="c4">y</font>)</span>)</span>,<span class="p1">(<span class="default"><a href="arytm_0.html#K4" title="ARYTM_0:func.4">inv</a> <font color="Maroon" title="c4">y</font></span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">x</font> )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E2:27"/><span class="lab"><font color="Green" title="E25">A1</font></span>: 
+<font color="Maroon" title="c4">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<span class="p1">(<span class="default"><a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c3">x</font>,<font color="Maroon" title="c4">y</font>)</span>)</span>,<span class="p1">(<span class="default"><a href="arytm_0.html#K4" title="ARYTM_0:func.4">inv</a> <font color="Maroon" title="c4">y</font></span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">x</font></span><br/>
+
+<span class="kw">thus </span> <a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<span class="p1">(<span class="default"><a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c3">x</font>,<font color="Maroon" title="c4">y</font>)</span>)</span>,<span class="p1">(<span class="default"><a href="arytm_0.html#K4" title="ARYTM_0:func.4">inv</a> <font color="Maroon" title="c4">y</font></span>)</span>) = 
+ <a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c3">x</font>,<span class="p1">(<span class="default"><a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c4">y</font>,<span class="p2">(<span class="default"><a href="arytm_0.html#K4" title="ARYTM_0:func.4">inv</a> <font color="Maroon" title="c4">y</font></span>)</span>)</span>)</span>)
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_0.html#T13" target="_self" onmouseover="rs('arytm_0/T13')" onmouseout="rh()">Th13</a></span>
+<br/>.= 
+ <a href="arytm_0.html#K2" title="ARYTM_0:func.2">*</a> (<font color="Maroon" title="c3">x</font>,<font color="Maroon" title="c2">jj</font>)
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:27"><span class="lab"><font color="Green" title="E25">A1</font></span></a>, <a class="ref" href="arytm_0.html#D4" target="_self" onmouseover="rs('arytm_0/D4')" onmouseout="rh()">Def4</a></span>
+<br/>.= 
+<font color="Maroon" title="c3">x</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_0.html#T19" target="_self" onmouseover="rs('arytm_0/T19')" onmouseout="rh()">Th19</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#V12" title="ALTCAT_1:attr.12">with_units</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> holds <br/> (  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Olive" title="b1">o</font> is  <a href="altcat_3.html#V1" title="ALTCAT_3:attr.1">retraction</a>  &amp;  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Olive" title="b1">o</font> is  <a href="altcat_3.html#V2" title="ALTCAT_3:attr.2">coretraction</a>  )</span><br/><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font> is  <a href="altcat_3.html#V1" title="ALTCAT_3:attr.1">retraction</a>  &amp;  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font> is  <a href="altcat_3.html#V2" title="ALTCAT_3:attr.2">coretraction</a>  )</span><br/>
+
+
+
+<a NAME="E1:5"/>
+<span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c2">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_1.html#T19" onmouseover="rs('altcat_1/T19')" onmouseout="rh()">ALTCAT_1:19</a></span>;<br/>
+<a NAME="E2:5"/><span class="kw">then </span>
+<span class="p1">(<span class="default"><a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <span class="p1">(<span class="default"><a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_1.html#D17" onmouseover="rs('altcat_1/D17')" onmouseout="rh()">ALTCAT_1:def 17</a></span>;<br/>
+<a NAME="E3:5"/><span class="kw">then </span>
+ <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font> <a href="altcat_3.html#R1" title="ALTCAT_3:pred.1">is_left_inverse_of</a>  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E4:5"/>
+(  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font> is  <a href="altcat_3.html#V1" title="ALTCAT_3:attr.1">retraction</a>  &amp;  <a href="altcat_1.html#K8" title="ALTCAT_1:func.8">idm</a> <font color="Maroon" title="c2">o</font> is  <a href="altcat_3.html#V2" title="ALTCAT_3:attr.2">coretraction</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

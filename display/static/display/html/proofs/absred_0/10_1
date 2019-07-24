@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:10_1"/>
+ for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon">F<sub>1</sub></font>()  st <font color="Olive" title="b1">x</font> <a href="absred_0.html#R3" title="ABSRED_0:pred.3">=*=&gt;</a> <font color="Olive" title="b2">y</font> &amp; <font color="Maroon">P<sub>1</sub></font>[<font color="Olive" title="b2">y</font>] holds <br/><font color="Maroon">P<sub>1</sub></font>[<font color="Olive" title="b1">x</font>]
+ 
+<span class="kw">from</span> <span class="lab"><a class="ref" href="absred_0.html#S3" target="_self" onmouseover="rs('absred_0/S3')" onmouseout="rh()">ABSRED_0:sch 3</a>(<a class="txt" href="#E3:10"><span class="lab"><font color="Green" title="E5">A3</font></span></a>);<br/></span>
+<span class="kw">hence </span><a NAME="E2:10_1"/>
+<font color="Maroon">P<sub>1</sub></font>[<font color="Maroon">F<sub>2</sub></font>()]
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:10"><span class="lab"><font color="Green" title="E3">A1</font></span></a>, <a class="txt" href="#E2:10"><span class="lab"><font color="Green" title="E4">A2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

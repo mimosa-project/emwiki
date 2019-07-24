@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">k</font>, <font color="Maroon" title="c2">m</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><font color="Maroon" title="c1">k</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> <font color="Maroon" title="c2">m</font></span>)</span> <a href="int_1.html#K5" title="INT_1:func.5">mod</a> <font color="Maroon" title="c2">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">k</font> <a href="nat_d.html#K4" title="NAT_D:func.4">mod</a> <font color="Maroon" title="c2">m</font></span><br/>
+
+<span class="kw">thus </span><span class="p1">(<span class="default"><font color="Maroon" title="c1">k</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> <font color="Maroon" title="c2">m</font></span>)</span> <a href="int_1.html#K5" title="INT_1:func.5">mod</a> <font color="Maroon" title="c2">m</font> = 
+<span class="p1">(<span class="default"><font color="Maroon" title="c1">k</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <span class="p2">(<span class="default"><font color="Maroon" title="c2">m</font> <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> <span class="p3">(<span class="default"><a href="xcmplx_0.html#K4" title="XCMPLX_0:func.4">-</a> 1</span>)</span></span>)</span></span>)</span> <a href="int_1.html#K5" title="INT_1:func.5">mod</a> <font color="Maroon" title="c2">m</font>
+
+<br/>.= 
+<font color="Maroon" title="c1">k</font> <a href="nat_d.html#K4" title="NAT_D:func.4">mod</a> <font color="Maroon" title="c2">m</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="nat_d.html#T61" onmouseover="rs('nat_d/T61')" onmouseout="rh()">NAT_D:61</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

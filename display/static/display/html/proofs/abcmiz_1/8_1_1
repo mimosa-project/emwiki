@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">p</font> be   <a href="abcmiz_1.html#NM2" title="ABCMIZ_1:NM.2">FinSequence</a> of <span class="p1">(<span class="default"><a href="msafree3.html#K1" title="MSAFREE3:func.1">Free</a> (<font color="Maroon" title="c1">S</font>,<font color="Maroon" title="c2">X</font>)</span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">p</font> is  <a href="trees_3.html#V6" title="TREES_3:attr.6">DTree-yielding</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c4">x</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="trees_3.html#D5" onmouseover="rs('trees_3/D5')" onmouseout="rh()">TREES_3:def 5</a>,<a class="ref" href="trees_3.html#D11" onmouseover="rs('trees_3/D11')" onmouseout="rh()">TREES_3:def 11</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">proj2</a> <font color="Maroon" title="c3">p</font> or <font color="Maroon" title="c4">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E1:8_1_1"/>
+<font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Maroon" title="c3">p</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> </span><br/>
+
+<span class="kw">hence </span><a NAME="E2:8_1_1"/>
+<font color="Maroon" title="c4">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

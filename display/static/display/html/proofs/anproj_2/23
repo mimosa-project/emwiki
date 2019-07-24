@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">p</font>, <font color="Olive" title="b2">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font> holds  <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Olive" title="b1">p</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Olive" title="b2">q</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">p</font>, <font color="Maroon" title="c3">q</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c2">p</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">q</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span><br/>
+
+
+
+
+
+<span class="kw">thus </span><span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c2">p</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">q</font></span>)</span> = 
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">q</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+<br/>.= 
+<a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">q</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T4" onmouseover="rs('rlvect_1/T4')" onmouseout="rh()">RLVECT_1:4</a></span>
+<br/>.= 
+ <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

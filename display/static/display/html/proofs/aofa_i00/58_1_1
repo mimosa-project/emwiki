@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:58_1_1"/>
+ <a href="aofa_i00.html#K28" title="AOFA_I00:func.28">-</a> <font color="Maroon" title="c6">t2</font> is    <a href="aofa_i00.html#M3" title="AOFA_I00:mode.3">INT-Expression</a> of <font color="Maroon" title="c1">A</font>,<font color="Maroon" title="c4">f</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:58_1_1"/>
+<font color="Maroon" title="c5">t1</font> <a href="valued_1.html#K45" title="VALUED_1:func.45">-</a> <font color="Maroon" title="c6">t2</font> is    <a href="aofa_i00.html#M3" title="AOFA_I00:mode.3">INT-Expression</a> of <font color="Maroon" title="c1">A</font>,<font color="Maroon" title="c4">f</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_i00.html#D22" target="_self" onmouseover="rs('aofa_i00/D22')" onmouseout="rh()">Def22</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

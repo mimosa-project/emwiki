@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c2">m</font>, <font color="Maroon" title="c3">a</font> being   <a href="msualg_1.html#NM2" title="MSUALG_1:NM.2">OperSymbol</a> of <font color="Maroon" title="c1">C</font><span class="kw"> such that </span><br/><a NAME="E2:117_1_1"/>
+ <a href="msualg_1.html#K2" title="MSUALG_1:func.2">the_result_sort_of</a> <font color="Maroon" title="c2">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="abcmiz_1.html#K6" title="ABCMIZ_1:func.6">a_Type</a> 
+ <span class="kw">and </span><br/><a NAME="E3:117_1_1"/>
+ <a href="msualg_1.html#K1" title="MSUALG_1:func.1">the_arity_of</a> <font color="Maroon" title="c2">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ <span class="kw">and </span><br/><a NAME="E4:117_1_1"/><span class="lab"><font color="Green" title="E63">A1</font></span>: 
+ <a href="msualg_1.html#K2" title="MSUALG_1:func.2">the_result_sort_of</a> <font color="Maroon" title="c3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="abcmiz_1.html#K7" title="ABCMIZ_1:func.7">an_Adj</a> 
+ <span class="kw">and </span><br/><a NAME="E5:117_1_1"/><span class="lab"><font color="Green" title="E64">A2</font></span>: 
+ <a href="msualg_1.html#K1" title="MSUALG_1:func.1">the_arity_of</a> <font color="Maroon" title="c3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#D12" target="_self" onmouseover="rs('abcmiz_1/D12')" onmouseout="rh()">Def12</a></span>;<br/>
+<span class="kw">set </span><font color="Maroon" title="c4">X</font> =  <a href="abcmiz_1.html#K28" title="ABCMIZ_1:func.28">MSVars</a> <font color="Maroon" title="c1">C</font>;<br/>
+<a NAME="E6:117_1_1"/>
+ <a href="trees_4.html#K1" title="TREES_4:func.1">root-tree</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c3">a</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <span class="p1">(<span class="default"><a href="msafree3.html#K1" title="MSAFREE3:func.1">Free</a> (<font color="Maroon" title="c1">C</font>,<span class="p2">(<span class="default"><a href="abcmiz_1.html#K28" title="ABCMIZ_1:func.28">MSVars</a> <font color="Maroon" title="c1">C</font></span>)</span>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="abcmiz_1.html#K7" title="ABCMIZ_1:func.7">an_Adj</a>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:117_1_1"><span class="lab"><font color="Green" title="E63">A1</font></span></a>, <a class="txt" href="#E5:117_1_1"><span class="lab"><font color="Green" title="E64">A2</font></span></a>, <a class="ref" href="msafree3.html#T5" onmouseover="rs('msafree3/T5')" onmouseout="rh()">MSAFREE3:5</a></span>;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c5">v</font> =  <a href="trees_4.html#K1" title="TREES_4:func.1">root-tree</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c3">a</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> as    <a href="abcmiz_1.html#M1" title="ABCMIZ_1:mode.1">expression</a> of <font color="Maroon" title="c1">C</font>, <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c1">C</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T41" target="_self" onmouseover="rs('abcmiz_1/T41')" onmouseout="rh()">Th41</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c5">v</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c5">v</font> is  <a href="abcmiz_1.html#V6" title="ABCMIZ_1:attr.6">positive</a> </span><br/>
+
+<span class="kw">given </span><font color="Maroon" title="c6">a9</font> being    <a href="abcmiz_1.html#M1" title="ABCMIZ_1:mode.1">expression</a> of <font color="Maroon" title="c1">C</font>, <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c1">C</font><span class="kw"> such that </span><a NAME="E9:117_1_1"/><span class="lab"><font color="Green" title="E65">A3</font></span>: 
+<font color="Maroon" title="c5">v</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="abcmiz_1.html#K32" title="ABCMIZ_1:func.32">non_op</a> <font color="Maroon" title="c1">C</font></span>)</span> <a href="abcmiz_1.html#K30" title="ABCMIZ_1:func.30">term</a> <font color="Maroon" title="c6">a9</font>
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="abcmiz_1.html#D37" target="_self" onmouseover="rs('abcmiz_1/D37')" onmouseout="rh()">ABCMIZ_1:def 37</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E10:117_1_1"/>
+<font color="Maroon" title="c5">v</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="trees_4.html#K4" title="TREES_4:func.4">-tree</a> <span class="p1"><a href="pre_poly.html#K3" title="PRE_POLY:func.3">&lt;*</a><span class="default"><font color="Maroon" title="c6">a9</font></span><a href="pre_poly.html#K3" title="PRE_POLY:func.3">*&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E9:117_1_1"><span class="lab"><font color="Green" title="E65">A3</font></span></a>, <a class="ref" href="abcmiz_1.html#T43" target="_self" onmouseover="rs('abcmiz_1/T43')" onmouseout="rh()">Th43</a></span>;<br/>
+<span class="kw">then </span><span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> = 
+<font color="Maroon" title="c5">v</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="trees_4.html#D4" onmouseover="rs('trees_4/D4')" onmouseout="rh()">TREES_4:def 4</a></span>
+<br/>.= 
+<span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c3">a</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="trees_4.html#T3" onmouseover="rs('trees_4/T3')" onmouseout="rh()">TREES_4:3</a></span>
+;<br/>
+<a NAME="E12:117_1_1"/><span class="kw">then </span>
+<font color="Maroon" title="c3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="abcmiz_1.html#K32" title="ABCMIZ_1:func.32">non_op</a> <font color="Maroon" title="c1">C</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xtuple_0.html#T1" onmouseover="rs('xtuple_0/T1')" onmouseout="rh()">XTUPLE_0:1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E13:117_1_1"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:117_1_1"><span class="lab"><font color="Green" title="E64">A2</font></span></a>, <a class="ref" href="abcmiz_1.html#D9" target="_self" onmouseover="rs('abcmiz_1/D9')" onmouseout="rh()">Def9</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

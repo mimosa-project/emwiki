@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">m</font>, <font color="Maroon" title="c2">n</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="absred_0.html#K2" title="ABSRED_0:func.2">ARS_02</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">m</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c2">n</font> iff <font color="Maroon" title="c1">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>  )</span><br/>
+
+
+
+<a NAME="E1:80"/>
+ the <a href="absred_0.html#U1" title="ABSRED_0:sel.1">reduction</a> of <a href="absred_0.html#K2" title="ABSRED_0:func.2">ARS_02</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">[:</a><span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>,<span class="p2"><a href="enumset1.html#K1" title="ENUMSET1:func.1">{</a><span class="default"><a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>,1,2</span><a href="enumset1.html#K1" title="ENUMSET1:func.1">}</a></span></span><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">:]</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="absred_0.html#D10" target="_self" onmouseover="rs('absred_0/D10')" onmouseout="rh()">Def19</a></span>;<br/>
+<a NAME="E2:80"/><span class="kw">then </span>
+( <font color="Maroon" title="c1">m</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c2">n</font> iff ( <font color="Maroon" title="c1">m</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> &amp; <font color="Maroon" title="c2">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="enumset1.html#K1" title="ENUMSET1:func.1">{</a><span class="default"><a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>,1,2</span><a href="enumset1.html#K1" title="ENUMSET1:func.1">}</a></span> ) )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#T87" onmouseover="rs('zfmisc_1/T87')" onmouseout="rh()">ZFMISC_1:87</a></span>;<br/>
+<a NAME="E3:80"/><span class="kw">then </span>
+( <font color="Maroon" title="c1">m</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c2">n</font> iff ( <font color="Maroon" title="c1">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>  &amp; ( <font color="Maroon" title="c2">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>  or <font color="Maroon" title="c2">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 or <font color="Maroon" title="c2">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2 ) ) )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a>, <a class="ref" href="enumset1.html#D1" onmouseover="rs('enumset1/D1')" onmouseout="rh()">ENUMSET1:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:80"/>
+( <font color="Maroon" title="c1">m</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c2">n</font> iff <font color="Maroon" title="c1">m</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="ordinal1.html#K5" title="ORDINAL1:func.5">0</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="absred_0.html#T89" target="_self" onmouseover="rs('absred_0/T89')" onmouseout="rh()">ThB1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

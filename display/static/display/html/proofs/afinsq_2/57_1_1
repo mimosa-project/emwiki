@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:57_1_1"/>
+ <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <span class="p1">(<span class="default"><a href="afinsq_2.html#K5" title="AFINSQ_2:func.5">SubXFinS</a> (<font color="Maroon" title="c1">p</font>,<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_1.html#K4" title="CARD_1:func.4">card</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_2.html#T36" target="_self" onmouseover="rs('afinsq_2/T36')" onmouseout="rh()">Th36</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:57_1_1"/>
+ <a href="afinsq_2.html#K5" title="AFINSQ_2:func.5">SubXFinS</a> (<font color="Maroon" title="c1">p</font>,<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>) is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

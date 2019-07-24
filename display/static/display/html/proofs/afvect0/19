@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font>, <font color="Olive" title="b4">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> &amp; <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> holds <br/> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font>, <font color="Maroon" title="c4">c</font>, <font color="Maroon" title="c5">d</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> &amp; <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font> implies  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font> )</span><br/>
+
+
+
+
+
+
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:19"/><span class="lab"><font color="Green" title="E9">A1</font></span>: 
+ <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>
+ <span class="kw">and </span><br/><a NAME="E2:19"/><span class="lab"><font color="Green" title="E10">A2</font></span>: 
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font></span><br/>
+
+<a NAME="E3:19"/><span class="lab"><font color="Green" title="E11">A3</font></span>: 
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:19"><span class="lab"><font color="Green" title="E9">A1</font></span></a></span>;<br/>
+<a NAME="E4:19"/><span class="lab"><font color="Green" title="E12">A4</font></span>: 
+<font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:19"><span class="lab"><font color="Green" title="E10">A2</font></span></a>, <a class="ref" href="afvect0.html#T3" target="_self" onmouseover="rs('afvect0/T3')" onmouseout="rh()">Th3</a></span>;<br/>
+<a NAME="E5:19"/><span class="kw">then </span>
+<font color="Maroon" title="c5">d</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T7" target="_self" onmouseover="rs('afvect0/T7')" onmouseout="rh()">Th7</a></span>;<br/>
+<a NAME="E6:19"/><span class="kw">then </span>
+<font color="Maroon" title="c5">d</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:19"><span class="lab"><font color="Green" title="E11">A3</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E7:19"/><span class="kw">then </span>
+<font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c5">d</font>,<font color="Maroon" title="c4">c</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:19"><span class="lab"><font color="Green" title="E12">A4</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E8:19"/><span class="kw">then </span>
+( <font color="Maroon" title="c4">c</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c5">d</font> implies  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font> )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E9:19"/>
+ <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c5">d</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:19"><span class="lab"><font color="Green" title="E9">A1</font></span></a>, <a class="txt" href="#E2:19"><span class="lab"><font color="Green" title="E10">A2</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

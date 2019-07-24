@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">defpred </span><font color="Maroon">S<sub>1</sub></font>[   <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ] <span class="kw">means </span>$1 is   <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of <font color="Maroon" title="c1">D</font>;<br/>
+<span class="kw">thus </span><a NAME="E1:75_1_2"/>
+ for <font color="Olive" title="b1">X1</font>, <font color="Olive" title="b2">X2</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st (  for <font color="Olive" title="b3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive" title="b1">X1</font> iff <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b3">x</font>] ) ) &amp; (  for <font color="Olive" title="b3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive" title="b2">X2</font> iff <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b3">x</font>] ) ) holds <br/><font color="Olive" title="b1">X1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">X2</font>
+ <span class="kw">from</span> <span class="lab"><a class="ref" href="xboole_0.html#S3" onmouseover="rs('xboole_0/S3')" onmouseout="rh()">XBOOLE_0:sch 3</a>();</span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

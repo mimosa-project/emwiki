@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">P</font> be   <a href="pre_topc.html#NM2" title="PRE_TOPC:NM.2">Point</a> of <span class="p1">(<span class="default"><a href="anproj_1.html#K5" title="ANPROJ_1:func.5">ProjectiveSpace</a> <span class="p2">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <span class="p2">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span></span>)</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Maroon" title="c1">P</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">P</font></span><br/>
+
+<span class="kw">consider </span><font color="Maroon" title="c2">u</font>, <font color="Maroon" title="c3">v</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span>, <font color="Maroon" title="c4">uf</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>, <font color="Maroon" title="c5">p</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of 1 <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a><span class="kw"> such that </span><br/><a NAME="E2:21"/><span class="lab"><font color="Green" title="E19">A1</font></span>: 
+<font color="Maroon" title="c1">P</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c2">u</font>
+ <span class="kw">and </span><br/><a NAME="E3:21"/>
+ not <font color="Maroon" title="c2">u</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E4:21"/><span class="lab"><font color="Green" title="E20">A3</font></span>: 
+<font color="Maroon" title="c2">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">uf</font>
+ <span class="kw">and </span><br/><a NAME="E5:21"/><span class="lab"><font color="Green" title="E21">A4</font></span>: 
+<font color="Maroon" title="c5">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span> <a href="laplace.html#K11" title="LAPLACE:func.11">*</a> <font color="Maroon" title="c4">uf</font>
+ <span class="kw">and </span><br/><a NAME="E6:21"/><span class="lab"><font color="Green" title="E22">A5</font></span>: 
+<font color="Maroon" title="c3">v</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K2" title="ANPROJ_8:func.2">M2F</a> <font color="Maroon" title="c5">p</font>
+ <span class="kw">and </span><br/><a NAME="E7:21"/>
+ not <font color="Maroon" title="c3">v</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E8:21"/><span class="lab"><font color="Green" title="E23">A7</font></span>: 
+<span class="p1">(<span class="default"><a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <span class="p2">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span></span>)</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Maroon" title="c1">P</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c3">v</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="anproj_8.html#D4" onmouseover="rs('anproj_8/D4')" onmouseout="rh()">ANPROJ_8:def 4</a></span>;<br/>
+<a NAME="E9:21"/>
+<font color="Maroon" title="c2">u</font> <a href="struct_0.html#R1" title="STRUCT_0:pred.1">in</a>  <a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3
+ 
+;<br/>
+<a NAME="E10:21"/><span class="kw">then </span><span class="lab"><font color="Green" title="E24">A8</font></span>: 
+<font color="Maroon" title="c4">uf</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="euclid.html#K1" title="EUCLID:func.1">REAL</a> 3
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:21"><span class="lab"><font color="Green" title="E20">A3</font></span></a>, <a class="ref" href="euclid.html#T22" onmouseover="rs('euclid/T22')" onmouseout="rh()">EUCLID:22</a></span>;<br/>
+<a NAME="E11:21"/><span class="kw">then </span><span class="lab"><font color="Green" title="E25">A9</font></span>: 
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c4">uf</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 3
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_8.html#T50" onmouseover="rs('euclid_8/T50')" onmouseout="rh()">EUCLID_8:50</a></span>;<br/>
+<span class="lab"><font color="Green" title="E26">A10</font></span>: <span class="p1">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span> <a href="laplace.html#K11" title="LAPLACE:func.11">*</a> <font color="Maroon" title="c4">uf</font> = 
+<span class="p1">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span> <a href="matrix_3.html#K4" title="MATRIX_3:func.4">*</a> <span class="p1">(<span class="default"><span class="p2"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c4">uf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="matrix_0.html#K4" title="MATRIX_0:func.4">@</a></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="laplace.html#D9" onmouseover="rs('laplace/D9')" onmouseout="rh()">LAPLACE:def 9</a></span>
+<br/>.= 
+<span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c4">uf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="matrix_0.html#K4" title="MATRIX_0:func.4">@</a> 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E10:21"><span class="lab"><font color="Green" title="E24">A8</font></span></a>, <a class="ref" href="euclid_8.html#T50" onmouseover="rs('euclid_8/T50')" onmouseout="rh()">EUCLID_8:50</a>, <a class="ref" href="anproj_8.html#T99" onmouseover="rs('anproj_8/T99')" onmouseout="rh()">ANPROJ_8:99</a></span>
+;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c6">ur</font> = <font color="Maroon" title="c4">uf</font> as    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>  ;<br/>
+<a NAME="E14:21"/>
+<font color="Maroon" title="c5">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_8.html#K1" title="ANPROJ_8:func.1">F2M</a> <font color="Maroon" title="c6">ur</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:21"><span class="lab"><font color="Green" title="E21">A4</font></span></a>, <a class="txt" href="#E10:21"><span class="lab"><font color="Green" title="E24">A8</font></span></a>, <a class="txt" href="#E12:21"><span class="lab"><font color="Green" title="E26">A10</font></span></a>, <a class="ref" href="euclid_8.html#T50" onmouseover="rs('euclid_8/T50')" onmouseout="rh()">EUCLID_8:50</a>, <a class="ref" href="anproj_8.html#T88" onmouseover="rs('anproj_8/T88')" onmouseout="rh()">ANPROJ_8:88</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E15:21"/>
+<span class="p1">(<span class="default"><a href="anproj_8.html#K4" title="ANPROJ_8:func.4">homography</a> <span class="p2">(<span class="default"><a href="matrix_1.html#K3" title="MATRIX_1:func.3">1.</a> (<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>,3)</span>)</span></span>)</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Maroon" title="c1">P</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">P</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:21"><span class="lab"><font color="Green" title="E19">A1</font></span></a>, <a class="txt" href="#E4:21"><span class="lab"><font color="Green" title="E20">A3</font></span></a>, <a class="txt" href="#E6:21"><span class="lab"><font color="Green" title="E22">A5</font></span></a>, <a class="txt" href="#E8:21"><span class="lab"><font color="Green" title="E23">A7</font></span></a>, <a class="txt" href="#E11:21"><span class="lab"><font color="Green" title="E25">A9</font></span></a>, <a class="ref" href="anproj_8.html#T86" onmouseover="rs('anproj_8/T86')" onmouseout="rh()">ANPROJ_8:86</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

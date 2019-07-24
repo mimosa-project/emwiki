@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">reconsider </span><font color="Maroon" title="c9">x</font> = <font color="Maroon" title="c7">t1</font> as    <a href="msafree4.html#M1" title="MSAFREE4:mode.1">Element</a> of  the <a href="aofa_a00.html#U4" title="AOFA_A00:sel.4">generators</a> of <font color="Maroon" title="c4">G</font> <a href="msafree4.html#K1" title="MSAFREE4:func.1">.</a> <font color="Maroon" title="c6">a</font> <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:150"><span class="lab"><font color="Green" title="E82">A1</font></span></a></span>;<br/>
+<a NAME="E2:150_1_1"/>
+ the <a href="aofa_a00.html#U3" title="AOFA_A00:sel.3">assignments</a> of <font color="Maroon" title="c5">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c7">t1</font>,<font color="Maroon" title="c8">t2</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c9">x</font> <a href="aofa_a00.html#K11" title="AOFA_A00:func.11">:=</a> (<font color="Maroon" title="c8">t2</font>,<font color="Maroon" title="c5">A</font>)
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E3:150_1_1"/>
+ the <a href="aofa_a00.html#U3" title="AOFA_A00:sel.3">assignments</a> of <font color="Maroon" title="c5">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c7">t1</font>,<font color="Maroon" title="c8">t2</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> is   <a href="aofa_000.html#V15" title="AOFA_000:attr.15">absolutely-terminating</a>  <a href="aofa_000.html#NM2" title="AOFA_000:NM.2">Algorithm</a> of <font color="Maroon" title="c5">A</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

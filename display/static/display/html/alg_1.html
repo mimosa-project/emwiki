@@ -1,0 +1,687 @@
+<html prefix="oo: http://omdoc.org/ontology# owl: http://www.w3.org/2002/07/owl#">
+<style type="text/css">
+div { padding: 0 0 0 0; margin: 0 0 0 0; } 
+div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div.box { border-width:thin; border-color:blue; border-style:solid; }
+p { margin: 0 0 0 0; } 
+body {font-family: monospace; margin: 0px;}
+a {text-decoration:none} a:hover { color: red; } 
+a.ref { font-size:x-small; }
+a.ref:link { color:green; } 
+a.ref:hover { color: red; } 
+a.txt:link { color:black; } 
+a.txt:hover { color: red; } 
+.wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+.wikiactions li { display: inline; padding: .2em .4em; }
+.wikiactions a {text-decoration:underline;} 
+span.kw {font-weight: bold; }
+span.lab {font-style: italic; }
+span.comment {font-style: italic; }
+span.hide { display: none; }
+span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+span.p2:hover { color : inherit; background-color : #FFCACA; }
+span.p3:hover { color : inherit; background-color : #FFFFBA; }
+span.p4:hover { color : inherit; background-color : #CACAFF; }
+span.p5:hover { color : inherit; background-color : #CAFFCA; }
+span.p0:hover { color : inherit; background-color : #FFBAFF; }
+.default { background-color: white; color: black; } 
+.default:hover { background-color: white; color: black; }
+#tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+:target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ALG_1:  Homomorphisms of algebras. Quotient Universal Algebra</title>
+<script type="text/javascript">
+<!-- 
+
+// for saving in rs
+var mizhtm='';
+function hs(obj)
+{
+// document.getElementById('myimage').nextSibling.style.display = 'block';
+if (obj.nextSibling.style.display == 'inline')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'inline'; }
+ else { obj.nextSibling.style.display = 'inline';  }}
+return false;
+}
+
+function hs2(obj)
+{
+if (obj.nextSibling.style.display == 'block')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'block'; }
+ else { obj.nextSibling.style.display = 'none';  }}
+return false;
+}
+function hsNdiv(obj)
+{
+var ndiv = obj;
+while (ndiv.nextSibling.nodeName != 'DIV') { ndiv = ndiv.nextSibling; }
+return hs2(ndiv);
+}
+
+// remote request cache - for each url its http_request.responseText
+var rrCache= {};
+rrCache[0]='';
+
+// explorer7 implements XMLHttpRequest in some strange way
+// optional tooltip is passed to insertRequest
+function makeRequest(obj,url,tooltip) 
+{
+    // if the result is cached, insert it now
+    if (rrCache[url] != null)
+    {
+	insertRequest(obj,null,url,tooltip);
+    }
+    else
+    {
+        var http_request = false;
+        if (window.XMLHttpRequest && !(window.ActiveXObject)) { // Mozilla, Safari,...
+            http_request = new XMLHttpRequest();
+            if (http_request.overrideMimeType) {
+                http_request.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                http_request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    http_request = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e) {}
+            }
+        }
+        if (!http_request) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        http_request.onreadystatechange = function() { insertRequest(obj,http_request,url,tooltip); };
+        http_request.open('GET', url, true);
+        http_request.send(null);
+    }
+}
+// commented the 200 state to have local requests too
+// if tooltip nonnil, obj.innerHTML is changed, and the result is put in rrCache
+function insertRequest(obj,http_request,url,tooltip) 
+{
+    var respText = null;
+    if(http_request == null) // no request done, we are called with cached result
+    {
+	respText = rrCache[url];
+    }
+    else { if (http_request.readyState == 4) { 
+	respText = http_request.responseText; 
+    }}
+
+    if (respText != null) 
+    {
+//            if (http_request.status == 200) {
+	if(http_request != null) {rrCache[url] = respText;}
+	if(tooltip != null)
+	{
+	    obj.innerHTML = respText;	    
+	}
+	else
+	{
+	    var ndiv = obj;
+	    while (ndiv.nodeName != 'SPAN') { ndiv = ndiv.nextSibling; }
+	    ndiv.innerHTML = respText;
+	    obj.onclick = function(){ return hs2(obj) };
+	}
+    }
+}
+
+// simple tooltips
+var tooltip=function(){
+ var id = 'tt';
+ var top = 3;
+ var left = 3;
+ var maxw = 500;
+ var speed = 10;
+ var timer = 2;
+ var endalpha = 95;
+ var alpha = 0;
+ var tt,t,c,b,h;
+ var ie = document.all ? true : false;
+ return{
+  show:function(how,v,w){
+   if(tt == null){
+    tt = document.createElement('div');
+    tt.setAttribute('id',id);
+    document.body.appendChild(tt);
+    tt.style.opacity = 0;
+    tt.style.filter = 'alpha(opacity=0)';
+    document.onmousemove = this.pos;
+   }
+
+   tt.style.display = 'block';
+   if(how == 'url')
+   {
+       if(rrCache[v]==null) { 
+	   tt.innerHTML ='<div>loading...</div>'; 
+	   makeRequest(tt,v,1); 
+       } else { 
+	   tt.innerHTML = rrCache[v]; 
+       }
+   }
+   else { if ((how == 'hs') || (how == 'hs2')) { tt.innerHTML = v.nextSibling.innerHTML; }
+   else { if (how == 'txt') { tt.innerHTML = v; }
+	  else { tt.innerHTML = ''; }
+	}
+   }
+
+   tt.style.width = w ? w + 'px' : 'auto';
+   if(!w && ie){
+    tt.style.width = tt.offsetWidth;
+   }
+  if(tt.offsetWidth > maxw){tt.style.width = maxw + 'px'}
+  h = parseInt(tt.offsetHeight) + top;
+  clearInterval(tt.timer);
+  tt.timer = setInterval(function(){tooltip.fade(1)},timer);
+  },
+  pos:function(e){
+   var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
+   var l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+   tt.style.top = (u - h) + 'px';
+   tt.style.left = (l + left) + 'px';
+  },
+  fade:function(d){
+   var a = alpha;
+   if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+    var i = speed;
+   if(endalpha - a < speed && d == 1){
+    i = endalpha - a;
+   }else if(alpha < speed && d == -1){
+     i = a;
+   }
+   alpha = a + (i * d);
+   tt.style.opacity = alpha * .01;
+   tt.style.filter = 'alpha(opacity=' + alpha + ')';
+  }else{
+    clearInterval(tt.timer);
+     if(d == -1){tt.style.display = 'none'}
+  }
+ },
+ hide:function(){tt.style.display  = 'none';}
+ };
+}();
+
+// reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
+function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
+function rh() { tooltip.hide(); } 
+
+// End -->
+</script><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({                                                                                                                            
+    extensions: ['tex2jax.js'],                                                                                                                   
+    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
+    tex2jax: {                                                                                                                                    
+      inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
+      displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
+  processClass: 'mathjax',                                                                                                                        
+  ignoreClass: 'no-mathjax',                                                                                                                      
+      processEscapes: true,                                                                                                                       
+    },                                                                                                                                            
+    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                          
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</head>
+<body class="no-mathjax">
+<span class="comment"><font color="firebrick">::  Homomorphisms of algebras. Quotient Universal Algebra</font></span><br><span class="comment"><font color="firebrick">:: by Ma{\l}gorzata Korolkiewicz</font></span><br><span class="comment"><font color="firebrick">:: </font></span><br><span class="comment"><font color="firebrick">:: Received October 12, 1993</font></span><br><span class="comment"><font color="firebrick">:: Copyright (c) 1993-2019 Association of Mizar Users</font></span><br><br><div></div>
+<br>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T1" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E1">Th1</font></span>: <a NAME="T1"><span class="comment"><font color="firebrick">:: ALG_1:1</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">B</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b2">B</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font> holds <br> <a href="unialg_2.html#K3" title="UNIALG_2:func.3">Opers</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">B</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font>
+</div>
+<div about="#PF1" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T1"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/1')" href="javascript:()" title="1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+<div about="#T2" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T2"><span class="comment"><font color="firebrick">:: ALG_1:2</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds  <font color="Olive" title="b3">f</font> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <span class="p1">(<span class="default"><a href="finseq_1.html#K6" title="FINSEQ_1:func.6">&lt;*&gt;</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K6" title="FINSEQ_1:func.6">&lt;*&gt;</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">U2</font> ;<br>
+</div>
+</div>
+<br><div about="#T3" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E2">Th3</font></span>: <a NAME="T3"><span class="comment"><font color="firebrick">:: ALG_1:3</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Olive" title="b1">U1</font> holds  <span class="p1">(<span class="default"><a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font></span>)</span> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font>
+</div>
+<div about="#PF2" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T3"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/2')" href="javascript:()" title="2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T4" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E3">Th4</font></span>: <a NAME="T4"><span class="comment"><font color="firebrick">:: ALG_1:4</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font>, <font color="Olive" title="b3">U3</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b4">h1</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font><br>  for <font color="Olive" title="b5">h2</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b3">U3</font><br>  for <font color="Olive" title="b6">a</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Olive" title="b1">U1</font> holds  <font color="Olive" title="b5">h2</font> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b4">h1</font> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <font color="Olive" title="b6">a</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">h2</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b4">h1</font></span>)</span> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <font color="Olive" title="b6">a</font>
+</div>
+<div about="#PF3" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T4"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/3')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/3')" href="javascript:()" title="3"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R1"><span class="kw">pred</span> </a><font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> <span class="kw"> means </span><a NAME="D1"><span class="comment"><font color="firebrick">:: ALG_1:def 1</font></span><br></a>( <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="unialg_2.html#R1" title="UNIALG_2:pred.1">are_similar</a>  &amp; (  for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b1">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> holds <br> for <font color="Olive" title="b2">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font><br>  for <font color="Olive" title="b3">o2</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c2">U2</font>  st <font color="Olive" title="b2">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">n</font> &amp; <font color="Olive" title="b3">o2</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c2">U2</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">n</font> holds <br> for <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b4">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b2">o1</font> holds <br><font color="Maroon" title="c3">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o2</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <font color="Olive" title="b4">x</font></span>)</span> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT1" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 1 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  iff ( <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> <a href="unialg_2.html#R1" title="UNIALG_2:pred.1">are_similar</a>  &amp; (  for <font color="Olive" title="b4">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> holds <br> for <font color="Olive" title="b5">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Olive" title="b1">U1</font><br>  for <font color="Olive" title="b6">o2</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">n</font> &amp; <font color="Olive" title="b6">o2</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b2">U2</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">n</font> holds <br> for <font color="Olive" title="b7">x</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b7">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b5">o1</font> holds <br><font color="Olive" title="b3">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b7">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">o2</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">f</font> <a href="finseqop.html#K4" title="FINSEQOP:func.4">*</a> <font color="Olive" title="b7">x</font></span>)</span> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R2"><span class="kw">pred</span> </a><font color="Maroon" title="c3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a> <span class="kw"> means </span><a NAME="D2"><span class="comment"><font color="firebrick">:: ALG_1:def 2</font></span><br></a>( <font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp; <font color="Maroon" title="c3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a>  );<br>
+</div>
+<div about="#D0" typeof="oo:Definition">
+<a NAME="R3"><span class="kw">pred</span> </a><font color="Maroon" title="c3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a> <span class="kw"> means </span><a NAME="D3"><span class="comment"><font color="firebrick">:: ALG_1:def 3</font></span><br></a>( <font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp;  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Maroon" title="c3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">U2</font> );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+<div about="#DT2" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 2 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a>  iff ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp; <font color="Olive" title="b3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a>  ) );<br></span>
+</div>
+<br><div about="#DT3" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 3 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  iff ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp;  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">U2</font> ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R4"><span class="kw">pred</span> </a><font color="Maroon" title="c3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> <span class="kw"> means </span><a NAME="D4"><span class="comment"><font color="firebrick">:: ALG_1:def 4</font></span><br></a>( <font color="Maroon" title="c3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a>  &amp; <font color="Maroon" title="c3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT4" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 4 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  iff ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a>  &amp; <font color="Olive" title="b3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R5"><span class="kw">pred</span> </a><font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> <span class="kw"> means </span><a NAME="D5"><span class="comment"><font color="firebrick">:: ALG_1:def 5</font></span><br></a> ex <font color="Olive" title="b1">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> st <font color="Olive" title="b1">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> ;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT5" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 5 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds <br> ( <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  iff  ex <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  );<br></span>
+</div>
+<br><div about="#T5" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E4">Th5</font></span>: <a NAME="T5"><span class="comment"><font color="firebrick">:: ALG_1:5</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> </div>
+<div about="#PF8" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T5"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/8')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/8')" href="javascript:()" title="8"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T6" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E5">Th6</font></span>: <a NAME="T6"><span class="comment"><font color="firebrick">:: ALG_1:6</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font>, <font color="Olive" title="b3">U3</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b4">h1</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font><br>  for <font color="Olive" title="b5">h2</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b3">U3</font>  st <font color="Olive" title="b4">h1</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp; <font color="Olive" title="b5">h2</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br><font color="Olive" title="b5">h2</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b4">h1</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> </div>
+<div about="#PF9" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/9')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/9')" href="javascript:()" title="9"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T7" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E6">Th7</font></span>: <a NAME="T7"><span class="comment"><font color="firebrick">:: ALG_1:7</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  iff ( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp;  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">U2</font> &amp; <font color="Olive" title="b3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a>  ) )</div>
+<div about="#PF10" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T7"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/10')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/10')" href="javascript:()" title="10"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T8" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E7">Th8</font></span>: <a NAME="T8"><span class="comment"><font color="firebrick">:: ALG_1:8</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  holds <br>(  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font> &amp;  <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">U2</font> )</div>
+<div about="#PF11" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T8"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/11')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/11')" href="javascript:()" title="11"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T9" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E8">Th9</font></span>: <a NAME="T9"><span class="comment"><font color="firebrick">:: ALG_1:9</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font><br>  for <font color="Olive" title="b4">h1</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b3">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  &amp; <font color="Olive" title="b4">h1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">h</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  holds <br><font color="Olive" title="b4">h1</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> </div>
+<div about="#PF12" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/12')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/12')" href="javascript:()" title="12"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T10" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E9">Th10</font></span>: <a NAME="T10"><span class="comment"><font color="firebrick">:: ALG_1:10</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font><br>  for <font color="Olive" title="b4">h1</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b3">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  &amp; <font color="Olive" title="b4">h1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">h</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  holds <br><font color="Olive" title="b4">h1</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </div>
+<div about="#PF13" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T10"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/13')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/13')" href="javascript:()" title="13"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T11" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E10">Th11</font></span>: <a NAME="T11"><span class="comment"><font color="firebrick">:: ALG_1:11</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font>, <font color="Olive" title="b3">U3</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b4">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font><br>  for <font color="Olive" title="b5">h1</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b3">U3</font>  st <font color="Olive" title="b4">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  &amp; <font color="Olive" title="b5">h1</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  holds <br><font color="Olive" title="b5">h1</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b4">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </div>
+<div about="#PF14" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T11"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/14')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/14')" href="javascript:()" title="14"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T12" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T12"><span class="comment"><font color="firebrick">:: ALG_1:12</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds  <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b1">U1</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </div>
+<div about="#PF15" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T12"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/15')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/15')" href="javascript:()" title="15"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T13" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T13"><span class="comment"><font color="firebrick">:: ALG_1:13</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>  st <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  holds <br><font color="Olive" title="b2">U2</font>,<font color="Olive" title="b1">U1</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </div>
+<div about="#PF16" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T13"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/16')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/16')" href="javascript:()" title="16"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T14" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T14"><span class="comment"><font color="firebrick">:: ALG_1:14</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font>, <font color="Olive" title="b3">U3</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>  st <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  &amp; <font color="Olive" title="b2">U2</font>,<font color="Olive" title="b3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  holds <br><font color="Olive" title="b1">U1</font>,<font color="Olive" title="b3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </div>
+<div about="#PF17" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T14"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/17')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/17')" href="javascript:()" title="17"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><span class="kw">assume </span><a NAME="E1:18"></a><span class="lab"><font color="Green" title="E11">A1</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> 
+ ;<br><div about="#D11" typeof="oo:Definition">
+<a NAME="K1"><span class="kw">func</span> </a> <a href="alg_1.html#K1" title="ALG_1:func.1">Image</a> <font color="Maroon" title="c3">f</font><span class="kw"> -&gt; </span>  <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>   <a href="unialg_2.html#M1" title="UNIALG_2:mode.1">SubAlgebra</a> of <font color="Maroon" title="c2">U2</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E11">Def6</font></span>: <a NAME="D6"><span class="comment"><font color="firebrick">:: ALG_1:def 6</font></span><br></a> the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="kw">it</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="relset_1.html#K7" title="RELSET_1:func.7">.:</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:18_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>   <a href="unialg_2.html#M1" title="UNIALG_2:mode.1">SubAlgebra</a> of <font color="Maroon" title="c2">U2</font> st  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="relset_1.html#K7" title="RELSET_1:func.7">.:</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>
+ </span><div about="#PF18_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/18_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/18_1_1')" href="javascript:()" title="18_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:18_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>   <a href="unialg_2.html#M1" title="UNIALG_2:mode.1">SubAlgebra</a> of <font color="Maroon" title="c2">U2</font>  st  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="relset_1.html#K7" title="RELSET_1:func.7">.:</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font> &amp;  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive">b<sub>2</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="relset_1.html#K7" title="RELSET_1:func.7">.:</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF18_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/18_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/18_1_2')" href="javascript:()" title="18_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT6" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E11">Def6</font></span>   defines <a href="alg_1.html#K1" title="ALG_1:func.1">Image</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 6 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br> for <font color="Olive">b<sub>4</sub></font> being   <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>   <a href="unialg_2.html#M1" title="UNIALG_2:mode.1">SubAlgebra</a> of <font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K1" title="ALG_1:func.1">Image</a> <font color="Olive" title="b3">f</font> iff  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">f</font> <a href="relset_1.html#K7" title="RELSET_1:func.7">.:</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font> );<br></span>
+</div>
+<br><div about="#T15" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T15"><span class="comment"><font color="firebrick">:: ALG_1:15</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">h</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br> <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Olive" title="b3">h</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="p1">(<span class="default"><a href="alg_1.html#K1" title="ALG_1:func.1">Image</a> <font color="Olive" title="b3">h</font></span>)</span>
+</div>
+<div about="#PF19" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T15"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/19')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/19')" href="javascript:()" title="19"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T16" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T16"><span class="comment"><font color="firebrick">:: ALG_1:16</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>  <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br>( <font color="Olive" title="b3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  iff  <a href="alg_1.html#K1" title="ALG_1:func.1">Image</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">U2</font> )</div>
+<div about="#PF20" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T16"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/20')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/20')" href="javascript:()" title="20"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be    <a href="struct_0.html#L1" title="STRUCT_0:struct.1">1-sorted</a> ;<br><a NAME="NM1"><span class="kw">mode </span>Relation of <font color="Maroon" title="c1">U1</font><span class="kw"> is </span></a>  <a href="relset_1.html#NM2" title="RELSET_1:NM.2">Relation</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>;<br><a NAME="NM2"><span class="kw">mode </span>Equivalence_Relation of <font color="Maroon" title="c1">U1</font><span class="kw"> is </span></a>  <a href="eqrel_1.html#NM2" title="EQREL_1:NM.2">Equivalence_Relation</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><div about="#D12" typeof="oo:Definition">
+<a NAME="M1"><span class="kw">mode</span> </a> <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font><span class="kw"> -&gt; </span>  <a href="alg_1.html#NM2" title="ALG_1:NM.2">Equivalence_Relation</a> of <font color="Maroon" title="c1">U1</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E12">Def7</font></span>: <a NAME="D7"><span class="comment"><font color="firebrick">:: ALG_1:def 7</font></span><br></a> for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a><br>  for <font color="Olive" title="b2">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b1">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; <font color="Olive" title="b2">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">n</font> holds <br> for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b3">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b2">o1</font> &amp; <font color="Olive" title="b4">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b2">o1</font> &amp; <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="finseq_3.html#K3" title="FINSEQ_3:func.3">ExtendRel</a> <span class="kw">it</span> holds <br><span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><span class="p2">(<span class="default"><font color="Olive" title="b2">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">x</font></span>)</span>,<span class="p2">(<span class="default"><font color="Olive" title="b2">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">y</font></span>)</span></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="kw">it</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:22_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="alg_1.html#NM2" title="ALG_1:NM.2">Equivalence_Relation</a> of <font color="Maroon" title="c1">U1</font> st <br> for <font color="Olive" title="b2">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a><br>  for <font color="Olive" title="b3">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b2">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; <font color="Olive" title="b3">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">n</font> holds <br> for <font color="Olive" title="b4">x</font>, <font color="Olive" title="b5">y</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b4">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b3">o1</font> &amp; <font color="Olive" title="b5">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b3">o1</font> &amp; <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b4">x</font>,<font color="Olive" title="b5">y</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="finseq_3.html#K3" title="FINSEQ_3:func.3">ExtendRel</a> <font color="Olive">b<sub>1</sub></font> holds <br><span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><span class="p2">(<span class="default"><font color="Olive" title="b3">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">x</font></span>)</span>,<span class="p2">(<span class="default"><font color="Olive" title="b3">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">y</font></span>)</span></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>1</sub></font>
+ </span><div about="#PF22_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/22_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/22_1_1')" href="javascript:()" title="22_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT7" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E12">Def7</font></span>   defines <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 7 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive">b<sub>2</sub></font> being   <a href="alg_1.html#NM2" title="ALG_1:NM.2">Equivalence_Relation</a> of <font color="Olive" title="b1">U1</font> holds <br> ( <font color="Olive">b<sub>2</sub></font> is    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font> iff  for <font color="Olive" title="b3">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a><br>  for <font color="Olive" title="b4">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b3">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> &amp; <font color="Olive" title="b4">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">n</font> holds <br> for <font color="Olive" title="b5">x</font>, <font color="Olive" title="b6">y</font> being   <a href="struct_0.html#NM7" title="STRUCT_0:NM.7">FinSequence</a> of <font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b5">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b4">o1</font> &amp; <font color="Olive" title="b6">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive" title="b4">o1</font> &amp; <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b5">x</font>,<font color="Olive" title="b6">y</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="finseq_3.html#K3" title="FINSEQ_3:func.3">ExtendRel</a> <font color="Olive">b<sub>2</sub></font> holds <br><span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><span class="p2">(<span class="default"><font color="Olive" title="b4">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">x</font></span>)</span>,<span class="p2">(<span class="default"><font color="Olive" title="b4">o1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">y</font></span>)</span></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>2</sub></font> );<br></span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">E</font> be    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font>;<br><span class="kw">let </span><font color="Maroon" title="c3">o</font> be   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>;<br><div about="#D13" typeof="oo:Definition">
+<a NAME="K2"><span class="kw">func</span> </a> <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Maroon" title="c3">o</font>,<font color="Maroon" title="c2">E</font>)<span class="kw"> -&gt; </span>  non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="margrel1.html#V2" title="MARGREL1:attr.2">homogeneous</a>   <a href="margrel1.html#V3" title="MARGREL1:attr.3">quasi_total</a>  <a href="partfun1.html#NM1" title="PARTFUN1:NM.1">PartFunc</a> of <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> <a href="finseq_2.html#K3" title="FINSEQ_2:func.3">*</a></span>)</span>,<span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E13">Def8</font></span>: <a NAME="D8"><span class="comment"><font color="firebrick">:: ALG_1:def 8</font></span><br></a>(  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <span class="kw">it</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="margrel1.html#K18" title="MARGREL1:func.18">arity</a> <font color="Maroon" title="c3">o</font></span>)</span> <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> &amp; (  for <font color="Olive" title="b1">y</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font>  st <font color="Olive" title="b1">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <span class="kw">it</span> holds <br> for <font color="Olive" title="b2">x</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b2">x</font> <a href="finseq_3.html#R1" title="FINSEQ_3:pred.1">is_representatives_FS</a> <font color="Olive" title="b1">y</font> holds <br><span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c3">o</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">x</font></span>)</span>) ) );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:23_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="margrel1.html#V2" title="MARGREL1:attr.2">homogeneous</a>   <a href="margrel1.html#V3" title="MARGREL1:attr.3">quasi_total</a>  <a href="partfun1.html#NM1" title="PARTFUN1:NM.1">PartFunc</a> of <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> <a href="finseq_2.html#K3" title="FINSEQ_2:func.3">*</a></span>)</span>,<span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> st <br>(  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="margrel1.html#K18" title="MARGREL1:func.18">arity</a> <font color="Maroon" title="c3">o</font></span>)</span> <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> &amp; (  for <font color="Olive" title="b2">y</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font>  st <font color="Olive" title="b2">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>1</sub></font> holds <br> for <font color="Olive" title="b3">x</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b3">x</font> <a href="finseq_3.html#R1" title="FINSEQ_3:pred.1">is_representatives_FS</a> <font color="Olive" title="b2">y</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c3">o</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">x</font></span>)</span>) ) )
+ </span><div about="#PF23_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/23_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/23_1_1')" href="javascript:()" title="23_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:23_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="margrel1.html#V2" title="MARGREL1:attr.2">homogeneous</a>   <a href="margrel1.html#V3" title="MARGREL1:attr.3">quasi_total</a>  <a href="partfun1.html#NM1" title="PARTFUN1:NM.1">PartFunc</a> of <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> <a href="finseq_2.html#K3" title="FINSEQ_2:func.3">*</a></span>)</span>,<span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span>  st  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="margrel1.html#K18" title="MARGREL1:func.18">arity</a> <font color="Maroon" title="c3">o</font></span>)</span> <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> &amp; (  for <font color="Olive" title="b3">y</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font>  st <font color="Olive" title="b3">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>1</sub></font> holds <br> for <font color="Olive" title="b4">x</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b4">x</font> <a href="finseq_3.html#R1" title="FINSEQ_3:pred.1">is_representatives_FS</a> <font color="Olive" title="b3">y</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c3">o</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">x</font></span>)</span>) ) &amp;  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>2</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="margrel1.html#K18" title="MARGREL1:func.18">arity</a> <font color="Maroon" title="c3">o</font></span>)</span> <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> &amp; (  for <font color="Olive" title="b3">y</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font>  st <font color="Olive" title="b3">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>2</sub></font> holds <br> for <font color="Olive" title="b4">x</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>  st <font color="Olive" title="b4">x</font> <a href="finseq_3.html#R1" title="FINSEQ_3:pred.1">is_representatives_FS</a> <font color="Olive" title="b3">y</font> holds <br><font color="Olive">b<sub>2</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c3">o</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">x</font></span>)</span>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF23_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/23_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/23_1_2')" href="javascript:()" title="23_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT8" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E13">Def8</font></span>   defines <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 8 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font><br>  for <font color="Olive" title="b3">o</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Olive" title="b1">U1</font><br>  for <font color="Olive">b<sub>4</sub></font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="margrel1.html#V2" title="MARGREL1:attr.2">homogeneous</a>   <a href="margrel1.html#V3" title="MARGREL1:attr.3">quasi_total</a>  <a href="partfun1.html#NM1" title="PARTFUN1:NM.1">PartFunc</a> of <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font></span>)</span> <a href="finseq_2.html#K3" title="FINSEQ_2:func.3">*</a></span>)</span>,<span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font></span>)</span> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b3">o</font>,<font color="Olive" title="b2">E</font>) iff (  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="margrel1.html#K18" title="MARGREL1:func.18">arity</a> <font color="Olive" title="b3">o</font></span>)</span> <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font></span>)</span> &amp; (  for <font color="Olive" title="b5">y</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font>  st <font color="Olive" title="b5">y</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Olive">b<sub>4</sub></font> holds <br> for <font color="Olive" title="b6">x</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">U1</font>  st <font color="Olive" title="b6">x</font> <a href="finseq_3.html#R1" title="FINSEQ_3:pred.1">is_representatives_FS</a> <font color="Olive" title="b5">y</font> holds <br><font color="Olive">b<sub>4</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Olive" title="b2">E</font>,<span class="p1">(<span class="default"><font color="Olive" title="b3">o</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">x</font></span>)</span>) ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">E</font> be    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font>;<br><div about="#D14" typeof="oo:Definition">
+<a NAME="K3"><span class="kw">func</span> </a> <a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)<span class="kw"> -&gt; </span>  <a href="margrel1.html#NM6" title="MARGREL1:NM.6">PFuncFinSequence</a> of <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E14">Def9</font></span>: <a NAME="D9"><span class="comment"><font color="firebrick">:: ALG_1:def 9</font></span><br></a>(  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <span class="kw">it</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; (  for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b1">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="kw">it</span> holds <br> for <font color="Olive" title="b2">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">o1</font> holds <br><span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b2">o1</font>,<font color="Maroon" title="c2">E</font>) ) );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:24_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="margrel1.html#NM6" title="MARGREL1:NM.6">PFuncFinSequence</a> of <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span> st <br>(  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; (  for <font color="Olive" title="b2">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b2">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <font color="Olive">b<sub>1</sub></font> holds <br> for <font color="Olive" title="b3">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o1</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b3">o1</font>,<font color="Maroon" title="c2">E</font>) ) )
+ </span><div about="#PF24_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/24_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/24_1_1')" href="javascript:()" title="24_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:24_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="margrel1.html#NM6" title="MARGREL1:NM.6">PFuncFinSequence</a> of <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span>  st  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; (  for <font color="Olive" title="b3">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b3">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <font color="Olive">b<sub>1</sub></font> holds <br> for <font color="Olive" title="b4">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">o1</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b4">o1</font>,<font color="Maroon" title="c2">E</font>) ) &amp;  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Olive">b<sub>2</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> &amp; (  for <font color="Olive" title="b3">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b3">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <font color="Olive">b<sub>2</sub></font> holds <br> for <font color="Olive" title="b4">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Maroon" title="c1">U1</font>  st  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Maroon" title="c1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">o1</font> holds <br><font color="Olive">b<sub>2</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b4">o1</font>,<font color="Maroon" title="c2">E</font>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF24_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/24_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/24_1_2')" href="javascript:()" title="24_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT9" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E14">Def9</font></span>   defines <a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 9 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="margrel1.html#NM6" title="MARGREL1:NM.6">PFuncFinSequence</a> of <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font></span>)</span> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>) iff (  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a>  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> &amp; (  for <font color="Olive" title="b4">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <font color="Olive">b<sub>3</sub></font> holds <br> for <font color="Olive" title="b5">o1</font> being   <a href="unialg_2.html#NM3" title="UNIALG_2:NM.3">operation</a> of <font color="Olive" title="b1">U1</font>  st  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <font color="Olive" title="b1">U1</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">o1</font> holds <br><font color="Olive">b<sub>3</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K2" title="ALG_1:func.2">QuotOp</a> (<font color="Olive" title="b5">o1</font>,<font color="Olive" title="b2">E</font>) ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">E</font> be    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K4"><span class="kw">func</span> </a> <a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)<span class="kw"> -&gt; </span>  <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>  <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><span class="kw"> equals </span><a NAME="D10"><span class="comment"><font color="firebrick">:: ALG_1:def 10</font></span><br></a> <a href="unialg_1.html#G1" title="UNIALG_1:aggr.1">UAStr</a>(# <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span>,<span class="p1">(<span class="default"><a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)</span>)</span> #);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:25_1"></a>
+ <a href="unialg_1.html#G1" title="UNIALG_1:aggr.1">UAStr</a>(# <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Maroon" title="c2">E</font></span>)</span>,<span class="p1">(<span class="default"><a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)</span>)</span> #) is   <a href="unialg_1.html#V1" title="UNIALG_1:attr.1">strict</a>  <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>
+ </span><div about="#PF25_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/25_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/25_1_1')" href="javascript:()" title="25_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT10" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 10 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font> holds   <a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="unialg_1.html#G1" title="UNIALG_1:aggr.1">UAStr</a>(# <span class="p1">(<span class="default"><a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <font color="Olive" title="b2">E</font></span>)</span>,<span class="p1">(<span class="default"><a href="alg_1.html#K3" title="ALG_1:func.3">QuotOpSeq</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>)</span>)</span> #);<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">E</font> be    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font>;<br><div about="#D15" typeof="oo:Definition">
+<a NAME="K5"><span class="kw">func</span> </a> <a href="alg_1.html#K5" title="ALG_1:func.5">Nat_Hom</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)<span class="kw"> -&gt; </span>  <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)</span>)</span><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E15">Def11</font></span>: <a NAME="D11"><span class="comment"><font color="firebrick">:: ALG_1:def 11</font></span><br></a> for <font color="Olive" title="b1">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <span class="kw">it</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<font color="Olive" title="b1">u</font>);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:26_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)</span>)</span> st <br> for <font color="Olive" title="b2">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<font color="Olive" title="b2">u</font>)
+ </span><div about="#PF26_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/26_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/26_1_1')" href="javascript:()" title="26_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:26_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">E</font>)</span>)</span>  st (  for <font color="Olive" title="b3">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<font color="Olive" title="b3">u</font>) ) &amp; (  for <font color="Olive" title="b3">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Maroon" title="c2">E</font>,<font color="Olive" title="b3">u</font>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF26_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/26_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/26_1_2')" href="javascript:()" title="26_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT11" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E15">Def11</font></span>   defines <a href="alg_1.html#K5" title="ALG_1:func.5">Nat_Hom</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 11 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>)</span>)</span> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K5" title="ALG_1:func.5">Nat_Hom</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>) iff  for <font color="Olive" title="b4">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">U1</font> holds  <font color="Olive">b<sub>3</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">u</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<font color="Olive" title="b2">E</font>,<font color="Olive" title="b4">u</font>) );<br></span>
+</div>
+<br><div about="#T17" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E16">Th17</font></span>: <a NAME="T17"><span class="comment"><font color="firebrick">:: ALG_1:17</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font> holds   <a href="alg_1.html#K5" title="ALG_1:func.5">Nat_Hom</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>) <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> </div>
+<div about="#PF27" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T17"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/27')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/27')" href="javascript:()" title="27"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T18" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T18"><span class="comment"><font color="firebrick">:: ALG_1:18</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">E</font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font> holds   <a href="alg_1.html#K5" title="ALG_1:func.5">Nat_Hom</a> (<font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">E</font>) <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a> </div>
+<div about="#PF28" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T18"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/28')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/28')" href="javascript:()" title="28"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><span class="kw">assume </span><a NAME="E1:29"></a><span class="lab"><font color="Green" title="E17">A1</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> 
+ ;<br><div about="#D17" typeof="oo:Definition">
+<a NAME="K6"><span class="kw">func</span> </a> <a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font><span class="kw"> -&gt; </span>   <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E17">Def12</font></span>: <a NAME="D12"><span class="comment"><font color="firebrick">:: ALG_1:def 12</font></span><br></a> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds <br> ( <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="kw">it</span> iff <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">b</font> );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:29_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font> st <br> for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds <br> ( <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">b</font> )
+ </span><div about="#PF29_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/29_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/29_1_1')" href="javascript:()" title="29_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:29_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Maroon" title="c1">U1</font>  st (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds <br> ( <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">b</font> ) ) &amp; (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds <br> ( <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>2</sub></font> iff <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">b</font> ) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF29_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/29_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/29_1_2')" href="javascript:()" title="29_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT12" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E17">Def12</font></span>   defines <a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 12 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br> for <font color="Olive">b<sub>4</sub></font> being    <a href="alg_1.html#M1" title="ALG_1:mode.1">Congruence</a> of <font color="Olive" title="b1">U1</font> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Olive" title="b3">f</font> iff  for <font color="Olive" title="b5">a</font>, <font color="Olive" title="b6">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">U1</font> holds <br> ( <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b5">a</font>,<font color="Olive" title="b6">b</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive">b<sub>4</sub></font> iff <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b6">b</font> ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font>;<br><span class="kw">assume </span><a NAME="E1:30"></a><span class="lab"><font color="Green" title="E18">A1</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a> 
+ ;<br><div about="#D18" typeof="oo:Definition">
+<a NAME="K7"><span class="kw">func</span> </a> <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <font color="Maroon" title="c3">f</font><span class="kw"> -&gt; </span>  <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>)</span>)</span>,<font color="Maroon" title="c2">U2</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E18">Def13</font></span>: <a NAME="D13"><span class="comment"><font color="firebrick">:: ALG_1:def 13</font></span><br></a> for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>,<font color="Olive" title="b1">a</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">a</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:30_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>)</span>)</span>,<font color="Maroon" title="c2">U2</font> st <br> for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>,<font color="Olive" title="b2">a</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">a</font>
+ </span><div about="#PF30_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/30_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/30_1_1')" href="javascript:()" title="30_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:30_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Maroon" title="c1">U1</font>,<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>)</span>)</span>,<font color="Maroon" title="c2">U2</font>  st (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>,<font color="Olive" title="b3">a</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> ) &amp; (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">U1</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Maroon" title="c3">f</font></span>)</span>,<font color="Olive" title="b3">a</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF30_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/30_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/30_1_2')" href="javascript:()" title="30_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT13" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E18">Def13</font></span>   defines <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <a onclick="hs(this)" href="javascript:()">ALG_1:def 13 : <br></a><span class="hide"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br> for <font color="Olive">b<sub>4</sub></font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <span class="p1">(<span class="default"><a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Olive" title="b1">U1</font>,<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Olive" title="b3">f</font></span>)</span>)</span>)</span>,<font color="Olive" title="b2">U2</font> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <font color="Olive" title="b3">f</font> iff  for <font color="Olive" title="b5">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">U1</font> holds  <font color="Olive">b<sub>4</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p2">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Olive" title="b3">f</font></span>)</span>,<font color="Olive" title="b5">a</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">a</font> );<br></span>
+</div>
+<br><div about="#T19" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E19">Th19</font></span>: <a NAME="T19"><span class="comment"><font color="firebrick">:: ALG_1:19</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  holds <br>(  <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <font color="Olive" title="b3">f</font> <a href="alg_1.html#R1" title="ALG_1:pred.1">is_homomorphism</a>  &amp;  <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <font color="Olive" title="b3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a>  )</div>
+<div about="#PF31" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T19"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/31')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/31')" href="javascript:()" title="31"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">:: <img src="http://mws.cs.ru.nl/~mptp/WP.ico" alt="WP: "> <a href="http://en.wikipedia.org/wiki/First_isomorphism_theorem_for_universal_algebras" title="See Wikipedia entry for First isomorphism theorem for universal algebras">First isomorphism theorem for universal algebras</a><br>  
+</font></div>
+<div about="#T20" typeof="oo:Theorem">
+<span rel="owl:sameAs" resource="http://dbpedia.org/resource/First_isomorphism_theorem_for_universal_algebras"></span><span class="kw">theorem </span><span class="lab"><font color="Green" title="E20">Th20</font></span>: <a NAME="T20"><span class="comment"><font color="firebrick">:: ALG_1:20</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  holds <br> <a href="alg_1.html#K7" title="ALG_1:func.7">HomQuot</a> <font color="Olive" title="b3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </div>
+<div about="#PF32" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T20"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/32')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/32')" href="javascript:()" title="32"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T21" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T21"><span class="comment"><font color="firebrick">:: ALG_1:21</font></span><br></a><div class="add"> for <font color="Olive" title="b1">U1</font>, <font color="Olive" title="b2">U2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">U1</font>,<font color="Olive" title="b2">U2</font>  st <font color="Olive" title="b3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a>  holds <br> <a href="alg_1.html#K4" title="ALG_1:func.4">QuotUnivAlg</a> (<font color="Olive" title="b1">U1</font>,<span class="p1">(<span class="default"><a href="alg_1.html#K6" title="ALG_1:func.6">Cng</a> <font color="Olive" title="b3">f</font></span>)</span>),<font color="Olive" title="b2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </div>
+<div about="#PF33" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T21"></span><a class="txt" onmouseover="tooltip.show('url','proofs/alg_1/33')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/alg_1/33')" href="javascript:()" title="33"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+</body>
+</html>

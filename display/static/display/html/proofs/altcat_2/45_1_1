@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ <a href="altcat_2.html#K5" title="ALTCAT_2:func.5">the_empty_category</a> 
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="altcat_2.html#K5" title="ALTCAT_2:func.5">the_empty_category</a>  is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  &amp;  <a href="altcat_2.html#K5" title="ALTCAT_2:func.5">the_empty_category</a>  is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:45_1_1"/>
+(  <a href="altcat_2.html#K5" title="ALTCAT_2:func.5">the_empty_category</a>  is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  &amp;  <a href="altcat_2.html#K5" title="ALTCAT_2:func.5">the_empty_category</a>  is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font>  st  <a href="analmetr.html#R1" title="ANALMETR:pred.1">Gen</a> <font color="Olive" title="b1">x</font>,<font color="Olive" title="b2">y</font> holds <br/>( <font color="Olive" title="b1">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> &amp; <font color="Olive" title="b2">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> )</span><br/><span class="kw">let </span><font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c3">y</font> be   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="analmetr.html#R1" title="ANALMETR:pred.1">Gen</a> <font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font> implies ( <font color="Maroon" title="c2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> &amp; <font color="Maroon" title="c3">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> ) )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:4"/><span class="lab"><font color="Green" title="E5">A1</font></span>: 
+ <a href="analmetr.html#R1" title="ANALMETR:pred.1">Gen</a> <font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> &amp; <font color="Maroon" title="c3">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> )</span><br/>
+
+<a NAME="E2:4"/><span class="lab"><font color="Green" title="E6">A2</font></span>: 
+<font color="Maroon" title="c2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="4_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:4_1"/><span class="lab"><font color="Green" title="E7">A3</font></span>: 
+<font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<span class="kw">consider </span><font color="Maroon" title="c4">a</font>, <font color="Maroon" title="c5">b</font> being   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a><span class="kw"> such that </span><br/><a NAME="E3:4_1"/><span class="lab"><font color="Green" title="E8">A4</font></span>: 
+<font color="Maroon" title="c4">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ <span class="kw">and </span><br/><a NAME="E4:4_1"/><span class="lab"><font color="Green" title="E9">A5</font></span>: 
+<font color="Maroon" title="c5">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ ;<br/>
+<span class="p1">(<span class="default"><font color="Maroon" title="c4">a</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c2">x</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><font color="Maroon" title="c5">b</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">y</font></span>)</span> = 
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">y</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:4_1"><span class="lab"><font color="Green" title="E7">A3</font></span></a>, <a class="txt" href="#E4:4_1"><span class="lab"><font color="Green" title="E9">A5</font></span></a>, <a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+<br/>.= 
+ <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T4" onmouseover="rs('rlvect_1/T4')" onmouseout="rh()">RLVECT_1:4</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E6:4_1"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:4"><span class="lab"><font color="Green" title="E5">A1</font></span></a>, <a class="txt" href="#E3:4_1"><span class="lab"><font color="Green" title="E8">A4</font></span></a>, <a class="ref" href="analmetr.html#D1" onmouseover="rs('analmetr/D1')" onmouseout="rh()">ANALMETR:def 1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<a NAME="E3:4"/>
+<font color="Maroon" title="c3">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="4_2"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:4_2"/><span class="lab"><font color="Green" title="E7">A6</font></span>: 
+<font color="Maroon" title="c3">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<span class="kw">consider </span><font color="Maroon" title="c4">a</font>, <font color="Maroon" title="c5">b</font> being   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a><span class="kw"> such that </span><br/><a NAME="E3:4_2"/><span class="lab"><font color="Green" title="E8">A7</font></span>: 
+<font color="Maroon" title="c4">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ <span class="kw">and </span><br/><a NAME="E4:4_2"/><span class="lab"><font color="Green" title="E9">A8</font></span>: 
+<font color="Maroon" title="c5">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ ;<br/>
+<span class="p1">(<span class="default"><font color="Maroon" title="c4">a</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c2">x</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><font color="Maroon" title="c5">b</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c3">y</font></span>)</span> = 
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default">1 <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <span class="p2">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:4_2"><span class="lab"><font color="Green" title="E7">A6</font></span></a>, <a class="txt" href="#E3:4_2"><span class="lab"><font color="Green" title="E8">A7</font></span></a>, <a class="txt" href="#E4:4_2"><span class="lab"><font color="Green" title="E9">A8</font></span></a>, <a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T10" onmouseover="rs('rlvect_1/T10')" onmouseout="rh()">RLVECT_1:10</a></span>
+<br/>.= 
+ <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T4" onmouseover="rs('rlvect_1/T4')" onmouseout="rh()">RLVECT_1:4</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E6:4_2"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:4"><span class="lab"><font color="Green" title="E5">A1</font></span></a>, <a class="txt" href="#E4:4_2"><span class="lab"><font color="Green" title="E9">A8</font></span></a>, <a class="ref" href="analmetr.html#D1" onmouseover="rs('analmetr/D1')" onmouseout="rh()">ANALMETR:def 1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E4:4"/>
+( <font color="Maroon" title="c2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> &amp; <font color="Maroon" title="c3">y</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font> )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:4"><span class="lab"><font color="Green" title="E6">A2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

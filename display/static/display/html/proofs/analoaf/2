@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">u</font>, <font color="Olive" title="b2">v</font>, <font color="Olive" title="b3">w</font> being   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b3">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Olive" title="b2">v</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Olive" title="b1">u</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Olive" title="b1">u</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">u</font>, <font color="Maroon" title="c3">v</font>, <font color="Maroon" title="c4">w</font> be   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c3">v</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c2">u</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c2">u</font></span><br/>
+
+
+
+
+
+
+
+<span class="kw">thus </span><span class="p1">(<span class="default"><font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c3">v</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c2">u</font></span>)</span> = 
+<font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <span class="p2">(<span class="default"><font color="Maroon" title="c3">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c2">u</font></span>)</span></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T29" onmouseover="rs('rlvect_1/T29')" onmouseout="rh()">RLVECT_1:29</a></span>
+<br/>.= 
+<font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default"><font color="Maroon" title="c3">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c3">v</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Maroon" title="c2">u</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T29" onmouseover="rs('rlvect_1/T29')" onmouseout="rh()">RLVECT_1:29</a></span>
+<br/>.= 
+<font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font></span>)</span> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Maroon" title="c2">u</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T15" onmouseover="rs('rlvect_1/T15')" onmouseout="rh()">RLVECT_1:15</a></span>
+<br/>.= 
+<font color="Maroon" title="c4">w</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c2">u</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rlvect_1.html#T4" onmouseover="rs('rlvect_1/T4')" onmouseout="rh()">RLVECT_1:4</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:24_1_1"/>
+ <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_i00.html#T7" target="_self" onmouseover="rs('aofa_i00/T7')" onmouseout="rh()">Th7</a></span>;<br/>
+<a NAME="E2:24_1_1"/><span class="kw">then </span><span class="lab"><font color="Green" title="E20">A1</font></span>: 
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_1.html#T33" onmouseover="rs('funct_1/T33')" onmouseout="rh()">FUNCT_1:33</a></span>;<br/>
+<a NAME="E3:24_1_1"/>
+ <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_1.html#K1" title="CARD_1:func.1">card</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_i00.html#T7" target="_self" onmouseover="rs('aofa_i00/T7')" onmouseout="rh()">Th7</a></span>;<br/>
+<a NAME="E4:24_1_1"/><span class="kw">then </span>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1">(<span class="default"><font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_1.html#K1" title="CARD_1:func.1">card</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_1.html#T33" onmouseover="rs('funct_1/T33')" onmouseout="rh()">FUNCT_1:33</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:24_1_1"/>
+<font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  is   <a href="aofa_i00.html#NM2" title="AOFA_I00:NM.2">Enumeration</a> of <font color="Maroon" title="c1">X</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:24_1_1"><span class="lab"><font color="Green" title="E20">A1</font></span></a>, <a class="ref" href="aofa_i00.html#T6" target="_self" onmouseover="rs('aofa_i00/T6')" onmouseout="rh()">Th6</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

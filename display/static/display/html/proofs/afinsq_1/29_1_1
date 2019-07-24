@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">k</font> = 1;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c3">p</font> being   <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of <font color="Maroon" title="c1">D</font><span class="kw"> such that </span><br/><a NAME="E2:29_1_1"/><span class="lab"><font color="Green" title="E10">A1</font></span>: 
+ <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <font color="Maroon" title="c3">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_1.html#T14" target="_self" onmouseover="rs('afinsq_1/T14')" onmouseout="rh()">Th12</a></span>;<br/>
+<a NAME="E3:29_1_1"/>
+<font color="Maroon" title="c3">p</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:29_1_1"><span class="lab"><font color="Green" title="E10">A1</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:29_1_1"/>
+ not  for <font color="Olive">b<sub>1</sub></font> being   <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of <font color="Maroon" title="c1">D</font> holds  <font color="Olive">b<sub>1</sub></font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c6">AFV</font> be   <a href="afvect01.html#NM1" title="AFVECT01:NM.1">WeakAffSegm</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font>, <font color="Olive" title="b4">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c6">AFV</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> holds <br/><font color="Olive" title="b2">b</font>,<font color="Olive" title="b1">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font></span><br/><span class="kw">let </span><font color="Maroon" title="c7">a</font>, <font color="Maroon" title="c8">b</font>, <font color="Maroon" title="c9">c</font>, <font color="Maroon" title="c10">d</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c6">AFV</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c7">a</font>,<font color="Maroon" title="c8">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font> implies <font color="Maroon" title="c8">b</font>,<font color="Maroon" title="c7">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font> )</span><br/>
+
+
+
+
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:23"/>
+<font color="Maroon" title="c7">a</font>,<font color="Maroon" title="c8">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c8">b</font>,<font color="Maroon" title="c7">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font></span><br/>
+
+<a NAME="E2:23"/><span class="kw">then </span>
+<font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c7">a</font>,<font color="Maroon" title="c8">b</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afvect01.html#T2" target="_self" onmouseover="rs('afvect01/T2')" onmouseout="rh()">Th2</a></span>;<br/>
+<a NAME="E3:23"/><span class="kw">then </span>
+<font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c8">b</font>,<font color="Maroon" title="c7">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afvect01.html#T3" target="_self" onmouseover="rs('afvect01/T3')" onmouseout="rh()">Th3</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:23"/>
+<font color="Maroon" title="c8">b</font>,<font color="Maroon" title="c7">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c9">c</font>,<font color="Maroon" title="c10">d</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect01.html#T2" target="_self" onmouseover="rs('afvect01/T2')" onmouseout="rh()">Th2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

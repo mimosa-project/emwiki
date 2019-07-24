@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">a9</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">b9</font>, <font color="Olive" title="b5">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b2">a9</font> &amp; <font color="Olive" title="b3">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b4">b9</font> &amp; <font color="Olive" title="b5">p</font>,<font color="Olive" title="b1">a</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Olive" title="b5">p</font>,<font color="Olive" title="b2">a9</font> &amp; <font color="Olive" title="b5">p</font>,<font color="Olive" title="b3">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Olive" title="b5">p</font>,<font color="Olive" title="b4">b9</font> holds <br/><font color="Olive" title="b1">a</font>,<font color="Olive" title="b3">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Olive" title="b2">a9</font>,<font color="Olive" title="b4">b9</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">a9</font>, <font color="Maroon" title="c4">b</font>, <font color="Maroon" title="c5">b9</font>, <font color="Maroon" title="c6">p</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">a9</font> &amp; <font color="Maroon" title="c4">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c5">b9</font> &amp; <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c2">a</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c3">a9</font> &amp; <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c4">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c5">b9</font> implies <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c3">a9</font>,<font color="Maroon" title="c5">b9</font> )</span><br/>
+
+
+
+
+
+
+
+
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:9"/><span class="lab"><font color="Green" title="E9">A1</font></span>: 
+<font color="Maroon" title="c2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">a9</font>
+ <span class="kw">and </span><br/><a NAME="E2:9"/><span class="lab"><font color="Green" title="E10">A2</font></span>: 
+<font color="Maroon" title="c4">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c5">b9</font>
+ <span class="kw">and </span><br/><a NAME="E3:9"/><span class="lab"><font color="Green" title="E11">A3</font></span>: 
+<font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c2">a</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c3">a9</font>
+ <span class="kw">and </span><br/><a NAME="E4:9"/><span class="lab"><font color="Green" title="E12">A4</font></span>: 
+<font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c4">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c5">b9</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c3">a9</font>,<font color="Maroon" title="c5">b9</font></span><br/>
+
+<a NAME="E5:9"/>
+<font color="Maroon" title="c4">b</font>,<font color="Maroon" title="c6">p</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c5">b9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:9"><span class="lab"><font color="Green" title="E10">A2</font></span></a>, <a class="txt" href="#E4:9"><span class="lab"><font color="Green" title="E12">A4</font></span></a>, <a class="txt" href="afvect01.html#E1"><span class="lab"><font color="Green" title="E1">Lm1</font></span></a>, <a class="txt" href="afvect01.html#E3"><span class="lab"><font color="Green" title="E3">Lm3</font></span></a></span>;<br/>
+<a NAME="E6:9"/><span class="kw">then </span><span class="lab"><font color="Green" title="E13">A5</font></span>: 
+ <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c4">b</font>,<font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c5">b9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D3" onmouseover="rs('afvect0/D3')" onmouseout="rh()">AFVECT0:def 3</a></span>;<br/>
+<a NAME="E7:9"/>
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c6">p</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c3">a9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:9"><span class="lab"><font color="Green" title="E9">A1</font></span></a>, <a class="txt" href="#E3:9"><span class="lab"><font color="Green" title="E11">A3</font></span></a>, <a class="txt" href="afvect01.html#E1"><span class="lab"><font color="Green" title="E1">Lm1</font></span></a>, <a class="txt" href="afvect01.html#E3"><span class="lab"><font color="Green" title="E3">Lm3</font></span></a></span>;<br/>
+<a NAME="E8:9"/><span class="kw">then </span>
+ <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c6">p</font>,<font color="Maroon" title="c3">a9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D3" onmouseover="rs('afvect0/D3')" onmouseout="rh()">AFVECT0:def 3</a></span>;<br/>
+<a NAME="E9:9"/><span class="kw">then </span>
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c5">b9</font>,<font color="Maroon" title="c3">a9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E6:9"><span class="lab"><font color="Green" title="E13">A5</font></span></a>, <a class="ref" href="afvect0.html#T25" onmouseover="rs('afvect0/T25')" onmouseout="rh()">AFVECT0:25</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E10:9"/>
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">b</font> <a href="diraf.html#R2" title="DIRAF:pred.2">'||'</a> <font color="Maroon" title="c3">a9</font>,<font color="Maroon" title="c5">b9</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="diraf.html#D4" onmouseover="rs('diraf/D4')" onmouseout="rh()">DIRAF:def 4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

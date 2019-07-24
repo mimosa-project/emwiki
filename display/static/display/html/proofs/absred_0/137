@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">X</font> be    <a href="absred_0.html#L1" title="ABSRED_0:struct.1">ARS</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font>, <font color="Olive" title="b3">z</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">X</font>  st <font color="Olive" title="b1">x</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Olive" title="b2">y</font> &amp; <font color="Olive" title="b3">z</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Olive" title="b2">y</font> holds <br/><font color="Olive" title="b1">x</font> <a href="absred_0.html#R13" title="ABSRED_0:pred.13">&gt;&gt;01&lt;&lt;</a> <font color="Olive" title="b3">z</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c3">y</font>, <font color="Maroon" title="c4">z</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">X</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c3">y</font> &amp; <font color="Maroon" title="c4">z</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c3">y</font> implies <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R13" title="ABSRED_0:pred.13">&gt;&gt;01&lt;&lt;</a> <font color="Maroon" title="c4">z</font> )</span><br/>
+
+
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:137"/><span class="lab"><font color="Green" title="E70">A1</font></span>: 
+<font color="Maroon" title="c2">x</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c3">y</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c4">z</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c3">y</font> or <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R13" title="ABSRED_0:pred.13">&gt;&gt;01&lt;&lt;</a> <font color="Maroon" title="c4">z</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E2:137"/><span class="lab"><font color="Green" title="E71">A2</font></span>: 
+<font color="Maroon" title="c4">z</font> <a href="absred_0.html#R1" title="ABSRED_0:pred.1">==&gt;</a> <font color="Maroon" title="c3">y</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R13" title="ABSRED_0:pred.13">&gt;&gt;01&lt;&lt;</a> <font color="Maroon" title="c4">z</font></span><br/>
+
+<span class="kw">take </span>
+<font color="Maroon" title="c3">y</font>
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="absred_0.html#D23" target="_self" onmouseover="rs('absred_0/D23')" onmouseout="rh()">ABSRED_0:def 23</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R2" title="ABSRED_0:pred.2">=01=&gt;</a> <font color="Maroon" title="c3">y</font> &amp; <font color="Maroon" title="c3">y</font> <a href="absred_0.html#NR6" title="ABSRED_0:NR.6">&lt;=01=</a> <font color="Maroon" title="c4">z</font> )</span><br/>
+
+<span class="kw">thus </span><a NAME="E3:137"/>
+<font color="Maroon" title="c3">y</font> <a href="absred_0.html#NR6" title="ABSRED_0:NR.6">&lt;=01=</a> <font color="Maroon" title="c2">x</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:137"><span class="lab"><font color="Green" title="E70">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">y</font> <a href="absred_0.html#NR6" title="ABSRED_0:NR.6">&lt;=01=</a> <font color="Maroon" title="c4">z</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E4:137"/>
+<font color="Maroon" title="c4">z</font> <a href="absred_0.html#R2" title="ABSRED_0:pred.2">=01=&gt;</a> <font color="Maroon" title="c3">y</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:137"><span class="lab"><font color="Green" title="E71">A2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

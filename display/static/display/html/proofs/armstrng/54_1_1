@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">D</font> =  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c3">D</font> =  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font> as   <a href="armstrng.html#NM5" title="ARMSTRNG:NM.5">Full-family</a> of <font color="Maroon" title="c1">X</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="armstrng.html#D14" target="_self" onmouseover="rs('armstrng/D14')" onmouseout="rh()">Def14</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c3">D</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">D</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E2:54_1_1"/>
+<font color="Maroon" title="c3">D</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c4">a</font>, <font color="Maroon" title="c5">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c4">a</font>,<font color="Maroon" title="c5">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c5">b</font>,<font color="Maroon" title="c4">a</font>)</span><br/>
+
+
+
+<a NAME="E1:18_1_1"/><span class="lab"><font color="Green" title="E18">A1</font></span>: 
+ <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c5">b</font>,<font color="Maroon" title="c4">a</font>) <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c4">a</font>,<font color="Maroon" title="c5">b</font>)
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="aff_1.html#E21"><span class="lab"><font color="Green" title="E17">Lm5</font></span></a></span>;<br/>
+<a NAME="E2:18_1_1"/>
+ <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c4">a</font>,<font color="Maroon" title="c5">b</font>) <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c5">b</font>,<font color="Maroon" title="c4">a</font>)
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="aff_1.html#E21"><span class="lab"><font color="Green" title="E17">Lm5</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:18_1_1"/>
+ <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c4">a</font>,<font color="Maroon" title="c5">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="aff_1.html#K1" title="AFF_1:func.1">Line</a> (<font color="Maroon" title="c5">b</font>,<font color="Maroon" title="c4">a</font>)
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:18_1_1"><span class="lab"><font color="Green" title="E18">A1</font></span></a>, <a class="ref" href="xboole_0.html#D10" onmouseover="rs('xboole_0/D10')" onmouseout="rh()">XBOOLE_0:def 10</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">X1</font>, <font color="Maroon" title="c4">X2</font> be   <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <font color="Maroon" title="c1">X</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( (  for <font color="Olive" title="b1">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b1">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">X1</font> iff <font color="Olive" title="b1">x</font> <a href="waybel_4.html#R2" title="WAYBEL_4:pred.2">is_maximal_wrt</a> <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">R</font> ) ) &amp; (  for <font color="Olive" title="b1">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b1">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">X2</font> iff <font color="Olive" title="b1">x</font> <a href="waybel_4.html#R2" title="WAYBEL_4:pred.2">is_maximal_wrt</a> <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">R</font> ) ) implies <font color="Maroon" title="c3">X1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">X2</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:7_1_2"/>
+( (  for <font color="Olive" title="b1">y</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b1">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">X1</font> iff <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">y</font>] ) ) &amp; (  for <font color="Olive" title="b1">y</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b1">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">X2</font> iff <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">y</font>] ) ) )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">X1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">X2</font></span><br/>
+
+<a NAME="E2:7_1_2"/><span class="kw">then </span>
+ for <font color="Olive" title="b1">y</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  holds <br/> ( <font color="Olive" title="b1">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">X1</font> iff <font color="Olive" title="b1">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">X2</font> )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E3:7_1_2"/>
+<font color="Maroon" title="c3">X1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">X2</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#T2" onmouseover="rs('tarski/T2')" onmouseout="rh()">TARSKI:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">D</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">x1</font>, <font color="Olive" title="b2">x2</font>, <font color="Olive" title="b3">x3</font>, <font color="Olive" title="b4">x4</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c1">D</font> holds  <span class="p1"><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">&lt;*</a><span class="default"><font color="Olive" title="b1">x1</font>,<font color="Olive" title="b2">x2</font>,<font color="Olive" title="b3">x3</font>,<font color="Olive" title="b4">x4</font></span><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">*&gt;</a></span> is    <a href="finseq_2.html#M2" title="FINSEQ_2:mode.2">Element</a> of 4 <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <font color="Maroon" title="c1">D</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">x1</font>, <font color="Maroon" title="c3">x2</font>, <font color="Maroon" title="c4">x3</font>, <font color="Maroon" title="c5">x4</font> be    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c1">D</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1"><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">&lt;*</a><span class="default"><font color="Maroon" title="c2">x1</font>,<font color="Maroon" title="c3">x2</font>,<font color="Maroon" title="c4">x3</font>,<font color="Maroon" title="c5">x4</font></span><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">*&gt;</a></span> is    <a href="finseq_2.html#M2" title="FINSEQ_2:mode.2">Element</a> of 4 <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <font color="Maroon" title="c1">D</font></span><br/>
+
+
+
+<span class="kw">reconsider </span><font color="Maroon" title="c6">x1234</font> = <span class="p1"><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">&lt;*</a><span class="default"><font color="Maroon" title="c2">x1</font>,<font color="Maroon" title="c3">x2</font>,<font color="Maroon" title="c4">x3</font>,<font color="Maroon" title="c5">x4</font></span><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">*&gt;</a></span> as    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of <font color="Maroon" title="c1">D</font> ;<br/>
+<a NAME="E2:10"/><span class="lab"><font color="Green" title="E9">P1</font></span>: 
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c6">x1234</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 4
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_4.html#T76" onmouseover="rs('finseq_4/T76')" onmouseout="rh()">FINSEQ_4:76</a></span>;<br/>
+<a NAME="E3:10"/>
+<font color="Maroon" title="c6">x1234</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">D</font> <a href="finseq_2.html#K3" title="FINSEQ_2:func.3">*</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#D11" onmouseover="rs('finseq_1/D11')" onmouseout="rh()">FINSEQ_1:def 11</a></span>;<br/>
+<a NAME="E4:10"/><span class="kw">then </span>
+<font color="Maroon" title="c6">x1234</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> 4 <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <font color="Maroon" title="c1">D</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:10"><span class="lab"><font color="Green" title="E9">P1</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:10"/>
+<span class="p1"><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">&lt;*</a><span class="default"><font color="Maroon" title="c2">x1</font>,<font color="Maroon" title="c3">x2</font>,<font color="Maroon" title="c4">x3</font>,<font color="Maroon" title="c5">x4</font></span><a href="finseq_4.html#K9" title="FINSEQ_4:func.9">*&gt;</a></span> is    <a href="finseq_2.html#M2" title="FINSEQ_2:mode.2">Element</a> of 4 <a href="finseq_2.html#K4" title="FINSEQ_2:func.4">-tuples_on</a> <font color="Maroon" title="c1">D</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

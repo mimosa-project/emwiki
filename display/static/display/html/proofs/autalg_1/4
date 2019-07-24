@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span><br/>
+
+<a NAME="E1:4"/>
+ <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#T1" target="_self" onmouseover="rs('autalg_1/T1')" onmouseout="rh()">Th1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:4"/>
+ <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#D1" target="_self" onmouseover="rs('autalg_1/D1')" onmouseout="rh()">Def1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

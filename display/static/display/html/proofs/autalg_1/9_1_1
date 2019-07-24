@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">defpred </span><font color="Maroon">S<sub>1</sub></font>[   <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>,   <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>,   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ] <span class="kw">means </span>$3 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> $2 <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> $1;<br/>
+<a NAME="E1:9_1_1"/><span class="lab"><font color="Green" title="E7">A1</font></span>: 
+ for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>  ex <font color="Olive" title="b3">m</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> st <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">x</font>,<font color="Olive" title="b2">y</font>,<font color="Olive" title="b3">m</font>]
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="9_1_1_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c3">y</font> be    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">m</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> st <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font>,<font color="Olive" title="b1">m</font>]</span><br/>
+
+<span class="kw">reconsider </span><font color="Maroon" title="c4">xx</font> = <font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c5">yy</font> = <font color="Maroon" title="c3">y</font> as   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">UA</font>,<font color="Maroon" title="c1">UA</font> ;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c6">m</font> = <font color="Maroon" title="c5">yy</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Maroon" title="c4">xx</font> as    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#T6" target="_self" onmouseover="rs('autalg_1/T6')" onmouseout="rh()">Th6</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c6">m</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font>,<font color="Maroon" title="c6">m</font>]</span><br/>
+
+<span class="kw">thus </span><a NAME="E3:9_1_1_1"/>
+<font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font>,<font color="Maroon" title="c6">m</font>]
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">thus </span><a NAME="E2:9_1_1"/>
+ ex <font color="Olive" title="b1">IT</font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span> st <br/> for <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds  <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b2">x</font>,<font color="Olive" title="b3">y</font>,<font color="Olive" title="b1">IT</font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b2">x</font>,<font color="Olive" title="b3">y</font>)]
+ <span class="kw">from</span> <span class="lab"><a class="ref" href="binop_1.html#S3" onmouseover="rs('binop_1/S3')" onmouseout="rh()">BINOP_1:sch 3</a>(<a class="txt" href="#E1:9_1_1"><span class="lab"><font color="Green" title="E7">A1</font></span></a>);</span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

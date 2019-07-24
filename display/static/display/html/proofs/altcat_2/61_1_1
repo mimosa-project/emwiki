@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">o</font> =  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font>;<br/>
+<span class="kw">take </span>
+ <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_2.html#V2" title="ALTCAT_2:attr.2">full</a>  &amp;  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_2.html#V3" title="ALTCAT_2:attr.3">id-inheriting</a>  &amp;  not  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  &amp;  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:61_1_1"/>
+(  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_2.html#V2" title="ALTCAT_2:attr.2">full</a>  &amp;  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_2.html#V3" title="ALTCAT_2:attr.3">id-inheriting</a>  &amp;  not  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  &amp;  <a href="altcat_2.html#K6" title="ALTCAT_2:func.6">ObCat</a>  the   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

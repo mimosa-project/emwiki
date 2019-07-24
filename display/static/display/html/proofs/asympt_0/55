@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">f</font>, <font color="Maroon" title="c4">g</font> be   <a href="asympt_0.html#V4" title="ASYMPT_0:attr.4">eventually-positive</a>  <a href="seq_1.html#NM1" title="SEQ_1:NM.1">Real_Sequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">f</font> <a href="valued_1.html#K52" title="VALUED_1:func.52">/"</a> <font color="Maroon" title="c4">g</font> is  <a href="comseq_2.html#V2" title="COMSEQ_2:attr.2">convergent</a>  &amp;  <a href="seq_2.html#K1" title="SEQ_2:func.1">lim</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="valued_1.html#K52" title="VALUED_1:func.52">/"</a> <font color="Maroon" title="c4">g</font></span>)</span> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  implies <font color="Maroon" title="c3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K8" title="ASYMPT_0:func.8">Big_Theta</a> <font color="Maroon" title="c4">g</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:55"/>
+( <font color="Maroon" title="c3">f</font> <a href="valued_1.html#K52" title="VALUED_1:func.52">/"</a> <font color="Maroon" title="c4">g</font> is  <a href="comseq_2.html#V2" title="COMSEQ_2:attr.2">convergent</a>  &amp;  <a href="seq_2.html#K1" title="SEQ_2:func.1">lim</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="valued_1.html#K52" title="VALUED_1:func.52">/"</a> <font color="Maroon" title="c4">g</font></span>)</span> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K8" title="ASYMPT_0:func.8">Big_Theta</a> <font color="Maroon" title="c4">g</font></span><br/>
+
+<a NAME="E2:55"/><span class="kw">then </span><span class="lab"><font color="Green" title="E27">A1</font></span>: 
+ <a href="asympt_0.html#K6" title="ASYMPT_0:func.6">Big_Oh</a> <font color="Maroon" title="c3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="asympt_0.html#K6" title="ASYMPT_0:func.6">Big_Oh</a> <font color="Maroon" title="c4">g</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_0.html#T15" target="_self" onmouseover="rs('asympt_0/T15')" onmouseout="rh()">Th15</a></span>;<br/>
+<a NAME="E3:55"/><span class="kw">then </span>
+<font color="Maroon" title="c4">g</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K6" title="ASYMPT_0:func.6">Big_Oh</a> <font color="Maroon" title="c3">f</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_0.html#T10" target="_self" onmouseover="rs('asympt_0/T10')" onmouseout="rh()">Th10</a></span>;<br/>
+<a NAME="E4:55"/><span class="kw">then </span><span class="lab"><font color="Green" title="E28">A2</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K7" title="ASYMPT_0:func.7">Big_Omega</a> <font color="Maroon" title="c4">g</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_0.html#T19" target="_self" onmouseover="rs('asympt_0/T19')" onmouseout="rh()">Th19</a></span>;<br/>
+<a NAME="E5:55"/>
+<font color="Maroon" title="c3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K6" title="ASYMPT_0:func.6">Big_Oh</a> <font color="Maroon" title="c4">g</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:55"><span class="lab"><font color="Green" title="E27">A1</font></span></a>, <a class="ref" href="asympt_0.html#T10" target="_self" onmouseover="rs('asympt_0/T10')" onmouseout="rh()">Th10</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E6:55"/>
+<font color="Maroon" title="c3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="asympt_0.html#K8" title="ASYMPT_0:func.8">Big_Theta</a> <font color="Maroon" title="c4">g</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:55"><span class="lab"><font color="Green" title="E28">A2</font></span></a>, <a class="ref" href="xboole_0.html#D4" onmouseover="rs('xboole_0/D4')" onmouseout="rh()">XBOOLE_0:def 4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

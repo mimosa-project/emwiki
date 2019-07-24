@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<div class="add">
+
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="p1">(<span class="default"><a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font></span>)</span> = 
+<span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="amistd_1.html#D7" onmouseover="rs('amistd_1/D7')" onmouseout="rh()">AMISTD_1:def 7</a></span>
+<br/>.= 
+<span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><span class="p2">(<span class="default"><a href="memstr_0.html#NK2" title="MEMSTR_0:NK.2">IC</a> </span>)</span></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="amistd_1.html#D7" onmouseover="rs('amistd_1/D7')" onmouseout="rh()">AMISTD_1:def 7</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E2:8_1_1"/>
+ <a href="memstr_0.html#NK3" title="MEMSTR_0:NK.3">Data-Locations</a>  is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_1.html#T37" onmouseover="rs('xboole_1/T37')" onmouseout="rh()">XBOOLE_1:37</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">thus </span><a NAME="E1:176_1_1"/>
+ the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <a href="absred_0.html#G2" title="ABSRED_0:aggr.2">TRSStr</a>(# <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">O</font>,<font color="Maroon" title="c3">r</font> #) <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="unialg_1.html#D3" onmouseover="rs('unialg_1/D3')" onmouseout="rh()">UNIALG_1:def 3</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <a href="absred_0.html#G2" title="ABSRED_0:aggr.2">TRSStr</a>(# <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">O</font>,<font color="Maroon" title="c3">r</font> #) is  <a href="relat_1.html#V2" title="RELAT_1:attr.2">non-empty</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E2:176_1_1"/>
+ the <a href="unialg_1.html#U1" title="UNIALG_1:sel.1">charact</a> of <a href="absred_0.html#G2" title="ABSRED_0:aggr.2">TRSStr</a>(# <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">O</font>,<font color="Maroon" title="c3">r</font> #) is  <a href="relat_1.html#V2" title="RELAT_1:attr.2">non-empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:1_1_1"/>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c1">f</font> <a href="matroid0.html#NR1" title="MATROID0:NR.1">c/=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="relat_1.html#D15" onmouseover="rs('relat_1/D15')" onmouseout="rh()">RELAT_1:def 15</a></span>;<br/>
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c2">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E3:1_1_1"/><span class="lab"><font color="Green" title="E1">A1</font></span>: 
+( <font color="Maroon" title="c2">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c1">f</font> &amp; <font color="Maroon" title="c2">x</font> <a href="aofa_000.html#NR1" title="AOFA_000:NR.1">nin</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> )
+ ;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c3">x</font> = <font color="Maroon" title="c2">x</font> as    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  <span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#T1" onmouseover="rs('tarski/T1')" onmouseout="rh()">TARSKI:1</a></span>;<br/>
+<a NAME="E5:1_1_1"/>
+( <font color="Maroon" title="c3">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  &amp; <font color="Maroon" title="c3">x</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a> <font color="Maroon" title="c1">f</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:1_1_1"><span class="lab"><font color="Green" title="E1">A1</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a>, <a class="ref" href="zfmisc_1.html#T74" onmouseover="rs('zfmisc_1/T74')" onmouseout="rh()">ZFMISC_1:74</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E6:1_1_1"/>
+ not  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a> <font color="Maroon" title="c1">f</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

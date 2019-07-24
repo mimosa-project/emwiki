@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">a</font> be   <a href="algstr_3.html#NM1" title="ALGSTR_3:NM.1">Scalar</a> of <a href="algstr_3.html#K3" title="ALGSTR_3:func.3">TernaryFieldEx</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="algstr_3.html#K1" title="ALGSTR_3:func.1">Tern</a> (<span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <a href="algstr_3.html#K3" title="ALGSTR_3:func.3">TernaryFieldEx</a></span>)</span>,<font color="Maroon" title="c3">a</font>,<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_3.html#K3" title="ALGSTR_3:func.3">TernaryFieldEx</a></span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">a</font></span><br/>
+
+<span class="kw">reconsider </span><font color="Maroon" title="c4">x</font> = <font color="Maroon" title="c3">a</font> as   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a> ;<br/>
+<span class="kw">thus </span> <a href="algstr_3.html#K1" title="ALGSTR_3:func.1">Tern</a> (<span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <a href="algstr_3.html#K3" title="ALGSTR_3:func.3">TernaryFieldEx</a></span>)</span>,<font color="Maroon" title="c3">a</font>,<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_3.html#K3" title="ALGSTR_3:func.3">TernaryFieldEx</a></span>)</span>) = 
+<a href="algstr_3.html#K2" title="ALGSTR_3:func.2">ternaryreal</a> <a href="multop_1.html#K1" title="MULTOP_1:func.1">.</a> (<font color="Maroon" title="c1">jj</font>,<font color="Maroon" title="c4">x</font>,<font color="Maroon" title="c2">zz</font>)
+
+<br/>.= 
+<span class="p1">(<span class="default"><font color="Maroon" title="c4">x</font> <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> 1</span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_3.html#D2" target="_self" onmouseover="rs('algstr_3/D2')" onmouseout="rh()">Def2</a></span>
+<br/>.= 
+<font color="Maroon" title="c3">a</font>
+
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

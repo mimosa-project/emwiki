@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div>:: <span class="kw">deftheorem </span>   defines <a href="anproj_9.html#K4" title="ANPROJ_9:func.4">GroupHomography3</a> <a onclick="hs(this)" href="javascript:()">ANPROJ_9:def 4 : <br/></a><span> <a href="anproj_9.html#K4" title="ANPROJ_9:func.4">GroupHomography3</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <a href="anproj_9.html#K1" title="ANPROJ_9:func.1">EnsHomography3</a>,<a href="anproj_9.html#K3" title="ANPROJ_9:func.3">BinOpHomography3</a> #);<br/></span></div>

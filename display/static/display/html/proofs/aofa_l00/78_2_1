@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">A</font> =  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br/>
+<span class="kw">take </span>
+ the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font> is  <a href="aofa_l00.html#V17" title="AOFA_L00:attr.17">language</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:78_2_1"/>
+ not  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font> <a href="msafree4.html#K1" title="MSAFREE4:func.1">.</a>  the <a href="aofa_l00.html#U1" title="AOFA_L00:sel.1">formula-sort</a> of <font color="Maroon" title="c1">S</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="aofa_l00.html#D20" target="_self" onmouseover="rs('aofa_l00/D20')" onmouseout="rh()">AOFA_L00:def 20</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

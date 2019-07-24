@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+<font color="Maroon" title="c2">dwa</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">dwa</font> is  <a href="asympt_0.html#V1" title="ASYMPT_0:attr.1">logbase</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:5_3_1"/>
+<font color="Maroon" title="c2">dwa</font> is  <a href="asympt_0.html#V1" title="ASYMPT_0:attr.1">logbase</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

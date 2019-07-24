@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:12"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default">1,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="12_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:12_1"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default">1,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E2:12_1"/><span class="kw">then </span>
+1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="euclid_5.html#K1" title="EUCLID_5:func.1">`1</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:12_1"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E2:12"/>
+ <a href="euclid_8.html#K2" title="EUCLID_8:func.2">&lt;e1&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T4" onmouseover="rs('euclid_5/T4')" onmouseout="rh()">EUCLID_5:4</a>, <a class="ref" href="euclid_8.html#D1" onmouseover="rs('euclid_8/D1')" onmouseout="rh()">EUCLID_8:def 1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="euclid_8.html#K3" title="EUCLID_8:func.3">&lt;e2&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span> &amp;  <a href="euclid_8.html#K4" title="EUCLID_8:func.4">&lt;e3&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span> )</span><br/>
+
+<a NAME="E3:12"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="12_2"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:12_2"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E2:12_2"/><span class="kw">then </span>
+1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="euclid_5.html#K2" title="EUCLID_5:func.2">`2</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:12_2"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E4:12"/>
+ <a href="euclid_8.html#K3" title="EUCLID_8:func.3">&lt;e2&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T4" onmouseover="rs('euclid_5/T4')" onmouseout="rh()">EUCLID_5:4</a>, <a class="ref" href="euclid_8.html#D2" onmouseover="rs('euclid_8/D2')" onmouseout="rh()">EUCLID_8:def 2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="euclid_8.html#K4" title="EUCLID_8:func.4">&lt;e3&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span></span><br/>
+
+<a NAME="E5:12"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1</span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="12_3"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:12_3"/>
+<span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1</span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E2:12_3"/><span class="kw">then </span>
+1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="euclid_5.html#K4" title="EUCLID_5:func.4">|[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="euclid_5.html#K4" title="EUCLID_5:func.4">]|</a></span> <a href="euclid_5.html#K3" title="EUCLID_5:func.3">`3</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:12_3"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T2" onmouseover="rs('euclid_5/T2')" onmouseout="rh()">EUCLID_5:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E6:12"/>
+ <a href="euclid_8.html#K4" title="EUCLID_8:func.4">&lt;e3&gt;</a>  <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="euclid.html#K15" title="EUCLID:func.15">TOP-REAL</a> 3</span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="euclid_5.html#T4" onmouseover="rs('euclid_5/T4')" onmouseout="rh()">EUCLID_5:4</a>, <a class="ref" href="euclid_8.html#D3" onmouseover="rs('euclid_8/D3')" onmouseout="rh()">EUCLID_8:def 3</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

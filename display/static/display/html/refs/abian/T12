@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><span class="lab"><font color="Green" title="E9">Th12</font></span>: <a NAME="T12"><span class="comment"><font color="firebrick">:: ABIAN:12</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">n</font> being   <a href="abian.html#NV2" title="ABIAN:NV.2">odd</a>  <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a> holds  1 <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Olive" title="b1">n</font></div></div>

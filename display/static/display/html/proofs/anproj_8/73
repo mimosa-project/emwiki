@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">D</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">pf</font> being    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of <font color="Maroon" title="c1">D</font> holds   <a href="matrix_0.html#K1" title="MATRIX_0:func.1">width</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Olive" title="b1">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Olive" title="b1">pf</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">pf</font> be    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of <font color="Maroon" title="c1">D</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="matrix_0.html#K1" title="MATRIX_0:func.1">width</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c2">pf</font></span><br/>
+
+
+
+<a NAME="E1:73"/><span class="lab"><font color="Green" title="E62">A1</font></span>: 
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T39" onmouseover="rs('finseq_1/T39')" onmouseout="rh()">FINSEQ_1:39</a></span>;<br/>
+<a NAME="E2:73"/>
+ <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T39" onmouseover="rs('finseq_1/T39')" onmouseout="rh()">FINSEQ_1:39</a></span>;<br/>
+<a NAME="E3:73"/><span class="kw">then </span>
+<font color="Maroon" title="c2">pf</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:73"/>
+ <a href="matrix_0.html#K1" title="MATRIX_0:func.1">width</a> <span class="p1"><a href="laplace.html#K10" title="LAPLACE:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">pf</font></span><a href="laplace.html#K10" title="LAPLACE:func.10">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c2">pf</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:73"><span class="lab"><font color="Green" title="E62">A1</font></span></a>, <a class="ref" href="matrix_0.html#D3" onmouseover="rs('matrix_0/D3')" onmouseout="rh()">MATRIX_0:def 3</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

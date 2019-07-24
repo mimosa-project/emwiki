@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">thus </span> <a href="abcmiz_1.html#K47" title="ABCMIZ_1:func.47">variables_in</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">a</font> <a href="abcmiz_1.html#K43" title="ABCMIZ_1:func.43">ast</a> <font color="Maroon" title="c2">T</font></span>)</span> = 
+<span class="p1">(<span class="default"><a href="abcmiz_1.html#K45" title="ABCMIZ_1:func.45">variables_in</a> <font color="Maroon" title="c3">a</font></span>)</span> <a href="subset_1.html#K4" title="SUBSET_1:func.4">\/</a> <span class="p1">(<span class="default"><a href="abcmiz_1.html#K47" title="ABCMIZ_1:func.47">variables_in</a> <font color="Maroon" title="c2">T</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T102" target="_self" onmouseover="rs('abcmiz_1/T102')" onmouseout="rh()">Th102</a></span>
+<br/>.= 
+<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <span class="p1">(<span class="default"><a href="abcmiz_1.html#K47" title="ABCMIZ_1:func.47">variables_in</a> <font color="Maroon" title="c2">T</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T107" target="_self" onmouseover="rs('abcmiz_1/T107')" onmouseout="rh()">Th107</a></span>
+<br/>.= 
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#D50" target="_self" onmouseover="rs('abcmiz_1/D50')" onmouseout="rh()">Def50</a></span>
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="abcmiz_1.html#D50" target="_self" onmouseover="rs('abcmiz_1/D50')" onmouseout="rh()">ABCMIZ_1:def 50</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

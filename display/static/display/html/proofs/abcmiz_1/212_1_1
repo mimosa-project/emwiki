@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">A</font> =  the  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V8</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">S</font>;<br/>
+<span class="kw">take </span>
+ the  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V8</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V8</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">S</font> is  <a href="abcmiz_1.html#V13" title="ABCMIZ_1:attr.13">with_missing_variables</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:212_1_1"/>
+ the  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V8</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">S</font> is  <a href="abcmiz_1.html#V13" title="ABCMIZ_1:attr.13">with_missing_variables</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

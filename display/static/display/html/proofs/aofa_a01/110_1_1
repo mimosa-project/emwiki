@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:110_1_1"/>
+ <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <font color="Maroon" title="c1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="exchsort.html#K3" title="EXCHSORT:func.3">len-</a> <font color="Maroon" title="c1">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="exchsort.html#T24" onmouseover="rs('exchsort/T24')" onmouseout="rh()">EXCHSORT:24</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:110_1_1"/>
+ <a href="exchsort.html#K3" title="EXCHSORT:func.3">len-</a> <font color="Maroon" title="c1">a</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

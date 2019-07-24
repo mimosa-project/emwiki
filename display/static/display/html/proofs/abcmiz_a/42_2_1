@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:42_2_1"/>
+(  <a href="abcmiz_1.html#K18" title="ABCMIZ_1:func.18">Attrs</a>  <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <a href="abcmiz_1.html#K17" title="ABCMIZ_1:func.17">Modes</a> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <a href="abcmiz_1.html#K18" title="ABCMIZ_1:func.18">Attrs</a> &amp; <a href="abcmiz_1.html#K17" title="ABCMIZ_1:func.17">Modes</a> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <a href="abcmiz_1.html#K18" title="ABCMIZ_1:func.18">Attrs</a> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="abcmiz_1.html#K20" title="ABCMIZ_1:func.20">Constructors</a>  )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_1.html#T7" onmouseover="rs('xboole_1/T7')" onmouseout="rh()">XBOOLE_1:7</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:42_2_1"/>
+ <a href="abcmiz_1.html#K18" title="ABCMIZ_1:func.18">Attrs</a>  is   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <a href="abcmiz_1.html#K20" title="ABCMIZ_1:func.20">Constructors</a>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_1.html#T1" onmouseover="rs('xboole_1/T1')" onmouseout="rh()">XBOOLE_1:1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:125_1"/>
+<font color="Maroon">F<sub>1</sub></font>() is  <a href="absred_0.html#V11" title="ABSRED_0:attr.11">CR</a> 
+ 
+<span class="kw">from</span> <span class="lab"><a class="ref" href="absred_0.html#S9" target="_self" onmouseover="rs('absred_0/S9')" onmouseout="rh()">ABSRED_0:sch 9</a>(<a class="txt" href="#E2:125"><span class="lab"><font color="Green" title="E65">A2</font></span></a>, <a class="txt" href="#E3:125"><span class="lab"><font color="Green" title="E66">A3</font></span></a>);<br/></span>
+<span class="kw">hence </span><a NAME="E2:125_1"/>
+( <font color="Maroon">F<sub>1</sub></font>() is  <a href="absred_0.html#V5" title="ABSRED_0:attr.5">SN</a>  &amp; <font color="Maroon">F<sub>1</sub></font>() is  <a href="absred_0.html#V10" title="ABSRED_0:attr.10">CONF</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:125"><span class="lab"><font color="Green" title="E64">A1</font></span></a>, <a class="txt" href="absred_0.html#E158"><span class="lab"><font color="Green" title="E63">Lm1</font></span></a></span>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="absred_0.html#D28" target="_self" onmouseover="rs('absred_0/D28')" onmouseout="rh()">ABSRED_0:def 28</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

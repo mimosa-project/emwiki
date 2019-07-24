@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:253_1_1"/>
+<font color="Maroon" title="c3">t</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="abcmiz_1.html#K34" title="ABCMIZ_1:func.34">QuasiTerms</a> <font color="Maroon" title="c1">C</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#D28" target="_self" onmouseover="rs('abcmiz_1/D28')" onmouseout="rh()">Def28</a></span>;<br/>
+<a NAME="E2:253_1_1"/><span class="kw">then </span>
+<font color="Maroon" title="c3">t</font> <a href="abcmiz_1.html#K56" title="ABCMIZ_1:func.56">at</a> <font color="Maroon" title="c2">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="abcmiz_1.html#K34" title="ABCMIZ_1:func.34">QuasiTerms</a> <font color="Maroon" title="c1">C</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T129" target="_self" onmouseover="rs('abcmiz_1/T129')" onmouseout="rh()">Th129</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:253_1_1"/>
+<font color="Maroon" title="c3">t</font> <a href="abcmiz_1.html#K56" title="ABCMIZ_1:func.56">at</a> <font color="Maroon" title="c2">f</font> is   <a href="abcmiz_1.html#NM9" title="ABCMIZ_1:NM.9">quasi-term</a> of <font color="Maroon" title="c1">C</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T41" target="_self" onmouseover="rs('abcmiz_1/T41')" onmouseout="rh()">Th41</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

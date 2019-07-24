@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">X</font> be    <a href="absred_0.html#L1" title="ABSRED_0:struct.1">ARS</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">X</font>  st <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V4" title="ABSRED_0:attr.4">WN</a>  &amp; <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V6" title="ABSRED_0:attr.6">UN*</a>  &amp;  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Olive" title="b2">y</font> holds <br/><font color="Olive" title="b1">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Olive" title="b2">y</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c3">y</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">X</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V4" title="ABSRED_0:attr.4">WN</a>  &amp; <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V6" title="ABSRED_0:attr.6">UN*</a>  &amp;  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c3">y</font> implies <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Maroon" title="c3">y</font> )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:114"/><span class="lab"><font color="Green" title="E57">A1</font></span>: 
+( <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V4" title="ABSRED_0:attr.4">WN</a>  &amp; <font color="Maroon" title="c1">X</font> is  <a href="absred_0.html#V6" title="ABSRED_0:attr.6">UN*</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c3">y</font> or <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Maroon" title="c3">y</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E2:114"/><span class="lab"><font color="Green" title="E58">A2</font></span>: 
+ <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c3">y</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Maroon" title="c3">y</font></span><br/>
+
+<a NAME="E3:114"/>
+(  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R9" title="ABSRED_0:pred.9">is_normform_of</a> <font color="Maroon" title="c2">x</font> &amp;  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R9" title="ABSRED_0:pred.9">is_normform_of</a> <font color="Maroon" title="c3">y</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:114"><span class="lab"><font color="Green" title="E57">A1</font></span></a>, <a class="txt" href="#E2:114"><span class="lab"><font color="Green" title="E58">A2</font></span></a>, <a class="ref" href="absred_0.html#T117" target="_self" onmouseover="rs('absred_0/T117')" onmouseout="rh()">Lem22</a></span>;<br/>
+<a NAME="E4:114"/><span class="kw">then </span>
+( <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a>  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> &amp;  <a href="absred_0.html#K3" title="ABSRED_0:func.3">nf</a> <font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Maroon" title="c3">y</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="absred_0.html#T82" target="_self" onmouseover="rs('absred_0/T82')" onmouseout="rh()">LemZ</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:114"/>
+<font color="Maroon" title="c2">x</font> <a href="absred_0.html#R7" title="ABSRED_0:pred.7">&lt;=*=&gt;</a> <font color="Maroon" title="c3">y</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="absred_0.html#T7" target="_self" onmouseover="rs('absred_0/T7')" onmouseout="rh()">Th7</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

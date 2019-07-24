@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">C</font> be   <a href="abcmiz_1.html#V3" title="ABCMIZ_1:attr.3">initialized</a>  <a href="abcmiz_1.html#NM5" title="ABCMIZ_1:NM.5">ConstructorSignature</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">e</font> being   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c2">C</font> holds  <font color="Olive" title="b1">e</font> is    <a href="abcmiz_a.html#M1" title="ABCMIZ_A:mode.1">subexpression</a> of <font color="Olive" title="b1">e</font></span><br/><span class="kw">let </span><font color="Maroon" title="c3">e</font> be   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c2">C</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">e</font> is    <a href="abcmiz_a.html#M1" title="ABCMIZ_A:mode.1">subexpression</a> of <font color="Maroon" title="c3">e</font></span><br/>
+
+
+
+<span class="kw">thus </span><a NAME="E1:52"/>
+<font color="Maroon" title="c3">e</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="trees_9.html#K3" title="TREES_9:func.3">Subtrees</a> <font color="Maroon" title="c3">e</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="trees_9.html#T11" onmouseover="rs('trees_9/T11')" onmouseout="rh()">TREES_9:11</a></span>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="abcmiz_a.html#D7" target="_self" onmouseover="rs('abcmiz_a/D7')" onmouseout="rh()">ABCMIZ_A:def 7</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

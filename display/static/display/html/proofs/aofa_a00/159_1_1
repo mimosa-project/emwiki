@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c5">x</font>, <font color="Maroon" title="c6">y</font>, <font color="Maroon" title="c7">z</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E2:159_1_1"/><span class="lab"><font color="Green" title="E57">A1</font></span>: 
+( <font color="Maroon" title="c5">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c1">X</font> &amp; <font color="Maroon" title="c6">y</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c2">Y</font> &amp; <font color="Maroon" title="c7">z</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">Z</font> &amp; <font color="Maroon" title="c4">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="finseq_1.html#K11" title="FINSEQ_1:func.11">&lt;*</a><span class="default"><font color="Maroon" title="c5">x</font>,<font color="Maroon" title="c6">y</font>,<font color="Maroon" title="c7">z</font></span><a href="finseq_1.html#K11" title="FINSEQ_1:func.11">*&gt;</a></span> )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_3.html#T125" onmouseover="rs('finseq_3/T125')" onmouseout="rh()">FINSEQ_3:125</a></span>;<br/>
+<span class="kw">thus </span><a NAME="E3:159_1_1"/>
+( <font color="Maroon" title="c4">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> 1 is  <a href="relat_1.html#V1" title="RELAT_1:attr.1">Relation-like</a>  &amp; <font color="Maroon" title="c4">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> 1 is  <a href="funct_1.html#V1" title="FUNCT_1:attr.1">Function-like</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:159_1_1"><span class="lab"><font color="Green" title="E57">A1</font></span></a>, <a class="ref" href="finseq_1.html#T45" onmouseover="rs('finseq_1/T45')" onmouseout="rh()">FINSEQ_1:45</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

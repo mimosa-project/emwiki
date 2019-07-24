@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AS</font> be   <a href="diraf.html#NM1" title="DIRAF:NM.1">AffinSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">X</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>  st <font color="Olive" title="b1">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font> &amp; <font color="Olive" title="b1">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a>  holds <br/><font color="Maroon" title="c1">AS</font> is   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a></span><br/><span class="kw">let </span><font color="Maroon" title="c2">X</font> be   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font> &amp; <font color="Maroon" title="c2">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a>  implies <font color="Maroon" title="c1">AS</font> is   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a> )</span><br/>
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:4"/><span class="lab"><font color="Green" title="E4">A1</font></span>: 
+<font color="Maroon" title="c2">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font>
+ <span class="kw">and </span><br/><a NAME="E2:4"/><span class="lab"><font color="Green" title="E5">A2</font></span>: 
+<font color="Maroon" title="c2">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">AS</font> is   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a></span><br/>
+
+<span class="kw">assume </span><a NAME="E3:4"/>
+<font color="Maroon" title="c1">AS</font> is  not   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E4:4"/><span class="kw">then </span>
+ not  for <font color="Olive" title="b1">zz</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> holds  <font color="Olive" title="b1">zz</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:4"><span class="lab"><font color="Green" title="E5">A2</font></span></a>, <a class="ref" href="aff_4.html#T48" onmouseover="rs('aff_4/T48')" onmouseout="rh()">AFF_4:48</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:4"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:4"><span class="lab"><font color="Green" title="E4">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

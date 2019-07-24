@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:12_1_1"/><span class="lab"><font color="Green" title="E1">A1</font></span>: 
+(  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">I1</font> &amp;  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c3">g</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">I1</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="partfun1.html#D2" onmouseover="rs('partfun1/D2')" onmouseout="rh()">PARTFUN1:def 2</a></span>;<br/>
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">g</font> <a href="pboole.html#K8" title="PBOOLE:func.8">**</a> <font color="Maroon" title="c2">f</font></span>)</span> = 
+<span class="p1">(<span class="default"><a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c3">g</font></span>)</span> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <span class="p1">(<span class="default"><a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="pboole.html#D19" onmouseover="rs('pboole/D19')" onmouseout="rh()">PBOOLE:def 19</a></span>
+<br/>.= 
+<font color="Maroon" title="c1">I1</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:12_1_1"><span class="lab"><font color="Green" title="E1">A1</font></span></a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E3:12_1_1"/>
+<font color="Maroon" title="c3">g</font> <a href="pboole.html#K8" title="PBOOLE:func.8">**</a> <font color="Maroon" title="c2">f</font> is <font color="Maroon" title="c1">I1</font> <a href="relat_1.html#V4" title="RELAT_1:attr.4">-defined</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

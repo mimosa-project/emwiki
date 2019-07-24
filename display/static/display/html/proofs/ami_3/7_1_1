@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">reconsider </span><font color="Maroon" title="c1">x</font> =  the    <a href="subset_1.html#M2" title="SUBSET_1:mode.2">Element</a> of  <a href="ami_2.html#K2" title="AMI_2:func.2">SCM-Data-Loc</a>  as   <a href="memstr_0.html#NM3" title="MEMSTR_0:NM.3">Object</a> of <a href="ami_3.html#K1" title="AMI_3:func.1">SCM</a> ;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c1">x</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">x</font> is  <a href="ami_2.html#V1" title="AMI_2:attr.1">Int-like</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E2:7_1_1"/>
+<font color="Maroon" title="c1">x</font> is  <a href="ami_2.html#V1" title="AMI_2:attr.1">Int-like</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

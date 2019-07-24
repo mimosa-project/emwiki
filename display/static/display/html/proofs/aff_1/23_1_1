@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">a</font> =  the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E2:23_1_1"/><span class="lab"><font color="Green" title="E22">A1</font></span>: 
+ the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">b</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="subset_1.html#T50" onmouseover="rs('subset_1/T50')" onmouseout="rh()">SUBSET_1:50</a></span>;<br/>
+<span class="kw">take </span>
+ <a href="aff_1.html#K2" title="AFF_1:func.2">Line</a> ( the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>,<font color="Maroon" title="c3">b</font>)
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="aff_1.html#K2" title="AFF_1:func.2">Line</a> ( the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>,<font color="Maroon" title="c3">b</font>) is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E3:23_1_1"/>
+ <a href="aff_1.html#K2" title="AFF_1:func.2">Line</a> ( the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>,<font color="Maroon" title="c3">b</font>) is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:23_1_1"><span class="lab"><font color="Green" title="E22">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

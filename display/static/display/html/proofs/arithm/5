@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">x</font> be   <a href="xcmplx_0.html#NM1" title="XCMPLX_0:NM.1">Complex</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">x</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font></span><br/>
+
+<a NAME="E1:5"/>
+<font color="Maroon" title="c1">x</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="arithm.html#E2"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="ref" href="xcmplx_0.html#D8" onmouseover="rs('xcmplx_0/D8')" onmouseout="rh()">XCMPLX_0:def 8</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:5"/>
+<font color="Maroon" title="c1">x</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="arithm.html#T1" target="_self" onmouseover="rs('arithm/T1')" onmouseout="rh()">Th1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

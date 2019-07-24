@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds <br/> (  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b1">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Olive" title="b1">f</font> &amp;  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b1">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> )</span><br/><span class="kw">let </span><font color="Maroon" title="c2">f</font> be    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c2">f</font> &amp;  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> )</span><br/>
+
+
+
+<a NAME="E1:12"/><span class="lab"><font color="Green" title="E9">A1</font></span>: 
+<font color="Maroon" title="c2">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#D1" target="_self" onmouseover="rs('autalg_1/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E2:12"/><span class="kw">then </span>
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="alg_1.html#T8" onmouseover="rs('alg_1/T8')" onmouseout="rh()">ALG_1:8</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:12"/>
+(  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Maroon" title="c2">f</font> &amp;  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:12"><span class="lab"><font color="Green" title="E9">A1</font></span></a>, <a class="ref" href="alg_1.html#T8" onmouseover="rs('alg_1/T8')" onmouseout="rh()">ALG_1:8</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

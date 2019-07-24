@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:23_1_1"/>
+<span class="p1"><a href="finseq_4.html#K10" title="FINSEQ_4:func.10">&lt;*</a><span class="default"><font color="Maroon" title="c2">a1</font>,<font color="Maroon" title="c3">a2</font>,<font color="Maroon" title="c4">a3</font>,<font color="Maroon" title="c5">a4</font>,<font color="Maroon" title="c6">a5</font></span><a href="finseq_4.html#K10" title="FINSEQ_4:func.10">*&gt;</a></span> <a href="finseq_1.html#K8" title="FINSEQ_1:func.8">^</a> <span class="p1"><a href="finseq_1.html#K12" title="FINSEQ_1:func.12">&lt;*</a><span class="default"><font color="Maroon" title="c7">a6</font></span><a href="finseq_1.html#K12" title="FINSEQ_1:func.12">*&gt;</a></span> is    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of <font color="Maroon" title="c1">X</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:23_1_1"/>
+<span class="p1"><a href="aofa_a00.html#K4" title="AOFA_A00:func.4">&lt;*</a><span class="default"><font color="Maroon" title="c2">a1</font>,<font color="Maroon" title="c3">a2</font>,<font color="Maroon" title="c4">a3</font>,<font color="Maroon" title="c5">a4</font>,<font color="Maroon" title="c6">a5</font>,<font color="Maroon" title="c7">a6</font></span><a href="aofa_a00.html#K4" title="AOFA_A00:func.4">*&gt;</a></span> is    <a href="finseq_1.html#M2" title="FINSEQ_1:mode.2">FinSequence</a> of <font color="Maroon" title="c1">X</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

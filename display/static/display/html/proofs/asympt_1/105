@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+2
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="asympt_0.html#D4" onmouseover="rs('asympt_0/D4')" onmouseout="rh()">ASYMPT_0:def 4</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive">b<sub>1</sub></font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   holds <br/>(  not 2 <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Olive">b<sub>1</sub></font> or  not <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="valued_1.html#K47" title="VALUED_1:func.47">-</a> <span class="p2">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive">b<sub>1</sub></font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )</span><br/>
+
+<span class="kw">set </span><font color="Maroon" title="c2">g</font> =  <a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1;<br/>
+<span class="kw">set </span><font color="Maroon" title="c3">f</font> =  <a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1;<br/>
+<span class="kw">let </span><font color="Maroon" title="c4">n</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not 2 <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c4">n</font> or  not <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="valued_1.html#K47" title="VALUED_1:func.47">-</a> <span class="p2">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )</span><br/>
+
+<a NAME="E1:105"/><span class="lab"><font color="Green" title="E63">A1</font></span>: 
+<font color="Maroon" title="c4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal1.html#D12" onmouseover="rs('ordinal1/D12')" onmouseout="rh()">ORDINAL1:def 12</a></span>;<br/>
+<a NAME="E2:105"/><span class="lab"><font color="Green" title="E64">A2</font></span>: 
+<span class="p1">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funcop_1.html#T7" onmouseover="rs('funcop_1/T7')" onmouseout="rh()">FUNCOP_1:7</a>, <a class="txt" href="#E1:105"><span class="lab"><font color="Green" title="E63">A1</font></span></a></span>;<br/>
+<span class="kw">assume </span><a NAME="E3:105"/><span class="lab"><font color="Green" title="E65">A3</font></span>: 
+<font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a> 2
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  not <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="valued_1.html#K47" title="VALUED_1:func.47">-</a> <span class="p2">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> </span><br/>
+
+<a NAME="E4:105"/><span class="kw">then </span><span class="lab"><font color="Green" title="E66">A4</font></span>: 
+<font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a> 1 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xxreal_0.html#T2" onmouseover="rs('xxreal_0/T2')" onmouseout="rh()">XXREAL_0:2</a></span>;<br/>
+<span class="lab"><font color="Green" title="E67">A5</font></span>: <span class="p1">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> = 
+<font color="Maroon" title="c4">n</font> <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:105"><span class="lab"><font color="Green" title="E65">A3</font></span></a>, <a class="ref" href="asympt_1.html#D3" target="_self" onmouseover="rs('asympt_1/D3')" onmouseout="rh()">Def3</a>, <a class="txt" href="#E1:105"><span class="lab"><font color="Green" title="E63">A1</font></span></a></span>
+<br/>.= 
+<font color="Maroon" title="c4">n</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+;<br/>
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="valued_1.html#K47" title="VALUED_1:func.47">-</a> <span class="p2">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> = 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font></span>)</span> <a href="real_1.html#K3" title="REAL_1:func.3">+</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="valued_1.html#K32" title="VALUED_1:func.32">-</a> <span class="p3">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="seq_1.html#T7" onmouseover="rs('seq_1/T7')" onmouseout="rh()">SEQ_1:7</a></span>
+<br/>.= 
+<font color="Maroon" title="c4">n</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <span class="p1">(<span class="default"><a href="xcmplx_0.html#K4" title="XCMPLX_0:func.4">-</a> 1</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:105"><span class="lab"><font color="Green" title="E67">A5</font></span></a>, <a class="txt" href="#E2:105"><span class="lab"><font color="Green" title="E64">A2</font></span></a>, <a class="ref" href="seq_1.html#T10" onmouseover="rs('seq_1/T10')" onmouseout="rh()">SEQ_1:10</a></span>
+<br/>.= 
+<font color="Maroon" title="c4">n</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> 1
+
+;<br/>
+<span class="kw">hence </span><a NAME="E7:105"/>
+ not <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="asympt_1.html#K3" title="ASYMPT_1:func.3">seq_n^</a> 1</span>)</span> <a href="valued_1.html#K47" title="VALUED_1:func.47">-</a> <span class="p2">(<span class="default"><a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:105"><span class="lab"><font color="Green" title="E66">A4</font></span></a>, <a class="ref" href="xreal_1.html#T20" onmouseover="rs('xreal_1/T20')" onmouseout="rh()">XREAL_1:20</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AS</font> be   <a href="diraf.html#NM1" title="DIRAF:NM.1">AffinSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">X</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>  st <font color="Olive" title="b1">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a>  holds <br/><font color="Olive" title="b1">X</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">X</font> be   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a>  implies <font color="Maroon" title="c2">X</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E1:72"/>
+<font color="Maroon" title="c2">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">X</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/>
+
+<a NAME="E2:72"/><span class="kw">then </span>
+ ex <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> st <br/>( <font color="Olive" title="b1">a</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">X</font> &amp; <font color="Olive" title="b2">b</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">X</font> &amp; <font color="Olive" title="b3">c</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">X</font> &amp;  not  <a href="aff_1.html#R1" title="AFF_1:pred.1">LIN</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font>,<font color="Olive" title="b3">c</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aff_4.html#T34" target="_self" onmouseover="rs('aff_4/T34')" onmouseout="rh()">Th34</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:72"/>
+<font color="Maroon" title="c2">X</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

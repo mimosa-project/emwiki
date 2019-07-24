@@ -1,0 +1,1018 @@
+<html prefix="oo: http://omdoc.org/ontology# owl: http://www.w3.org/2002/07/owl#">
+<style type="text/css">
+div { padding: 0 0 0 0; margin: 0 0 0 0; } 
+div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div.box { border-width:thin; border-color:blue; border-style:solid; }
+p { margin: 0 0 0 0; } 
+body {font-family: monospace; margin: 0px;}
+a {text-decoration:none} a:hover { color: red; } 
+a.ref { font-size:x-small; }
+a.ref:link { color:green; } 
+a.ref:hover { color: red; } 
+a.txt:link { color:black; } 
+a.txt:hover { color: red; } 
+.wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+.wikiactions li { display: inline; padding: .2em .4em; }
+.wikiactions a {text-decoration:underline;} 
+span.kw {font-weight: bold; }
+span.lab {font-style: italic; }
+span.comment {font-style: italic; }
+span.hide { display: none; }
+span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+span.p2:hover { color : inherit; background-color : #FFCACA; }
+span.p3:hover { color : inherit; background-color : #FFFFBA; }
+span.p4:hover { color : inherit; background-color : #CACAFF; }
+span.p5:hover { color : inherit; background-color : #CAFFCA; }
+span.p0:hover { color : inherit; background-color : #FFBAFF; }
+.default { background-color: white; color: black; } 
+.default:hover { background-color: white; color: black; }
+#tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+:target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ALGSTR_1:  From Loops to Abelian Multiplicative Groups with Zero</title>
+<script type="text/javascript">
+<!-- 
+
+// for saving in rs
+var mizhtm='';
+function hs(obj)
+{
+// document.getElementById('myimage').nextSibling.style.display = 'block';
+if (obj.nextSibling.style.display == 'inline')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'inline'; }
+ else { obj.nextSibling.style.display = 'inline';  }}
+return false;
+}
+
+function hs2(obj)
+{
+if (obj.nextSibling.style.display == 'block')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'block'; }
+ else { obj.nextSibling.style.display = 'none';  }}
+return false;
+}
+function hsNdiv(obj)
+{
+var ndiv = obj;
+while (ndiv.nextSibling.nodeName != 'DIV') { ndiv = ndiv.nextSibling; }
+return hs2(ndiv);
+}
+
+// remote request cache - for each url its http_request.responseText
+var rrCache= {};
+rrCache[0]='';
+
+// explorer7 implements XMLHttpRequest in some strange way
+// optional tooltip is passed to insertRequest
+function makeRequest(obj,url,tooltip) 
+{
+    // if the result is cached, insert it now
+    if (rrCache[url] != null)
+    {
+	insertRequest(obj,null,url,tooltip);
+    }
+    else
+    {
+        var http_request = false;
+        if (window.XMLHttpRequest && !(window.ActiveXObject)) { // Mozilla, Safari,...
+            http_request = new XMLHttpRequest();
+            if (http_request.overrideMimeType) {
+                http_request.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                http_request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    http_request = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e) {}
+            }
+        }
+        if (!http_request) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        http_request.onreadystatechange = function() { insertRequest(obj,http_request,url,tooltip); };
+        http_request.open('GET', url, true);
+        http_request.send(null);
+    }
+}
+// commented the 200 state to have local requests too
+// if tooltip nonnil, obj.innerHTML is changed, and the result is put in rrCache
+function insertRequest(obj,http_request,url,tooltip) 
+{
+    var respText = null;
+    if(http_request == null) // no request done, we are called with cached result
+    {
+	respText = rrCache[url];
+    }
+    else { if (http_request.readyState == 4) { 
+	respText = http_request.responseText; 
+    }}
+
+    if (respText != null) 
+    {
+//            if (http_request.status == 200) {
+	if(http_request != null) {rrCache[url] = respText;}
+	if(tooltip != null)
+	{
+	    obj.innerHTML = respText;	    
+	}
+	else
+	{
+	    var ndiv = obj;
+	    while (ndiv.nodeName != 'SPAN') { ndiv = ndiv.nextSibling; }
+	    ndiv.innerHTML = respText;
+	    obj.onclick = function(){ return hs2(obj) };
+	}
+    }
+}
+
+// simple tooltips
+var tooltip=function(){
+ var id = 'tt';
+ var top = 3;
+ var left = 3;
+ var maxw = 500;
+ var speed = 10;
+ var timer = 2;
+ var endalpha = 95;
+ var alpha = 0;
+ var tt,t,c,b,h;
+ var ie = document.all ? true : false;
+ return{
+  show:function(how,v,w){
+   if(tt == null){
+    tt = document.createElement('div');
+    tt.setAttribute('id',id);
+    document.body.appendChild(tt);
+    tt.style.opacity = 0;
+    tt.style.filter = 'alpha(opacity=0)';
+    document.onmousemove = this.pos;
+   }
+
+   tt.style.display = 'block';
+   if(how == 'url')
+   {
+       if(rrCache[v]==null) { 
+	   tt.innerHTML ='<div>loading...</div>'; 
+	   makeRequest(tt,v,1); 
+       } else { 
+	   tt.innerHTML = rrCache[v]; 
+       }
+   }
+   else { if ((how == 'hs') || (how == 'hs2')) { tt.innerHTML = v.nextSibling.innerHTML; }
+   else { if (how == 'txt') { tt.innerHTML = v; }
+	  else { tt.innerHTML = ''; }
+	}
+   }
+
+   tt.style.width = w ? w + 'px' : 'auto';
+   if(!w && ie){
+    tt.style.width = tt.offsetWidth;
+   }
+  if(tt.offsetWidth > maxw){tt.style.width = maxw + 'px'}
+  h = parseInt(tt.offsetHeight) + top;
+  clearInterval(tt.timer);
+  tt.timer = setInterval(function(){tooltip.fade(1)},timer);
+  },
+  pos:function(e){
+   var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
+   var l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+   tt.style.top = (u - h) + 'px';
+   tt.style.left = (l + left) + 'px';
+  },
+  fade:function(d){
+   var a = alpha;
+   if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+    var i = speed;
+   if(endalpha - a < speed && d == 1){
+    i = endalpha - a;
+   }else if(alpha < speed && d == -1){
+     i = a;
+   }
+   alpha = a + (i * d);
+   tt.style.opacity = alpha * .01;
+   tt.style.filter = 'alpha(opacity=' + alpha + ')';
+  }else{
+    clearInterval(tt.timer);
+     if(d == -1){tt.style.display = 'none'}
+  }
+ },
+ hide:function(){tt.style.display  = 'none';}
+ };
+}();
+
+// reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
+function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
+function rh() { tooltip.hide(); } 
+
+// End -->
+</script><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({                                                                                                                            
+    extensions: ['tex2jax.js'],                                                                                                                   
+    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
+    tex2jax: {                                                                                                                                    
+      inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
+      displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
+  processClass: 'mathjax',                                                                                                                        
+  ignoreClass: 'no-mathjax',                                                                                                                      
+      processEscapes: true,                                                                                                                       
+    },                                                                                                                                            
+    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                          
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</head>
+<body class="no-mathjax">
+<span class="comment"><font color="firebrick">::  From Loops to Abelian Multiplicative Groups with Zero</font></span><br><span class="comment"><font color="firebrick">:: by Micha{\l} Muzalewski and Wojciech Skaba</font></span><br><span class="comment"><font color="firebrick">:: </font></span><br><span class="comment"><font color="firebrick">:: Received July 10, 1990</font></span><br><span class="comment"><font color="firebrick">:: Copyright (c) 1990-2019 Association of Mizar Users</font></span><br><br><div></div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T1" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E1">Th1</font></span>: <a NAME="T1"><span class="comment"><font color="firebrick">:: ALGSTR_1:1</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> <br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st (  for <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">a</font> ) &amp; (  for <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b5">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b4">a</font>, <font color="Olive" title="b5">b</font>, <font color="Olive" title="b6">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b4">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b6">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b6">c</font></span>)</span> ) &amp; <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> holds <br><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font>
+</div>
+<div about="#PF1" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T1"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/1')" href="javascript:()" title="1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T2" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T2"><span class="comment"><font color="firebrick">:: ALGSTR_1:2</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> <br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font> ) &amp; (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font>, <font color="Olive" title="b5">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b4">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">c</font></span>)</span> ) holds <br><span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span>
+</div>
+<div about="#PF2" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T2"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/2')" href="javascript:()" title="2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T3" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T3"><span class="comment"><font color="firebrick">:: ALGSTR_1:3</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>   st (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font></span>)</span> ) holds <br> for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font>
+</div>
+<div about="#PF3" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T3"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/3')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/3')" href="javascript:()" title="3"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">x</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K1"><span class="kw">func</span> </a> <a href="algstr_1.html#K1" title="ALGSTR_1:func.1">Extract</a> <font color="Maroon" title="c1">x</font><span class="kw"> -&gt; </span>   <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span><span class="kw"> equals </span><a NAME="D1"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 1</font></span><br></a><font color="Maroon" title="c1">x</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:4_1"></a>
+<font color="Maroon" title="c1">x</font> is    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT1" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#K1" title="ALGSTR_1:func.1">Extract</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 1 : <br></a><span class="hide"> for <font color="Olive" title="b1">x</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  holds   <a href="algstr_1.html#K1" title="ALGSTR_1:func.1">Extract</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font>;<br></span>
+</div>
+<br><div about="#T4" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E2">Th4</font></span>: <a NAME="T4"><span class="comment"><font color="firebrick">:: ALGSTR_1:4</font></span><br></a><div class="add"> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+</div>
+<div about="#PF5" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T4"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/5')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/5')" href="javascript:()" title="5"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T5" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T5"><span class="comment"><font color="firebrick">:: ALGSTR_1:5</font></span><br></a><div class="add"> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> <span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>;<br>
+</div>
+</div>
+<br><a NAME="E7"></a><span class="lab"><font color="Green" title="E3">Lm1</font></span>: <span about="#E7" typeof="oo:Lemma">
+( (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> ) &amp; (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> ) )
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>;<br><br><a NAME="E8"></a><span class="lab"><font color="Green" title="E4">Lm2</font></span>: <span about="#E8" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF6" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E8"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/6')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/6')" href="javascript:()" title="6"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E9"></a><span class="lab"><font color="Green" title="E5">Lm3</font></span>: <span about="#E9" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF7" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/7')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/7')" href="javascript:()" title="7"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E10"></a><span class="lab"><font color="Green" title="E6">Lm4</font></span>: <span about="#E10" typeof="oo:Lemma">
+( (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">y</font> holds <br><font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  st <font color="Olive" title="b2">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> holds <br><font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> ) )
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>;<br><br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V1"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a> <span class="kw"> means </span><a NAME="D2"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 2</font></span><br></a> for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font>;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT2" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 2 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>  iff  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br><div about="#D7" typeof="oo:Definition">
+<a NAME="V2"><span class="kw">attr</span> </a><font color="Maroon" title="c1">L</font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E7">Def3</font></span>: <a NAME="D3"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 3</font></span><br></a> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>;<br>
+</div>
+<div about="#D8" typeof="oo:Definition">
+<a NAME="V3"><span class="kw">attr</span> </a><font color="Maroon" title="c1">L</font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E8">Def4</font></span>: <a NAME="D4"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 4</font></span><br></a> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT3" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E7">Def3</font></span>   defines <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 3 : <br></a><span class="hide"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>  iff  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b4">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> );<br></span>
+</div>
+<br><div about="#DT4" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E8">Def4</font></span>   defines <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 4 : <br></a><span class="hide"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  iff  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V4"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a> <span class="kw"> means </span><a NAME="D5"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 5</font></span><br></a>( <font color="Maroon" title="c1">IT</font> is  <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>  &amp; <font color="Maroon" title="c1">IT</font> is  <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>  &amp; <font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>  &amp; <font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT5" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 5 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  iff ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>  &amp; <font color="Olive" title="b1">IT</font> is  <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>  &amp; <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>  &amp; <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  ) );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC1" typeof="oo:Theorem">
+<a NAME="CC1"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>   <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>   <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>   <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:11_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  holds <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  )
+ </span>;<br>
+
+<div about="#CC2" typeof="oo:Theorem">
+<a NAME="CC2"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>   <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>   <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>   <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:11_2"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>  holds <br><font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T6" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E9">Th6</font></span>: <a NAME="T6"><span class="comment"><font color="firebrick">:: ALGSTR_1:6</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  iff ( (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b4">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">y</font> holds <br><font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> holds <br><font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> ) ) )</div>
+<div about="#PF12" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/12')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/12')" href="javascript:()" title="12"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><a NAME="E16"></a><span class="lab"><font color="Green" title="E10">Lm5</font></span>: <span about="#E16" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <span class="p1">(<span class="default"><font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">c</font></span>)</span>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>;<br><br><a NAME="E17"></a><span class="lab"><font color="Green" title="E11">Lm6</font></span>: <span about="#E17" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b1">a</font>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>;<br><br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC1" typeof="oo:Theorem">
+<a NAME="FC1"><span class="kw">cluster </span></a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> <span class="kw"> -&gt; </span> <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:13_1"></a>
+(  <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  &amp;  <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  &amp;  <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  &amp;  <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  is  <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>  )
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E7"><span class="lab"><font color="Green" title="E3">Lm1</font></span></a>, <a class="txt" href="algstr_1.html#E8"><span class="lab"><font color="Green" title="E4">Lm2</font></span></a>, <a class="txt" href="algstr_1.html#E9"><span class="lab"><font color="Green" title="E5">Lm3</font></span></a>, <a class="txt" href="algstr_1.html#E10"><span class="lab"><font color="Green" title="E6">Lm4</font></span></a>, <a class="txt" href="algstr_1.html#E16"><span class="lab"><font color="Green" title="E10">Lm5</font></span></a>, <a class="ref" href="algstr_1.html#T6" target="_self" onmouseover="rs('algstr_1/T6')" onmouseout="rh()">Th6</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC1" typeof="oo:Theorem">
+<a NAME="RC1"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:14_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  )
+ </span><div about="#PF14_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/14_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/14_1_1')" href="javascript:()" title="14_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM1"><span class="kw">mode </span>Loop<span class="kw"> is </span></a>  non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC2" typeof="oo:Theorem">
+<a NAME="RC2"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>   <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>   <a href="algstr_0.html#V7" title="ALGSTR_0:attr.7">add-cancelable</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>   <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:16_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="algstr_1.html#NM1" title="ALGSTR_1:NM.1">Loop</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  )
+ </span><div about="#PF16_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/16_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/16_1_1')" href="javascript:()" title="16_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC3" typeof="oo:Theorem">
+<a NAME="CC3"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:17_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  holds <br><font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a> 
+ </span>;<br>
+
+<div about="#CC4" typeof="oo:Theorem">
+<a NAME="CC4"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:17_2"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>  holds <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>  )
+ </span><div about="#PF17_2_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/17_2_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/17_2_1')" href="javascript:()" title="17_2_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T7" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E12">Th7</font></span>: <a NAME="T7"><span class="comment"><font color="firebrick">:: ALGSTR_1:7</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is   <a href="vectsp_1.html#NM1" title="VECTSP_1:NM.1">AddGroup</a> iff ( (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font></span>)</span> ) ) )</div>
+<div about="#PF18" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T7"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/18')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/18')" href="javascript:()" title="18"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC2" typeof="oo:Theorem">
+<a NAME="FC2"><span class="kw">cluster </span></a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> <span class="kw"> -&gt; </span> <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:19_1"></a>
+ <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>  is  <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E17"><span class="lab"><font color="Green" title="E11">Lm6</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC3" typeof="oo:Theorem">
+<a NAME="RC3"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V5" title="ALGSTR_0:attr.5">left_add-cancelable</a>   <a href="algstr_0.html#V6" title="ALGSTR_0:attr.6">right_add-cancelable</a>   <a href="algstr_0.html#V7" title="ALGSTR_0:attr.7">add-cancelable</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="algstr_1.html#V1" title="ALGSTR_1:attr.1">left_zeroed</a>   <a href="algstr_1.html#V2" title="ALGSTR_1:attr.2">add-left-invertible</a>   <a href="algstr_1.html#V3" title="ALGSTR_1:attr.3">add-right-invertible</a>   <a href="algstr_1.html#V4" title="ALGSTR_1:attr.4">Loop-like</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:20_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="vectsp_1.html#NM1" title="VECTSP_1:NM.1">AddGroup</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  )
+ </span><div about="#PF20_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/20_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/20_1_1')" href="javascript:()" title="20_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T8" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T8"><span class="comment"><font color="firebrick">:: ALGSTR_1:8</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  <a href="vectsp_1.html#NM1" title="VECTSP_1:NM.1">AddGroup</a> iff ( (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">c</font></span>)</span> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">a</font> ) ) ) <span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T7" target="_self" onmouseover="rs('algstr_1/T7')" onmouseout="rh()">Th7</a>, <a class="ref" href="rlvect_1.html#D2" onmouseover="rs('rlvect_1/D2')" onmouseout="rh()">RLVECT_1:def 2</a></span>;<br>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC3" typeof="oo:Theorem">
+<a NAME="FC3"><span class="kw">cluster </span></a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:21_1"></a>
+ not  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T9" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E13">Th9</font></span>: <a NAME="T9"><span class="comment"><font color="firebrick">:: ALGSTR_1:9</font></span><br></a><div class="add"> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+</div>
+<div about="#PF22" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/22')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/22')" href="javascript:()" title="22"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T10" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T10"><span class="comment"><font color="firebrick">:: ALGSTR_1:10</font></span><br></a><div class="add"> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> <span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T9" target="_self" onmouseover="rs('algstr_1/T9')" onmouseout="rh()">Th9</a></span>;<br>
+</div>
+</div>
+<br><a NAME="E22"></a><span class="lab"><font color="Green" title="E14">Lm7</font></span>: <span about="#E22" typeof="oo:Lemma">
+( (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> ) &amp; (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> ) )
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T9" target="_self" onmouseover="rs('algstr_1/T9')" onmouseout="rh()">Th9</a></span>;<br><br><a NAME="E23"></a><span class="lab"><font color="Green" title="E15">Lm8</font></span>: <span about="#E23" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF23" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E23"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/23')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/23')" href="javascript:()" title="23"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E24"></a><span class="lab"><font color="Green" title="E16">Lm9</font></span>: <span about="#E24" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF24" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E24"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/24')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/24')" href="javascript:()" title="24"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br><div about="#D17" typeof="oo:Definition">
+<a NAME="V5"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E17">Def6</font></span>: <a NAME="D6"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 6</font></span><br></a>( (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT6" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E17">Def6</font></span>   defines <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 6 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>  iff ( (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b4">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">notation</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br><a NAME="NV6"><span class="kw">synonym </span> <a href="algstr_0.html#V21" title="ALGSTR_0:attr.21">cancelable</a> <font color="Maroon" title="c1">L</font></a><span class="kw"> for </span> <a href="algstr_0.html#V21" title="ALGSTR_0:attr.21">mult-cancelable</a> ;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC4" typeof="oo:Theorem">
+<a NAME="RC4"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   for    <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:27_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a>  st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>  )
+ </span><div about="#PF27_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/27_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/27_1_1')" href="javascript:()" title="27_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM2"><span class="kw">mode </span>multLoop<span class="kw"> is </span></a>  non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC4" typeof="oo:Theorem">
+<a NAME="FC4"><span class="kw">cluster </span></a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> <span class="kw"> -&gt; </span> <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:29_1"></a>
+(  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>  )
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E22"><span class="lab"><font color="Green" title="E14">Lm7</font></span></a>, <a class="txt" href="algstr_1.html#E23"><span class="lab"><font color="Green" title="E15">Lm8</font></span></a>, <a class="txt" href="algstr_1.html#E24"><span class="lab"><font color="Green" title="E16">Lm9</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E26"></a><span class="lab"><font color="Green" title="E18">Lm10</font></span>: <span about="#E26" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <span class="p1">(<span class="default"><font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">c</font></span>)</span>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T9" target="_self" onmouseover="rs('algstr_1/T9')" onmouseout="rh()">Th9</a></span>;<br><br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC5" typeof="oo:Theorem">
+<a NAME="RC5"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V19" title="ALGSTR_0:attr.19">left_mult-cancelable</a>   <a href="algstr_0.html#V20" title="ALGSTR_0:attr.20">right_mult-cancelable</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>   <a href="vectsp_1.html#V3" title="VECTSP_1:attr.3">right_unital</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="vectsp_1.html#V6" title="VECTSP_1:attr.6">left_unital</a>   <a href="group_1.html#V1" title="GROUP_1:attr.1">unital</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   for    <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:30_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="algstr_1.html#NM2" title="ALGSTR_1:NM.2">multLoop</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  )
+ </span><div about="#PF30_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/30_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/30_1_1')" href="javascript:()" title="30_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM3"><span class="kw">mode </span>multGroup<span class="kw"> is </span></a>  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  <a href="algstr_1.html#NM2" title="ALGSTR_1:NM.2">multLoop</a>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<a NAME="E27"></a><span class="lab"><font color="Green" title="E19">Lm11</font></span>: <span about="#E27" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> <br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st (  for <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">a</font> ) &amp; (  for <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b5">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b5">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b4">a</font>, <font color="Olive" title="b5">b</font>, <font color="Olive" title="b6">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b4">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b5">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b6">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b6">c</font></span>)</span> ) &amp; <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> holds <br><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font>
+ </span><br><div about="#PF32" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E27"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/32')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/32')" href="javascript:()" title="32"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E28"></a><span class="lab"><font color="Green" title="E20">Lm12</font></span>: <span about="#E28" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> <br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font> ) &amp; (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font>, <font color="Olive" title="b5">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b3">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b5">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b4">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b5">c</font></span>)</span> ) holds <br><span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span>
+ </span><br><div about="#PF33" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E28"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/33')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/33')" href="javascript:()" title="33"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E29"></a><span class="lab"><font color="Green" title="E21">Lm13</font></span>: <span about="#E29" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a>   st (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font></span>)</span> ) holds <br> for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font>
+ </span><br><div about="#PF34" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E29"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/34')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/34')" href="javascript:()" title="34"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div about="#T11" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E22">Th11</font></span>: <a NAME="T11"><span class="comment"><font color="firebrick">:: ALGSTR_1:11</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is   <a href="algstr_1.html#NM3" title="ALGSTR_1:NM.3">multGroup</a> iff ( (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font></span>)</span> ) ) )</div>
+<div about="#PF35" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T11"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/35')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/35')" href="javascript:()" title="35"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC5" typeof="oo:Theorem">
+<a NAME="FC5"><span class="kw">cluster </span></a> <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> <span class="kw"> -&gt; </span> <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:36_1"></a>
+ <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E26"><span class="lab"><font color="Green" title="E18">Lm10</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E31"></a><span class="lab"><font color="Green" title="E23">Lm14</font></span>: <span about="#E31" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T9" target="_self" onmouseover="rs('algstr_1/T9')" onmouseout="rh()">Th9</a></span>;<br><br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC6" typeof="oo:Theorem">
+<a NAME="RC6"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V19" title="ALGSTR_0:attr.19">left_mult-cancelable</a>   <a href="algstr_0.html#V20" title="ALGSTR_0:attr.20">right_mult-cancelable</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>   <a href="vectsp_1.html#V3" title="VECTSP_1:attr.3">right_unital</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="vectsp_1.html#V6" title="VECTSP_1:attr.6">left_unital</a>   <a href="group_1.html#V1" title="GROUP_1:attr.1">unital</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   for    <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:37_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="algstr_1.html#NM3" title="ALGSTR_1:NM.3">multGroup</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>  )
+ </span><div about="#PF37_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/37_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/37_1_1')" href="javascript:()" title="37_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T12" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T12"><span class="comment"><font color="firebrick">:: ALGSTR_1:12</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a>  holds <br> ( <font color="Olive" title="b1">L</font> is   <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>  <a href="algstr_1.html#NM3" title="ALGSTR_1:NM.3">multGroup</a> iff ( (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">c</font></span>)</span> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> ) ) ) <span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T11" target="_self" onmouseover="rs('algstr_1/T11')" onmouseout="rh()">Th11</a>, <a class="ref" href="group_1.html#D12" onmouseover="rs('group_1/D12')" onmouseout="rh()">GROUP_1:def 12</a></span>;<br>
+</div>
+</div>
+<br><div>
+<span class="kw">notation</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">x</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>;<br><a NAME="NK2"><span class="kw">synonym </span><font color="Maroon" title="c2">x</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a> </a><span class="kw"> for </span> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">/</a> <font color="Maroon" title="c2">x</font>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#NV6" title="ALGSTR_1:NV.6">cancelable</a>   <a href="algstr_1.html#V5" title="ALGSTR_1:attr.5">invertible</a>   <a href="algstr_0.html#L4" title="ALGSTR_0:struct.4">multLoopStr</a> ;<br>
+<div about="#CC5" typeof="oo:Theorem">
+<a NAME="CC5"><span class="kw">cluster </span></a> <span class="kw"> -&gt; </span> <a href="algstr_0.html#V23" title="ALGSTR_0:attr.23">left_invertible</a>   for    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">L</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:39_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font> holds  <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V23" title="ALGSTR_0:attr.23">left_invertible</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#D6" target="_self" onmouseover="rs('algstr_1/D6')" onmouseout="rh()">Def6</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T13" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T13"><span class="comment"><font color="firebrick">:: ALGSTR_1:13</font></span><br></a><div class="add"> for <font color="Olive" title="b1">G</font> being   <a href="algstr_1.html#NM3" title="ALGSTR_1:NM.3">multGroup</a><br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">G</font> holds <br> ( <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_1.html#NK2" title="ALGSTR_1:NK.2">"</a></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">G</font> &amp; <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_1.html#NK2" title="ALGSTR_1:NK.2">"</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">G</font> )</div>
+<div about="#PF40" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T13"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/40')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/40')" href="javascript:()" title="40"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><span class="kw">canceled;</span><br><br><div class="comment mathjax"><font color="firebrick">:: definition<br>  
+  
+::   let L be invertible cancelable non empty multLoopStr;<br>  
+::   let a, b be Element of L;<br>  
+::   func a/b -&gt; Element of L equals<br>  
+::   a*(b");<br>  
+::   correctness;<br>  
+:: end;<br>  
+  
+::$CD<br>  
+  
+</font></div>
+<div>
+<span class="kw">definition</span><div class="add">
+<div about="#D0" typeof="oo:Definition">
+<a NAME="K2"><span class="kw">func</span> </a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <span class="kw"> -&gt; </span>  <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> <span class="kw"> equals </span><a NAME="D7"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 7</font></span><br></a> <a href="algstr_0.html#G5" title="ALGSTR_0:aggr.5">multLoopStr_0</a>(# <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>,<a href="binop_2.html#K11" title="BINOP_2:func.11">multreal</a>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (1,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span> #);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br> <a href="algstr_0.html#G5" title="ALGSTR_0:aggr.5">multLoopStr_0</a>(# <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>,<a href="binop_2.html#K11" title="BINOP_2:func.11">multreal</a>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (1,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span> #) is   <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> </span>;<br></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT7" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 7 : <br></a><span class="hide"> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#G5" title="ALGSTR_0:aggr.5">multLoopStr_0</a>(# <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>,<a href="binop_2.html#K11" title="BINOP_2:func.11">multreal</a>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span>,<span class="p1">(<span class="default"><a href="subset_1.html#K10" title="SUBSET_1:func.10">In</a> (1,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>)</span>)</span> #);<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC6" typeof="oo:Theorem">
+<a NAME="FC6"><span class="kw">cluster </span></a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:42_1"></a>
+ not  <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="lab"><font color="Green" title="E24">Lm15</font></span>: <a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="43"><span class="kw">now </span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">e</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  st <font color="Olive" title="b2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 holds <br>( <font color="Olive" title="b1">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font> &amp; <font color="Olive" title="b2">e</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font> )</span></a><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">x</font>, <font color="Maroon" title="c2">e</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 implies ( <font color="Maroon" title="c1">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> &amp; <font color="Maroon" title="c2">e</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> ) )</span><br><span class="kw">reconsider </span><font color="Maroon" title="c3">a</font> = <font color="Maroon" title="c1">x</font> as   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a> ;<br><span class="kw">assume </span><a NAME="E2:43"></a><span class="lab"><font color="Green" title="E25">A1</font></span>: 
+<font color="Maroon" title="c2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c2">e</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> &amp; <font color="Maroon" title="c2">e</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> )</span><br><span class="kw">hence </span><font color="Maroon" title="c1">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c2">e</font> = 
+<font color="Maroon" title="c3">a</font> <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> 1
+<span class="kw">by</span> <span class="lab"><a class="ref" href="binop_2.html#D11" onmouseover="rs('binop_2/D11')" onmouseout="rh()">BINOP_2:def 11</a></span>
+<br>.= 
+<font color="Maroon" title="c1">x</font>
+
+;<br> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">e</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font></span><br><span class="kw">thus </span><font color="Maroon" title="c2">e</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c1">x</font> = 
+1 <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> <font color="Maroon" title="c3">a</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:43"><span class="lab"><font color="Green" title="E25">A1</font></span></a>, <a class="ref" href="binop_2.html#D11" onmouseover="rs('binop_2/D11')" onmouseout="rh()">BINOP_2:def 11</a></span>
+<br>.= 
+<font color="Maroon" title="c1">x</font>
+
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC7" typeof="oo:Theorem">
+<a NAME="FC7"><span class="kw">cluster </span></a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <span class="kw"> -&gt; </span> <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:44_1"></a>
+ <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E35"><span class="lab"><font color="Green" title="E24">Lm15</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E36"></a><span class="lab"><font color="Green" title="E25">Lm16</font></span>: <span about="#E36" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds <br> ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF45" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E36"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/45')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/45')" href="javascript:()" title="45"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E37"></a><span class="lab"><font color="Green" title="E26">Lm17</font></span>: <span about="#E37" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds <br> ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+ </span><br><div about="#PF46" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E37"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/46')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/46')" href="javascript:()" title="46"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E38"></a><span class="lab"><font color="Green" title="E27">Lm18</font></span>: <span about="#E38" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> &amp; <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">y</font> holds <br><font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font>
+ </span><br><div about="#PF47" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E38"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/47')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/47')" href="javascript:()" title="47"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E39"></a><span class="lab"><font color="Green" title="E28">Lm19</font></span>: <span about="#E39" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> &amp; <font color="Olive" title="b2">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> holds <br><font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font>
+ </span><br><div about="#PF48" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E39"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/48')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/48')" href="javascript:()" title="48"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E40"></a><span class="lab"><font color="Green" title="E29">Lm20</font></span>: <span about="#E40" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>
+ </span><br><div about="#PF49" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E40"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/49')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/49')" href="javascript:()" title="49"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E41"></a><span class="lab"><font color="Green" title="E30">Lm21</font></span>: <span about="#E41" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>
+ </span><br><div about="#PF50" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E41"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/50')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/50')" href="javascript:()" title="50"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br><div about="#D31" typeof="oo:Definition">
+<a NAME="V6"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E31">Def8</font></span>: <a NAME="D8"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 8</font></span><br></a>( (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font> holds <br> ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font> holds <br> ex <font color="Olive" title="b3">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT8" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E31">Def8</font></span>   defines <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 8 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>  iff ( (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font> holds <br> ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font> holds <br> ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b4">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V7"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a> <span class="kw"> means </span><a NAME="D9"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 9</font></span><br></a>( <font color="Maroon" title="c1">IT</font> is  <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>  &amp; <font color="Maroon" title="c1">IT</font> is  <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>  &amp; (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font> ) &amp; (  for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">IT</font> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT9" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 9 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  iff ( <font color="Olive" title="b1">IT</font> is  <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>  &amp; <font color="Olive" title="b1">IT</font> is  <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>  &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">IT</font> ) ) );<br></span>
+</div>
+<br><div about="#T14" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T14"><span class="comment"><font color="firebrick">:: ALGSTR_1:14</font></span><br></a><div class="add"><span class="kw">canceled; </span></div>
+</div>
+<br><div about="#T15" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T15"><span class="comment"><font color="firebrick">:: ALGSTR_1:15</font></span><br></a><div class="add"><span class="kw">canceled; </span></div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">::$CT 2<br>  
+  
+</font></div>
+<div about="#T16" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E32">Th14</font></span>: <a NAME="T16"><span class="comment"><font color="firebrick">:: ALGSTR_1:16</font></span><br></a><div class="add"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a>  holds <br> ( <font color="Olive" title="b1">L</font> is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  iff ( (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> holds <br> ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> holds <br> ex <font color="Olive" title="b4">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> st <font color="Olive" title="b4">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> &amp; <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">y</font> holds <br><font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> &amp; <font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> holds <br><font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) &amp; (  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> ) ) )</div>
+<div about="#PF55" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T16"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/55')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/55')" href="javascript:()" title="55"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC6" typeof="oo:Theorem">
+<a NAME="CC6"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   for    <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:56_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  holds <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>  )
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC7" typeof="oo:Theorem">
+<a NAME="RC7"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>   <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>   for    <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:57_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a>  st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  &amp;  not <font color="Olive">b<sub>1</sub></font> is  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>  )
+ </span><div about="#PF57_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/57_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/57_1_1')" href="javascript:()" title="57_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM4"><span class="kw">mode </span>multLoop_0<span class="kw"> is </span></a>  non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC8" typeof="oo:Theorem">
+<a NAME="FC8"><span class="kw">cluster </span></a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <span class="kw"> -&gt; </span> <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:59_1"></a>
+(  <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  &amp;  <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  is  <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>  )
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E36"><span class="lab"><font color="Green" title="E25">Lm16</font></span></a>, <a class="txt" href="algstr_1.html#E37"><span class="lab"><font color="Green" title="E26">Lm17</font></span></a>, <a class="txt" href="algstr_1.html#E38"><span class="lab"><font color="Green" title="E27">Lm18</font></span></a>, <a class="txt" href="algstr_1.html#E39"><span class="lab"><font color="Green" title="E28">Lm19</font></span></a>, <a class="txt" href="algstr_1.html#E40"><span class="lab"><font color="Green" title="E29">Lm20</font></span></a>, <a class="txt" href="algstr_1.html#E41"><span class="lab"><font color="Green" title="E30">Lm21</font></span></a>, <a class="ref" href="algstr_1.html#T16" target="_self" onmouseover="rs('algstr_1/T16')" onmouseout="rh()">Th14</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E47"></a><span class="lab"><font color="Green" title="E33">Lm22</font></span>: <span about="#E47" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds  <span class="p1">(<span class="default"><font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">b</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">c</font></span>)</span>
+ </span><br><div about="#PF60" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E47"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/60')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/60')" href="javascript:()" title="60"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC8" typeof="oo:Theorem">
+<a NAME="RC8"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="algstr_0.html#V30" title="ALGSTR_0:attr.30">almost_left_cancelable</a>   <a href="algstr_0.html#V31" title="ALGSTR_0:attr.31">almost_right_cancelable</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="vectsp_1.html#V3" title="VECTSP_1:attr.3">right_unital</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="vectsp_1.html#V6" title="VECTSP_1:attr.6">left_unital</a>   <a href="group_1.html#V1" title="GROUP_1:attr.1">unital</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>   for    <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:61_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="algstr_1.html#NM4" title="ALGSTR_1:NM.4">multLoop_0</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  &amp;  not <font color="Olive">b<sub>1</sub></font> is  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>  )
+ </span><div about="#PF61_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/61_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/61_1_1')" href="javascript:()" title="61_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM5"><span class="kw">mode </span>multGroup_0<span class="kw"> is </span></a>  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  <a href="algstr_1.html#NM4" title="ALGSTR_1:NM.4">multLoop_0</a>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC9" typeof="oo:Theorem">
+<a NAME="FC9"><span class="kw">cluster </span></a> <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> <span class="kw"> -&gt; </span> <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:63_1"></a>
+ <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a>  is  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="algstr_1.html#E47"><span class="lab"><font color="Green" title="E33">Lm22</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E48"></a><span class="lab"><font color="Green" title="E34">Lm23</font></span>: <span about="#E48" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_1.html#K2" title="ALGSTR_1:func.2">multEX_0</a> holds  <font color="Olive" title="b1">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b1">a</font>
+ </span><br><div about="#PF64" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E48"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/64')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/64')" href="javascript:()" title="64"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC9" typeof="oo:Theorem">
+<a NAME="RC9"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V6" title="STRUCT_0:attr.6">degenerated</a>   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>   <a href="algstr_0.html#V30" title="ALGSTR_0:attr.30">almost_left_cancelable</a>   <a href="algstr_0.html#V31" title="ALGSTR_0:attr.31">almost_right_cancelable</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="vectsp_1.html#V3" title="VECTSP_1:attr.3">right_unital</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="vectsp_1.html#V6" title="VECTSP_1:attr.6">left_unital</a>   <a href="group_1.html#V1" title="GROUP_1:attr.1">unital</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_1.html#V7" title="ALGSTR_1:attr.7">multLoop_0-like</a>   for    <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:65_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="algstr_1.html#NM5" title="ALGSTR_1:NM.5">multGroup_0</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V29" title="ALGSTR_0:attr.29">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>  )
+ </span><div about="#PF65_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/65_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/65_1_1')" href="javascript:()" title="65_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">notation</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">x</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>;<br><a NAME="NK4"><span class="kw">synonym </span><font color="Maroon" title="c2">x</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a> </a><span class="kw"> for </span> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">/</a> <font color="Maroon" title="c2">x</font>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">x</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>;<br><span class="kw">assume </span><a NAME="E1:67"></a><span class="lab"><font color="Green" title="E35">A1</font></span>: 
+<font color="Maroon" title="c2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">L</font>
+ ;<br><div about="#D35" typeof="oo:Definition">
+<span class="kw">redefine </span><span class="kw">func</span>  <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">/</a> <font color="Maroon" title="c2">x</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E35">Def10</font></span>: <a NAME="D10"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 10</font></span><br></a><span class="kw">it</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">L</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">compatibility</span> </a><span class="hide"><br><a NAME="E1:67_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">L</font> holds <br> ( <font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">x</font> <a href="algstr_1.html#NK2" title="ALGSTR_1:NK.2">"</a>  iff <font color="Olive">b<sub>1</sub></font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">L</font> )
+ </span><div about="#PF67_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/67_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/67_1_1')" href="javascript:()" title="67_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT10" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E35">Def10</font></span>   defines <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 10 : <br></a><span class="hide"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> <br>  for <font color="Olive" title="b2">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font>  st <font color="Olive" title="b2">x</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">L</font> holds <br> for <font color="Olive">b<sub>3</sub></font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">L</font> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">x</font> <a href="algstr_1.html#NK2" title="ALGSTR_1:NK.2">"</a>  iff <font color="Olive">b<sub>3</sub></font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">L</font> );<br></span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T17" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T17"><span class="comment"><font color="firebrick">:: ALGSTR_1:17</font></span><br></a><div class="add"> for <font color="Olive" title="b1">G</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> <br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">G</font>  st <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">G</font> holds <br>( <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">G</font> &amp; <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">a</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Olive" title="b1">G</font> )</div>
+<div about="#PF68" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T17"></span><a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/68')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/68')" href="javascript:()" title="68"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">L</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K3"><span class="kw">func</span> </a><font color="Maroon" title="c2">a</font> <a href="algstr_1.html#K3" title="ALGSTR_1:func.3">/</a> <font color="Maroon" title="c3">b</font><span class="kw"> -&gt; </span>  <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font><span class="kw"> equals </span><a NAME="D11"><span class="comment"><font color="firebrick">:: ALGSTR_1:def 11</font></span><br></a><font color="Maroon" title="c2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">b</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a></span>)</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><font color="Maroon" title="c2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">b</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a></span>)</span> is   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">L</font></span>;<br></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT11" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#K3" title="ALGSTR_1:func.3">/</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 11 : <br></a><span class="hide"> for <font color="Olive" title="b1">L</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V32" title="ALGSTR_0:attr.32">almost_cancelable</a>   <a href="algstr_1.html#V6" title="ALGSTR_1:attr.6">almost_invertible</a>   <a href="algstr_0.html#L5" title="ALGSTR_0:struct.5">multLoopStr_0</a> <br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">L</font> holds  <font color="Olive" title="b2">a</font> <a href="algstr_1.html#K3" title="ALGSTR_1:func.3">/</a> <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">b</font> <a href="algstr_0.html#K9" title="ALGSTR_0:func.9">"</a></span>)</span>;<br></span>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">:: from SCMRING1, 2010,02.06, A.T.<br>  
+  
+</font></div>
+<div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC7" typeof="oo:Theorem">
+<a NAME="CC7"><span class="kw">cluster </span></a>1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>  <span class="kw"> -&gt; </span>1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>   <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:70_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being  1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>  )
+ </span><div about="#PF70_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/70_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/70_1_1')" href="javascript:()" title="70_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+
+<div about="#CC8" typeof="oo:Theorem">
+<a NAME="CC8"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="vectsp_1.html#V1" title="VECTSP_1:attr.1">right-distributive</a>   <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>   for    <a href="algstr_0.html#L6" title="ALGSTR_0:struct.6">doubleLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:70_2"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L6" title="ALGSTR_0:struct.6">doubleLoopStr</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  holds <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="vectsp_1.html#V4" title="VECTSP_1:attr.4">well-unital</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="vectsp_1.html#V1" title="VECTSP_1:attr.1">right-distributive</a>  )
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC9" typeof="oo:Theorem">
+<a NAME="CC9"><span class="kw">cluster </span></a>1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>  <span class="kw"> -&gt; </span>1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>   <a href="group_1.html#V2" title="GROUP_1:attr.2">Group-like</a>   <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>   <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>   for    <a href="algstr_0.html#L3" title="ALGSTR_0:struct.3">multMagma</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:71_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being  1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>   <a href="algstr_0.html#L3" title="ALGSTR_0:struct.3">multMagma</a>  holds <br> ( <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V2" title="GROUP_1:attr.2">Group-like</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V3" title="GROUP_1:attr.3">associative</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="group_1.html#V5" title="GROUP_1:attr.5">commutative</a>  )
+ </span><div about="#PF71_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/algstr_1/71_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/algstr_1/71_1_1')" href="javascript:()" title="71_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">given </span><font color="Maroon" title="c2">i</font>, <font color="Maroon" title="c3">j</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <span class="kw"> such that </span><a NAME="E2:38"/><span class="lab"><font color="Green" title="E35">A1</font></span>: 
+<span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c2">i</font>,<font color="Maroon" title="c3">j</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> is   <a href="ordinal1.html#NM3" title="ORDINAL1:NM.3">Ordinal</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E3:38"/>
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c2">i</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>,<span class="p2"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><font color="Maroon" title="c2">i</font>,<font color="Maroon" title="c3">j</font></span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span></span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:38"><span class="lab"><font color="Green" title="E35">A1</font></span></a>, <a class="ref" href="ordinal3.html#T8" onmouseover="rs('ordinal3/T8')" onmouseout="rh()">ORDINAL3:8</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:38"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D2" onmouseover="rs('tarski/D2')" onmouseout="rh()">TARSKI:def 2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

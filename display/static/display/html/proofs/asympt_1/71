@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<div class="add">
+
+5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 5 = 
+5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <span class="p1">(<span class="default">4 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span>
+
+<br/>.= 
+<span class="p1">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 4</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p1">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T27" onmouseover="rs('power/T27')" onmouseout="rh()">POWER:27</a></span>
+<br/>.= 
+<span class="p1">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <span class="p2">(<span class="default">3 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 3</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p2">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T27" onmouseover="rs('power/T27')" onmouseout="rh()">POWER:27</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <span class="p3">(<span class="default">2 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 2</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p3">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T27" onmouseover="rs('power/T27')" onmouseout="rh()">POWER:27</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <span class="p4">(<span class="default">1 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default"><span class="p4">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p4">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span></span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T27" onmouseover="rs('power/T27')" onmouseout="rh()">POWER:27</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default"><span class="p4">(<span class="default">5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default">5 <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> 5
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T25" onmouseover="rs('power/T25')" onmouseout="rh()">POWER:25</a></span>
+<br/>.= 
+3125
+
+;<br/>
+<span class="kw">hence </span><a NAME="E2:71"/>
+5 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> 5 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 3125
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

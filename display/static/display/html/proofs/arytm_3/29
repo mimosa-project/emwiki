@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">a</font> be   <a href="ordinal1.html#V7" title="ORDINAL1:attr.7">natural</a>  <a href="ordinal1.html#NM3" title="ORDINAL1:NM.3">Ordinal</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="arytm_3.html#K4" title="ARYTM_3:func.4">RED</a> (<font color="Maroon" title="c1">a</font>,1) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">a</font> &amp;  <a href="arytm_3.html#K4" title="ARYTM_3:func.4">RED</a> (1,<font color="Maroon" title="c1">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 )</span><br/>
+
+<a NAME="E1:29"/>
+<font color="Maroon" title="c1">a</font>,1 <a href="arytm_3.html#R1" title="ARYTM_3:pred.1">are_coprime</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_3.html#T2" target="_self" onmouseover="rs('arytm_3/T2')" onmouseout="rh()">Th2</a></span>;<br/>
+<a NAME="E2:29"/><span class="kw">then </span>
+<font color="Maroon" title="c1">a</font> <a href="arytm_3.html#K3" title="ARYTM_3:func.3">hcf</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_3.html#T20" target="_self" onmouseover="rs('arytm_3/T20')" onmouseout="rh()">Th20</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:29"/>
+(  <a href="arytm_3.html#K4" title="ARYTM_3:func.4">RED</a> (<font color="Maroon" title="c1">a</font>,1) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">a</font> &amp;  <a href="arytm_3.html#K4" title="ARYTM_3:func.4">RED</a> (1,<font color="Maroon" title="c1">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal3.html#T71" onmouseover="rs('ordinal3/T71')" onmouseout="rh()">ORDINAL3:71</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">A</font>, <font color="Maroon" title="c2">B1</font>, <font color="Maroon" title="c3">B2</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">B1</font> <a href="afinsq_2.html#R1" title="AFINSQ_2:pred.1">&lt;N&lt;</a> <font color="Maroon" title="c3">B2</font> implies <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font> <a href="afinsq_2.html#R1" title="AFINSQ_2:pred.1">&lt;N&lt;</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:43"/><span class="lab"><font color="Green" title="E25">A1</font></span>: 
+<font color="Maroon" title="c2">B1</font> <a href="afinsq_2.html#R1" title="AFINSQ_2:pred.1">&lt;N&lt;</a> <font color="Maroon" title="c3">B2</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font> <a href="afinsq_2.html#R1" title="AFINSQ_2:pred.1">&lt;N&lt;</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font></span><br/>
+
+<a NAME="E2:43"/>
+ for <font color="Olive" title="b1">n</font>, <font color="Olive" title="b2">m</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b1">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font> &amp; <font color="Olive" title="b2">m</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font> holds <br/><font color="Olive" title="b1">n</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Olive" title="b2">m</font>
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="43_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c4">n</font>, <font color="Maroon" title="c5">m</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font> &amp; <font color="Maroon" title="c5">m</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font> implies <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">m</font> )</span><br/>
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:43_1"/><span class="lab"><font color="Green" title="E26">A2</font></span>: 
+<font color="Maroon" title="c4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font>
+ <span class="kw">and </span><br/><a NAME="E2:43_1"/><span class="lab"><font color="Green" title="E27">A3</font></span>: 
+<font color="Maroon" title="c5">m</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">m</font></span><br/>
+
+<a NAME="E3:43_1"/><span class="lab"><font color="Green" title="E28">A4</font></span>: 
+<font color="Maroon" title="c5">m</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">B2</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:43_1"><span class="lab"><font color="Green" title="E27">A3</font></span></a>, <a class="ref" href="xboole_0.html#D4" onmouseover="rs('xboole_0/D4')" onmouseout="rh()">XBOOLE_0:def 4</a></span>;<br/>
+<a NAME="E4:43_1"/>
+<font color="Maroon" title="c4">n</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">B1</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:43_1"><span class="lab"><font color="Green" title="E26">A2</font></span></a>, <a class="ref" href="xboole_0.html#D4" onmouseover="rs('xboole_0/D4')" onmouseout="rh()">XBOOLE_0:def 4</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:43_1"/>
+<font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">m</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:43"><span class="lab"><font color="Green" title="E25">A1</font></span></a>, <a class="txt" href="#E3:43_1"><span class="lab"><font color="Green" title="E28">A4</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E3:43"/>
+<font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c2">B1</font> <a href="afinsq_2.html#R1" title="AFINSQ_2:pred.1">&lt;N&lt;</a> <font color="Maroon" title="c1">A</font> <a href="xboole_0.html#K3" title="XBOOLE_0:func.3">/\</a> <font color="Maroon" title="c3">B2</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

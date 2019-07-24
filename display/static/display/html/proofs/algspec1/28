@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">f1</font>, <font color="Maroon" title="c2">f2</font> be   <a href="funct_1.html#NM1" title="FUNCT_1:NM.1">Function</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">f1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c2">f2</font> implies  for <font color="Olive" title="b1">g1</font> being    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c1">f1</font>  ex <font color="Olive" title="b2">g2</font> being    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font> st <font color="Olive" title="b1">g1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Olive" title="b2">g2</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:28"/><span class="lab"><font color="Green" title="E22">A1</font></span>: 
+<font color="Maroon" title="c1">f1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c2">f2</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">g1</font> being    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c1">f1</font>  ex <font color="Olive" title="b2">g2</font> being    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font> st <font color="Olive" title="b1">g1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Olive" title="b2">g2</font></span><br/>
+
+<a NAME="E2:28"/><span class="lab"><font color="Green" title="E23">A2</font></span>: 
+<font color="Maroon" title="c2">f2</font> <a href="funct_4.html#K1" title="FUNCT_4:func.1">+*</a> <font color="Maroon" title="c1">f1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">f2</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:28"><span class="lab"><font color="Green" title="E22">A1</font></span></a>, <a class="ref" href="funct_4.html#T98" onmouseover="rs('funct_4/T98')" onmouseout="rh()">FUNCT_4:98</a></span>;<br/>
+<span class="kw">set </span><font color="Maroon" title="c3">g</font> =  the    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font>;<br/>
+<span class="kw">let </span><font color="Maroon" title="c4">g1</font> be    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c1">f1</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">g2</font> being    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font> st <font color="Maroon" title="c4">g1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Olive" title="b1">g2</font></span><br/>
+
+<a NAME="E3:28"/>
+<font color="Maroon" title="c1">f1</font> <a href="partfun1.html#R1" title="PARTFUN1:pred.1">tolerates</a> <font color="Maroon" title="c2">f2</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:28"><span class="lab"><font color="Green" title="E22">A1</font></span></a>, <a class="ref" href="partfun1.html#T52" onmouseover="rs('partfun1/T52')" onmouseout="rh()">PARTFUN1:52</a></span>;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c5">g2</font> =  the    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font> <a href="funct_4.html#K1" title="FUNCT_4:func.1">+*</a> <font color="Maroon" title="c4">g1</font> as    <a href="algspec1.html#M1" title="ALGSPEC1:mode.1">rng-retract</a> of <font color="Maroon" title="c2">f2</font> <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:28"><span class="lab"><font color="Green" title="E23">A2</font></span></a>, <a class="ref" href="algspec1.html#T27" target="_self" onmouseover="rs('algspec1/T27')" onmouseout="rh()">Th27</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c5">g2</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">g1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c5">g2</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E5:28"/>
+<font color="Maroon" title="c4">g1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c5">g2</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="funct_4.html#T25" onmouseover="rs('funct_4/T25')" onmouseout="rh()">FUNCT_4:25</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

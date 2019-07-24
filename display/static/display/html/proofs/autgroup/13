@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">G</font> be   <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a>  <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font><br/>  for <font color="Olive" title="b2">g</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autgroup.html#K3" title="AUTGROUP:func.3">AutGroup</a> <font color="Maroon" title="c1">G</font></span>)</span>  st <font color="Olive" title="b1">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">g</font> holds <br/><font color="Olive" title="b1">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">f</font> be    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">g</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autgroup.html#K3" title="AUTGROUP:func.3">AutGroup</a> <font color="Maroon" title="c1">G</font></span>)</span>  st <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">g</font> holds <br/><font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c3">g</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autgroup.html#K3" title="AUTGROUP:func.3">AutGroup</a> <font color="Maroon" title="c1">G</font></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font> implies <font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a>  )</span><br/>
+
+
+
+
+
+<span class="kw">consider </span><font color="Maroon" title="c4">g1</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font><span class="kw"> such that </span><br/><a NAME="E2:13"/><span class="lab"><font color="Green" title="E13">A1</font></span>: 
+<font color="Maroon" title="c4">g1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> 
+ ;<br/>
+<span class="kw">assume </span><a NAME="E3:13"/>
+<font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> </span><br/>
+
+<a NAME="E4:13"/><span class="kw">then </span>
+<font color="Maroon" title="c4">g1</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Maroon" title="c3">g</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:13"><span class="lab"><font color="Green" title="E13">A1</font></span></a>, <a class="ref" href="autgroup.html#D2" target="_self" onmouseover="rs('autgroup/D2')" onmouseout="rh()">Def2</a></span>;<br/>
+<a NAME="E5:13"/><span class="kw">then </span>
+<font color="Maroon" title="c4">g1</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="group_1.html#K1" title="GROUP_1:func.1">1_</a> <span class="p1">(<span class="default"><a href="autgroup.html#K3" title="AUTGROUP:func.3">AutGroup</a> <font color="Maroon" title="c1">G</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="group_1.html#D5" onmouseover="rs('group_1/D5')" onmouseout="rh()">GROUP_1:def 5</a></span>;<br/>
+<a NAME="E6:13"/><span class="kw">then </span><span class="lab"><font color="Green" title="E14">A2</font></span>: 
+<font color="Maroon" title="c4">g1</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Maroon" title="c2">f</font> <a href="funct_2.html#R2" title="FUNCT_2:pred.2">=</a>  <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">G</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#T9" target="_self" onmouseover="rs('autgroup/T9')" onmouseout="rh()">Th9</a></span>;<br/>
+<a NAME="E7:13"/>
+<font color="Maroon" title="c2">f</font> is   <a href="group_6.html#NM2" title="GROUP_6:NM.2">Homomorphism</a> of <font color="Maroon" title="c1">G</font>,<font color="Maroon" title="c1">G</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#D1" target="_self" onmouseover="rs('autgroup/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E8:13"/><span class="kw">then </span><span class="lab"><font color="Green" title="E15">A3</font></span>: 
+<font color="Maroon" title="c2">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#D1" target="_self" onmouseover="rs('autgroup/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+ <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Maroon" title="c2">f</font> = 
+ <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c2">f</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="autgroup.html#E8"><span class="lab"><font color="Green" title="E6">Lm3</font></span></a></span>
+<br/>.= 
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">G</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="autgroup.html#E8"><span class="lab"><font color="Green" title="E6">Lm3</font></span></a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E10:13"/>
+<font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:13"><span class="lab"><font color="Green" title="E13">A1</font></span></a>, <a class="txt" href="#E8:13"><span class="lab"><font color="Green" title="E15">A3</font></span></a>, <a class="txt" href="#E6:13"><span class="lab"><font color="Green" title="E14">A2</font></span></a>, <a class="ref" href="funct_2.html#T30" onmouseover="rs('funct_2/T30')" onmouseout="rh()">FUNCT_2:30</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

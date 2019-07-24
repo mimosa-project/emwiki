@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="seq_1.html#NM1" title="SEQ_1:NM.1">Real_Sequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">f</font> is  <a href="asympt_0.html#V3" title="ASYMPT_0:attr.3">positive</a>  implies <font color="Maroon" title="c3">f</font> is  <a href="asympt_0.html#V4" title="ASYMPT_0:attr.4">eventually-positive</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:8_1_1"/><span class="lab"><font color="Green" title="E6">A1</font></span>: 
+<font color="Maroon" title="c3">f</font> is  <a href="asympt_0.html#V3" title="ASYMPT_0:attr.3">positive</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">f</font> is  <a href="asympt_0.html#V4" title="ASYMPT_0:attr.4">eventually-positive</a> </span><br/>
+
+<span class="kw">take </span>
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="asympt_0.html#D4" target="_self" onmouseover="rs('asympt_0/D4')" onmouseout="rh()">ASYMPT_0:def 4</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Olive" title="b1">n</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  holds <br/><font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> </span><br/>
+
+<span class="kw">let </span><font color="Maroon" title="c4">n</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  implies <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E2:8_1_1"/>
+<font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E3:8_1_1"/>
+<font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">n</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:8_1_1"><span class="lab"><font color="Green" title="E6">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

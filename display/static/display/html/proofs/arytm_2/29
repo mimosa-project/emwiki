@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">x</font> be    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="arytm_2.html#K4" title="ARYTM_2:func.4">GLUED</a> <span class="p1">(<span class="default"><a href="arytm_2.html#K3" title="ARYTM_2:func.3">DEDEKIND_CUT</a> <font color="Maroon" title="c3">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">x</font></span><br/>
+
+<a NAME="E1:29"/>
+ <a href="arytm_2.html#K3" title="ARYTM_2:func.3">DEDEKIND_CUT</a> <span class="p1">(<span class="default"><a href="arytm_2.html#K4" title="ARYTM_2:func.4">GLUED</a> <span class="p2">(<span class="default"><a href="arytm_2.html#K3" title="ARYTM_2:func.3">DEDEKIND_CUT</a> <font color="Maroon" title="c3">x</font></span>)</span></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="arytm_2.html#K3" title="ARYTM_2:func.3">DEDEKIND_CUT</a> <font color="Maroon" title="c3">x</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="arytm_2.html#E21"><span class="lab"><font color="Green" title="E15">Lm12</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:29"/>
+ <a href="arytm_2.html#K4" title="ARYTM_2:func.4">GLUED</a> <span class="p1">(<span class="default"><a href="arytm_2.html#K3" title="ARYTM_2:func.3">DEDEKIND_CUT</a> <font color="Maroon" title="c3">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">x</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="arytm_2.html#E32"><span class="lab"><font color="Green" title="E26">Lm22</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

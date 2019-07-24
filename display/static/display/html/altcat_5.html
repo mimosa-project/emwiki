@@ -1,0 +1,768 @@
+<html prefix="oo: http://omdoc.org/ontology# owl: http://www.w3.org/2002/07/owl#">
+<style type="text/css">
+div { padding: 0 0 0 0; margin: 0 0 0 0; } 
+div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div.box { border-width:thin; border-color:blue; border-style:solid; }
+p { margin: 0 0 0 0; } 
+body {font-family: monospace; margin: 0px;}
+a {text-decoration:none} a:hover { color: red; } 
+a.ref { font-size:x-small; }
+a.ref:link { color:green; } 
+a.ref:hover { color: red; } 
+a.txt:link { color:black; } 
+a.txt:hover { color: red; } 
+.wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+.wikiactions li { display: inline; padding: .2em .4em; }
+.wikiactions a {text-decoration:underline;} 
+span.kw {font-weight: bold; }
+span.lab {font-style: italic; }
+span.comment {font-style: italic; }
+span.hide { display: none; }
+span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+span.p2:hover { color : inherit; background-color : #FFCACA; }
+span.p3:hover { color : inherit; background-color : #FFFFBA; }
+span.p4:hover { color : inherit; background-color : #CACAFF; }
+span.p5:hover { color : inherit; background-color : #CAFFCA; }
+span.p0:hover { color : inherit; background-color : #FFBAFF; }
+.default { background-color: white; color: black; } 
+.default:hover { background-color: white; color: black; }
+#tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+:target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ALTCAT_5:  Products in Categories without Uniqueness of { \bf cod } and { \bf dom }</title>
+<script type="text/javascript">
+<!-- 
+
+// for saving in rs
+var mizhtm='';
+function hs(obj)
+{
+// document.getElementById('myimage').nextSibling.style.display = 'block';
+if (obj.nextSibling.style.display == 'inline')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'inline'; }
+ else { obj.nextSibling.style.display = 'inline';  }}
+return false;
+}
+
+function hs2(obj)
+{
+if (obj.nextSibling.style.display == 'block')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'block'; }
+ else { obj.nextSibling.style.display = 'none';  }}
+return false;
+}
+function hsNdiv(obj)
+{
+var ndiv = obj;
+while (ndiv.nextSibling.nodeName != 'DIV') { ndiv = ndiv.nextSibling; }
+return hs2(ndiv);
+}
+
+// remote request cache - for each url its http_request.responseText
+var rrCache= {};
+rrCache[0]='';
+
+// explorer7 implements XMLHttpRequest in some strange way
+// optional tooltip is passed to insertRequest
+function makeRequest(obj,url,tooltip) 
+{
+    // if the result is cached, insert it now
+    if (rrCache[url] != null)
+    {
+	insertRequest(obj,null,url,tooltip);
+    }
+    else
+    {
+        var http_request = false;
+        if (window.XMLHttpRequest && !(window.ActiveXObject)) { // Mozilla, Safari,...
+            http_request = new XMLHttpRequest();
+            if (http_request.overrideMimeType) {
+                http_request.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                http_request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    http_request = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e) {}
+            }
+        }
+        if (!http_request) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        http_request.onreadystatechange = function() { insertRequest(obj,http_request,url,tooltip); };
+        http_request.open('GET', url, true);
+        http_request.send(null);
+    }
+}
+// commented the 200 state to have local requests too
+// if tooltip nonnil, obj.innerHTML is changed, and the result is put in rrCache
+function insertRequest(obj,http_request,url,tooltip) 
+{
+    var respText = null;
+    if(http_request == null) // no request done, we are called with cached result
+    {
+	respText = rrCache[url];
+    }
+    else { if (http_request.readyState == 4) { 
+	respText = http_request.responseText; 
+    }}
+
+    if (respText != null) 
+    {
+//            if (http_request.status == 200) {
+	if(http_request != null) {rrCache[url] = respText;}
+	if(tooltip != null)
+	{
+	    obj.innerHTML = respText;	    
+	}
+	else
+	{
+	    var ndiv = obj;
+	    while (ndiv.nodeName != 'SPAN') { ndiv = ndiv.nextSibling; }
+	    ndiv.innerHTML = respText;
+	    obj.onclick = function(){ return hs2(obj) };
+	}
+    }
+}
+
+// simple tooltips
+var tooltip=function(){
+ var id = 'tt';
+ var top = 3;
+ var left = 3;
+ var maxw = 500;
+ var speed = 10;
+ var timer = 2;
+ var endalpha = 95;
+ var alpha = 0;
+ var tt,t,c,b,h;
+ var ie = document.all ? true : false;
+ return{
+  show:function(how,v,w){
+   if(tt == null){
+    tt = document.createElement('div');
+    tt.setAttribute('id',id);
+    document.body.appendChild(tt);
+    tt.style.opacity = 0;
+    tt.style.filter = 'alpha(opacity=0)';
+    document.onmousemove = this.pos;
+   }
+
+   tt.style.display = 'block';
+   if(how == 'url')
+   {
+       if(rrCache[v]==null) { 
+	   tt.innerHTML ='<div>loading...</div>'; 
+	   makeRequest(tt,v,1); 
+       } else { 
+	   tt.innerHTML = rrCache[v]; 
+       }
+   }
+   else { if ((how == 'hs') || (how == 'hs2')) { tt.innerHTML = v.nextSibling.innerHTML; }
+   else { if (how == 'txt') { tt.innerHTML = v; }
+	  else { tt.innerHTML = ''; }
+	}
+   }
+
+   tt.style.width = w ? w + 'px' : 'auto';
+   if(!w && ie){
+    tt.style.width = tt.offsetWidth;
+   }
+  if(tt.offsetWidth > maxw){tt.style.width = maxw + 'px'}
+  h = parseInt(tt.offsetHeight) + top;
+  clearInterval(tt.timer);
+  tt.timer = setInterval(function(){tooltip.fade(1)},timer);
+  },
+  pos:function(e){
+   var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
+   var l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+   tt.style.top = (u - h) + 'px';
+   tt.style.left = (l + left) + 'px';
+  },
+  fade:function(d){
+   var a = alpha;
+   if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+    var i = speed;
+   if(endalpha - a < speed && d == 1){
+    i = endalpha - a;
+   }else if(alpha < speed && d == -1){
+     i = a;
+   }
+   alpha = a + (i * d);
+   tt.style.opacity = alpha * .01;
+   tt.style.filter = 'alpha(opacity=' + alpha + ')';
+  }else{
+    clearInterval(tt.timer);
+     if(d == -1){tt.style.display = 'none'}
+  }
+ },
+ hide:function(){tt.style.display  = 'none';}
+ };
+}();
+
+// reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
+function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
+function rh() { tooltip.hide(); } 
+
+// End -->
+</script><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({                                                                                                                            
+    extensions: ['tex2jax.js'],                                                                                                                   
+    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
+    tex2jax: {                                                                                                                                    
+      inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
+      displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
+  processClass: 'mathjax',                                                                                                                        
+  ignoreClass: 'no-mathjax',                                                                                                                      
+      processEscapes: true,                                                                                                                       
+    },                                                                                                                                            
+    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                          
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</head>
+<body class="no-mathjax">
+<span class="comment"><font color="firebrick">::  Products in Categories without Uniqueness of { \bf cod } and { \bf dom }</font></span><br><span class="comment"><font color="firebrick">:: by Artur Korni{\l}owicz</font></span><br><span class="comment"><font color="firebrick">:: </font></span><br><span class="comment"><font color="firebrick">:: Received August 19, 2012</font></span><br><span class="comment"><font color="firebrick">:: Copyright (c) 2012-2019 Association of Mizar Users</font></span><br><br><div></div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+<div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC1" typeof="oo:Theorem">
+<a NAME="CC1"><span class="kw">cluster </span></a> <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="relat_1.html#V1" title="RELAT_1:attr.1">Relation-like</a>  <span class="kw"> -&gt; </span> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="relat_1.html#V4" title="RELAT_1:attr.4">-defined</a>   for    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:1_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   <a href="relat_1.html#NM1" title="RELAT_1:NM.1">Relation</a>  st <font color="Olive">b<sub>1</sub></font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  holds <br><font color="Olive">b<sub>1</sub></font> is  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="relat_1.html#V4" title="RELAT_1:attr.4">-defined</a> 
+ </span><div about="#PF1_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/1_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/1_1_1')" href="javascript:()" title="1_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">C</font> be    <a href="altcat_1.html#L1" title="ALTCAT_1:struct.1">AltGraph</a> ;<br><div about="#D1" typeof="oo:Definition">
+<a NAME="V1"><span class="kw">attr</span> </a><font color="Maroon" title="c1">C</font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E1">Def1</font></span>: <a NAME="D1"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 1</font></span><br></a> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> holds  <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> is  <a href="funct_1.html#V4" title="FUNCT_1:attr.4">functional</a> ;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT1" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E1">Def1</font></span>   defines <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 1 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being    <a href="altcat_1.html#L1" title="ALTCAT_1:struct.1">AltGraph</a>  holds <br> ( <font color="Olive" title="b1">C</font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  iff  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> holds  <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> is  <a href="funct_1.html#V4" title="FUNCT_1:attr.4">functional</a>  );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">E</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br>
+<div about="#FC1" typeof="oo:Theorem">
+<a NAME="FC1"><span class="kw">cluster </span></a> <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c1">E</font><span class="kw"> -&gt; </span> <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:3_1"></a>
+ <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c1">E</font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a> 
+ </span><div about="#PF3_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/3_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/3_1_1')" href="javascript:()" title="3_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC1" typeof="oo:Theorem">
+<a NAME="RC1"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  <a href="altcat_1.html#V2" title="ALTCAT_1:attr.2">V62</a>()  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  <a href="altcat_1.html#V11" title="ALTCAT_1:attr.11">V71</a>()  <a href="altcat_1.html#V12" title="ALTCAT_1:attr.12">with_units</a>   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   for    <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:4_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )
+ </span><div about="#PF4_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/4_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/4_1_1')" href="javascript:()" title="4_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">C</font> be   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br>
+<div about="#FC2" typeof="oo:Theorem">
+<a NAME="FC2"><span class="kw">cluster </span></a> <a href="altcat_1.html#G1" title="ALTCAT_1:aggr.1">AltGraph</a>(#  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font>, the <a href="altcat_1.html#U1" title="ALTCAT_1:sel.1">Arrows</a> of <font color="Maroon" title="c1">C</font> #)<span class="kw"> -&gt; </span> <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:5_1"></a>
+ <a href="altcat_1.html#G1" title="ALTCAT_1:aggr.1">AltGraph</a>(#  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font>, the <a href="altcat_1.html#U1" title="ALTCAT_1:sel.1">Arrows</a> of <font color="Maroon" title="c1">C</font> #) is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a> 
+ </span><div about="#PF5_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/5_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/5_1_1')" href="javascript:()" title="5_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC2" typeof="oo:Theorem">
+<a NAME="RC2"><span class="kw">cluster </span></a> <a href="altcat_1.html#V1" title="ALTCAT_1:attr.1">strict</a>   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   for    <a href="altcat_1.html#L1" title="ALTCAT_1:struct.1">AltGraph</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:6_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being    <a href="altcat_1.html#L1" title="ALTCAT_1:struct.1">AltGraph</a>  st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_1.html#V1" title="ALTCAT_1:attr.1">strict</a>  )
+ </span><div about="#PF6_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/6_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/6_1_1')" href="javascript:()" title="6_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC3" typeof="oo:Theorem">
+<a NAME="RC3"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  <a href="altcat_1.html#V2" title="ALTCAT_1:attr.2">V62</a>()  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  <a href="altcat_1.html#V11" title="ALTCAT_1:attr.11">V71</a>()  <a href="altcat_1.html#V12" title="ALTCAT_1:attr.12">with_units</a>   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   for    <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:7_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_1.html#V6" title="ALTCAT_1:attr.6">strict</a>  )
+ </span><div about="#PF7_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/7_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/7_1_1')" href="javascript:()" title="7_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">C</font> be   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   <a href="altcat_1.html#L1" title="ALTCAT_1:struct.1">AltGraph</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font>;<br>
+<div about="#FC3" typeof="oo:Theorem">
+<a NAME="FC3"><span class="kw">cluster </span></a><span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span><span class="kw"> -&gt; </span> <a href="funct_1.html#V4" title="FUNCT_1:attr.4">functional</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:8_1"></a>
+<span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> is  <a href="funct_1.html#V4" title="FUNCT_1:attr.4">functional</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_5.html#D1" target="_self" onmouseover="rs('altcat_5/D1')" onmouseout="rh()">Def1</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><span class="kw">reconsider </span><font color="Maroon" title="c1">a</font> =  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> , <font color="Maroon" title="c2">b</font> = 1 as    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of 2 <span class="kw">by</span> <span class="lab"><a class="ref" href="card_1.html#T50" onmouseover="rs('card_1/T50')" onmouseout="rh()">CARD_1:50</a>, <a class="ref" href="tarski.html#D2" onmouseover="rs('tarski/D2')" onmouseout="rh()">TARSKI:def 2</a></span>;<br><br><span class="kw">set </span><font color="Maroon" title="c3">C</font> =  <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>;<br><br><a NAME="E3"></a><span class="lab"><font color="Green" title="E2">Lm1</font></span>: <span about="#E3" typeof="oo:Lemma">
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_1.html#D14" onmouseover="rs('altcat_1/D14')" onmouseout="rh()">ALTCAT_1:def 14</a></span>;<br><br><span class="kw">reconsider </span><font color="Maroon" title="c4">o</font> =  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  as   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> <span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E3"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br><br><a NAME="E5"></a><span class="lab"><font color="Green" title="E3">Lm2</font></span>: <span about="#E5" typeof="oo:Lemma">
+ <a href="funct_2.html#K1" title="FUNCT_2:func.1">Funcs</a> (<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="funct_5.html#T57" onmouseover="rs('funct_5/T57')" onmouseout="rh()">FUNCT_5:57</a></span>;<br><br><div>
+<span class="lab"><font color="Green" title="E4">Lm3</font></span>: <a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="9"><span class="kw">now </span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">o1</font>, <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> holds <br> (  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">o1</font>,<font color="Olive" title="b2">o</font> &amp;  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b1">o1</font>,<font color="Olive" title="b2">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> )</span></a><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">o1</font>, <font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font> &amp;  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> )</span><br><a NAME="E1:9"></a><span class="lab"><font color="Green" title="E5">A1</font></span>: 
+( <font color="Maroon" title="c5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  &amp; <font color="Maroon" title="c6">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E3"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br><a NAME="E2:9"></a>
+<span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="funct_2.html#K1" title="FUNCT_2:func.1">Funcs</a> (<font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font>)
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_1.html#D14" onmouseover="rs('altcat_1/D14')" onmouseout="rh()">ALTCAT_1:def 14</a></span>;<br><span class="kw">hence </span><a NAME="E3:9"></a>
+(  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font> &amp;  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:9"><span class="lab"><font color="Green" title="E5">A1</font></span></a>, <a class="txt" href="altcat_5.html#E3"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="txt" href="altcat_5.html#E5"><span class="lab"><font color="Green" title="E3">Lm2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="lab"><font color="Green" title="E5">Lm4</font></span>: <a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="10"><span class="kw">now </span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">o1</font>, <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span><br>  for <font color="Olive" title="b3">m1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">o1</font>,<font color="Olive" title="b2">o</font> holds  <font color="Olive" title="b3">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span></a><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">o1</font>, <font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">m1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font> holds  <font color="Olive" title="b1">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br><span class="kw">let </span><font color="Maroon" title="c7">m1</font> be   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c7">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br><a NAME="E1:10"></a><span class="lab"><font color="Green" title="E6">A1</font></span>: 
+( <font color="Maroon" title="c6">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  &amp; <font color="Maroon" title="c5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E3"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br><a NAME="E2:10"></a>
+<span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="funct_2.html#K1" title="FUNCT_2:func.1">Funcs</a> (<font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font>)
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_1.html#D14" onmouseover="rs('altcat_1/D14')" onmouseout="rh()">ALTCAT_1:def 14</a></span>;<br><span class="kw">hence </span><a NAME="E3:10"></a>
+<font color="Maroon" title="c7">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:10"><span class="lab"><font color="Green" title="E6">A1</font></span></a>, <a class="txt" href="altcat_5.html#E5"><span class="lab"><font color="Green" title="E3">Lm2</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="lab"><font color="Green" title="E6">Lm5</font></span>: <a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="11"><span class="kw">now </span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">o1</font>, <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> holds  <font color="Olive" title="b1">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">o</font></span></a><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">o1</font>, <font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c6">o</font></span><br><a NAME="E1:11"></a>
+( <font color="Maroon" title="c6">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  &amp; <font color="Maroon" title="c5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E3"><span class="lab"><font color="Green" title="E2">Lm1</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br><span class="kw">hence </span><a NAME="E2:11"></a>
+<font color="Maroon" title="c5">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c6">o</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="lab"><font color="Green" title="E7">Lm6</font></span>: <a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="12"><span class="kw">now </span> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">o1</font>, <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span><br>  for <font color="Olive" title="b3">m1</font>, <font color="Olive" title="b4">m</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">o1</font>,<font color="Olive" title="b2">o</font> holds  <font color="Olive" title="b3">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">m</font></span></a><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">o1</font>, <font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">m1</font>, <font color="Olive" title="b2">m</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font> holds  <font color="Olive" title="b1">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">m</font></span><br><span class="kw">let </span><font color="Maroon" title="c7">m1</font>, <font color="Maroon" title="c8">m</font> be   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c5">o1</font>,<font color="Maroon" title="c6">o</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c7">m1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c8">m</font></span><br><span class="kw">thus </span><font color="Maroon" title="c7">m1</font> = 
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E7"><span class="lab"><font color="Green" title="E5">Lm4</font></span></a></span>
+<br>.= 
+<font color="Maroon" title="c8">m</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="altcat_5.html#E7"><span class="lab"><font color="Green" title="E5">Lm4</font></span></a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><a NAME="NM1"><span class="kw">mode </span>ObjectsFamily of <font color="Maroon" title="c2">I</font>,<font color="Maroon" title="c1">C</font><span class="kw"> is </span></a>  <a href="struct_0.html#NM5" title="STRUCT_0:NM.5">Function</a> of <font color="Maroon" title="c2">I</font>,<font color="Maroon" title="c1">C</font>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c7">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c8">f</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c7">I</font>,<font color="Maroon" title="c5">C</font>;<br><div about="#D8" typeof="oo:Definition">
+<a NAME="M1"><span class="kw">mode</span> </a> <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c4">f</font><span class="kw"> -&gt; </span>  <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c3">I</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E8">Def2</font></span>: <a NAME="D2"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 2</font></span><br></a> for <font color="Olive" title="b1">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b1">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">I</font> holds <br> ex <font color="Olive" title="b2">o1</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> st <br>( <font color="Olive" title="b2">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> &amp; <span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c2">o</font>,<font color="Olive" title="b2">o1</font> );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:14_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c7">I</font> st <br> for <font color="Olive" title="b2">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b2">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c7">I</font> holds <br> ex <font color="Olive" title="b3">o1</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font> st <br>( <font color="Olive" title="b3">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c8">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> &amp; <font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c6">o</font>,<font color="Olive" title="b3">o1</font> )
+ </span><div about="#PF14_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/14_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/14_1_1')" href="javascript:()" title="14_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT2" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E8">Def2</font></span>   defines <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 2 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> <br>  for <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b3">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b4">f</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b3">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive">b<sub>5</sub></font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b3">I</font> holds <br> ( <font color="Olive">b<sub>5</sub></font> is    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b2">o</font>,<font color="Olive" title="b4">f</font> iff  for <font color="Olive" title="b6">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b6">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Olive" title="b3">I</font> holds <br> ex <font color="Olive" title="b7">o1</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> st <br>( <font color="Olive" title="b7">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">i</font> &amp; <font color="Olive">b<sub>5</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b2">o</font>,<font color="Olive" title="b7">o1</font> ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c7">I</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c8">f</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c7">I</font>,<font color="Maroon" title="c5">C</font>;<br><div about="#D9" typeof="oo:Definition">
+<span class="kw">redefine </span><span class="kw">mode</span>  <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c4">f</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E9">Def3</font></span>: <a NAME="D3"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 3</font></span><br></a> for <font color="Olive" title="b1">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c3">I</font> holds  <span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c2">o</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c4">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">i</font></span>)</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">compatibility</span> </a><span class="hide"><br><a NAME="E1:15_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c7">I</font> holds <br> ( <font color="Olive">b<sub>1</sub></font> is    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c6">o</font>,<font color="Maroon" title="c8">f</font> iff  for <font color="Olive" title="b2">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c7">I</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c6">o</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c8">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">i</font></span>)</span> )
+ </span><div about="#PF15_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/15_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/15_1_1')" href="javascript:()" title="15_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT3" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E9">Def3</font></span>   defines <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 3 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> <br>  for <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b3">I</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b4">f</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b3">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive">b<sub>5</sub></font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b3">I</font> holds <br> ( <font color="Olive">b<sub>5</sub></font> is    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b2">o</font>,<font color="Olive" title="b4">f</font> iff  for <font color="Olive" title="b6">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Olive" title="b3">I</font> holds  <font color="Olive">b<sub>5</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b2">o</font>,<span class="p1">(<span class="default"><font color="Olive" title="b4">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b6">i</font></span>)</span> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c7">I</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c8">f</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c7">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c9">M</font> be    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c6">o</font>,<font color="Maroon" title="c8">f</font>;<br><span class="kw">let </span><font color="Maroon" title="c10">i</font> be    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c7">I</font>;<br><span class="comment"><font color="firebrick">:: original: </font></span><a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a><br><span class="kw">redefine </span><a NAME="K1"><span class="kw">func</span> </a><font color="Maroon" title="c5">M</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Maroon" title="c6">i</font><span class="kw"> -&gt; </span>  <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c2">o</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c4">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Maroon" title="c6">i</font></span>)</span>;<br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:16_1"></a>
+<font color="Maroon" title="c9">M</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c10">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c6">o</font>,<span class="p1">(<span class="default"><font color="Maroon" title="c8">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Maroon" title="c10">i</font></span>)</span>
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_5.html#D3" target="_self" onmouseover="rs('altcat_5/D3')" onmouseout="rh()">Def3</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_5.html#V1" title="ALTCAT_5:attr.1">functional</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">o</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c7">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c8">f</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c7">I</font>,<font color="Maroon" title="c5">C</font>;<br>
+<div about="#CC2" typeof="oo:Theorem">
+<a NAME="CC2"><span class="kw">cluster </span></a> <span class="kw"> -&gt; </span> <a href="funcop_1.html#V1" title="FUNCOP_1:attr.1">Function-yielding</a>   for    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c4">f</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:17_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c6">o</font>,<font color="Maroon" title="c8">f</font> holds  <font color="Olive">b<sub>1</sub></font> is  <a href="funcop_1.html#V1" title="FUNCOP_1:attr.1">Function-yielding</a> 
+ </span><div about="#PF17_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/17_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/17_1_1')" href="javascript:()" title="17_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T1" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E10">Th1</font></span>: <a NAME="T1"><span class="comment"><font color="firebrick">:: ALTCAT_5:1</font></span><br></a><div class="add"> for <font color="Olive" title="b1">C</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> <br>  for <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b3">f</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<font color="Olive" title="b1">C</font> holds   <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  is    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b2">o</font>,<font color="Olive" title="b3">f</font>
+</div>
+<div about="#PF18" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T1"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/18')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/18')" href="javascript:()" title="18"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c8">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c9">P</font> be    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c8">B</font>,<font color="Maroon" title="c7">A</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V2"><span class="kw">attr</span> </a><font color="Maroon" title="c5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a> <span class="kw"> means </span><a NAME="D4"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 4</font></span><br></a> for <font color="Olive" title="b1">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b1">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">I</font> holds <br> ex <font color="Olive" title="b2">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> st <br>( <font color="Olive" title="b2">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> &amp; <font color="Maroon" title="c5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c4">B</font>,<font color="Olive" title="b2">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT4" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 4 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> <br>  for <font color="Olive" title="b2">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> holds <br> ( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  iff  for <font color="Olive" title="b6">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b6">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">I</font> holds <br> ex <font color="Olive" title="b7">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> st <br>( <font color="Olive" title="b7">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">i</font> &amp; <font color="Olive" title="b5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b6">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b4">B</font>,<font color="Olive" title="b7">o</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c8">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c9">P</font> be    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c8">B</font>,<font color="Maroon" title="c7">A</font>;<br><div about="#D11" typeof="oo:Definition">
+<span class="kw">redefine </span><span class="kw">attr</span> <font color="Maroon" title="c5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E11">Def5</font></span>: <a NAME="D5"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 5</font></span><br></a> for <font color="Olive" title="b1">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c2">I</font> holds  <font color="Maroon" title="c5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b1">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c4">B</font>,<span class="p2">(<span class="default"><font color="Maroon" title="c3">A</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">i</font></span>)</span></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">compatibility</span> </a><span class="hide"><br><a NAME="E1:20_1"></a>
+( <font color="Maroon" title="c9">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  iff  for <font color="Olive" title="b1">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c6">I</font> holds  <font color="Maroon" title="c9">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b1">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Maroon" title="c8">B</font>,<span class="p2">(<span class="default"><font color="Maroon" title="c7">A</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">i</font></span>)</span></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> )
+ </span><div about="#PF20_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/20_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/20_1_1')" href="javascript:()" title="20_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT5" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E11">Def5</font></span>   defines <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 5 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> <br>  for <font color="Olive" title="b2">I</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> holds <br> ( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  iff  for <font color="Olive" title="b6">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Olive" title="b2">I</font> holds  <font color="Olive" title="b5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b6">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b4">B</font>,<span class="p2">(<span class="default"><font color="Olive" title="b3">A</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b6">i</font></span>)</span></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c8">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c9">P</font> be    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c8">B</font>,<font color="Maroon" title="c7">A</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V3"><span class="kw">attr</span> </a><font color="Maroon" title="c5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a> <span class="kw"> means </span><a NAME="D6"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 6</font></span><br></a> for <font color="Olive" title="b1">X</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font><br>  for <font color="Olive" title="b2">F</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c3">A</font>  st <font color="Olive" title="b2">F</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  holds <br> ex <font color="Olive" title="b3">f</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font> st <br>( <font color="Olive" title="b3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> &amp; (  for <font color="Olive" title="b4">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b4">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">I</font> holds <br> ex <font color="Olive" title="b5">si</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> ex <font color="Olive" title="b6">Pi</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c4">B</font>,<font color="Olive" title="b5">si</font> st <br>( <font color="Olive" title="b5">si</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">i</font> &amp; <font color="Olive" title="b6">Pi</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">i</font> &amp; <font color="Olive" title="b2">F</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b4">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">Pi</font> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b3">f</font> ) ) &amp; (  for <font color="Olive" title="b4">f1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font>  st (  for <font color="Olive" title="b5">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b5">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c2">I</font> holds <br> ex <font color="Olive" title="b6">si</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> ex <font color="Olive" title="b7">Pi</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c4">B</font>,<font color="Olive" title="b6">si</font> st <br>( <font color="Olive" title="b6">si</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">i</font> &amp; <font color="Olive" title="b7">Pi</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">i</font> &amp; <font color="Olive" title="b2">F</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b7">Pi</font> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b4">f1</font> ) ) holds <br><font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">f1</font> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT6" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 6 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b2">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> holds <br> ( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  iff  for <font color="Olive" title="b6">X</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b7">F</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b3">A</font>  st <font color="Olive" title="b7">F</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  holds <br> ex <font color="Olive" title="b8">f</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font> st <br>( <font color="Olive" title="b8">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> &amp; (  for <font color="Olive" title="b9">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b9">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">I</font> holds <br> ex <font color="Olive" title="b10">si</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> ex <font color="Olive" title="b11">Pi</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b10">si</font> st <br>( <font color="Olive" title="b10">si</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b9">i</font> &amp; <font color="Olive" title="b11">Pi</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b9">i</font> &amp; <font color="Olive" title="b7">F</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b9">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b11">Pi</font> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b8">f</font> ) ) &amp; (  for <font color="Olive" title="b9">f1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font>  st (  for <font color="Olive" title="b10">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b10">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">I</font> holds <br> ex <font color="Olive" title="b11">si</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> ex <font color="Olive" title="b12">Pi</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b11">si</font> st <br>( <font color="Olive" title="b11">si</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b10">i</font> &amp; <font color="Olive" title="b12">Pi</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">P</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b10">i</font> &amp; <font color="Olive" title="b7">F</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b10">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b12">Pi</font> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b9">f1</font> ) ) holds <br><font color="Olive" title="b8">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b9">f1</font> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c8">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c9">P</font> be    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c8">B</font>,<font color="Maroon" title="c7">A</font>;<br><div about="#D0" typeof="oo:Definition">
+<span class="kw">redefine </span><span class="kw">attr</span> <font color="Maroon" title="c5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a> <span class="kw"> means </span><a NAME="D7"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 7</font></span><br></a> for <font color="Olive" title="b1">X</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font><br>  for <font color="Olive" title="b2">F</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c3">A</font>  st <font color="Olive" title="b2">F</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  holds <br> ex <font color="Olive" title="b3">f</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font> st <br>( <font color="Olive" title="b3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> &amp; (  for <font color="Olive" title="b4">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c2">I</font> holds  <font color="Olive" title="b2">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b4">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b4">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b3">f</font> ) &amp; (  for <font color="Olive" title="b4">f1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c4">B</font>  st (  for <font color="Olive" title="b5">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c2">I</font> holds  <font color="Olive" title="b2">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b5">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b5">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b4">f1</font> ) holds <br><font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">f1</font> ) );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">compatibility</span> </a><span class="hide"><br>( <font color="Maroon" title="c9">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  iff  for <font color="Olive" title="b1">X</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font><br>  for <font color="Olive" title="b2">F</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c7">A</font>  st <font color="Olive" title="b2">F</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  holds <br> ex <font color="Olive" title="b3">f</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c8">B</font> st <br>( <font color="Olive" title="b3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b1">X</font>,<font color="Maroon" title="c8">B</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> &amp; (  for <font color="Olive" title="b4">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c6">I</font> holds  <font color="Olive" title="b2">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b4">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c9">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b4">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b3">f</font> ) &amp; (  for <font color="Olive" title="b4">f1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">X</font>,<font color="Maroon" title="c8">B</font>  st (  for <font color="Olive" title="b5">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c6">I</font> holds  <font color="Olive" title="b2">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b5">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c9">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b5">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b4">f1</font> ) holds <br><font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">f1</font> ) ) )</span>;<br></span><div about="#PF22_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/22_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/22_1_1')" href="javascript:()" title="22_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT7" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 7 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b2">I</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> holds <br> ( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  iff  for <font color="Olive" title="b6">X</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b7">F</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b3">A</font>  st <font color="Olive" title="b7">F</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  holds <br> ex <font color="Olive" title="b8">f</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font> st <br>( <font color="Olive" title="b8">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">&lt;^</a><span class="default"><font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font></span><a href="altcat_1.html#K1" title="ALTCAT_1:func.1">^&gt;</a></span> &amp; (  for <font color="Olive" title="b9">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Olive" title="b2">I</font> holds  <font color="Olive" title="b7">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b9">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b9">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b8">f</font> ) &amp; (  for <font color="Olive" title="b9">f1</font> being   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b6">X</font>,<font color="Olive" title="b4">B</font>  st (  for <font color="Olive" title="b10">i</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Olive" title="b2">I</font> holds  <font color="Olive" title="b7">F</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b10">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">P</font> <a href="altcat_5.html#K1" title="ALTCAT_5:func.1">.</a> <font color="Olive" title="b10">i</font></span>)</span> <a href="altcat_1.html#K5" title="ALTCAT_1:func.5">*</a> <font color="Olive" title="b9">f1</font> ) holds <br><font color="Olive" title="b8">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b9">f1</font> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c7">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br>
+<div about="#CC3" typeof="oo:Theorem">
+<a NAME="CC3"><span class="kw">cluster </span></a> <span class="kw"> -&gt; </span> <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>   for    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c3">B</font>,<font color="Maroon" title="c2">A</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:23_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c7">B</font>,<font color="Maroon" title="c6">A</font> holds  <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T2" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E12">Th2</font></span>: <a NAME="T2"><span class="comment"><font color="firebrick">:: ALTCAT_5:2</font></span><br></a><div class="add"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b2">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b3">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font>  st <font color="Olive" title="b3">B</font> is  <a href="altcat_3.html#V7" title="ALTCAT_3:attr.7">terminal</a>  holds <br> ex <font color="Olive" title="b4">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b3">B</font>,<font color="Olive" title="b2">A</font> st <br>( <font color="Olive" title="b4">P</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp; <font color="Olive" title="b4">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  )</div>
+<div about="#PF24" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T2"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/24')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/24')" href="javascript:()" title="24"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T3" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E13">Th3</font></span>: <a NAME="T3"><span class="comment"><font color="firebrick">:: ALTCAT_5:3</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span><br>  for <font color="Olive" title="b3">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span> holds  <font color="Olive" title="b1">I</font> <a href="funcop_1.html#K7" title="FUNCOP_1:func.7">--&gt;</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> is    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b3">o</font>,<font color="Olive" title="b2">A</font>
+</div>
+<div about="#PF25" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T3"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/25')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/25')" href="javascript:()" title="25"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T4" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E14">Th4</font></span>: <a NAME="T4"><span class="comment"><font color="firebrick">:: ALTCAT_5:4</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span><br>  for <font color="Olive" title="b3">o</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span></span>)</span><br>  for <font color="Olive" title="b4">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b3">o</font>,<font color="Olive" title="b2">A</font>  st <font color="Olive" title="b4">P</font> <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a> <font color="Olive" title="b1">I</font> <a href="funcop_1.html#K7" title="FUNCOP_1:func.7">--&gt;</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> holds <br>( <font color="Olive" title="b4">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp; <font color="Olive" title="b4">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  )</div>
+<div about="#PF26" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T4"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/26')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/26')" href="javascript:()" title="26"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><div about="#D15" typeof="oo:Definition">
+<a NAME="V4"><span class="kw">attr</span> </a><font color="Maroon" title="c1">C</font> is  <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E15">Def8</font></span>: <a NAME="D8"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 8</font></span><br></a> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<font color="Maroon" title="c1">C</font>  ex <font color="Olive" title="b3">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c1">C</font> ex <font color="Olive" title="b4">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b3">B</font>,<font color="Olive" title="b2">A</font> st <br>( <font color="Olive" title="b4">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp; <font color="Olive" title="b4">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT8" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E15">Def8</font></span>   defines <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 8 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a> holds <br> ( <font color="Olive" title="b1">C</font> is  <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a>  iff  for <font color="Olive" title="b2">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font>  ex <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> ex <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> st <br>( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp; <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  ) );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#FC4" typeof="oo:Theorem">
+<a NAME="FC4"><span class="kw">cluster </span></a> <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span><span class="kw"> -&gt; </span> <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:28_1"></a>
+ <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> is  <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a> 
+ </span><div about="#PF28_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/28_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/28_1_1')" href="javascript:()" title="28_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC4" typeof="oo:Theorem">
+<a NAME="RC4"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  <a href="altcat_1.html#V2" title="ALTCAT_1:attr.2">V62</a>() <a href="altcat_1.html#V11" title="ALTCAT_1:attr.11">V71</a>()  <a href="altcat_1.html#V12" title="ALTCAT_1:attr.12">with_units</a>   <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a>   for    <a href="altcat_1.html#L2" title="ALTCAT_1:struct.2">AltCatStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:29_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a> st <font color="Olive">b<sub>1</sub></font> is  <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a> 
+ </span><div about="#PF29_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/29_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/29_1_1')" href="javascript:()" title="29_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br><span class="kw">let </span><font color="Maroon" title="c8">B</font> be   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="V5"><span class="kw">attr</span> </a><font color="Maroon" title="c4">B</font> is <font color="Maroon" title="c3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a> <span class="kw"> means </span><a NAME="D9"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 9</font></span><br></a> ex <font color="Olive" title="b1">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Maroon" title="c4">B</font>,<font color="Maroon" title="c3">A</font> st <br>( <font color="Olive" title="b1">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp; <font color="Olive" title="b1">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT9" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 9 : <br></a><span class="hide"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b2">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b4">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font> holds <br> ( <font color="Olive" title="b4">B</font> is <font color="Olive" title="b3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>  iff  ex <font color="Olive" title="b5">P</font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of <font color="Olive" title="b4">B</font>,<font color="Olive" title="b3">A</font> st <br>( <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp; <font color="Olive" title="b5">P</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  ) );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a>  <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c6">I</font>,<font color="Maroon" title="c5">C</font>;<br>
+<div about="#RC5" typeof="oo:Theorem">
+<a NAME="RC5"><span class="kw">cluster </span></a><font color="Maroon" title="c3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>   for    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:31_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font> st <font color="Olive">b<sub>1</sub></font> is <font color="Maroon" title="c7">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a> 
+ </span><div about="#PF31_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/31_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/31_1_1')" href="javascript:()" title="31_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">C</font> be   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a>;<br><span class="kw">let </span><font color="Maroon" title="c6">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<font color="Maroon" title="c5">C</font>;<br>
+<div about="#CC4" typeof="oo:Theorem">
+<a NAME="CC4"><span class="kw">cluster </span></a><font color="Maroon" title="c2">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>  <span class="kw"> -&gt; </span> <a href="altcat_3.html#V7" title="ALTCAT_3:attr.7">terminal</a>   for    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">C</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:32_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c5">C</font>  st <font color="Olive">b<sub>1</sub></font> is <font color="Maroon" title="c6">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>  holds <br><font color="Olive">b<sub>1</sub></font> is  <a href="altcat_3.html#V7" title="ALTCAT_3:attr.7">terminal</a> 
+ </span><div about="#PF32_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/32_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/32_1_1')" href="javascript:()" title="32_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T5" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T5"><span class="comment"><font color="firebrick">:: ALTCAT_5:5</font></span><br></a><div class="add"> for <font color="Olive" title="b1">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b2">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<font color="Olive" title="b1">C</font><br>  for <font color="Olive" title="b3">B</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b1">C</font>  st <font color="Olive" title="b3">B</font> is  <a href="altcat_3.html#V7" title="ALTCAT_3:attr.7">terminal</a>  holds <br><font color="Olive" title="b3">B</font> is <font color="Olive" title="b2">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a> </div>
+<div about="#PF33" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T5"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/33')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/33')" href="javascript:()" title="33"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T6" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T6"><span class="comment"><font color="firebrick">:: ALTCAT_5:6</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">C</font> being   <a href="altcat_1.html#NM4" title="ALTCAT_1:NM.4">category</a><br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<font color="Olive" title="b2">C</font><br>  for <font color="Olive" title="b4">C1</font>, <font color="Olive" title="b5">C2</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Olive" title="b2">C</font>  st <font color="Olive" title="b4">C1</font> is <font color="Olive" title="b3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>  &amp; <font color="Olive" title="b5">C2</font> is <font color="Olive" title="b3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a>  holds <br><font color="Olive" title="b4">C1</font>,<font color="Olive" title="b5">C2</font> <a href="altcat_3.html#R2" title="ALTCAT_3:pred.2">are_iso</a> </div>
+<div about="#PF34" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/34')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/34')" href="javascript:()" title="34"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">E</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c5">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c6">E</font></span>)</span>;<br><span class="kw">assume </span><a NAME="E1:35"></a><span class="lab"><font color="Green" title="E16">A1</font></span>: 
+ <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Maroon" title="c7">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c6">E</font>
+ ;<br><div about="#D16" typeof="oo:Definition">
+<a NAME="K2"><span class="kw">func</span> </a> <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Maroon" title="c3">A</font><span class="kw"> -&gt; </span>  <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c2">E</font></span>)</span><span class="kw"> equals </span>:<span class="lab"><font color="Green" title="E16">Def10</font></span>: <a NAME="D10"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 10</font></span><br></a> <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Maroon" title="c3">A</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:35_1"></a>
+ <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Maroon" title="c7">A</font> is   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c6">E</font></span>)</span>
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:35"><span class="lab"><font color="Green" title="E16">A1</font></span></a>, <a class="ref" href="altcat_1.html#D14" onmouseover="rs('altcat_1/D14')" onmouseout="rh()">ALTCAT_1:def 14</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT10" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E16">Def10</font></span>   defines <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 10 : <br></a><span class="hide"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b2">E</font></span>)</span>  st  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">E</font> holds <br> <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Olive" title="b3">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font>;<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c5">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c6">E</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c7">A</font> be   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Maroon" title="c5">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Maroon" title="c6">E</font></span>)</span>;<br><span class="kw">assume </span><a NAME="E1:36"></a><span class="lab"><font color="Green" title="E17">A1</font></span>: 
+ <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Maroon" title="c7">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c6">E</font>
+ ;<br><div about="#D17" typeof="oo:Definition">
+<a NAME="K3"><span class="kw">func</span> </a> <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <font color="Maroon" title="c3">A</font><span class="kw"> -&gt; </span>   <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of  <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Maroon" title="c3">A</font>,<font color="Maroon" title="c3">A</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E17">Def11</font></span>: <a NAME="D11"><span class="comment"><font color="firebrick">:: ALTCAT_5:def 11</font></span><br></a> for <font color="Olive" title="b1">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b1">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">I</font> holds <br><span class="kw">it</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K12" title="CARD_3:func.12">proj</a> (<font color="Maroon" title="c3">A</font>,<font color="Olive" title="b1">i</font>);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:36_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of  <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Maroon" title="c7">A</font>,<font color="Maroon" title="c7">A</font> st <br> for <font color="Olive" title="b2">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b2">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c5">I</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K12" title="CARD_3:func.12">proj</a> (<font color="Maroon" title="c7">A</font>,<font color="Olive" title="b2">i</font>)
+ </span><div about="#PF36_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/36_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/36_1_1')" href="javascript:()" title="36_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:36_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of  <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Maroon" title="c7">A</font>,<font color="Maroon" title="c7">A</font>  st (  for <font color="Olive" title="b3">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b3">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c5">I</font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K12" title="CARD_3:func.12">proj</a> (<font color="Maroon" title="c7">A</font>,<font color="Olive" title="b3">i</font>) ) &amp; (  for <font color="Olive" title="b3">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b3">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c5">I</font> holds <br><font color="Olive">b<sub>2</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K12" title="CARD_3:func.12">proj</a> (<font color="Maroon" title="c7">A</font>,<font color="Olive" title="b3">i</font>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF36_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/36_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/36_1_2')" href="javascript:()" title="36_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT11" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E17">Def11</font></span>   defines <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <a onclick="hs(this)" href="javascript:()">ALTCAT_5:def 11 : <br></a><span class="hide"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b2">E</font></span>)</span>  st  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">E</font> holds <br> for <font color="Olive">b<sub>4</sub></font> being    <a href="altcat_5.html#M1" title="ALTCAT_5:mode.1">MorphismsFamily</a> of  <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Olive" title="b3">A</font>,<font color="Olive" title="b3">A</font> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <font color="Olive" title="b3">A</font> iff  for <font color="Olive" title="b5">i</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b5">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b1">I</font> holds <br><font color="Olive">b<sub>4</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b5">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K12" title="CARD_3:func.12">proj</a> (<font color="Olive" title="b3">A</font>,<font color="Olive" title="b5">i</font>) );<br></span>
+</div>
+<br><div about="#T7" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E18">Th7</font></span>: <a NAME="T7"><span class="comment"><font color="firebrick">:: ALTCAT_5:7</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b2">E</font></span>)</span>  st  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">E</font> &amp;  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  holds <br> <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <font color="Olive" title="b3">A</font> <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a> <font color="Olive" title="b1">I</font> <a href="funcop_1.html#K7" title="FUNCOP_1:func.7">--&gt;</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>
+</div>
+<div about="#PF37" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T7"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/37')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/37')" href="javascript:()" title="37"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T8" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E19">Th8</font></span>: <a NAME="T8"><span class="comment"><font color="firebrick">:: ALTCAT_5:8</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b2">E</font></span>)</span>  st  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">E</font> holds <br>(  <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <font color="Olive" title="b3">A</font> is  <a href="altcat_5.html#V2" title="ALTCAT_5:attr.2">feasible</a>  &amp;  <a href="altcat_5.html#K3" title="ALTCAT_5:func.3">EnsCatProduct</a> <font color="Olive" title="b3">A</font> is  <a href="altcat_5.html#V3" title="ALTCAT_5:attr.3">projection-morphisms</a>  )</div>
+<div about="#PF38" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T8"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/38')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/38')" href="javascript:()" title="38"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T9" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T9"><span class="comment"><font color="firebrick">:: ALTCAT_5:9</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b1">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b2">E</font></span>)</span>  st  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b2">E</font> holds <br> <a href="altcat_5.html#K2" title="ALTCAT_5:func.2">EnsCatProductObj</a> <font color="Olive" title="b3">A</font> is <font color="Olive" title="b3">A</font> <a href="altcat_5.html#V5" title="ALTCAT_5:attr.5">-CatProduct-like</a> </div>
+<div about="#PF39" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/39')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/39')" href="javascript:()" title="39"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T10" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T10"><span class="comment"><font color="firebrick">:: ALTCAT_5:10</font></span><br></a><div class="add"> for <font color="Olive" title="b1">E</font> being   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st (  for <font color="Olive" title="b2">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b3">A</font> being   <a href="altcat_5.html#NM1" title="ALTCAT_5:NM.1">ObjectsFamily</a> of <font color="Olive" title="b2">I</font>,<span class="p1">(<span class="default"><a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b1">E</font></span>)</span> holds   <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <font color="Olive" title="b3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive" title="b1">E</font> ) holds <br> <a href="altcat_1.html#K7" title="ALTCAT_1:func.7">EnsCat</a> <font color="Olive" title="b1">E</font> is  <a href="altcat_5.html#V4" title="ALTCAT_5:attr.4">with_products</a> </div>
+<div about="#PF40" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T10"></span><a class="txt" onmouseover="tooltip.show('url','proofs/altcat_5/40')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/altcat_5/40')" href="javascript:()" title="40"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+</body>
+</html>

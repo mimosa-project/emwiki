@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">A</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="unialg_2.html#K6" title="UNIALG_2:func.6">Constants</a> <font color="Maroon" title="c1">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  implies  for <font color="Olive" title="b1">G</font> being    <a href="freealg.html#M1" title="FREEALG:mode.1">GeneratorSet</a> of <font color="Maroon" title="c1">A</font>  holds <font color="Olive" title="b1">G</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:50"/><span class="lab"><font color="Green" title="E30">A1</font></span>: 
+ <a href="unialg_2.html#K6" title="UNIALG_2:func.6">Constants</a> <font color="Maroon" title="c1">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">G</font> being    <a href="freealg.html#M1" title="FREEALG:mode.1">GeneratorSet</a> of <font color="Maroon" title="c1">A</font>  holds <font color="Olive" title="b1">G</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/>
+
+<span class="kw">let </span><font color="Maroon" title="c2">G</font> be    <a href="freealg.html#M1" title="FREEALG:mode.1">GeneratorSet</a> of <font color="Maroon" title="c1">A</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">G</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/>
+
+<span class="kw">assume </span><a NAME="E2:50"/><span class="lab"><font color="Green" title="E31">A2</font></span>: 
+<font color="Maroon" title="c2">G</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E3:50"/><span class="kw">then </span>
+<font color="Maroon" title="c2">G</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K1" title="STRUCT_0:func.1">{}</a> <font color="Maroon" title="c1">A</font>
+ 
+;<br/>
+<a NAME="E4:50"/><span class="kw">then </span>
+<font color="Maroon" title="c2">G</font> is  <a href="unialg_2.html#V1" title="UNIALG_2:attr.1">opers_closed</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:50"><span class="lab"><font color="Green" title="E30">A1</font></span></a>, <a class="ref" href="aofa_000.html#T28" target="_self" onmouseover="rs('aofa_000/T28')" onmouseout="rh()">Th28</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:50"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:50"><span class="lab"><font color="Green" title="E31">A2</font></span></a>, <a class="ref" href="freealg.html#D4" onmouseover="rs('freealg/D4')" onmouseout="rh()">FREEALG:def 4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

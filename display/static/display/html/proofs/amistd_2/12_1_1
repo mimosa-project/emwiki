@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">thus </span><a NAME="E1:12_1_1"/>
+ <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_2.html#V2" title="AMISTD_2:attr.2">with_explicit_jumps</a> 
+  <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="12_1_1_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">I</font> be   <a href="compos_1.html#NM1" title="COMPOS_1:NM.1">Instruction</a> of <span class="p1">(<span class="default"><a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font></span>)</span>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="amistd_2.html#D2" target="_self" onmouseover="rs('amistd_2/D2')" onmouseout="rh()">AMISTD_2:def 2</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">I</font> is  <a href="amistd_2.html#V1" title="AMISTD_2:attr.1">with_explicit_jumps</a> </span><br/>
+
+<a NAME="E1:12_1_1_1"/>
+ the <a href="compos_1.html#U1" title="COMPOS_1:sel.1">InstructionsF</a> of <span class="p1">(<span class="default"><a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><span class="p2"><a href="xtuple_0.html#K3" title="XTUPLE_0:func.3">[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a></span><a href="xtuple_0.html#K3" title="XTUPLE_0:func.3">]</a></span></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="extpro_1.html#D1" onmouseover="rs('extpro_1/D1')" onmouseout="rh()">EXTPRO_1:def 1</a></span>;<br/>
+<a NAME="E2:12_1_1_1"/><span class="kw">then </span>
+<font color="Maroon" title="c2">I</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="xtuple_0.html#K3" title="XTUPLE_0:func.3">[</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="xtuple_0.html#K3" title="XTUPLE_0:func.3">]</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:12_1_1_1"/>
+ <a href="amistd_1.html#K2" title="AMISTD_1:func.2">JUMP</a> <font color="Maroon" title="c2">I</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1">(<span class="default"><a href="compos_0.html#K2" title="COMPOS_0:func.2">JumpPart</a> <font color="Maroon" title="c2">I</font></span>)</span>
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="amistd_2.html#D1" target="_self" onmouseover="rs('amistd_2/D1')" onmouseout="rh()">AMISTD_2:def 1</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+
+
+</div>

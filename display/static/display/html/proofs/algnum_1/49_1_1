@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c4">f</font> =  <a href="algnum_1.html#K4" title="ALGNUM_1:func.4">minimal_polynom</a> (<font color="Maroon" title="c3">z</font>,<font color="Maroon" title="c1">K</font>);<br/>
+<a NAME="E1:49_1_1"/><span class="lab"><font color="Green" title="E41">A7</font></span>: 
+ not  <a href="algnum_1.html#K4" title="ALGNUM_1:func.4">minimal_polynom</a> (<font color="Maroon" title="c3">z</font>,<font color="Maroon" title="c1">K</font>) is  <a href="ratfunc1.html#NV1" title="RATFUNC1:NV.1">zero</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:49"><span class="lab"><font color="Green" title="E39">A1</font></span></a>, <a class="txt" href="#E2:49"><span class="lab"><font color="Green" title="E40">A2</font></span></a>, <a class="ref" href="algnum_1.html#D9" target="_self" onmouseover="rs('algnum_1/D9')" onmouseout="rh()">Def7</a></span>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c5">f</font> =  <a href="algnum_1.html#K4" title="ALGNUM_1:func.4">minimal_polynom</a> (<font color="Maroon" title="c3">z</font>,<font color="Maroon" title="c1">K</font>) as   <a href="polynom3.html#NM1" title="POLYNOM3:NM.1">Polynomial</a> of <font color="Maroon" title="c1">K</font> ;<br/>
+<a NAME="E3:49_1_1"/>
+ <a href="hurwitz.html#NK3" title="HURWITZ:NK.3">deg</a> <font color="Maroon" title="c5">f</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xcmplx_0.html#K4" title="XCMPLX_0:func.4">-</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:49_1_1"><span class="lab"><font color="Green" title="E41">A7</font></span></a></span>;<br/>
+<a NAME="E4:49_1_1"/><span class="kw">then </span><span class="lab"><font color="Green" title="E42">A8</font></span>: 
+ <a href="algseq_1.html#K1" title="ALGSEQ_1:func.1">len</a> <font color="Maroon" title="c5">f</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ 
+;<br/>
+<a NAME="E5:49_1_1"/>
+<span class="p1">(<span class="default"><a href="algseq_1.html#K1" title="ALGSEQ_1:func.1">len</a> <font color="Maroon" title="c5">f</font></span>)</span> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1 <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:49_1_1"><span class="lab"><font color="Green" title="E42">A8</font></span></a>, <a class="ref" href="xreal_1.html#T8" onmouseover="rs('xreal_1/T8')" onmouseout="rh()">XREAL_1:8</a></span>;<br/>
+<a NAME="E6:49_1_1"/><span class="kw">then </span>
+ <a href="algseq_1.html#K1" title="ALGSEQ_1:func.1">len</a> <font color="Maroon" title="c5">f</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="nat_1.html#T13" onmouseover="rs('nat_1/T13')" onmouseout="rh()">NAT_1:13</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E7:49_1_1"/>
+ <a href="hurwitz.html#NK3" title="HURWITZ:NK.3">deg</a> <span class="p1">(<span class="default"><a href="algnum_1.html#K4" title="ALGNUM_1:func.4">minimal_polynom</a> (<font color="Maroon" title="c3">z</font>,<font color="Maroon" title="c1">K</font>)</span>)</span> is    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="int_1.html#T3" onmouseover="rs('int_1/T3')" onmouseout="rh()">INT_1:3</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

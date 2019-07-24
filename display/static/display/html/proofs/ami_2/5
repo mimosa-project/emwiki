@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">assume </span><a NAME="E1:5"/>
+ <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="ami_2.html#K2" title="AMI_2:func.2">SCM-Data-Loc</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E2:5"/><span class="kw">then </span>
+ <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">[:</a><span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default">1</span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>,<a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a></span><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">:]</a></span>
+ 
+;<br/>
+<a NAME="E3:5"/><span class="kw">then </span>
+ ex <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  st  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Olive" title="b1">x</font>,<font color="Olive" title="b2">y</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="relat_1.html#D1" onmouseover="rs('relat_1/D1')" onmouseout="rh()">RELAT_1:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:5"/>
+contradiction
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

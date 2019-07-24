@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><span class="lab"><font color="Green" title="E4">Th3</font></span>: <a NAME="T3"><span class="comment"><font color="firebrick">:: ARITHM:3</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">x</font> being   <a href="xcmplx_0.html#NM1" title="XCMPLX_0:NM.1">Complex</a> holds  1 <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font></div></div>

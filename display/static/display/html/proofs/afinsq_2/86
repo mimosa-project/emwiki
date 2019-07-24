@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">c1</font>, <font color="Maroon" title="c3">c2</font> be   <a href="xcmplx_0.html#NM1" title="XCMPLX_0:NM.1">Complex</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c2">c1</font>,<font color="Maroon" title="c3">c2</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">c1</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <font color="Maroon" title="c3">c2</font></span><br/>
+
+
+
+<a NAME="E1:86"/>
+( <font color="Maroon" title="c2">c1</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="numbers.html#K2" title="NUMBERS:func.2">COMPLEX</a>  &amp; <font color="Maroon" title="c3">c2</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="numbers.html#K2" title="NUMBERS:func.2">COMPLEX</a>  )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xcmplx_0.html#D2" onmouseover="rs('xcmplx_0/D2')" onmouseout="rh()">XCMPLX_0:def 2</a></span>;<br/>
+<span class="kw">then </span><a href="binop_2.html#K3" title="BINOP_2:func.3">addcomplex</a> <a href="afinsq_2.html#K6" title="AFINSQ_2:func.6">"**"</a> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c2">c1</font>,<font color="Maroon" title="c3">c2</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> = 
+<a href="binop_2.html#K3" title="BINOP_2:func.3">addcomplex</a> <a href="binop_1.html#K1" title="BINOP_1:func.1">.</a> (<font color="Maroon" title="c2">c1</font>,<font color="Maroon" title="c3">c2</font>)
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_2.html#T38" target="_self" onmouseover="rs('afinsq_2/T38')" onmouseout="rh()">Th38</a></span>
+<br/>.= 
+<font color="Maroon" title="c2">c1</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <font color="Maroon" title="c3">c2</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="binop_2.html#D3" onmouseover="rs('binop_2/D3')" onmouseout="rh()">BINOP_2:def 3</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E3:86"/>
+ <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c2">c1</font>,<font color="Maroon" title="c3">c2</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">c1</font> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <font color="Maroon" title="c3">c2</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

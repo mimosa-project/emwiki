@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AS</font> be   <a href="diraf.html#NM1" title="DIRAF:NM.1">AffinSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">AS</font> is   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a> implies  <a href="afproj.html#K1" title="AFPROJ:func.1">AfLines</a> <font color="Maroon" title="c1">AS</font> <a href="xboole_0.html#R1" title="XBOOLE_0:pred.1">misses</a>  <a href="afproj.html#K8" title="AFPROJ:func.8">Dir_of_Planes</a> <font color="Maroon" title="c1">AS</font> )</span><br/>
+
+<a NAME="E1:22"/>
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font>
+ 
+;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c2">X9</font> =  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AS</font> as   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font> ;<br/>
+<span class="kw">assume </span><a NAME="E3:22"/>
+<font color="Maroon" title="c1">AS</font> is   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="afproj.html#K1" title="AFPROJ:func.1">AfLines</a> <font color="Maroon" title="c1">AS</font> <a href="xboole_0.html#R1" title="XBOOLE_0:pred.1">misses</a>  <a href="afproj.html#K8" title="AFPROJ:func.8">Dir_of_Planes</a> <font color="Maroon" title="c1">AS</font></span><br/>
+
+<a NAME="E4:22"/><span class="kw">then </span><span class="lab"><font color="Green" title="E13">A1</font></span>: 
+<font color="Maroon" title="c2">X9</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afproj.html#T1" target="_self" onmouseover="rs('afproj/T1')" onmouseout="rh()">Th1</a></span>;<br/>
+<span class="kw">assume </span><a NAME="E5:22"/>
+ not  <a href="afproj.html#K1" title="AFPROJ:func.1">AfLines</a> <font color="Maroon" title="c1">AS</font> <a href="xboole_0.html#R1" title="XBOOLE_0:pred.1">misses</a>  <a href="afproj.html#K8" title="AFPROJ:func.8">Dir_of_Planes</a> <font color="Maroon" title="c1">AS</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E7:22"/><span class="lab"><font color="Green" title="E14">A2</font></span>: 
+<font color="Maroon" title="c3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="afproj.html#K1" title="AFPROJ:func.1">AfLines</a> <font color="Maroon" title="c1">AS</font>
+ <span class="kw">and </span><br/><a NAME="E8:22"/><span class="lab"><font color="Green" title="E15">A3</font></span>: 
+<font color="Maroon" title="c3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="afproj.html#K8" title="AFPROJ:func.8">Dir_of_Planes</a> <font color="Maroon" title="c1">AS</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_0.html#T3" onmouseover="rs('xboole_0/T3')" onmouseout="rh()">XBOOLE_0:3</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c4">Y</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E10:22"/><span class="lab"><font color="Green" title="E16">A4</font></span>: 
+<font color="Maroon" title="c3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">Y</font>
+ <span class="kw">and </span><br/><a NAME="E11:22"/><span class="lab"><font color="Green" title="E17">A5</font></span>: 
+<font color="Maroon" title="c4">Y</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E7:22"><span class="lab"><font color="Green" title="E14">A2</font></span></a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c5">X</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E13:22"/><span class="lab"><font color="Green" title="E18">A6</font></span>: 
+<font color="Maroon" title="c3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afproj.html#K6" title="AFPROJ:func.6">PDir</a> <font color="Maroon" title="c5">X</font>
+ <span class="kw">and </span><br/><a NAME="E14:22"/><span class="lab"><font color="Green" title="E19">A7</font></span>: 
+<font color="Maroon" title="c5">X</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E8:22"><span class="lab"><font color="Green" title="E15">A3</font></span></a>, <a class="ref" href="afproj.html#T15" target="_self" onmouseover="rs('afproj/T15')" onmouseout="rh()">Th15</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c6">a</font>, <font color="Maroon" title="c7">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E16:22"/><span class="lab"><font color="Green" title="E20">A8</font></span>: 
+<font color="Maroon" title="c6">a</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c4">Y</font>
+ <span class="kw">and </span><br/><a NAME="E17:22"/>
+<font color="Maroon" title="c7">b</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c4">Y</font>
+ <span class="kw">and </span><br/><a NAME="E18:22"/>
+<font color="Maroon" title="c6">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c7">b</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E11:22"><span class="lab"><font color="Green" title="E17">A5</font></span></a>, <a class="ref" href="aff_1.html#T19" onmouseover="rs('aff_1/T19')" onmouseout="rh()">AFF_1:19</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c8">Y9</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E20:22"/><span class="lab"><font color="Green" title="E21">A9</font></span>: 
+<font color="Maroon" title="c6">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c8">Y9</font>
+ <span class="kw">and </span><br/><a NAME="E21:22"/><span class="lab"><font color="Green" title="E22">A10</font></span>: 
+<font color="Maroon" title="c8">Y9</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ <span class="kw">and </span><br/><a NAME="E22:22"/>
+<font color="Maroon" title="c5">X</font> <a href="aff_4.html#R1" title="AFF_4:pred.1">'||'</a> <font color="Maroon" title="c8">Y9</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E13:22"><span class="lab"><font color="Green" title="E18">A6</font></span></a>, <a class="txt" href="#E14:22"><span class="lab"><font color="Green" title="E19">A7</font></span></a>, <a class="txt" href="#E10:22"><span class="lab"><font color="Green" title="E16">A4</font></span></a>, <a class="txt" href="#E16:22"><span class="lab"><font color="Green" title="E20">A8</font></span></a>, <a class="ref" href="afproj.html#T10" target="_self" onmouseover="rs('afproj/T10')" onmouseout="rh()">Th10</a></span>;<br/>
+<a NAME="E23:22"/><span class="lab"><font color="Green" title="E23">A11</font></span>: 
+ not <font color="Maroon" title="c8">Y9</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c8">Y9</font>
+ 
+;<br/>
+<a NAME="E24:22"/>
+<font color="Maroon" title="c8">Y9</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">X9</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:22"><span class="lab"><font color="Green" title="E13">A1</font></span></a>, <a class="txt" href="#E21:22"><span class="lab"><font color="Green" title="E22">A10</font></span></a>, <a class="ref" href="aff_4.html#T33" onmouseover="rs('aff_4/T33')" onmouseout="rh()">AFF_4:33</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E25:22"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E20:22"><span class="lab"><font color="Green" title="E21">A9</font></span></a>, <a class="txt" href="#E23:22"><span class="lab"><font color="Green" title="E23">A11</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

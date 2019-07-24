@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">R</font> be   <a href="relat_1.html#NM1" title="RELAT_1:NM.1">Relation</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">R</font> is  <a href="valued_0.html#V4" title="VALUED_0:attr.4">natural-valued</a>  implies <font color="Maroon" title="c2">R</font> is  <a href="partfun3.html#V4" title="PARTFUN3:attr.4">nonnegative-yielding</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:84_1_1"/>
+<font color="Maroon" title="c2">R</font> is  <a href="valued_0.html#V4" title="VALUED_0:attr.4">natural-valued</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">R</font> is  <a href="partfun3.html#V4" title="PARTFUN3:attr.4">nonnegative-yielding</a> </span><br/>
+
+<a NAME="E2:84_1_1"/><span class="kw">then </span>
+ for <font color="Olive" title="b1">r</font> being   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a>  st <font color="Olive" title="b1">r</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="relat_1.html#NK2" title="RELAT_1:NK.2">rng</a> <font color="Maroon" title="c2">R</font> holds <br/><font color="Olive" title="b1">r</font> <a href="xxreal_0.html#NR2" title="XXREAL_0:NR.2">&gt;=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E3:84_1_1"/>
+<font color="Maroon" title="c2">R</font> is  <a href="partfun3.html#V4" title="PARTFUN3:attr.4">nonnegative-yielding</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="partfun3.html#D4" onmouseover="rs('partfun3/D4')" onmouseout="rh()">PARTFUN3:def 4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:93"/><span class="lab"><font color="Green" title="E58">A1</font></span>: 
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<a NAME="E2:93"/><span class="lab"><font color="Green" title="E59">A2</font></span>: 
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<a NAME="E3:93"/><span class="lab"><font color="Green" title="E60">A3</font></span>: 
+ <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K2" title="FINSEQ_1:func.2">Seg</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:93"><span class="lab"><font color="Green" title="E58">A1</font></span></a>, <a class="ref" href="finseq_1.html#D3" onmouseover="rs('finseq_1/D3')" onmouseout="rh()">FINSEQ_1:def 3</a></span>;<br/>
+<a NAME="E4:93"/><span class="lab"><font color="Green" title="E61">A4</font></span>: 
+ <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K2" title="FINSEQ_1:func.2">Seg</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:93"><span class="lab"><font color="Green" title="E59">A2</font></span></a>, <a class="ref" href="finseq_1.html#D3" onmouseover="rs('finseq_1/D3')" onmouseout="rh()">FINSEQ_1:def 3</a></span>;<br/>
+<a NAME="E5:93"/><span class="kw">then </span><span class="lab"><font color="Green" title="E62">A5</font></span>: 
+1 <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span>
+ 
+;<br/>
+<a NAME="E6:93"/><span class="lab"><font color="Green" title="E63">A6</font></span>: 
+<span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 3
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<a NAME="E7:93"/><span class="lab"><font color="Green" title="E64">A7</font></span>: 
+2 <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:93"><span class="lab"><font color="Green" title="E61">A4</font></span></a></span>;<br/>
+<a NAME="E8:93"/><span class="lab"><font color="Green" title="E65">A8</font></span>: 
+<span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default">3,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 2 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<a NAME="E9:93"/><span class="lab"><font color="Green" title="E66">A9</font></span>: 
+2 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 3
+ 
+;<br/>
+<a NAME="E10:93"/><span class="lab"><font color="Green" title="E67">A10</font></span>: 
+1 <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:93"><span class="lab"><font color="Green" title="E60">A3</font></span></a></span>;<br/>
+<a NAME="E11:93"/><span class="lab"><font color="Green" title="E68">A11</font></span>: 
+<span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<a NAME="E12:93"/><span class="lab"><font color="Green" title="E69">A12</font></span>: 
+2 <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:93"><span class="lab"><font color="Green" title="E60">A3</font></span></a></span>;<br/>
+<a NAME="E13:93"/>
+<span class="p1"><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">&lt;*</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,2</span><a href="finseq_4.html#K2" title="FINSEQ_4:func.2">*&gt;</a></span> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 2 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#T44" onmouseover="rs('finseq_1/T44')" onmouseout="rh()">FINSEQ_1:44</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E14:93"/>
+(  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 4 &amp;  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K2" title="FINSEQ_1:func.2">Seg</a> 4 &amp; <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  &amp; <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 2 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2 &amp; <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 3 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 3 &amp; <a href="aofa_000.html#K19" title="AOFA_000:func.19">ECIW-signature</a> <a href="recdef_1.html#K1" title="RECDEF_1:func.1">.</a> 4 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2 )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:93"><span class="lab"><font color="Green" title="E58">A1</font></span></a>, <a class="txt" href="#E2:93"><span class="lab"><font color="Green" title="E59">A2</font></span></a>, <a class="txt" href="#E5:93"><span class="lab"><font color="Green" title="E62">A5</font></span></a>, <a class="txt" href="#E6:93"><span class="lab"><font color="Green" title="E63">A6</font></span></a>, <a class="txt" href="#E7:93"><span class="lab"><font color="Green" title="E64">A7</font></span></a>, <a class="txt" href="#E8:93"><span class="lab"><font color="Green" title="E65">A8</font></span></a>, <a class="txt" href="#E9:93"><span class="lab"><font color="Green" title="E66">A9</font></span></a>, <a class="txt" href="#E10:93"><span class="lab"><font color="Green" title="E67">A10</font></span></a>, <a class="txt" href="#E11:93"><span class="lab"><font color="Green" title="E68">A11</font></span></a>, <a class="txt" href="#E12:93"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="ref" href="finseq_1.html#T22" onmouseover="rs('finseq_1/T22')" onmouseout="rh()">FINSEQ_1:22</a>, <a class="ref" href="finseq_1.html#D7" onmouseover="rs('finseq_1/D7')" onmouseout="rh()">FINSEQ_1:def 7</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

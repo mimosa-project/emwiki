@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_2.html#V2" title="AMISTD_2:attr.2">with_explicit_jumps</a>  &amp;  <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font> is  <a href="extpro_1.html#V3" title="EXTPRO_1:attr.3">halting</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:13_1_1"/>
+(  <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_2.html#V2" title="AMISTD_2:attr.2">with_explicit_jumps</a>  &amp;  <a href="extpro_1.html#K1" title="EXTPRO_1:func.1">Trivial-AMI</a> <font color="Maroon" title="c1">N</font> is  <a href="extpro_1.html#V3" title="EXTPRO_1:attr.3">halting</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

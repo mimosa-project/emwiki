@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ <a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_5.html#V2" title="AMISTD_5:attr.2">relocable</a>  &amp;  <a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_5.html#V3" title="AMISTD_5:attr.3">IC-recognized</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:11_1_1"/>
+(  <a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_5.html#V2" title="AMISTD_5:attr.2">relocable</a>  &amp;  <a href="amistd_1.html#K4" title="AMISTD_1:func.4">STC</a> <font color="Maroon" title="c1">N</font> is  <a href="amistd_5.html#V3" title="AMISTD_5:attr.3">IC-recognized</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

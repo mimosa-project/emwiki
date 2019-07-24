@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <iframe src="{% static file_path %}" width="700" height="500"></iframe>
+    </body>
+
+</html>
+<script src="{% static 'display/JavaScript/detail.js' %}"></script>
+{% endblock %}

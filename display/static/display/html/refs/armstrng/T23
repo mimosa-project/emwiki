@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><span class="lab"><font color="Green" title="E27">Th23</font></span>: <a NAME="T23"><span class="comment"><font color="firebrick">:: ARMSTRNG:23</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">R</font> being    <a href="armstrng.html#L1" title="ARMSTRNG:struct.1">DB-Rel</a>  holds   <a href="armstrng.html#K5" title="ARMSTRNG:func.5">Dependency-str</a> <font color="Olive" title="b1">R</font> is  <a href="armstrng.html#V6" title="ARMSTRNG:attr.6">full_family</a> </div></div>

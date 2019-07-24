@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><a NAME="T60"><span class="comment"><font color="firebrick">:: ABCMIZ_A:60</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">l</font> being   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="abcmiz_1.html#NM4" title="ABCMIZ_1:NM.4">quasi-loci</a> holds   <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  is    <a href="abcmiz_a.html#M2" title="ABCMIZ_A:mode.2">type-distribution</a> of <font color="Olive" title="b1">l</font></div></div>

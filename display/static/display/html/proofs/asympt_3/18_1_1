@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+<a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="funcop_1.html#K8" title="FUNCOP_1:func.8">--&gt;</a> <font color="Maroon" title="c1">rr</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="funcop_1.html#K8" title="FUNCOP_1:func.8">--&gt;</a> <font color="Maroon" title="c1">rr</font> is  <a href="asympt_3.html#V1" title="ASYMPT_3:attr.1">polynomially-abs-bounded</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:18_1_1"/>
+<a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="funcop_1.html#K8" title="FUNCOP_1:func.8">--&gt;</a> <font color="Maroon" title="c1">rr</font> is  <a href="asympt_3.html#V1" title="ASYMPT_3:attr.1">polynomially-abs-bounded</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_3.html#T10" target="_self" onmouseover="rs('asympt_3/T10')" onmouseout="rh()">LM1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

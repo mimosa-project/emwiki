@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a> 
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V28" title="ALGSTR_0:attr.28">invertible</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V21" title="ALGSTR_0:attr.21">mult-cancelable</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is 1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:73_1_1"/>
+(  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V28" title="ALGSTR_0:attr.28">invertible</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V21" title="ALGSTR_0:attr.21">mult-cancelable</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is  <a href="algstr_0.html#V22" title="ALGSTR_0:attr.22">strict</a>  &amp;  <a href="algstr_0.html#K8" title="ALGSTR_0:func.8">Trivial-multLoopStr</a>  is 1 <a href="struct_0.html#V13" title="STRUCT_0:attr.13">-element</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

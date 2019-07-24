@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:39_1_1"/>
+ <a href="seq_1.html#K1" title="SEQ_1:func.1">seq_const</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> is  <a href="asympt_3.html#V2" title="ASYMPT_3:attr.2">negligible</a> 
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:39_1_1"/>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>,<a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a> st <font color="Olive">b<sub>1</sub></font> is  <a href="asympt_3.html#V2" title="ASYMPT_3:attr.2">negligible</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">x</font> =  the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a> ;<br/>
+<span class="kw">take </span>
+ the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a>  <a href="abcmiz_1.html#K35" title="ABCMIZ_1:func.35">-term</a> <font color="Maroon" title="c1">C</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  not  the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a>  <a href="abcmiz_1.html#K35" title="ABCMIZ_1:func.35">-term</a> <font color="Maroon" title="c1">C</font> is  <a href="abcmiz_1.html#V5" title="ABCMIZ_1:attr.5">compound</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:18_1_1"/>
+ not  the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a>  <a href="abcmiz_1.html#K35" title="ABCMIZ_1:func.35">-term</a> <font color="Maroon" title="c1">C</font> is  <a href="abcmiz_1.html#V5" title="ABCMIZ_1:attr.5">compound</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

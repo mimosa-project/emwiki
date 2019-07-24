@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="anproj_1.html#K5" title="ANPROJ_1:func.5">ProjectiveSpace</a> <font color="Maroon" title="c1">V</font> is  <a href="collsp.html#V3" title="COLLSP:attr.3">transitive</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">p</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="anproj_1.html#K5" title="ANPROJ_1:func.5">ProjectiveSpace</a> <font color="Maroon" title="c1">V</font></span>)</span>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="anproj_2.html#D8" target="_self" onmouseover="rs('anproj_2/D8')" onmouseout="rh()">ANPROJ_2:def 8</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">q</font>, <font color="Olive" title="b2">r</font>, <font color="Olive" title="b3">r1</font>, <font color="Olive" title="b4">r2</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="anproj_1.html#K5" title="ANPROJ_1:func.5">ProjectiveSpace</a> <font color="Maroon" title="c1">V</font></span>)</span>  st <font color="Maroon" title="c2">p</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b1">q</font> &amp; <font color="Maroon" title="c2">p</font>,<font color="Olive" title="b1">q</font>,<font color="Olive" title="b2">r</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  &amp; <font color="Maroon" title="c2">p</font>,<font color="Olive" title="b1">q</font>,<font color="Olive" title="b3">r1</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  &amp; <font color="Maroon" title="c2">p</font>,<font color="Olive" title="b1">q</font>,<font color="Olive" title="b4">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  holds <br/><font color="Olive" title="b2">r</font>,<font color="Olive" title="b3">r1</font>,<font color="Olive" title="b4">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c3">q</font>, <font color="Maroon" title="c4">r</font>, <font color="Maroon" title="c5">r1</font>, <font color="Maroon" title="c6">r2</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="anproj_1.html#K5" title="ANPROJ_1:func.5">ProjectiveSpace</a> <font color="Maroon" title="c1">V</font></span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">p</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">q</font> &amp; <font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c4">r</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  &amp; <font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c5">r1</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  &amp; <font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c6">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  implies <font color="Maroon" title="c4">r</font>,<font color="Maroon" title="c5">r1</font>,<font color="Maroon" title="c6">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a>  )</span><br/>
+
+
+
+
+
+
+
+
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:63"/><span class="lab"><font color="Green" title="E58">A1</font></span>: 
+<font color="Maroon" title="c2">p</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">q</font>
+ <span class="kw">and </span><br/><a NAME="E2:63"/><span class="lab"><font color="Green" title="E59">A2</font></span>: 
+<font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c4">r</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> 
+ <span class="kw">and </span><br/><a NAME="E3:63"/><span class="lab"><font color="Green" title="E60">A3</font></span>: 
+<font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c5">r1</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> 
+ <span class="kw">and </span><br/><a NAME="E4:63"/><span class="lab"><font color="Green" title="E61">A4</font></span>: 
+<font color="Maroon" title="c2">p</font>,<font color="Maroon" title="c3">q</font>,<font color="Maroon" title="c6">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">r</font>,<font color="Maroon" title="c5">r1</font>,<font color="Maroon" title="c6">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> </span><br/>
+
+<span class="kw">consider </span><font color="Maroon" title="c7">u1</font>, <font color="Maroon" title="c8">v1</font>, <font color="Maroon" title="c9">w1</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E6:63"/><span class="lab"><font color="Green" title="E62">A5</font></span>: 
+<font color="Maroon" title="c2">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c7">u1</font>
+ <span class="kw">and </span><br/><a NAME="E7:63"/><span class="lab"><font color="Green" title="E63">A6</font></span>: 
+<font color="Maroon" title="c3">q</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c8">v1</font>
+ <span class="kw">and </span><br/><a NAME="E8:63"/><span class="lab"><font color="Green" title="E64">A7</font></span>: 
+<font color="Maroon" title="c4">r</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c9">w1</font>
+ <span class="kw">and </span><br/><a NAME="E9:63"/><span class="lab"><font color="Green" title="E65">A8</font></span>: 
+ not <font color="Maroon" title="c7">u1</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E10:63"/><span class="lab"><font color="Green" title="E66">A9</font></span>: 
+ not <font color="Maroon" title="c8">v1</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E11:63"/><span class="lab"><font color="Green" title="E67">A10</font></span>: 
+ not <font color="Maroon" title="c9">w1</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E12:63"/><span class="lab"><font color="Green" title="E68">A11</font></span>: 
+<font color="Maroon" title="c7">u1</font>,<font color="Maroon" title="c8">v1</font>,<font color="Maroon" title="c9">w1</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:63"><span class="lab"><font color="Green" title="E59">A2</font></span></a>, <a class="ref" href="anproj_2.html#T23" target="_self" onmouseover="rs('anproj_2/T23')" onmouseout="rh()">Th23</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c10">v</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E14:63"/><span class="lab"><font color="Green" title="E69">A12</font></span>: 
+ not <font color="Maroon" title="c10">v</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E15:63"/><span class="lab"><font color="Green" title="E70">A13</font></span>: 
+<font color="Maroon" title="c3">q</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c10">v</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="anproj_1.html#T26" onmouseover="rs('anproj_1/T26')" onmouseout="rh()">ANPROJ_1:26</a></span>;<br/>
+<a NAME="E16:63"/><span class="lab"><font color="Green" title="E71">A14</font></span>: 
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c8">v1</font>,<font color="Maroon" title="c10">v</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E14:63"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="txt" href="#E15:63"><span class="lab"><font color="Green" title="E70">A13</font></span></a>, <a class="txt" href="#E7:63"><span class="lab"><font color="Green" title="E63">A6</font></span></a>, <a class="txt" href="#E10:63"><span class="lab"><font color="Green" title="E66">A9</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c11">u3</font>, <font color="Maroon" title="c12">v3</font>, <font color="Maroon" title="c13">w3</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E18:63"/><span class="lab"><font color="Green" title="E72">A15</font></span>: 
+<font color="Maroon" title="c2">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c11">u3</font>
+ <span class="kw">and </span><br/><a NAME="E19:63"/><span class="lab"><font color="Green" title="E73">A16</font></span>: 
+<font color="Maroon" title="c3">q</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c12">v3</font>
+ <span class="kw">and </span><br/><a NAME="E20:63"/><span class="lab"><font color="Green" title="E74">A17</font></span>: 
+<font color="Maroon" title="c6">r2</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c13">w3</font>
+ <span class="kw">and </span><br/><a NAME="E21:63"/><span class="lab"><font color="Green" title="E75">A18</font></span>: 
+ not <font color="Maroon" title="c11">u3</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E22:63"/><span class="lab"><font color="Green" title="E76">A19</font></span>: 
+ not <font color="Maroon" title="c12">v3</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E23:63"/><span class="lab"><font color="Green" title="E77">A20</font></span>: 
+ not <font color="Maroon" title="c13">w3</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E24:63"/><span class="lab"><font color="Green" title="E78">A21</font></span>: 
+<font color="Maroon" title="c11">u3</font>,<font color="Maroon" title="c12">v3</font>,<font color="Maroon" title="c13">w3</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:63"><span class="lab"><font color="Green" title="E61">A4</font></span></a>, <a class="ref" href="anproj_2.html#T23" target="_self" onmouseover="rs('anproj_2/T23')" onmouseout="rh()">Th23</a></span>;<br/>
+<a NAME="E25:63"/><span class="lab"><font color="Green" title="E79">A22</font></span>: 
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c12">v3</font>,<font color="Maroon" title="c10">v</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E14:63"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="txt" href="#E15:63"><span class="lab"><font color="Green" title="E70">A13</font></span></a>, <a class="txt" href="#E19:63"><span class="lab"><font color="Green" title="E73">A16</font></span></a>, <a class="txt" href="#E22:63"><span class="lab"><font color="Green" title="E76">A19</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c14">u2</font>, <font color="Maroon" title="c15">v2</font>, <font color="Maroon" title="c16">w2</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E27:63"/><span class="lab"><font color="Green" title="E80">A23</font></span>: 
+<font color="Maroon" title="c2">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c14">u2</font>
+ <span class="kw">and </span><br/><a NAME="E28:63"/><span class="lab"><font color="Green" title="E81">A24</font></span>: 
+<font color="Maroon" title="c3">q</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c15">v2</font>
+ <span class="kw">and </span><br/><a NAME="E29:63"/><span class="lab"><font color="Green" title="E82">A25</font></span>: 
+<font color="Maroon" title="c5">r1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c16">w2</font>
+ <span class="kw">and </span><br/><a NAME="E30:63"/><span class="lab"><font color="Green" title="E83">A26</font></span>: 
+ not <font color="Maroon" title="c14">u2</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E31:63"/><span class="lab"><font color="Green" title="E84">A27</font></span>: 
+ not <font color="Maroon" title="c15">v2</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E32:63"/><span class="lab"><font color="Green" title="E85">A28</font></span>: 
+ not <font color="Maroon" title="c16">w2</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E33:63"/><span class="lab"><font color="Green" title="E86">A29</font></span>: 
+<font color="Maroon" title="c14">u2</font>,<font color="Maroon" title="c15">v2</font>,<font color="Maroon" title="c16">w2</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:63"><span class="lab"><font color="Green" title="E60">A3</font></span></a>, <a class="ref" href="anproj_2.html#T23" target="_self" onmouseover="rs('anproj_2/T23')" onmouseout="rh()">Th23</a></span>;<br/>
+<a NAME="E34:63"/><span class="lab"><font color="Green" title="E87">A30</font></span>: 
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c15">v2</font>,<font color="Maroon" title="c10">v</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E14:63"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="txt" href="#E15:63"><span class="lab"><font color="Green" title="E70">A13</font></span></a>, <a class="txt" href="#E28:63"><span class="lab"><font color="Green" title="E81">A24</font></span></a>, <a class="txt" href="#E31:63"><span class="lab"><font color="Green" title="E84">A27</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c17">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E36:63"/><span class="lab"><font color="Green" title="E88">A31</font></span>: 
+ not <font color="Maroon" title="c17">u</font> is  <a href="struct_0.html#V9" title="STRUCT_0:attr.9">zero</a> 
+ <span class="kw">and </span><br/><a NAME="E37:63"/><span class="lab"><font color="Green" title="E89">A32</font></span>: 
+<font color="Maroon" title="c2">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c17">u</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="anproj_1.html#T26" onmouseover="rs('anproj_1/T26')" onmouseout="rh()">ANPROJ_1:26</a></span>;<br/>
+<a NAME="E38:63"/>
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c7">u1</font>,<font color="Maroon" title="c17">u</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E36:63"><span class="lab"><font color="Green" title="E88">A31</font></span></a>, <a class="txt" href="#E37:63"><span class="lab"><font color="Green" title="E89">A32</font></span></a>, <a class="txt" href="#E6:63"><span class="lab"><font color="Green" title="E62">A5</font></span></a>, <a class="txt" href="#E9:63"><span class="lab"><font color="Green" title="E65">A8</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<a NAME="E39:63"/><span class="kw">then </span><span class="lab"><font color="Green" title="E90">A33</font></span>: 
+<font color="Maroon" title="c17">u</font>,<font color="Maroon" title="c10">v</font>,<font color="Maroon" title="c9">w1</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E12:63"><span class="lab"><font color="Green" title="E68">A11</font></span></a>, <a class="txt" href="#E16:63"><span class="lab"><font color="Green" title="E71">A14</font></span></a>, <a class="ref" href="anproj_1.html#T4" onmouseover="rs('anproj_1/T4')" onmouseout="rh()">ANPROJ_1:4</a></span>;<br/>
+<a NAME="E40:63"/>
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c11">u3</font>,<font color="Maroon" title="c17">u</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E36:63"><span class="lab"><font color="Green" title="E88">A31</font></span></a>, <a class="txt" href="#E37:63"><span class="lab"><font color="Green" title="E89">A32</font></span></a>, <a class="txt" href="#E18:63"><span class="lab"><font color="Green" title="E72">A15</font></span></a>, <a class="txt" href="#E21:63"><span class="lab"><font color="Green" title="E75">A18</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<a NAME="E41:63"/><span class="kw">then </span><span class="lab"><font color="Green" title="E91">A34</font></span>: 
+<font color="Maroon" title="c17">u</font>,<font color="Maroon" title="c10">v</font>,<font color="Maroon" title="c13">w3</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E24:63"><span class="lab"><font color="Green" title="E78">A21</font></span></a>, <a class="txt" href="#E25:63"><span class="lab"><font color="Green" title="E79">A22</font></span></a>, <a class="ref" href="anproj_1.html#T4" onmouseover="rs('anproj_1/T4')" onmouseout="rh()">ANPROJ_1:4</a></span>;<br/>
+<a NAME="E42:63"/>
+ <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c14">u2</font>,<font color="Maroon" title="c17">u</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E36:63"><span class="lab"><font color="Green" title="E88">A31</font></span></a>, <a class="txt" href="#E37:63"><span class="lab"><font color="Green" title="E89">A32</font></span></a>, <a class="txt" href="#E27:63"><span class="lab"><font color="Green" title="E80">A23</font></span></a>, <a class="txt" href="#E30:63"><span class="lab"><font color="Green" title="E83">A26</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<a NAME="E43:63"/><span class="kw">then </span><span class="lab"><font color="Green" title="E92">A35</font></span>: 
+<font color="Maroon" title="c17">u</font>,<font color="Maroon" title="c10">v</font>,<font color="Maroon" title="c16">w2</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E33:63"><span class="lab"><font color="Green" title="E86">A29</font></span></a>, <a class="txt" href="#E34:63"><span class="lab"><font color="Green" title="E87">A30</font></span></a>, <a class="ref" href="anproj_1.html#T4" onmouseover="rs('anproj_1/T4')" onmouseout="rh()">ANPROJ_1:4</a></span>;<br/>
+<a NAME="E44:63"/>
+ not  <a href="anproj_1.html#R1" title="ANPROJ_1:pred.1">are_Prop</a> <font color="Maroon" title="c17">u</font>,<font color="Maroon" title="c10">v</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:63"><span class="lab"><font color="Green" title="E58">A1</font></span></a>, <a class="txt" href="#E36:63"><span class="lab"><font color="Green" title="E88">A31</font></span></a>, <a class="txt" href="#E37:63"><span class="lab"><font color="Green" title="E89">A32</font></span></a>, <a class="txt" href="#E14:63"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="txt" href="#E15:63"><span class="lab"><font color="Green" title="E70">A13</font></span></a>, <a class="ref" href="anproj_1.html#T22" onmouseover="rs('anproj_1/T22')" onmouseout="rh()">ANPROJ_1:22</a></span>;<br/>
+<a NAME="E45:63"/><span class="kw">then </span>
+<font color="Maroon" title="c9">w1</font>,<font color="Maroon" title="c16">w2</font>,<font color="Maroon" title="c13">w3</font> <a href="anproj_1.html#R2" title="ANPROJ_1:pred.2">are_LinDep</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E36:63"><span class="lab"><font color="Green" title="E88">A31</font></span></a>, <a class="txt" href="#E14:63"><span class="lab"><font color="Green" title="E69">A12</font></span></a>, <a class="txt" href="#E39:63"><span class="lab"><font color="Green" title="E90">A33</font></span></a>, <a class="txt" href="#E43:63"><span class="lab"><font color="Green" title="E92">A35</font></span></a>, <a class="txt" href="#E41:63"><span class="lab"><font color="Green" title="E91">A34</font></span></a>, <a class="ref" href="anproj_1.html#T14" onmouseover="rs('anproj_1/T14')" onmouseout="rh()">ANPROJ_1:14</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E46:63"/>
+<font color="Maroon" title="c4">r</font>,<font color="Maroon" title="c5">r1</font>,<font color="Maroon" title="c6">r2</font> <a href="collsp.html#R1" title="COLLSP:pred.1">are_collinear</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E8:63"><span class="lab"><font color="Green" title="E64">A7</font></span></a>, <a class="txt" href="#E11:63"><span class="lab"><font color="Green" title="E67">A10</font></span></a>, <a class="txt" href="#E29:63"><span class="lab"><font color="Green" title="E82">A25</font></span></a>, <a class="txt" href="#E32:63"><span class="lab"><font color="Green" title="E85">A28</font></span></a>, <a class="txt" href="#E20:63"><span class="lab"><font color="Green" title="E74">A17</font></span></a>, <a class="txt" href="#E23:63"><span class="lab"><font color="Green" title="E77">A20</font></span></a>, <a class="ref" href="anproj_2.html#T23" target="_self" onmouseover="rs('anproj_2/T23')" onmouseout="rh()">Th23</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">X</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="classes1.html#K6" title="CLASSES1:func.6">the_rank_of</a> <font color="Maroon" title="c1">X</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  implies <font color="Maroon" title="c1">X</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:26"/>
+ <a href="classes1.html#K6" title="CLASSES1:func.6">the_rank_of</a> <font color="Maroon" title="c1">X</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">X</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> </span><br/>
+
+<a NAME="E2:26"/><span class="kw">then </span>
+ <a href="classes1.html#K6" title="CLASSES1:func.6">the_rank_of</a> <font color="Maroon" title="c1">X</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="card_1.html#T61" onmouseover="rs('card_1/T61')" onmouseout="rh()">CARD_1:61</a></span>;<br/>
+<a NAME="E3:26"/><span class="kw">then </span><span class="lab"><font color="Green" title="E22">A1</font></span>: 
+ <a href="classes1.html#K4" title="CLASSES1:func.4">Rank</a> <span class="p1">(<span class="default"><a href="classes1.html#K6" title="CLASSES1:func.6">the_rank_of</a> <font color="Maroon" title="c1">X</font></span>)</span> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="card_2.html#T67" onmouseover="rs('card_2/T67')" onmouseout="rh()">CARD_2:67</a></span>;<br/>
+<a NAME="E4:26"/>
+<font color="Maroon" title="c1">X</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="classes1.html#K4" title="CLASSES1:func.4">Rank</a> <span class="p1">(<span class="default"><a href="classes1.html#K6" title="CLASSES1:func.6">the_rank_of</a> <font color="Maroon" title="c1">X</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="classes1.html#D9" onmouseover="rs('classes1/D9')" onmouseout="rh()">CLASSES1:def 9</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:26"/>
+<font color="Maroon" title="c1">X</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:26"><span class="lab"><font color="Green" title="E22">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

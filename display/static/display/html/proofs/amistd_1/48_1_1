@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ <a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font> is  <a href="amistd_1.html#V6" title="AMISTD_1:attr.6">parahalting</a> </span><br/>
+
+<span class="kw">let </span><font color="Maroon" title="c4">s</font> be   <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  <a href="memstr_0.html#V5" title="MEMSTR_0:attr.5">-started</a>  <a href="memstr_0.html#NM2" title="MEMSTR_0:NM.2">State</a> of <font color="Maroon" title="c3">S</font>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="amistd_1.html#D10" target="_self" onmouseover="rs('amistd_1/D10')" onmouseout="rh()">AMISTD_1:def 10</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">P</font> being   <a href="compos_1.html#NM2" title="COMPOS_1:NM.2">Instruction-Sequence</a> of <font color="Maroon" title="c3">S</font>  st  <a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Olive" title="b1">P</font> holds <br/><font color="Olive" title="b1">P</font> <a href="extpro_1.html#R1" title="EXTPRO_1:pred.1">halts_on</a> <font color="Maroon" title="c4">s</font></span><br/><span class="kw">let </span><font color="Maroon" title="c5">P</font> be   <a href="compos_1.html#NM2" title="COMPOS_1:NM.2">Instruction-Sequence</a> of <font color="Maroon" title="c3">S</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c5">P</font> implies <font color="Maroon" title="c5">P</font> <a href="extpro_1.html#R1" title="EXTPRO_1:pred.1">halts_on</a> <font color="Maroon" title="c4">s</font> )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E1:48_1_1"/><span class="lab"><font color="Green" title="E16">A1</font></span>: 
+ <a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <font color="Maroon" title="c5">P</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c5">P</font> <a href="extpro_1.html#R1" title="EXTPRO_1:pred.1">halts_on</a> <font color="Maroon" title="c4">s</font></span><br/>
+
+<span class="kw">take </span>
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="extpro_1.html#D8" onmouseover="rs('extpro_1/D8')" onmouseout="rh()">EXTPRO_1:def 8</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="memstr_0.html#K5" title="MEMSTR_0:func.5">IC</a> <span class="p1">(<span class="default"><a href="extpro_1.html#K5" title="EXTPRO_1:func.5">Comput</a> (<font color="Maroon" title="c5">P</font>,<font color="Maroon" title="c4">s</font>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>)</span>)</span> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c5">P</font> &amp;  <a href="extpro_1.html#K3" title="EXTPRO_1:func.3">CurInstr</a> (<font color="Maroon" title="c5">P</font>,<span class="p1">(<span class="default"><a href="extpro_1.html#K5" title="EXTPRO_1:func.5">Comput</a> (<font color="Maroon" title="c5">P</font>,<font color="Maroon" title="c4">s</font>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="compos_1.html#K2" title="COMPOS_1:func.2">halt</a> <font color="Maroon" title="c3">S</font> )</span><br/>
+
+<a NAME="E2:48_1_1"/><span class="lab"><font color="Green" title="E17">A2</font></span>: 
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="afinsq_1.html#K2" title="AFINSQ_1:func.2">dom</a> <span class="p1">(<span class="default"><a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="compos_1.html#T3" onmouseover="rs('compos_1/T3')" onmouseout="rh()">COMPOS_1:3</a></span>;<br/>
+<a NAME="E3:48_1_1"/>
+ <a href="afinsq_1.html#K2" title="AFINSQ_1:func.2">dom</a> <span class="p1">(<span class="default"><a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font></span>)</span> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c5">P</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:48_1_1"><span class="lab"><font color="Green" title="E16">A1</font></span></a>, <a class="ref" href="relat_1.html#T11" onmouseover="rs('relat_1/T11')" onmouseout="rh()">RELAT_1:11</a></span>;<br/>
+<a NAME="E4:48_1_1"/><span class="kw">then </span><span class="lab"><font color="Green" title="E18">A3</font></span>: 
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c5">P</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:48_1_1"><span class="lab"><font color="Green" title="E17">A2</font></span></a></span>;<br/>
+<a NAME="E5:48_1_1"/><span class="lab"><font color="Green" title="E19">A4</font></span>: 
+ <a href="memstr_0.html#K5" title="MEMSTR_0:func.5">IC</a> <font color="Maroon" title="c4">s</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="memstr_0.html#D11" onmouseover="rs('memstr_0/D11')" onmouseout="rh()">MEMSTR_0:def 11</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E6:48_1_1"/>
+ <a href="memstr_0.html#K5" title="MEMSTR_0:func.5">IC</a> <span class="p1">(<span class="default"><a href="extpro_1.html#K5" title="EXTPRO_1:func.5">Comput</a> (<font color="Maroon" title="c5">P</font>,<font color="Maroon" title="c4">s</font>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>)</span>)</span> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c5">P</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:48_1_1"><span class="lab"><font color="Green" title="E18">A3</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="extpro_1.html#K3" title="EXTPRO_1:func.3">CurInstr</a> (<font color="Maroon" title="c5">P</font>,<span class="p1">(<span class="default"><a href="extpro_1.html#K5" title="EXTPRO_1:func.5">Comput</a> (<font color="Maroon" title="c5">P</font>,<font color="Maroon" title="c4">s</font>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="compos_1.html#K2" title="COMPOS_1:func.2">halt</a> <font color="Maroon" title="c3">S</font></span><br/>
+
+<span class="kw">thus </span> <a href="extpro_1.html#K3" title="EXTPRO_1:func.3">CurInstr</a> (<font color="Maroon" title="c5">P</font>,<span class="p1">(<span class="default"><a href="extpro_1.html#K5" title="EXTPRO_1:func.5">Comput</a> (<font color="Maroon" title="c5">P</font>,<font color="Maroon" title="c4">s</font>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>)</span>)</span>) = 
+<font color="Maroon" title="c5">P</font> <a href="partfun1.html#K7" title="PARTFUN1:func.7">/.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:48_1_1"><span class="lab"><font color="Green" title="E19">A4</font></span></a></span>
+<br/>.= 
+<font color="Maroon" title="c5">P</font> <a href="compos_1.html#K3" title="COMPOS_1:func.3">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:48_1_1"><span class="lab"><font color="Green" title="E18">A3</font></span></a>, <a class="ref" href="partfun1.html#D6" onmouseover="rs('partfun1/D6')" onmouseout="rh()">PARTFUN1:def 6</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="compos_1.html#K4" title="COMPOS_1:func.4">Stop</a> <font color="Maroon" title="c3">S</font></span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:48_1_1"><span class="lab"><font color="Green" title="E16">A1</font></span></a>, <a class="txt" href="#E2:48_1_1"><span class="lab"><font color="Green" title="E17">A2</font></span></a>, <a class="ref" href="grfunc_1.html#T2" onmouseover="rs('grfunc_1/T2')" onmouseout="rh()">GRFUNC_1:2</a></span>
+<br/>.= 
+ <a href="compos_1.html#K2" title="COMPOS_1:func.2">halt</a> <font color="Maroon" title="c3">S</font>
+
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

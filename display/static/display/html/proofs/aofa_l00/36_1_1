@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">A</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">A</font> is  <a href="ordinal1.html#V3" title="ORDINAL1:attr.3">ordinal</a>  implies  not <font color="Maroon" title="c1">A</font> is  <a href="xtuple_0.html#V1" title="XTUPLE_0:attr.1">pair</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:36_1_1"/><span class="lab"><font color="Green" title="E15">A1</font></span>: 
+( <font color="Maroon" title="c1">A</font> is  <a href="ordinal1.html#V3" title="ORDINAL1:attr.3">ordinal</a>  &amp; <font color="Maroon" title="c1">A</font> is  <a href="xtuple_0.html#V1" title="XTUPLE_0:attr.1">pair</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c2">x</font>, <font color="Maroon" title="c3">y</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E3:36_1_1"/><span class="lab"><font color="Green" title="E16">A2</font></span>: 
+<font color="Maroon" title="c1">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c2">x</font>,<font color="Maroon" title="c3">y</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="xtuple_0.html#D1" onmouseover="rs('xtuple_0/D1')" onmouseout="rh()">XTUPLE_0:def 1</a></span>;<br/>
+<a NAME="E4:36_1_1"/>
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">A</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:36_1_1"><span class="lab"><font color="Green" title="E15">A1</font></span></a>, <a class="ref" href="ordinal3.html#T8" onmouseover="rs('ordinal3/T8')" onmouseout="rh()">ORDINAL3:8</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:36_1_1"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:36_1_1"><span class="lab"><font color="Green" title="E16">A2</font></span></a>, <a class="ref" href="tarski.html#D2" onmouseover="rs('tarski/D2')" onmouseout="rh()">TARSKI:def 2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

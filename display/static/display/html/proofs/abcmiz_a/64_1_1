@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c3">m</font> being    <a href="abcmiz_1.html#M2" title="ABCMIZ_1:mode.2">OperSymbol</a> of  <a href="abcmiz_1.html#K12" title="ABCMIZ_1:func.12">a_Type</a> <font color="Maroon" title="c2">C</font>, <font color="Maroon" title="c4">a</font> being    <a href="abcmiz_1.html#M2" title="ABCMIZ_1:mode.2">OperSymbol</a> of  <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c2">C</font><span class="kw"> such that </span><br/><a NAME="E2:64_1_1"/><span class="lab"><font color="Green" title="E35">A1</font></span>: 
+( <font color="Maroon" title="c3">m</font> is  <a href="abcmiz_a.html#V4" title="ABCMIZ_A:attr.4">nullary</a>  &amp; <font color="Maroon" title="c4">a</font> is  <a href="abcmiz_a.html#V4" title="ABCMIZ_A:attr.4">nullary</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_a.html#T38" target="_self" onmouseover="rs('abcmiz_a/T38')" onmouseout="rh()">Th38</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c3">m</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">m</font> is  <a href="abcmiz_a.html#V4" title="ABCMIZ_A:attr.4">nullary</a>  &amp; <font color="Maroon" title="c3">m</font> is  <a href="abcmiz_1.html#V2" title="ABCMIZ_1:attr.2">constructor</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E3:64_1_1"/>
+( <font color="Maroon" title="c3">m</font> is  <a href="abcmiz_a.html#V4" title="ABCMIZ_A:attr.4">nullary</a>  &amp; <font color="Maroon" title="c3">m</font> is  <a href="abcmiz_1.html#V2" title="ABCMIZ_1:attr.2">constructor</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:64_1_1"><span class="lab"><font color="Green" title="E35">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

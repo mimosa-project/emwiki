@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">w</font>, <font color="Olive" title="b2">y</font> being   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font><br/>  for <font color="Olive" title="b3">p</font>, <font color="Olive" title="b4">p1</font>, <font color="Olive" title="b5">q</font>, <font color="Olive" title="b6">q1</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="analmetr.html#K2" title="ANALMETR:func.2">AMSpace</a> (<font color="Maroon" title="c1">V</font>,<font color="Olive" title="b1">w</font>,<font color="Olive" title="b2">y</font>)</span>)</span>  st <font color="Olive" title="b3">p</font>,<font color="Olive" title="b5">q</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Olive" title="b4">p1</font>,<font color="Olive" title="b6">q1</font> holds <br/><font color="Olive" title="b4">p1</font>,<font color="Olive" title="b6">q1</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Olive" title="b3">p</font>,<font color="Olive" title="b5">q</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">w</font>, <font color="Maroon" title="c3">y</font> be   <a href="rlvect_1.html#NM1" title="RLVECT_1:NM.1">VECTOR</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">p</font>, <font color="Olive" title="b2">p1</font>, <font color="Olive" title="b3">q</font>, <font color="Olive" title="b4">q1</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="analmetr.html#K2" title="ANALMETR:func.2">AMSpace</a> (<font color="Maroon" title="c1">V</font>,<font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>)</span>)</span>  st <font color="Olive" title="b1">p</font>,<font color="Olive" title="b3">q</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Olive" title="b2">p1</font>,<font color="Olive" title="b4">q1</font> holds <br/><font color="Olive" title="b2">p1</font>,<font color="Olive" title="b4">q1</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Olive" title="b1">p</font>,<font color="Olive" title="b3">q</font></span><br/><span class="kw">let </span><font color="Maroon" title="c4">p</font>, <font color="Maroon" title="c5">p1</font>, <font color="Maroon" title="c6">q</font>, <font color="Maroon" title="c7">q1</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="analmetr.html#K2" title="ANALMETR:func.2">AMSpace</a> (<font color="Maroon" title="c1">V</font>,<font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>)</span>)</span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c4">p</font>,<font color="Maroon" title="c6">q</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Maroon" title="c5">p1</font>,<font color="Maroon" title="c7">q1</font> implies <font color="Maroon" title="c5">p1</font>,<font color="Maroon" title="c7">q1</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Maroon" title="c4">p</font>,<font color="Maroon" title="c6">q</font> )</span><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="kw">reconsider </span><font color="Maroon" title="c8">u</font> = <font color="Maroon" title="c4">p</font>, <font color="Maroon" title="c9">v</font> = <font color="Maroon" title="c6">q</font>, <font color="Maroon" title="c10">u1</font> = <font color="Maroon" title="c5">p1</font>, <font color="Maroon" title="c11">v1</font> = <font color="Maroon" title="c7">q1</font> as   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font> ;<br/>
+<span class="kw">assume </span><a NAME="E2:38"/>
+<font color="Maroon" title="c4">p</font>,<font color="Maroon" title="c6">q</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Maroon" title="c5">p1</font>,<font color="Maroon" title="c7">q1</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c5">p1</font>,<font color="Maroon" title="c7">q1</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Maroon" title="c4">p</font>,<font color="Maroon" title="c6">q</font></span><br/>
+
+<a NAME="E3:38"/><span class="kw">then </span>
+<font color="Maroon" title="c8">u</font>,<font color="Maroon" title="c9">v</font>,<font color="Maroon" title="c10">u1</font>,<font color="Maroon" title="c11">v1</font> <a href="analmetr.html#R3" title="ANALMETR:pred.3">are_Ort_wrt</a> <font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="analmetr.html#T21" target="_self" onmouseover="rs('analmetr/T21')" onmouseout="rh()">Th21</a></span>;<br/>
+<a NAME="E4:38"/><span class="kw">then </span>
+<font color="Maroon" title="c9">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c8">u</font>,<font color="Maroon" title="c11">v1</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c10">u1</font> <a href="analmetr.html#R2" title="ANALMETR:pred.2">are_Ort_wrt</a> <font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>
+ 
+;<br/>
+<a NAME="E5:38"/><span class="kw">then </span>
+<font color="Maroon" title="c11">v1</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c10">u1</font>,<font color="Maroon" title="c9">v</font> <a href="algstr_0.html#K5" title="ALGSTR_0:func.5">-</a> <font color="Maroon" title="c8">u</font> <a href="analmetr.html#R2" title="ANALMETR:pred.2">are_Ort_wrt</a> <font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>
+ 
+;<br/>
+<a NAME="E6:38"/><span class="kw">then </span>
+<font color="Maroon" title="c10">u1</font>,<font color="Maroon" title="c11">v1</font>,<font color="Maroon" title="c8">u</font>,<font color="Maroon" title="c9">v</font> <a href="analmetr.html#R3" title="ANALMETR:pred.3">are_Ort_wrt</a> <font color="Maroon" title="c2">w</font>,<font color="Maroon" title="c3">y</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E7:38"/>
+<font color="Maroon" title="c5">p1</font>,<font color="Maroon" title="c7">q1</font> <a href="analmetr.html#R4" title="ANALMETR:pred.4">_|_</a> <font color="Maroon" title="c4">p</font>,<font color="Maroon" title="c6">q</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="analmetr.html#T21" target="_self" onmouseover="rs('analmetr/T21')" onmouseout="rh()">Th21</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

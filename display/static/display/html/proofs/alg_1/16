@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  implies <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c1">U1</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E1:16"/>
+<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c1">U1</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c3">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font><span class="kw"> such that </span><br/><a NAME="E3:16"/><span class="lab"><font color="Green" title="E11">A1</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ ;<br/>
+<a NAME="E4:16"/>
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R2" title="ALG_1:pred.2">is_monomorphism</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:16"><span class="lab"><font color="Green" title="E11">A1</font></span></a></span>;<br/>
+<a NAME="E5:16"/><span class="kw">then </span><span class="lab"><font color="Green" title="E12">A2</font></span>: 
+<font color="Maroon" title="c3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a> 
+ 
+;<br/>
+<span class="kw">then </span><span class="lab"><font color="Green" title="E13">A3</font></span>:  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a></span>)</span> = 
+ <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c3">f</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_1.html#T33" onmouseover="rs('funct_1/T33')" onmouseout="rh()">FUNCT_1:33</a></span>
+<br/>.= 
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">U1</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#D1" onmouseover="rs('funct_2/D1')" onmouseout="rh()">FUNCT_2:def 1</a></span>
+;<br/>
+<a NAME="E7:16"/><span class="lab"><font color="Green" title="E14">A4</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="alg_1.html#R3" title="ALG_1:pred.3">is_epimorphism</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:16"><span class="lab"><font color="Green" title="E11">A1</font></span></a></span>;<br/>
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a></span>)</span> = 
+ <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <font color="Maroon" title="c3">f</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:16"><span class="lab"><font color="Green" title="E12">A2</font></span></a>, <a class="ref" href="funct_1.html#T33" onmouseover="rs('funct_1/T33')" onmouseout="rh()">FUNCT_1:33</a></span>
+<br/>.= 
+ the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">U2</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E7:16"><span class="lab"><font color="Green" title="E14">A4</font></span></a></span>
+;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c4">g</font> = <font color="Maroon" title="c3">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  as   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c1">U1</font> <span class="kw">by</span> <span class="lab"><a class="txt" href="#E6:16"><span class="lab"><font color="Green" title="E13">A3</font></span></a>, <a class="ref" href="funct_2.html#D1" onmouseover="rs('funct_2/D1')" onmouseout="rh()">FUNCT_2:def 1</a>, <a class="ref" href="relset_1.html#T4" onmouseover="rs('relset_1/T4')" onmouseout="rh()">RELSET_1:4</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c4">g</font>
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="alg_1.html#D5" target="_self" onmouseover="rs('alg_1/D5')" onmouseout="rh()">ALG_1:def 5</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">g</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E10:16"/>
+<font color="Maroon" title="c4">g</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:16"><span class="lab"><font color="Green" title="E11">A1</font></span></a>, <a class="ref" href="alg_1.html#T10" target="_self" onmouseover="rs('alg_1/T10')" onmouseout="rh()">Th10</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

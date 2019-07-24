@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">s</font> be  <font color="Maroon" title="c1">n</font> <a href="card_1.html#V3" title="CARD_1:attr.3">-element</a>  <a href="afinsq_1.html#NM1" title="AFINSQ_1:NM.1">XFinSequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">s</font> is  <a href="partfun1.html#V1" title="PARTFUN1:attr.1">total</a> </span><br/>
+
+<a NAME="E1:70_1_1"/>
+ <a href="card_1.html#K4" title="CARD_1:func.4">card</a> <font color="Maroon" title="c2">s</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">n</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="card_1.html#D7" onmouseover="rs('card_1/D7')" onmouseout="rh()">CARD_1:def 7</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:70_1_1"/>
+ <a href="afinsq_1.html#K2" title="AFINSQ_1:func.2">dom</a> <font color="Maroon" title="c2">s</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">n</font>
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="partfun1.html#D2" onmouseover="rs('partfun1/D2')" onmouseout="rh()">PARTFUN1:def 2</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

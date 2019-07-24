@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">A</font> =  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a>   <a href="aofa_a00.html#L1" title="AOFA_A00:struct.1">VarMSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br/>
+<span class="kw">take </span>
+ the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a>   <a href="aofa_a00.html#L1" title="AOFA_A00:struct.1">VarMSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a>   <a href="aofa_a00.html#L1" title="AOFA_A00:struct.1">VarMSAlgebra</a> over <font color="Maroon" title="c1">S</font> is  <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:115_1_1"/>
+ the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a>   <a href="aofa_a00.html#L1" title="AOFA_A00:struct.1">VarMSAlgebra</a> over <font color="Maroon" title="c1">S</font> is  <a href="aofa_a01.html#V6" title="AOFA_A01:attr.6">integer-array</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

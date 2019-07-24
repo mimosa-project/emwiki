@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">c</font> be   <a href="xcmplx_0.html#NM1" title="XCMPLX_0:NM.1">Complex</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">c</font> is  <a href="rat_1.html#V1" title="RAT_1:attr.1">rational</a>  implies <font color="Maroon" title="c1">c</font> is  <a href="algnum_1.html#V1" title="ALGNUM_1:attr.1">algebraic</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:32_1_1"/>
+<font color="Maroon" title="c1">c</font> is  <a href="rat_1.html#V1" title="RAT_1:attr.1">rational</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">c</font> is  <a href="algnum_1.html#V1" title="ALGNUM_1:attr.1">algebraic</a> </span><br/>
+
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c2">c</font> = <font color="Maroon" title="c1">c</font> as   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="gaussint.html#K11" title="GAUSSINT:func.11">F_Rat</a> <span class="kw">by</span> <span class="lab"><a class="ref" href="rat_1.html#D2" onmouseover="rs('rat_1/D2')" onmouseout="rh()">RAT_1:def 2</a></span>;<br/>
+<span class="kw">take </span>
+ <a href="struct_0.html#K9" title="STRUCT_0:func.9">In</a> (<font color="Maroon" title="c2">c</font>,<a href="complfld.html#K1" title="COMPLFLD:func.1">F_Complex</a>)
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="algnum_1.html#D4" target="_self" onmouseover="rs('algnum_1/D4')" onmouseout="rh()">ALGNUM_1:def 4</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="struct_0.html#K9" title="STRUCT_0:func.9">In</a> (<font color="Maroon" title="c2">c</font>,<a href="complfld.html#K1" title="COMPLFLD:func.1">F_Complex</a>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">c</font> &amp;  <a href="struct_0.html#K9" title="STRUCT_0:func.9">In</a> (<font color="Maroon" title="c2">c</font>,<a href="complfld.html#K1" title="COMPLFLD:func.1">F_Complex</a>) <a href="algnum_1.html#R1" title="ALGNUM_1:pred.1">is_integral_over</a>  <a href="gaussint.html#K11" title="GAUSSINT:func.11">F_Rat</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E3:32_1_1"/>
+(  <a href="struct_0.html#K9" title="STRUCT_0:func.9">In</a> (<font color="Maroon" title="c2">c</font>,<a href="complfld.html#K1" title="COMPLFLD:func.1">F_Complex</a>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">c</font> &amp;  <a href="struct_0.html#K9" title="STRUCT_0:func.9">In</a> (<font color="Maroon" title="c2">c</font>,<a href="complfld.html#K1" title="COMPLFLD:func.1">F_Complex</a>) <a href="algnum_1.html#R1" title="ALGNUM_1:pred.1">is_integral_over</a>  <a href="gaussint.html#K11" title="GAUSSINT:func.11">F_Rat</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="algnum_1.html#T3" target="_self" onmouseover="rs('algnum_1/T3')" onmouseout="rh()">Th3</a>, <a class="ref" href="algnum_1.html#T23" target="_self" onmouseover="rs('algnum_1/T23')" onmouseout="rh()">Th27</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

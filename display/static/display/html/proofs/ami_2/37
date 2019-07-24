@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">k</font> be   <a href="ordinal1.html#NM6" title="ORDINAL1:NM.6">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default">1,<font color="Maroon" title="c1">k</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="ami_2.html#K2" title="AMI_2:func.2">SCM-Data-Loc</a> </span><br/>
+
+<a NAME="E1:37"/>
+( 1 <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default">1</span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> &amp; <font color="Maroon" title="c1">k</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal1.html#D12" onmouseover="rs('ordinal1/D12')" onmouseout="rh()">ORDINAL1:def 12</a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:37"/>
+<span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default">1,<font color="Maroon" title="c1">k</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="ami_2.html#K2" title="AMI_2:func.2">SCM-Data-Loc</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#T87" onmouseover="rs('zfmisc_1/T87')" onmouseout="rh()">ZFMISC_1:87</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

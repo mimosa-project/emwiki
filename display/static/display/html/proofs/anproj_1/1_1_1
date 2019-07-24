@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c4">p</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a> st <br/>( <font color="Olive" title="b1">a</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font> &amp; <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  &amp; <font color="Olive" title="b2">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )</span><br/>
+
+<a NAME="E1:1_1_1"/>
+1 <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:1_1_1"/>
+ ex <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a> st <br/>( <font color="Olive" title="b1">a</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> <a href="rlvect_1.html#K1" title="RLVECT_1:func.1">*</a> <font color="Maroon" title="c4">p</font> &amp; <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  &amp; <font color="Olive" title="b2">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

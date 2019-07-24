@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:3_1_1"/>
+<font color="Maroon" title="c3">c</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c1">X</font> <a href="afinsq_1.html#K8" title="AFINSQ_1:func.8">^omega</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_1.html#D7" onmouseover="rs('afinsq_1/D7')" onmouseout="rh()">AFINSQ_1:def 7</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:3_1_1"/>
+<font color="Maroon" title="c2">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">c</font> is    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c1">X</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#T5" onmouseover="rs('funct_2/T5')" onmouseout="rh()">FUNCT_2:5</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

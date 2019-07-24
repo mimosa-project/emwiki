@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:27_1_1"/>
+ for <font color="Olive" title="b1">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b1">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c1">I</font> holds <br/> not <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">i</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="27_1_1_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c3">i</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c1">I</font> implies  not <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:27_1_1_1"/><span class="lab"><font color="Green" title="E19">A1</font></span>: 
+<font color="Maroon" title="c3">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c1">I</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  not <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> </span><br/>
+
+<a NAME="E2:27_1_1_1"/><span class="kw">then </span>
+<span class="p1">(<span class="default"><a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font></span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font> is   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <span class="p1">(<span class="default"><font color="Maroon" title="c2">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font></span>)</span>,<span class="p1">(<span class="default"><font color="Maroon" title="c2">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="pboole.html#D15" onmouseover="rs('pboole/D15')" onmouseout="rh()">PBOOLE:def 15</a></span>;<br/>
+<a NAME="E3:27_1_1_1"/><span class="kw">then </span>
+<span class="p1">(<span class="default"><a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font></span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="funct_2.html#K1" title="FUNCT_2:func.1">Funcs</a> (<span class="p1">(<span class="default"><font color="Maroon" title="c2">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font></span>)</span>,<span class="p1">(<span class="default"><font color="Maroon" title="c2">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font></span>)</span>)
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#T9" onmouseover="rs('funct_2/T9')" onmouseout="rh()">FUNCT_2:9</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:27_1_1_1"/>
+ not <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c3">i</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:27_1_1_1"><span class="lab"><font color="Green" title="E19">A1</font></span></a>, <a class="ref" href="pboole.html#D17" onmouseover="rs('pboole/D17')" onmouseout="rh()">PBOOLE:def 17</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E2:27_1_1"/>
+ <a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>) is  <a href="relat_1.html#V2" title="RELAT_1:attr.2">non-empty</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="pboole.html#D13" onmouseover="rs('pboole/D13')" onmouseout="rh()">PBOOLE:def 13</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

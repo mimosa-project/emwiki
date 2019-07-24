@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:8_1_1"/><span class="lab"><font color="Green" title="E11">A1</font></span>: 
+ <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c3">g</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#D1" onmouseover="rs('funct_2/D1')" onmouseout="rh()">FUNCT_2:def 1</a></span>;<br/>
+<a NAME="E2:8_1_1"/><span class="lab"><font color="Green" title="E12">A2</font></span>: 
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c2">f</font> <a href="aofa_i00.html#K2" title="AOFA_I00:func.2">div</a> <font color="Maroon" title="c3">g</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c2">f</font></span>)</span> <a href="subset_1.html#K9" title="SUBSET_1:func.9">/\</a> <span class="p1">(<span class="default"><a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c3">g</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_i00.html#D3" target="_self" onmouseover="rs('aofa_i00/D3')" onmouseout="rh()">Def3</a></span>;<br/>
+<a NAME="E3:8_1_1"/><span class="lab"><font color="Green" title="E13">A3</font></span>: 
+ <a href="relset_1.html#K1" title="RELSET_1:func.1">dom</a> <font color="Maroon" title="c2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#D1" onmouseover="rs('funct_2/D1')" onmouseout="rh()">FUNCT_2:def 1</a></span>;<br/>
+<a NAME="E4:8_1_1"/>
+ <a href="relset_1.html#K2" title="RELSET_1:func.2">rng</a> <span class="p1">(<span class="default"><font color="Maroon" title="c2">f</font> <a href="aofa_i00.html#K2" title="AOFA_I00:func.2">div</a> <font color="Maroon" title="c3">g</font></span>)</span> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="numbers.html#K4" title="NUMBERS:func.4">INT</a> 
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E5:8_1_1"/>
+<font color="Maroon" title="c2">f</font> <a href="aofa_i00.html#K2" title="AOFA_I00:func.2">div</a> <font color="Maroon" title="c3">g</font> is   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <font color="Maroon" title="c1">X</font>,<a href="numbers.html#K4" title="NUMBERS:func.4">INT</a>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:8_1_1"><span class="lab"><font color="Green" title="E12">A2</font></span></a>, <a class="txt" href="#E3:8_1_1"><span class="lab"><font color="Green" title="E13">A3</font></span></a>, <a class="txt" href="#E1:8_1_1"><span class="lab"><font color="Green" title="E11">A1</font></span></a>, <a class="ref" href="funct_2.html#T2" onmouseover="rs('funct_2/T2')" onmouseout="rh()">FUNCT_2:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

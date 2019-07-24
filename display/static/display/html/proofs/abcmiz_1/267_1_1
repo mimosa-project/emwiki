@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:267_1_1"/><span class="lab"><font color="Green" title="E123">A1</font></span>: 
+<font color="Maroon" title="c3">A</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ 
+;<br/>
+<span class="kw">deffunc </span><font color="Maroon">H<sub>2</sub></font>(  <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font>) <span class="kw">-&gt; </span>  <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> = <font color="Maroon" title="c1">C</font> <a href="abcmiz_1.html#K56" title="ABCMIZ_1:func.56">at</a> <font color="Maroon" title="c2">f</font>;<br/>
+<a NAME="E2:267_1_1"/><span class="lab"><font color="Green" title="E124">A2</font></span>: 
+<span class="p1"> { <span class="default"> <font color="Maroon">H<sub>2</sub></font>(<font color="Olive" title="b1">w</font>) where <font color="Olive" title="b1">w</font> is   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">w</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> </span> } </span>  is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ 
+<span class="kw">from</span> <span class="lab"><a class="ref" href="fraenkel.html#S21" onmouseover="rs('fraenkel/S21')" onmouseout="rh()">FRAENKEL:sch 21</a>(<a class="txt" href="#E1:267_1_1"><span class="lab"><font color="Green" title="E123">A1</font></span></a>);<br/></span>
+<a NAME="E3:267_1_1"/>
+<font color="Maroon" title="c3">A</font> <a href="abcmiz_1.html#K63" title="ABCMIZ_1:func.63">at</a> <font color="Maroon" title="c2">f</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a> <span class="p1"> { <span class="default"> <font color="Maroon">H<sub>2</sub></font>(<font color="Olive" title="b1">w</font>) where <font color="Olive" title="b1">w</font> is   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">w</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> </span> } </span> 
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="267_1_1_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c4">x</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="tarski.html#D3" onmouseover="rs('tarski/D3')" onmouseout="rh()">TARSKI:def 3</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">A</font> <a href="abcmiz_1.html#K63" title="ABCMIZ_1:func.63">at</a> <font color="Maroon" title="c2">f</font> or <font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"> { <span class="default"> <font color="Maroon">H<sub>2</sub></font>(<font color="Olive" title="b1">w</font>) where <font color="Olive" title="b1">w</font> is   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">w</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> </span> } </span>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:267_1_1_1"/>
+<font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c3">A</font> <a href="abcmiz_1.html#K63" title="ABCMIZ_1:func.63">at</a> <font color="Maroon" title="c2">f</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"> { <span class="default"> <font color="Maroon">H<sub>2</sub></font>(<font color="Olive" title="b1">w</font>) where <font color="Olive" title="b1">w</font> is   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">w</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> </span> } </span> </span><br/>
+
+<a NAME="E2:267_1_1_1"/><span class="kw">then </span>
+ ex <font color="Olive" title="b1">a</font> being   <a href="abcmiz_1.html#NM10" title="ABCMIZ_1:NM.10">quasi-adjective</a> of <font color="Maroon" title="c1">C</font> st <br/>( <font color="Maroon" title="c4">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> <a href="abcmiz_1.html#K61" title="ABCMIZ_1:func.61">at</a> <font color="Maroon" title="c2">f</font> &amp; <font color="Olive" title="b1">a</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E3:267_1_1_1"/>
+<font color="Maroon" title="c4">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"> { <span class="default"> <font color="Maroon">H<sub>2</sub></font>(<font color="Olive" title="b1">w</font>) where <font color="Olive" title="b1">w</font> is   <a href="abcmiz_1.html#NM6" title="ABCMIZ_1:NM.6">expression</a> of <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">w</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font> </span> } </span> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E4:267_1_1"/>
+<font color="Maroon" title="c3">A</font> <a href="abcmiz_1.html#K63" title="ABCMIZ_1:func.63">at</a> <font color="Maroon" title="c2">f</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:267_1_1"><span class="lab"><font color="Green" title="E124">A2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

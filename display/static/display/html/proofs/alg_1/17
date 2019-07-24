@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">U1</font>, <font color="Maroon" title="c2">U2</font>, <font color="Maroon" title="c3">U3</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  &amp; <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  implies <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:17"/>
+<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  or <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a>  )</span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c4">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c2">U2</font><span class="kw"> such that </span><br/><a NAME="E3:17"/><span class="lab"><font color="Green" title="E11">A1</font></span>: 
+<font color="Maroon" title="c4">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ ;<br/>
+<span class="kw">assume </span><a NAME="E4:17"/>
+<font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> </span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c5">g</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c2">U2</font>,<font color="Maroon" title="c3">U3</font><span class="kw"> such that </span><br/><a NAME="E6:17"/><span class="lab"><font color="Green" title="E12">A2</font></span>: 
+<font color="Maroon" title="c5">g</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ ;<br/>
+<a NAME="E7:17"/>
+<font color="Maroon" title="c5">g</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Maroon" title="c4">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:17"><span class="lab"><font color="Green" title="E11">A1</font></span></a>, <a class="txt" href="#E6:17"><span class="lab"><font color="Green" title="E12">A2</font></span></a>, <a class="ref" href="alg_1.html#T11" target="_self" onmouseover="rs('alg_1/T11')" onmouseout="rh()">Th11</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E8:17"/>
+<font color="Maroon" title="c1">U1</font>,<font color="Maroon" title="c3">U3</font> <a href="alg_1.html#R5" title="ALG_1:pred.5">are_isomorphic</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

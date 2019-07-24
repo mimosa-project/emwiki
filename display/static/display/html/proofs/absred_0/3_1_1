@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c1">A</font> =  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br/>
+<span class="kw">set </span><font color="Maroon" title="c2">r</font> =  the   <a href="relset_1.html#NM2" title="RELSET_1:NM.2">Relation</a> of  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br/>
+<span class="kw">take </span><font color="Maroon" title="c3">X</font> =  <a href="absred_0.html#G1" title="ABSRED_0:aggr.1">ARS</a>(#  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> , the   <a href="relset_1.html#NM2" title="RELSET_1:NM.2">Relation</a> of  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  #); <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c3">X</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  &amp; <font color="Maroon" title="c3">X</font> is  <a href="absred_0.html#V1" title="ABSRED_0:attr.1">strict</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:3_1_1"/>
+ not <font color="Maroon" title="c3">X</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">X</font> is  <a href="absred_0.html#V1" title="ABSRED_0:attr.1">strict</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E2:3_1_1"/>
+<font color="Maroon" title="c3">X</font> is  <a href="absred_0.html#V1" title="ABSRED_0:attr.1">strict</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c3">C</font> being   <a href="msafree4.html#NM2" title="MSAFREE4:NM.2">image</a> of <font color="Maroon" title="c2">A</font><span class="kw"> such that </span><br/><a NAME="E2:116_1_1"/><span class="lab"><font color="Green" title="E67">A1</font></span>: 
+<font color="Maroon" title="c3">C</font> is   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>  11,1,1 <a href="aofa_a00.html#V22" title="AOFA_A00:attr.22">-array</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_a01.html#D14" target="_self" onmouseover="rs('aofa_a01/D14')" onmouseout="rh()">Def14</a></span>;<br/>
+<span class="kw">thus </span><a NAME="E3:116_1_1"/>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  <a href="msafree4.html#NM2" title="MSAFREE4:NM.2">image</a> of <font color="Maroon" title="c2">A</font> st <br/>( <font color="Olive">b<sub>1</sub></font> is 4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>  &amp; <font color="Olive">b<sub>1</sub></font> is 11,1,1 <a href="aofa_a00.html#V22" title="AOFA_A00:attr.22">-array</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:116_1_1"><span class="lab"><font color="Green" title="E67">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">c</font> be   <a href="xcmplx_0.html#NM1" title="XCMPLX_0:NM.1">Complex</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c2">c</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">c</font></span><br/>
+
+<a NAME="E1:85"/>
+<font color="Maroon" title="c2">c</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="numbers.html#K2" title="NUMBERS:func.2">COMPLEX</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xcmplx_0.html#D2" onmouseover="rs('xcmplx_0/D2')" onmouseout="rh()">XCMPLX_0:def 2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:85"/>
+ <a href="afinsq_2.html#K7" title="AFINSQ_2:func.7">Sum</a> <span class="p1"><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">&lt;%</a><span class="default"><font color="Maroon" title="c2">c</font></span><a href="afinsq_1.html#K5" title="AFINSQ_1:func.5">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">c</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_2.html#T37" target="_self" onmouseover="rs('afinsq_2/T37')" onmouseout="rh()">Th37</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">reconsider </span><font color="Maroon" title="c1">k</font> = <span class="p1"><a href="int_1.html#K2" title="INT_1:func.2">[/</a><span class="default"><a href="power.html#K4" title="POWER:func.4">number_e</a></span><a href="int_1.html#K2" title="INT_1:func.2">\]</a></span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> 1 as   <a href="int_1.html#NM1" title="INT_1:NM.1">Integer</a> ;<br/>
+<a NAME="E2:15"/><span class="lab"><font color="Green" title="E17">LLC2</font></span>: 
+ <a href="power.html#K4" title="POWER:func.4">number_e</a>  <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <span class="p1"><a href="int_1.html#K2" title="INT_1:func.2">[/</a><span class="default"><a href="power.html#K4" title="POWER:func.4">number_e</a></span><a href="int_1.html#K2" title="INT_1:func.2">\]</a></span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="int_1.html#D7" onmouseover="rs('int_1/D7')" onmouseout="rh()">INT_1:def 7</a></span>;<br/>
+<a NAME="E3:15"/><span class="kw">then </span><span class="lab"><font color="Green" title="E18">LC2</font></span>: 
+ <a href="power.html#K4" title="POWER:func.4">number_e</a>  <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">k</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xreal_1.html#T145" onmouseover="rs('xreal_1/T145')" onmouseout="rh()">XREAL_1:145</a></span>;<br/>
+<a NAME="E4:15"/><span class="kw">then </span><span class="lab"><font color="Green" title="E19">LC3</font></span>: 
+2 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">k</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="xxreal_0.html#T2" onmouseover="rs('xxreal_0/T2')" onmouseout="rh()">XXREAL_0:2</a>, <a class="ref" href="taylor_1.html#T11" onmouseover="rs('taylor_1/T11')" onmouseout="rh()">TAYLOR_1:11</a></span>;<br/>
+<a NAME="E5:15"/>
+<font color="Maroon" title="c1">k</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="int_1.html#T3" onmouseover="rs('int_1/T3')" onmouseout="rh()">INT_1:3</a>, <a class="txt" href="#E2:15"><span class="lab"><font color="Green" title="E17">LLC2</font></span></a>, <a class="ref" href="taylor_1.html#T11" onmouseover="rs('taylor_1/T11')" onmouseout="rh()">TAYLOR_1:11</a></span>;<br/>
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c2">k</font> = <font color="Maroon" title="c1">k</font> as   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a> ;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c3">N</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a><span class="kw"> such that </span><br/><a NAME="E8:15"/><span class="lab"><font color="Green" title="E20">LC4</font></span>: 
+ for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Maroon" title="c3">N</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Olive" title="b1">n</font> holds <br/>2 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <font color="Maroon" title="c2">k</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Olive" title="b1">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Olive" title="b1">n</font>)</span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_2.html#T13" target="_self" onmouseover="rs('asympt_2/T13')" onmouseout="rh()">LMC31H</a>, <a class="txt" href="#E3:15"><span class="lab"><font color="Green" title="E18">LC2</font></span></a></span>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c4">N</font> = <font color="Maroon" title="c3">N</font> as    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal1.html#D12" onmouseover="rs('ordinal1/D12')" onmouseout="rh()">ORDINAL1:def 12</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c4">N</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Maroon" title="c4">N</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Olive" title="b1">n</font> holds <br/>4 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Olive" title="b1">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Olive" title="b1">n</font>)</span>)</span></span><br/>
+
+<span class="kw">let </span><font color="Maroon" title="c5">n</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c4">N</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c5">n</font> implies 4 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Maroon" title="c5">n</font>)</span>)</span> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E10:15"/>
+<font color="Maroon" title="c4">N</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c5">n</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> 4 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Maroon" title="c5">n</font>)</span>)</span></span><br/>
+
+<a NAME="E11:15"/><span class="kw">then </span><span class="lab"><font color="Green" title="E21">LC5</font></span>: 
+2 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <font color="Maroon" title="c2">k</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c5">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Maroon" title="c5">n</font>)</span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E8:15"><span class="lab"><font color="Green" title="E20">LC4</font></span></a></span>;<br/>
+<a NAME="E12:15"/>
+4 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> 2 <a href="series_1.html#K5" title="SERIES_1:func.5">to_power</a> <font color="Maroon" title="c2">k</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T60" onmouseover="rs('power/T60')" onmouseout="rh()">POWER:60</a>, <a class="ref" href="power.html#T39" onmouseover="rs('power/T39')" onmouseout="rh()">POWER:39</a>, <a class="txt" href="#E4:15"><span class="lab"><font color="Green" title="E19">LC3</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E13:15"/>
+4 <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c5">n</font> <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<font color="Maroon" title="c5">n</font>)</span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E11:15"><span class="lab"><font color="Green" title="E21">LC5</font></span></a>, <a class="ref" href="xxreal_0.html#T2" onmouseover="rs('xxreal_0/T2')" onmouseout="rh()">XXREAL_0:2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

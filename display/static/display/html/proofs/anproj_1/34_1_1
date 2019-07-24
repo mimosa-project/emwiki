@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c2">u</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font><span class="kw"> such that </span><br/><a NAME="E2:34_1_1"/><span class="lab"><font color="Green" title="E25">A1</font></span>: 
+<font color="Maroon" title="c2">u</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">V</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="struct_0.html#D18" onmouseover="rs('struct_0/D18')" onmouseout="rh()">STRUCT_0:def 18</a></span>;<br/>
+<span class="kw">set </span><font color="Maroon" title="c3">Y</font> =  <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c2">u</font>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c4">Z</font> being   <a href="setfam_1.html#NM1" title="SETFAM_1:NM.1">Subset-Family</a> of <span class="p1">(<span class="default"><a href="struct_0.html#K8" title="STRUCT_0:func.8">NonZero</a> <font color="Maroon" title="c1">V</font></span>)</span><span class="kw"> such that </span><br/><a NAME="E4:34_1_1"/><span class="lab"><font color="Green" title="E26">A2</font></span>: 
+<font color="Maroon" title="c4">Z</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <span class="p1">(<span class="default"><a href="anproj_1.html#K1" title="ANPROJ_1:func.1">Proportionality_as_EqRel_of</a> <font color="Maroon" title="c1">V</font></span>)</span>
+ <span class="kw">and </span><br/><a NAME="E5:34_1_1"/><span class="lab"><font color="Green" title="E27">A3</font></span>: 
+ <a href="anproj_1.html#K3" title="ANPROJ_1:func.3">ProjectivePoints</a> <font color="Maroon" title="c1">V</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">Z</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="anproj_1.html#D5" target="_self" onmouseover="rs('anproj_1/D5')" onmouseout="rh()">Def5</a></span>;<br/>
+<a NAME="E6:34_1_1"/>
+<font color="Maroon" title="c2">u</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="struct_0.html#K8" title="STRUCT_0:func.8">NonZero</a> <font color="Maroon" title="c1">V</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:34_1_1"><span class="lab"><font color="Green" title="E25">A1</font></span></a>, <a class="ref" href="zfmisc_1.html#T56" onmouseover="rs('zfmisc_1/T56')" onmouseout="rh()">ZFMISC_1:56</a></span>;<br/>
+<a NAME="E7:34_1_1"/><span class="kw">then </span>
+ <a href="anproj_1.html#K2" title="ANPROJ_1:func.2">Dir</a> <font color="Maroon" title="c2">u</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c4">Z</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:34_1_1"><span class="lab"><font color="Green" title="E26">A2</font></span></a>, <a class="ref" href="eqrel_1.html#D3" onmouseover="rs('eqrel_1/D3')" onmouseout="rh()">EQREL_1:def 3</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E8:34_1_1"/>
+ not  <a href="anproj_1.html#K3" title="ANPROJ_1:func.3">ProjectivePoints</a> <font color="Maroon" title="c1">V</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:34_1_1"><span class="lab"><font color="Green" title="E27">A3</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

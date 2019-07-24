@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">i</font>, <font color="Maroon" title="c3">j</font> be   <a href="ordinal1.html#V3" title="ORDINAL1:attr.3">ordinal</a>   <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="arytm_3.html#K5" title="ARYTM_3:func.5">RAT+</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">i</font> <a href="arytm_3.html#K9" title="ARYTM_3:func.9">+</a> <font color="Maroon" title="c3">j</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">i</font> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <font color="Maroon" title="c3">j</font></span><br/>
+
+<span class="kw">set </span><font color="Maroon" title="c4">ni</font> =  <a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c2">i</font>;<br/>
+<span class="kw">set </span><font color="Maroon" title="c5">nj</font> =  <a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font>;<br/>
+<a NAME="E1:72"/><span class="lab"><font color="Green" title="E65">A1</font></span>: 
+<font color="Maroon" title="c3">j</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="ordinal1.html#K4" title="ORDINAL1:func.4">omega</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal1.html#D12" onmouseover="rs('ordinal1/D12')" onmouseout="rh()">ORDINAL1:def 12</a></span>;<br/>
+<a NAME="E2:72"/><span class="kw">then </span><span class="lab"><font color="Green" title="E66">A2</font></span>: 
+ <a href="arytm_3.html#K7" title="ARYTM_3:func.7">denominator</a> <font color="Maroon" title="c3">j</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_3.html#D9" target="_self" onmouseover="rs('arytm_3/D9')" onmouseout="rh()">Def9</a></span>;<br/>
+<a NAME="E3:72"/><span class="lab"><font color="Green" title="E67">A3</font></span>: 
+<font color="Maroon" title="c2">i</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="ordinal1.html#K4" title="ORDINAL1:func.4">omega</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal1.html#D12" onmouseover="rs('ordinal1/D12')" onmouseout="rh()">ORDINAL1:def 12</a></span>;<br/>
+<a NAME="E4:72"/><span class="kw">then </span>
+ <a href="arytm_3.html#K7" title="ARYTM_3:func.7">denominator</a> <font color="Maroon" title="c2">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_3.html#D9" target="_self" onmouseover="rs('arytm_3/D9')" onmouseout="rh()">Def9</a></span>;<br/>
+<span class="kw">hence </span><font color="Maroon" title="c2">i</font> <a href="arytm_3.html#K9" title="ARYTM_3:func.9">+</a> <font color="Maroon" title="c3">j</font> = 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><span class="p3">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c2">i</font></span>)</span> <a href="ordinal3.html#K9" title="ORDINAL3:func.9">*^</a> 1</span>)</span> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <span class="p2">(<span class="default">1 <a href="ordinal3.html#K9" title="ORDINAL3:func.9">*^</a> <span class="p3">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font></span>)</span></span>)</span></span>)</span> <a href="arytm_3.html#K8" title="ARYTM_3:func.8">/</a> 1
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:72"><span class="lab"><font color="Green" title="E66">A2</font></span></a>, <a class="ref" href="ordinal2.html#T39" onmouseover="rs('ordinal2/T39')" onmouseout="rh()">ORDINAL2:39</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c2">i</font></span>)</span> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <span class="p2">(<span class="default">1 <a href="ordinal3.html#K9" title="ORDINAL3:func.9">*^</a> <span class="p3">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font></span>)</span></span>)</span></span>)</span> <a href="arytm_3.html#K8" title="ARYTM_3:func.8">/</a> 1
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal2.html#T39" onmouseover="rs('ordinal2/T39')" onmouseout="rh()">ORDINAL2:39</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c2">i</font></span>)</span> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <span class="p2">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font></span>)</span></span>)</span> <a href="arytm_3.html#K8" title="ARYTM_3:func.8">/</a> 1
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal2.html#T39" onmouseover="rs('ordinal2/T39')" onmouseout="rh()">ORDINAL2:39</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c2">i</font></span>)</span> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <span class="p1">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_3.html#T40" target="_self" onmouseover="rs('arytm_3/T40')" onmouseout="rh()">Th40</a></span>
+<br/>.= 
+<font color="Maroon" title="c2">i</font> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <span class="p1">(<span class="default"><a href="arytm_3.html#K6" title="ARYTM_3:func.6">numerator</a> <font color="Maroon" title="c3">j</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:72"><span class="lab"><font color="Green" title="E67">A3</font></span></a>, <a class="ref" href="arytm_3.html#D8" target="_self" onmouseover="rs('arytm_3/D8')" onmouseout="rh()">Def8</a></span>
+<br/>.= 
+<font color="Maroon" title="c2">i</font> <a href="ordinal3.html#K8" title="ORDINAL3:func.8">+^</a> <font color="Maroon" title="c3">j</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:72"><span class="lab"><font color="Green" title="E65">A1</font></span></a>, <a class="ref" href="arytm_3.html#D8" target="_self" onmouseover="rs('arytm_3/D8')" onmouseout="rh()">Def8</a></span>
+;<br/> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

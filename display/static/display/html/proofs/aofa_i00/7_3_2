@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:7_3_2"/>
+<font color="Maroon" title="c3">x</font> <a href="valued_1.html#K28" title="VALUED_1:func.28">(#)</a> <font color="Maroon" title="c2">f</font> is   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <font color="Maroon" title="c1">X</font>,<a href="numbers.html#K4" title="NUMBERS:func.4">INT</a>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:7_3_2"/>
+<font color="Maroon" title="c2">f</font> <a href="aofa_i00.html#NK2" title="AOFA_I00:NK.2">*</a> <font color="Maroon" title="c3">x</font> is   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of <font color="Maroon" title="c1">X</font>,<a href="numbers.html#K4" title="NUMBERS:func.4">INT</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

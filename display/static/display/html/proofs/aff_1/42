@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AS</font> be   <a href="diraf.html#NM1" title="DIRAF:NM.1">AffinSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">A</font>, <font color="Olive" title="b2">C</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>  st <font color="Olive" title="b1">A</font> <a href="aff_1.html#R3" title="AFF_1:pred.3">//</a> <font color="Olive" title="b2">C</font> holds <br/>( <font color="Olive" title="b1">A</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  &amp; <font color="Olive" title="b2">C</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  )</span><br/><span class="kw">let </span><font color="Maroon" title="c2">A</font>, <font color="Maroon" title="c3">C</font> be   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">A</font> <a href="aff_1.html#R3" title="AFF_1:pred.3">//</a> <font color="Maroon" title="c3">C</font> implies ( <font color="Maroon" title="c2">A</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  &amp; <font color="Maroon" title="c3">C</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  ) )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:42"/>
+<font color="Maroon" title="c2">A</font> <a href="aff_1.html#R3" title="AFF_1:pred.3">//</a> <font color="Maroon" title="c3">C</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">A</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  &amp; <font color="Maroon" title="c3">C</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  )</span><br/>
+
+<a NAME="E2:42"/><span class="kw">then </span>
+ ex <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> st <br/>( <font color="Maroon" title="c2">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="aff_1.html#K2" title="AFF_1:func.2">Line</a> (<font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font>) &amp; <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b2">b</font> &amp; <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="aff_1.html#R2" title="AFF_1:pred.2">//</a> <font color="Maroon" title="c3">C</font> )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E3:42"/>
+( <font color="Maroon" title="c2">A</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  &amp; <font color="Maroon" title="c3">C</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

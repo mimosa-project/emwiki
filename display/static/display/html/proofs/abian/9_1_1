@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c2">j</font> being   <a href="int_1.html#NM1" title="INT_1:NM.1">Integer</a><span class="kw"> such that </span><br/><a NAME="E2:9_1_1"/><span class="lab"><font color="Green" title="E3">A1</font></span>: 
+<font color="Maroon" title="c1">i</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 2 <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> <font color="Maroon" title="c2">j</font>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="abian.html#E2"><span class="lab"><font color="Green" title="E1">Lm1</font></span></a></span>;<br/>
+<a NAME="E3:9_1_1"/>
+<font color="Maroon" title="c1">i</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default">2 <a href="xcmplx_0.html#K3" title="XCMPLX_0:func.3">*</a> <span class="p2">(<span class="default"><font color="Maroon" title="c2">j</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> 1</span>)</span></span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:9_1_1"><span class="lab"><font color="Green" title="E3">A1</font></span></a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:9_1_1"/>
+ not <font color="Maroon" title="c1">i</font> <a href="xcmplx_0.html#K6" title="XCMPLX_0:func.6">-</a> 1 is  <a href="abian.html#V1" title="ABIAN:attr.1">even</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

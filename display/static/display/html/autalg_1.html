@@ -1,0 +1,743 @@
+<html prefix="oo: http://omdoc.org/ontology# owl: http://www.w3.org/2002/07/owl#">
+<style type="text/css">
+div { padding: 0 0 0 0; margin: 0 0 0 0; } 
+div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div.box { border-width:thin; border-color:blue; border-style:solid; }
+p { margin: 0 0 0 0; } 
+body {font-family: monospace; margin: 0px;}
+a {text-decoration:none} a:hover { color: red; } 
+a.ref { font-size:x-small; }
+a.ref:link { color:green; } 
+a.ref:hover { color: red; } 
+a.txt:link { color:black; } 
+a.txt:hover { color: red; } 
+.wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+.wikiactions li { display: inline; padding: .2em .4em; }
+.wikiactions a {text-decoration:underline;} 
+span.kw {font-weight: bold; }
+span.lab {font-style: italic; }
+span.comment {font-style: italic; }
+span.hide { display: none; }
+span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+span.p2:hover { color : inherit; background-color : #FFCACA; }
+span.p3:hover { color : inherit; background-color : #FFFFBA; }
+span.p4:hover { color : inherit; background-color : #CACAFF; }
+span.p5:hover { color : inherit; background-color : #CAFFCA; }
+span.p0:hover { color : inherit; background-color : #FFBAFF; }
+.default { background-color: white; color: black; } 
+.default:hover { background-color: white; color: black; }
+#tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+:target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AUTALG_1:  On the Group of Automorphisms of Universal Algebra &amp; Many Sorted Algebra</title>
+<script type="text/javascript">
+<!-- 
+
+// for saving in rs
+var mizhtm='';
+function hs(obj)
+{
+// document.getElementById('myimage').nextSibling.style.display = 'block';
+if (obj.nextSibling.style.display == 'inline')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'inline'; }
+ else { obj.nextSibling.style.display = 'inline';  }}
+return false;
+}
+
+function hs2(obj)
+{
+if (obj.nextSibling.style.display == 'block')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'block'; }
+ else { obj.nextSibling.style.display = 'none';  }}
+return false;
+}
+function hsNdiv(obj)
+{
+var ndiv = obj;
+while (ndiv.nextSibling.nodeName != 'DIV') { ndiv = ndiv.nextSibling; }
+return hs2(ndiv);
+}
+
+// remote request cache - for each url its http_request.responseText
+var rrCache= {};
+rrCache[0]='';
+
+// explorer7 implements XMLHttpRequest in some strange way
+// optional tooltip is passed to insertRequest
+function makeRequest(obj,url,tooltip) 
+{
+    // if the result is cached, insert it now
+    if (rrCache[url] != null)
+    {
+	insertRequest(obj,null,url,tooltip);
+    }
+    else
+    {
+        var http_request = false;
+        if (window.XMLHttpRequest && !(window.ActiveXObject)) { // Mozilla, Safari,...
+            http_request = new XMLHttpRequest();
+            if (http_request.overrideMimeType) {
+                http_request.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                http_request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    http_request = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e) {}
+            }
+        }
+        if (!http_request) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        http_request.onreadystatechange = function() { insertRequest(obj,http_request,url,tooltip); };
+        http_request.open('GET', url, true);
+        http_request.send(null);
+    }
+}
+// commented the 200 state to have local requests too
+// if tooltip nonnil, obj.innerHTML is changed, and the result is put in rrCache
+function insertRequest(obj,http_request,url,tooltip) 
+{
+    var respText = null;
+    if(http_request == null) // no request done, we are called with cached result
+    {
+	respText = rrCache[url];
+    }
+    else { if (http_request.readyState == 4) { 
+	respText = http_request.responseText; 
+    }}
+
+    if (respText != null) 
+    {
+//            if (http_request.status == 200) {
+	if(http_request != null) {rrCache[url] = respText;}
+	if(tooltip != null)
+	{
+	    obj.innerHTML = respText;	    
+	}
+	else
+	{
+	    var ndiv = obj;
+	    while (ndiv.nodeName != 'SPAN') { ndiv = ndiv.nextSibling; }
+	    ndiv.innerHTML = respText;
+	    obj.onclick = function(){ return hs2(obj) };
+	}
+    }
+}
+
+// simple tooltips
+var tooltip=function(){
+ var id = 'tt';
+ var top = 3;
+ var left = 3;
+ var maxw = 500;
+ var speed = 10;
+ var timer = 2;
+ var endalpha = 95;
+ var alpha = 0;
+ var tt,t,c,b,h;
+ var ie = document.all ? true : false;
+ return{
+  show:function(how,v,w){
+   if(tt == null){
+    tt = document.createElement('div');
+    tt.setAttribute('id',id);
+    document.body.appendChild(tt);
+    tt.style.opacity = 0;
+    tt.style.filter = 'alpha(opacity=0)';
+    document.onmousemove = this.pos;
+   }
+
+   tt.style.display = 'block';
+   if(how == 'url')
+   {
+       if(rrCache[v]==null) { 
+	   tt.innerHTML ='<div>loading...</div>'; 
+	   makeRequest(tt,v,1); 
+       } else { 
+	   tt.innerHTML = rrCache[v]; 
+       }
+   }
+   else { if ((how == 'hs') || (how == 'hs2')) { tt.innerHTML = v.nextSibling.innerHTML; }
+   else { if (how == 'txt') { tt.innerHTML = v; }
+	  else { tt.innerHTML = ''; }
+	}
+   }
+
+   tt.style.width = w ? w + 'px' : 'auto';
+   if(!w && ie){
+    tt.style.width = tt.offsetWidth;
+   }
+  if(tt.offsetWidth > maxw){tt.style.width = maxw + 'px'}
+  h = parseInt(tt.offsetHeight) + top;
+  clearInterval(tt.timer);
+  tt.timer = setInterval(function(){tooltip.fade(1)},timer);
+  },
+  pos:function(e){
+   var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
+   var l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+   tt.style.top = (u - h) + 'px';
+   tt.style.left = (l + left) + 'px';
+  },
+  fade:function(d){
+   var a = alpha;
+   if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+    var i = speed;
+   if(endalpha - a < speed && d == 1){
+    i = endalpha - a;
+   }else if(alpha < speed && d == -1){
+     i = a;
+   }
+   alpha = a + (i * d);
+   tt.style.opacity = alpha * .01;
+   tt.style.filter = 'alpha(opacity=' + alpha + ')';
+  }else{
+    clearInterval(tt.timer);
+     if(d == -1){tt.style.display = 'none'}
+  }
+ },
+ hide:function(){tt.style.display  = 'none';}
+ };
+}();
+
+// reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
+function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
+function rh() { tooltip.hide(); } 
+
+// End -->
+</script><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({                                                                                                                            
+    extensions: ['tex2jax.js'],                                                                                                                   
+    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
+    tex2jax: {                                                                                                                                    
+      inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
+      displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
+  processClass: 'mathjax',                                                                                                                        
+  ignoreClass: 'no-mathjax',                                                                                                                      
+      processEscapes: true,                                                                                                                       
+    },                                                                                                                                            
+    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                          
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</head>
+<body class="no-mathjax">
+<span class="comment"><font color="firebrick">::  On the Group of Automorphisms of Universal Algebra &amp; Many Sorted Algebra</font></span><br><span class="comment"><font color="firebrick">:: by Artur Korni{\l}owicz</font></span><br><span class="comment"><font color="firebrick">:: </font></span><br><span class="comment"><font color="firebrick">:: Received December 13, 1994</font></span><br><span class="comment"><font color="firebrick">:: Copyright (c) 1994-2019 Association of Mizar Users</font></span><br><br><div></div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T1" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E1">Th1</font></span>: <a NAME="T1"><span class="comment"><font color="firebrick">:: AUTALG_1:1</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </div>
+<div about="#PF1" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T1"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/1')" href="javascript:()" title="1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><div about="#D2" typeof="oo:Definition">
+<a NAME="K1"><span class="kw">func</span> </a> <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font><span class="kw"> -&gt; </span>   <a href="funct_2.html#M1" title="FUNCT_2:mode.1">FUNCTION_DOMAIN</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E2">Def1</font></span>: <a NAME="D1"><span class="comment"><font color="firebrick">:: AUTALG_1:def 1</font></span><br></a> for <font color="Olive" title="b1">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">UA</font>,<font color="Maroon" title="c1">UA</font> holds <br> ( <font color="Olive" title="b1">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="kw">it</span> iff <font color="Olive" title="b1">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:2_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being    <a href="funct_2.html#M1" title="FUNCT_2:mode.1">FUNCTION_DOMAIN</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font> st <br> for <font color="Olive" title="b2">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">UA</font>,<font color="Maroon" title="c1">UA</font> holds <br> ( <font color="Olive" title="b2">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Olive" title="b2">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  )
+ </span><div about="#PF2_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/2_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/2_1_1')" href="javascript:()" title="2_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:2_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being    <a href="funct_2.html#M1" title="FUNCT_2:mode.1">FUNCTION_DOMAIN</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">UA</font>  st (  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">UA</font>,<font color="Maroon" title="c1">UA</font> holds <br> ( <font color="Olive" title="b3">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Olive" title="b3">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  ) ) &amp; (  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Maroon" title="c1">UA</font>,<font color="Maroon" title="c1">UA</font> holds <br> ( <font color="Olive" title="b3">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>2</sub></font> iff <font color="Olive" title="b3">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  ) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF2_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/2_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/2_1_2')" href="javascript:()" title="2_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT1" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E2">Def1</font></span>   defines <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 1 : <br></a><span class="hide"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive">b<sub>2</sub></font> being    <a href="funct_2.html#M1" title="FUNCT_2:mode.1">FUNCTION_DOMAIN</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font> holds <br> ( <font color="Olive">b<sub>2</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> iff  for <font color="Olive" title="b3">h</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">UA</font>,<font color="Olive" title="b1">UA</font> holds <br> ( <font color="Olive" title="b3">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>2</sub></font> iff <font color="Olive" title="b3">h</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  ) );<br></span>
+</div>
+<br><div about="#T2" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T2"><span class="comment"><font color="firebrick">:: AUTALG_1:2</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="funct_2.html#K9" title="FUNCT_2:func.9">Funcs</a> ( the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font>)</div>
+<div about="#PF3" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T2"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/3')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/3')" href="javascript:()" title="3"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T3" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E3">Th3</font></span>: <a NAME="T3"><span class="comment"><font color="firebrick">:: AUTALG_1:3</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font>
+</div>
+<div about="#PF4" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T3"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/4')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/4')" href="javascript:()" title="4"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T4" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T4"><span class="comment"><font color="firebrick">:: AUTALG_1:4</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font>, <font color="Olive" title="b3">g</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">UA</font>,<font color="Olive" title="b1">UA</font>  st <font color="Olive" title="b2">f</font> is    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> &amp; <font color="Olive" title="b3">g</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  holds <br><font color="Olive" title="b3">g</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a> </div>
+<div about="#PF5" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T4"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/5')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/5')" href="javascript:()" title="5"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><a NAME="E6"></a><span class="lab"><font color="Green" title="E4">Lm1</font></span>: <span about="#E6" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font> being   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">UA</font>,<font color="Olive" title="b1">UA</font>  st <font color="Olive" title="b2">f</font> <a href="alg_1.html#R4" title="ALG_1:pred.4">is_isomorphism</a>  holds <br><font color="Olive" title="b2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  is   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">UA</font>,<font color="Olive" title="b1">UA</font>
+ </span><br><div about="#PF6" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/6')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/6')" href="javascript:()" title="6"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div about="#T5" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E5">Th5</font></span>: <a NAME="T5"><span class="comment"><font color="firebrick">:: AUTALG_1:5</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds  <font color="Olive" title="b2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font>
+</div>
+<div about="#PF7" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T5"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/7')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/7')" href="javascript:()" title="7"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T6" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E6">Th6</font></span>: <a NAME="T6"><span class="comment"><font color="firebrick">:: AUTALG_1:6</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f1</font>, <font color="Olive" title="b3">f2</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds  <font color="Olive" title="b2">f1</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b3">f2</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font>
+</div>
+<div about="#PF8" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/8')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/8')" href="javascript:()" title="8"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><div about="#D7" typeof="oo:Definition">
+<a NAME="K2"><span class="kw">func</span> </a> <a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <font color="Maroon" title="c1">UA</font><span class="kw"> -&gt; </span>  <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E7">Def2</font></span>: <a NAME="D2"><span class="comment"><font color="firebrick">:: AUTALG_1:def 2</font></span><br></a> for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds  <span class="kw">it</span> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b1">x</font>,<font color="Olive" title="b2">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">y</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b1">x</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:9_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span> st <br> for <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b2">x</font>,<font color="Olive" title="b3">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b2">x</font>
+ </span><div about="#PF9_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/9_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/9_1_1')" href="javascript:()" title="9_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:9_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span>  st (  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b3">x</font> ) &amp; (  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b3">x</font> ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF9_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/9_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/9_1_2')" href="javascript:()" title="9_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT2" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E7">Def2</font></span>   defines <a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 2 : <br></a><span class="hide"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive">b<sub>2</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font></span>)</span> holds <br> ( <font color="Olive">b<sub>2</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <font color="Olive" title="b1">UA</font> iff  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b3">x</font> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K3"><span class="kw">func</span> </a> <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Maroon" title="c1">UA</font><span class="kw"> -&gt; </span>  <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a><span class="kw"> equals </span><a NAME="D3"><span class="comment"><font color="firebrick">:: AUTALG_1:def 3</font></span><br></a> <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <font color="Maroon" title="c1">UA</font></span>)</span> #);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:10_1"></a>
+ <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Maroon" title="c1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <font color="Maroon" title="c1">UA</font></span>)</span> #) is   <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a>
+ </span><div about="#PF10_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/10_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/10_1_1')" href="javascript:()" title="10_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT3" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 3 : <br></a><span class="hide"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K2" title="AUTALG_1:func.2">UAAutComp</a> <font color="Olive" title="b1">UA</font></span>)</span> #);<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">UA</font> be   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>;<br>
+<div about="#FC1" typeof="oo:Theorem">
+<a NAME="FC1"><span class="kw">cluster </span></a> <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Maroon" title="c1">UA</font><span class="kw"> -&gt; </span> <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:11_1"></a>
+ <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Maroon" title="c1">UA</font> is  <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E11"></a><span class="lab"><font color="Green" title="E8">Lm2</font></span>: <span about="#E11" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds <br> (  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Olive" title="b2">f</font> &amp;  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font> )
+ </span><br><div about="#PF12" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E11"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/12')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/12')" href="javascript:()" title="12"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div about="#T7" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T7"><span class="comment"><font color="firebrick">:: AUTALG_1:7</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font></span>)</span><br>  for <font color="Olive" title="b4">f</font>, <font color="Olive" title="b5">g</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font>  st <font color="Olive" title="b2">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">f</font> &amp; <font color="Olive" title="b3">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">g</font> holds <br><font color="Olive" title="b2">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b3">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">g</font> <a href="partfun1.html#K1" title="PARTFUN1:func.1">*</a> <font color="Olive" title="b4">f</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#D2" target="_self" onmouseover="rs('autalg_1/D2')" onmouseout="rh()">Def2</a></span>;<br>
+</div>
+</div>
+<br><div about="#T8" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E9">Th8</font></span>: <a NAME="T8"><span class="comment"><font color="firebrick">:: AUTALG_1:8</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="partfun1.html#K6" title="PARTFUN1:func.6">id</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">UA</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="group_1.html#K1" title="GROUP_1:func.1">1_</a> <span class="p1">(<span class="default"><a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font></span>)</span>
+</div>
+<div about="#PF13" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T8"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/13')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/13')" href="javascript:()" title="13"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T9" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T9"><span class="comment"><font color="firebrick">:: AUTALG_1:9</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font><br>  for <font color="Olive" title="b3">g</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font></span>)</span>  st <font color="Olive" title="b2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">g</font> holds <br><font color="Olive" title="b2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> </div>
+<div about="#PF14" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/14')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/14')" href="javascript:()" title="14"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T10" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T10"><span class="comment"><font color="firebrick">:: AUTALG_1:10</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font>, <font color="Olive" title="b4">C</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font>  st <font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b3">B</font> &amp; <font color="Olive" title="b3">B</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b4">C</font> holds <br><font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b4">C</font>
+</div>
+<div about="#PF15" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T10"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/15')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/15')" href="javascript:()" title="15"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T11" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E10">Th11</font></span>: <a NAME="T11"><span class="comment"><font color="firebrick">:: AUTALG_1:11</font></span><br></a><div class="add"> for <font color="Olive" title="b1">x</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Olive" title="b1">x</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> holds  <font color="Olive" title="b2">A</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">A</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b1">x</font></span>)</span>
+</div>
+<div about="#PF16" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T11"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/16')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/16')" href="javascript:()" title="16"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T12" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E11">Th12</font></span>: <a NAME="T12"><span class="comment"><font color="firebrick">:: AUTALG_1:12</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b4">F</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>  st <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  holds <br>( <font color="Olive" title="b4">F</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b4">F</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  )</div>
+<div about="#PF17" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T12"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/17')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/17')" href="javascript:()" title="17"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T13" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T13"><span class="comment"><font color="firebrick">:: AUTALG_1:13</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b4">F</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>  st <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  holds <br><span class="p1">(<span class="default"><font color="Olive" title="b4">F</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a></span>)</span> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a> <font color="Olive" title="b4">F</font>
+</div>
+<div about="#PF18" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T13"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/18')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/18')" href="javascript:()" title="18"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T14" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E12">Th14</font></span>: <a NAME="T14"><span class="comment"><font color="firebrick">:: AUTALG_1:14</font></span><br></a><div class="add"> for <font color="Olive" title="b1">F</font>, <font color="Olive" title="b2">G</font> being   <a href="funcop_1.html#V1" title="FUNCOP_1:attr.1">Function-yielding</a>  <a href="funct_1.html#NM1" title="FUNCT_1:NM.1">Function</a>  st <font color="Olive" title="b1">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b2">G</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  holds <br><font color="Olive" title="b2">G</font> <a href="pboole.html#K8" title="PBOOLE:func.8">**</a> <font color="Olive" title="b1">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a> </div>
+<div about="#PF19" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T14"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/19')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/19')" href="javascript:()" title="19"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T15" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E13">Th15</font></span>: <a NAME="T15"><span class="comment"><font color="firebrick">:: AUTALG_1:15</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b3">B</font>, <font color="Olive" title="b4">C</font> being  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b5">F</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font><br>  for <font color="Olive" title="b6">G</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b3">B</font>,<font color="Olive" title="b4">C</font>  st <font color="Olive" title="b5">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  &amp; <font color="Olive" title="b6">G</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  holds <br><font color="Olive" title="b6">G</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b5">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a> </div>
+<div about="#PF20" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T15"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/20')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/20')" href="javascript:()" title="20"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T16" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T16"><span class="comment"><font color="firebrick">:: AUTALG_1:16</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font>, <font color="Olive" title="b4">C</font> being  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b5">F</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font><br>  for <font color="Olive" title="b6">G</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b3">B</font>,<font color="Olive" title="b4">C</font>  st <font color="Olive" title="b5">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b5">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  &amp; <font color="Olive" title="b6">G</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b6">G</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  holds <br><span class="p1">(<span class="default"><font color="Olive" title="b6">G</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b5">F</font></span>)</span> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">F</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a></span>)</span> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <span class="p1">(<span class="default"><font color="Olive" title="b6">G</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a></span>)</span>
+</div>
+<div about="#PF21" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T16"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/21')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/21')" href="javascript:()" title="21"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T17" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E14">Th17</font></span>: <a NAME="T17"><span class="comment"><font color="firebrick">:: AUTALG_1:17</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being  <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font><br>  for <font color="Olive" title="b4">F</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font><br>  for <font color="Olive" title="b5">G</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b3">B</font>,<font color="Olive" title="b2">A</font>  st <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b4">F</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  &amp; <font color="Olive" title="b5">G</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b4">F</font> <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a>  <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Olive" title="b2">A</font> holds <br><font color="Olive" title="b5">G</font> <a href="pboole.html#R6" title="PBOOLE:pred.6">=</a> <font color="Olive" title="b4">F</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a> </div>
+<div about="#PF22" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T17"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/22')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/22')" href="javascript:()" title="22"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T18" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E15">Th18</font></span>: <a NAME="T18"><span class="comment"><font color="firebrick">:: AUTALG_1:18</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font>  st <font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b3">B</font> holds <br> <a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>) is <a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>()</div>
+<div about="#PF23" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T18"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/23')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/23')" href="javascript:()" title="23"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">A</font>, <font color="Maroon" title="c3">B</font> be   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c1">I</font>;<br><span class="kw">assume </span><a NAME="E1:24"></a><span class="lab"><font color="Green" title="E16">A1</font></span>: 
+<font color="Maroon" title="c2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Maroon" title="c3">B</font>
+ ;<br><div about="#D16" typeof="oo:Definition">
+<a NAME="K4"><span class="kw">func</span> </a> <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c3">B</font>)<span class="kw"> -&gt; </span>  non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <span class="kw"> equals </span>:<span class="lab"><font color="Green" title="E16">Def4</font></span>: <a NAME="D4"><span class="comment"><font color="firebrick">:: AUTALG_1:def 4</font></span><br></a> <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c3">B</font>)</span>)</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:24_1"></a>
+ <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c3">B</font>)</span>)</span> is   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> 
+ </span><div about="#PF24_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/24_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/24_1_1')" href="javascript:()" title="24_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT4" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E16">Def4</font></span>   defines <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 4 : <br></a><span class="hide"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font>  st <font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b3">B</font> holds <br> <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> (<font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K4" title="CARD_3:func.4">product</a> <span class="p1">(<span class="default"><a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>)</span>)</span>;<br></span>
+</div>
+<br><div about="#T19" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E17">Th19</font></span>: <a NAME="T19"><span class="comment"><font color="firebrick">:: AUTALG_1:19</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font>  st <font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b3">B</font> holds <br> for <font color="Olive" title="b4">x</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>   st <font color="Olive" title="b4">x</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> (<font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>) holds <br><font color="Olive" title="b4">x</font> is    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>
+</div>
+<div about="#PF25" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T19"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/25')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/25')" href="javascript:()" title="25"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T20" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E18">Th20</font></span>: <a NAME="T20"><span class="comment"><font color="firebrick">:: AUTALG_1:20</font></span><br></a><div class="add"> for <font color="Olive" title="b1">I</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> <br>  for <font color="Olive" title="b2">A</font>, <font color="Olive" title="b3">B</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Olive" title="b1">I</font>  st <font color="Olive" title="b2">A</font> <a href="pzfmisc1.html#R1" title="PZFMISC1:pred.1">is_transformable_to</a> <font color="Olive" title="b3">B</font> holds <br> for <font color="Olive" title="b4">g</font> being    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font> holds  <font color="Olive" title="b4">g</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> (<font color="Olive" title="b2">A</font>,<font color="Olive" title="b3">B</font>)</div>
+<div about="#PF26" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T20"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/26')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/26')" href="javascript:()" title="26"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">A</font> be   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c1">I</font>;<br>
+<div about="#FC2" typeof="oo:Theorem">
+<a NAME="FC2"><span class="kw">cluster </span></a> <a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>)<span class="kw"> -&gt; </span><a href="relat_1.html#V2" title="RELAT_1:attr.2">V2</a>() ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:27_1"></a>
+ <a href="pboole.html#K7" title="PBOOLE:func.7">(Funcs)</a> (<font color="Maroon" title="c2">A</font>,<font color="Maroon" title="c2">A</font>) is  <a href="relat_1.html#V2" title="RELAT_1:attr.2">non-empty</a> 
+ </span><div about="#PF27_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/27_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/27_1_1')" href="javascript:()" title="27_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">D</font> be   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c1">I</font>;<br><span class="kw">let </span><font color="Maroon" title="c3">A</font> be   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> (<font color="Maroon" title="c2">D</font>,<font color="Maroon" title="c2">D</font>)</span>)</span>;<br><span class="comment"><font color="firebrick">:: original: </font></span><a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a><br><span class="kw">redefine </span><a NAME="M1"><span class="kw">mode</span> </a> <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of <font color="Maroon" title="c3">A</font><span class="kw"> -&gt; </span>   <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Maroon" title="c2">D</font>,<font color="Maroon" title="c2">D</font>;<br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:28_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of <font color="Maroon" title="c3">A</font> holds  <font color="Olive">b<sub>1</sub></font> is    <a href="pboole.html#M2" title="PBOOLE:mode.2">ManySortedFunction</a> of <font color="Maroon" title="c2">D</font>,<font color="Maroon" title="c2">D</font>
+ </span><div about="#PF28_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/28_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/28_1_1')" href="javascript:()" title="28_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">I</font> be    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">A</font> be   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c1">I</font>;<br>
+<div about="#FC3" typeof="oo:Theorem">
+<a NAME="FC3"><span class="kw">cluster </span></a> <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font><span class="kw"> -&gt; </span> <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:29_1"></a>
+ <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a> 
+ </span><div about="#PF29_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/29_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/29_1_1')" href="javascript:()" title="29_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+
+<div about="#FC4" typeof="oo:Theorem">
+<a NAME="FC4"><span class="kw">cluster </span></a> <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font><span class="kw"> -&gt; </span> <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:29_2"></a>
+ <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a> <font color="Maroon" title="c2">A</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a> 
+ </span><div about="#PF29_2_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/29_2_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/29_2_1')" href="javascript:()" title="29_2_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">S</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">U1</font>, <font color="Maroon" title="c3">U2</font> be   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br><a NAME="NM2"><span class="kw">mode </span>MSFunctionSet of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c3">U2</font><span class="kw"> is </span></a>  non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> ( the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Maroon" title="c2">U1</font>, the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Maroon" title="c3">U2</font>)</span>)</span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T21" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T21"><span class="comment"><font color="firebrick">:: AUTALG_1:21</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font> holds   <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a>  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> ( the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>, the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>) <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#T20" target="_self" onmouseover="rs('autalg_1/T20')" onmouseout="rh()">Th20</a></span>;<br>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">S</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">U1</font> be   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br><span class="kw">set </span><font color="Maroon" title="c3">T</font> =  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Maroon" title="c2">U1</font>;<br><div about="#D19" typeof="oo:Definition">
+<a NAME="K5"><span class="kw">func</span> </a> <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font><span class="kw"> -&gt; </span>  <a href="autalg_1.html#NM2" title="AUTALG_1:NM.2">MSFunctionSet</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E19">Def5</font></span>: <a NAME="D5"><span class="comment"><font color="firebrick">:: AUTALG_1:def 5</font></span><br></a> for <font color="Olive" title="b1">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> holds <br> ( <font color="Olive" title="b1">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="kw">it</span> iff <font color="Olive" title="b1">h</font> <a href="msualg_3.html#R4" title="MSUALG_3:pred.4">is_isomorphism</a> <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:31_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="autalg_1.html#NM2" title="AUTALG_1:NM.2">MSFunctionSet</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> st <br> for <font color="Olive" title="b2">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> holds <br> ( <font color="Olive" title="b2">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Olive" title="b2">h</font> <a href="msualg_3.html#R4" title="MSUALG_3:pred.4">is_isomorphism</a> <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> )
+ </span><div about="#PF31_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/31_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/31_1_1')" href="javascript:()" title="31_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:31_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="autalg_1.html#NM2" title="AUTALG_1:NM.2">MSFunctionSet</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font>  st (  for <font color="Olive" title="b3">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> holds <br> ( <font color="Olive" title="b3">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>1</sub></font> iff <font color="Olive" title="b3">h</font> <a href="msualg_3.html#R4" title="MSUALG_3:pred.4">is_isomorphism</a> <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> ) ) &amp; (  for <font color="Olive" title="b3">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> holds <br> ( <font color="Olive" title="b3">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>2</sub></font> iff <font color="Olive" title="b3">h</font> <a href="msualg_3.html#R4" title="MSUALG_3:pred.4">is_isomorphism</a> <font color="Maroon" title="c2">U1</font>,<font color="Maroon" title="c2">U1</font> ) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF31_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/31_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/31_1_2')" href="javascript:()" title="31_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT5" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E19">Def5</font></span>   defines <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 5 : <br></a><span class="hide"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="autalg_1.html#NM2" title="AUTALG_1:NM.2">MSFunctionSet</a> of <font color="Olive" title="b2">U1</font>,<font color="Olive" title="b2">U1</font> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> iff  for <font color="Olive" title="b4">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Olive" title="b2">U1</font>,<font color="Olive" title="b2">U1</font> holds <br> ( <font color="Olive" title="b4">h</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Olive">b<sub>3</sub></font> iff <font color="Olive" title="b4">h</font> <a href="msualg_3.html#R4" title="MSUALG_3:pred.4">is_isomorphism</a> <font color="Olive" title="b2">U1</font>,<font color="Olive" title="b2">U1</font> ) );<br></span>
+</div>
+<br><div about="#T22" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T22"><span class="comment"><font color="firebrick">:: AUTALG_1:22</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">f</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> holds  <font color="Olive" title="b3">f</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> ( the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>, the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>) <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#T20" target="_self" onmouseover="rs('autalg_1/T20')" onmouseout="rh()">Th20</a></span>;<br>
+</div>
+</div>
+<br><div about="#T23" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T23"><span class="comment"><font color="firebrick">:: AUTALG_1:23</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font> holds   <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="autalg_1.html#K4" title="AUTALG_1:func.4">MSFuncs</a> ( the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>, the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font>) ;<br>
+</div>
+</div>
+<br><a NAME="E31"></a><span class="lab"><font color="Green" title="E20">Lm3</font></span>: <span about="#E31" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">f</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> holds <br> ( <font color="Olive" title="b3">f</font> is  <a href="msualg_3.html#V1" title="MSUALG_3:attr.1">"1-1"</a>  &amp; <font color="Olive" title="b3">f</font> is  <a href="msualg_3.html#V2" title="MSUALG_3:attr.2">"onto"</a>  )
+ </span><br><div about="#PF32" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E31"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/32')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/32')" href="javascript:()" title="32"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div about="#T24" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E21">Th24</font></span>: <a NAME="T24"><span class="comment"><font color="firebrick">:: AUTALG_1:24</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font> holds   <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a>  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font>
+</div>
+<div about="#PF33" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T24"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/33')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/33')" href="javascript:()" title="33"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T25" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E22">Th25</font></span>: <a NAME="T25"><span class="comment"><font color="firebrick">:: AUTALG_1:25</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">f</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> holds  <font color="Olive" title="b3">f</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font>
+</div>
+<div about="#PF34" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T25"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/34')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/34')" href="javascript:()" title="34"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T26" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E23">Th26</font></span>: <a NAME="T26"><span class="comment"><font color="firebrick">:: AUTALG_1:26</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">f1</font>, <font color="Olive" title="b4">f2</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> holds  <font color="Olive" title="b3">f1</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b4">f2</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font>
+</div>
+<div about="#PF35" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T26"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/35')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/35')" href="javascript:()" title="35"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T27" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E24">Th27</font></span>: <a NAME="T27"><span class="comment"><font color="firebrick">:: AUTALG_1:27</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">F</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span><br>  for <font color="Olive" title="b3">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font>  st <font color="Olive" title="b2">F</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Olive" title="b3">f</font> holds <br><font color="Olive" title="b2">F</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span>
+</div>
+<div about="#PF36" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T27"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/36')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/36')" href="javascript:()" title="36"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">S</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">U1</font> be   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br><div about="#D25" typeof="oo:Definition">
+<a NAME="K6"><span class="kw">func</span> </a> <a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <font color="Maroon" title="c2">U1</font><span class="kw"> -&gt; </span>  <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font></span>)</span><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E25">Def6</font></span>: <a NAME="D6"><span class="comment"><font color="firebrick">:: AUTALG_1:def 6</font></span><br></a> for <font color="Olive" title="b1">x</font>, <font color="Olive" title="b2">y</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font> holds  <span class="kw">it</span> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b1">x</font>,<font color="Olive" title="b2">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">y</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b1">x</font>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:37_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font></span>)</span> st <br> for <font color="Olive" title="b2">x</font>, <font color="Olive" title="b3">y</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b2">x</font>,<font color="Olive" title="b3">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">y</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b2">x</font>
+ </span><div about="#PF37_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/37_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/37_1_1')" href="javascript:()" title="37_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:37_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font></span>)</span>  st (  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b3">x</font> ) &amp; (  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">x</font>,<font color="Olive" title="b4">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">y</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b3">x</font> ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF37_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/37_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/37_1_2')" href="javascript:()" title="37_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT6" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E25">Def6</font></span>   defines <a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 6 : <br></a><span class="hide"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font></span>)</span> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <font color="Olive" title="b2">U1</font> iff  for <font color="Olive" title="b4">x</font>, <font color="Olive" title="b5">y</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font> holds  <font color="Olive">b<sub>3</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b4">x</font>,<font color="Olive" title="b5">y</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">y</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b4">x</font> );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">S</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">U1</font> be   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K7"><span class="kw">func</span> </a> <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Maroon" title="c2">U1</font><span class="kw"> -&gt; </span>  <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a><span class="kw"> equals </span><a NAME="D7"><span class="comment"><font color="firebrick">:: AUTALG_1:def 7</font></span><br></a> <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <font color="Maroon" title="c2">U1</font></span>)</span> #);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:38_1"></a>
+ <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Maroon" title="c2">U1</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <font color="Maroon" title="c2">U1</font></span>)</span> #) is   <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a>
+ </span><div about="#PF38_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/38_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/38_1_1')" href="javascript:()" title="38_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT7" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <a onclick="hs(this)" href="javascript:()">AUTALG_1:def 7 : <br></a><span class="hide"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font> holds   <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Olive" title="b2">U1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#G3" title="ALGSTR_0:aggr.3">multMagma</a>(# <span class="p1">(<span class="default"><a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K6" title="AUTALG_1:func.6">MSAAutComp</a> <font color="Olive" title="b2">U1</font></span>)</span> #);<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">S</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> ;<br><span class="kw">let </span><font color="Maroon" title="c2">U1</font> be   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br>
+<div about="#FC5" typeof="oo:Theorem">
+<a NAME="FC5"><span class="kw">cluster </span></a> <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Maroon" title="c2">U1</font><span class="kw"> -&gt; </span> <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:39_1"></a>
+ <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Maroon" title="c2">U1</font> is  <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T28" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T28"><span class="comment"><font color="firebrick">:: AUTALG_1:28</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">x</font>, <font color="Olive" title="b4">y</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Olive" title="b2">U1</font></span>)</span><br>  for <font color="Olive" title="b5">f</font>, <font color="Olive" title="b6">g</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font>  st <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">f</font> &amp; <font color="Olive" title="b4">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">g</font> holds <br><font color="Olive" title="b3">x</font> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <font color="Olive" title="b4">y</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">g</font> <a href="msualg_3.html#K3" title="MSUALG_3:func.3">**</a> <font color="Olive" title="b5">f</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="autalg_1.html#D6" target="_self" onmouseover="rs('autalg_1/D6')" onmouseout="rh()">Def6</a></span>;<br>
+</div>
+</div>
+<br><div about="#T29" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E26">Th29</font></span>: <a NAME="T29"><span class="comment"><font color="firebrick">:: AUTALG_1:29</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font> holds   <a href="msualg_3.html#K2" title="MSUALG_3:func.2">id</a>  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Olive" title="b2">U1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="group_1.html#K1" title="GROUP_1:func.1">1_</a> <span class="p1">(<span class="default"><a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Olive" title="b2">U1</font></span>)</span>
+</div>
+<div about="#PF40" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T29"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/40')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/40')" href="javascript:()" title="40"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T30" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T30"><span class="comment"><font color="firebrick">:: AUTALG_1:30</font></span><br></a><div class="add"> for <font color="Olive" title="b1">S</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>   <a href="msualg_1.html#L1" title="MSUALG_1:struct.1">ManySortedSign</a> <br>  for <font color="Olive" title="b2">U1</font> being   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Olive" title="b1">S</font><br>  for <font color="Olive" title="b3">f</font> being    <a href="autalg_1.html#M1" title="AUTALG_1:mode.1">Element</a> of  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <font color="Olive" title="b2">U1</font><br>  for <font color="Olive" title="b4">g</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <font color="Olive" title="b2">U1</font></span>)</span>  st <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">g</font> holds <br><font color="Olive" title="b3">f</font> <a href="msualg_3.html#K4" title="MSUALG_3:func.4">""</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">g</font> <a href="group_1.html#K2" title="GROUP_1:func.2">"</a> </div>
+<div about="#PF41" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T30"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/41')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/41')" href="javascript:()" title="41"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">:: On the Relationship of Automorphisms of 1-Sorted and Many Sorted Algebras<br>  
+  
+</font></div>
+<div about="#T31" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E27">Th31</font></span>: <a NAME="T31"><span class="comment"><font color="firebrick">:: AUTALG_1:31</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA1</font>, <font color="Olive" title="b2">UA2</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a>  st <font color="Olive" title="b1">UA1</font>,<font color="Olive" title="b2">UA2</font> <a href="unialg_2.html#R1" title="UNIALG_2:pred.1">are_similar</a>  holds <br> for <font color="Olive" title="b3">F</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA1</font></span>)</span>,<span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b2">UA2</font></span>)</span> <a href="msuhom_1.html#K1" title="MSUHOM_1:func.1">Over</a> <span class="p2">(<span class="default"><a href="msualg_1.html#K6" title="MSUALG_1:func.6">MSSign</a> <font color="Olive" title="b1">UA1</font></span>)</span></span>)</span> holds  <font color="Olive" title="b3">F</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> is   <a href="struct_0.html#NM6" title="STRUCT_0:NM.6">Function</a> of <font color="Olive" title="b1">UA1</font>,<font color="Olive" title="b2">UA2</font>
+</div>
+<div about="#PF42" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T31"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/42')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/42')" href="javascript:()" title="42"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T32" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E28">Th32</font></span>: <a NAME="T32"><span class="comment"><font color="firebrick">:: AUTALG_1:32</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Olive" title="b2">f</font> is   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span>
+</div>
+<div about="#PF43" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T32"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/43')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/43')" href="javascript:()" title="43"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><a NAME="E43"></a><span class="lab"><font color="Green" title="E29">Lm4</font></span>: <span about="#E43" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">h</font> being   <a href="funct_1.html#NM1" title="FUNCT_1:NM.1">Function</a>  st  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b2">h</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> &amp; (  for <font color="Olive" title="b3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds <br><font color="Olive" title="b2">h</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Olive" title="b3">x</font> ) holds <br> <a href="xtuple_0.html#K10" title="XTUPLE_0:func.10">rng</a> <font color="Olive" title="b2">h</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K5" title="AUTALG_1:func.5">MSAAut</a> <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span>
+ </span><br><div about="#PF44" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E43"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/44')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/44')" href="javascript:()" title="44"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div about="#T33" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E30">Th33</font></span>: <a NAME="T33"><span class="comment"><font color="firebrick">:: AUTALG_1:33</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">h</font> being   <a href="funct_1.html#NM1" title="FUNCT_1:NM.1">Function</a>  st  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Olive" title="b2">h</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> &amp; (  for <font color="Olive" title="b3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds <br><font color="Olive" title="b2">h</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Olive" title="b3">x</font> ) holds <br><font color="Olive" title="b2">h</font> is   <a href="group_6.html#NM2" title="GROUP_6:NM.2">Homomorphism</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <span class="p2">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span></span>)</span>
+</div>
+<div about="#PF45" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T33"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/45')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/45')" href="javascript:()" title="45"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T34" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E31">Th34</font></span>: <a NAME="T34"><span class="comment"><font color="firebrick">:: AUTALG_1:34</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a><br>  for <font color="Olive" title="b2">h</font> being   <a href="group_6.html#NM2" title="GROUP_6:NM.2">Homomorphism</a> of <span class="p1">(<span class="default"><a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font></span>)</span>,<span class="p1">(<span class="default"><a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <span class="p2">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span></span>)</span>  st (  for <font color="Olive" title="b3">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="autalg_1.html#K1" title="AUTALG_1:func.1">UAAut</a> <font color="Olive" title="b1">UA</font> holds <br><font color="Olive" title="b2">h</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b3">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Olive" title="b3">x</font> ) holds <br><font color="Olive" title="b2">h</font> is  <a href="funct_2.html#V3" title="FUNCT_2:attr.3">bijective</a> </div>
+<div about="#PF46" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T34"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/46')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/46')" href="javascript:()" title="46"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T35" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T35"><span class="comment"><font color="firebrick">:: AUTALG_1:35</font></span><br></a><div class="add"> for <font color="Olive" title="b1">UA</font> being   <a href="unialg_1.html#NM1" title="UNIALG_1:NM.1">Universal_Algebra</a> holds   <a href="autalg_1.html#K3" title="AUTALG_1:func.3">UAAutGroup</a> <font color="Olive" title="b1">UA</font>, <a href="autalg_1.html#K7" title="AUTALG_1:func.7">MSAAutGroup</a> <span class="p1">(<span class="default"><a href="msualg_1.html#K9" title="MSUALG_1:func.9">MSAlg</a> <font color="Olive" title="b1">UA</font></span>)</span> <a href="group_6.html#R2" title="GROUP_6:pred.2">are_isomorphic</a> </div>
+<div about="#PF47" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T35"></span><a class="txt" onmouseover="tooltip.show('url','proofs/autalg_1/47')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/autalg_1/47')" href="javascript:()" title="47"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">s</font> be   <a href="ami_2.html#NM1" title="AMI_2:NM.1">SCM-State</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">u</font> being   <a href="ordinal1.html#V7" title="ORDINAL1:attr.7">natural</a>   <a href="ordinal1.html#NM1" title="ORDINAL1:NM.1">Number</a>  holds  <span class="p1">(<span class="default"><a href="ami_2.html#K6" title="AMI_2:func.6">SCM-Chg</a> (<font color="Maroon" title="c1">s</font>,<font color="Olive" title="b1">u</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">u</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">u</font> be   <a href="ordinal1.html#V7" title="ORDINAL1:attr.7">natural</a>   <a href="ordinal1.html#NM1" title="ORDINAL1:NM.1">Number</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><a href="ami_2.html#K6" title="AMI_2:func.6">SCM-Chg</a> (<font color="Maroon" title="c1">s</font>,<font color="Maroon" title="c2">u</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">u</font></span><br/>
+
+
+
+<a NAME="E1:21"/>
+ <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Maroon" title="c2">u</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<span class="kw">hence </span><span class="p1">(<span class="default"><a href="ami_2.html#K6" title="AMI_2:func.6">SCM-Chg</a> (<font color="Maroon" title="c1">s</font>,<font color="Maroon" title="c2">u</font>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> = 
+<span class="p1">(<span class="default"><a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> <a href="funcop_1.html#K17" title="FUNCOP_1:func.17">.--&gt;</a> <font color="Maroon" title="c2">u</font></span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funct_4.html#T13" onmouseover="rs('funct_4/T13')" onmouseout="rh()">FUNCT_4:13</a></span>
+<br/>.= 
+<font color="Maroon" title="c2">u</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="funcop_1.html#T72" onmouseover="rs('funcop_1/T72')" onmouseout="rh()">FUNCOP_1:72</a></span>
+;<br/> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

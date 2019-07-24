@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:13_1_1"/>
+( <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  or <font color="Maroon" title="c1">x</font> <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  or <font color="Maroon" title="c1">x</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:13_1_1"/>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> is  <a href="int_1.html#V1" title="INT_1:attr.1">integer</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="absvalue.html#D2" target="_self" onmouseover="rs('absvalue/D2')" onmouseout="rh()">Def2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

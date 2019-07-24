@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">x</font> be    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">x</font> <a href="arytm_1.html#K2" title="ARYTM_1:func.2">-</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a> </span><br/>
+
+<a NAME="E1:34"/>
+<font color="Maroon" title="c1">x</font> <a href="arytm_2.html#R1" title="ARYTM_2:pred.1">&lt;='</a> <font color="Maroon" title="c1">x</font>
+ 
+;<br/>
+<a NAME="E2:34"/><span class="kw">then </span>
+<font color="Maroon" title="c1">x</font> <a href="arytm_1.html#K2" title="ARYTM_1:func.2">-</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font> <a href="arytm_1.html#K1" title="ARYTM_1:func.1">-'</a> <font color="Maroon" title="c1">x</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="arytm_1.html#D2" target="_self" onmouseover="rs('arytm_1/D2')" onmouseout="rh()">Def2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:34"/>
+<font color="Maroon" title="c1">x</font> <a href="arytm_1.html#K2" title="ARYTM_1:func.2">-</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="arytm_1.html#E12"><span class="lab"><font color="Green" title="E11">Lm3</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

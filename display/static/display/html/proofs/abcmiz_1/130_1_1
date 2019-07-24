@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">v</font> =  the   <a href="abcmiz_1.html#V6" title="ABCMIZ_1:attr.6">positive</a>   <a href="abcmiz_1.html#M1" title="ABCMIZ_1:mode.1">expression</a> of <font color="Maroon" title="c1">C</font>, <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c1">C</font>;<br/>
+<a NAME="E1:130_1_1"/>
+ the   <a href="abcmiz_1.html#V6" title="ABCMIZ_1:attr.6">positive</a>   <a href="abcmiz_1.html#M1" title="ABCMIZ_1:mode.1">expression</a> of <font color="Maroon" title="c1">C</font>, <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c1">C</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"> { <span class="default"> <font color="Olive" title="b1">a</font> where <font color="Olive" title="b1">a</font> is    <a href="abcmiz_1.html#M1" title="ABCMIZ_1:mode.1">expression</a> of <font color="Maroon" title="c1">C</font>, <a href="abcmiz_1.html#K13" title="ABCMIZ_1:func.13">an_Adj</a> <font color="Maroon" title="c1">C</font> : <font color="Olive" title="b1">a</font> is  <a href="abcmiz_1.html#V8" title="ABCMIZ_1:attr.8">regular</a>  </span> } </span> 
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E2:130_1_1"/>
+ not  <a href="abcmiz_1.html#K38" title="ABCMIZ_1:func.38">QuasiAdjs</a> <font color="Maroon" title="c1">C</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="abcmiz_1.html#K38" title="ABCMIZ_1:func.38">QuasiAdjs</a> <font color="Maroon" title="c1">C</font> is  <a href="trees_3.html#V3" title="TREES_3:attr.3">constituted-DTrees</a> </span><br/>
+
+<span class="kw">let </span><font color="Maroon" title="c3">x</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="trees_3.html#D5" onmouseover="rs('trees_3/D5')" onmouseout="rh()">TREES_3:def 5</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="abcmiz_1.html#K38" title="ABCMIZ_1:func.38">QuasiAdjs</a> <font color="Maroon" title="c1">C</font> or <font color="Maroon" title="c3">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E3:130_1_1"/>
+<font color="Maroon" title="c3">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="abcmiz_1.html#K38" title="ABCMIZ_1:func.38">QuasiAdjs</a> <font color="Maroon" title="c1">C</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> </span><br/>
+
+<span class="kw">hence </span><a NAME="E4:130_1_1"/>
+<font color="Maroon" title="c3">x</font> is    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

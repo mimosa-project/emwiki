@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="p1">(<span class="default">4 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="newton.html#K7" title="NEWTON:func.7">!</a>  = 
+<span class="p1">(<span class="default">4 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p1">(<span class="default">4 <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T15" onmouseover="rs('newton/T15')" onmouseout="rh()">NEWTON:15</a></span>
+<br/>.= 
+5 <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default">3 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p2">(<span class="default">3 <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T15" onmouseover="rs('newton/T15')" onmouseout="rh()">NEWTON:15</a></span>
+<br/>.= 
+5 <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p1">(<span class="default">4 <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p2">(<span class="default"><span class="p3">(<span class="default">2 <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p3">(<span class="default">2 <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span></span>)</span></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T15" onmouseover="rs('newton/T15')" onmouseout="rh()">NEWTON:15</a></span>
+<br/>.= 
+120
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T14" onmouseover="rs('newton/T14')" onmouseout="rh()">NEWTON:14</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E2:68"/>
+5 <a href="newton.html#K7" title="NEWTON:func.7">!</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 120
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

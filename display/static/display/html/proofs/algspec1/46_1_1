@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+<font color="Maroon" title="c1">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">S</font> is    <a href="instalg1.html#M1" title="INSTALG1:mode.1">Subsignature</a> of <font color="Maroon" title="c1">S</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E1:46_1_1"/>
+<font color="Maroon" title="c1">S</font> is    <a href="instalg1.html#M1" title="INSTALG1:mode.1">Subsignature</a> of <font color="Maroon" title="c1">S</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="instalg1.html#T15" onmouseover="rs('instalg1/T15')" onmouseout="rh()">INSTALG1:15</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">x</font> be   <a href="xreal_0.html#NM1" title="XREAL_0:NM.1">Real</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span></span><br/>
+
+<a NAME="E1:24"/><span class="lab"><font color="Green" title="E7">A1</font></span>: 
+(  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">x</font> implies  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span> )
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="24_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:24_1"/><span class="lab"><font color="Green" title="E8">A2</font></span>: 
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">x</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span></span><br/>
+
+<a NAME="E2:24_1"/>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="absvalue.html#T22" target="_self" onmouseover="rs('absvalue/T22')" onmouseout="rh()">Th21</a></span>;<br/>
+<span class="kw">then </span> <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span> = 
+1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> 1
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:24_1"><span class="lab"><font color="Green" title="E8">A2</font></span></a>, <a class="ref" href="absvalue.html#D2" target="_self" onmouseover="rs('absvalue/D2')" onmouseout="rh()">Def2</a></span>
+<br/>.= 
+1
+
+;<br/>
+<span class="kw">hence </span><a NAME="E4:24_1"/>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:24_1"><span class="lab"><font color="Green" title="E8">A2</font></span></a>, <a class="ref" href="absvalue.html#D2" target="_self" onmouseover="rs('absvalue/D2')" onmouseout="rh()">Def2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<a NAME="E2:24"/>
+( <font color="Maroon" title="c1">x</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>  implies  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span> )
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="24_2"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">assume </span><a NAME="E1:24_2"/><span class="lab"><font color="Green" title="E8">A3</font></span>: 
+<font color="Maroon" title="c1">x</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span></span><br/>
+
+<a NAME="E2:24_2"/><span class="kw">then </span>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xcmplx_0.html#K4" title="XCMPLX_0:func.4">-</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="absvalue.html#D2" target="_self" onmouseover="rs('absvalue/D2')" onmouseout="rh()">Def2</a></span>;<br/>
+<a NAME="E3:24_2"/><span class="kw">then </span>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> 1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <span class="p1">(<span class="default"><a href="xcmplx_0.html#K4" title="XCMPLX_0:func.4">-</a> 1</span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="absvalue.html#T22" target="_self" onmouseover="rs('absvalue/T22')" onmouseout="rh()">Th21</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:24_2"/>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:24_2"><span class="lab"><font color="Green" title="E8">A3</font></span></a>, <a class="ref" href="absvalue.html#D2" target="_self" onmouseover="rs('absvalue/D2')" onmouseout="rh()">Def2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="kw">hence </span><a NAME="E3:24"/>
+ <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="absvalue.html#K1" title="ABSVALUE:func.1">sgn</a> <span class="p1">(<span class="default">1 <a href="xcmplx_0.html#K7" title="XCMPLX_0:func.7">/</a> <font color="Maroon" title="c1">x</font></span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:24"><span class="lab"><font color="Green" title="E7">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

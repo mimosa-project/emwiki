@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><a NAME="T5"><span class="comment"><font color="firebrick">:: AMI_5:5</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">l</font> being   <a href="compos_1.html#NM1" title="COMPOS_1:NM.1">Instruction</a> of <a href="ami_3.html#K1" title="AMI_3:func.1">SCM</a> holds   <a href="compos_0.html#K5" title="COMPOS_0:func.5">InsCode</a> <font color="Olive" title="b1">l</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> 8</div></div>

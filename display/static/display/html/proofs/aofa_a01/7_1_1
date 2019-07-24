@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">C</font> =  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c3">C1</font> =  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font> as   <a href="msafree4.html#NM2" title="MSAFREE4:NM.2">image</a> of  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_a01.html#T6" target="_self" onmouseover="rs('aofa_a01/T6')" onmouseout="rh()">Th6</a></span>;<br/>
+<span class="kw">take </span>
+ the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the   <a href="msualg_1.html#V4" title="MSUALG_1:attr.4">non-empty</a>   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font> is  <a href="aofa_a01.html#V1" title="AOFA_A01:attr.1">integer</a> </span><br/>
+
+<span class="kw">take </span>
+<font color="Maroon" title="c3">C1</font>
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="aofa_a01.html#D1" target="_self" onmouseover="rs('aofa_a01/D1')" onmouseout="rh()">AOFA_A01:def 1</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c3">C1</font> is   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E2:7_1_1"/>
+<font color="Maroon" title="c3">C1</font> is   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

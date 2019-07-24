@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:9_1_1"/>
+ ex <font color="Olive" title="b1">C</font> being   <a href="msafree4.html#NM2" title="MSAFREE4:NM.2">image</a> of <font color="Maroon" title="c2">A</font> st <font color="Olive" title="b1">C</font> is   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a>   <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c1">S</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_a01.html#D1" target="_self" onmouseover="rs('aofa_a01/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:9_1_1"/>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="aofa_a00.html#V17" title="AOFA_A00:attr.17">bool-correct</a>  <a href="msafree4.html#NM2" title="MSAFREE4:NM.2">image</a> of <font color="Maroon" title="c2">A</font> st <font color="Olive">b<sub>1</sub></font> is 4,1 <a href="aofa_a00.html#V20" title="AOFA_A00:attr.20">integer</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

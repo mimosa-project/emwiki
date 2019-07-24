@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">D</font> =  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font>;<br/>
+<span class="kw">take </span>
+ the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font> is  <a href="armstrng.html#V6" title="ARMSTRNG:attr.6">full_family</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:52_1_1"/>
+ the   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="armstrng.html#NV4" title="ARMSTRNG:NV.4">(F2)</a>   <a href="armstrng.html#V3" title="ARMSTRNG:attr.3">(F1)</a>   <a href="armstrng.html#V4" title="ARMSTRNG:attr.4">(F3)</a>   <a href="armstrng.html#V5" title="ARMSTRNG:attr.5">(F4)</a>  <a href="armstrng.html#NM2" title="ARMSTRNG:NM.2">Dependency-set</a> of <font color="Maroon" title="c1">X</font> is  <a href="armstrng.html#V6" title="ARMSTRNG:attr.6">full_family</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

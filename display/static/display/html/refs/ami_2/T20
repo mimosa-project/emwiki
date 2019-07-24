@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<div><span class="kw">theorem </span><a NAME="T20"><span class="comment"><font color="firebrick">:: AMI_2:20</font></span><br/></a><div class="add"> not  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="ami_2.html#K2" title="AMI_2:func.2">SCM-Data-Loc</a>  <span class="kw">by</span> <span class="lab"><a class="txt" href="ami_2.html#E3"><span class="lab"><font color="Green" title="E2">Lm2</font></span></a></span>;<br/></div></div>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">a</font>, <font color="Maroon" title="c2">b</font> be   <a href="ami_3.html#NM1" title="AMI_3:NM.1">Data-Location</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  not  <a href="ami_3.html#K4" title="AMI_3:func.4">SubFrom</a> (<font color="Maroon" title="c1">a</font>,<font color="Maroon" title="c2">b</font>) is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a> </span><br/>
+
+
+
+<span class="kw">set </span><font color="Maroon" title="c3">s</font> =  the   <a href="memstr_0.html#NM2" title="MEMSTR_0:NM.2">State</a> of <a href="ami_3.html#K1" title="AMI_3:func.1">SCM</a>;<br/>
+<a NAME="E1:24"/>
+<span class="p1">(<span class="default"><a href="extpro_1.html#K2" title="EXTPRO_1:func.2">Exec</a> (<span class="p2">(<span class="default"><a href="ami_3.html#K4" title="AMI_3:func.4">SubFrom</a> (<font color="Maroon" title="c1">a</font>,<font color="Maroon" title="c2">b</font>)</span>)</span>, the   <a href="memstr_0.html#NM2" title="MEMSTR_0:NM.2">State</a> of <a href="ami_3.html#K1" title="AMI_3:func.1">SCM</a>)</span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><a href="memstr_0.html#NK2" title="MEMSTR_0:NK.2">IC</a> </span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="memstr_0.html#K5" title="MEMSTR_0:func.5">IC</a>  the   <a href="memstr_0.html#NM2" title="MEMSTR_0:NM.2">State</a> of <a href="ami_3.html#K1" title="AMI_3:func.1">SCM</a></span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> 1
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ami_3.html#T4" target="_self" onmouseover="rs('ami_3/T4')" onmouseout="rh()">Th4</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:24"/>
+ not  <a href="ami_3.html#K4" title="AMI_3:func.4">SubFrom</a> (<font color="Maroon" title="c1">a</font>,<font color="Maroon" title="c2">b</font>) is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="ami_3.html#E21"><span class="lab"><font color="Green" title="E10">Lm2</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

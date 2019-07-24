@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">G</font> be   <a href="algstr_0.html#V15" title="ALGSTR_0:attr.15">strict</a>  <a href="group_1.html#NM1" title="GROUP_1:NM.1">Group</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">f</font> being    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font> holds  <font color="Olive" title="b1">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  is    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">f</font> be    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  is    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font></span><br/>
+
+
+
+<span class="kw">reconsider </span><font color="Maroon" title="c3">f</font> = <font color="Maroon" title="c2">f</font> as   <a href="group_6.html#NM2" title="GROUP_6:NM.2">Homomorphism</a> of <font color="Maroon" title="c1">G</font>,<font color="Maroon" title="c1">G</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#D1" target="_self" onmouseover="rs('autgroup/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c4">A</font> = <font color="Maroon" title="c3">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  as   <a href="group_6.html#NM2" title="GROUP_6:NM.2">Homomorphism</a> of <font color="Maroon" title="c1">G</font>,<font color="Maroon" title="c1">G</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#T5" target="_self" onmouseover="rs('autgroup/T5')" onmouseout="rh()">Th5</a></span>;<br/>
+<a NAME="E3:8"/>
+<font color="Maroon" title="c3">f</font> is  <a href="funct_2.html#V3" title="FUNCT_2:attr.3">bijective</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#T4" target="_self" onmouseover="rs('autgroup/T4')" onmouseout="rh()">Th4</a></span>;<br/>
+<a NAME="E4:8"/><span class="kw">then </span>
+<font color="Maroon" title="c4">A</font> is  <a href="funct_2.html#V3" title="FUNCT_2:attr.3">bijective</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="group_6.html#T63" onmouseover="rs('group_6/T63')" onmouseout="rh()">GROUP_6:63</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:8"/>
+<font color="Maroon" title="c2">f</font> <a href="funct_1.html#K2" title="FUNCT_1:func.2">"</a>  is    <a href="funct_2.html#M2" title="FUNCT_2:mode.2">Element</a> of  <a href="autgroup.html#K1" title="AUTGROUP:func.1">Aut</a> <font color="Maroon" title="c1">G</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="autgroup.html#D1" target="_self" onmouseover="rs('autgroup/D1')" onmouseout="rh()">Def1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

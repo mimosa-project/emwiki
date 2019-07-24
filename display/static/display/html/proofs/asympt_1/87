@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">g</font> =  <a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a> ;<br/>
+<span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="seq_1.html#NM1" title="SEQ_1:NM.1">Real_Sequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( (  for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a> holds  <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p1">(<span class="default"><font color="Olive" title="b1">n</font> <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span>) ) implies  for <font color="Olive" title="b1">n</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  holds  <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Olive" title="b1">n</font>) )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:87"/><span class="lab"><font color="Green" title="E52">A1</font></span>: 
+ for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a> holds  <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p1">(<span class="default"><font color="Olive" title="b1">n</font> <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span>)
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">n</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  holds  <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Olive" title="b1">n</font>)</span><br/>
+
+<span class="kw">defpred </span><font color="Maroon">S<sub>1</sub></font>[  <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>] <span class="kw">means </span><font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> $1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,$1);<br/>
+<a NAME="E2:87"/><span class="lab"><font color="Green" title="E53">A2</font></span>: 
+ for <font color="Olive" title="b1">k</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>  st <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">k</font>] holds <br/><font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1]
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="87_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c4">k</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c4">k</font>] implies <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1] )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:87_1"/><span class="lab"><font color="Green" title="E54">A3</font></span>: 
+<font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">k</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Maroon" title="c4">k</font>)
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1]</span><br/>
+
+<a NAME="E2:87_1"/><span class="lab"><font color="Green" title="E55">A4</font></span>: 
+<font color="Maroon" title="c4">k</font> <a href="newton.html#K7" title="NEWTON:func.7">!</a>  <a href="xxreal_0.html#NR4" title="XXREAL_0:NR.4">&gt;</a>  <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T17" onmouseover="rs('newton/T17')" onmouseout="rh()">NEWTON:17</a></span>;<br/>
+<font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <span class="p1">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> = 
+ <a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p1">(<span class="default"><span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span>)
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:87"><span class="lab"><font color="Green" title="E52">A1</font></span></a></span>
+<br/>.= 
+ <a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p1">(<span class="default"><span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span> <a href="nat_1.html#K2" title="NAT_1:func.2">*</a> <span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span></span>)</span>)
+<span class="kw">by</span> <span class="lab"><a class="ref" href="newton.html#T15" onmouseover="rs('newton/T15')" onmouseout="rh()">NEWTON:15</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span>)</span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="newton.html#K7" title="NEWTON:func.7">!</a></span>)</span>)</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:87_1"><span class="lab"><font color="Green" title="E55">A4</font></span></a>, <a class="ref" href="power.html#T53" onmouseover="rs('power/T53')" onmouseout="rh()">POWER:53</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="power.html#K3" title="POWER:func.3">log</a> (2,<span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span>)</span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <span class="p1">(<span class="default"><a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Maroon" title="c4">k</font>)</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:87"><span class="lab"><font color="Green" title="E52">A1</font></span></a>, <a class="txt" href="#E1:87_1"><span class="lab"><font color="Green" title="E54">A3</font></span></a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span></span>)</span> <a href="xcmplx_0.html#K2" title="XCMPLX_0:func.2">+</a> <span class="p1">(<span class="default"><a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Maroon" title="c4">k</font>)</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_1.html#D2" target="_self" onmouseover="rs('asympt_1/D2')" onmouseout="rh()">Def2</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <span class="p2">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span></span>)</span> <a href="real_1.html#K3" title="REAL_1:func.3">+</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="series_1.html#K3" title="SERIES_1:func.3">Partial_Sums</a> <a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Maroon" title="c4">k</font></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="series_1.html#D5" onmouseover="rs('series_1/D5')" onmouseout="rh()">SERIES_1:def 5</a></span>
+<br/>.= 
+<span class="p1">(<span class="default"><a href="series_1.html#K3" title="SERIES_1:func.3">Partial_Sums</a> <a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <span class="p1">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="series_1.html#D1" onmouseover="rs('series_1/D1')" onmouseout="rh()">SERIES_1:def 1</a></span>
+<br/>.= 
+ <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<span class="p1">(<span class="default"><font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1</span>)</span>)
+<span class="kw">by</span> <span class="lab"><a class="ref" href="series_1.html#D5" onmouseover="rs('series_1/D5')" onmouseout="rh()">SERIES_1:def 5</a></span>
+;<br/>
+<span class="kw">hence </span><a NAME="E4:87_1"/>
+<font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c4">k</font> <a href="nat_1.html#K1" title="NAT_1:func.1">+</a> 1]
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<span class="lab"><font color="Green" title="E54">A5</font></span>:  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>) = 
+<span class="p1">(<span class="default"><a href="series_1.html#K3" title="SERIES_1:func.3">Partial_Sums</a> <a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a></span>)</span> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="series_1.html#D5" onmouseover="rs('series_1/D5')" onmouseout="rh()">SERIES_1:def 5</a></span>
+<br/>.= 
+<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="series_1.html#D1" onmouseover="rs('series_1/D1')" onmouseout="rh()">SERIES_1:def 1</a></span>
+<br/>.= 
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="asympt_1.html#D2" target="_self" onmouseover="rs('asympt_1/D2')" onmouseout="rh()">Def2</a></span>
+;<br/>
+<font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> = 
+ <a href="power.html#K3" title="POWER:func.3">log</a> (2,1)
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:87"><span class="lab"><font color="Green" title="E52">A1</font></span></a>, <a class="ref" href="newton.html#T12" onmouseover="rs('newton/T12')" onmouseout="rh()">NEWTON:12</a></span>
+<br/>.= 
+ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="power.html#T51" onmouseover="rs('power/T51')" onmouseout="rh()">POWER:51</a></span>
+;<br/>
+<a NAME="E5:87"/><span class="kw">then </span><span class="lab"><font color="Green" title="E55">A6</font></span>: 
+<font color="Maroon">S<sub>1</sub></font>[ <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> ]
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:87"><span class="lab"><font color="Green" title="E54">A5</font></span></a></span>;<br/>
+<a NAME="E6:87"/>
+ for <font color="Olive" title="b1">n</font> being   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a> holds  <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">n</font>]
+ 
+<span class="kw">from</span> <span class="lab"><a class="ref" href="nat_1.html#S2" onmouseover="rs('nat_1/S2')" onmouseout="rh()">NAT_1:sch 2</a>(<a class="txt" href="#E5:87"><span class="lab"><font color="Green" title="E55">A6</font></span></a>, <a class="txt" href="#E2:87"><span class="lab"><font color="Green" title="E53">A2</font></span></a>);<br/></span>
+<span class="kw">hence </span><a NAME="E7:87"/>
+ for <font color="Olive" title="b1">n</font> being    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  holds  <font color="Maroon" title="c3">f</font> <a href="nat_1.html#K8" title="NAT_1:func.8">.</a> <font color="Olive" title="b1">n</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="series_1.html#K6" title="SERIES_1:func.6">Sum</a> (<a href="asympt_1.html#K2" title="ASYMPT_1:func.2">seq_logn</a>,<font color="Olive" title="b1">n</font>)
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

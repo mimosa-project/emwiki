@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">N</font> be   <a href="measure6.html#NV2" title="MEASURE6:NV.2">with_zero</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">A</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="memstr_0.html#V2" title="MEMSTR_0:attr.2">with_non-empty_values</a>   <a href="memstr_0.html#V3" title="MEMSTR_0:attr.3">IC-Ins-separated</a>   <a href="amistd_4.html#V2" title="AMISTD_4:attr.2">with_non_trivial_ObjectKinds</a>   <a href="extpro_1.html#L1" title="EXTPRO_1:struct.1">AMI-Struct</a> over <font color="Maroon" title="c1">N</font><br/>  for <font color="Olive" title="b2">I</font> being   <a href="compos_1.html#NM1" title="COMPOS_1:NM.1">Instruction</a> of <font color="Olive" title="b1">A</font>  st <font color="Olive" title="b2">I</font> is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a>  holds <br/> <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Olive" title="b2">I</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">A</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="memstr_0.html#V2" title="MEMSTR_0:attr.2">with_non-empty_values</a>   <a href="memstr_0.html#V3" title="MEMSTR_0:attr.3">IC-Ins-separated</a>   <a href="amistd_4.html#V2" title="AMISTD_4:attr.2">with_non_trivial_ObjectKinds</a>   <a href="extpro_1.html#L1" title="EXTPRO_1:struct.1">AMI-Struct</a> over <font color="Maroon" title="c1">N</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">I</font> being   <a href="compos_1.html#NM1" title="COMPOS_1:NM.1">Instruction</a> of <font color="Maroon" title="c2">A</font>  st <font color="Olive" title="b1">I</font> is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a>  holds <br/> <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Olive" title="b1">I</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c3">I</font> be   <a href="compos_1.html#NM1" title="COMPOS_1:NM.1">Instruction</a> of <font color="Maroon" title="c2">A</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">I</font> is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a>  implies  <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Maroon" title="c3">I</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:24"/><span class="lab"><font color="Green" title="E12">A1</font></span>: 
+<font color="Maroon" title="c3">I</font> is  <a href="extpro_1.html#V2" title="EXTPRO_1:attr.2">halting</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Maroon" title="c3">I</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> </span><br/>
+
+<a NAME="E2:24"/>
+ <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Maroon" title="c3">I</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="amistd_4.html#K2" title="AMISTD_4:func.2">Output</a> <font color="Maroon" title="c3">I</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="amistd_4.html#T3" target="_self" onmouseover="rs('amistd_4/T3')" onmouseout="rh()">Th3</a></span>;<br/>
+<a NAME="E3:24"/><span class="kw">then </span>
+ <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Maroon" title="c3">I</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:24"><span class="lab"><font color="Green" title="E12">A1</font></span></a>, <a class="ref" href="amistd_4.html#T10" target="_self" onmouseover="rs('amistd_4/T10')" onmouseout="rh()">Th10</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:24"/>
+ <a href="amistd_4.html#K3" title="AMISTD_4:func.3">Out_\_Inp</a> <font color="Maroon" title="c3">I</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">reconsider </span><font color="Maroon" title="c2">sE</font> = <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><font color="Maroon" title="c1">E</font></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> as   <a href="setfam_1.html#NM1" title="SETFAM_1:NM.1">Subset-Family</a> of <font color="Maroon" title="c1">E</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#T68" onmouseover="rs('zfmisc_1/T68')" onmouseout="rh()">ZFMISC_1:68</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c2">sE</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c2">sE</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp; <font color="Maroon" title="c2">sE</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  &amp; <font color="Maroon" title="c2">sE</font> is  <a href="abian.html#V3" title="ABIAN:attr.3">covering</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E2:28_1_1"/>
+(  not <font color="Maroon" title="c2">sE</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp; <font color="Maroon" title="c2">sE</font> is  <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">sE</font> is  <a href="abian.html#V3" title="ABIAN:attr.3">covering</a> </span><br/>
+
+<a NAME="E3:28_1_1"/>
+ <a href="setfam_1.html#K5" title="SETFAM_1:func.5">union</a> <font color="Maroon" title="c2">sE</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">E</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#T25" onmouseover="rs('zfmisc_1/T25')" onmouseout="rh()">ZFMISC_1:25</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:28_1_1"/>
+<font color="Maroon" title="c2">sE</font> is  <a href="abian.html#V3" title="ABIAN:attr.3">covering</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="abian.html#T4" target="_self" onmouseover="rs('abian/T4')" onmouseout="rh()">Th4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">a</font>, <font color="Maroon" title="c2">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a> st <font color="Olive" title="b1">x</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Maroon" title="c1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font></span><br/>
+
+<span class="kw">take </span>
+ <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Maroon" title="c1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E1:7"/>
+<span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="algstr_0.html#K3" title="ALGSTR_0:func.3">Trivial-addLoopStr</a></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Maroon" title="c1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_1.html#T4" target="_self" onmouseover="rs('algstr_1/T4')" onmouseout="rh()">Th4</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

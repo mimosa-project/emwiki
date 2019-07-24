@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c2">S</font> be   <a href="catalg_1.html#NM1" title="CATALG_1:NM.1">Signature</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c2">S</font> is <font color="Maroon" title="c1">J</font> <a href="aofa_l00.html#V2" title="AOFA_L00:attr.2">-extension</a>  implies (  not <font color="Maroon" title="c2">S</font> is  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  &amp;  not <font color="Maroon" title="c2">S</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  ) )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:57_1_1"/>
+<font color="Maroon" title="c1">J</font> is    <a href="instalg1.html#M1" title="INSTALG1:mode.1">Subsignature</a> of <font color="Maroon" title="c2">S</font>
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="aofa_l00.html#D2" target="_self" onmouseover="rs('aofa_l00/D2')" onmouseout="rh()">AOFA_L00:def 2</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c2">S</font> is  <a href="struct_0.html#V11" title="STRUCT_0:attr.11">void</a>  &amp;  not <font color="Maroon" title="c2">S</font> is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>  )</span><br/>
+
+<a NAME="E2:57_1_1"/><span class="kw">then </span>
+(  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">J</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">S</font> &amp;  the <a href="struct_0.html#U4" title="STRUCT_0:sel.4">carrier'</a> of <font color="Maroon" title="c1">J</font> <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  the <a href="struct_0.html#U4" title="STRUCT_0:sel.4">carrier'</a> of <font color="Maroon" title="c2">S</font> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="instalg1.html#T10" onmouseover="rs('instalg1/T10')" onmouseout="rh()">INSTALG1:10</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:57_1_1"/>
+(  not  the <a href="struct_0.html#U4" title="STRUCT_0:sel.4">carrier'</a> of <font color="Maroon" title="c2">S</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp;  not  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">S</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  )
+ ; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="struct_0.html#D1" onmouseover="rs('struct_0/D1')" onmouseout="rh()">STRUCT_0:def 1</a>,<a class="ref" href="struct_0.html#D13" onmouseover="rs('struct_0/D13')" onmouseout="rh()">STRUCT_0:def 13</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

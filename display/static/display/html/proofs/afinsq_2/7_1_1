@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+ the   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a> 
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  the   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp;  the   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  is  <a href="valued_0.html#V4" title="VALUED_0:attr.4">natural-valued</a>  )</span><br/>
+
+<span class="kw">thus </span><a NAME="E1:7_1_1"/>
+(  the   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  &amp;  the   <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>  <a href="afinsq_1.html#NM2" title="AFINSQ_1:NM.2">XFinSequence</a> of  <a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a>  is  <a href="valued_0.html#V4" title="VALUED_0:attr.4">natural-valued</a>  )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

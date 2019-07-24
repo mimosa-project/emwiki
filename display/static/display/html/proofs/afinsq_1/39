@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">p</font>, <font color="Maroon" title="c2">q</font> be   <a href="ordinal1.html#NM4" title="ORDINAL1:NM.4">Sequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c1">p</font> <a href="ordinal1.html#R1" title="ORDINAL1:pred.1">c=</a>  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c1">p</font> <a href="ordinal4.html#K1" title="ORDINAL4:func.1">^</a> <font color="Maroon" title="c2">q</font></span>)</span></span><br/>
+
+<a NAME="E1:39"/>
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c1">p</font> <a href="ordinal4.html#K1" title="ORDINAL4:func.1">^</a> <font color="Maroon" title="c2">q</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c1">p</font></span>)</span> <a href="ordinal2.html#K10" title="ORDINAL2:func.10">+^</a> <span class="p1">(<span class="default"><a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c2">q</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal4.html#D1" onmouseover="rs('ordinal4/D1')" onmouseout="rh()">ORDINAL4:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:39"/>
+ <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <font color="Maroon" title="c1">p</font> <a href="ordinal1.html#R1" title="ORDINAL1:pred.1">c=</a>  <a href="relat_1.html#NK1" title="RELAT_1:NK.1">dom</a> <span class="p1">(<span class="default"><font color="Maroon" title="c1">p</font> <a href="ordinal4.html#K1" title="ORDINAL4:func.1">^</a> <font color="Maroon" title="c2">q</font></span>)</span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="ordinal3.html#T24" onmouseover="rs('ordinal3/T24')" onmouseout="rh()">ORDINAL3:24</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

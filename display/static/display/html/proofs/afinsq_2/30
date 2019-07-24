@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">k</font> be   <a href="nat_1.html#NM1" title="NAT_1:NM.1">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">p</font> being   <a href="afinsq_1.html#NM1" title="AFINSQ_1:NM.1">XFinSequence</a>  st  <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <font color="Olive" title="b1">p</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c1">k</font> holds <br/> <a href="afinsq_2.html#K3" title="AFINSQ_2:func.3">mid</a> (<font color="Olive" title="b1">p</font>,1,<font color="Maroon" title="c1">k</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">p</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">p</font> be   <a href="afinsq_1.html#NM1" title="AFINSQ_1:NM.1">XFinSequence</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <font color="Maroon" title="c2">p</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c1">k</font> implies  <a href="afinsq_2.html#K3" title="AFINSQ_2:func.3">mid</a> (<font color="Maroon" title="c2">p</font>,1,<font color="Maroon" title="c1">k</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">p</font> )</span><br/>
+
+
+
+<span class="kw">assume </span><a NAME="E1:30"/><span class="lab"><font color="Green" title="E19">A1</font></span>: 
+ <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <font color="Maroon" title="c2">p</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a> <font color="Maroon" title="c1">k</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="afinsq_2.html#K3" title="AFINSQ_2:func.3">mid</a> (<font color="Maroon" title="c2">p</font>,1,<font color="Maroon" title="c1">k</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">p</font></span><br/>
+
+<span class="kw">thus </span> <a href="afinsq_2.html#K3" title="AFINSQ_2:func.3">mid</a> (<font color="Maroon" title="c2">p</font>,1,<font color="Maroon" title="c1">k</font>) = 
+<font color="Maroon" title="c2">p</font> <a href="relat_1.html#K5" title="RELAT_1:func.5">|</a> <font color="Maroon" title="c1">k</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_2.html#T16" target="_self" onmouseover="rs('afinsq_2/T16')" onmouseout="rh()">Th16</a></span>
+<br/>.= 
+<font color="Maroon" title="c2">p</font>
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:30"><span class="lab"><font color="Green" title="E19">A1</font></span></a>, <a class="ref" href="afinsq_1.html#T52" onmouseover="rs('afinsq_1/T52')" onmouseout="rh()">AFINSQ_1:52</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

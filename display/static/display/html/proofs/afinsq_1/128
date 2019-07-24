@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">x</font>, <font color="Maroon" title="c2">y</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> (<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1) <a href="funct_4.html#K6" title="FUNCT_4:func.6">--&gt;</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>)</span><br/>
+
+
+
+<span class="lab"><font color="Green" title="E50">A1</font></span>:  <a href="afinsq_1.html#K2" title="AFINSQ_1:func.2">dom</a> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> = 
+ <a href="afinsq_1.html#K1" title="AFINSQ_1:func.1">len</a> <span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span>
+
+<br/>.= 
+<span class="p1"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1</span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="afinsq_1.html#T38" target="_self" onmouseover="rs('afinsq_1/T38')" onmouseout="rh()">Th35</a>, <a class="ref" href="card_1.html#T50" onmouseover="rs('card_1/T50')" onmouseout="rh()">CARD_1:50</a></span>
+;<br/>
+<a NAME="E2:128"/><span class="lab"><font color="Green" title="E51">A2</font></span>: 
+<span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <a href="numbers.html#K5" title="NUMBERS:func.5">0</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">x</font>
+ 
+;<br/>
+<a NAME="E3:128"/>
+<span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> 1 <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">y</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E4:128"/>
+<span class="p1"><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">&lt;%</a><span class="default"><font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font></span><a href="afinsq_1.html#K6" title="AFINSQ_1:func.6">%&gt;</a></span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> (<a href="numbers.html#K5" title="NUMBERS:func.5">0</a>,1) <a href="funct_4.html#K6" title="FUNCT_4:func.6">--&gt;</a> (<font color="Maroon" title="c1">x</font>,<font color="Maroon" title="c2">y</font>)
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:128"><span class="lab"><font color="Green" title="E50">A1</font></span></a>, <a class="txt" href="#E2:128"><span class="lab"><font color="Green" title="E51">A2</font></span></a>, <a class="ref" href="funct_4.html#T66" onmouseover="rs('funct_4/T66')" onmouseout="rh()">FUNCT_4:66</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

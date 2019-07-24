@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">n</font> be   <a href="ordinal1.html#NM6" title="ORDINAL1:NM.6">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1">(<span class="default"><a href="matrixr2.html#K4" title="MATRIXR2:func.4">1_Rmatrix</a> <font color="Maroon" title="c1">n</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K2" title="FINSEQ_1:func.2">Seg</a> <font color="Maroon" title="c1">n</font></span><br/>
+
+<a NAME="E1:15"/>
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <span class="p1">(<span class="default"><a href="matrixr2.html#K4" title="MATRIXR2:func.4">1_Rmatrix</a> <font color="Maroon" title="c1">n</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">n</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="matrix_0.html#T24" onmouseover="rs('matrix_0/T24')" onmouseout="rh()">MATRIX_0:24</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:15"/>
+ <a href="finseq_1.html#K4" title="FINSEQ_1:func.4">dom</a> <span class="p1">(<span class="default"><a href="matrixr2.html#K4" title="MATRIXR2:func.4">1_Rmatrix</a> <font color="Maroon" title="c1">n</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="finseq_1.html#K2" title="FINSEQ_1:func.2">Seg</a> <font color="Maroon" title="c1">n</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="finseq_1.html#D3" onmouseover="rs('finseq_1/D3')" onmouseout="rh()">FINSEQ_1:def 3</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">C</font> be   <a href="cat_1.html#NM4" title="CAT_1:NM.4">Category</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="altcat_2.html#K4" title="ALTCAT_2:func.4">Alter</a> <font color="Maroon" title="c1">C</font> is  <a href="altcat_1.html#V12" title="ALTCAT_1:attr.12">with_units</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E1:31"/>
+(  the <a href="altcat_1.html#U2" title="ALTCAT_1:sel.2">Comp</a> of <span class="p1">(<span class="default"><a href="altcat_2.html#K4" title="ALTCAT_2:func.4">Alter</a> <font color="Maroon" title="c1">C</font></span>)</span> is  <a href="altcat_1.html#V5" title="ALTCAT_1:attr.5">with_left_units</a>  &amp;  the <a href="altcat_1.html#U2" title="ALTCAT_1:sel.2">Comp</a> of <span class="p1">(<span class="default"><a href="altcat_2.html#K4" title="ALTCAT_2:func.4">Alter</a> <font color="Maroon" title="c1">C</font></span>)</span> is  <a href="altcat_1.html#V4" title="ALTCAT_1:attr.4">with_right_units</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="altcat_2.html#T15" target="_self" onmouseover="rs('altcat_2/T15')" onmouseout="rh()">Th15</a></span>; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="altcat_1.html#D16" onmouseover="rs('altcat_1/D16')" onmouseout="rh()">ALTCAT_1:def 16</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

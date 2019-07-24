@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">consider </span><font color="Maroon" title="c5">h</font> being   <a href="msualg_3.html#NM1" title="MSUALG_3:NM.1">ManySortedFunction</a> of <font color="Maroon" title="c2">T</font>,<font color="Maroon" title="c3">C</font><span class="kw"> such that </span><br/><a NAME="E2:88_1_1"/><span class="lab"><font color="Green" title="E34">A1</font></span>: 
+<font color="Maroon" title="c5">h</font> <a href="msualg_3.html#R2" title="MSUALG_3:pred.2">is_epimorphism</a> <font color="Maroon" title="c2">T</font>,<font color="Maroon" title="c3">C</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="msafree4.html#D5" onmouseover="rs('msafree4/D5')" onmouseout="rh()">MSAFREE4:def 5</a></span>;<br/>
+<a NAME="E3:88_1_1"/>
+<font color="Maroon" title="c5">h</font> <a href="msualg_3.html#R1" title="MSUALG_3:pred.1">is_homomorphism</a> <font color="Maroon" title="c2">T</font>,<font color="Maroon" title="c3">C</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:88_1_1"><span class="lab"><font color="Green" title="E34">A1</font></span></a>, <a class="ref" href="msualg_3.html#D8" onmouseover="rs('msualg_3/D8')" onmouseout="rh()">MSUALG_3:def 8</a></span>;<br/>
+<a NAME="E4:88_1_1"/><span class="kw">then </span>
+<font color="Maroon" title="c5">h</font> <a href="msafree.html#K1" title="MSAFREE:func.1">||</a> <font color="Maroon" title="c4">X</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">C</font> <a href="aofa_a00.html#K12" title="AOFA_A00:func.12">-States</a> <font color="Maroon" title="c4">X</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_a00.html#D18" target="_self" onmouseover="rs('aofa_a00/D18')" onmouseout="rh()">Def18</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E5:88_1_1"/>
+ not <font color="Maroon" title="c3">C</font> <a href="aofa_a00.html#K12" title="AOFA_A00:func.12">-States</a> <font color="Maroon" title="c4">X</font> is  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c2">a</font> =  the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c3">A</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font><span class="kw"> such that </span><br/><a NAME="E2:18_1_1"/>
+ the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font>
+ <span class="kw">and </span><br/><a NAME="E3:18_1_1"/>
+ the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font>
+ <span class="kw">and </span><br/><a NAME="E4:18_1_1"/>
+ the   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">A</font>
+ <span class="kw">and </span><br/><a NAME="E5:18_1_1"/><span class="lab"><font color="Green" title="E10">A1</font></span>: 
+<font color="Maroon" title="c3">A</font> is  <a href="aff_4.html#V1" title="AFF_4:attr.1">being_plane</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="aff_4.html#T37" onmouseover="rs('aff_4/T37')" onmouseout="rh()">AFF_4:37</a></span>;<br/>
+<a NAME="E6:18_1_1"/>
+<font color="Maroon" title="c3">A</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="afproj.html#K2" title="AFPROJ:func.2">AfPlanes</a> <font color="Maroon" title="c1">AS</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E5:18_1_1"><span class="lab"><font color="Green" title="E10">A1</font></span></a></span>;<br/>
+<a NAME="E7:18_1_1"/><span class="kw">then </span>
+ <a href="eqrel_1.html#K6" title="EQREL_1:func.6">Class</a> (<span class="p1">(<span class="default"><a href="afproj.html#K4" title="AFPROJ:func.4">PlanesParallelity</a> <font color="Maroon" title="c1">AS</font></span>)</span>,<font color="Maroon" title="c3">A</font>) <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <span class="p1">(<span class="default"><a href="afproj.html#K4" title="AFPROJ:func.4">PlanesParallelity</a> <font color="Maroon" title="c1">AS</font></span>)</span>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="eqrel_1.html#D3" onmouseover="rs('eqrel_1/D3')" onmouseout="rh()">EQREL_1:def 3</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E8:18_1_1"/>
+ <a href="eqrel_1.html#K8" title="EQREL_1:func.8">Class</a> <span class="p1">(<span class="default"><a href="afproj.html#K4" title="AFPROJ:func.4">PlanesParallelity</a> <font color="Maroon" title="c1">AS</font></span>)</span> is   non  <a href="xboole_0.html#V1" title="XBOOLE_0:attr.1">empty</a>   <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c4">Z</font> =  the   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> ;<br/>
+<a NAME="E1:67_1_1"/>
+ <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  <a href="tarski.html#R1" title="TARSKI:pred.1">c=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">S</font> <a href="subset_1.html#K6" title="SUBSET_1:func.6">\</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">J</font>
+ 
+;<br/>
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c5">Q</font> being    <a href="msualg_1.html#L3" title="MSUALG_1:struct.3">MSAlgebra</a> over <font color="Maroon" title="c2">S</font><span class="kw"> such that </span><br/><a NAME="E3:67_1_1"/><span class="lab"><font color="Green" title="E29">A1</font></span>: 
+( <font color="Maroon" title="c5">Q</font> is <font color="Maroon" title="c3">T</font> <a href="aofa_l00.html#V15" title="AOFA_L00:attr.15">-extension</a>  &amp;  the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Maroon" title="c5">Q</font> <a href="relat_1.html#K5" title="RELAT_1:func.5">|</a> <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_l00.html#T17" target="_self" onmouseover="rs('aofa_l00/T17')" onmouseout="rh()">Th17</a></span>;<br/>
+<span class="kw">take </span>
+<font color="Maroon" title="c5">Q</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c5">Q</font> is <font color="Maroon" title="c3">T</font> <a href="aofa_l00.html#V15" title="AOFA_L00:attr.15">-extension</a> </span><br/>
+
+<span class="kw">thus </span><a NAME="E4:67_1_1"/>
+<font color="Maroon" title="c5">Q</font> is <font color="Maroon" title="c3">T</font> <a href="aofa_l00.html#V15" title="AOFA_L00:attr.15">-extension</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:67_1_1"><span class="lab"><font color="Green" title="E29">A1</font></span></a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

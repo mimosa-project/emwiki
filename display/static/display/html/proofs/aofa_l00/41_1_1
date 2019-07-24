@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c3">G</font> =  the    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font>;<br/>
+<span class="kw">take </span><font color="Maroon" title="c4">X</font> =  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a>  the    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">G</font> being    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font> st <font color="Maroon" title="c4">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a> <font color="Olive" title="b1">G</font></span><br/>
+
+<span class="kw">take </span>
+ the    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c4">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a>  the    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E1:41_1_1"/>
+<font color="Maroon" title="c4">X</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="card_3.html#K3" title="CARD_3:func.3">Union</a>  the    <a href="msafree.html#M1" title="MSAFREE:mode.1">GeneratorSet</a> of <font color="Maroon" title="c2">T</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

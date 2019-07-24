@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">take </span>
+<font color="Maroon" title="c1">X</font>
+; <span class="comment"><font color="firebrick">:: according to </font></span><a class="ref" href="setfam_1.html#D10" onmouseover="rs('setfam_1/D10')" onmouseout="rh()">SETFAM_1:def 10</a> <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">X</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="setfam_1.html#K9" title="SETFAM_1:func.9">bool</a> <font color="Maroon" title="c1">X</font></span><br/>
+
+<span class="kw">thus </span><a NAME="E1:36_1_1"/>
+<font color="Maroon" title="c1">X</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="setfam_1.html#K9" title="SETFAM_1:func.9">bool</a> <font color="Maroon" title="c1">X</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#D1" onmouseover="rs('zfmisc_1/D1')" onmouseout="rh()">ZFMISC_1:def 1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">assume </span><a NAME="E1:6"/>
+ <a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a>  <a href="xboole_0.html#NR5" title="XBOOLE_0:NR.5">meets</a> <span class="p1"><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">[:</a><span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>,<a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a></span><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">:]</a></span>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<span class="kw">then </span><span class="kw">consider </span><font color="Maroon" title="c1">x</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E3:6"/><span class="lab"><font color="Green" title="E7">A1</font></span>: 
+<font color="Maroon" title="c1">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a> 
+ <span class="kw">and </span><br/><a NAME="E4:6"/><span class="lab"><font color="Green" title="E8">A2</font></span>: 
+<font color="Maroon" title="c1">x</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">[:</a><span class="default"><span class="p2"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>,<a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a></span><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">:]</a></span>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="xboole_0.html#T3" onmouseover="rs('xboole_0/T3')" onmouseout="rh()">XBOOLE_0:3</a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c2">x1</font>, <font color="Maroon" title="c3">x2</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> <span class="kw"> such that </span><br/><a NAME="E6:6"/><span class="lab"><font color="Green" title="E9">A3</font></span>: 
+<font color="Maroon" title="c2">x1</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span>
+ <span class="kw">and </span><br/><a NAME="E7:6"/>
+<font color="Maroon" title="c3">x2</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a>  <a href="arytm_2.html#K2" title="ARYTM_2:func.2">REAL+</a> 
+ <span class="kw">and </span><br/><a NAME="E8:6"/><span class="lab"><font color="Green" title="E10">A4</font></span>: 
+<font color="Maroon" title="c1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><font color="Maroon" title="c2">x1</font>,<font color="Maroon" title="c3">x2</font></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span>
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:6"><span class="lab"><font color="Green" title="E8">A2</font></span></a>, <a class="ref" href="zfmisc_1.html#T84" onmouseover="rs('zfmisc_1/T84')" onmouseout="rh()">ZFMISC_1:84</a></span>;<br/>
+<a NAME="E9:6"/>
+<font color="Maroon" title="c2">x1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="arytm_3.html#K11" title="ARYTM_3:func.11">{}</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E6:6"><span class="lab"><font color="Green" title="E9">A3</font></span></a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E10:6"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:6"><span class="lab"><font color="Green" title="E7">A1</font></span></a>, <a class="txt" href="#E8:6"><span class="lab"><font color="Green" title="E10">A4</font></span></a>, <a class="ref" href="arytm_2.html#T3" onmouseover="rs('arytm_2/T3')" onmouseout="rh()">ARYTM_2:3</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

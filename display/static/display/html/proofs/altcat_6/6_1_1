@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">defpred </span><font color="Maroon">S<sub>1</sub></font>[   <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ,   <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ] <span class="kw">means </span> ex <font color="Olive" title="b1">o1</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c2">C</font> st <br/>( <font color="Olive" title="b1">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c5">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> $1 &amp; $2 is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b1">o1</font>,<font color="Maroon" title="c3">o</font> );<br/>
+<a NAME="E1:6_1_1"/><span class="lab"><font color="Green" title="E7">A1</font></span>: 
+ for <font color="Olive" title="b1">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b1">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">I</font> holds <br/> ex <font color="Olive" title="b2">j</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  st <font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b1">i</font>,<font color="Olive" title="b2">j</font>]
+ 
+<div><a class="txt" onmouseover="tooltip.show('hs2',this)" onmouseout="tooltip.hide()" onclick="hs2(this)" href="javascript:()" title="6_1_1_1"><span class="kw">proof </span></a><div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c6">i</font> be    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a> ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c6">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">I</font> implies  ex <font color="Olive" title="b1">j</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  st <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c6">i</font>,<font color="Olive" title="b1">j</font>] )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:6_1_1_1"/>
+<font color="Maroon" title="c6">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">I</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">j</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>  st <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c6">i</font>,<font color="Olive" title="b1">j</font>]</span><br/>
+
+<span class="kw">then </span><span class="kw">reconsider </span><font color="Maroon" title="c7">o1</font> = <font color="Maroon" title="c5">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Maroon" title="c6">i</font> as   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c2">C</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="funct_2.html#T5" onmouseover="rs('funct_2/T5')" onmouseout="rh()">FUNCT_2:5</a></span>;<br/>
+<span class="kw">take </span>
+ the   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c7">o1</font>,<font color="Maroon" title="c3">o</font>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c6">i</font>, the   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c7">o1</font>,<font color="Maroon" title="c3">o</font>]</span><br/>
+
+<span class="kw">thus </span><a NAME="E3:6_1_1_1"/>
+<font color="Maroon">S<sub>1</sub></font>[<font color="Maroon" title="c6">i</font>, the   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Maroon" title="c7">o1</font>,<font color="Maroon" title="c3">o</font>]
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div><span class="kw">end;</span></div>
+<a NAME="E2:6_1_1"/>
+ ex <font color="Olive" title="b1">f</font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c4">I</font> st <br/> for <font color="Olive" title="b2">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b2">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">I</font> holds <br/><font color="Maroon">S<sub>1</sub></font>[<font color="Olive" title="b2">i</font>,<font color="Olive" title="b1">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font>]
+ 
+<span class="kw">from</span> <span class="lab"><a class="ref" href="pboole.html#S3" onmouseover="rs('pboole/S3')" onmouseout="rh()">PBOOLE:sch 3</a>(<a class="txt" href="#E1:6_1_1"><span class="lab"><font color="Green" title="E7">A1</font></span></a>);<br/></span>
+<span class="kw">hence </span><a NAME="E3:6_1_1"/>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="pboole.html#NM1" title="PBOOLE:NM.1">ManySortedSet</a> of <font color="Maroon" title="c4">I</font> st <br/> for <font color="Olive" title="b2">i</font> being    <a href="hidden.html#M1" title="HIDDEN:mode.1">object</a>   st <font color="Olive" title="b2">i</font> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <font color="Maroon" title="c4">I</font> holds <br/> ex <font color="Olive" title="b3">o1</font> being   <a href="altcat_1.html#NM1" title="ALTCAT_1:NM.1">Object</a> of <font color="Maroon" title="c2">C</font> st <br/>( <font color="Olive" title="b3">o1</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c5">f</font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> &amp; <font color="Olive">b<sub>1</sub></font> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <font color="Olive" title="b2">i</font> is   <a href="altcat_1.html#NM2" title="ALTCAT_1:NM.2">Morphism</a> of <font color="Olive" title="b3">o1</font>,<font color="Maroon" title="c3">o</font> )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

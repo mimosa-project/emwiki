@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:43_1_1"/>
+(  <a href="abcmiz_1.html#K6" title="ABCMIZ_1:func.6">a_Type</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K1" title="TARSKI:func.1">{</a><span class="default"><a href="abcmiz_1.html#K6" title="ABCMIZ_1:func.6">a_Type</a></span><a href="tarski.html#K1" title="TARSKI:func.1">}</a></span> &amp; <span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> <a href="hidden.html#R2" title="HIDDEN:pred.2">in</a> <span class="p1"><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">[:</a><span class="default"><a href="abcmiz_1.html#K4" title="ABCMIZ_1:func.4">QuasiLoci</a>,<a href="numbers.html#NK1" title="NUMBERS:NK.1">NAT</a></span><a href="zfmisc_1.html#K2" title="ZFMISC_1:func.2">:]</a></span> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T29" onmouseover="rs('abcmiz_1/T29')" onmouseout="rh()">ABCMIZ_1:29</a>, <a class="ref" href="tarski.html#D1" onmouseover="rs('tarski/D1')" onmouseout="rh()">TARSKI:def 1</a>, <a class="ref" href="zfmisc_1.html#D2" onmouseover="rs('zfmisc_1/D2')" onmouseout="rh()">ZFMISC_1:def 2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:43_1_1"/>
+<span class="p1"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><a href="abcmiz_1.html#K6" title="ABCMIZ_1:func.6">a_Type</a>,<span class="p2"><a href="tarski.html#K4" title="TARSKI:func.4">[</a><span class="default"><a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>,<a href="numbers.html#K5" title="NUMBERS:func.5">0</a></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span></span><a href="tarski.html#K4" title="TARSKI:func.4">]</a></span> is    <a href="subset_1.html#M2" title="SUBSET_1:mode.2">Element</a> of  <a href="abcmiz_a.html#K5" title="ABCMIZ_A:func.5">Modes</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="zfmisc_1.html#D2" onmouseover="rs('zfmisc_1/D2')" onmouseout="rh()">ZFMISC_1:def 2</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

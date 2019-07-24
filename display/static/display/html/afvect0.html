@@ -1,0 +1,991 @@
+<html prefix="oo: http://omdoc.org/ontology# owl: http://www.w3.org/2002/07/owl#">
+<style type="text/css">
+div { padding: 0 0 0 0; margin: 0 0 0 0; } 
+div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div.box { border-width:thin; border-color:blue; border-style:solid; }
+p { margin: 0 0 0 0; } 
+body {font-family: monospace; margin: 0px;}
+a {text-decoration:none} a:hover { color: red; } 
+a.ref { font-size:x-small; }
+a.ref:link { color:green; } 
+a.ref:hover { color: red; } 
+a.txt:link { color:black; } 
+a.txt:hover { color: red; } 
+.wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+.wikiactions li { display: inline; padding: .2em .4em; }
+.wikiactions a {text-decoration:underline;} 
+span.kw {font-weight: bold; }
+span.lab {font-style: italic; }
+span.comment {font-style: italic; }
+span.hide { display: none; }
+span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+span.p2:hover { color : inherit; background-color : #FFCACA; }
+span.p3:hover { color : inherit; background-color : #FFFFBA; }
+span.p4:hover { color : inherit; background-color : #CACAFF; }
+span.p5:hover { color : inherit; background-color : #CAFFCA; }
+span.p0:hover { color : inherit; background-color : #FFBAFF; }
+.default { background-color: white; color: black; } 
+.default:hover { background-color: white; color: black; }
+#tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+:target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AFVECT0:  Directed Geometrical Bundles and Their Analytical Representation</title>
+<script type="text/javascript">
+<!-- 
+
+// for saving in rs
+var mizhtm='';
+function hs(obj)
+{
+// document.getElementById('myimage').nextSibling.style.display = 'block';
+if (obj.nextSibling.style.display == 'inline')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'inline'; }
+ else { obj.nextSibling.style.display = 'inline';  }}
+return false;
+}
+
+function hs2(obj)
+{
+if (obj.nextSibling.style.display == 'block')
+ { obj.nextSibling.style.display = 'none'; }
+else { if (obj.nextSibling.style.display == 'none')
+ { obj.nextSibling.style.display = 'block'; }
+ else { obj.nextSibling.style.display = 'none';  }}
+return false;
+}
+function hsNdiv(obj)
+{
+var ndiv = obj;
+while (ndiv.nextSibling.nodeName != 'DIV') { ndiv = ndiv.nextSibling; }
+return hs2(ndiv);
+}
+
+// remote request cache - for each url its http_request.responseText
+var rrCache= {};
+rrCache[0]='';
+
+// explorer7 implements XMLHttpRequest in some strange way
+// optional tooltip is passed to insertRequest
+function makeRequest(obj,url,tooltip) 
+{
+    // if the result is cached, insert it now
+    if (rrCache[url] != null)
+    {
+	insertRequest(obj,null,url,tooltip);
+    }
+    else
+    {
+        var http_request = false;
+        if (window.XMLHttpRequest && !(window.ActiveXObject)) { // Mozilla, Safari,...
+            http_request = new XMLHttpRequest();
+            if (http_request.overrideMimeType) {
+                http_request.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                http_request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    http_request = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e) {}
+            }
+        }
+        if (!http_request) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        http_request.onreadystatechange = function() { insertRequest(obj,http_request,url,tooltip); };
+        http_request.open('GET', url, true);
+        http_request.send(null);
+    }
+}
+// commented the 200 state to have local requests too
+// if tooltip nonnil, obj.innerHTML is changed, and the result is put in rrCache
+function insertRequest(obj,http_request,url,tooltip) 
+{
+    var respText = null;
+    if(http_request == null) // no request done, we are called with cached result
+    {
+	respText = rrCache[url];
+    }
+    else { if (http_request.readyState == 4) { 
+	respText = http_request.responseText; 
+    }}
+
+    if (respText != null) 
+    {
+//            if (http_request.status == 200) {
+	if(http_request != null) {rrCache[url] = respText;}
+	if(tooltip != null)
+	{
+	    obj.innerHTML = respText;	    
+	}
+	else
+	{
+	    var ndiv = obj;
+	    while (ndiv.nodeName != 'SPAN') { ndiv = ndiv.nextSibling; }
+	    ndiv.innerHTML = respText;
+	    obj.onclick = function(){ return hs2(obj) };
+	}
+    }
+}
+
+// simple tooltips
+var tooltip=function(){
+ var id = 'tt';
+ var top = 3;
+ var left = 3;
+ var maxw = 500;
+ var speed = 10;
+ var timer = 2;
+ var endalpha = 95;
+ var alpha = 0;
+ var tt,t,c,b,h;
+ var ie = document.all ? true : false;
+ return{
+  show:function(how,v,w){
+   if(tt == null){
+    tt = document.createElement('div');
+    tt.setAttribute('id',id);
+    document.body.appendChild(tt);
+    tt.style.opacity = 0;
+    tt.style.filter = 'alpha(opacity=0)';
+    document.onmousemove = this.pos;
+   }
+
+   tt.style.display = 'block';
+   if(how == 'url')
+   {
+       if(rrCache[v]==null) { 
+	   tt.innerHTML ='<div>loading...</div>'; 
+	   makeRequest(tt,v,1); 
+       } else { 
+	   tt.innerHTML = rrCache[v]; 
+       }
+   }
+   else { if ((how == 'hs') || (how == 'hs2')) { tt.innerHTML = v.nextSibling.innerHTML; }
+   else { if (how == 'txt') { tt.innerHTML = v; }
+	  else { tt.innerHTML = ''; }
+	}
+   }
+
+   tt.style.width = w ? w + 'px' : 'auto';
+   if(!w && ie){
+    tt.style.width = tt.offsetWidth;
+   }
+  if(tt.offsetWidth > maxw){tt.style.width = maxw + 'px'}
+  h = parseInt(tt.offsetHeight) + top;
+  clearInterval(tt.timer);
+  tt.timer = setInterval(function(){tooltip.fade(1)},timer);
+  },
+  pos:function(e){
+   var u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
+   var l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+   tt.style.top = (u - h) + 'px';
+   tt.style.left = (l + left) + 'px';
+  },
+  fade:function(d){
+   var a = alpha;
+   if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+    var i = speed;
+   if(endalpha - a < speed && d == 1){
+    i = endalpha - a;
+   }else if(alpha < speed && d == -1){
+     i = a;
+   }
+   alpha = a + (i * d);
+   tt.style.opacity = alpha * .01;
+   tt.style.filter = 'alpha(opacity=' + alpha + ')';
+  }else{
+    clearInterval(tt.timer);
+     if(d == -1){tt.style.display = 'none'}
+  }
+ },
+ hide:function(){tt.style.display  = 'none';}
+ };
+}();
+
+// reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
+function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
+function rh() { tooltip.hide(); } 
+
+// End -->
+</script><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({                                                                                                                            
+    extensions: ['tex2jax.js'],                                                                                                                   
+    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
+    tex2jax: {                                                                                                                                    
+      inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
+      displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
+  processClass: 'mathjax',                                                                                                                        
+  ignoreClass: 'no-mathjax',                                                                                                                      
+      processEscapes: true,                                                                                                                       
+    },                                                                                                                                            
+    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                          
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</head>
+<body class="no-mathjax">
+<span class="comment"><font color="firebrick">::  Directed Geometrical Bundles and Their Analytical Representation</font></span><br><span class="comment"><font color="firebrick">:: by Grzegorz Lewandowski, Krzysztof Pra\.zmowski and Bo\.zena Lewandowska</font></span><br><span class="comment"><font color="firebrick">:: </font></span><br><span class="comment"><font color="firebrick">:: Received September 24, 1990</font></span><br><span class="comment"><font color="firebrick">:: Copyright (c) 1990-2019 Association of Mizar Users</font></span><br><br><div></div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">IT</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a> ;<br><div about="#D1" typeof="oo:Definition">
+<a NAME="V1"><span class="kw">attr</span> </a><font color="Maroon" title="c1">IT</font> is  <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E1">Def1</font></span>: <a NAME="D1"><span class="comment"><font color="firebrick">:: AFVECT0:def 1</font></span><br></a>( (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b3">c</font> holds <br><font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font>, <font color="Olive" title="b4">d</font>, <font color="Olive" title="b5">p</font>, <font color="Olive" title="b6">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">p</font>,<font color="Olive" title="b6">q</font> &amp; <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">p</font>,<font color="Olive" title="b6">q</font> holds <br><font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  ex <font color="Olive" title="b4">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font>, <font color="Olive" title="b4">a9</font>, <font color="Olive" title="b5">b9</font>, <font color="Olive" title="b6">c9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">a9</font>,<font color="Olive" title="b5">b9</font> &amp; <font color="Olive" title="b1">a</font>,<font color="Olive" title="b3">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">a9</font>,<font color="Olive" title="b6">c9</font> holds <br><font color="Olive" title="b2">b</font>,<font color="Olive" title="b3">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">b9</font>,<font color="Olive" title="b6">c9</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  ex <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font> st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">c</font> ) &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font>, <font color="Olive" title="b4">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">IT</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">c</font>,<font color="Olive" title="b4">d</font> holds <br><font color="Olive" title="b1">a</font>,<font color="Olive" title="b3">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">b</font>,<font color="Olive" title="b4">d</font> ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+<div about="#DT1" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E1">Def1</font></span>   defines <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 1 : <br></a><span class="hide"> for <font color="Olive" title="b1">IT</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a>  holds <br> ( <font color="Olive" title="b1">IT</font> is  <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a>  iff ( (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b4">c</font> holds <br><font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">p</font>, <font color="Olive" title="b7">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">p</font>,<font color="Olive" title="b7">q</font> &amp; <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">p</font>,<font color="Olive" title="b7">q</font> holds <br><font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  ex <font color="Olive" title="b5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">a9</font>, <font color="Olive" title="b6">b9</font>, <font color="Olive" title="b7">c9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">a9</font>,<font color="Olive" title="b6">b9</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">a9</font>,<font color="Olive" title="b7">c9</font> holds <br><font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">b9</font>,<font color="Olive" title="b7">c9</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  ex <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font> st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">b</font>,<font color="Olive" title="b3">c</font> ) &amp; (  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">IT</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> holds <br><font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b5">d</font> ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC1" typeof="oo:Theorem">
+<a NAME="RC1"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="analoaf.html#V1" title="ANALOAF:attr.1">strict</a>   <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a>   for    <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:2_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a>  st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="analoaf.html#V1" title="ANALOAF:attr.1">strict</a>  &amp; <font color="Olive">b<sub>1</sub></font> is  <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a>  )
+ </span><div about="#PF2_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/2_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/2_1_1')" href="javascript:()" title="2_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM1"><span class="kw">mode </span>WeakAffVect<span class="kw"> is </span></a>  non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a> ;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#CC1" typeof="oo:Theorem">
+<a NAME="CC1"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="tdgroup.html#V2" title="TDGROUP:attr.2">AffVect-like</a>  <span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a>   for    <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:4_1"></a>
+ for <font color="Olive">b<sub>1</sub></font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a>   st <font color="Olive">b<sub>1</sub></font> is  <a href="tdgroup.html#V2" title="TDGROUP:attr.2">AffVect-like</a>  holds <br><font color="Olive">b<sub>1</sub></font> is  <a href="afvect0.html#V1" title="AFVECT0:attr.1">WeakAffVect-like</a> 
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="tdgroup.html#D5" onmouseover="rs('tdgroup/D5')" onmouseout="rh()">TDGROUP:def 5</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div class="comment mathjax"><font color="firebrick">::<br>  
+::          Properties of Relation of Congruence of Vectors<br>  
+::<br>  
+  
+</font></div>
+<div about="#T1" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E2">Th1</font></span>: <a NAME="T1"><span class="comment"><font color="firebrick">:: AFVECT0:1</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>
+</div>
+<div about="#PF5" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T1"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/5')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/5')" href="javascript:()" title="5"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T2" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T2"><span class="comment"><font color="firebrick">:: AFVECT0:2</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive" title="b2">a</font>,<font color="Olive" title="b2">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b2">a</font> <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T1" target="_self" onmouseover="rs('afvect0/T1')" onmouseout="rh()">Th1</a></span>;<br>
+</div>
+</div>
+<br><div about="#T3" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E3">Th3</font></span>: <a NAME="T3"><span class="comment"><font color="firebrick">:: AFVECT0:3</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> holds <br><font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>
+</div>
+<div about="#PF6" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T3"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/6')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/6')" href="javascript:()" title="6"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T4" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E4">Th4</font></span>: <a NAME="T4"><span class="comment"><font color="firebrick">:: AFVECT0:4</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> holds <br><font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">c</font>
+</div>
+<div about="#PF7" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T4"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/7')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/7')" href="javascript:()" title="7"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T5" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E5">Th5</font></span>: <a NAME="T5"><span class="comment"><font color="firebrick">:: AFVECT0:5</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">d9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b6">d9</font> holds <br><font color="Olive" title="b5">d</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">d9</font>
+</div>
+<div about="#PF8" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T5"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/8')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/8')" href="javascript:()" title="8"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T6" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E6">Th6</font></span>: <a NAME="T6"><span class="comment"><font color="firebrick">:: AFVECT0:6</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive" title="b2">a</font>,<font color="Olive" title="b2">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b3">b</font>
+</div>
+<div about="#PF9" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T6"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/9')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/9')" href="javascript:()" title="9"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T7" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E7">Th7</font></span>: <a NAME="T7"><span class="comment"><font color="firebrick">:: AFVECT0:7</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> holds <br><font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">d</font>,<font color="Olive" title="b4">c</font>
+</div>
+<div about="#PF10" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T7"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/10')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/10')" href="javascript:()" title="10"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T8" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T8"><span class="comment"><font color="firebrick">:: AFVECT0:8</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">b9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">b9</font>,<font color="Olive" title="b5">d</font> holds <br><font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">b9</font>
+</div>
+<div about="#PF11" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T8"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/11')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/11')" href="javascript:()" title="11"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T9" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T9"><span class="comment"><font color="firebrick">:: AFVECT0:9</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">b9</font>, <font color="Olive" title="b7">c9</font>, <font color="Olive" title="b8">d9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">b9</font>,<font color="Olive" title="b7">c9</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b8">d9</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">b9</font>,<font color="Olive" title="b7">c9</font> holds <br><font color="Olive" title="b5">d</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b8">d9</font>
+</div>
+<div about="#PF12" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T9"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/12')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/12')" href="javascript:()" title="12"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T10" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T10"><span class="comment"><font color="firebrick">:: AFVECT0:10</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">a9</font>, <font color="Olive" title="b7">b9</font>, <font color="Olive" title="b8">d9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b6">a9</font>,<font color="Olive" title="b7">b9</font> &amp; <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font> &amp; <font color="Olive" title="b4">c</font>,<font color="Olive" title="b8">d9</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b7">b9</font>,<font color="Olive" title="b6">a9</font> holds <br><font color="Olive" title="b5">d</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b8">d9</font>
+</div>
+<div about="#PF13" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T10"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/13')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/13')" href="javascript:()" title="13"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T11" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T11"><span class="comment"><font color="firebrick">:: AFVECT0:11</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">f</font>, <font color="Olive" title="b7">a9</font>, <font color="Olive" title="b8">b9</font>, <font color="Olive" title="b9">c9</font>, <font color="Olive" title="b10">d9</font>, <font color="Olive" title="b11">f9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b7">a9</font>,<font color="Olive" title="b8">b9</font> &amp; <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b9">c9</font>,<font color="Olive" title="b10">d9</font> &amp; <font color="Olive" title="b3">b</font>,<font color="Olive" title="b6">f</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> &amp; <font color="Olive" title="b8">b9</font>,<font color="Olive" title="b11">f9</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b9">c9</font>,<font color="Olive" title="b10">d9</font> holds <br><font color="Olive" title="b2">a</font>,<font color="Olive" title="b6">f</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b7">a9</font>,<font color="Olive" title="b11">f9</font>
+</div>
+<div about="#PF14" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T11"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/14')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/14')" href="javascript:()" title="14"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T12" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E8">Th12</font></span>: <a NAME="T12"><span class="comment"><font color="firebrick">:: AFVECT0:12</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">a9</font>, <font color="Olive" title="b6">b9</font>, <font color="Olive" title="b7">c9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">a9</font>,<font color="Olive" title="b6">b9</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b7">c9</font>,<font color="Olive" title="b6">b9</font> holds <br><font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b7">c9</font>,<font color="Olive" title="b5">a9</font>
+</div>
+<div about="#PF15" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T12"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/15')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/15')" href="javascript:()" title="15"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">::<br>  
+::                  Relation of Maximal Distance<br>  
+::<br>  
+  
+</font></div>
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R1"><span class="kw">pred</span> </a> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font><span class="kw"> means </span><a NAME="D2"><span class="comment"><font color="firebrick">:: AFVECT0:def 2</font></span><br></a>( <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font> &amp; <font color="Maroon" title="c2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Maroon" title="c3">b</font> );<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">irreflexivity</span> </a><span class="hide"><br><a NAME="E1:16_1"></a>
+ for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  holds <br>(  not <font color="Olive" title="b1">a</font>,<font color="Olive" title="b1">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b1">a</font> or  not <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b1">a</font> )
+ </span>;<br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">symmetry</span> </a><span class="hide"><br><a NAME="E2:16_1"></a>
+ for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b2">b</font>,<font color="Olive" title="b1">a</font> &amp; <font color="Olive" title="b1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b2">b</font> holds <br>( <font color="Olive" title="b2">b</font>,<font color="Olive" title="b1">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> &amp; <font color="Olive" title="b2">b</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b1">a</font> )
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T3" target="_self" onmouseover="rs('afvect0/T3')" onmouseout="rh()">Th3</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT2" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 2 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> iff ( <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font> &amp; <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b3">b</font> ) );<br></span>
+</div>
+<br><div about="#T13" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T13"><span class="comment"><font color="firebrick">:: AFVECT0:13</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>  ex <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st <br>( <font color="Olive" title="b2">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a> <font color="Olive" title="b3">b</font> &amp;  not  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> )</div>
+<div about="#PF17" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T13"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/17')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/17')" href="javascript:()" title="17"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T14" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T14"><span class="comment"><font color="firebrick">:: AFVECT0:14</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">c</font> &amp;  not <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">c</font> holds <br> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font>
+</div>
+<div about="#PF18" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T14"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/18')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/18')" href="javascript:()" title="18"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T15" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T15"><span class="comment"><font color="firebrick">:: AFVECT0:15</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> &amp; <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> holds <br> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font>
+</div>
+<div about="#PF19" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T15"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/19')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/19')" href="javascript:()" title="19"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">::<br>  
+::                        Midpoint Relation<br>  
+::<br>  
+  
+</font></div>
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font>, <font color="Maroon" title="c4">c</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D9" typeof="oo:Definition">
+<a NAME="R2"><span class="kw">pred</span> </a> <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E9">Def3</font></span>: <a NAME="D3"><span class="comment"><font color="firebrick">:: AFVECT0:def 3</font></span><br></a><font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font>;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT3" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E9">Def3</font></span>   defines <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 3 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> iff <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> );<br></span>
+</div>
+<br><div about="#T16" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E10">Th16</font></span>: <a NAME="T16"><span class="comment"><font color="firebrick">:: AFVECT0:16</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> holds <br> <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font>
+</div>
+<div about="#PF21" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T16"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/21')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/21')" href="javascript:()" title="21"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T17" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T17"><span class="comment"><font color="firebrick">:: AFVECT0:17</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b3">b</font> iff <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> ) <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a>, <a class="ref" href="afvect0.html#T6" target="_self" onmouseover="rs('afvect0/T6')" onmouseout="rh()">Th6</a></span>;<br>
+</div>
+</div>
+<br><div about="#T18" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E11">Th18</font></span>: <a NAME="T18"><span class="comment"><font color="firebrick">:: AFVECT0:18</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font> iff ( <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> ) ) <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T6" target="_self" onmouseover="rs('afvect0/T6')" onmouseout="rh()">Th6</a></span>;<br>
+</div>
+</div>
+<br><div about="#T19" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E12">Th19</font></span>: <a NAME="T19"><span class="comment"><font color="firebrick">:: AFVECT0:19</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  ex <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">b</font>,<font color="Olive" title="b3">c</font>
+</div>
+<div about="#PF22" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T19"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/22')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/22')" href="javascript:()" title="22"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T20" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E13">Th20</font></span>: <a NAME="T20"><span class="comment"><font color="firebrick">:: AFVECT0:20</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">b9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b5">b9</font>,<font color="Olive" title="b4">c</font> &amp;  not <font color="Olive" title="b3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">b9</font> holds <br> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b5">b9</font>
+</div>
+<div about="#PF23" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T20"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/23')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/23')" href="javascript:()" title="23"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T21" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E14">Th21</font></span>: <a NAME="T21"><span class="comment"><font color="firebrick">:: AFVECT0:21</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  ex <font color="Olive" title="b4">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font>
+</div>
+<div about="#PF24" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T21"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/24')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/24')" href="javascript:()" title="24"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T22" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E15">Th22</font></span>: <a NAME="T22"><span class="comment"><font color="firebrick">:: AFVECT0:22</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">c9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b5">c9</font> holds <br><font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">c9</font>
+</div>
+<div about="#PF25" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T22"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/25')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/25')" href="javascript:()" title="25"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T23" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E16">Th23</font></span>: <a NAME="T23"><span class="comment"><font color="firebrick">:: AFVECT0:23</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">b9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b5">b9</font> holds <br> <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b5">b9</font>,<font color="Olive" title="b4">c</font>
+</div>
+<div about="#PF26" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T23"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/26')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/26')" href="javascript:()" title="26"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T24" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E17">Th24</font></span>: <a NAME="T24"><span class="comment"><font color="firebrick">:: AFVECT0:24</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">b9</font>, <font color="Olive" title="b6">c9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b5">b9</font>,<font color="Olive" title="b6">c9</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b5">b9</font> holds <br><font color="Olive" title="b4">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">c9</font>
+</div>
+<div about="#PF27" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T24"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/27')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/27')" href="javascript:()" title="27"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T25" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E18">Th25</font></span>: <a NAME="T25"><span class="comment"><font color="firebrick">:: AFVECT0:25</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">a9</font>, <font color="Olive" title="b5">b9</font>, <font color="Olive" title="b6">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b6">p</font>,<font color="Olive" title="b4">a9</font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b6">p</font>,<font color="Olive" title="b5">b9</font> holds <br><font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">b9</font>,<font color="Olive" title="b4">a9</font>
+</div>
+<div about="#PF28" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T25"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/28')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/28')" href="javascript:()" title="28"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T26" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T26"><span class="comment"><font color="firebrick">:: AFVECT0:26</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">a9</font>, <font color="Olive" title="b5">b9</font>, <font color="Olive" title="b6">p</font>, <font color="Olive" title="b7">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b6">p</font>,<font color="Olive" title="b4">a9</font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b7">q</font>,<font color="Olive" title="b5">b9</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b6">p</font>,<font color="Olive" title="b7">q</font> holds <br><font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b5">b9</font>,<font color="Olive" title="b4">a9</font>
+</div>
+<div about="#PF29" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T26"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/29')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/29')" href="javascript:()" title="29"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">::<br>  
+::                         Point Symmetry<br>  
+::<br>  
+  
+</font></div>
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D19" typeof="oo:Definition">
+<a NAME="K1"><span class="kw">func</span> </a> <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>)<span class="kw"> -&gt; </span>  <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E19">Def4</font></span>: <a NAME="D4"><span class="comment"><font color="firebrick">:: AFVECT0:def 4</font></span><br></a> <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>,<span class="kw">it</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br> ex <font color="Olive">b<sub>1</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>,<font color="Olive">b<sub>1</sub></font></span>;<br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br> for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>,<font color="Olive">b<sub>1</sub></font> &amp;  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>,<font color="Olive">b<sub>2</sub></font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font></span>;<br></span><span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T21" target="_self" onmouseover="rs('afvect0/T21')" onmouseout="rh()">Th21</a>, <a class="ref" href="afvect0.html#T22" target="_self" onmouseover="rs('afvect0/T22')" onmouseout="rh()">Th22</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+<div about="#DT4" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E19">Def4</font></span>   defines <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 4 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive">b<sub>4</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> ( <font color="Olive">b<sub>4</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>) iff  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b3">b</font>,<font color="Olive" title="b2">a</font>,<font color="Olive">b<sub>4</sub></font> );<br></span>
+</div>
+<br><div about="#T27" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T27"><span class="comment"><font color="firebrick">:: AFVECT0:27</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b2">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> iff <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">p</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">p</font>,<font color="Olive" title="b3">b</font> ) <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D3" target="_self" onmouseover="rs('afvect0/D3')" onmouseout="rh()">Def3</a>, <a class="ref" href="afvect0.html#D4" target="_self" onmouseover="rs('afvect0/D4')" onmouseout="rh()">Def4</a></span>;<br>
+</div>
+</div>
+<br><div about="#T28" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E20">Th28</font></span>: <a NAME="T28"><span class="comment"><font color="firebrick">:: AFVECT0:28</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b2">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font> iff ( <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">p</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">p</font> ) )</div>
+<div about="#PF31" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T28"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/31')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/31')" href="javascript:()" title="31"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T29" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E21">Th29</font></span>: <a NAME="T29"><span class="comment"><font color="firebrick">:: AFVECT0:29</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b2">a</font>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">a</font>
+</div>
+<div about="#PF32" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T29"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/32')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/32')" href="javascript:()" title="32"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T30" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E22">Th30</font></span>: <a NAME="T30"><span class="comment"><font color="firebrick">:: AFVECT0:30</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b2">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b3">b</font>) holds <br><font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font>
+</div>
+<div about="#PF33" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T30"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/33')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/33')" href="javascript:()" title="33"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T31" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T31"><span class="comment"><font color="firebrick">:: AFVECT0:31</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  ex <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b4">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">b</font>
+</div>
+<div about="#PF34" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T31"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/34')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/34')" href="javascript:()" title="34"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T32" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E23">Th32</font></span>: <a NAME="T32"><span class="comment"><font color="firebrick">:: AFVECT0:32</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b3">b</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b2">a</font>)</div>
+<div about="#PF35" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T32"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/35')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/35')" href="javascript:()" title="35"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T33" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E24">Th33</font></span>: <a NAME="T33"><span class="comment"><font color="firebrick">:: AFVECT0:33</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">d</font>, <font color="Olive" title="b6">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> ( <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">d</font> iff  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b6">p</font>,<font color="Olive" title="b2">a</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b6">p</font>,<font color="Olive" title="b3">b</font>) <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b6">p</font>,<font color="Olive" title="b4">c</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b6">p</font>,<font color="Olive" title="b5">d</font>) )</div>
+<div about="#PF36" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T33"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/36')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/36')" href="javascript:()" title="36"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T34" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T34"><span class="comment"><font color="firebrick">:: AFVECT0:34</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font> iff  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b2">a</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">p</font>,<font color="Olive" title="b3">b</font>) ) <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T30" target="_self" onmouseover="rs('afvect0/T30')" onmouseout="rh()">Th30</a>, <a class="ref" href="afvect0.html#T33" target="_self" onmouseover="rs('afvect0/T33')" onmouseout="rh()">Th33</a></span>;<br>
+</div>
+</div>
+<br><div about="#T35" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E25">Th35</font></span>: <a NAME="T35"><span class="comment"><font color="firebrick">:: AFVECT0:35</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a> <font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">c</font> iff  <a href="afvect0.html#R2" title="AFVECT0:pred.2">Mid</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">p</font>,<font color="Olive" title="b2">a</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">p</font>,<font color="Olive" title="b3">b</font>), <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">p</font>,<font color="Olive" title="b4">c</font>) ) <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T33" target="_self" onmouseover="rs('afvect0/T33')" onmouseout="rh()">Th33</a></span>;<br>
+</div>
+</div>
+<br><div about="#T36" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E26">Th36</font></span>: <a NAME="T36"><span class="comment"><font color="firebrick">:: AFVECT0:36</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font>, <font color="Olive" title="b4">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b2">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<font color="Olive" title="b2">a</font>) iff ( <font color="Olive" title="b3">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">q</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">p</font>,<font color="Olive" title="b4">q</font> ) )</div>
+<div about="#PF37" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T36"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/37')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/37')" href="javascript:()" title="37"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T37" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E27">Th37</font></span>: <a NAME="T37"><span class="comment"><font color="firebrick">:: AFVECT0:37</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font>, <font color="Olive" title="b4">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<span class="p2">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<font color="Olive" title="b2">a</font>)</span>)</span>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<font color="Olive" title="b3">p</font>)</span>)</span>,<font color="Olive" title="b2">a</font>)</div>
+<div about="#PF38" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T37"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/38')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/38')" href="javascript:()" title="38"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T38" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T38"><span class="comment"><font color="firebrick">:: AFVECT0:38</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font>, <font color="Olive" title="b4">q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<font color="Olive" title="b2">a</font>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b2">a</font>)</span>)</span>) iff ( <font color="Olive" title="b3">p</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">q</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b3">p</font>,<font color="Olive" title="b4">q</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b4">q</font>, <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b4">q</font>) ) )</div>
+<div about="#PF39" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T38"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/39')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/39')" href="javascript:()" title="39"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T39" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E28">Th39</font></span>: <a NAME="T39"><span class="comment"><font color="firebrick">:: AFVECT0:39</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">p</font>, <font color="Olive" title="b4">q</font>, <font color="Olive" title="b5">r</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<span class="p2">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">r</font>,<font color="Olive" title="b2">a</font>)</span>)</span>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">r</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">q</font>,<span class="p2">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">p</font>,<font color="Olive" title="b2">a</font>)</span>)</span>)</span>)</span>)</div>
+<div about="#PF40" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T39"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/40')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/40')" href="javascript:()" title="40"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T40" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T40"><span class="comment"><font color="firebrick">:: AFVECT0:40</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">c</font>, <font color="Olive" title="b5">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  ex <font color="Olive" title="b6">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b2">a</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">b</font>,<span class="p2">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b4">c</font>,<font color="Olive" title="b5">p</font>)</span>)</span>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b6">d</font>,<font color="Olive" title="b5">p</font>)</div>
+<div about="#PF41" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T40"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/41')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/41')" href="javascript:()" title="41"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T41" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T41"><span class="comment"><font color="firebrick">:: AFVECT0:41</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">p</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  ex <font color="Olive" title="b5">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> st  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b2">a</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">c</font>,<font color="Olive" title="b4">p</font>)</span>)</span>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b5">c</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Olive" title="b3">b</font>,<font color="Olive" title="b4">p</font>)</span>)</span>)</div>
+<div about="#PF42" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T41"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/42')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/42')" href="javascript:()" title="42"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div class="comment mathjax"><font color="firebrick">::<br>  
+::                     Addition on the carrier<br>  
+::<br>  
+  
+</font></div>
+<div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font>, <font color="Maroon" title="c3">a</font>, <font color="Maroon" title="c4">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D29" typeof="oo:Definition">
+<a NAME="K2"><span class="kw">func</span> </a> <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font>,<font color="Maroon" title="c4">b</font>)<span class="kw"> -&gt; </span>  <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E29">Def5</font></span>: <a NAME="D5"><span class="comment"><font color="firebrick">:: AFVECT0:def 5</font></span><br></a><font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">b</font>,<span class="kw">it</span>;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br> ex <font color="Olive">b<sub>1</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> st <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">b</font>,<font color="Olive">b<sub>1</sub></font></span>;<br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br> for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">b</font>,<font color="Olive">b<sub>1</sub></font> &amp; <font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">b</font>,<font color="Olive">b<sub>2</sub></font> holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font></span>;<br></span><span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a>, <a class="ref" href="afvect0.html#T5" target="_self" onmouseover="rs('afvect0/T5')" onmouseout="rh()">Th5</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+
+
+<div about="#DT5" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E29">Def5</font></span>   defines <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 5 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font>, <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font>, <font color="Olive">b<sub>5</sub></font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> ( <font color="Olive">b<sub>5</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Olive" title="b2">o</font>,<font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font>) iff <font color="Olive" title="b2">o</font>,<font color="Olive" title="b3">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">b</font>,<font color="Olive">b<sub>5</sub></font> );<br></span>
+</div>
+<br><div>
+<span class="kw">notation</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font>, <font color="Maroon" title="c3">a</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><a NAME="NK3"><span class="kw">synonym </span> <a href="afvect0.html#K1" title="AFVECT0:func.1">Pcom</a> (<font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font>)</a><span class="kw"> for </span> <a href="afvect0.html#K1" title="AFVECT0:func.1">PSym</a> (<font color="Maroon" title="c2">o</font>,<font color="Maroon" title="c3">a</font>);<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><a NAME="E47"></a><span class="lab"><font color="Green" title="E30">Lm1</font></span>: <span about="#E47" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font>, <font color="Olive" title="b4">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Olive" title="b4">o</font>,<font color="Olive" title="b2">a</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">b</font> iff <font color="Olive" title="b2">a</font>,<font color="Olive" title="b4">o</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Olive" title="b4">o</font>,<font color="Olive" title="b3">b</font> )
+ </span><br><span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D4" target="_self" onmouseover="rs('afvect0/D4')" onmouseout="rh()">Def4</a>, <a class="ref" href="afvect0.html#D3" target="_self" onmouseover="rs('afvect0/D3')" onmouseout="rh()">Def3</a></span>;<br><br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D31" typeof="oo:Definition">
+<a NAME="K3"><span class="kw">func</span> </a> <a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Maroon" title="c2">o</font><span class="kw"> -&gt; </span>  <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E31">Def6</font></span>: <a NAME="D6"><span class="comment"><font color="firebrick">:: AFVECT0:def 6</font></span><br></a> for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <span class="kw">it</span> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font>);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:45_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font> st <br> for <font color="Olive" title="b2">a</font>, <font color="Olive" title="b3">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b2">a</font>,<font color="Olive" title="b3">b</font>)
+ </span><div about="#PF45_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/45_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/45_1_1')" href="javascript:()" title="45_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:45_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font>  st (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font>) ) &amp; (  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b3">a</font>,<font color="Olive" title="b4">b</font>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF45_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/45_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/45_1_2')" href="javascript:()" title="45_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT6" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E31">Def6</font></span>   defines <a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 6 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="binop_1.html#NM2" title="BINOP_1:NM.2">BinOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">AFV</font> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Olive" title="b2">o</font> iff  for <font color="Olive" title="b4">a</font>, <font color="Olive" title="b5">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive">b<sub>3</sub></font> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b4">a</font>,<font color="Olive" title="b5">b</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K2" title="AFVECT0:func.2">Padd</a> (<font color="Olive" title="b2">o</font>,<font color="Olive" title="b4">a</font>,<font color="Olive" title="b5">b</font>) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D32" typeof="oo:Definition">
+<a NAME="K4"><span class="kw">func</span> </a> <a href="afvect0.html#K4" title="AFVECT0:func.4">Pcom</a> <font color="Maroon" title="c2">o</font><span class="kw"> -&gt; </span>  <a href="binop_1.html#NM1" title="BINOP_1:NM.1">UnOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font><span class="kw"> means </span>:<span class="lab"><font color="Green" title="E32">Def7</font></span>: <a NAME="D7"><span class="comment"><font color="firebrick">:: AFVECT0:def 7</font></span><br></a> for <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <span class="kw">it</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b1">a</font>);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:46_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="binop_1.html#NM1" title="BINOP_1:NM.1">UnOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font> st <br> for <font color="Olive" title="b2">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b2">a</font>)
+ </span><div about="#PF46_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/46_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/46_1_1')" href="javascript:()" title="46_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">uniqueness</span> </a><span class="hide"><br><a NAME="E2:46_1"></a>
+ for <font color="Olive">b<sub>1</sub></font>, <font color="Olive">b<sub>2</sub></font> being   <a href="binop_1.html#NM1" title="BINOP_1:NM.1">UnOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font>  st (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>1</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b3">a</font>) ) &amp; (  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font> holds  <font color="Olive">b<sub>2</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Maroon" title="c2">o</font>,<font color="Olive" title="b3">a</font>) ) holds <br><font color="Olive">b<sub>1</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive">b<sub>2</sub></font>
+ </span><div about="#PF46_1_2" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/46_1_2')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/46_1_2')" href="javascript:()" title="46_1_2"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT7" typeof="oo:Definition">:: <span class="kw">deftheorem </span><span class="lab"><font color="Green" title="E32">Def7</font></span>   defines <a href="afvect0.html#K4" title="AFVECT0:func.4">Pcom</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 7 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive">b<sub>3</sub></font> being   <a href="binop_1.html#NM1" title="BINOP_1:NM.1">UnOp</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">AFV</font> holds <br> ( <font color="Olive">b<sub>3</sub></font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K4" title="AFVECT0:func.4">Pcom</a> <font color="Olive" title="b2">o</font> iff  for <font color="Olive" title="b4">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive">b<sub>3</sub></font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#NK3" title="AFVECT0:NK.3">Pcom</a> (<font color="Olive" title="b2">o</font>,<font color="Olive" title="b4">a</font>) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="K5"><span class="kw">func</span> </a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span>  <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> <span class="kw"> equals </span><a NAME="D8"><span class="comment"><font color="firebrick">:: AFVECT0:def 8</font></span><br></a> <a href="algstr_0.html#G2" title="ALGSTR_0:aggr.2">addLoopStr</a>(#  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Maroon" title="c2">o</font></span>)</span>,<font color="Maroon" title="c2">o</font> #);<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">correctness </span></a><span class="hide"><br><a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br> <a href="algstr_0.html#G2" title="ALGSTR_0:aggr.2">addLoopStr</a>(#  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">AFV</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Maroon" title="c2">o</font></span>)</span>,<font color="Maroon" title="c2">o</font> #) is   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> </span>;<br></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT8" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 8 : <br></a><span class="hide"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#G2" title="ALGSTR_0:aggr.2">addLoopStr</a>(#  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">AFV</font>,<span class="p1">(<span class="default"><a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Olive" title="b2">o</font></span>)</span>,<font color="Olive" title="b2">o</font> #);<br></span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br>
+<div about="#FC1" typeof="oo:Theorem">
+<a NAME="FC1"><span class="kw">cluster </span></a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:48_1"></a>
+ not  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T42" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T42"><span class="comment"><font color="firebrick">:: AFVECT0:42</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">AFV</font> &amp;  the <a href="algstr_0.html#U1" title="ALGSTR_0:sel.1">addF</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Olive" title="b2">o</font> &amp;  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">o</font> ) ;<br>
+</div>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T43" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T43"><span class="comment"><font color="firebrick">:: AFVECT0:43</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span><br>  for <font color="Olive" title="b5">a9</font>, <font color="Olive" title="b6">b9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b5">a9</font> &amp; <font color="Olive" title="b4">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b6">b9</font> holds <br><font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Olive" title="b2">o</font></span>)</span> <a href="binop_1.html#K4" title="BINOP_1:func.4">.</a> (<font color="Olive" title="b5">a9</font>,<font color="Olive" title="b6">b9</font>) ;<br>
+</div>
+</div>
+<br><a NAME="E53"></a><span class="lab"><font color="Green" title="E33">Lm2</font></span>: <span about="#E53" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> holds  <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b3">a</font>
+ </span><br><div about="#PF49" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E53"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/49')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/49')" href="javascript:()" title="49"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E54"></a><span class="lab"><font color="Green" title="E34">Lm3</font></span>: <span about="#E54" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font>, <font color="Olive" title="b4">b</font>, <font color="Olive" title="b5">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> holds  <span class="p1">(<span class="default"><font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b4">b</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">c</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b4">b</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">c</font></span>)</span>
+ </span><br><div about="#PF50" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E54"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/50')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/50')" href="javascript:()" title="50"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E55"></a><span class="lab"><font color="Green" title="E35">Lm4</font></span>: <span about="#E55" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> holds  <font color="Olive" title="b3">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p2">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font>
+ </span><br><div about="#PF51" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E55"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/51')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/51')" href="javascript:()" title="51"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E56"></a><span class="lab"><font color="Green" title="E36">Lm5</font></span>: <span about="#E56" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds <br> (  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) is  <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  &amp;  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  &amp;  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  )
+ </span><br><div about="#PF52" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E56"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/52')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/52')" href="javascript:()" title="52"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><a NAME="E57"></a><span class="lab"><font color="Green" title="E37">Lm6</font></span>: <span about="#E57" typeof="oo:Lemma">
+ for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) is  <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a> 
+ </span><br><div about="#PF53" typeof="oo:Proof">
+<span rel="oo:proves" resource="#E57"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/53')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/53')" href="javascript:()" title="53"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br>
+<div about="#FC2" typeof="oo:Theorem">
+<a NAME="FC2"><span class="kw">cluster </span></a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span> <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:54_1"></a>
+(  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>  &amp;  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>  &amp;  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>  &amp;  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>  )
+ </span><span class="kw">by</span> <span class="lab"><a class="txt" href="afvect0.html#E56"><span class="lab"><font color="Green" title="E36">Lm5</font></span></a>, <a class="txt" href="afvect0.html#E57"><span class="lab"><font color="Green" title="E37">Lm6</font></span></a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T44" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E38">Th44</font></span>: <a NAME="T44"><span class="comment"><font color="firebrick">:: AFVECT0:44</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span><br>  for <font color="Olive" title="b4">a9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font>  st <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b4">a9</font> holds <br> <a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="afvect0.html#K4" title="AFVECT0:func.4">Pcom</a> <font color="Olive" title="b2">o</font></span>)</span> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">a9</font>
+</div>
+<div about="#PF55" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T44"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/55')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/55')" href="javascript:()" title="55"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T45" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T45"><span class="comment"><font color="firebrick">:: AFVECT0:45</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">o</font> ;<br>
+</div>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+<a class="ref" href=".html"></a>
+
+<div about="#T46" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E39">Th46</font></span>: <a NAME="T46"><span class="comment"><font color="firebrick">:: AFVECT0:46</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span>  ex <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> st <font color="Olive" title="b4">b</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b4">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">a</font>
+</div>
+<div about="#PF56" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T46"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/56')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/56')" href="javascript:()" title="56"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br>
+<div about="#FC3" typeof="oo:Theorem">
+<a NAME="FC3"><span class="kw">cluster </span></a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span> <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="tdgroup.html#V1" title="TDGROUP:attr.1">Two_Divisible</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:57_1"></a>
+ <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="tdgroup.html#V1" title="TDGROUP:attr.1">Two_Divisible</a> 
+ </span><div about="#PF57_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/57_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/57_1_1')" href="javascript:()" title="57_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+<div about="#T47" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E40">Th47</font></span>: <a NAME="T47"><span class="comment"><font color="firebrick">:: AFVECT0:47</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font><br>  for <font color="Olive" title="b3">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span>  st <font color="Olive" title="b3">a</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span> holds <br><font color="Olive" title="b3">a</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span>
+</div>
+<div about="#PF58" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T47"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/58')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/58')" href="javascript:()" title="58"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br>
+<div about="#FC4" typeof="oo:Theorem">
+<a NAME="FC4"><span class="kw">cluster </span></a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span> <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="vectsp_1.html#V12" title="VECTSP_1:attr.12">Fanoian</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:59_1"></a>
+ <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="vectsp_1.html#V12" title="VECTSP_1:attr.12">Fanoian</a> 
+ </span><div about="#PF59_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/59_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/59_1_1')" href="javascript:()" title="59_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<div about="#RC2" typeof="oo:Theorem">
+<a NAME="RC2"><span class="kw">cluster </span></a> non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>   <a href="algstr_0.html#V13" title="ALGSTR_0:attr.13">right_complementable</a>   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>   <a href="rlvect_1.html#V3" title="RLVECT_1:attr.3">add-associative</a>   <a href="rlvect_1.html#V4" title="RLVECT_1:attr.4">right_zeroed</a>   <a href="vectsp_1.html#V12" title="VECTSP_1:attr.12">Fanoian</a>   <a href="tdgroup.html#V1" title="TDGROUP:attr.1">Two_Divisible</a>   for    <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">existence</span> </a><span class="hide"><br><a NAME="E1:60_1"></a>
+ ex <font color="Olive">b<sub>1</sub></font> being   <a href="tdgroup.html#NM2" title="TDGROUP:NM.2">Uniquely_Two_Divisible_Group</a> st <br>( <font color="Olive">b<sub>1</sub></font> is  <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  &amp;  not <font color="Olive">b<sub>1</sub></font> is  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  )
+ </span><div about="#PF60_1_1" typeof="oo:Proof">
+<a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/60_1_1')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/60_1_1')" href="javascript:()" title="60_1_1"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<a NAME="NM2"><span class="kw">mode </span>Proper_Uniquely_Two_Divisible_Group<span class="kw"> is </span></a>  non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  <a href="tdgroup.html#NM2" title="TDGROUP:NM.2">Uniquely_Two_Divisible_Group</a>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T48" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T48"><span class="comment"><font color="firebrick">:: AFVECT0:48</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds   <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>) is   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a> ;<br>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a>;<br><span class="kw">let </span><font color="Maroon" title="c2">o</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>;<br>
+<div about="#FC5" typeof="oo:Theorem">
+<a NAME="FC5"><span class="kw">cluster </span></a> <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>)<span class="kw"> -&gt; </span> non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="algstr_0.html#V8" title="ALGSTR_0:attr.8">strict</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:62_1"></a>
+ not  <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Maroon" title="c1">AFV</font>,<font color="Maroon" title="c2">o</font>) is  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a> 
+ </span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T49" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E41">Th49</font></span>: <a NAME="T49"><span class="comment"><font color="firebrick">:: AFVECT0:49</font></span><br></a><div class="add"> for <font color="Olive" title="b1">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a> holds   <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font> is   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a>
+</div>
+<div about="#PF63" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T49"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/63')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/63')" href="javascript:()" title="63"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">registration</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">ADG</font> be   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a>;<br>
+<div about="#FC6" typeof="oo:Theorem">
+<a NAME="FC6"><span class="kw">cluster </span></a> <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Maroon" title="c1">ADG</font><span class="kw"> -&gt; </span> non  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>   <a href="tdgroup.html#V2" title="TDGROUP:attr.2">AffVect-like</a>  ;<br>
+</div>
+<a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="kw">coherence</span> </a><span class="hide"><br><a NAME="E1:64_1"></a>
+(  <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Maroon" title="c1">ADG</font> is  <a href="tdgroup.html#V2" title="TDGROUP:attr.2">AffVect-like</a>  &amp;  not  <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Maroon" title="c1">ADG</font> is  <a href="struct_0.html#V7" title="STRUCT_0:attr.7">trivial</a>  )
+ </span><span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#T49" target="_self" onmouseover="rs('afvect0/T49')" onmouseout="rh()">Th49</a></span>;<br>
+</div>
+<span class="kw">end;</span>
+</div>
+<br><div about="#T50" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E42">Th50</font></span>: <a NAME="T50"><span class="comment"><font color="firebrick">:: AFVECT0:50</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AFV</font> being   <a href="analoaf.html#V1" title="ANALOAF:attr.1">strict</a>  <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a><br>  for <font color="Olive" title="b2">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">AFV</font> holds  <font color="Olive" title="b1">AFV</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<font color="Olive" title="b1">AFV</font>,<font color="Olive" title="b2">o</font>)</span>)</span>
+</div>
+<div about="#PF65" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T50"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/65')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/65')" href="javascript:()" title="65"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T51" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T51"><span class="comment"><font color="firebrick">:: AFVECT0:51</font></span><br></a><div class="add"> for <font color="Olive" title="b1">AS</font> being   <a href="analoaf.html#V1" title="ANALOAF:attr.1">strict</a>   <a href="analoaf.html#L1" title="ANALOAF:struct.1">AffinStruct</a>  holds <br> ( <font color="Olive" title="b1">AS</font> is   <a href="tdgroup.html#NM3" title="TDGROUP:NM.3">AffVect</a> iff  ex <font color="Olive" title="b2">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a> st <font color="Olive" title="b1">AS</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b2">ADG</font> )</div>
+<div about="#PF66" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T51"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/66')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/66')" href="javascript:()" title="66"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">X</font>, <font color="Maroon" title="c2">Y</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br><span class="kw">let </span><font color="Maroon" title="c3">f</font> be   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">X</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">Y</font>;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R3"><span class="kw">pred</span> </a><font color="Maroon" title="c3">f</font> <a href="afvect0.html#R3" title="AFVECT0:pred.3">is_Iso_of</a> <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">Y</font><span class="kw"> means </span><a NAME="D9"><span class="comment"><font color="firebrick">:: AFVECT0:def 9</font></span><br></a>( <font color="Maroon" title="c3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a>  &amp;  <a href="relat_1.html#NK2" title="RELAT_1:NK.2">rng</a> <font color="Maroon" title="c3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">Y</font> &amp; (  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">X</font> holds <br> ( <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b1">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b2">b</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">a</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b2">b</font></span>)</span> &amp; <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c1">X</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Maroon" title="c2">Y</font> &amp; <font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <font color="Olive" title="b1">a</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <span class="p1">(<span class="default"><font color="Maroon" title="c3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b1">a</font></span>)</span> ) ) );<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+
+<div about="#DT9" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="afvect0.html#R3" title="AFVECT0:pred.3">is_Iso_of</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 9 : <br></a><span class="hide"> for <font color="Olive" title="b1">X</font>, <font color="Olive" title="b2">Y</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> <br>  for <font color="Olive" title="b3">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">X</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">Y</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="afvect0.html#R3" title="AFVECT0:pred.3">is_Iso_of</a> <font color="Olive" title="b1">X</font>,<font color="Olive" title="b2">Y</font> iff ( <font color="Olive" title="b3">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a>  &amp;  <a href="relat_1.html#NK2" title="RELAT_1:NK.2">rng</a> <font color="Olive" title="b3">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">Y</font> &amp; (  for <font color="Olive" title="b4">a</font>, <font color="Olive" title="b5">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">X</font> holds <br> ( <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b4">a</font> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <font color="Olive" title="b5">b</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">a</font></span>)</span> <a href="algstr_0.html#K1" title="ALGSTR_0:func.1">+</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">b</font></span>)</span> &amp; <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">X</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b2">Y</font> &amp; <font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <font color="Olive" title="b4">a</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <span class="p1">(<span class="default"><font color="Olive" title="b3">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">a</font></span>)</span> ) ) ) );<br></span>
+</div>
+<br><div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c1">X</font>, <font color="Maroon" title="c2">Y</font> be   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a> ;<br><div about="#D0" typeof="oo:Definition">
+<a NAME="R4"><span class="kw">pred</span> </a><font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">Y</font> <a href="afvect0.html#R4" title="AFVECT0:pred.4">are_Iso</a> <span class="kw"> means </span><a NAME="D10"><span class="comment"><font color="firebrick">:: AFVECT0:def 10</font></span><br></a> ex <font color="Olive" title="b1">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c1">X</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Maroon" title="c2">Y</font> st <font color="Olive" title="b1">f</font> <a href="afvect0.html#R3" title="AFVECT0:pred.3">is_Iso_of</a> <font color="Maroon" title="c1">X</font>,<font color="Maroon" title="c2">Y</font>;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+<br>
+
+
+
+
+<div about="#DT10" typeof="oo:Definition">:: <span class="kw">deftheorem </span>   defines <a href="afvect0.html#R4" title="AFVECT0:pred.4">are_Iso</a> <a onclick="hs(this)" href="javascript:()">AFVECT0:def 10 : <br></a><span class="hide"> for <font color="Olive" title="b1">X</font>, <font color="Olive" title="b2">Y</font> being   non  <a href="struct_0.html#V2" title="STRUCT_0:attr.2">empty</a>   <a href="algstr_0.html#L2" title="ALGSTR_0:struct.2">addLoopStr</a>  holds <br> ( <font color="Olive" title="b1">X</font>,<font color="Olive" title="b2">Y</font> <a href="afvect0.html#R4" title="AFVECT0:pred.4">are_Iso</a>  iff  ex <font color="Olive" title="b3">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">X</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b2">Y</font> st <font color="Olive" title="b3">f</font> <a href="afvect0.html#R3" title="AFVECT0:pred.3">is_Iso_of</a> <font color="Olive" title="b1">X</font>,<font color="Olive" title="b2">Y</font> );<br></span>
+</div>
+<br>
+<a class="ref" href=".html"></a>
+
+
+<a class="ref" href=".html"></a>
+
+<div about="#T52" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E43">Th52</font></span>: <a NAME="T52"><span class="comment"><font color="firebrick">:: AFVECT0:52</font></span><br></a><div class="add"> for <font color="Olive" title="b1">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a><br>  for <font color="Olive" title="b2">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b3">o9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b4">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>  st (  for <font color="Olive" title="b5">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font> holds  <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o9</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b5">x</font> ) &amp; <font color="Olive" title="b4">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o9</font> holds <br> for <font color="Olive" title="b5">a</font>, <font color="Olive" title="b6">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font> holds <br> ( <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b5">a</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b6">b</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="afvect0.html#K3" title="AFVECT0:func.3">Padd</a> <font color="Olive" title="b4">o</font></span>)</span> <a href="binop_1.html#K1" title="BINOP_1:func.1">.</a> (<span class="p1">(<span class="default"><font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">a</font></span>)</span>,<span class="p1">(<span class="default"><font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b6">b</font></span>)</span>) &amp; <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <font color="Olive" title="b1">ADG</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<span class="p2">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>,<font color="Olive" title="b4">o</font>)</span>)</span> &amp; <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <span class="p1">(<span class="default"><a href="algstr_0.html#K4" title="ALGSTR_0:func.4">-</a> <font color="Olive" title="b5">a</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1">(<span class="default"><a href="afvect0.html#K4" title="AFVECT0:func.4">Pcom</a> <font color="Olive" title="b4">o</font></span>)</span> <a href="funct_1.html#K1" title="FUNCT_1:func.1">.</a> <span class="p1">(<span class="default"><font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">a</font></span>)</span> )</div>
+<div about="#PF69" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T52"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/69')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/69')" href="javascript:()" title="69"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T53" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E44">Th53</font></span>: <a NAME="T53"><span class="comment"><font color="firebrick">:: AFVECT0:53</font></span><br></a><div class="add"> for <font color="Olive" title="b1">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a><br>  for <font color="Olive" title="b2">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b3">o9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font>  st (  for <font color="Olive" title="b4">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font> holds  <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b4">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o9</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b4">b</font> ) holds <br><font color="Olive" title="b2">f</font> is  <a href="funct_1.html#V2" title="FUNCT_1:attr.2">one-to-one</a> </div>
+<div about="#PF70" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T53"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/70')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/70')" href="javascript:()" title="70"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T54" typeof="oo:Theorem">
+<span class="kw">theorem </span><span class="lab"><font color="Green" title="E45">Th54</font></span>: <a NAME="T54"><span class="comment"><font color="firebrick">:: AFVECT0:54</font></span><br></a><div class="add"> for <font color="Olive" title="b1">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a><br>  for <font color="Olive" title="b2">f</font> being   <a href="funct_2.html#NM1" title="FUNCT_2:NM.1">Function</a> of  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font>, the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b3">o9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b4">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>  st (  for <font color="Olive" title="b5">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font> holds  <font color="Olive" title="b2">f</font> <a href="funct_2.html#K3" title="FUNCT_2:func.3">.</a> <font color="Olive" title="b5">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">o9</font> <a href="rlvect_1.html#K3" title="RLVECT_1:func.3">+</a> <font color="Olive" title="b5">b</font> ) holds <br> <a href="relat_1.html#NK2" title="RELAT_1:NK.2">rng</a> <font color="Olive" title="b2">f</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  the <a href="struct_0.html#U1" title="STRUCT_0:sel.1">carrier</a> of <span class="p1">(<span class="default"><a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<span class="p2">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>,<font color="Olive" title="b4">o</font>)</span>)</span>
+</div>
+<div about="#PF71" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T54"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/71')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/71')" href="javascript:()" title="71"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br><div about="#T55" typeof="oo:Theorem">
+<span class="kw">theorem </span><a NAME="T55"><span class="comment"><font color="firebrick">:: AFVECT0:55</font></span><br></a><div class="add"> for <font color="Olive" title="b1">ADG</font> being   <a href="afvect0.html#NM2" title="AFVECT0:NM.2">Proper_Uniquely_Two_Divisible_Group</a><br>  for <font color="Olive" title="b2">o9</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Olive" title="b1">ADG</font><br>  for <font color="Olive" title="b3">o</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <span class="p1">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>  st <font color="Olive" title="b3">o</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b2">o9</font> holds <br><font color="Olive" title="b1">ADG</font>, <a href="afvect0.html#K5" title="AFVECT0:func.5">GroupVect</a> (<span class="p1">(<span class="default"><a href="tdgroup.html#K2" title="TDGROUP:func.2">AV</a> <font color="Olive" title="b1">ADG</font></span>)</span>,<font color="Olive" title="b3">o</font>) <a href="afvect0.html#R4" title="AFVECT0:pred.4">are_Iso</a> </div>
+<div about="#PF72" typeof="oo:Proof">
+<span rel="oo:proves" resource="#T55"></span><a class="txt" onmouseover="tooltip.show('url','proofs/afvect0/72')" onmouseout="tooltip.hide()" onclick="makeRequest(this,'proofs/afvect0/72')" href="javascript:()" title="72"><span class="kw">proof </span></a><span></span><span class="kw">end;</span>
+</div>
+</div>
+<br>
+</body>
+</html>

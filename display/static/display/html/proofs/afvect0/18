@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AFV</font> be   <a href="afvect0.html#NM1" title="AFVECT0:NM.1">WeakAffVect</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">a</font>, <font color="Olive" title="b2">b</font>, <font color="Olive" title="b3">c</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>  st  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b1">a</font>,<font color="Olive" title="b3">c</font> &amp;  not <font color="Olive" title="b2">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b3">c</font> holds <br/> <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Olive" title="b2">b</font>,<font color="Olive" title="b3">c</font></span><br/><span class="kw">let </span><font color="Maroon" title="c2">a</font>, <font color="Maroon" title="c3">b</font>, <font color="Maroon" title="c4">c</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> &amp;  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">c</font> &amp;  not <font color="Maroon" title="c3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">c</font> implies  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font> )</span><br/>
+
+
+
+
+
+
+
+<span class="kw">assume </span><span class="kw">that </span><br/><a NAME="E1:18"/><span class="lab"><font color="Green" title="E9">A1</font></span>: 
+ <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font>
+ <span class="kw">and </span><br/><a NAME="E2:18"/><span class="lab"><font color="Green" title="E10">A2</font></span>: 
+ <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">c</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">c</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font> )</span><br/>
+
+<a NAME="E3:18"/><span class="lab"><font color="Green" title="E11">A3</font></span>: 
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c2">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:18"><span class="lab"><font color="Green" title="E9">A1</font></span></a></span>;<br/>
+<a NAME="E4:18"/><span class="lab"><font color="Green" title="E12">A4</font></span>: 
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c2">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:18"><span class="lab"><font color="Green" title="E10">A2</font></span></a></span>;<br/>
+<span class="kw">consider </span><font color="Maroon" title="c5">d</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AFV</font><span class="kw"> such that </span><br/><a NAME="E6:18"/><span class="lab"><font color="Green" title="E13">A5</font></span>: 
+<font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c2">a</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c5">d</font>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E7:18"/>
+<font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c5">d</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c2">a</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E6:18"><span class="lab"><font color="Green" title="E13">A5</font></span></a>, <a class="ref" href="afvect0.html#T3" target="_self" onmouseover="rs('afvect0/T3')" onmouseout="rh()">Th3</a></span>;<br/>
+<a NAME="E8:18"/><span class="kw">then </span>
+<font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c5">d</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E4:18"><span class="lab"><font color="Green" title="E12">A4</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E9:18"/><span class="kw">then </span><span class="lab"><font color="Green" title="E14">A6</font></span>: 
+<font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c5">d</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E3:18"><span class="lab"><font color="Green" title="E11">A3</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E10:18"/>
+<font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c3">b</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c2">a</font>,<font color="Maroon" title="c5">d</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E6:18"><span class="lab"><font color="Green" title="E13">A5</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<a NAME="E11:18"/><span class="kw">then </span>
+<font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font> <a href="analoaf.html#R2" title="ANALOAF:pred.2">//</a> <font color="Maroon" title="c4">c</font>,<font color="Maroon" title="c3">b</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E9:18"><span class="lab"><font color="Green" title="E14">A6</font></span></a>, <a class="ref" href="afvect0.html#D1" target="_self" onmouseover="rs('afvect0/D1')" onmouseout="rh()">Def1</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E12:18"/>
+( <font color="Maroon" title="c3">b</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">c</font> or  <a href="afvect0.html#R1" title="AFVECT0:pred.1">MDist</a> <font color="Maroon" title="c3">b</font>,<font color="Maroon" title="c4">c</font> )
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

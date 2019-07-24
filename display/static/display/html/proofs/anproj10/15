@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">V</font> be   <a href="rlvect_1.html#NM2" title="RLVECT_1:NM.2">RealLinearSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">P</font>, <font color="Olive" title="b2">Q</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font> holds  <font color="Olive" title="b1">P</font>,<font color="Olive" title="b2">Q</font>,<font color="Olive" title="b2">Q</font> <a href="rltopsp1.html#R1" title="RLTOPSP1:pred.1">are_collinear</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">P</font>, <font color="Maroon" title="c3">Q</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">V</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c2">P</font>,<font color="Maroon" title="c3">Q</font>,<font color="Maroon" title="c3">Q</font> <a href="rltopsp1.html#R1" title="RLTOPSP1:pred.1">are_collinear</a> </span><br/>
+
+
+
+
+
+<a NAME="E1:15"/>
+( <font color="Maroon" title="c2">P</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="rltopsp1.html#K5" title="RLTOPSP1:func.5">Line</a> (<font color="Maroon" title="c2">P</font>,<font color="Maroon" title="c3">Q</font>) &amp; <font color="Maroon" title="c3">Q</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="rltopsp1.html#K5" title="RLTOPSP1:func.5">Line</a> (<font color="Maroon" title="c2">P</font>,<font color="Maroon" title="c3">Q</font>) )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="rltopsp1.html#T72" onmouseover="rs('rltopsp1/T72')" onmouseout="rh()">RLTOPSP1:72</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:15"/>
+<font color="Maroon" title="c2">P</font>,<font color="Maroon" title="c3">Q</font>,<font color="Maroon" title="c3">Q</font> <a href="rltopsp1.html#R1" title="RLTOPSP1:pred.1">are_collinear</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

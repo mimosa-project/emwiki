@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">G</font> be   <a href="rlvect_1.html#V2" title="RLVECT_1:attr.2">Abelian</a>   <a href="vectsp_1.html#V2" title="VECTSP_1:attr.2">left-distributive</a>  <a href="algstr_2.html#NM1" title="ALGSTR_2:NM.1">doubleLoop</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <span class="p1">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p2">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p2">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span><br/>
+
+<span class="kw">thus </span><span class="p1">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p2">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p1">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p2">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span> = 
+ <a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p1">(<span class="default"><span class="p2">(<span class="default"><a href="group_1.html#K1" title="GROUP_1:func.1">1_</a> <font color="Maroon" title="c1">G</font></span>)</span> <a href="algstr_0.html#K6" title="ALGSTR_0:func.6">*</a> <span class="p2">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p3">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span></span>)</span>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_2.html#T7" target="_self" onmouseover="rs('algstr_2/T7')" onmouseout="rh()">Th7</a></span>
+<br/>.= 
+ <a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p1">(<span class="default"><a href="algstr_2.html#K1" title="ALGSTR_2:func.1">-</a> <span class="p2">(<span class="default"><a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font></span>)</span></span>)</span>
+
+<br/>.= 
+ <a href="struct_0.html#K5" title="STRUCT_0:func.5">1.</a> <font color="Maroon" title="c1">G</font>
+<span class="kw">by</span> <span class="lab"><a class="ref" href="algstr_2.html#T3" target="_self" onmouseover="rs('algstr_2/T3')" onmouseout="rh()">Th3</a></span>
+; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

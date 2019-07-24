@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:35_1_1"/>
+ the <a href="msualg_1.html#U3" title="MSUALG_1:sel.3">Sorts</a> of <font color="Maroon" title="c5">C</font> <a href="msafree4.html#K1" title="MSAFREE4:func.1">.</a>  the <a href="aofa_a00.html#U8" title="AOFA_A00:sel.8">bool-sort</a> of <font color="Maroon" title="c1">S</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="margrel1.html#K5" title="MARGREL1:func.5">BOOLEAN</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aofa_a00.html#D32" onmouseover="rs('aofa_a00/D32')" onmouseout="rh()">AOFA_A00:def 32</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E2:35_1_1"/>
+<font color="Maroon" title="c7">t</font> <a href="aofa_a00.html#K14" title="AOFA_A00:func.14">value_at</a> (<font color="Maroon" title="c5">C</font>,<font color="Maroon" title="c6">s</font>) is  <a href="xboolean.html#V1" title="XBOOLEAN:attr.1">boolean</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

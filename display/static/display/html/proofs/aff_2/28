@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AP</font> be   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V7" title="AFF_2:attr.7">Moufangian</a>  implies <font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V11" title="AFF_2:attr.11">translational</a>  )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:28"/>
+<font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V7" title="AFF_2:attr.7">Moufangian</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> <font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V11" title="AFF_2:attr.11">translational</a> </span><br/>
+
+<a NAME="E2:28"/><span class="kw">then </span>
+<font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V12" title="AFF_2:attr.12">satisfying_des_1</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="aff_2.html#T3" target="_self" onmouseover="rs('aff_2/T3')" onmouseout="rh()">Th3</a>, <a class="ref" href="aff_2.html#T13" target="_self" onmouseover="rs('aff_2/T13')" onmouseout="rh()">Th13</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:28"/>
+<font color="Maroon" title="c1">AP</font> is  <a href="aff_2.html#V11" title="AFF_2:attr.11">translational</a> 
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="aff_2.html#T7" target="_self" onmouseover="rs('aff_2/T7')" onmouseout="rh()">Th7</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

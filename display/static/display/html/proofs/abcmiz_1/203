@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">set </span><font color="Maroon" title="c1">V</font> = <span class="p1"> { <span class="default"> <span class="p2">(<span class="default"><a href="abcmiz_1.html#K1" title="ABCMIZ_1:func.1">varcl</a> <font color="Olive" title="b1">A</font></span>)</span> where <font color="Olive" title="b1">A</font> is   <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a> : verum </span> } </span> ;<br/>
+<a NAME="E1:203"/><span class="lab"><font color="Green" title="E100">A1</font></span>: 
+ <a href="subset_1.html#K1" title="SUBSET_1:func.1">{}</a> <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"> { <span class="default"> <span class="p2">(<span class="default"><a href="abcmiz_1.html#K1" title="ABCMIZ_1:func.1">varcl</a> <font color="Olive" title="b1">A</font></span>)</span> where <font color="Olive" title="b1">A</font> is   <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a> : verum </span> } </span> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T8" target="_self" onmouseover="rs('abcmiz_1/T8')" onmouseout="rh()">Th8</a></span>;<br/>
+<a NAME="E2:203"/><span class="lab"><font color="Green" title="E101">A2</font></span>: 
+<a href="abcmiz_1.html#K49" title="ABCMIZ_1:func.49">VarPoset</a> <a href="yellow_7.html#NK1" title="YELLOW_7:NK.1">opp</a>  is  <a href="yellow_0.html#V1" title="YELLOW_0:attr.1">lower-bounded</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="yellow_7.html#T31" onmouseover="rs('yellow_7/T31')" onmouseout="rh()">YELLOW_7:31</a></span>;<br/>
+<a NAME="E3:203"/>
+<span class="p1">(<span class="default"><a href="yellow_0.html#K3" title="YELLOW_0:func.3">Bottom</a> <span class="p2">(<span class="default"><a href="yellow_1.html#K1" title="YELLOW_1:func.1">InclPoset</a> <span class="p3"> { <span class="default"> <span class="p4">(<span class="default"><a href="abcmiz_1.html#K1" title="ABCMIZ_1:func.1">varcl</a> <font color="Olive" title="b1">A</font></span>)</span> where <font color="Olive" title="b1">A</font> is   <a href="finset_1.html#V1" title="FINSET_1:attr.1">finite</a>  <a href="subset_1.html#NM2" title="SUBSET_1:NM.2">Subset</a> of <a href="abcmiz_1.html#K2" title="ABCMIZ_1:func.2">Vars</a> : verum </span> } </span> </span>)</span></span>)</span> <a href="lattice3.html#K8" title="LATTICE3:func.8">~</a>  <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:203"><span class="lab"><font color="Green" title="E100">A1</font></span></a>, <a class="ref" href="yellow_1.html#T13" onmouseover="rs('yellow_1/T13')" onmouseout="rh()">YELLOW_1:13</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:203"/>
+ <a href="yellow_0.html#K4" title="YELLOW_0:func.4">Top</a> <a href="abcmiz_1.html#K49" title="ABCMIZ_1:func.49">VarPoset</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E2:203"><span class="lab"><font color="Green" title="E101">A2</font></span></a>, <a class="ref" href="yellow_7.html#T33" onmouseover="rs('yellow_7/T33')" onmouseout="rh()">YELLOW_7:33</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

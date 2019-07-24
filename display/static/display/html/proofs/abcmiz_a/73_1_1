@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<a NAME="E1:73_1_1"/>
+(  <a href="abcmiz_1.html#K9" title="ABCMIZ_1:func.9">*</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><a href="abcmiz_1.html#K9" title="ABCMIZ_1:func.9">*</a>,<a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a></span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span> &amp;  <a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a>  <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <span class="p1"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><a href="abcmiz_1.html#K9" title="ABCMIZ_1:func.9">*</a>,<a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a></span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span> &amp;  the <a href="struct_0.html#U4" title="STRUCT_0:sel.4">carrier'</a> of <a href="abcmiz_1.html#K27" title="ABCMIZ_1:func.27">MaxConstrSign</a> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <span class="p1"><a href="tarski.html#K2" title="TARSKI:func.2">{</a><span class="default"><a href="abcmiz_1.html#K9" title="ABCMIZ_1:func.9">*</a>,<a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a></span><a href="tarski.html#K2" title="TARSKI:func.2">}</a></span> <a href="xboole_0.html#K2" title="XBOOLE_0:func.2">\/</a> <a href="abcmiz_1.html#K20" title="ABCMIZ_1:func.20">Constructors</a> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#D24" onmouseover="rs('abcmiz_1/D24')" onmouseout="rh()">ABCMIZ_1:def 24</a>, <a class="ref" href="tarski.html#D2" onmouseover="rs('tarski/D2')" onmouseout="rh()">TARSKI:def 2</a></span>;<br/>
+<a NAME="E2:73_1_1"/><span class="kw">then </span>
+( <font color="Maroon" title="c2">c</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="abcmiz_1.html#K9" title="ABCMIZ_1:func.9">*</a>  &amp; <font color="Maroon" title="c2">c</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="abcmiz_1.html#K10" title="ABCMIZ_1:func.10">non_op</a>  &amp; <font color="Maroon" title="c2">c</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  the <a href="struct_0.html#U4" title="STRUCT_0:sel.4">carrier'</a> of <a href="abcmiz_1.html#K27" title="ABCMIZ_1:func.27">MaxConstrSign</a> )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#T39" onmouseover="rs('abcmiz_1/T39')" onmouseout="rh()">ABCMIZ_1:39</a>, <a class="ref" href="xboole_0.html#T3" onmouseover="rs('xboole_0/T3')" onmouseout="rh()">XBOOLE_0:3</a>, <a class="ref" href="xboole_0.html#D3" onmouseover="rs('xboole_0/D3')" onmouseout="rh()">XBOOLE_0:def 3</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E3:73_1_1"/>
+<font color="Maroon" title="c2">c</font> is   <a href="abcmiz_1.html#V2" title="ABCMIZ_1:attr.2">constructor</a>  <a href="msualg_1.html#NM2" title="MSUALG_1:NM.2">OperSymbol</a> of <a href="abcmiz_1.html#K27" title="ABCMIZ_1:func.27">MaxConstrSign</a>
+ <span class="kw">by</span> <span class="lab"><a class="ref" href="abcmiz_1.html#D11" onmouseover="rs('abcmiz_1/D11')" onmouseout="rh()">ABCMIZ_1:def 11</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">k</font> be   <a href="ordinal1.html#NM6" title="ORDINAL1:NM.6">Nat</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">M</font> being   <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of <font color="Maroon" title="c1">k</font>,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> holds <br/> ( (  <a href="matrix13.html#K9" title="MATRIX13:func.9">lines</a> <font color="Olive" title="b1">M</font> is  <a href="vectsp_7.html#NV2" title="VECTSP_7:NV.2">linearly-dependent</a>  or  not <font color="Olive" title="b1">M</font> is  <a href="matrix13.html#NV1" title="MATRIX13:NV.1">without_repeated_line</a>  ) iff  <a href="matrix13.html#K8" title="MATRIX13:func.8">the_rank_of</a> <font color="Olive" title="b1">M</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">k</font> )</span><br/><span class="kw">let </span><font color="Maroon" title="c2">M</font> be   <a href="matrix_1.html#NM2" title="MATRIX_1:NM.2">Matrix</a> of <font color="Maroon" title="c1">k</font>,<a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( (  <a href="matrix13.html#K9" title="MATRIX13:func.9">lines</a> <font color="Maroon" title="c2">M</font> is  <a href="vectsp_7.html#NV2" title="VECTSP_7:NV.2">linearly-dependent</a>  or  not <font color="Maroon" title="c2">M</font> is  <a href="matrix13.html#NV1" title="MATRIX13:NV.1">without_repeated_line</a>  ) iff  <a href="matrix13.html#K8" title="MATRIX13:func.8">the_rank_of</a> <font color="Maroon" title="c2">M</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">k</font> )</span><br/>
+
+
+
+<a NAME="E1:37"/><span class="lab"><font color="Green" title="E32">A1</font></span>: 
+(  <a href="matrix13.html#K8" title="MATRIX13:func.8">the_rank_of</a> <font color="Maroon" title="c2">M</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">k</font> iff (  <a href="matrix13.html#K9" title="MATRIX13:func.9">lines</a> <font color="Maroon" title="c2">M</font> is  <a href="vectsp_7.html#V1" title="VECTSP_7:attr.1">linearly-independent</a>  &amp; <font color="Maroon" title="c2">M</font> is  <a href="matrix13.html#NV1" title="MATRIX13:NV.1">without_repeated_line</a>  ) )
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="matrix13.html#T121" onmouseover="rs('matrix13/T121')" onmouseout="rh()">MATRIX13:121</a></span>;<br/>
+<a NAME="E2:37"/><span class="lab"><font color="Green" title="E33">A2</font></span>: 
+ <a href="matrix13.html#K8" title="MATRIX13:func.8">the_rank_of</a> <font color="Maroon" title="c2">M</font> <a href="xxreal_0.html#R1" title="XXREAL_0:pred.1">&lt;=</a>  <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c2">M</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="matrix13.html#T74" onmouseover="rs('matrix13/T74')" onmouseout="rh()">MATRIX13:74</a></span>;<br/>
+<a NAME="E3:37"/>
+ <a href="finseq_1.html#K3" title="FINSEQ_1:func.3">len</a> <font color="Maroon" title="c2">M</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c1">k</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="ref" href="matrix_0.html#D2" onmouseover="rs('matrix_0/D2')" onmouseout="rh()">MATRIX_0:def 2</a></span>;<br/>
+<span class="kw">hence </span><a NAME="E4:37"/>
+( (  <a href="matrix13.html#K9" title="MATRIX13:func.9">lines</a> <font color="Maroon" title="c2">M</font> is  <a href="vectsp_7.html#NV2" title="VECTSP_7:NV.2">linearly-dependent</a>  or  not <font color="Maroon" title="c2">M</font> is  <a href="matrix13.html#NV1" title="MATRIX13:NV.1">without_repeated_line</a>  ) iff  <a href="matrix13.html#K8" title="MATRIX13:func.8">the_rank_of</a> <font color="Maroon" title="c2">M</font> <a href="xxreal_0.html#NR3" title="XXREAL_0:NR.3">&lt;</a> <font color="Maroon" title="c1">k</font> )
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:37"><span class="lab"><font color="Green" title="E32">A1</font></span></a>, <a class="txt" href="#E2:37"><span class="lab"><font color="Green" title="E33">A2</font></span></a>, <a class="ref" href="xxreal_0.html#T1" onmouseover="rs('xxreal_0/T1')" onmouseout="rh()">XXREAL_0:1</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

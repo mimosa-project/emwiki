@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">AS</font> be   <a href="diraf.html#NM1" title="DIRAF:NM.1">AffinSpace</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  for <font color="Olive" title="b1">K</font>, <font color="Olive" title="b2">P</font> being   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>  st  not <font color="Olive" title="b1">K</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  holds <br/> <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Olive" title="b1">K</font>,<font color="Olive" title="b2">P</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/><span class="kw">let </span><font color="Maroon" title="c2">K</font>, <font color="Maroon" title="c3">P</font> be   <a href="struct_0.html#NM2" title="STRUCT_0:NM.2">Subset</a> of <font color="Maroon" title="c1">AS</font>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> (  not <font color="Maroon" title="c2">K</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a>  implies  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a>  )</span><br/>
+
+
+
+
+
+<span class="kw">assume </span><a NAME="E1:17"/><span class="lab"><font color="Green" title="E14">A1</font></span>: 
+ not <font color="Maroon" title="c2">K</font> is  <a href="aff_1.html#V1" title="AFF_1:attr.1">being_line</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> </span><br/>
+
+<span class="kw">set </span><font color="Maroon" title="c4">x</font> =  the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>);<br/>
+<span class="kw">assume </span><a NAME="E2:17"/>
+ <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>) <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="xboole_0.html#K1" title="XBOOLE_0:func.1">{}</a> 
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> contradiction</span><br/>
+
+<a NAME="E3:17"/><span class="kw">then </span>
+ the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>) <a href="tarski.html#R2" title="TARSKI:pred.2">in</a>  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>)
+ 
+;<br/>
+<a NAME="E4:17"/><span class="kw">then </span>
+ ex <font color="Olive" title="b1">a</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> st <br/>(  the    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="aff_4.html#K1" title="AFF_4:func.1">Plane</a> (<font color="Maroon" title="c2">K</font>,<font color="Maroon" title="c3">P</font>) <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">a</font> &amp;  ex <font color="Olive" title="b2">b</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <font color="Maroon" title="c1">AS</font> st <br/>( <font color="Olive" title="b1">a</font>,<font color="Olive" title="b2">b</font> <a href="aff_1.html#R2" title="AFF_1:pred.2">//</a> <font color="Maroon" title="c2">K</font> &amp; <font color="Olive" title="b2">b</font> <a href="tarski.html#R2" title="TARSKI:pred.2">in</a> <font color="Maroon" title="c3">P</font> ) )
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E5:17"/>
+contradiction
+ <span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:17"><span class="lab"><font color="Green" title="E14">A1</font></span></a>, <a class="ref" href="aff_1.html#T26" onmouseover="rs('aff_1/T26')" onmouseout="rh()">AFF_1:26</a></span>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>

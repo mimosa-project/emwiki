@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div class="add">
+
+<span class="kw">let </span><font color="Maroon" title="c1">a</font>, <font color="Maroon" title="c2">b</font> be   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> ( <font color="Maroon" title="c1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> implies  ex <font color="Olive" title="b1">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> st <font color="Maroon" title="c1">a</font> <a href="group_1.html#K8" title="GROUP_1:func.8">*</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font> )</span><br/>
+
+<span class="kw">assume </span><a NAME="E1:1"/><span class="lab"><font color="Green" title="E3">A1</font></span>: 
+<font color="Maroon" title="c1">a</font> <a href="hidden.html#NR2" title="HIDDEN:NR.2">&lt;&gt;</a>  <a href="struct_0.html#K4" title="STRUCT_0:func.4">0.</a> <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide">  ex <font color="Olive" title="b1">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> st <font color="Maroon" title="c1">a</font> <a href="group_1.html#K8" title="GROUP_1:func.8">*</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font></span><br/>
+
+<span class="kw">reconsider </span><font color="Maroon" title="c3">p</font> = <font color="Maroon" title="c1">a</font>, <font color="Maroon" title="c4">q</font> = <font color="Maroon" title="c2">b</font> as    <a href="subset_1.html#M1" title="SUBSET_1:mode.1">Element</a> of  <a href="numbers.html#K1" title="NUMBERS:func.1">REAL</a>  <span class="kw">by</span> <span class="lab"><a class="ref" href="vectsp_1.html#D5" onmouseover="rs('vectsp_1/D5')" onmouseout="rh()">VECTSP_1:def 5</a></span>;<br/>
+<span class="kw">reconsider </span><font color="Maroon" title="c5">x</font> = <font color="Maroon" title="c4">q</font> <a href="real_1.html#K6" title="REAL_1:func.6">/</a> <font color="Maroon" title="c3">p</font> as   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> <span class="kw">by</span> <span class="lab"><a class="ref" href="vectsp_1.html#D5" onmouseover="rs('vectsp_1/D5')" onmouseout="rh()">VECTSP_1:def 5</a></span>;<br/>
+<a NAME="E4:1"/>
+<font color="Maroon" title="c3">p</font> <a href="real_1.html#K4" title="REAL_1:func.4">*</a> <span class="p1">(<span class="default"><font color="Maroon" title="c4">q</font> <a href="real_1.html#K6" title="REAL_1:func.6">/</a> <font color="Maroon" title="c3">p</font></span>)</span> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c4">q</font>
+ 
+<span class="kw">by</span> <span class="lab"><a class="txt" href="#E1:1"><span class="lab"><font color="Green" title="E3">A1</font></span></a>, <a class="txt" href="algstr_2.html#E1"><span class="lab"><font color="Green" title="E1">Lm1</font></span></a>, <a class="ref" href="xcmplx_1.html#T87" onmouseover="rs('xcmplx_1/T87')" onmouseout="rh()">XCMPLX_1:87</a></span>;<br/>
+<a NAME="E5:1"/><span class="kw">then </span>
+<font color="Maroon" title="c1">a</font> <a href="group_1.html#K8" title="GROUP_1:func.8">*</a> <font color="Maroon" title="c5">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font>
+ 
+;<br/>
+<span class="kw">hence </span><a NAME="E6:1"/>
+ ex <font color="Olive" title="b1">x</font> being   <a href="struct_0.html#NM1" title="STRUCT_0:NM.1">Element</a> of <a href="vectsp_1.html#K2" title="VECTSP_1:func.2">F_Real</a> st <font color="Maroon" title="c1">a</font> <a href="group_1.html#K8" title="GROUP_1:func.8">*</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Maroon" title="c2">b</font>
+ ; <a class="txt" onmouseover="tooltip.show('hs',this)" onmouseout="tooltip.hide()" onclick="hs(this)" href="javascript:()"><span class="comment"><font color="firebrick">::  thesis: </font></span></a><span class="hide"> verum</span><br/>
+
+
+</div>
