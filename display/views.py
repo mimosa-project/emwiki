@@ -12,8 +12,11 @@ def index(request):
     return HttpResponse("Hello World!!")
 
 def detail(request):
-    #osを使って、contextにstaticのディレクトリ構造を渡したい
-    file_list = glob.glob(os.path.join(BASE_DIR, 'display/static/display/html/*.html'))
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/html/*.html'))
     file_list = [i.rsplit("/",1)[1] for i in file_list if ".html" in i]
-    context = {'file_path':"display/"+str(request.GET.get('id')), 'file_list':file_list}
+    if request.GET.get('id'):
+        file_path = str(request.GET.get('id'))
+    else:
+        file_path = 'pages/start.html'
+    context = {'file_path': file_path, 'file_list':file_list}
     return render(request, "display/detail.html",context)

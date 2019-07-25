@@ -9,12 +9,14 @@
     <body>
         <h1>emwiki</h1>
         <div class="sidebar">
+            <p>pages</p>
+            <li><a href='emwiki'>start</a></li>
+            <p>html</p>
         {% for i in file_list %}
-            <li><a href="detail?id=html/{{i}}">{{ i }}</a></li>
+            <li><a href="emwiki?id=html/{{i}}">{{ i }}</a></li>
         {% endfor %}
         </div>
         <div class="content">
-            <div>{{ file_path }}</div>
             {% block content %}{% endblock %}
         </div>
     </body>
