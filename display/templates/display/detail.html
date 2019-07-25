@@ -1,15 +1,24 @@
-{% extends "base.html" %}
-
-{% block content %}
 {% load static %}
+<!DOCTYPE html>
 <html>
     <head>
+        <script src="{% static 'display/JavaScript/detail.js' %}"></script>
+        <link rel='stylesheet' href="{% static 'display/CSS/detail.css' %}" type='text/css'></link>
         
     </head>
     <body>
-        <div>{{ file_path }}</div>
-        <iframe src="{% static file_path %}" width="700" height="500"></iframe>
+        <h1>emwiki</h1>
+        <div class="sidebar">
+            <p>pages</p>
+            <li><a href='emwiki'>start</a></li>
+            <p>html</p>
+            {% for i in file_list %}
+                <li><a href="emwiki?id=html/{{i}}">{{ i }}</a></li>
+            {% endfor %}
+        </div>
+        <div class="content">
+            <div>{{ file_path }}</div>
+            <iframe src="{% static file_path %}" width="700" height="500"></iframe>
+        </div>
     </body>
-
 </html>
-{% endblock %}
