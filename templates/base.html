@@ -2,11 +2,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="{% static 'display/JavaScript/detail.js' %}"></script>
+        <link rel='stylesheet' href="{% static 'display/CSS/detail.css' %}" type='text/css'></link>
         
     </head>
     <body>
-        <h1>This title was written by base.html</h1>
+        <h1>emwiki</h1>
+        <div class="sidebar">
+        {% for i in file_list %}
+            <li><a href="detail?id=html/{{i}}">{{ i }}</a></li>
+        {% endfor %}
+        </div>
         <div class="content">
+            <div>{{ file_path }}</div>
             {% block content %}{% endblock %}
         </div>
     </body>
