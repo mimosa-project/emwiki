@@ -1,8 +1,9 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="{% static 'display/JavaScript/detail.js' %}"></script>
+        <script src="{% static 'display/JavaScript/detail.js' %}" defer='defer'></script>
         <link rel='stylesheet' href="{% static 'display/CSS/detail.css' %}" type='text/css'></link>
         
     </head>
@@ -18,7 +19,7 @@
         </div>
         <div class="content">
             <div>{{ file_path }}</div>
-            <iframe src="{% static file_path %}" width="700" height="500"></iframe>
+            <iframe id='page-panel' src="{% static file_path %}" width="700" height="500"></iframe>
         </div>
     </body>
 </html>
