@@ -1,3 +1,7 @@
+# Django emwikiProject's static files
+static/html/
+static/pages/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
