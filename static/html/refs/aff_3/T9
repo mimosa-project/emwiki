@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<div><span class="kw">theorem </span><a NAME="T9"><span class="comment"><font color="firebrick">:: AFF_3:9</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">AP</font> being   <a href="diraf.html#NM2" title="DIRAF:NM.2">AffinPlane</a> holds <br/> ( <font color="Olive" title="b1">AP</font> is  <a href="aff_3.html#V5" title="AFF_3:attr.5">satisfying_DES2</a>  iff <font color="Olive" title="b1">AP</font> is  <a href="aff_3.html#V7" title="AFF_3:attr.7">satisfying_DES2_2</a>  )</div></div>

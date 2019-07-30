@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<div>:: <span class="kw">deftheorem </span>   defines <a href="abian.html#V1" title="ABIAN:attr.1">even</a> <a onclick="hs(this)" href="javascript:()">ABIAN:def 1 : <br/></a><span> for <font color="Olive" title="b1">i</font> being   <a href="int_1.html#NM1" title="INT_1:NM.1">Integer</a> holds <br/> ( <font color="Olive" title="b1">i</font> is  <a href="abian.html#V1" title="ABIAN:attr.1">even</a>  iff 2 <a href="int_1.html#R1" title="INT_1:pred.1">divides</a> <font color="Olive" title="b1">i</font> );<br/></span></div>

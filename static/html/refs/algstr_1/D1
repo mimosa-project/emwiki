@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<div>:: <span class="kw">deftheorem </span>   defines <a href="algstr_1.html#K1" title="ALGSTR_1:func.1">Extract</a> <a onclick="hs(this)" href="javascript:()">ALGSTR_1:def 1 : <br/></a><span> for <font color="Olive" title="b1">x</font> being    <a href="hidden.html#M2" title="HIDDEN:mode.2">set</a>  holds   <a href="algstr_1.html#K1" title="ALGSTR_1:func.1">Extract</a> <font color="Olive" title="b1">x</font> <a href="hidden.html#R1" title="HIDDEN:pred.1">=</a> <font color="Olive" title="b1">x</font>;<br/></span></div>

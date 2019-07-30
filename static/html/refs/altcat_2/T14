@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<div><span class="kw">theorem </span><span class="lab"><font color="Green" title="E9">Th14</font></span>: <a NAME="T14"><span class="comment"><font color="firebrick">:: ALTCAT_2:14</font></span><br/></a><div class="add"> for <font color="Olive" title="b1">C</font> being   <a href="cat_1.html#NM4" title="CAT_1:NM.4">Category</a> holds   <a href="altcat_2.html#K3" title="ALTCAT_2:func.3">the_comps_of</a> <font color="Olive" title="b1">C</font> is  <a href="altcat_1.html#V3" title="ALTCAT_1:attr.3">associative</a> </div></div>
