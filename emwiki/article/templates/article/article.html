@@ -1,8 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
+
     </head>
     <body>
         <h1>emwiki</h1>
+        <div class="sidebar">
+            <p>html</p>
+            {% for file_name in file_list %}
+                <li><a href="?id={{file_name}}">{{ file_name }}</a></li>
+            {% endfor %}
+        </div>
+        <dic class="content">
+            <div>{{ file_path }}</div>
+            <iframe id="article-panel" src="{% static file_path %}" width="700" height="500"></iframe>
+        </dic>
     </body>
 </html>
