@@ -8,8 +8,8 @@
         <h1>emwiki</h1>
         <div class="sidebar">
             <p>html</p>
-            {% for i in file_list %}
-                <li><a href="?id={{i}}">{{ i }}</a></li>
+            {% for file_name in file_list %}
+                <li><a href="?id={{file_name}}">{{ file_name }}</a></li>
             {% endfor %}
         </div>
         <dic class="content">
