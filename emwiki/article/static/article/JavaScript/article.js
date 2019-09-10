@@ -8,10 +8,6 @@
     var file_name = file_path.slice(file_path.lastIndexOf('/')+1);
     var target_document = article.contentWindow.document;
     console.log(target_document);
-    //apply iframe.js to iframe
-    var el = target_document.createElement("script");
-    el.src = "/static/article/JavaScript/iframe.js";
-    target_document.body.appendChild(el);
     var target_NodeList = target_document.querySelectorAll(target_CSS_selector);
     console.log (target_NodeList);
 
