@@ -1,43 +1,48 @@
 (window.onload = function(){
+    //article iframe panel
+    var $article = $('#article-panel');
+    //current file path in static folder
+    var file_path = $article.attr('src');
+    //current file name
+    var file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+    //edit target selector
     var target_CSS_selector = 
         "div[typeof='oo:Proof']"
     ;
-    var article = document.getElementById('article-panel');
-    console.log(article);
-    var file_path = article.getAttribute('src');
-    var file_name = file_path.slice(file_path.lastIndexOf('/')+1);
-    var target_document = article.contentWindow.document;
-    console.log(target_document);
-    var target_NodeList = target_document.querySelectorAll(target_CSS_selector);
-    console.log (target_NodeList);
+    //editBlock
+    var editHTML = 
+    `<div class='edit'>
+        <form class='editForm' method='get' action='/article/' target='_top'>
+            <input type='hidden' name='id' value='${file_name}'>
+            <input type='hidden' name='proof_name'>
+            <button class='editButton' style='inline' type='button'>
+            edit
+            </button>
+            <div class='editblock' style='display:none'>
+                <button type='submit' class='submitButton'>submit</button>
+                <button type='reset' class='cancelButton'>cancel</button>
+                <textarea name='textarea' rows='8' cols='80'></textarea>
+            </div>
+        </form>
+    </div>`
 
-    target_NodeList.forEach(function(value){ value.innerHTML = 
-        `<div class='edit'>
-            <form class='editForm' method='get' action='/article/' target='_top'>
-                <input type='hidden' name='id' value='${file_name}'>
-                <input type='hidden' name='proof_name' value='${value.getAttribute("about")}'>
-                <button class='editButton' style='inline' type='button'>
-                edit
-                </button>
-                <div class='editblock' style='display:none'>
-                    <button type='submit' class='submitButton'>submit</button>
-                    <button type='reset' class='cancelButton'>cancel</button>
-                    <textarea name='textarea' rows='8' cols='80'></textarea>
-                </div>
-            </form>
-        </div>
-        ${value.innerHTML}`;
+    //add editBlock
+    var $target_list = $article.contents().find(target_CSS_selector);
+    $target_list.each(function(){
+        $(this).prepend(editHTML);
+        $(this).find("input[name='proof_name']").attr("value", $(this).attr("about"));
     });
 
-    //jQuery
-    $("iframe").contents().find(".editForm").on( "click", ".cancelButton", function(){
+    //editBlock cancelButton clicked
+    $article.contents().find(".editForm").on( "click", ".cancelButton", function(){
         console.log("cancelButton pushed");
         var editForm = $(this).parent().parent();
         editForm.find(".editblock").css("display", "none");
         editForm.find(".editbutton").css("display", "inline");
     });
-
-    $("iframe").contents().find(".editForm").on( "click", ".editButton", function(){
+    
+    //editBlock editButton clicked
+    $article.contents().find(".editForm").on( "click", ".editButton", function(){
         console.log("editButton pushed");
         var editForm = $(this).parent().parent();
         editForm.find(".editblock").css("display", "block");
