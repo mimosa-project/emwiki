@@ -18,10 +18,10 @@
             <button class='editButton' style='inline' type='button'>
             edit
             </button>
-            <div class='editblock' style='display:none'>
+            <div class='editSketch' style='display:none'>
                 <button type='submit' class='submitButton'>submit</button>
                 <button type='reset' class='cancelButton'>cancel</button>
-                <textarea name='textarea' rows='8' cols='80'></textarea>
+                <textarea name='proof_sketch' rows='8' cols='80'></textarea>
             </div>
         </form>
     </div>`
@@ -30,23 +30,24 @@
     var $target_list = $article.contents().find(target_CSS_selector);
     $target_list.each(function(){
         $(this).prepend(editHTML);
-        $(this).find("input[name='proof_name']").attr("value", $(this).attr("about"));
+        var proof_name = $(this).attr("about").slice($(this).attr("about").lastIndexOf("#PF")+3);
+        $(this).find("input[name='proof_name']").attr("value", proof_name);
     });
 
     //editBlock cancelButton clicked
     $article.contents().find(".editForm").on( "click", ".cancelButton", function(){
         console.log("cancelButton pushed");
         var editForm = $(this).parent().parent();
-        editForm.find(".editblock").css("display", "none");
-        editForm.find(".editbutton").css("display", "inline");
+        editForm.find(".editSketch").css("display", "none");
+        editForm.find(".editButton").css("display", "inline");
     });
     
     //editBlock editButton clicked
     $article.contents().find(".editForm").on( "click", ".editButton", function(){
         console.log("editButton pushed");
         var editForm = $(this).parent().parent();
-        editForm.find(".editblock").css("display", "block");
-        editForm.find(".editbutton").css("display", "none");
+        editForm.find(".editSketch").css("display", "block");
+        editForm.find(".editButton").css("display", "none");
     });
 
 })();
