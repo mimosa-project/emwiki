@@ -1,6 +1,9 @@
 #HTML_mizar files
 mizar_html/
 
+#Mizar_proof_sketches
+mizar_sketch/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
