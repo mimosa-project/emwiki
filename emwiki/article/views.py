@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import os
 import glob
-from emwiki.settings import BASE_DIR, STATICFILES_DIRS
+from emwiki.settings import BASE_DIR
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
@@ -18,7 +18,7 @@ def article(request):
             proof_name = request.GET.get("proof_name")
             proof_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/proofs/'+file_name.replace(".html","")+'/*'))
             proof_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in proof_list]
-            sketch_path = STATICFILES_DIRS[0]+"/mizar_sketch/"+file_name.replace(".html","")
+            sketch_path = os.path.join(BASE_DIR, "article/data/mizar_sketch/"+file_name.replace(".html",""))
             if not "proof_sketch" in request.GET:
                 #proof_sketch引数がなかった時の処理
                 print("error:proof_sketch not found")
