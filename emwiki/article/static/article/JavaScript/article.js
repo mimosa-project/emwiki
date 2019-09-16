@@ -1,3 +1,14 @@
+$(function(){
+
+    $(".article").on( 'load',function(){
+        //add base directory
+        $('.article').contents().find("head").prepend("<base href='/static/mizar_html/'/>");
+        var history_text = $('.article')[0].contentDocument.location.pathname;
+        history_text = history_text.slice(history_text.lastIndexOf('/')+1);
+        $('.history').text(history_text);
+        add_edit_button($(".article"));
+    });
+
     function add_edit_button($iframe){
         //current file path in static folder
         var file_path = $iframe.attr('src');
@@ -96,3 +107,4 @@
             }
         }
     });
+});
