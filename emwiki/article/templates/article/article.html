@@ -7,16 +7,22 @@
         <link rel='stylesheet' href="{% static 'article/CSS/article.css' %}" type='text/css'></link>
     </head>
     <body>
-        <h1>emwiki</h1>
+        <header>
+            <h1>emwiki</h1>
+        </header>
+        <div class="row">
         <div class="sidebar">
-            <p>html</p>
-            {% for file_name in file_list %}
-                <li><a href="?id={{file_name}}">{{ file_name }}</a></li>
-            {% endfor %}
+            <ui>
+                {% for file_name in file_list %}
+                    <li><a href="/static/mizar_html/{{file_name}}" target="article">{{ file_name }}</a></li>
+                {% endfor %}
+            </ui>
         </div>
-        <dic class="content">
-            <div>{{ file_path }}</div>
-            <iframe id="article-panel" src="{% static file_path %}" width="700" height="500"></iframe>
-        </dic>
+        <div class="contents">
+            <div class='history'>
+            </div>
+            <iframe class="article" name="article" src="/static/{{ file_path }}"></iframe>
+        </div>
+        </div>
     </body>
 </html>

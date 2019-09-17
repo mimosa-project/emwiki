@@ -4,5 +4,6 @@ from . import views
 
 app_name = 'article'
 urlpatterns = [
-    path('', views.article, name='article')
+    path('', views.renderer, name='renderer'),
+    path('data/', views.dataReciever, name='dataReciever'),
 ]
