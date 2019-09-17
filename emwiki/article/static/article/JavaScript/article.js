@@ -11,7 +11,7 @@ $(function(){
 
     function add_edit_button($iframe){
         //current file path in static folder
-        var file_path = $iframe.attr('src');
+        var file_path =  $('.article')[0].contentDocument.location.pathname;;
         //current file name
         var file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         //edit target selector
