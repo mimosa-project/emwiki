@@ -13,6 +13,15 @@ $(function(){
         };
     });
 
+    // rendering sketchPreview from sketchTextarea text
+    function sketch_preview($edit){
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
+        let sketch = $edit.find(".sketchTextarea").val();
+        let sketchHTML = sketchText2html(sketch);
+        $edit.find(".sketchPreview").html(sketchHTML);
+        iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+    }
+
     //convert sketchText to HTML for converion to Tex format
     function sketchText2html(sketchText){
         let sketchText_lines = sketchText.split(/\r\n|\r|\n/);
