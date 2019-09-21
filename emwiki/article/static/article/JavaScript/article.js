@@ -13,6 +13,22 @@ $(function(){
         };
     });
 
+    //convert sketchText to HTML for converion to Tex format
+    function sketchText2html(sketchText){
+        let sketchText_lines = sketchText.split(/\r\n|\r|\n/);
+        var html = '';
+        if(sketchText === ''){
+            return html;
+        }
+        for (let index = 0; index < sketchText_lines.length; index++) {
+            if (sketchText_lines[index]){
+                html += `<p>${sketchText_lines[index]}</p>`;
+            }else{
+                html += '<br>'
+            }
+        }
+        return html;
+    }
     function add_emwiki_components(){
         //current file path in static folder
         let file_path =  $article[0].contentDocument.location.pathname;
