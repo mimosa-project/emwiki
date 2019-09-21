@@ -26,6 +26,7 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
+            <div class='sketchPreview mathjax'></div>
             <div class='editSketch' style='display:none'>
                 <textarea class='sketchTextarea'></textarea>
                 <button type='button' class='submitButton'>submit</button>
