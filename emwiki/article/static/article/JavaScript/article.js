@@ -68,6 +68,25 @@ $(function(){
             $target.prepend(editHTML);
             let proof_name = $target.attr("about").slice($target.attr("about").lastIndexOf("#PF")+3);
             $target.find(".edit").attr("proof_name", proof_name);
+            //get proof sketches
+            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
+                $target.find(".sketchTextarea").text(data);
+                $target.find(".sketchPreview").html(sketchText2html(data));
+            }).done(function(data){
+                if(index === $target_list.length-1){
+                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+                }
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                $target.find(".sketchTextarea").text(`failed to fetch error:${textStatus}`);
+                $target.find(".sketchPreview").html(sketchText2html(`failed to fetch${textStatus}`));
+                console.log(
+                    `proof:${proof_name} error : status->${textStatus}`
+                );
+                if(index === $target_list.length-1){
+                    console.log("typeset");
+                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+                }
+        });
         });
         //edit class editButton clicked
         $article.contents().find('.editButton').on( "click", function(){
@@ -80,8 +99,8 @@ $(function(){
         $article.contents().find('.submitButton').on( "click", function(){
             let $edit = $(this).closest('.edit');
             let proof_name = $edit.attr("proof_name");
-            $edit.find(".editSketch").css("display", "none");
-            $edit.find(".editButton").css("display", "inline");
+
+            //submit proof sketch
             $.ajax({
                 url: '/article/data/',
                 type: 'POST',
@@ -93,8 +112,23 @@ $(function(){
                     'proof_sketch': $edit.find(".sketchTextarea").val()
                 },
             }).done(function(data) {
-                alert("sent");
+                $edit.find(".editSketch").css("display", "none");
+                $edit.find(".editButton").css("display", "inline");
+                //get proof setch
+                $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(getdata){
+                    $edit.find(".sketchTextarea").text(getdata);
+                }).done(function(){ 
+                    sketch_preview($edit);
+                }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                    sketch_preview($edit);
+                    alert(
+                        `error : status->${textStatus}
+                        Success to submit sketch,
+                        But failed to get the sketch from server`
+                    );
+                });
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                sketch_preview($edit);
                 alert(
                     `error : status->${textStatus}
                     !!!Not yet saved!!!`
@@ -102,11 +136,28 @@ $(function(){
             });
 
         });
+
         //edit class cancelButton clicked
         $article.contents().find('.cancelButton').on( "click", function(){
             var $edit = $(this).closest('.edit');
+            var proof_name = $edit.attr("proof_name");
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
+            //get proof sketch
+            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
+                $edit.find(".sketchTextarea").val(data);
+            }).done(function(data){ 
+                sketch_preview($edit);
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
+                sketch_preview($edit);
+                alert(
+                    `error : status->${textStatus}
+                    failed to get the sketch from server`
+                );
+            });
+            
+        });
         });
     }
 
