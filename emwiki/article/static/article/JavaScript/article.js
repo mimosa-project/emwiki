@@ -158,6 +158,10 @@ $(function(){
             });
             
         });
+        //edit class previewButton clicked
+        $article.contents().find('.previewButton').on( "click", function(){
+            sketch_preview($(this).closest(".edit"));
+        });
         });
     }
 
