@@ -30,8 +30,17 @@ def dataReciever(request):
                 return HttpResponse()
             else:
                 raise HttpResponseBadRequest
-    else:
+        else:
             raise HttpResponseBadRequest
                 
     else:
         raise HttpResponseBadRequest
+
+def dataSender(request, path):
+    sketch_path = os.path.join(BASE_DIR, 'article/data/mizar_sketch/'+path)
+    if os.path.exists(sketch_path):
+        with open(sketch_path, "r") as f:
+            return HttpResponse(f)
+    return HttpResponse("")
+
+    
