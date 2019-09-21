@@ -1,54 +1,59 @@
 $(function(){
+    let $article = $('#article');
 
-    $(".article").on( 'load',function(){
+    $("#article").on( 'load',function(){
         //add base directory
-        $('.article').contents().find("head").prepend("<base href='/static/mizar_html/'/>");
-        var history_text = $('.article')[0].contentDocument.location.pathname;
-        history_text = history_text.slice(history_text.lastIndexOf('/')+1);
-        $('.history').text(history_text);
-        add_edit_button($(".article"));
+        $article.contents().find("head").prepend("<base href='/static/mizar_html/'/>");
+        let file_path = $article[0].contentDocument.location.pathname;
+        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+        add_emwiki_components($article);
+        $('#file_name').text(file_name);
+        $article[0].contentWindow.onbeforeunload = function () {
+            $("#file_name").text("Now Loading...");
+        };
     });
 
-    function add_edit_button($iframe){
+    function add_emwiki_components(){
         //current file path in static folder
-        var file_path =  $('.article')[0].contentDocument.location.pathname;;
+        let file_path =  $article[0].contentDocument.location.pathname;
         //current file name
-        var file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         //edit target selector
-        var target_CSS_selector = 
+        let target_CSS_selector = 
             "div[typeof='oo:Proof']"
         ;
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
 
-        var editHTML = 
-        `<div class='edit'>
-            <button type='button' class='editButton'>
-            edit
-            </button>
+        let editHTML = 
+        `<span class='edit'>
             <div class='editSketch' style='display:none'>
+                <textarea class='sketchTextarea'></textarea>
                 <button type='button' class='submitButton'>submit</button>
                 <button type='button' class='cancelButton'>cancel</button>
-                <textarea class='sketchTextarea' rows='8' cols='80' style='display:block'></textarea>
+                <button type='button' class='previewButton'>preview</button>
             </div>
-        </div>`
+            <button type='button' class='editButton'>+</button>
+        </span>`;
 
         //add edit class
-        var $target_list = $iframe.contents().find(target_CSS_selector);
-        $target_list.each(function(){
-            $(this).prepend(editHTML);
-            var proof_name = $(this).attr("about").slice($(this).attr("about").lastIndexOf("#PF")+3);
-            $(this).find(".edit").attr("proof_name", proof_name);
+        let $target_list = $article.contents().find(target_CSS_selector);
+        $target_list.each(function(index){
+            let $target = $(this);
+            $target.prepend(editHTML);
+            let proof_name = $target.attr("about").slice($target.attr("about").lastIndexOf("#PF")+3);
+            $target.find(".edit").attr("proof_name", proof_name);
         });
         //edit class editButton clicked
-        $iframe.contents().find('.editButton').on( "click", function(){
-            var $edit = $(this).parents('.edit');
+        $article.contents().find('.editButton').on( "click", function(){
+            let $edit = $(this).closest('.edit');
             $edit.find(".editSketch").css("display", "block");
             $edit.find(".editButton").css("display", "none");
         });
 
         //edit class submitButton clicked
-        $iframe.contents().find('.submitButton').on( "click", function(){
-            var $edit = $(this).parents('.edit');
-            var proof_name = $edit.attr("proof_name");
+        $article.contents().find('.submitButton').on( "click", function(){
+            let $edit = $(this).closest('.edit');
+            let proof_name = $edit.attr("proof_name");
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
             $.ajax({
@@ -64,13 +69,16 @@ $(function(){
             }).done(function(data) {
                 alert("sent");
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("error");
+                alert(
+                    `error : status->${textStatus}
+                    !!!Not yet saved!!!`
+                );
             });
 
         });
         //edit class cancelButton clicked
-        $iframe.contents().find('.cancelButton').on( "click", function(){
-            var $edit = $(this).parents('.edit');
+        $article.contents().find('.cancelButton').on( "click", function(){
+            var $edit = $(this).closest('.edit');
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
         });
