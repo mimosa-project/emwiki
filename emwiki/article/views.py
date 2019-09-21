@@ -2,7 +2,7 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
 
 
@@ -29,7 +29,9 @@ def dataReciever(request):
                     f.write(request.POST.get("proof_sketch",None))
                 return HttpResponse()
             else:
-                print('proof not found')
-                return HttpResponse()
+                raise HttpResponseBadRequest
     else:
-        return HttpResponse()
+            raise HttpResponseBadRequest
+                
+    else:
+        raise HttpResponseBadRequest
