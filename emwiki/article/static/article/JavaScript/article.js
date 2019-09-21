@@ -162,6 +162,9 @@ $(function(){
         $article.contents().find('.previewButton').on( "click", function(){
             sketch_preview($(this).closest(".edit"));
         });
+        //edit class sketchTextarea changed
+        $article.contents().find('.sketchTextarea').on( "input", function(){
+            sketch_preview($(this).closest('.edit'));
         });
     }
 
