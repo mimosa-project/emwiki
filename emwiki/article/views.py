@@ -2,7 +2,7 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
 
 
@@ -29,7 +29,18 @@ def dataReciever(request):
                     f.write(request.POST.get("proof_sketch",None))
                 return HttpResponse()
             else:
-                print('proof not found')
-                return HttpResponse()
+                raise HttpResponseBadRequest
+        else:
+            raise HttpResponseBadRequest
+                
     else:
-        return HttpResponse()
+        raise HttpResponseBadRequest
+
+def dataSender(request, path):
+    sketch_path = os.path.join(BASE_DIR, 'article/data/mizar_sketch/'+path)
+    if os.path.exists(sketch_path):
+        with open(sketch_path, "r") as f:
+            return HttpResponse(f)
+    return HttpResponse("")
+
+    
