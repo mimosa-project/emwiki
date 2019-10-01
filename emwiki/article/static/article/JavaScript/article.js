@@ -46,7 +46,16 @@ $(function(){
         //current file name
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         //edit target selector
-        let target_CSS_selector;
+        let target_CSS_selector = 'span.kw';
+        //target DOMs list
+        let target_object = {
+            'definition': [],
+            'theorem': [],
+            'registration': [],
+            'scheme': [],
+            'notation': [],
+            'proof': []
+        };
         let iframe_MathJax = $article[0].contentWindow.MathJax;
 
         let editHTML = 
@@ -61,29 +70,35 @@ $(function(){
             <button type='button' class='editButton'>+</button>
         </span>`;
 
-        //add edit class
-        $.getJSON(`/article/data/${file_name.split(".")[0]}`,
-            function (data, textStatus, jqXHR) {
-                for(ref_name in data.refs){
-                    target_CSS_selector = `div[about="#${ref_name}"]`;
-                    let $target = $article.contents().find(target_CSS_selector);
-                    $target.prepend(editHTML);
-                    $target.find(".edit").attr("content", "refs");
-                    $target.find(".edit").attr("content-name", ref_name);
-                    $target.find(".sketchTextarea").text(data.refs[ref_name]);
-                    $target.find(".sketchPreview").html(sketchText2html(data.refs[ref_name]));
+        //add edit button
+        
+        $article.contents().find(target_CSS_selector).each(function (target_index, target) {
+            $.each(Object.keys(target_object), function (keys_index, target_name){
+                if($(target).text().trim() === target_name){
+                    $(target).before(editHTML);
+                    let $edit = $(target).prev();
+                    target_object[target_name].push($edit);
+                    $edit.attr("content", target_name);
+                    $edit.attr("content_number", target_object[target_name].length);
+                    $edit.find(".editButton").attr("content", target_name);
                 }
-                for(proof_name in data.proofs){
-                    target_CSS_selector = `div[about="#PF${proof_name}"]`;
-                    let $target = $article.contents().find(target_CSS_selector);
-                    $target.prepend(editHTML);
-                    $target.find(".edit").attr("content", "proofs");
-                    $target.find(".edit").attr("content-name", proof_name);
-                    $target.find(".sketchTextarea").text(data.proofs[proof_name]);
-                    $target.find(".sketchPreview").html(sketchText2html(data.proofs[proof_name]));
-                }
-            }
-        ).done(function(){
+            });
+        });
+
+        //add sketch
+        $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
+            $.each(Object.keys(data["sketches"]), function(content_index, content) {
+                $.each(Object.keys(data["sketches"][content]), function(number_index, content_number){
+                    $target = $article.contents().find(`
+                        .edit[content="${content}"][content_number="${content_number}"]
+                    `);
+                    $target.find(".sketchTextarea").text(data["sketches"][content][content_number]);
+                    $target.find(".sketchPreview").html(
+                        sketchText2html(data["sketches"][content][content_number])
+                    );
+                })
+            });
+        }).done(function(){
             iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
         }).fail(function(){
 
@@ -100,8 +115,8 @@ $(function(){
         //edit class submitButton clicked
         $article.contents().find('div').on( "click", '.submitButton', function(){
             let $edit = $(this).closest('.edit');
-            let name = $edit.attr("content-name");
             let content = $edit.attr("content");
+            let content_number = $edit.attr("content_number");
 
             //submit proof sketch
             $.ajax({
@@ -111,7 +126,7 @@ $(function(){
                 data: {
                     'content': content,
                     'id': file_name,
-                    'name': name,
+                    'content_number': content_number,
                     'sketch': $edit.find(".sketchTextarea").val()
                 },
             }).done(function(data) {
@@ -120,7 +135,7 @@ $(function(){
                 //get proof setch
                 $.getJSON(`/article/data/${file_name.split(".")[0]}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".sketchTextarea").val(data[content][name]);
+                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
                 }
                 ).done(function(){
                     sketch_preview($edit);
@@ -145,14 +160,14 @@ $(function(){
         //edit class cancelButton clicked
         $article.contents().find('div').on( "click", '.cancelButton', function(){
             let $edit = $(this).closest('.edit');
-            let name = $edit.attr("content-name");
             let content = $edit.attr("content");
+            let content_number = $edit.attr("content_number");
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
             //get proof sketch
             $.getJSON(`/article/data/${file_name.split(".")[0]}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".sketchTextarea").val(data[content][name]);
+                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
                 }
             ).done(function(){
                 sketch_preview($edit);
