@@ -18,21 +18,15 @@ def renderer(request):
 def sketchReciever(request):
     file_name = request.POST.get('id',None)
     content = request.POST.get('content',None)
-    content_name = request.POST.get("name",None)
+    content_number = request.POST.get("content_number",None)
     article_name = file_name.replace(".html", "")
-    content_path = os.path.join(BASE_DIR, f'static/mizar_html/{content}/{article_name}/')
-    sketch_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{content}/{article_name}')
-    contents_path_list = glob.glob(content_path+'*')
-    contents_name_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in contents_path_list]
-    
-    if content_name in contents_name_list:
+    sketch_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}')
         if not os.path.exists(sketch_path):
             os.mkdir(sketch_path)
-        with open(sketch_path+"/"+content_name, "w") as f:
+    with open(f'{sketch_path}/{content}_{content_number}', "w") as f:
             f.write(request.POST.get("sketch",None))
         return HttpResponse()
-    else:
-        raise HttpResponseBadRequest
+
 
 def dataSender(request, article_name):
     return_json = {
