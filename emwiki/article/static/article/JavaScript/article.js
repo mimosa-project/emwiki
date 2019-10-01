@@ -46,9 +46,7 @@ $(function(){
         //current file name
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         //edit target selector
-        let target_CSS_selector = 
-            "div[typeof='oo:Proof']"
-        ;
+        let target_CSS_selector;
         let iframe_MathJax = $article[0].contentWindow.MathJax;
 
         let editHTML = 
@@ -64,69 +62,74 @@ $(function(){
         </span>`;
 
         //add edit class
-        let $target_list = $article.contents().find(target_CSS_selector);
-        $target_list.each(function(index){
-            let $target = $(this);
-            $target.prepend(editHTML);
-            let proof_name = $target.attr("about").slice($target.attr("about").lastIndexOf("#PF")+3);
-            $target.find(".edit").attr("proof_name", proof_name);
-            //get proof sketches
-            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
-                $target.find(".sketchTextarea").text(data);
-                $target.find(".sketchPreview").html(sketchText2html(data));
-            }).done(function(data){
-                if(index === $target_list.length-1){
-                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+        $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+            function (data, textStatus, jqXHR) {
+                for(ref_name in data.refs){
+                    target_CSS_selector = `div[about="#${ref_name}"]`;
+                    let $target = $article.contents().find(target_CSS_selector);
+                    $target.prepend(editHTML);
+                    $target.find(".edit").attr("content", "refs");
+                    $target.find(".edit").attr("content-name", ref_name);
+                    $target.find(".sketchTextarea").text(data.refs[ref_name]);
+                    $target.find(".sketchPreview").html(sketchText2html(data.refs[ref_name]));
                 }
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $target.find(".sketchTextarea").text(`failed to fetch error:${textStatus}`);
-                $target.find(".sketchPreview").html(sketchText2html(`failed to fetch${textStatus}`));
-                console.log(
-                    `proof:${proof_name} error : status->${textStatus}`
-                );
-                if(index === $target_list.length-1){
-                    console.log("typeset");
-                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+                for(proof_name in data.proofs){
+                    target_CSS_selector = `div[about="#PF${proof_name}"]`;
+                    let $target = $article.contents().find(target_CSS_selector);
+                    $target.prepend(editHTML);
+                    $target.find(".edit").attr("content", "proofs");
+                    $target.find(".edit").attr("content-name", proof_name);
+                    $target.find(".sketchTextarea").text(data.proofs[proof_name]);
+                    $target.find(".sketchPreview").html(sketchText2html(data.proofs[proof_name]));
                 }
+            }
+        ).done(function(){
+            iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+        }).fail(function(){
+
         });
-        });
+
+        
         //edit class editButton clicked
-        $article.contents().find('.editButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.editButton', function(){
             let $edit = $(this).closest('.edit');
             $edit.find(".editSketch").css("display", "block");
             $edit.find(".editButton").css("display", "none");
         });
 
         //edit class submitButton clicked
-        $article.contents().find('.submitButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.submitButton', function(){
             let $edit = $(this).closest('.edit');
-            let proof_name = $edit.attr("proof_name");
+            let name = $edit.attr("content-name");
+            let content = $edit.attr("content");
 
             //submit proof sketch
             $.ajax({
-                url: '/article/data/',
+                url: '/article/sketch/',
                 type: 'POST',
                 dataType: 'text',
                 data: {
-                    'content': 'proof_sketch',
+                    'content': content,
                     'id': file_name,
-                    'proof_name': proof_name,
-                    'proof_sketch': $edit.find(".sketchTextarea").val()
+                    'name': name,
+                    'sketch': $edit.find(".sketchTextarea").val()
                 },
             }).done(function(data) {
                 $edit.find(".editSketch").css("display", "none");
                 $edit.find(".editButton").css("display", "inline");
                 //get proof setch
-                $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(getdata){
-                    $edit.find(".sketchTextarea").text(getdata);
-                }).done(function(){ 
+                $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                function (data, textStatus, jqXHR) {
+                    $edit.find(".sketchTextarea").val(data[content][name]);
+                }
+                ).done(function(){
                     sketch_preview($edit);
                 }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                    $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
                     sketch_preview($edit);
                     alert(
                         `error : status->${textStatus}
-                        Success to submit sketch,
-                        But failed to get the sketch from server`
+                        failed to get the sketch from server`
                     );
                 });
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
@@ -140,15 +143,18 @@ $(function(){
         });
 
         //edit class cancelButton clicked
-        $article.contents().find('.cancelButton').on( "click", function(){
-            var $edit = $(this).closest('.edit');
-            var proof_name = $edit.attr("proof_name");
+        $article.contents().find('div').on( "click", '.cancelButton', function(){
+            let $edit = $(this).closest('.edit');
+            let name = $edit.attr("content-name");
+            let content = $edit.attr("content");
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
             //get proof sketch
-            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
-                $edit.find(".sketchTextarea").val(data);
-            }).done(function(data){ 
+            $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                function (data, textStatus, jqXHR) {
+                    $edit.find(".sketchTextarea").val(data[content][name]);
+                }
+            ).done(function(){
                 sketch_preview($edit);
             }).fail(function(XMLHttpRequest, textStatus, errorThrown){
                 $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
@@ -161,11 +167,11 @@ $(function(){
             
         });
         //edit class previewButton clicked
-        $article.contents().find('.previewButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.previewButton', function(){
             sketch_preview($(this).closest(".edit"));
         });
         //edit class sketchTextarea changed
-        $article.contents().find('.sketchTextarea').on( "input", function(){
+        $article.contents().find('div').on( "input", '.sketchTextarea', function(){
             sketch_preview($(this).closest('.edit'));
         });
     }
