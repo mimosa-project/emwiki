@@ -21,41 +21,42 @@ def sketchReciever(request):
     content_number = request.POST.get("content_number",None)
     article_name = file_name.replace(".html", "")
     sketch_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}')
-        if not os.path.exists(sketch_path):
-            os.mkdir(sketch_path)
+    if not os.path.exists(sketch_path):
+        os.mkdir(sketch_path)
     with open(f'{sketch_path}/{content}_{content_number}', "w") as f:
-            f.write(request.POST.get("sketch",None))
-        return HttpResponse()
+        f.write(request.POST.get("sketch",None))
+    return HttpResponse()
 
 
 def dataSender(request, article_name):
-    return_json = {
-        'refs': {},
-        'proofs': {},
-    }
-    refs_path = os.path.join(BASE_DIR, f'static/mizar_html/refs/{article_name}/')
-    proofs_path = os.path.join(BASE_DIR, f'static/mizar_html/proofs/{article_name}/')
-    refs_sketches_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/refs/{article_name}/')
-    proofs_sketches_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/proofs/{article_name}/')
-    
-    refs_path_list = glob.glob(refs_path+'*')
-    refs_name_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in refs_path_list]
-    proofs_path_list = glob.glob(proofs_path+'*')
-    proofs_name_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in proofs_path_list]
+    """send sketches using JSON
 
-    for refs_name in refs_name_list:
-        sketch_path = refs_sketches_path + refs_name
-        return_json['refs'][refs_name] = ''
-        if os.path.exists(sketch_path):
-            with open(sketch_path, "r") as f:
-                return_json['refs'][refs_name] = f.read()
-    
-    for proofs_name in proofs_name_list:
-        sketch_path = proofs_sketches_path + proofs_name
-        return_json['proofs'][proofs_name] = ''
-        if os.path.exists(sketch_path):
-            with open(sketch_path, "r") as f:
-                return_json['proofs'][proofs_name] = f.read()
+    Args:
+        request: HttpRequestObject
+        article_name: article_name ex."abcmiz_0.html"
+
+    Returns:
+        A JSON like this
+
+        {'sketches': {
+            'theorem': {1: "sketch_text", 2: "sketch_text", 3...},
+            'definition': {1: "sketch_text", 2: "sketch_text", 3...},
+            ...
+        }
+    """
+    return_json = {
+        'sketches': {},
+    }
+    sketches_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}/')
+    sketches_path_list = glob.glob(sketches_path+'*')
+
+    for sketch_path in sketches_path_list:
+        sketch_name = sketch_path.rsplit("/", 1)[1]
+        content = sketch_name.split("_")[0]
+        content_number = sketch_name.split("_")[1]
+        return_json["sketches"][content] = {}
+        with open(sketch_path, "r") as f:
+            return_json['sketches'][content][content_number] = f.read()
     return JsonResponse(return_json)
 
     
