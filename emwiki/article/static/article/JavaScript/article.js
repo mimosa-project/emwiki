@@ -16,11 +16,19 @@ $(function(){
     });
 
     // rendering sketchPreview from sketchTextarea text
-    function sketch_preview($edit){
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
+    function sketch_preview($edit, is_apply_mathjax = true){
         let sketch = $edit.find(".sketchTextarea").val();
         let sketchHTML = sketchText2html(sketch);
         $edit.find(".sketchPreview").html(sketchHTML);
+        if(is_apply_mathjax){
+            apply_mathjax();
+        }
+    }
+
+    //Apply MathJax class="mathjax"
+    //This function is not guaranteed to work when MathJax in iframe is updated
+    function apply_mathjax(){
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
         iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
     }
 
@@ -46,9 +54,16 @@ $(function(){
         //current file name
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         //edit target selector
-        let target_CSS_selector = 
-            "div[typeof='oo:Proof']"
-        ;
+        let target_CSS_selector = 'span.kw';
+        //target DOMs list
+        let target_object = {
+            'definition': [],
+            'theorem': [],
+            'registration': [],
+            'scheme': [],
+            'notation': [],
+            'proof': []
+        };
         let iframe_MathJax = $article[0].contentWindow.MathJax;
 
         let editHTML = 
@@ -63,70 +78,79 @@ $(function(){
             <button type='button' class='editButton'>+</button>
         </span>`;
 
-        //add edit class
-        let $target_list = $article.contents().find(target_CSS_selector);
-        $target_list.each(function(index){
-            let $target = $(this);
-            $target.prepend(editHTML);
-            let proof_name = $target.attr("about").slice($target.attr("about").lastIndexOf("#PF")+3);
-            $target.find(".edit").attr("proof_name", proof_name);
-            //get proof sketches
-            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
-                $target.find(".sketchTextarea").text(data);
-                $target.find(".sketchPreview").html(sketchText2html(data));
-            }).done(function(data){
-                if(index === $target_list.length-1){
-                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
-                }
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $target.find(".sketchTextarea").text(`failed to fetch error:${textStatus}`);
-                $target.find(".sketchPreview").html(sketchText2html(`failed to fetch${textStatus}`));
-                console.log(
-                    `proof:${proof_name} error : status->${textStatus}`
-                );
-                if(index === $target_list.length-1){
-                    console.log("typeset");
-                    iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
-                }
+        //add edit button
+        
+        $article.contents().find(target_CSS_selector).each(function (target_index, target) {
+            //sometimes $(target).text() is like "theorem " so trim()
+            target_name = $(target).text().trim();
+            if( target_name in target_object){
+                $(target).before(editHTML);
+                let $edit = $(target).prev();
+                target_object[target_name].push($edit);
+                $edit.attr("content", target_name);
+                $edit.attr("content_number", target_object[target_name].length);
+                $edit.find(".editButton").attr("content", target_name);
+            }
         });
+
+        //add sketch
+        $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
+            for(let content in data["sketches"]){
+                for(let content_number in data["sketches"][content]){
+                    $target = $article.contents().find(`
+                        .edit[content="${content}"][content_number="${content_number}"]
+                    `);
+                    $target.find(".sketchTextarea").text(data["sketches"][content][content_number]);
+                    sketch_preview($target, false);
+                }
+            }
+        }).done(function(){
+            apply_mathjax();
+        }).fail(function(){
+
         });
+
+        
         //edit class editButton clicked
-        $article.contents().find('.editButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.editButton', function(){
             let $edit = $(this).closest('.edit');
             $edit.find(".editSketch").css("display", "block");
             $edit.find(".editButton").css("display", "none");
         });
 
         //edit class submitButton clicked
-        $article.contents().find('.submitButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.submitButton', function(){
             let $edit = $(this).closest('.edit');
-            let proof_name = $edit.attr("proof_name");
+            let content = $edit.attr("content");
+            let content_number = $edit.attr("content_number");
 
             //submit proof sketch
             $.ajax({
-                url: '/article/data/',
+                url: '/article/sketch/',
                 type: 'POST',
                 dataType: 'text',
                 data: {
-                    'content': 'proof_sketch',
+                    'content': content,
                     'id': file_name,
-                    'proof_name': proof_name,
-                    'proof_sketch': $edit.find(".sketchTextarea").val()
+                    'content_number': content_number,
+                    'sketch': $edit.find(".sketchTextarea").val()
                 },
             }).done(function(data) {
                 $edit.find(".editSketch").css("display", "none");
                 $edit.find(".editButton").css("display", "inline");
                 //get proof setch
-                $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(getdata){
-                    $edit.find(".sketchTextarea").text(getdata);
-                }).done(function(){ 
+                $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                function (data, textStatus, jqXHR) {
+                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
+                }
+                ).done(function(){
                     sketch_preview($edit);
                 }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                    $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
                     sketch_preview($edit);
                     alert(
                         `error : status->${textStatus}
-                        Success to submit sketch,
-                        But failed to get the sketch from server`
+                        failed to get the sketch from server`
                     );
                 });
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
@@ -140,15 +164,18 @@ $(function(){
         });
 
         //edit class cancelButton clicked
-        $article.contents().find('.cancelButton').on( "click", function(){
-            var $edit = $(this).closest('.edit');
-            var proof_name = $edit.attr("proof_name");
+        $article.contents().find('div').on( "click", '.cancelButton', function(){
+            let $edit = $(this).closest('.edit');
+            let content = $edit.attr("content");
+            let content_number = $edit.attr("content_number");
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
             //get proof sketch
-            $.get(`/article/data/mizar_sketch/${file_name.split(".")[0]}/${proof_name}`, function(data){
-                $edit.find(".sketchTextarea").val(data);
-            }).done(function(data){ 
+            $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                function (data, textStatus, jqXHR) {
+                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
+                }
+            ).done(function(){
                 sketch_preview($edit);
             }).fail(function(XMLHttpRequest, textStatus, errorThrown){
                 $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
@@ -161,11 +188,11 @@ $(function(){
             
         });
         //edit class previewButton clicked
-        $article.contents().find('.previewButton').on( "click", function(){
+        $article.contents().find('div').on( "click", '.previewButton', function(){
             sketch_preview($(this).closest(".edit"));
         });
         //edit class sketchTextarea changed
-        $article.contents().find('.sketchTextarea').on( "input", function(){
+        $article.contents().find('div').on( "input", '.sketchTextarea', function(){
             sketch_preview($(this).closest('.edit'));
         });
     }
