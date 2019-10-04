@@ -21,6 +21,12 @@ $(function(){
         let sketch = $edit.find(".sketchTextarea").val();
         let sketchHTML = sketchText2html(sketch);
         $edit.find(".sketchPreview").html(sketchHTML);
+    }
+
+    //Apply MathJax class="mathjax"
+    //This function is not guaranteed to work when MathJax in iframe is updated
+    function apply_mathjax(){
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
         iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
     }
 
