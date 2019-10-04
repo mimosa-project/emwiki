@@ -16,11 +16,13 @@ $(function(){
     });
 
     // rendering sketchPreview from sketchTextarea text
-    function sketch_preview($edit){
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
+    function sketch_preview($edit, is_apply_mathjax = true){
         let sketch = $edit.find(".sketchTextarea").val();
         let sketchHTML = sketchText2html(sketch);
         $edit.find(".sketchPreview").html(sketchHTML);
+        if(is_apply_mathjax){
+            apply_mathjax();
+        }
     }
 
     //Apply MathJax class="mathjax"
@@ -82,30 +84,28 @@ $(function(){
             //sometimes $(target).text() is like "theorem " so trim()
             target_name = $(target).text().trim();
             if( target_name in target_object){
-                    $(target).before(editHTML);
-                    let $edit = $(target).prev();
-                    target_object[target_name].push($edit);
-                    $edit.attr("content", target_name);
-                    $edit.attr("content_number", target_object[target_name].length);
-                    $edit.find(".editButton").attr("content", target_name);
-                }
-            });
+                $(target).before(editHTML);
+                let $edit = $(target).prev();
+                target_object[target_name].push($edit);
+                $edit.attr("content", target_name);
+                $edit.attr("content_number", target_object[target_name].length);
+                $edit.find(".editButton").attr("content", target_name);
+            }
+        });
 
         //add sketch
         $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
-            $.each(Object.keys(data["sketches"]), function(content_index, content) {
-                $.each(Object.keys(data["sketches"][content]), function(number_index, content_number){
+            for(let content in data["sketches"]){
+                for(let content_number in data["sketches"][content]){
                     $target = $article.contents().find(`
                         .edit[content="${content}"][content_number="${content_number}"]
                     `);
                     $target.find(".sketchTextarea").text(data["sketches"][content][content_number]);
-                    $target.find(".sketchPreview").html(
-                        sketchText2html(data["sketches"][content][content_number])
-                    );
-                })
-            });
+                    sketch_preview($target, false);
+                }
+            }
         }).done(function(){
-            iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
+            apply_mathjax();
         }).fail(function(){
 
         });
