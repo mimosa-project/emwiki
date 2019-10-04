@@ -4,6 +4,8 @@ import glob
 from emwiki.settings import BASE_DIR
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
+from django.http.response import JsonResponse
+import json
 
 
 def renderer(request):
@@ -13,34 +15,48 @@ def renderer(request):
     context = {'file_path':file_path, 'file_list':file_list}
     return render(request, 'article/article.html', context)
 
-def dataReciever(request):
-    if 'content' in request.POST:
-        file_name = request.POST.get('id',None)
-        if 'proof_sketch' == request.POST.get('content',None):
-            proof_name = request.POST.get("proof_name",None)
-            file_name = file_name.replace(".html", "")
-            proof_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/proofs/'+file_name.replace(".html","")+'/*'))
-            proof_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in proof_list]
-            sketch_path = os.path.join(BASE_DIR, "article/data/mizar_sketch/"+file_name.replace(".html",""))
-            if proof_name in proof_list:
-                if not os.path.exists(sketch_path):
-                    os.mkdir(sketch_path)
-                with open(sketch_path+"/"+proof_name, "w") as f:
-                    f.write(request.POST.get("proof_sketch",None))
-                return HttpResponse()
-            else:
-                raise HttpResponseBadRequest
-        else:
-            raise HttpResponseBadRequest
-                
-    else:
-        raise HttpResponseBadRequest
+def sketchReciever(request):
+    file_name = request.POST.get('id',None)
+    content = request.POST.get('content',None)
+    content_number = request.POST.get("content_number",None)
+    article_name = file_name.replace(".html", "")
+    sketch_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}')
+    if not os.path.exists(sketch_path):
+        os.mkdir(sketch_path)
+    with open(f'{sketch_path}/{content}_{content_number}', "w") as f:
+        f.write(request.POST.get("sketch",None))
+    return HttpResponse()
 
-def dataSender(request, path):
-    sketch_path = os.path.join(BASE_DIR, 'article/data/mizar_sketch/'+path)
-    if os.path.exists(sketch_path):
+
+def dataSender(request, article_name):
+    """send sketches using JSON
+
+    Args:
+        request: HttpRequestObject
+        article_name: article_name ex."abcmiz_0.html"
+
+    Returns:
+        A JSON like this
+
+        {'sketches': {
+            'theorem': {1: "sketch_text", 2: "sketch_text", 3...},
+            'definition': {1: "sketch_text", 2: "sketch_text", 3...},
+            ...
+        }
+    """
+    return_json = {
+        'sketches': {},
+    }
+    sketches_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}/')
+    sketches_path_list = glob.glob(sketches_path+'*')
+
+    for sketch_path in sketches_path_list:
+        sketch_name = sketch_path.rsplit("/", 1)[1]
+        content = sketch_name.split("_")[0]
+        content_number = sketch_name.split("_")[1]
+        return_json["sketches"][content] = {}
         with open(sketch_path, "r") as f:
-            return HttpResponse(f)
-    return HttpResponse("")
+            return_json['sketches'][content][content_number] = f.read()
+    return JsonResponse(return_json)
 
     

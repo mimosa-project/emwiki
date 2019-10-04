@@ -4,7 +4,8 @@ body {
 }
 
 .sketchPreview {
-    color: darkviolet;
+    color: black;
+    background-color: f0f0f0;
 }
 
 .sketchTextarea {
@@ -68,9 +69,8 @@ body {
 .editButton {
     display: inline-block;
     text-decoration: none;
-    background-color: white;
-    color: #b4b4b4;
-    border: solid 2px #b4b4b4;
+    color: white;
+    border: none;
     border-radius: 20%;
     transition: .4s;
     position: absolute;
@@ -79,10 +79,31 @@ body {
     width: 1.8em;
     height: 1.5em;
     transform: translateY(-0.5vh);
-} 
+}
+
+.editButton[content="theorem"] {
+    background-color: darkgreen;
+}
+.editButton[content="definition"] {
+    background-color: darkred;
+}
+.editButton[content="proof"] {
+    background-color: darkgray;
+}
+.editButton[content="registration"] {
+    background-color: darkorange;
+}
+.editButton[content="scheme"] {
+    background-color: darkmagenta;
+}
+.editButton[content="notation"] {
+    background-color: darkturquoise;
+}
+
 .editButton:hover {
-    background: #b4b4b4;
-    color: white;
+    background: white;
+    color: black;
+    border: solid 2px #b4b4b4;
 }
 
 
