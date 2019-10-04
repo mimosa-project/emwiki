@@ -73,8 +73,9 @@ $(function(){
         //add edit button
         
         $article.contents().find(target_CSS_selector).each(function (target_index, target) {
-            $.each(Object.keys(target_object), function (keys_index, target_name){
-                if($(target).text().trim() === target_name){
+            //sometimes $(target).text() is like "theorem " so trim()
+            target_name = $(target).text().trim();
+            if( target_name in target_object){
                     $(target).before(editHTML);
                     let $edit = $(target).prev();
                     target_object[target_name].push($edit);
@@ -83,7 +84,6 @@ $(function(){
                     $edit.find(".editButton").attr("content", target_name);
                 }
             });
-        });
 
         //add sketch
         $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
