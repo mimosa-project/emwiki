@@ -15,7 +15,7 @@ def renderer(request):
     context = {'file_path':file_path, 'file_list':file_list}
     return render(request, 'article/article.html', context)
 
-def sketchReciever(request):
+def recieveSketch(request):
     file_name = request.POST.get('id',None)
     content = request.POST.get('content',None)
     content_number = request.POST.get("content_number",None)
@@ -28,7 +28,7 @@ def sketchReciever(request):
     return HttpResponse()
 
 
-def dataSender(request, article_name):
+def sendSketch(request, article_name):
     """send sketches using JSON
 
     Args:
