@@ -6,8 +6,9 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
 from django.http.response import JsonResponse
 import json
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-
+@ensure_csrf_cookie
 def renderer(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
     file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
