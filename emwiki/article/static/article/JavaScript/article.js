@@ -51,8 +51,10 @@ $(function(){
     function add_emwiki_components(){
         //current file path in static folder
         let file_path =  $article[0].contentDocument.location.pathname;
-        //current file name
+        //current file name like "abcmiz_0.html"
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+        //current article_name like "abcmiz_0"
+        let article_name = file_name.split(".")[0];
         //edit target selector
         let target_CSS_selector = 'span.kw';
         //target DOMs list
@@ -94,7 +96,7 @@ $(function(){
         });
 
         //add sketch
-        $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
+        $.getJSON(`/article/data/sketch/${article_name}`, function (data, textStatus, jqXHR) {
             for(let content in data["sketches"]){
                 for(let content_number in data["sketches"][content]){
                     $target = $article.contents().find(`
@@ -126,12 +128,12 @@ $(function(){
 
             //submit proof sketch
             $.ajax({
-                url: '/article/sketch/',
+                url: '/article/data/sketch/',
                 type: 'POST',
                 dataType: 'text',
                 data: {
                     'content': content,
-                    'id': file_name,
+                    'id': article_name,
                     'content_number': content_number,
                     'sketch': $edit.find(".sketchTextarea").val()
                 },
@@ -139,7 +141,7 @@ $(function(){
                 $edit.find(".editSketch").css("display", "none");
                 $edit.find(".editButton").css("display", "inline");
                 //get proof setch
-                $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                $.getJSON(`/article/data/sketch/${article_name}`,
                 function (data, textStatus, jqXHR) {
                     $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
                 }
@@ -171,7 +173,7 @@ $(function(){
             $edit.find(".editSketch").css("display", "none");
             $edit.find(".editButton").css("display", "inline");
             //get proof sketch
-            $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+            $.getJSON(`/article/data/sketch/${article_name}`,
                 function (data, textStatus, jqXHR) {
                     $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
                 }

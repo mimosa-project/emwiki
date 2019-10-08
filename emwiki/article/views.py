@@ -19,8 +19,8 @@ def sketchReciever(request):
     file_name = request.POST.get('id',None)
     content = request.POST.get('content',None)
     content_number = request.POST.get("content_number",None)
-    article_name = file_name.replace(".html", "")
-    sketch_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}')
+    article_name = file_name
+    sketch_path = os.path.join(BASE_DIR, f'article/data/sketch/{article_name}')
     if not os.path.exists(sketch_path):
         os.mkdir(sketch_path)
     with open(f'{sketch_path}/{content}_{content_number}', "w") as f:
@@ -47,7 +47,7 @@ def dataSender(request, article_name):
     return_json = {
         'sketches': {},
     }
-    sketches_path = os.path.join(BASE_DIR, f'article/data/mizar_sketch/{article_name}/')
+    sketches_path = os.path.join(BASE_DIR, f'article/data/sketch/{article_name}/')
     sketches_path_list = glob.glob(sketches_path+'*')
 
     for sketch_path in sketches_path_list:
