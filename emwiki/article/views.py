@@ -2,8 +2,8 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.urls import reverse
+from .sketch import make_sketchedmizar_file
+from django.http import HttpResponse
 from django.http.response import JsonResponse
 
 
@@ -59,4 +59,13 @@ def send_sketch(request, article_name):
             return_json['sketches'][content][content_number] = f.read()
     return JsonResponse(return_json)
 
-    
+
+def apply_sketchedmizar(request):
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
+    file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
+    file_list = [extention_name.rsplit(".", 1)[0] for extention_name in file_list]
+    print("apply start")
+    for article_name in file_list:
+        make_sketchedmizar_file(article_name)
+    print("apply end")
+    return HttpResponse()
