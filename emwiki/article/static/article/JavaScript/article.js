@@ -46,7 +46,8 @@ $(function(){
                 html += '<br>'
             }
         }
-        return html;
+        //return html;
+        return `<p>$${sketchText}$</p>`
     }
     function add_emwiki_components(){
         //current file path in static folder
@@ -70,13 +71,15 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
-            <div class='sketchPreview mathjax'></div>
-            <div class='editSketch' style='display:none'>
-                <textarea class='sketchTextarea'></textarea>
-                <button type='button' class='submitButton'>submit</button>
-                <button type='button' class='cancelButton'>cancel</button>
-                <button type='button' class='previewButton'>preview</button>
-            </div>
+            <span class='sketchPreview mathjax'></span>
+            <span class='editSketch' style='display:none'>
+                <textarea class='sketchTextarea' cols='75' rows='10' wrap='hard'></textarea>
+                <div class='toolbar'>
+                    <button type='button' class='submitButton'>submit</button>
+                    <button type='button' class='cancelButton'>cancel</button>
+                    <button type='button' class='previewButton'>preview</button>
+                </div>
+            </span>
             <button type='button' class='editButton'>+</button>
         </span>`;
 
