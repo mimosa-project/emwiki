@@ -17,8 +17,10 @@ body {
     border-bottom: 2px solid #aaa;
     background-image: none;
     background-color: white;
-    width: 100%;
+    width: auto;
     height: 200px;
+    white-space: wrap;
+    resize: vertical;
 }
 
 .submitButton {
