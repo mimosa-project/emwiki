@@ -2,9 +2,9 @@
 mizar_html/
 mml/
 
-#Mizar_proof_sketches
-sketch/
-sketchedMizar/
+#Mizar_proof_commentes
+comment/
+commentedMizar/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
