@@ -14,36 +14,27 @@ TARGET_BLOCK = (
 
 makeSketchedMizar_file("abcmiz_0")
 
-def makeSketchedMizar_file(article_name):
+def make_sketchedmizar_file(article_name):
     mizar_path = os.path.join(BASE_DIR, f'static/mml/{article_name}.miz')
-    sketchedMizar_path = os.path.join(BASE_DIR, f'article/data/sketchedMizar/{article_name}.miz')
-    sketchedMizar = ""
-    with open(mizar_path, "r") as f:
-        sketchedMizar = makeSketchedMizar_string(f.read(), sketch_dict(article_name))
-    with open(sketchedMizar_path, "w") as f:
-        f.write(sketchedMizar)
+    sketched_mizar_path = os.path.join(BASE_DIR, f'article/data/sketchedMizar/{article_name}.miz')
+    sketched_mizar = ""
+    with open(mizar_path, "r", encoding="utf-8") as f:
+        sketched_mizar = make_sketchedmizar_string(f.read(), fetch_sketch(article_name))
+    with open(sketched_mizar_path, "w", encoding="utf-8") as f:
+        f.write(sketched_mizar)
 
 
-
-def makeSketchedMizar_string(miz_string, sketches):
+def make_sketchedmizar_string(miz_string, sketches):
     """make mizar string written sketches
 
-    make mizar string written sketches
-
     Args:
-        miz_string: .miz file's all string
-        sketches: sketches dict like 
-        {
-            'theorem': {1: "sketch_text", 2: "sketch_text", 3...},
-            'definition': {1: "sketch_text", 2: "sketch_text", 3...},
+        miz_string (string): mizar file string
+        sketches (dictionary): {"TARGET_BLOCK": {1: "sketch text", 2, ...}
             ...
         }
 
     Returns:
-        mizar string written sketch
-
-    Raises:
-        
+        String: mizar file string whitten sketch
     """
     miz_string_written_sketch = ''
     miz_lines = miz_string.splitlines()
