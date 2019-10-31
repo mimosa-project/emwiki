@@ -5,30 +5,30 @@ from emwiki.settings import BASE_DIR
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
 from django.http.response import JsonResponse
-import json
 
 
-def renderer(request):
+def render_article(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
     file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
     file_path = 'optional/start.html'
-    context = {'file_path':file_path, 'file_list':file_list}
+    context = {'file_path': file_path, 'file_list': file_list}
     return render(request, 'article/article.html', context)
 
-def recieveSketch(request):
-    file_name = request.POST.get('id',None)
-    content = request.POST.get('content',None)
-    content_number = request.POST.get("content_number",None)
+
+def recieve_sketch(request):
+    file_name = request.POST.get('id', None)
+    content = request.POST.get('content', None)
+    content_number = request.POST.get("content_number", None)
     article_name = file_name
     sketch_path = os.path.join(BASE_DIR, f'article/data/sketch/{article_name}')
     if not os.path.exists(sketch_path):
         os.mkdir(sketch_path)
     with open(f'{sketch_path}/{content}_{content_number}', "w") as f:
-        f.write(request.POST.get("sketch",None))
+        f.write(request.POST.get("sketch", None))
     return HttpResponse()
 
 
-def sendSketch(request, article_name):
+def send_sketch(request, article_name):
     """send sketches using JSON
 
     Args:
@@ -48,7 +48,7 @@ def sendSketch(request, article_name):
         'sketches': {},
     }
     sketches_path = os.path.join(BASE_DIR, f'article/data/sketch/{article_name}/')
-    sketches_path_list = glob.glob(sketches_path+'*')
+    sketches_path_list = glob.glob(sketches_path + '*')
 
     for sketch_path in sketches_path_list:
         sketch_name = sketch_path.rsplit("/", 1)[1]
