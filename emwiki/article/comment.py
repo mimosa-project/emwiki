@@ -1,8 +1,8 @@
 import re
 import os
 import glob
-import math
 from emwiki.settings import BASE_DIR
+import textwrap
 
 TARGET_BLOCK = (
     "theorem",
@@ -12,7 +12,8 @@ TARGET_BLOCK = (
     "notation",
     "proof",
 )
-MAX_LENGTH = 75
+COMMENT_HEADER = "::: "
+LINE_MAX_LENGTH = 75
 
 
 def make_commented_mizar(article_name):
@@ -71,16 +72,10 @@ def format_comment(comment):
     Returns:
         string: a comment was formated
         """
-        lines = []
-        for i in range(0, math.ceil(len(line) / MAX_LENGTH)):
-            lines.append(line[MAX_LENGTH * i: MAX_LENGTH * (i + 1)])
-        return lines
-
     return_comment = ""
-    comment_lines = comment.splitlines()
-    for line in comment_lines:
-        for new_line in _split_line(line):
-            return_comment += f'::: {new_line}\n'
+    for line in comment.splitlines():
+        for cut_line in textwrap.wrap(line, LINE_MAX_LENGTH):
+            return_comment += f'{COMMENT_HEADER}{cut_line}\n'
     return return_comment
 
 
