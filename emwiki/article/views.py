@@ -6,8 +6,10 @@ from .comment import make_commented_mizar
 from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
+@ensure_csrf_cookie
 def render_article(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
     file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
