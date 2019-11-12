@@ -2,7 +2,8 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from .comment import make_commentedmizar_file
+from .comment import make_commented_mizar
+from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 
@@ -29,7 +30,7 @@ def recieve_comment(request):
 
 
 def send_comment(request, article_name):
-    """send commentes using JSON
+    """send comments using JSON
 
     Args:
         request: HttpRequestObject
@@ -38,25 +39,21 @@ def send_comment(request, article_name):
     Returns:
         A JSON like this
 
-        {'commentes': {
+        {'comments': {
             'theorem': {1: "comment_text", 2: "comment_text", 3...},
             'definition': {1: "comment_text", 2: "comment_text", 3...},
             ...
         }
     """
-    return_json = {
-        'commentes': {},
-    }
-    commentes_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
-    commentes_path_list = glob.glob(commentes_path + '*')
-
-    for comment_path in commentes_path_list:
+    return_json = {'comments': {block: {} for block in TARGET_BLOCK}}
+    comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
+    comments_path_list = glob.glob(comments_path + '*')
+    for comment_path in comments_path_list:
         comment_name = comment_path.rsplit("/", 1)[1]
         content = comment_name.split("_")[0]
         content_number = comment_name.split("_")[1]
-        return_json["commentes"][content] = {}
         with open(comment_path, "r") as f:
-            return_json['commentes'][content][content_number] = f.read()
+            return_json['comments'][content][content_number] = f.read()
     return JsonResponse(return_json)
 
 
@@ -66,6 +63,6 @@ def apply_commentedmizar(request):
     file_list = [extention_name.rsplit(".", 1)[0] for extention_name in file_list]
     print("apply start")
     for article_name in file_list:
-        make_commentedmizar_file(article_name)
+        make_commented_mizar(article_name)
     print("apply end")
     return HttpResponse()
