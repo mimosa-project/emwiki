@@ -103,12 +103,12 @@ $(function(){
 
         //add comment
         $.getJSON(`/article/data/comment/${article_name}`, function (data, textStatus, jqXHR) {
-            for(let content in data["commentes"]){
-                for(let content_number in data["commentes"][content]){
+            for(let content in data["comments"]){
+                for(let content_number in data["comments"][content]){
                     $target = $article.contents().find(`
                         .edit[content="${content}"][content_number="${content_number}"]
                     `);
-                    $target.find(".commentTextarea").text(data["commentes"][content][content_number]);
+                    $target.find(".commentTextarea").text(data["comments"][content][content_number]);
                     comment_preview($target, false);
                 }
             }
@@ -149,7 +149,7 @@ $(function(){
                 //get proof setch
                 $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["commentes"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
                 }
                 ).done(function(){
                     comment_preview($edit);
@@ -181,7 +181,7 @@ $(function(){
             //get proof comment
             $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["commentes"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
                 }
             ).done(function(){
                 comment_preview($edit);
