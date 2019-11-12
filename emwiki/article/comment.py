@@ -15,7 +15,12 @@ TARGET_BLOCK = (
 MAX_LENGTH = 75
 
 
-def make_commentedmizar_file(article_name):
+def make_commented_mizar(article_name):
+    """make commented mizar file
+    
+    Args:
+        article_name (string): article name ex."abcmiz_0"
+    """
     mizar_path = os.path.join(BASE_DIR, f'static/mml/{article_name}.miz')
     commented_mizar_path = os.path.join(BASE_DIR, f'article/data/commentedMizar/{article_name}.miz')
     commented_mizar = ""
@@ -25,17 +30,17 @@ def make_commentedmizar_file(article_name):
         f.write(commented_mizar)
 
 
-def make_commentedmizar_string(miz_string, commentes):
-    """make mizar string written commentes
+def add_comment(mizar_string, comments):
+    """make mizar string written comments
     
     Args:
-        miz_string (string): mizar file string
-        commentes (dictionary): {"TARGET_BLOCK": {1: "comment text", 2, ...}
+        mizar_string (string): mizar file string
+        comments (dictionary): {"TARGET_BLOCK": {1: "comment text", 2, ...}
                                 ...
                                }
     
     Returns:
-        String: mizar file string whitten comment
+        String: string of mizar file whitten comment
     """
     miz_string_written_comment = ''
     miz_lines = miz_string.splitlines()
@@ -57,11 +62,13 @@ def make_commentedmizar_string(miz_string, commentes):
 
 
 def format_comment(comment):
-    def _split_line(line):
-        """Split to less than MAX_LENGTH characters per line
+    """format comment for adding comment to mizar file
         
         Args:
-            line (string): raw to validate
+        comment (string): a comment
+    
+    Returns:
+        string: a comment was formated
         """
         lines = []
         for i in range(0, math.ceil(len(line) / MAX_LENGTH)):
@@ -77,7 +84,7 @@ def format_comment(comment):
 
 
 def fetch_comment(article_name):
-    """return commentes dictionary
+    """return comments dictionary
     
     Args:
         article_name (String): miz file name like "abcmiz_0"
