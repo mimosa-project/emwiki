@@ -21,11 +21,12 @@ def make_commented_mizar(article_name):
     Args:
         article_name (string): article name ex."abcmiz_0"
     """
+    print(article_name)
     mizar_path = os.path.join(BASE_DIR, f'static/mml/{article_name}.miz')
     commented_mizar_path = os.path.join(BASE_DIR, f'article/data/commentedMizar/{article_name}.miz')
     commented_mizar = ""
     with open(mizar_path, "r", encoding="utf-8") as f:
-        commented_mizar = make_commentedmizar_string(f.read(), fetch_comment(article_name))
+        commented_mizar = add_comment(f.read(), fetch_comment(article_name))
     with open(commented_mizar_path, "w", encoding="utf-8") as f:
         f.write(commented_mizar)
 
