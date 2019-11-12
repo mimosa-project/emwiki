@@ -71,6 +71,7 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
+            <button type='button' class='editButton'>+</button>
             <span class='commentPreview mathjax'></span>
             <span class='editcomment' style='display:none'>
                 <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
@@ -80,7 +81,6 @@ $(function(){
                     <button type='button' class='previewButton'>preview</button>
                 </div>
             </span>
-            <button type='button' class='editButton'>+</button>
         </span>`;
 
         //add edit button
@@ -89,8 +89,11 @@ $(function(){
             //sometimes $(target).text() is like "theorem " so trim()
             target_name = $(target).text().trim();
             if( target_name in target_object){
-                $(target).before(editHTML);
-                let $edit = $(target).prev();
+                $(target).after(editHTML);
+                let $edit = $(target).next();
+                $edit.mouseover(function (event) { 
+                    event.stopPropagation();
+                });
                 target_object[target_name].push($edit);
                 $edit.attr("content", target_name);
                 $edit.attr("content_number", target_object[target_name].length);
