@@ -44,34 +44,63 @@ def add_comment(mizar_string, comments):
     Returns:
         String: string of mizar file whitten comment
     """
-    miz_string_written_comment = ''
-    miz_lines = miz_string.splitlines()
+
+    commented_mizar = ''
+    # To count the number of times each block appears
     count_dict = dict([[block, 0] for block in list(TARGET_BLOCK)])
-    target_pattern = r"(?P<block>"
-    target_pattern += f"{TARGET_BLOCK[0]}"
-    for block in TARGET_BLOCK[1:]:
-        target_pattern += f'|{block}'
-    target_pattern += r')(\s|\r|\n\r|\n|$)'
-    for line in miz_lines:
-        target_match = re.match(target_pattern, line)
+    # this pattern match like "Theorem", "  proof", "Theorem :Th1:"
+    target_pattern = re.compile(f"([^a-zA-Z_]|^)+(?P<block>{'|'.join(TARGET_BLOCK)})([^a-zA-Z_]|$)")
+    # stack block keyword like ["definition", "proof", "proof"]
+    # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
+    block_stack = []
+    push_keywords = (
+        "definition",
+        "registration",
+        "notation",
+        "scheme",
+        "case",
+        "suppose",
+        "hereby",
+        "now",
+        "proof",
+    )
+    push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
+    pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
+    for line in mizar_string.splitlines():
+        commented_mizar += f'{line}\n'
+        line = re.sub('::.*', "", line)
+        target_match = target_pattern.match(line)
+        push_list = push_pattern.findall(line)
+        pop_list = pop_pattern.findall(line)
+        if block_stack == ["scheme"] and re.search("(proof)|;", line):
+            block_stack.append("proof")
+            target_match = re.match("(?P<block>proof)", "proof")
+        elif push_list:
+            for block in push_list:
+                block_stack.append(block)
+        if pop_list:
+            if "scheme" in block_stack and len(block_stack) == 2:
+                block_stack.pop(-1)
+            for block in pop_list:
+                block_stack.pop(-1)
         if target_match:
-            block = target_match.group('block')
-            count_dict[block] += 1
-            if count_dict[block] in commentes[block]:
-                miz_string_written_comment += format_comment(commentes[block][count_dict[block]])
-        miz_string_written_comment += f'{line}\n'
-    return miz_string_written_comment
+            if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
+                block = target_match.group('block')
+                count_dict[block] += 1
+                if count_dict[block] in comments[block]:
+                    commented_mizar += format_comment(comments[block][count_dict[block]])
+    return commented_mizar
 
 
 def format_comment(comment):
     """format comment for adding comment to mizar file
-        
-        Args:
+    
+    Args:
         comment (string): a comment
     
     Returns:
         string: a comment was formated
-        """
+    """
     return_comment = ""
     for line in comment.splitlines():
         for cut_line in textwrap.wrap(line, LINE_MAX_LENGTH):
