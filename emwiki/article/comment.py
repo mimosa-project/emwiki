@@ -97,17 +97,13 @@ def fetch_comment(article_name):
                     }
     """
 
-    return_dict = {}
-    commentes_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
-    commentes_path_list = glob.glob(commentes_path + '*')
+    return_dict = {block: {} for block in TARGET_BLOCK}
+    comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
+    comments_path_list = glob.glob(comments_path + '*')
 
-    for initial in TARGET_BLOCK:
-        return_dict[initial] = {}
-
-    for comment_path in commentes_path_list:
+    for comment_path in comments_path_list:
         comment_name = comment_path.rsplit("/", 1)[1]
-        content = comment_name.split("_")[0]
-        content_number = int(comment_name.split("_")[1])
+        content, content_number = comment_name.split(("_"))
         with open(comment_path, "r", encoding="utf-8") as f:
-            return_dict[content][content_number] = f.read()
+            return_dict[content][int(content_number)] = f.read()
     return return_dict
