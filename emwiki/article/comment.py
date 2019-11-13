@@ -72,14 +72,14 @@ def add_comment(mizar_string, comments):
         target_match = target_pattern.match(line)
         push_list = push_pattern.findall(line)
         pop_list = pop_pattern.findall(line)
-        if block_stack == ["scheme"] and re.search("(proof)|;", line):
+        if len(block_stack) > 0 and block_stack[-1] == "scheme" and re.search("(proof)|;", line):
             block_stack.append("proof")
             target_match = re.match("(?P<block>proof)", "proof")
         elif push_list:
             for block in push_list:
                 block_stack.append(block)
         if pop_list:
-            if "scheme" in block_stack and len(block_stack) == 2:
+            if len(block_stack) > 0 and block_stack[-2:-1] == ["scheme", "proof"]:
                 block_stack.pop(-1)
             for block in pop_list:
                 block_stack.pop(-1)
