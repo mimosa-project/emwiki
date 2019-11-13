@@ -126,7 +126,7 @@ def fetch_comment(article_name):
     comments_path_list = glob.glob(comments_path + '*')
 
     for comment_path in comments_path_list:
-        comment_name = comment_path.rsplit("/", 1)[1]
+        comment_name = os.path.basename(comment_path)
         content, content_number = comment_name.split(("_"))
         with open(comment_path, "r", encoding="utf-8") as f:
             return_dict[content][int(content_number)] = f.read()

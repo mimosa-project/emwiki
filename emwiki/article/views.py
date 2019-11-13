@@ -12,7 +12,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 @ensure_csrf_cookie
 def render_article(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
-    file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
+    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
     file_path = 'optional/start.html'
     context = {'file_path': file_path, 'file_list': file_list}
     return render(request, 'article/article.html', context)
@@ -51,18 +51,17 @@ def send_comment(request, article_name):
     comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
     comments_path_list = glob.glob(comments_path + '*')
     for comment_path in comments_path_list:
-        comment_name = comment_path.rsplit("/", 1)[1]
-        content = comment_name.split("_")[0]
-        content_number = comment_name.split("_")[1]
+        comment_name = os.path.basename(comment_path)
+        content, content_number = comment_name.split("_")
         with open(comment_path, "r") as f:
-            return_json['comments'][content][content_number] = f.read()
+            return_json['comments'][content][int(content_number)] = f.read()
     return JsonResponse(return_json)
 
 
 def apply_commentedmizar(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
-    file_list = [absolute_path.rsplit("/", 1)[1] for absolute_path in file_list]
-    file_list = [extention_name.rsplit(".", 1)[0] for extention_name in file_list]
+    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
+    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
     print("apply start")
     for article_name in file_list:
         make_commented_mizar(article_name)
