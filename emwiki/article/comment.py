@@ -48,7 +48,7 @@ def add_comment(mizar_string, comments):
     commented_mizar = ''
     # To count the number of times each block appears
     count_dict = dict([[block, 0] for block in list(TARGET_BLOCK)])
-    # this pattern match like "Theorem", "  proof", "Theorem :Th1:"
+    # this pattern match like "theorem", "  proof", "theorem :Th1:"
     target_pattern = re.compile(f"([^a-zA-Z_]|^)+(?P<block>{'|'.join(TARGET_BLOCK)})([^a-zA-Z_]|$)")
     # stack block keyword like ["definition", "proof", "proof"]
     # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
