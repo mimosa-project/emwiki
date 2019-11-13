@@ -72,15 +72,15 @@ $(function(){
         let editHTML = 
         `<span class='edit'>
             <button type='button' class='editButton'>+</button>
-            <span class='commentPreview mathjax'></span>
-            <span class='editcomment' style='display:none'>
+            <div class='commentPreview mathjax' style='display:block'></div>
+            <div class='editcomment' style='display:none'>
                 <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
                 <div class='toolbar'>
                     <button type='button' class='submitButton'>submit</button>
                     <button type='button' class='cancelButton'>cancel</button>
                     <button type='button' class='previewButton'>preview</button>
                 </div>
-            </span>
+            </div>
         </span>`;
 
         //add edit button
@@ -88,12 +88,32 @@ $(function(){
         $article.contents().find(target_CSS_selector).each(function (target_index, target) {
             //sometimes $(target).text() is like "theorem " so trim()
             target_name = $(target).text().trim();
+            let $edit;
             if( target_name in target_object){
-                $(target).after(editHTML);
-                let $edit = $(target).next();
-                $edit.mouseover(function (event) { 
-                    event.stopPropagation();
-                });
+                if(target_name === "proof"){
+                    $(target).after(editHTML);
+                    $edit = $(target).next();
+                    $(target).parent().click(function (e) { 
+                        $edit.toggle();
+                    });
+                    $edit.mouseover(function (event) { 
+                        event.stopPropagation();
+                    });
+                    $edit.click(function (event) {
+                        event.stopPropagation();
+                    })
+                    $edit.find(".editButton").click(function (event) {
+                        $edit.find(".editcomment").show();
+                        $edit.find(".editButton").hide();
+                        event.stopPropagation();
+                    })
+                    $edit.hide();
+                    $edit.find(".commentPreview").css("margin-left", "3mm");
+                    $edit.find(".editcomment").css("margin-left", "3mm");
+                }else{
+                    $(target).before(editHTML);
+                    $edit = $(target).prev();
+                }
                 target_object[target_name].push($edit);
                 $edit.attr("content", target_name);
                 $edit.attr("content_number", target_object[target_name].length);
@@ -120,10 +140,11 @@ $(function(){
 
         
         //edit class editButton clicked
-        $article.contents().find('div').on( "click", '.editButton', function(){
+        $article.contents().find('div').on( "click", '.editButton', function(event){
             let $edit = $(this).closest('.edit');
-            $edit.find(".editcomment").css("display", "block");
-            $edit.find(".editButton").css("display", "none");
+            $edit.find(".editcomment").show();
+            $edit.find(".editButton").hide();
+            event.stopPropagation();
         });
 
         //edit class submitButton clicked
@@ -144,8 +165,8 @@ $(function(){
                     'comment': $edit.find(".commentTextarea").val()
                 },
             }).done(function(data) {
-                $edit.find(".editcomment").css("display", "none");
-                $edit.find(".editButton").css("display", "inline");
+                $edit.find(".editcomment").hide();
+                $edit.find(".editButton").show();
                 //get proof setch
                 $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
@@ -176,8 +197,8 @@ $(function(){
             let $edit = $(this).closest('.edit');
             let content = $edit.attr("content");
             let content_number = $edit.attr("content_number");
-            $edit.find(".editcomment").css("display", "none");
-            $edit.find(".editButton").css("display", "inline");
+            $edit.find(".editcomment").hide();
+            $edit.find(".editButton").show();
             //get proof comment
             $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
