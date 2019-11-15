@@ -15,11 +15,11 @@ $(function(){
         };
     });
 
-    // rendering sketchPreview from sketchTextarea text
-    function sketch_preview($edit, is_apply_mathjax = true){
-        let sketch = $edit.find(".sketchTextarea").val();
-        let sketchHTML = sketchText2html(sketch);
-        $edit.find(".sketchPreview").html(sketchHTML);
+    // rendering commentPreview from commentTextarea text
+    function comment_preview($edit, is_apply_mathjax = true){
+        let comment = $edit.find(".commentTextarea").val();
+        let commentHTML = commentText2html(comment);
+        $edit.find(".commentPreview").html(commentHTML);
         if(is_apply_mathjax){
             apply_mathjax();
         }
@@ -32,27 +32,30 @@ $(function(){
         iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
     }
 
-    //convert sketchText to HTML for converion to Tex format
-    function sketchText2html(sketchText){
-        let sketchText_lines = sketchText.split(/\r\n|\r|\n/);
+    //convert commentText to HTML for converion to Tex format
+    function commentText2html(commentText){
+        let commentText_lines = commentText.split(/\r\n|\r|\n/);
         var html = '';
-        if(sketchText === ''){
+        if(commentText === ''){
             return html;
         }
-        for (let index = 0; index < sketchText_lines.length; index++) {
-            if (sketchText_lines[index]){
-                html += `<p>${sketchText_lines[index]}</p>`;
+        for (let index = 0; index < commentText_lines.length; index++) {
+            if (commentText_lines[index]){
+                html += `<p>${commentText_lines[index]}</p>`;
             }else{
                 html += '<br>'
             }
         }
-        return html;
+        //return html;
+        return `<p>$${commentText}$</p>`
     }
     function add_emwiki_components(){
         //current file path in static folder
         let file_path =  $article[0].contentDocument.location.pathname;
-        //current file name
+        //current file name like "abcmiz_0.html"
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+        //current article_name like "abcmiz_0"
+        let article_name = file_name.split(".")[0];
         //edit target selector
         let target_CSS_selector = 'span.kw';
         //target DOMs list
@@ -68,14 +71,16 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
-            <div class='sketchPreview mathjax'></div>
-            <div class='editSketch' style='display:none'>
-                <textarea class='sketchTextarea'></textarea>
-                <button type='button' class='submitButton'>submit</button>
-                <button type='button' class='cancelButton'>cancel</button>
-                <button type='button' class='previewButton'>preview</button>
-            </div>
             <button type='button' class='editButton'>+</button>
+            <div class='commentPreview mathjax' style='display:block'></div>
+            <div class='editcomment' style='display:none'>
+                <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
+                <div class='toolbar'>
+                    <button type='button' class='submitButton'>submit</button>
+                    <button type='button' class='cancelButton'>cancel</button>
+                    <button type='button' class='previewButton'>preview</button>
+                </div>
+            </div>
         </span>`;
 
         //add edit button
@@ -83,9 +88,32 @@ $(function(){
         $article.contents().find(target_CSS_selector).each(function (target_index, target) {
             //sometimes $(target).text() is like "theorem " so trim()
             target_name = $(target).text().trim();
+            let $edit;
             if( target_name in target_object){
-                $(target).before(editHTML);
-                let $edit = $(target).prev();
+                if(target_name === "proof"){
+                    $(target).after(editHTML);
+                    $edit = $(target).next();
+                    $(target).parent().click(function (e) { 
+                        $edit.toggle();
+                    });
+                    $edit.mouseover(function (event) { 
+                        event.stopPropagation();
+                    });
+                    $edit.click(function (event) {
+                        event.stopPropagation();
+                    })
+                    $edit.find(".editButton").click(function (event) {
+                        $edit.find(".editcomment").show();
+                        $edit.find(".editButton").hide();
+                        event.stopPropagation();
+                    })
+                    $edit.hide();
+                    $edit.find(".commentPreview").css("margin-left", "3mm");
+                    $edit.find(".editcomment").css("margin-left", "3mm");
+                }else{
+                    $(target).before(editHTML);
+                    $edit = $(target).prev();
+                }
                 target_object[target_name].push($edit);
                 $edit.attr("content", target_name);
                 $edit.attr("content_number", target_object[target_name].length);
@@ -93,15 +121,15 @@ $(function(){
             }
         });
 
-        //add sketch
-        $.getJSON(`/article/data/${file_name.split(".")[0]}`, function (data, textStatus, jqXHR) {
-            for(let content in data["sketches"]){
-                for(let content_number in data["sketches"][content]){
+        //add comment
+        $.getJSON(`/article/data/comment/${article_name}`, function (data, textStatus, jqXHR) {
+            for(let content in data["comments"]){
+                for(let content_number in data["comments"][content]){
                     $target = $article.contents().find(`
                         .edit[content="${content}"][content_number="${content_number}"]
                     `);
-                    $target.find(".sketchTextarea").text(data["sketches"][content][content_number]);
-                    sketch_preview($target, false);
+                    $target.find(".commentTextarea").text(data["comments"][content][content_number]);
+                    comment_preview($target, false);
                 }
             }
         }).done(function(){
@@ -112,10 +140,11 @@ $(function(){
 
         
         //edit class editButton clicked
-        $article.contents().find('div').on( "click", '.editButton', function(){
+        $article.contents().find('div').on( "click", '.editButton', function(event){
             let $edit = $(this).closest('.edit');
-            $edit.find(".editSketch").css("display", "block");
-            $edit.find(".editButton").css("display", "none");
+            $edit.find(".editcomment").show();
+            $edit.find(".editButton").hide();
+            event.stopPropagation();
         });
 
         //edit class submitButton clicked
@@ -124,37 +153,37 @@ $(function(){
             let content = $edit.attr("content");
             let content_number = $edit.attr("content_number");
 
-            //submit proof sketch
+            //submit proof comment
             $.ajax({
-                url: '/article/sketch/',
+                url: '/article/data/comment/',
                 type: 'POST',
                 dataType: 'text',
                 data: {
                     'content': content,
-                    'id': file_name,
+                    'id': article_name,
                     'content_number': content_number,
-                    'sketch': $edit.find(".sketchTextarea").val()
+                    'comment': $edit.find(".commentTextarea").val()
                 },
             }).done(function(data) {
-                $edit.find(".editSketch").css("display", "none");
-                $edit.find(".editButton").css("display", "inline");
+                $edit.find(".editcomment").hide();
+                $edit.find(".editButton").show();
                 //get proof setch
-                $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+                $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
                 }
                 ).done(function(){
-                    sketch_preview($edit);
+                    comment_preview($edit);
                 }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                    $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
-                    sketch_preview($edit);
+                    $edit.find(".commentTextarea").val(`failed to fetch error:${textStatus}`);
+                    comment_preview($edit);
                     alert(
                         `error : status->${textStatus}
-                        failed to get the sketch from server`
+                        failed to get the comment from server`
                     );
                 });
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                sketch_preview($edit);
+                comment_preview($edit);
                 alert(
                     `error : status->${textStatus}
                     !!!Not yet saved!!!`
@@ -168,32 +197,32 @@ $(function(){
             let $edit = $(this).closest('.edit');
             let content = $edit.attr("content");
             let content_number = $edit.attr("content_number");
-            $edit.find(".editSketch").css("display", "none");
-            $edit.find(".editButton").css("display", "inline");
-            //get proof sketch
-            $.getJSON(`/article/data/${file_name.split(".")[0]}`,
+            $edit.find(".editcomment").hide();
+            $edit.find(".editButton").show();
+            //get proof comment
+            $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".sketchTextarea").val(data["sketches"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
                 }
             ).done(function(){
-                sketch_preview($edit);
+                comment_preview($edit);
             }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $edit.find(".sketchTextarea").val(`failed to fetch error:${textStatus}`);
-                sketch_preview($edit);
+                $edit.find(".commentTextarea").val(`failed to fetch error:${textStatus}`);
+                comment_preview($edit);
                 alert(
                     `error : status->${textStatus}
-                    failed to get the sketch from server`
+                    failed to get the comment from server`
                 );
             });
             
         });
         //edit class previewButton clicked
         $article.contents().find('div').on( "click", '.previewButton', function(){
-            sketch_preview($(this).closest(".edit"));
+            comment_preview($(this).closest(".edit"));
         });
-        //edit class sketchTextarea changed
-        $article.contents().find('div').on( "input", '.sketchTextarea', function(){
-            sketch_preview($(this).closest('.edit'));
+        //edit class commentTextarea changed
+        $article.contents().find('div').on( "input", '.commentTextarea', function(){
+            comment_preview($(this).closest('.edit'));
         });
     }
 

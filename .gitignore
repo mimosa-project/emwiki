@@ -1,8 +1,10 @@
-#HTML_mizar files
+#mizar files
 mizar_html/
+mml/
 
-#Mizar_proof_sketches
-mizar_sketch/
+#Mizar_proof_comments
+comment/
+commentedMizar/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -3,12 +3,12 @@ body {
 
 }
 
-.sketchPreview {
+.commentPreview .math{
     color: black;
     background-color: f0f0f0;
 }
 
-.sketchTextarea {
+.commentTextarea {
     padding: 5px 8px;
     border-radius: 6px;
     border-top: 1px solid #aaa;
@@ -17,8 +17,10 @@ body {
     border-bottom: 2px solid #aaa;
     background-image: none;
     background-color: white;
-    width: 100%;
+    width: auto;
     height: 200px;
+    white-space: wrap;
+    resize: vertical;
 }
 
 .submitButton {
