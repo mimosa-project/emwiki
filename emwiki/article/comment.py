@@ -32,6 +32,45 @@ def push_comment(article_name):
     with open(commented_mizar_path, "w", encoding="utf-8") as f:
         f.write(commented_mizar)
 
+def read_comment(mizar_string):
+    """read comment in mizar string
+    
+    Args:
+        mizar_string (string): string of mizar file
+    
+    Returns:
+        dict: comments dictionary like {
+                                            'theorem': {1: "comment text theorem_1", 2: "comment text theorem_2", 3...}
+                                            'definition': {1: "", 2: "", 3...}
+                                            ...
+                                        }
+    """ 
+    comments = dict([[block, {}] for block in list(TARGET_BLOCK)])
+    mizar_lines = mizar_string.splitlines()
+    push_pattern = re.compile(f'(\\s*){COMMENT_HEADER}(?P<comment>.*)')
+    comment_location_stack = find_block(mizar_string)
+    while len(comment_location_stack):
+        line_number = comment_location_stack.pop(-1)
+        block = comment_location_stack.pop(-1)
+        comment_number = comment_location_stack.pop(-1)
+        comment_deque = deque()
+        start = line_number - 2
+        step = -1
+        if block == "proof":
+            start = line_number
+            step = 1
+        for line in mizar_lines[start::step]:
+            line_match = push_pattern.match(line)
+            if line_match:
+                if block == "proof":
+                    comment_deque.append(line_match.group("comment"))
+                else:
+                    comment_deque.appendleft(line_match.group("comment"))
+            else:
+                break
+        comment = '\n'.join(comment_deque)
+        comments[block][comment_number] = comment
+    return comments
 
 def write_comment(mizar_string, comments):
     """write comments to mizar string
@@ -118,7 +157,7 @@ def find_block(mizar_string):
 
 def save_comment(article_name, comments):
     """save comments
-
+    
     Args:
         article_name (string): article name ex."abcmiz_0"
         comments (dict): {
@@ -145,9 +184,11 @@ def format_comment(comment):
         string: a comment was formated
     """
     return_comment = ""
+    comment_stack = []
     for line in comment.splitlines():
         for cut_line in textwrap.wrap(line, LINE_MAX_LENGTH):
-            return_comment += f'{COMMENT_HEADER}{cut_line}\n'
+            comment_stack.append(f'{COMMENT_HEADER}{cut_line}')
+    return_comment = '\n'.join(comment_stack)
     return return_comment
 
 def fetch_comment(article_name):
