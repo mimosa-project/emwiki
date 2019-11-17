@@ -32,8 +32,8 @@ def make_commented_mizar(article_name):
         f.write(commented_mizar)
 
 
-def add_comment(mizar_string, comments):
-    """make mizar string written comments
+def write_comment(mizar_string, comments):
+    """write comments to mizar string
     
     Args:
         mizar_string (string): mizar file string
@@ -44,8 +44,32 @@ def add_comment(mizar_string, comments):
     Returns:
         String: string of mizar file whitten comment
     """
+    commented_mizar = ""
+    mizar_lines = mizar_string.splitlines()
+    comment_location_stack = find_block(mizar_string)
+    while len(comment_location_stack):
+        line_number = comment_location_stack.pop(-1)
+        block = comment_location_stack.pop(-1)
+        comment_number = comment_location_stack.pop(-1)
+        if comments[block].get(comment_number, "") == "":
+            continue
+        if block == "proof":
+            mizar_lines.insert(line_number, format_comment(comments[block][comment_number]))
+        else:
+            mizar_lines.insert(line_number - 1, format_comment(comments[block][comment_number]))
+    commented_mizar = '\n'.join(mizar_lines)
+    return commented_mizar
 
-    commented_mizar = ''
+def find_block(mizar_string):
+    """find block in  mizar file
+    
+    Args:
+        mizar_string (string): mizar string ex."abcmiz_0"
+
+    Returns:
+        list: comment location stack that is Combinations of <comment_number>, "<block>", and <line_number> are stacked in order from the top
+    """
+    comment_location_stack = []
     # To count the number of times each block appears
     count_dict = dict([[block, 0] for block in list(TARGET_BLOCK)])
     # this pattern match like "theorem", "  proof", "theorem :Th1:"
@@ -66,8 +90,7 @@ def add_comment(mizar_string, comments):
     )
     push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
     pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
-    for line in mizar_string.splitlines():
-        commented_mizar += f'{line}\n'
+    for line_number, line in enumerate(mizar_string.splitlines()):
         line = re.sub('::.*', "", line)
         target_match = target_pattern.match(line)
         push_list = push_pattern.findall(line)
@@ -87,6 +110,11 @@ def add_comment(mizar_string, comments):
             if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                 block = target_match.group('block')
                 count_dict[block] += 1
+                comment_location_stack.append(count_dict[block])
+                comment_location_stack.append(block)
+                comment_location_stack.append(line_number + 1)
+    return comment_location_stack
+
 def save_comment(article_name, comments):
     """save comments
 
