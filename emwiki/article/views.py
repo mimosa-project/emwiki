@@ -4,6 +4,7 @@ import glob
 from emwiki.settings import BASE_DIR
 from .comment import push_comment
 from .comment import pull_comment
+from .comment import save_comment
 from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
@@ -21,14 +22,11 @@ def render_article(request):
 
 def recieve_comment(request):
     file_name = request.POST.get('id', None)
-    content = request.POST.get('content', None)
-    content_number = request.POST.get("content_number", None)
+    block = request.POST.get('block', None)
+    comment_number = request.POST.get("comment_number", None)
+    comment = request.POST.get('comment', None)
     article_name = file_name
-    comment_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}')
-    if not os.path.exists(comment_path):
-        os.mkdir(comment_path)
-    with open(f'{comment_path}/{content}_{content_number}', "w") as f:
-        f.write(request.POST.get("comment", None))
+    save_comment(article_name, {block: {int(comment_number): comment}})
     return HttpResponse()
 
 
@@ -53,9 +51,9 @@ def send_comment(request, article_name):
     comments_path_list = glob.glob(comments_path + '*')
     for comment_path in comments_path_list:
         comment_name = os.path.basename(comment_path)
-        content, content_number = comment_name.split("_")
+        block, comment_number = comment_name.split("_")
         with open(comment_path, "r") as f:
-            return_json['comments'][content][int(content_number)] = f.read()
+            return_json['comments'][block][int(comment_number)] = f.read()
     return JsonResponse(return_json)
 
 

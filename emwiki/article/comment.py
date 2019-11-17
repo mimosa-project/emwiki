@@ -87,10 +87,24 @@ def add_comment(mizar_string, comments):
             if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                 block = target_match.group('block')
                 count_dict[block] += 1
-                if count_dict[block] in comments[block]:
-                    commented_mizar += format_comment(comments[block][count_dict[block]])
-    return commented_mizar
+def save_comment(article_name, comments):
+    """save comments
 
+    Args:
+        article_name (string): article name ex."abcmiz_0"
+        comments (dict): {
+                            'theorem': {1: "comment text theorem_1", 2: "comment text theorem_2", 3...}
+                            'definition': {1: "", 2: "", 3...}
+                            ...
+                        }
+    """
+    comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
+    for block in comments.keys():
+        for comment_number, comment in comments[block].items():
+            if not os.path.exists(comments_path):
+                os.mkdir(comments_path)
+            with open(os.path.join(comments_path, f'{block}_{comment_number}'), 'w') as f:
+                f.write(comment)
 
 def format_comment(comment):
     """format comment for adding comment to mizar file
