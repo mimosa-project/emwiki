@@ -107,7 +107,6 @@ def format_comment(comment):
             return_comment += f'{COMMENT_HEADER}{cut_line}\n'
     return return_comment
 
-
 def fetch_comment(article_name):
     """return comments dictionary
     
@@ -121,13 +120,12 @@ def fetch_comment(article_name):
                     }
     """
 
-    return_dict = {block: {} for block in TARGET_BLOCK}
+    comments = {block: {} for block in TARGET_BLOCK}
     comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
     comments_path_list = glob.glob(comments_path + '*')
-
     for comment_path in comments_path_list:
         comment_name = os.path.basename(comment_path)
-        content, content_number = comment_name.split(("_"))
+        block, comment_number = comment_name.split(("_"))
         with open(comment_path, "r", encoding="utf-8") as f:
-            return_dict[content][int(content_number)] = f.read()
-    return return_dict
+            comments[block][int(comment_number)] = f.read()
+    return comments
