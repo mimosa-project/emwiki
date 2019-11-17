@@ -2,7 +2,8 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from .comment import make_commented_mizar
+from .comment import push_comment
+from .comment import pull_comment
 from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
@@ -58,12 +59,22 @@ def send_comment(request, article_name):
     return JsonResponse(return_json)
 
 
-def apply_commentedmizar(request):
-    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
+def push_all_comment(request):
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
     file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
     file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
-    print("apply start")
+    print("push start")
     for article_name in file_list:
-        make_commented_mizar(article_name)
-    print("apply end")
+        push_comment(article_name)
+    print("push end")
+    return HttpResponse()
+
+def pull_all_comment(request):
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
+    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
+    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
+    print("pull start")
+    for article_name in file_list:
+        pull_comment(article_name)
+    print("pull end")
     return HttpResponse()
