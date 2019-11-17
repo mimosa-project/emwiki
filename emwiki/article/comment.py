@@ -3,6 +3,7 @@ import os
 import glob
 from emwiki.settings import BASE_DIR
 import textwrap
+from collections import deque
 
 TARGET_BLOCK = (
     "theorem",
@@ -16,18 +17,18 @@ COMMENT_HEADER = "::: "
 LINE_MAX_LENGTH = 75
 
 
-def make_commented_mizar(article_name):
-    """make commented mizar file
+def push_comment(article_name):
+    """push comment to mizar file
     
     Args:
         article_name (string): article name ex."abcmiz_0"
     """
-    print(article_name)
+    print(f'push -> {article_name}')
     mizar_path = os.path.join(BASE_DIR, f'static/mml/{article_name}.miz')
     commented_mizar_path = os.path.join(BASE_DIR, f'article/data/commentedMizar/{article_name}.miz')
     commented_mizar = ""
     with open(mizar_path, "r", encoding="utf-8") as f:
-        commented_mizar = add_comment(f.read(), fetch_comment(article_name))
+        commented_mizar = write_comment(f.read(), fetch_comment(article_name))
     with open(commented_mizar_path, "w", encoding="utf-8") as f:
         f.write(commented_mizar)
 
