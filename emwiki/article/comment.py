@@ -32,6 +32,18 @@ def push_comment(article_name):
     with open(commented_mizar_path, "w", encoding="utf-8") as f:
         f.write(commented_mizar)
 
+def pull_comment(article_name):
+    """pull comment from mizar file
+    
+    Args:
+        article_name (string): article name ex."abcmiz_0"
+    """
+    print(f'pull -> {article_name}')
+    mizar_path = os.path.join(BASE_DIR, f'static/mml/{article_name}.miz')
+    with open(mizar_path, 'r', encoding="utf-8") as f:
+        mizar_string = f.read()
+        save_comment(article_name, read_comment(mizar_string))
+
 def read_comment(mizar_string):
     """read comment in mizar string
     
