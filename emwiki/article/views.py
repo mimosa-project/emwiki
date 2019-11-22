@@ -2,8 +2,8 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from .comment import push_comment
-from .comment import pull_comment
+from .comment import embed_comment_to_file
+from .comment import extract_comment_to_file
 from .comment import save_comment
 from .comment import TARGET_BLOCK
 from django.http import HttpResponse
@@ -23,10 +23,10 @@ def render_article(request):
 def recieve_comment(request):
     file_name = request.POST.get('id', None)
     block = request.POST.get('block', None)
-    comment_number = request.POST.get("comment_number", None)
+    block_order = request.POST.get("block_order", None)
     comment = request.POST.get('comment', None)
     article_name = file_name
-    save_comment(article_name, {block: {int(comment_number): comment}})
+    save_comment(article_name, {block: {int(block_order): comment}})
     return HttpResponse()
 
 
@@ -51,9 +51,9 @@ def send_comment(request, article_name):
     comments_path_list = glob.glob(comments_path + '*')
     for comment_path in comments_path_list:
         comment_name = os.path.basename(comment_path)
-        block, comment_number = comment_name.split("_")
+        block, block_order = comment_name.split("_")
         with open(comment_path, "r") as f:
-            return_json['comments'][block][int(comment_number)] = f.read()
+            return_json['comments'][block][int(block_order)] = f.read()
     return JsonResponse(return_json)
 
 
@@ -63,9 +63,10 @@ def push_all_comment(request):
     file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
     print("push start")
     for article_name in file_list:
-        push_comment(article_name)
+        embed_comment_to_file(article_name)
     print("push end")
     return HttpResponse()
+
 
 def pull_all_comment(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
@@ -73,6 +74,6 @@ def pull_all_comment(request):
     file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
     print("pull start")
     for article_name in file_list:
-        pull_comment(article_name)
+        extract_comment_to_file(article_name)
     print("pull end")
     return HttpResponse()
