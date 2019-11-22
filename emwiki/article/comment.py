@@ -69,10 +69,10 @@ def extract_comment_to_dict(mizar_string):
         block_order = comment_location_dict["block_order"]
         line_number = comment_location_dict["line_number"]
         comment_deque = deque()
-        start = line_number - 2
+        start = line_number - 1
         step = -1
         if block == "proof":
-            start = line_number
+            start = line_number + 1
             step = 1
         for line in mizar_lines[start::step]:
             line_match = push_pattern.match(line)
@@ -112,9 +112,9 @@ def embed_comment_to_string(mizar_string, comments):
         if comments[block].get(block_order, "") == "":
             continue
         if block == "proof":
-            mizar_lines.insert(line_number, format_comment(comments[block][comment_number]))
+            mizar_lines.insert(line_number + 1, format_comment(comments[block][block_order]))
         else:
-            mizar_lines.insert(line_number - 1, format_comment(comments[block][comment_number]))
+            mizar_lines.insert(line_number, format_comment(comments[block][block_order]))
     commented_mizar = '\n'.join(mizar_lines)
     return commented_mizar
 
@@ -129,7 +129,7 @@ def find_block(mizar_string):
         list: comment location list like [{
                                     "block": "theorem",
                                     "block_order": 3,
-                                    "line_number": 12
+                                    "line_number": 12(0 origin)
                                   },
                                   {}...
     """
