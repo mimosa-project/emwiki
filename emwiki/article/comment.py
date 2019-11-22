@@ -196,6 +196,8 @@ def save_comment(article_name, comments):
     comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
     for block in comments.keys():
         for block_order, comment in comments[block].items():
+            if comment == "":
+                continue
             if not os.path.exists(comments_path):
                 os.mkdir(comments_path)
             with open(os.path.join(comments_path, f'{block}_{block_order}'), 'w') as f:
