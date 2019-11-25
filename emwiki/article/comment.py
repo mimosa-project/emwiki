@@ -18,7 +18,7 @@ LINE_MAX_LENGTH = 75
 
 
 def embed_comment_to_file(article_name):
-    """push comment to mizar file
+    """embed comment to mizar file
     
     Args:
         article_name (string): article name ex."abcmiz_0"
@@ -34,7 +34,7 @@ def embed_comment_to_file(article_name):
 
 
 def extract_comment_to_file(article_name):
-    """pull comment from mizar file
+    """extract comment in mizar to comment file
     
     Args:
         article_name (string): article name ex."abcmiz_0"
@@ -47,7 +47,7 @@ def extract_comment_to_file(article_name):
 
 
 def extract_comment_to_dict(mizar_string):
-    """read comment in mizar string
+    """extract comment in mizar string
     
     Args:
         mizar_string (string): string of mizar file
@@ -58,7 +58,7 @@ def extract_comment_to_dict(mizar_string):
                                             'definition': {1: "", 2: "", 3...}
                                             ...
                                         }
-    """ 
+    """
     comments = dict([[block, {}] for block in list(TARGET_BLOCK)])
     mizar_lines = mizar_string.splitlines()
     push_pattern = re.compile(f'(\\s*){COMMENT_HEADER}(?P<comment>.*)')
@@ -69,6 +69,8 @@ def extract_comment_to_dict(mizar_string):
         block_order = comment_location_dict["block_order"]
         line_number = comment_location_dict["line_number"]
         comment_deque = deque()
+        # Except for "proof", the comment is written before block,
+        # but in "proof", the comment is written after block
         start = line_number - 1
         step = -1
         if block == "proof":
@@ -89,7 +91,7 @@ def extract_comment_to_dict(mizar_string):
 
 
 def embed_comment_to_string(mizar_string, comments):
-    """write comments to mizar string
+    """embed comments to mizar string
     
     Args:
         mizar_string (string): mizar file string
@@ -223,7 +225,7 @@ def format_comment(comment):
 
 
 def convert_commentfile_to_dict(article_name):
-    """return comments dictionary
+    """convert comments file to dictionary
     
     Args:
         article_name (String): miz file name like "abcmiz_0"
