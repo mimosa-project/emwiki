@@ -18,7 +18,7 @@ $(function(){
         //config MathJax
         let iframe_MathJax = $article[0].contentWindow.MathJax;
         iframe_MathJax.Hub.Config({
-            'HTML-CSS': {scale: 150}
+            'HTML-CSS': {scale: 100}
         });
         
         let file_path = $article[0].contentDocument.location.pathname;
