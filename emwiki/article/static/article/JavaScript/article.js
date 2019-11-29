@@ -1,6 +1,13 @@
 $(function(){
     let $article = $('#article');
 
+    //setup select2
+    $('#article-select').select2();
+    $("#article-select").change(function() {
+        console.log("changed");
+        $('#article')[0].contentWindow.location.replace("/static/mizar_html/" + $(this).val() + ".html");
+    });
+    
     $("#article").on( 'load',function(){
         //add base directory
         $article.contents().find("head").prepend("<base href='/static/mizar_html/'/>");
