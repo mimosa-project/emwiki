@@ -1,11 +1,12 @@
 body {
     margin-left: 30px;
-
+    font-size: 120%;
+    font-family: consolas;
 }
 
-.commentPreview .math{
-    color: black;
-    background-color: f0f0f0;
+.commentPreview{
+    color: #33da00;
+    background-color: grey;
 }
 
 .commentTextarea {
