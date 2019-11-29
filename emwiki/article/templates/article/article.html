@@ -19,23 +19,31 @@
         <link rel='stylesheet' href="{% static 'article/CSS/article.css' %}" type='text/css'></link>
     </head>
     <body>
-        <header>
-            <h1>emwiki<a href="/article/data/commentedmizar" target="article">apply</a></h1>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">emwiki</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
-        </header>
-        <div class="row">
-        <div class="sidebar">
-            <ui>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/static/optional/start.html" target="article">Start <span class="sr-only">(current)</span></a>
+                </li>
+                </ul>
+                <select id="article-select" class="nav-item mr-sm-2 h-100 w-25">
                 {% for file_name in file_list %}
-                    <li><a href="/static/mizar_html/{{file_name}}" target="article">{{ file_name }}</a></li>
+                    <option value="{{ file_name }}">{{ file_name }}</option>>
                 {% endfor %}
-            </ui>
-        </div>
-        <div class="contents">
-            <div id='file_name'>
+                </select>
             </div>
-            <iframe id='article' name="article" src="/static/{{ file_path }}"></iframe>
-        </div>
-        </div>
+        </nav>
+            
+        <main role="main" class="container-fluid h-100">
+            <div id='file_name'></div>
+            <iframe id='article' name="article" src="/static/{{ file_path }}"></iframe>   
+        </main><!-- /.container -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
     </body>
 </html>
