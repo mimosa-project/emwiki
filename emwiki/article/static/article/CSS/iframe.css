@@ -84,22 +84,22 @@ body {
     transform: translateY(-0.5vh);
 }
 
-.editButton[content="theorem"] {
+.editButton[block="theorem"] {
     background-color: darkgreen;
 }
-.editButton[content="definition"] {
+.editButton[block="definition"] {
     background-color: darkred;
 }
-.editButton[content="proof"] {
+.editButton[block="proof"] {
     background-color: darkgray;
 }
-.editButton[content="registration"] {
+.editButton[block="registration"] {
     background-color: darkorange;
 }
-.editButton[content="scheme"] {
+.editButton[block="scheme"] {
     background-color: darkmagenta;
 }
-.editButton[content="notation"] {
+.editButton[block="notation"] {
     background-color: darkturquoise;
 }
 

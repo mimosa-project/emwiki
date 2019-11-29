@@ -130,20 +130,20 @@ $(function(){
                     $edit = $(target).prev();
                 }
                 target_object[target_name].push($edit);
-                $edit.attr("content", target_name);
-                $edit.attr("content_number", target_object[target_name].length);
-                $edit.find(".editButton").attr("content", target_name);
+                $edit.attr("block", target_name);
+                $edit.attr("block_order", target_object[target_name].length);
+                $edit.find(".editButton").attr("block", target_name);
             }
         });
 
         //add comment
         $.getJSON(`/article/data/comment/${article_name}`, function (data, textStatus, jqXHR) {
-            for(let content in data["comments"]){
-                for(let content_number in data["comments"][content]){
+            for(let block in data["comments"]){
+                for(let block_order in data["comments"][block]){
                     $target = $article.contents().find(`
-                        .edit[content="${content}"][content_number="${content_number}"]
+                        .edit[block="${block}"][block_order="${block_order}"]
                     `);
-                    $target.find(".commentTextarea").text(data["comments"][content][content_number]);
+                    $target.find(".commentTextarea").text(data["comments"][block][block_order]);
                     comment_preview($target, false);
                 }
             }
@@ -165,18 +165,17 @@ $(function(){
         //edit class submitButton clicked
         $article.contents().find('div').on( "click", '.submitButton', function(){
             let $edit = $(this).closest('.edit');
-            let content = $edit.attr("content");
-            let content_number = $edit.attr("content_number");
-
+            let block = $edit.attr("block");
+            let block_order = $edit.attr("block_order");
             //submit proof comment
             $.ajax({
                 url: '/article/data/comment/',
                 type: 'POST',
                 dataType: 'text',
                 data: {
-                    'content': content,
+                    'block': block,
                     'id': article_name,
-                    'content_number': content_number,
+                    'block_order': block_order,
                     'comment': $edit.find(".commentTextarea").val()
                 },
             }).done(function(data) {
@@ -185,7 +184,7 @@ $(function(){
                 //get proof setch
                 $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][block][block_order]);
                 }
                 ).done(function(){
                     comment_preview($edit);
@@ -210,14 +209,14 @@ $(function(){
         //edit class cancelButton clicked
         $article.contents().find('div').on( "click", '.cancelButton', function(){
             let $edit = $(this).closest('.edit');
-            let content = $edit.attr("content");
-            let content_number = $edit.attr("content_number");
+            let block = $edit.attr("block");
+            let block_order = $edit.attr("block_order");
             $edit.find(".editcomment").hide();
             $edit.find(".editButton").show();
             //get proof comment
             $.getJSON(`/article/data/comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["comments"][content][content_number]);
+                    $edit.find(".commentTextarea").val(data["comments"][block][block_order]);
                 }
             ).done(function(){
                 comment_preview($edit);

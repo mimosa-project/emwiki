@@ -2,7 +2,9 @@ from django.shortcuts import render
 import os
 import glob
 from emwiki.settings import BASE_DIR
-from .comment import make_commented_mizar
+from .comment import embed_comment_to_file
+from .comment import extract_comment_to_file
+from .comment import save_comment
 from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
@@ -21,14 +23,11 @@ def render_article(request):
 
 def recieve_comment(request):
     file_name = request.POST.get('id', None)
-    content = request.POST.get('content', None)
-    content_number = request.POST.get("content_number", None)
+    block = request.POST.get('block', None)
+    block_order = request.POST.get("block_order", None)
+    comment = request.POST.get('comment', None)
     article_name = file_name
-    comment_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}')
-    if not os.path.exists(comment_path):
-        os.mkdir(comment_path)
-    with open(f'{comment_path}/{content}_{content_number}', "w") as f:
-        f.write(request.POST.get("comment", None))
+    save_comment(article_name, {block: {int(block_order): comment}})
     return HttpResponse()
 
 
@@ -53,18 +52,29 @@ def send_comment(request, article_name):
     comments_path_list = glob.glob(comments_path + '*')
     for comment_path in comments_path_list:
         comment_name = os.path.basename(comment_path)
-        content, content_number = comment_name.split("_")
+        block, block_order = comment_name.split("_")
         with open(comment_path, "r") as f:
-            return_json['comments'][content][int(content_number)] = f.read()
+            return_json['comments'][block][int(block_order)] = f.read()
     return JsonResponse(return_json)
 
 
-def apply_commentedmizar(request):
-    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
+def push_all_comment(request):
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
     file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
     file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
-    print("apply start")
+    print("push start")
     for article_name in file_list:
-        make_commented_mizar(article_name)
-    print("apply end")
+        embed_comment_to_file(article_name)
+    print("push end")
+    return HttpResponse()
+
+
+def pull_all_comment(request):
+    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
+    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
+    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
+    print("pull start")
+    for article_name in file_list:
+        extract_comment_to_file(article_name)
+    print("pull end")
     return HttpResponse()
