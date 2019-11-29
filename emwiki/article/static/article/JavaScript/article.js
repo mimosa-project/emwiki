@@ -11,8 +11,16 @@ $(function(){
     $("#article").on( 'load',function(){
         //add base directory
         $article.contents().find("head").prepend("<base href='/static/mizar_html/'/>");
+        
         //add iframe.css
         $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
+        
+        //config MathJax
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
+        iframe_MathJax.Hub.Config({
+            'HTML-CSS': {scale: 150}
+        });
+        
         let file_path = $article[0].contentDocument.location.pathname;
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         add_emwiki_components($article);
@@ -54,7 +62,7 @@ $(function(){
             }
         }
         //return html;
-        return `<p>$${commentText}$</p>`
+        return `<p>${commentText}</p>`
     }
     function add_emwiki_components(){
         //current file path in static folder
