@@ -86,8 +86,10 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
-            <button type='button' class='editButton'>+</button>
+            <div class='commentPreviewWrapper'>
             <div class='commentPreview mathjax' style='display:block'></div>
+            </div>
+            <button type='button' class='editButton'>+</button>
             <div class='editcomment' style='display:none'>
                 <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
                 <div class='toolbar'>
