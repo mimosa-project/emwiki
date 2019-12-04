@@ -4,9 +4,11 @@ body {
     font-family: consolas;
 }
 
-.commentPreview{
-    color: #33da00;
-    background-color: grey;
+.commentPreviewWrapper{
+    background-color: #e6ffed;
+    padding: 7px;
+    border-left: solid 30px #cdffd8;
+    transform: translateX(-30px);
 }
 
 .commentTextarea {
