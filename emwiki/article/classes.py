@@ -130,9 +130,9 @@ class Article():
             if not comment:
                 continue
             if block == "proof":
-                mizar_lines.insert(line_number + 1, comment.format_comment())
+                mizar_lines.insert(line_number + 1, comment.format_text())
             else:
-                mizar_lines.insert(line_number, comment.format_comment())
+                mizar_lines.insert(line_number, comment.format_text())
         commented_mizar = '\n'.join(mizar_lines)
         with open(self.mml_commented_path, "w", encoding="utf-8") as f:
             f.write(commented_mizar)
