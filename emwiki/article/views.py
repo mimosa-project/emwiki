@@ -1,14 +1,9 @@
 from django.shortcuts import render
-import os
-import glob
-from emwiki.settings import BASE_DIR
-from .comment import embed_comment_to_file
-from .comment import extract_comment_to_file
-from .comment import save_comment
-from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from classes import Article
+from classes import Comment
 
 
 @ensure_csrf_cookie
