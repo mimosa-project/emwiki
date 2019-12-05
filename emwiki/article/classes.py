@@ -54,7 +54,7 @@ class Article():
 
 
 class Comment():
-    COMMENT_HEADER = "::: "
+    HEADER = "::: "
     LINE_MAX_LENGTH = 75
     COMMENT_DIR = "article/data/comment/"
 
