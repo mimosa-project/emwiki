@@ -17,7 +17,7 @@ class Article():
     )
     HTML_DIR = "static/mizar_html/"
     MML_DIR = "static/mml/"
-    MML_COMMENTED_DIR = "data/commentedMizar/"
+    MML_COMMENTED_DIR = "article/data/commentedMizar/"
 
     def __init__(self, name):
         self.name = name
