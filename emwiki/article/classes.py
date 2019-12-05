@@ -235,5 +235,5 @@ class Comment():
         comment_lines = []
         for line in self.text.splitlines():
             for cut_line in textwrap.wrap(line, self.LINE_MAX_LENGTH):
-                comment_lines.append(f'{self.COMMENT_HEADER}{cut_line}')
+                comment_lines.append(f'{self.HEADER}{cut_line}')
         return '\n'.join(comment_lines)
