@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from classes import Article
-from classes import Comment
+from .classes import Article
+from .classes import Comment
 
 
 @ensure_csrf_cookie
