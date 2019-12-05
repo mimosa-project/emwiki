@@ -118,16 +118,17 @@ class Article():
     def embed(self):
         """embed comments to mizar string
         """
+        print(f"embed {self.name}")
         commented_mizar = ""
         mizar_lines = self.miz().splitlines()
-        comment_location_list = self.find_block(self.miz())
+        comment_location_list = self.find_block()
         while len(comment_location_list):
             comment_location_dict = comment_location_list.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
             comment = self.comment(block, block_order)
-            if not comment:
+            if not comment or comment.text == "":
                 continue
             if block == "proof":
                 mizar_lines.insert(line_number + 1, comment.format_text())
@@ -140,6 +141,7 @@ class Article():
     def extract(self):
         """extract comment in mizar string
         """
+        print(f"extract {self.name}")
         mizar_lines = self.miz().splitlines()
         push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
         comment_location_list = self.find_block()
