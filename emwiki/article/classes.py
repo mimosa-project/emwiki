@@ -131,7 +131,45 @@ class Article():
             f.write(commented_mizar)
 
     def extract(self):
-        pass
+        """extract comment in mizar string
+        
+        Args:
+            mizar_string (string): string of mizar file
+        
+        Returns:
+            dict: comments dictionary like {
+                                                'theorem': {1: "comment text theorem_1", 2: "comment text theorem_2", 3...}
+                                                'definition': {1: "", 2: "", 3...}
+                                                ...
+                                            }
+        """
+        mizar_lines = self.miz().splitlines()
+        push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
+        comment_location_list = self.find_block()
+        while len(comment_location_list):
+            comment_location_dict = comment_location_list.pop(-1)
+            block = comment_location_dict["block"]
+            block_order = comment_location_dict["block_order"]
+            line_number = comment_location_dict["line_number"]
+            comment_deque = deque()
+            # Except for "proof", the comment is written before block,
+            # but in "proof", the comment is written after block
+            start = line_number - 1
+            step = -1
+            if block == "proof":
+                start = line_number + 1
+                step = 1
+            for line in mizar_lines[start::step]:
+                line_match = push_pattern.match(line)
+                if line_match:
+                    if block == "proof":
+                        comment_deque.append(line_match.group("comment"))
+                    else:
+                        comment_deque.appendleft(line_match.group("comment"))
+                else:
+                    break
+            comment = Comment(self.name, block, block_order, '\n'.join(comment_deque))
+            comment.save()
 
     def comments(self):
         """convert comments file to dictionary
