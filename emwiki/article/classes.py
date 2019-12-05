@@ -47,7 +47,20 @@ class Article():
         pass
 
     def comments(self):
-        pass
+        """convert comments file to dictionary
+        
+        Returns:
+            list: Comment list [Comment, Comment, ...]
+        """
+
+        comments = []
+        comments_path_list = glob.glob(os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, "*"))
+        for comment_path in comments_path_list:
+            comment_name = os.path.basename(comment_path)
+            block, block_order = comment_name.split("_")
+            with open(comment_path, "r", encoding="utf-8") as f:
+                comments.append(Comment(self.name, block, block_order, f.read()))
+        return comments
 
     def comment(self, block, order):
         comment_path = os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, f'{block}_{order}')
