@@ -15,6 +15,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 def render_article(request):
     file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
     file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
+    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
     file_path = 'optional/start.html'
     context = {'file_path': file_path, 'file_list': file_list}
     return render(request, 'article/article.html', context)
