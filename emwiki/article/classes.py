@@ -17,11 +17,13 @@ class Article():
     )
     HTML_DIR = "static/mizar_html/"
     MML_DIR = "static/mml/"
+    MML_COMMENTED_DIR = "data/commentedMizar/"
 
     def __init__(self, name):
         self.name = name
         self.html_path = os.path.join(BASE_DIR, self.HTML_DIR, f"{name}.html")
         self.mml_path = os.path.join(BASE_DIR, self.HTML_DIR, f"{name}.miz")
+        self.mml_commented_path = os.path.join(BASE_DIR, self.MML_COMMENTED_DIR, f'{name}.miz')
 
     @classmethod
     def all_names(cls):
