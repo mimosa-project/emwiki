@@ -40,6 +40,65 @@ class Article():
         with open(self.mml_path, "r") as f:
             return f.read()
 
+    def find_block(self):
+        """find block in  mizar file
+
+        Returns:
+            list: comment location list like [{
+                                        "block": "theorem",
+                                        "block_order": 3,
+                                        "line_number": 12(0 origin)
+                                    },
+                                    {}...
+        """
+        comment_location_list = []
+        # To count the number of times each block appears
+        count_dict = dict([[block, 0] for block in list(self.TARGET_BLOCK)])
+        # this pattern match like "theorem", "  proof", "theorem :Th1:"
+        target_pattern = re.compile(f"([^a-zA-Z_]|^)+(?P<block>{'|'.join(self.TARGET_BLOCK)})([^a-zA-Z_]|$)")
+        # stack block keyword like ["definition", "proof", "proof"]
+        # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
+        block_stack = []
+        push_keywords = (
+            "definition",
+            "registration",
+            "notation",
+            "scheme",
+            "case",
+            "suppose",
+            "hereby",
+            "now",
+            "proof",
+        )
+        push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
+        pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
+        for line_number, line in enumerate(self.miz().splitlines()):
+            line = re.sub('::.*', "", line)
+            target_match = target_pattern.match(line)
+            push_list = push_pattern.findall(line)
+            pop_list = pop_pattern.findall(line)
+            if len(block_stack) > 0 and block_stack[-1] == "scheme" and re.search("(proof)|;", line):
+                block_stack.append("proof")
+                target_match = re.match("(?P<block>proof)", "proof")
+            elif push_list:
+                for block in push_list:
+                    block_stack.append(block)
+            if pop_list:
+                if len(block_stack) > 0 and block_stack[-2:-1] == ["scheme", "proof"]:
+                    block_stack.pop(-1)
+                for block in pop_list:
+                    block_stack.pop(-1)
+            if target_match:
+                if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
+                    block = target_match.group('block')
+                    count_dict[block] += 1
+                    comment_location_list.append({
+                        "block": block,
+                        "block_order": count_dict[block],
+                        "line_number": line_number
+                    })
+        return comment_location_list
+
     def embed(self):
         pass
 
