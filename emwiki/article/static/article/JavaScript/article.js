@@ -1,11 +1,26 @@
 $(function(){
     let $article = $('#article');
 
+    //setup select2
+    $('#article-select').select2();
+    $("#article-select").change(function() {
+        console.log("changed");
+        $('#article')[0].contentWindow.location.replace("/static/mizar_html/" + $(this).val() + ".html");
+    });
+    
     $("#article").on( 'load',function(){
         //add base directory
         $article.contents().find("head").prepend("<base href='/static/mizar_html/'/>");
+        
         //add iframe.css
         $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
+        
+        //config MathJax
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
+        iframe_MathJax.Hub.Config({
+            'HTML-CSS': {scale: 100}
+        });
+        
         let file_path = $article[0].contentDocument.location.pathname;
         let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         add_emwiki_components($article);
@@ -47,7 +62,7 @@ $(function(){
             }
         }
         //return html;
-        return `<p>$${commentText}$</p>`
+        return `<p>${commentText}</p>`
     }
     function add_emwiki_components(){
         //current file path in static folder
@@ -71,8 +86,10 @@ $(function(){
 
         let editHTML = 
         `<span class='edit'>
-            <button type='button' class='editButton'>+</button>
+            <div class='commentPreviewWrapper'>
             <div class='commentPreview mathjax' style='display:block'></div>
+            </div>
+            <button type='button' class='editButton'>+</button>
             <div class='editcomment' style='display:none'>
                 <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
                 <div class='toolbar'>

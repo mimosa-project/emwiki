@@ -1,11 +1,14 @@
 body {
     margin-left: 30px;
-
+    font-size: 120%;
+    font-family: consolas;
 }
 
-.commentPreview .math{
-    color: black;
-    background-color: f0f0f0;
+.commentPreviewWrapper{
+    background-color: #e6ffed;
+    padding: 7px;
+    border-left: solid 30px #cdffd8;
+    transform: translateX(-30px);
 }
 
 .commentTextarea {
@@ -71,55 +74,28 @@ body {
 .editButton {
     display: inline-block;
     text-decoration: none;
-    color: white;
+    color: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
     border: none;
     border-radius: 20%;
     transition: .4s;
     position: absolute;
     text-align: center;
     left: -0;
-    width: 1.8em;
-    height: 1.5em;
-    transform: translateY(-0.5vh);
+    width: 1.5rem;
+    height: 1.5rem;
+    transform: translateY(-20px);
+    font-size: 1.4rem;
 }
 
-.editButton[block="theorem"] {
-    background-color: darkgreen;
-}
-.editButton[block="definition"] {
-    background-color: darkred;
-}
-.editButton[block="proof"] {
-    background-color: darkgray;
-}
-.editButton[block="registration"] {
-    background-color: darkorange;
-}
-.editButton[block="scheme"] {
-    background-color: darkmagenta;
-}
-.editButton[block="notation"] {
-    background-color: darkturquoise;
+.commentPreviewWrapper:hover + .editButton, .editButton:hover{
+    background-color: #0366d6;
+    color: white;
 }
 
 .editButton:hover {
-    background: white;
-    color: black;
-    border: solid 2px #b4b4b4;
-}
-
-
-
-.editButtonbsk {
-    text-decoration: none;
-    color: #668ad8;
-    border-radius: 20%;
-    border: solid 2px #668ad8;
-    overflow: hidden;
-    font-weight: bold;
     transition: .4s;
-  }
-  
-  .editButtonbsk:hover {
-    background: #b3e1ff;
-  }
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 1.6rem;
+}
