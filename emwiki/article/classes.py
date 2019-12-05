@@ -27,6 +27,11 @@ class Article():
 
     @classmethod
     def all_names(cls):
+        """return tuple of all Article name
+        
+        Returns:
+            tuple: ["abcmiz_0", "abcmiz_1", ...]
+        """
         absolute_path_list = glob.glob(os.path.join(BASE_DIR, cls.MML_DIR, f"*.miz"))
         basename_list = [os.path.basename(absolute_path) for absolute_path in absolute_path_list]
         name_tuple = tuple([os.path.splitext(extention_name)[0] for extention_name in basename_list])
@@ -34,10 +39,20 @@ class Article():
 
     @classmethod
     def all(cls):
+        """return tuple of all Article
+        
+        Returns:
+            tuple: [Article, Article, ...]
+        """
         Article_tuple = tuple([Article(name) for name in cls.all_names()])
         return Article_tuple
 
     def miz(self):
+        """return mml string
+        
+        Returns:
+            string: mml string
+        """
         with open(self.mml_path, "r") as f:
             return f.read()
 
@@ -102,15 +117,6 @@ class Article():
 
     def embed(self):
         """embed comments to mizar string
-        
-        Args:
-            mizar_string (string): mizar file string
-            comments (dictionary): {"TARGET_BLOCK": {1: "comment text", 2, ...}
-                                    ...
-                                }
-        
-        Returns:
-            String: string of mizar file written comment
         """
         commented_mizar = ""
         mizar_lines = self.miz().splitlines()
@@ -133,16 +139,6 @@ class Article():
 
     def extract(self):
         """extract comment in mizar string
-        
-        Args:
-            mizar_string (string): string of mizar file
-        
-        Returns:
-            dict: comments dictionary like {
-                                                'theorem': {1: "comment text theorem_1", 2: "comment text theorem_2", 3...}
-                                                'definition': {1: "", 2: "", 3...}
-                                                ...
-                                            }
         """
         mizar_lines = self.miz().splitlines()
         push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
@@ -189,6 +185,16 @@ class Article():
         return comments
 
     def comment(self, block, order):
+        """return ordered comment in self article
+        
+        Args:
+            block (string): comment block
+            order (int): comment order
+        
+        Returns:
+            Comment: if (not exist file) or (exist file but text is ""): return False
+                     else: return Comment
+        """
         comment_path = os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, f'{block}_{order}')
         if os.path.exists(comment_path):
             with open(comment_path, "r", encoding="utf-8") as f:
@@ -212,6 +218,8 @@ class Comment():
         self.text = text
 
     def save(self):
+        """save comment
+        """
         if not os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)):
             os.mkdir(os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)))
         if not self.text == "":
@@ -219,6 +227,11 @@ class Comment():
                 f.write(self.text)
 
     def format_text(self):
+        """format comment text
+        
+        Returns:
+            string: format comment text
+        """
         comment_lines = []
         for line in self.text.splitlines():
             for cut_line in textwrap.wrap(line, self.LINE_MAX_LENGTH):
