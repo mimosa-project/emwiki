@@ -100,7 +100,35 @@ class Article():
         return comment_location_list
 
     def embed(self):
-        pass
+        """embed comments to mizar string
+        
+        Args:
+            mizar_string (string): mizar file string
+            comments (dictionary): {"TARGET_BLOCK": {1: "comment text", 2, ...}
+                                    ...
+                                }
+        
+        Returns:
+            String: string of mizar file written comment
+        """
+        commented_mizar = ""
+        mizar_lines = self.miz().splitlines()
+        comment_location_list = self.find_block(self.miz())
+        while len(comment_location_list):
+            comment_location_dict = comment_location_list.pop(-1)
+            block = comment_location_dict["block"]
+            block_order = comment_location_dict["block_order"]
+            line_number = comment_location_dict["line_number"]
+            comment = self.comment(block, block_order)
+            if not comment:
+                continue
+            if block == "proof":
+                mizar_lines.insert(line_number + 1, comment.format_comment())
+            else:
+                mizar_lines.insert(line_number, comment.format_comment())
+        commented_mizar = '\n'.join(mizar_lines)
+        with open(self.mml_commented_path, "w", encoding="utf-8") as f:
+            f.write(commented_mizar)
 
     def extract(self):
         pass
