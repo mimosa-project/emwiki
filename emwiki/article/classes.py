@@ -212,17 +212,17 @@ class Comment():
     COMMENT_DIR = "article/data/comment/"
 
     def __init__(self, article_name, block, order, text):
-        self.article_name = article_name
-        self.block = block
-        self.order = order
-        self.text = text
+        self.article_name = str(article_name)
+        self.block = str(block)
+        self.order = int(order)
+        self.text = str(text)
 
     def save(self):
         """save comment
         """
         if not os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)):
             os.mkdir(os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)))
-        if not self.text == "":
+        if self.text != "" or os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, f'{self.block}_{self.order}')):
             with open(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, f'{self.block}_{self.order}'), 'w') as f:
                 f.write(self.text)
 
