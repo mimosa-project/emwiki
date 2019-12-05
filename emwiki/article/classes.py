@@ -37,9 +37,6 @@ class Article():
         Article_tuple = tuple([Article(name) for name in cls.all_names()])
         return Article_tuple
 
-    def exist(self):
-        return self.name in self.all_names()
-
     def miz(self):
         with open(self.mml_path, "r") as f:
             return f.read()
