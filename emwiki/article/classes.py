@@ -1,6 +1,8 @@
 import glob
 import os
+import re
 import textwrap
+from collections import deque
 from emwiki.settings import BASE_DIR
 
 
