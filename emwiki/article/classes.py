@@ -49,8 +49,16 @@ class Article():
     def comments(self):
         pass
 
-    def comment(self, block, number):
-        pass
+    def comment(self, block, order):
+        comment_path = os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, f'{block}_{order}')
+        if os.path.exists(comment_path):
+            with open(comment_path, "r", encoding="utf-8") as f:
+                if f.read() == "":
+                    return False
+                else:
+                    return Comment(self.name, block, order, f.read())
+        else:
+            return False
 
 
 class Comment():
