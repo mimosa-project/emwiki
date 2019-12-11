@@ -21,16 +21,15 @@ class MizFile():
         self.text = ""
 
     @classmethod
-    def all_names(cls):
-        """return tuple of all Article name
+    def bundle_create(cls, dir):
+        """return tuple of all MizFile
         
         Returns:
-            tuple: ["abcmiz_0", "abcmiz_1", ...]
+            tuple: [MizFile, MizFile, ...]
         """
-        absolute_path_list = glob.glob(os.path.join(BASE_DIR, cls.MML_DIR, f"*.miz"))
-        basename_list = [os.path.basename(absolute_path) for absolute_path in absolute_path_list]
-        name_tuple = tuple([os.path.splitext(extention_name)[0] for extention_name in basename_list])
-        return name_tuple
+        mizfile_path_list = glob.glob(os.path.join(dir, "*"))
+        MizFile_list = [MizFile().load(path) for path in mizfile_path_list]
+        return MizFile_list
 
     @classmethod
     def all(cls):
