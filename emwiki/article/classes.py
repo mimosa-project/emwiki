@@ -40,16 +40,7 @@ class MizFile():
         with open(path, "w") as f:
             f.write(self.text)
 
-    def miz(self):
-        """return mml string
-        
-        Returns:
-            string: mml string
-        """
-        with open(self.mml_path, "r") as f:
-            return f.read()
-
-    def find_block(self):
+    def collect_comment_locations(self):
         """find block in  mizar file
 
         Returns:
@@ -60,7 +51,7 @@ class MizFile():
                                     },
                                     {}...
         """
-        comment_location_list = []
+        comment_locations = []
         # To count the number of times each block appears
         count_dict = dict([[block, 0] for block in list(self.TARGET_BLOCK)])
         # this pattern match like "theorem", "  proof", "theorem :Th1:"
@@ -101,12 +92,12 @@ class MizFile():
                 if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                     block = target_match.group('block')
                     count_dict[block] += 1
-                    comment_location_list.append({
+                    comment_locations.append({
                         "block": block,
                         "block_order": count_dict[block],
                         "line_number": line_number
                     })
-        return comment_location_list
+        return comment_locations
 
     def embed(self):
         """embed comments to mizar string
