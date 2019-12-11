@@ -99,28 +99,31 @@ class MizFile():
                     })
         return comment_locations
 
-    def embed(self):
+    def embed_comments(self, comments):
         """embed comments to mizar string
         """
         print(f"embed {self.name}")
         commented_mizar = ""
         mizar_lines = self.miz().splitlines()
         comment_location_list = self.find_block()
+        comment_dict = {block: {} for block in self.TARGET_BLOCK}
+        for block in comment_dict.keys():
+            comment_dict[block] = {comment.order: comment for comment in comments}
+        comment_dict = {f'{comment.block}_{comment.order}': comment for comment in comments}
         while len(comment_location_list):
             comment_location_dict = comment_location_list.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
-            comment = self.comment(block, block_order)
-            if not comment or comment.text == "":
+            comment = comment_dict[block].get(block_order, Comment())
+            if comment.text == "":
                 continue
             if block == "proof":
                 mizar_lines.insert(line_number + 1, comment.format_text())
             else:
                 mizar_lines.insert(line_number, comment.format_text())
         commented_mizar = '\n'.join(mizar_lines)
-        with open(self.mml_commented_path, "w", encoding="utf-8") as f:
-            f.write(commented_mizar)
+        self.text = commented_mizar
 
     def extract(self):
         """extract comment in mizar string
