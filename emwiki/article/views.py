@@ -2,8 +2,16 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from emwiki.settings import BASE_DIR
+import os
 from .classes import Article
 from .classes import Comment
+
+
+HTML_DIR = "static/mizar_html/"
+MML_DIR = "static/mml/"
+MML_COMMENTED_DIR = "article/data/commentedMizar/"
+COMMENT_DIR = "article/data/comment/"
 
 
 @ensure_csrf_cookie
