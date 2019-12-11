@@ -174,14 +174,19 @@ class Comment():
         self.order = 0
         self.text = ""
 
-    def save(self):
+    def load(self, path):
+        basename = os.path.basename(path)
+        self.article_name = os.path.splitext(basename)[0]
+        self.block, self.order = basename.split("_")
+        with open(path, "r") as f:
+            self.text = f.read()
+        return self
+
+    def save(self, path):
         """save comment
         """
-        if not os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)):
-            os.mkdir(os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)))
-        if self.text != "" or os.path.exists(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, f'{self.block}_{self.order}')):
-            with open(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, f'{self.block}_{self.order}'), 'w') as f:
-                f.write(self.text)
+        with open(path, 'w') as f:
+            f.write(self.text)
 
     def format_text(self):
         """format comment text
