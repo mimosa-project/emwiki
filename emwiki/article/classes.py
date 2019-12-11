@@ -31,15 +31,14 @@ class MizFile():
         MizFile_list = [MizFile().load(path) for path in mizfile_path_list]
         return MizFile_list
 
-    @classmethod
-    def all(cls):
-        """return tuple of all Article
-        
-        Returns:
-            tuple: [Article, Article, ...]
-        """
-        Article_tuple = tuple([Article(name) for name in cls.all_names()])
-        return Article_tuple
+    def load(self, path):
+        with open(path, "r") as f:
+            self.text = f.read()
+            self.name = os.path.splitext(os.path.basename(path))[0]
+
+    def save(self, path):
+        with open(path, "w") as f:
+            f.write(self.text)
 
     def miz(self):
         """return mml string
