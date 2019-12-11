@@ -188,6 +188,12 @@ class Comment():
         with open(path, 'w') as f:
             f.write(self.text)
 
+    @classmethod
+    def bundle_create(cls, dir):
+        path_list = glob.glob(os.path.join(dir, "*"))
+        comment_list = [Comment().load(path) for path in path_list]
+        return comment_list
+
     def format_text(self):
         """format comment text
         
