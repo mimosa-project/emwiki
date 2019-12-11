@@ -167,13 +167,12 @@ class MizFile():
 class Comment():
     HEADER = "::: "
     LINE_MAX_LENGTH = 75
-    COMMENT_DIR = "article/data/comment/"
 
-    def __init__(self, article_name, block, order, text):
-        self.article_name = str(article_name)
-        self.block = str(block)
-        self.order = int(order)
-        self.text = str(text)
+    def __init__(self, article):
+        self.article_name = article.name
+        self.block = ""
+        self.order = 0
+        self.text = ""
 
     def save(self):
         """save comment
