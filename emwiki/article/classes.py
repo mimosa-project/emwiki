@@ -125,13 +125,14 @@ class MizFile():
         commented_mizar = '\n'.join(mizar_lines)
         self.text = commented_mizar
 
-    def extract(self):
+    def extract_comments(self):
         """extract comment in mizar string
         """
         print(f"extract {self.name}")
         mizar_lines = self.miz().splitlines()
         push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
         comment_location_list = self.find_block()
+        comment_list = []
         while len(comment_location_list):
             comment_location_dict = comment_location_list.pop(-1)
             block = comment_location_dict["block"]
@@ -154,43 +155,13 @@ class MizFile():
                         comment_deque.appendleft(line_match.group("comment"))
                 else:
                     break
-            comment = Comment(self.name, block, block_order, '\n'.join(comment_deque))
-            comment.save()
-
-    def comments(self):
-        """convert comments file to dictionary
-        
-        Returns:
-            list: Comment list [Comment, Comment, ...]
-        """
-
-        comments = []
-        comments_path_list = glob.glob(os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, "*"))
-        for comment_path in comments_path_list:
-            comment_name = os.path.basename(comment_path)
-            block, block_order = comment_name.split("_")
-            with open(comment_path, "r", encoding="utf-8") as f:
-                comments.append(Comment(self.name, block, block_order, f.read()))
-        return comments
-
-    def comment(self, block, order):
-        """return ordered comment in self article
-        
-        Args:
-            block (string): comment block
-            order (int): comment order
-        
-        Returns:
-            Comment: if (not exist file) or (exist file but text is ""): return False
-                     else: return Comment
-        """
-        comment_path = os.path.join(BASE_DIR, Comment.COMMENT_DIR, self.name, f'{block}_{order}')
-        if os.path.exists(comment_path):
-            with open(comment_path, "r", encoding="utf-8") as f:
-                comment_text = f.read()
-                return Comment(self.name, block, order, comment_text)
-        else:
-            return False
+            comment = Comment()
+            comment.article_name = self.name
+            comment.block = block
+            comment.order = block_order
+            comment.text = '\n'.join(comment_deque)
+            comment_list.append(comment)
+        return comment_list
 
 
 class Comment():
