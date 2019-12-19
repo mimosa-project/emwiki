@@ -174,24 +174,28 @@ class Comment():
         self.text = ""
 
     def load(self, path):
+        """load comment from path
+        
+        Args:
+            path (path): path where comment exist
+        """
         basename = os.path.basename(path)
         self.article_name = os.path.splitext(basename)[0]
-        self.block, self.order = basename.split("_")
+        self.block, self.block_order = basename.split("_")
         with open(path, "r") as f:
             self.text = f.read()
         return self
 
     def save(self, path):
-        """save comment
+        """save comment to path
+
+        Args:
+            path (path): path where save comment
         """
+        if not os.path.exists(os.path.dirname(path)):
+            os.mkdir(os.path.dirname(path))
         with open(path, 'w') as f:
             f.write(self.text)
-
-    @classmethod
-    def bundle_create(cls, dir):
-        path_list = glob.glob(os.path.join(dir, "*"))
-        comment_list = [Comment().load(path) for path in path_list]
-        return comment_list
 
     def format_text(self):
         """format comment text
