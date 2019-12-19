@@ -2,10 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from emwiki.settings import BASE_DIR
-import os
-from .classes import Article
-from .classes import Comment
+from .classes import ArticleHandler
 
 
 HTML_DIR = "static/mizar_html/"
@@ -16,23 +13,25 @@ COMMENT_DIR = "article/data/comment/"
 
 @ensure_csrf_cookie
 def render_article(request):
-    file_list = Article.all_names()
+    file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_path = 'optional/start.html'
     context = {'file_path': file_path, 'file_list': file_list}
     return render(request, 'article/article.html', context)
 
 
-def recieve_comment(request):
+def update_comment(request):
     file_name = request.POST.get('id', None)
     block = request.POST.get('block', None)
     block_order = request.POST.get("block_order", None)
-    comment = request.POST.get('comment', None)
+    text = request.POST.get('comment', None)
     article_name = file_name
-    Comment(article_name, block, block_order, comment).save()
+    article_handler = ArticleHandler(article_name)
+    article_handler.store_comment(block, block_order, text)
+    article_handler.embed_comment_to_mml()
     return HttpResponse()
 
 
-def send_comment(request, article_name):
+def send_comment_to_template(request, article_name):
     """send comments using JSON
 
     Args:
@@ -48,23 +47,12 @@ def send_comment(request, article_name):
             ...
         }
     """
-    return_json = {'comments': {block: {} for block in Article.TARGET_BLOCK}}
-    for comment in Article(article_name).comments():
-        return_json['comments'][comment.block][comment.order] = comment.text
+    article_handler = ArticleHandler(article_name)
+    return_json = article_handler.get_comment_dict()
     return JsonResponse(return_json)
 
 
-def push_all_comment(request):
-    print("push start")
-    for article in Article.all():
-        article.embed()
-    print("push end")
-    return HttpResponse()
-
-
-def pull_all_comment(request):
-    print("pull start")
-    for article in Article.all():
-        article.extract()
-    print("pull end")
+def make_all_commented_mml_file(request):
+    for article_handler in ArticleHandler.bundle_create():
+        article_handler.embed_comment_to_mml()
     return HttpResponse()
