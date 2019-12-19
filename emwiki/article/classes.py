@@ -19,23 +19,26 @@ class MizFile():
         self.name = ""
         self.text = ""
 
-    @classmethod
-    def bundle_create(cls, dir):
-        """return tuple of all MizFile
+    def load(self, path):
+        """load Mizar File from path
+        
+        Args:
+            path (path): Mizar file exist
         
         Returns:
-            tuple: [MizFile, MizFile, ...]
+            MizFile: self
         """
-        mizfile_path_list = glob.glob(os.path.join(dir, "*"))
-        MizFile_list = [MizFile().load(path) for path in mizfile_path_list]
-        return MizFile_list
-
-    def load(self, path):
+        self.name = os.path.splitext(os.path.basename(path))[0]
         with open(path, "r") as f:
             self.text = f.read()
-            self.name = os.path.splitext(os.path.basename(path))[0]
+        return self
 
     def save(self, path):
+        """save Mizar File to path
+        
+        Args:
+            path (path): save self.text to path
+        """
         with open(path, "w") as f:
             f.write(self.text)
 
