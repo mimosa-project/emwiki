@@ -43,7 +43,7 @@ class MizFile():
             f.write(self.text)
 
     def collect_comment_locations(self):
-        """find block in  mizar file
+        """collect comment locations
 
         Returns:
             list: comment location list like [{
@@ -51,7 +51,7 @@ class MizFile():
                                         "block_order": 3,
                                         "line_number": 12(0 origin)
                                     },
-                                    {}...
+                                    ...
         """
         comment_locations = []
         # To count the number of times each block appears
@@ -74,7 +74,7 @@ class MizFile():
         )
         push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
         pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
-        for line_number, line in enumerate(self.miz().splitlines()):
+        for line_number, line in enumerate(self.text.splitlines()):
             line = re.sub('::.*', "", line)
             target_match = target_pattern.match(line)
             push_list = push_pattern.findall(line)
