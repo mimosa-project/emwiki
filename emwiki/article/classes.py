@@ -102,22 +102,28 @@ class MizFile():
         return comment_locations
 
     def embed_comments(self, comments):
-        """embed comments to mizar string
+        """embed comments to MizFile text
+        
+        Args:
+            comments (List of Comment): List of Comment which embed
         """
-        print(f"embed {self.name}")
+
+        if not comments:
+            print(f"skipped {self.name} becasue comment not exist")
+            return
+        print(f"embeded {len(comments)} comments to {self.name}")
         commented_mizar = ""
-        mizar_lines = self.miz().splitlines()
-        comment_location_list = self.find_block()
+        mizar_lines = self.text.splitlines()
+        comment_location_list = self.collect_comment_locations()
         comment_dict = {block: {} for block in self.TARGET_BLOCK}
-        for block in comment_dict.keys():
-            comment_dict[block] = {comment.order: comment for comment in comments}
-        comment_dict = {f'{comment.block}_{comment.order}': comment for comment in comments}
+        for comment in comments:
+            comment_dict[comment.block][comment.block_order] = comment
         while len(comment_location_list):
             comment_location_dict = comment_location_list.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
-            comment = comment_dict[block].get(block_order, Comment())
+            comment = comment_dict[block].get(str(block_order), Comment(self))
             if comment.text == "":
                 continue
             if block == "proof":
@@ -126,44 +132,6 @@ class MizFile():
                 mizar_lines.insert(line_number, comment.format_text())
         commented_mizar = '\n'.join(mizar_lines)
         self.text = commented_mizar
-
-    def extract_comments(self):
-        """extract comment in mizar string
-        """
-        print(f"extract {self.name}")
-        mizar_lines = self.miz().splitlines()
-        push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
-        comment_location_list = self.find_block()
-        comment_list = []
-        while len(comment_location_list):
-            comment_location_dict = comment_location_list.pop(-1)
-            block = comment_location_dict["block"]
-            block_order = comment_location_dict["block_order"]
-            line_number = comment_location_dict["line_number"]
-            comment_deque = deque()
-            # Except for "proof", the comment is written before block,
-            # but in "proof", the comment is written after block
-            start = line_number - 1
-            step = -1
-            if block == "proof":
-                start = line_number + 1
-                step = 1
-            for line in mizar_lines[start::step]:
-                line_match = push_pattern.match(line)
-                if line_match:
-                    if block == "proof":
-                        comment_deque.append(line_match.group("comment"))
-                    else:
-                        comment_deque.appendleft(line_match.group("comment"))
-                else:
-                    break
-            comment = Comment()
-            comment.article_name = self.name
-            comment.block = block
-            comment.order = block_order
-            comment.text = '\n'.join(comment_deque)
-            comment_list.append(comment)
-        return comment_list
 
 
 class Comment():
