@@ -2,7 +2,116 @@ import glob
 import os
 import re
 import textwrap
-from collections import deque
+from emwiki.settings import BASE_DIR
+
+
+class ArticleHandler():
+    HTML_DIR = "static/mizar_html/"
+    MML_DIR = "static/mml/"
+    MML_COMMENTED_DIR = "article/data/commentedMizar/"
+    COMMENT_DIR = "article/data/comment/"
+
+    def __init__(self, article_name):
+        self.article_name = article_name
+
+    @classmethod
+    def bundle_create(cls):
+        """create ArticleHandler bandle
+        
+        Returns:
+            List: List of all ArticleHandler
+        """
+        article_handler_list = []
+        mizfile_list = cls.mizfile_bundle_create()
+        for mizfile in mizfile_list:
+            article_handler = ArticleHandler(mizfile.name)
+            article_handler_list.append(article_handler)
+        return article_handler_list
+
+    @classmethod
+    def mizfile_bundle_create(cls):
+        """return List of all MizFile
+        
+        Returns:
+            List: [MizFile, MizFile, ...]
+        """
+        MizFile_list = []
+        mizfile_path_list = glob.glob(os.path.join(BASE_DIR, cls.MML_DIR, "*"))
+        for path in mizfile_path_list:
+            mizfile = MizFile()
+            mizfile.load(path)
+            MizFile_list.append(mizfile)
+        return MizFile_list
+
+    def comment_bundle_create(self):
+        """return List of comment bundle
+        
+        Returns:
+            List: [Comment, Comment, Comment,...]
+        """
+        comment_list = []
+        comment_path_list = glob.glob(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, "*"))
+        mizfile = MizFile().load(os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz'))
+        for path in comment_path_list:
+            comment = Comment(mizfile)
+            comment.load(path)
+            comment_list.append(comment)
+        return comment_list
+
+    def store_comment(self, block, block_order, text):
+        """store comment to COMMENT_DIR
+        
+        Args:
+            block (string): block name
+            block_order (number): number of block order
+            text (string): content text of Comment
+        """
+        mizfile_path = os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz')
+        mizfile = MizFile()
+        mizfile.load(mizfile_path)
+        comment = Comment(mizfile)
+        comment.block = block
+        comment.block_order = block_order
+        comment.text = text
+        comment_file_name = f'{block}_{block_order}'
+        comment_path = os.path.join(BASE_DIR, self.COMMENT_DIR, comment.mizfile.name, comment_file_name)
+        comment.save(comment_path)
+
+    def embed_comment_to_mml(self):
+        """embed comment to MML and save
+        """
+        mizfile = MizFile()
+        mizfile_name = f'{self.article_name}.miz'
+        mizfile_load_path = os.path.join(BASE_DIR, self.MML_DIR, mizfile_name)
+        mizfile_save_path = os.path.join(BASE_DIR, self.MML_COMMENTED_DIR, mizfile_name)
+        mizfile.load(mizfile_load_path)
+        comments = self.comment_bundle_create()
+        mizfile.embed_comments(comments)
+        mizfile.save(mizfile_save_path)
+
+    def get_comment_dict(self):
+        """get comment dictionary
+        
+        Returns:
+            dictionary: {
+                "<block>": {
+                    "<block_order>": "<text>",
+                    "<block_order>": "<text>",
+                    ...
+                }
+                ...
+            }
+        """
+        comments_dir = os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)
+        comment_path_list = glob.glob(os.path.join(comments_dir, "*"))
+        mizfile_path = os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz')
+        mizfile = MizFile()
+        mizfile.load(mizfile_path)
+        comment_list = [Comment(mizfile).load(path) for path in comment_path_list]
+        return_dict = {block: {} for block in MizFile.TARGET_BLOCK}
+        for comment in comment_list:
+            return_dict[comment.block][comment.block_order] = comment.text
+        return return_dict
 
 
 class MizFile():
