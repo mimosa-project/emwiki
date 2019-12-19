@@ -167,10 +167,10 @@ class Comment():
     HEADER = "::: "
     LINE_MAX_LENGTH = 75
 
-    def __init__(self, article):
-        self.article_name = article.name
+    def __init__(self, mizfile):
+        self.mizfile = mizfile
         self.block = ""
-        self.order = 0
+        self.block_order = 0
         self.text = ""
 
     def load(self, path):
