@@ -139,13 +139,13 @@ $(function(){
         });
 
         //add comment
-        $.getJSON(`/article/data/comment/${article_name}`, function (data, textStatus, jqXHR) {
-            for(let block in data["comments"]){
-                for(let block_order in data["comments"][block]){
+        $.getJSON(`/article/order_comment/${article_name}`, function (data, textStatus, jqXHR) {
+            for(let block in data){
+                for(let block_order in data[block]){
                     $target = $article.contents().find(`
                         .edit[block="${block}"][block_order="${block_order}"]
                     `);
-                    $target.find(".commentTextarea").text(data["comments"][block][block_order]);
+                    $target.find(".commentTextarea").text(data[block][block_order]);
                     comment_preview($target, false);
                 }
             }
@@ -171,7 +171,7 @@ $(function(){
             let block_order = $edit.attr("block_order");
             //submit proof comment
             $.ajax({
-                url: '/article/data/comment/',
+                url: '/article/submit_comment',
                 type: 'POST',
                 dataType: 'text',
                 data: {
@@ -184,9 +184,9 @@ $(function(){
                 $edit.find(".editcomment").hide();
                 $edit.find(".editButton").show();
                 //get proof setch
-                $.getJSON(`/article/data/comment/${article_name}`,
+                $.getJSON(`/article/order_comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["comments"][block][block_order]);
+                    $edit.find(".commentTextarea").val(data[block][block_order]);
                 }
                 ).done(function(){
                     comment_preview($edit);
@@ -216,9 +216,9 @@ $(function(){
             $edit.find(".editcomment").hide();
             $edit.find(".editButton").show();
             //get proof comment
-            $.getJSON(`/article/data/comment/${article_name}`,
+            $.getJSON(`/article/order_comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data["comments"][block][block_order]);
+                    $edit.find(".commentTextarea").val(data[block][block_order]);
                 }
             ).done(function(){
                 comment_preview($edit);
