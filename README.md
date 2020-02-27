@@ -60,6 +60,36 @@ cd emwiki/emwiki
 python generate_secretkey_setting.py > local_settings.py
 ```
 
+### add MML and HTMLized MML files
+copy MML files
+```
+emwiki/static/mml/<here>
+```
+
+copy HTMLized MML files
+```
+emwiki/static/mizar-html/<here>
+```
+
+Like this
+
+    emwiki
+    |- accounts
+    |- article
+    |- emwiki
+    |- static
+       |- mml
+          |- abcmiz_0.miz
+          |- abcmiz_1.miz
+          |- ...
+       |- mizar-html
+          |- proofs
+          |- refs
+          |- abcmiz_1.html
+          |- abcmiz_1.html
+          |- ...
+       |- optional
+
 
 ## Licence
 
