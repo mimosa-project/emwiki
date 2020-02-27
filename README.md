@@ -7,6 +7,18 @@ Wiki for eco-Mizar
 This Web application can write a TeX-format description in the Mizar Mathmatical Library (MML), and make the description follow the MML update. This Web application provides users with the function of adding, editing, and browsing description of MML on a Wiki format Web platform. If there is an update to the MML, link the description to the new MML by running the program on the server.
 
 ## Demo
++ Use HTMLized MML
+  + Hyper Link
+  + Hover tooltips
+  + folding proof, etc.
++ Browsing, adding, editing comment of MML
++ Easy search
++ Version following
++ Many additional features are planned
+  + Advanced search function
+  + Dependency graph
+  
+  
 ![emwiki](https://user-images.githubusercontent.com/49423101/75423437-0c960400-5982-11ea-86e5-382c462a6fc7.png)
 
 ## Requirement
