@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./docker/pgsql-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  python:
+    build: .
+    volumes:
+      - ./docker/static:/code/static
+    expose:
+      - "8001"
+    depends_on:
+      - db
+  nginx:
+    image: nginx:1.13
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker:/etc/nginx/conf.d
+      - ./docker/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./docker/static:/static
+    depends_on:
+      - python
