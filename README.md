@@ -44,6 +44,10 @@ sudo apt install python3-pip
 ```
 pip3 install pipenv
 ```
+### install libpq-dev
+```
+sudo apt-get install libpq-dev
+```
 ### sync pipenv
 ```
 cd <piplock folder>
