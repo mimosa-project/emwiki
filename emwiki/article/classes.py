@@ -6,8 +6,7 @@ from emwiki.settings import BASE_DIR
 
 
 class ArticleHandler():
-    HTML_DIR = "static/mizar_html/"
-    MML_DIR = "static/mml/"
+    MML_DIR = "mizarfiles/mml/"
     MML_COMMENTED_DIR = "article/data/commentedMizar/"
     COMMENT_DIR = "article/data/comment/"
 

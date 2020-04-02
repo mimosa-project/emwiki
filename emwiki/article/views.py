@@ -4,8 +4,6 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .classes import ArticleHandler
 
-
-HTML_DIR = "static/mizar_html/"
 MML_DIR = "static/mml/"
 MML_COMMENTED_DIR = "article/data/commentedMizar/"
 COMMENT_DIR = "article/data/comment/"
