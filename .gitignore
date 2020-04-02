@@ -1,12 +1,15 @@
-#mizar files
+# Mizar
 mizar_html/
-mml/
+mizarfiles/
 
-#Mizar_proof_comments
+# Database
+pgsql-data/
+
+# Mizar_proof_comments
 comment/
 commentedMizar/
 
-#VSCode
+# VSCode
 .vscode/
 
 # Byte-compiled / optimized / DLL files
