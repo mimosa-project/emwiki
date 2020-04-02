@@ -26,12 +26,11 @@ written on pipfile
 + Python
 + Django
 
-## Install
+## Install 
 ### git clone
 ```
 git clone https://github.com/mimosa-project/emwiki.git
 ```
-
 ### install Python
 ```
 sudo apt install python3.7 python3.7-dev
@@ -50,45 +49,36 @@ sudo apt-get install libpq-dev
 ```
 ### sync pipenv
 ```
-cd <piplock folder>
-```
-```
 pipenv sync
 ```
-
-### make local_settings.py
-```
-pipenv shell
-```
-```
-cd emwiki/emwiki
-```
-```
-python generate_secretkey_setting.py > local_settings.py
-```
-
 ### add MML and HTMLized MML files
-copy MML files
+add MML files
 ```
-emwiki/static/mml/<here>
+emwiki/mizarfiles/mml/<here>
 ```
 
-copy HTMLized MML files
+add HTMLized MML files
 ```
 emwiki/static/mizar-html/<here>
 ```
-
+```
+RUN curl https://ftp.icm.edu.pl/packages/mizar/xmlmml/html_abstr.5.33.1254.noproofs.tar.gz | tar xzv -C /code/tmp
+mv html/* emwiki/static/mizar-html/
+RUN curl https://ftp.icm.edu.pl/packages/mizar/system/current/mizar-8.1.09_5.57.1355-arm-linux.tar | tar xv -C /code/tmp
+RUN tar zxf /code/tmp/mizshare.tar.gz -C /code/tmp
+mv mml/* emwiki/mizarfiles/mml/
+```
 Like this
-
     emwiki
     |- accounts
     |- article
     |- emwiki
-    |- static
+    |- mizarfiles
        |- mml
           |- abcmiz_0.miz
           |- abcmiz_1.miz
           |- ...
+    |- static
        |- mizar-html
           |- proofs
           |- refs
@@ -97,6 +87,9 @@ Like this
           |- ...
        |- optional
 
+## 開発環境
+
+## 本番環境
 
 ## Licence
 
