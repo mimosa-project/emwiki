@@ -4,7 +4,9 @@ services:
   db:
     image: postgres
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: emwiki
     volumes:
       - ./docker/pgsql-data:/var/lib/postgresql/data
     ports:
@@ -13,12 +15,13 @@ services:
     build: .
     volumes:
       - ./docker/static:/code/static
+      - ./emwiki/mizarfiles:/code/emwiki/mizarfiles
     expose:
       - "8001"
     depends_on:
       - db
   nginx:
-    image: nginx:1.13
+    image: nginx:1.17
     ports:
       - "8000:8000"
     volumes:
