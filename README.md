@@ -40,7 +40,10 @@ sudo apt install python3.7 python3.7-dev
 ```
 sudo apt install python3-pip
 ```
-
+### install pipenv
+```
+pip3 install pipenv
+```
 ### sync pipenv
 ```
 cd <piplock folder>
