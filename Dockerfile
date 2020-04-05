@@ -4,10 +4,11 @@ RUN apt update && \
     pip install pipenv
 
 WORKDIR /code
-COPY Pipfile Pipfile.lock .env ./
+COPY Pipfile Pipfile.lock ./
 RUN pipenv sync
 
 COPY emwiki/ emwiki/
+COPY emwiki/.env emwiki/
 COPY docker/ docker/
 
 CMD pipenv run python emwiki/manage.py collectstatic  && \
