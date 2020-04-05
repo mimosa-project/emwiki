@@ -26,9 +26,13 @@ written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfil
 
 ## 4 Install
 ### 4.1 ホストの準備
-git clone
+update
 ```
-git clone https://github.com/mimosa-project/emwiki.git
+sudo apt update
+```
+upgrade
+```
+sudo apt upgrade
 ```
 install Python
 ```
@@ -40,8 +44,13 @@ sudo apt install python3-pip
 ```
 install pipenv
 ```
-pip3 install pipenv
+sudo pip3 install pipenv
 ```
+git clone
+```
+sudo git clone https://github.com/mimosa-project/emwiki.git
+```
+
 
 ### 4.2 必要ファイルの追加
 + MML, HTMLized MML ファイルを追加する．
@@ -56,7 +65,7 @@ emwiki/mizarfiles/mml/<here>
 ```
 
 ### 4.2.2 HTMLized MML
-+ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできます．
++ HTMLized MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできます．
 + 以下のディレクトリにファイルを追加してください．
 ```
 emwiki/static/mizar-html/<here>
@@ -142,6 +151,7 @@ docker, docker-composeをインストール
 + SECRET_KEY(英字50字)を書き換えてください．
 
 ### 4.4.3 起動
++ 10分以上時間がかかることがあります．
 ```
 sudo docker-compose up --build -d
 ```
