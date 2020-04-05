@@ -158,7 +158,7 @@ sudo docker-compose up --build -d
 ```
 ### 4.4.4 superuserの作成
 ```
-sudo docker-compose run emwiki_python_1 pipenv run python manage.py createsuperuser
+sudo docker-compose exec python pipenv run python /code/emwiki/manage.py createsuperuser
 ```
 ### 4.4.5 終了
 ```
