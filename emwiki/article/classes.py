@@ -7,8 +7,8 @@ from emwiki.settings import BASE_DIR
 
 class ArticleHandler():
     MML_DIR = "mizarfiles/mml/"
-    MML_COMMENTED_DIR = "article/data/commentedMizar/"
-    COMMENT_DIR = "article/data/comment/"
+    MML_COMMENTED_DIR = "mizarfiles/commentedMizar/"
+    COMMENT_DIR = "mizarfiles/comment/"
 
     def __init__(self, article_name):
         self.article_name = article_name
