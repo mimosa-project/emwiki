@@ -25,6 +25,7 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfile)
 
 ## 4 Install
+### 4.1 ホストの準備
 git clone
 ```
 git clone https://github.com/mimosa-project/emwiki.git
@@ -46,21 +47,22 @@ pip3 install pipenv
 + MML, HTMLized MML ファイルを追加する．
 + **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
 
-MML
+### 4.2.1 MML
 + **文字コードがutf-8ではないファイルが存在する場合がある．**
-  + 各自iconvなどのコマンドでutf-8に変換すること．
-+ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/system/)からダウンロードできる．
+  + 各自iconvなどのコマンドでutf-8に変換してください．
++ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/system/)からダウンロードできます．
 ```
 emwiki/mizarfiles/mml/<here>
 ```
 
-HTMLized MML
-+ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできる．
+### 4.2.2 HTMLized MML
++ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできます．
++ 以下のディレクトリにファイルを追加してください．
 ```
 emwiki/static/mizar-html/<here>
 ```
-
-追加後，以下のようなディレクトリ構成とすること．
+### 4.2.3 ディレクトリ構成
+追加後，以下のようなディレクトリ構成にしてください．
 ```
     emwiki
     |- accounts
@@ -83,7 +85,7 @@ emwiki/static/mizar-html/<here>
 
 
 ## 4.3 開発環境
-### 4.1 依存ライブラリのインストール手順
+### 4.3.1 依存ライブラリのインストール手順
 
 libpq-devをインストール(psycopg2のため)
 ```
@@ -94,20 +96,21 @@ piplockを使用して，仮想環境にPythonの依存ライブラリをイン�
 pipenv sync
 ```
 
-### データベースの作成
+### 4.3.2データベースの作成
 
 Postgresデータベースを使用するため，dockerなどでpostgresデータベースを作成してください．
 
 
 
-### .envの内容を変更
+### 4.3.3 .envの内容を変更
 
 仮想環境に入る
 ```
 pipenv shell
 ```
 
-.envファイルを書き換える．postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envでで指定してください．
++ .envファイルを書き換える．
++ postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envでで指定してください．
 ```
 SECRET_KEY={secret ramdom sting}
 DATABASE_URL=postgresql://{user}:{password}@{IPaddress or hostname}:{port}/{dastabase}
@@ -122,8 +125,8 @@ superuser作成
 ```
 python manage.py createsuperuser
 ```
-### 開発用サーバーの立ち上げ
-仮想環境に入った状態で行ってください．
+### 4.3.4 開発用サーバーの立ち上げ
++ 仮想環境に入った状態で行ってください．
 ```
 python manage.py runserver
 ```
@@ -151,8 +154,9 @@ sudo docker-compose run emwiki_python_1 pipenv run python manage.py createsuperu
 sudo docker-compose down
 ```
 ### 4.4.6 生成物
-DBデータはホスト側のemwiki/dockerpgsql-dataにあります．
-
++ DBデータはホスト側の`emwiki/docker/pgsql-data`にあります．
++ MML，コメントファイル，コメント追記済みMMLは`emwiki/emwiki/mizarfiles`にあります．
++ 静的ファイル(Djangoのcollectされたstatic)はホスト側の`emwiki/docker/static`にあります.
 
 ## 5 Licence
 
