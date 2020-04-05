@@ -74,8 +74,6 @@ emwiki/static/mizar-html/<here>
 追加後，以下のようなディレクトリ構成にしてください．
 ```
     emwiki
-    |- accounts
-    |- article
     |- emwiki
     |- mizarfiles
        |- mml
@@ -90,6 +88,7 @@ emwiki/static/mizar-html/<here>
           |- abcmiz_1.html
           |- ...
        |- optional
+    ...
 ```
 
 
@@ -112,15 +111,15 @@ Postgresデータベースを使用するため，dockerなどでpostgresデー�
 
 
 
-### 4.3.3 .envの内容を変更
+### 4.3.3 emwiki/.envの内容を変更
 
 仮想環境に入る
 ```
 pipenv shell
 ```
 
-+ .envファイルを書き換える．
-+ postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envでで指定してください．
++ emwiki/.envファイルを書き換える．
++ postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envで指定してください．
 ```
 SECRET_KEY={secret ramdom sting}
 DATABASE_URL=postgresql://{user}:{password}@{IPaddress or hostname}:{port}/{dastabase}
@@ -147,7 +146,7 @@ python manage.py runserver
 
 docker, docker-composeをインストール
 
-### 4.4.2 .envファイルの変更
+### 4.4.2 emwiki/.envファイルの変更
 + emwiki/.envファイルを，emwiki/.env.dockerファイルの内容に置きかえてください．
 + SECRET_KEY(英字50字)を書き換えてください．
 
