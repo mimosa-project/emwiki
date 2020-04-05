@@ -48,7 +48,7 @@ sudo pip3 install pipenv
 ```
 git clone
 ```
-sudo git clone https://github.com/mimosa-project/emwiki.git
+git clone https://github.com/mimosa-project/emwiki.git
 ```
 
 
@@ -98,10 +98,11 @@ emwiki/static/mizar-html/<here>
 
 libpq-devをインストール(psycopg2のため)
 ```
-sudo apt-get install libpq-dev
+sudo apt install libpq-dev
 ```
 piplockを使用して，仮想環境にPythonの依存ライブラリをインストール
 ```
+cd emwiki
 pipenv sync
 ```
 
