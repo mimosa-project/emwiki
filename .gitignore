@@ -1,13 +1,9 @@
 # Mizar
 mizar_html/
-mizarfiles/
+mml/
 
 # Database
 pgsql-data/
-
-# Mizar_proof_comments
-comment/
-commentedMizar/
 
 # VSCode
 .vscode/
