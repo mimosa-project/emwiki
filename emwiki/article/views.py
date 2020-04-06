@@ -1,37 +1,37 @@
 from django.shortcuts import render
-import os
-import glob
-from emwiki.settings import BASE_DIR
-from .comment import embed_comment_to_file
-from .comment import extract_comment_to_file
-from .comment import save_comment
-from .comment import TARGET_BLOCK
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from .classes import ArticleHandler
+
+
+HTML_DIR = "static/mizar_html/"
+MML_DIR = "static/mml/"
+MML_COMMENTED_DIR = "article/data/commentedMizar/"
+COMMENT_DIR = "article/data/comment/"
 
 
 @ensure_csrf_cookie
 def render_article(request):
-    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mizar_html/*.html'))
-    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
-    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
+    file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_path = 'optional/start.html'
     context = {'file_path': file_path, 'file_list': file_list}
     return render(request, 'article/article.html', context)
 
 
-def recieve_comment(request):
+def update_comment(request):
     file_name = request.POST.get('id', None)
     block = request.POST.get('block', None)
     block_order = request.POST.get("block_order", None)
-    comment = request.POST.get('comment', None)
+    text = request.POST.get('comment', None)
     article_name = file_name
-    save_comment(article_name, {block: {int(block_order): comment}})
+    article_handler = ArticleHandler(article_name)
+    article_handler.store_comment(block, block_order, text)
+    article_handler.embed_comment_to_mml()
     return HttpResponse()
 
 
-def send_comment(request, article_name):
+def send_comment_to_template(request, article_name):
     """send comments using JSON
 
     Args:
@@ -47,34 +47,12 @@ def send_comment(request, article_name):
             ...
         }
     """
-    return_json = {'comments': {block: {} for block in TARGET_BLOCK}}
-    comments_path = os.path.join(BASE_DIR, f'article/data/comment/{article_name}/')
-    comments_path_list = glob.glob(comments_path + '*')
-    for comment_path in comments_path_list:
-        comment_name = os.path.basename(comment_path)
-        block, block_order = comment_name.split("_")
-        with open(comment_path, "r") as f:
-            return_json['comments'][block][int(block_order)] = f.read()
+    article_handler = ArticleHandler(article_name)
+    return_json = article_handler.get_comment_dict()
     return JsonResponse(return_json)
 
 
-def push_all_comment(request):
-    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
-    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
-    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
-    print("push start")
-    for article_name in file_list:
-        embed_comment_to_file(article_name)
-    print("push end")
-    return HttpResponse()
-
-
-def pull_all_comment(request):
-    file_list = glob.glob(os.path.join(BASE_DIR, 'static/mml/*.miz'))
-    file_list = [os.path.basename(absolute_path) for absolute_path in file_list]
-    file_list = [os.path.splitext(extention_name)[0] for extention_name in file_list]
-    print("pull start")
-    for article_name in file_list:
-        extract_comment_to_file(article_name)
-    print("pull end")
+def make_all_commented_mml_file(request):
+    for article_handler in ArticleHandler.bundle_create():
+        article_handler.embed_comment_to_mml()
     return HttpResponse()
