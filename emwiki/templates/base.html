@@ -33,10 +33,15 @@
                 </ul>
                 <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'accounts:logout' %}" class="logout">
-                        Logout
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
+                      {{ user.get_username }}
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarAccounts">
+                        <a class="dropdown-item" href="{% url 'accounts:logout' %}" class="logout">
+                            Logout
+                        </a>
+                    </div>
                 </li>
                 {% else %}
                 <li class="nav-item active">
