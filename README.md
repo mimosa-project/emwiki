@@ -90,7 +90,10 @@ Like this
           |- ...
        |- optional
 
-
+make Table of accounts
+```
+python manage.py makemigrations accounts
+```
 ## Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
