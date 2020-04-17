@@ -38,6 +38,9 @@
                       {{ user.get_username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarAccounts">
+                        <a class="dropdown-item" href="{% url 'accounts:user_detail' user.pk %}">
+                            User informations
+                        </a>
                         <a class="dropdown-item" href="{% url 'accounts:logout' %}" class="logout">
                             Logout
                         </a>
