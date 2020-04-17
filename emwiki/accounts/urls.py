@@ -16,4 +16,5 @@ urlpatterns = [
     path('email/change/', views.EmailChange.as_view(), name='email_change'),
     path('email/change/done/', views.EmailChangeDone.as_view(), name='email_change_done'),
     path('email/change/complete/<str:token>/', views.EmailChangeComplete.as_view(), name='email_change_complete'),
+    path('user_update/<int:pk>/', views.UserUpdate.as_view(), name='user_update'),
 ]
