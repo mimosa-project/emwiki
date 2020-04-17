@@ -48,3 +48,72 @@ class PasswordResetComplete(PasswordResetCompleteView):
     template_name = 'accounts/password_reset_complete.html'
 
 
+class EmailChange(LoginRequiredMixin, generic.FormView):
+    """メールアドレスの変更"""
+    template_name = 'accounts/email_change_form.html'
+    form_class = EmailChangeForm
+
+    def form_valid(self, form):
+        user = self.request.user
+        new_email = form.cleaned_data['email']
+
+        # URLの送付
+        current_site = get_current_site(self.request)
+        domain = current_site.domain
+        context = {
+            'protocol': 'https' if self.request.is_secure() else 'http',
+            'domain': domain,
+            'token': dumps(new_email),
+            'user': user,
+        }
+
+        subject = render_to_string(
+            'accounts/mail_template/email_change/subject.txt',
+            context
+        )
+        message = render_to_string(
+            'accounts/mail_template/email_change/message.txt',
+            context
+        )
+        send_mail(subject, message, None, [new_email])
+
+        return redirect('accounts:email_change_done')
+
+
+class EmailChangeDone(LoginRequiredMixin, generic.TemplateView):
+    """メールアドレスの変更メールを送ったよ"""
+    template_name = 'accounts/email_change_done.html'
+
+
+class EmailChangeComplete(LoginRequiredMixin, generic.TemplateView):
+    """リンクを踏んだ後に呼ばれるメアド変更ビュー"""
+    template_name = 'accounts/email_change_complete.html'
+    # デフォルトでは1日以内
+    timeout_seconds = getattr(
+        settings,
+        'ACTIVATION_TIMEOUT_SECONDS',
+        60 * 60 * 24
+    )
+
+    def get(self, request, **kwargs):
+        token = kwargs.get('token')
+        try:
+            new_email = loads(token, max_age=self.timeout_seconds)
+
+        # 期限切れ
+        except SignatureExpired:
+            return HttpResponseBadRequest()
+
+        # tokenが間違っている
+        except BadSignature:
+            print('Bad token')
+            return HttpResponseBadRequest()
+
+        # tokenは問題なし
+        else:
+            User.objects.filter(email=new_email, is_active=False).delete()
+            request.user.email = new_email
+            request.user.save()
+            return super().get(request, **kwargs)
+
+
