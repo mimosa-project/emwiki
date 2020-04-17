@@ -1,11 +1,24 @@
-from accounts.forms import MyUserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import (
-    LoginView, LogoutView
+    LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView,
+    PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView,
+    PasswordResetCompleteView
 )
-from django.contrib.auth.mixins import LoginRequiredMixin
-from accounts.forms import MyLoginForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from accounts.forms import (
+    MyLoginForm, MyUserCreationForm, MyPasswordChangeForm,
+    MyPasswordResetForm, MySetPasswordForm, EmailChangeForm,
+    UserUpdateForm
+)
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.shortcuts import redirect, resolve_url
+from django.core.signing import SignatureExpired, BadSignature, loads, dumps
+from django.http import HttpResponseBadRequest
+from .models import User
 
 
 class SignUpView(generic.CreateView):
@@ -136,6 +149,12 @@ class OnlyYouMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
         return user.pk == self.kwargs['pk'] or user.is_superuser
+
+
+class UserDetail(OnlyYouMixin, generic.DetailView):
+    model = User
+    template_name = 'accounts/user_detail.html'
+
 
 class UserUpdate(OnlyYouMixin, generic.UpdateView):
     model = User
