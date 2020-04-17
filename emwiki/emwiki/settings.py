@@ -130,3 +130,8 @@ LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'article:render_article'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# テスト用
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# 本番用
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
