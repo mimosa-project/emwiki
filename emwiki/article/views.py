@@ -5,12 +5,6 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from .classes import ArticleHandler
 
 
-HTML_DIR = "static/mizar_html/"
-MML_DIR = "static/mml/"
-MML_COMMENTED_DIR = "article/data/commentedMizar/"
-COMMENT_DIR = "article/data/comment/"
-
-
 @ensure_csrf_cookie
 def render_article(request):
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
