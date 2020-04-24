@@ -9,6 +9,9 @@ autopep8 = "*"
 
 [packages]
 django = "==2.2.8"
+django-environ = "*"
+psycopg2 = ">=2.7,<3.0"
+uwsgi = "==2.0.17"
 
 [requires]
 python_version = "3.7"
