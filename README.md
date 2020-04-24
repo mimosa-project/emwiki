@@ -121,6 +121,8 @@ pipenv shell
 
 + emwiki/.envファイルを書き換える．
 + postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envで指定してください．
++ SECRET_KEYをランダムな英数記号50文字に置き換えてください．
+  + `emwiki/emwiki/emwiki/generate_secretkey_setting.py`を実行することで，ランダムに生成された50文字が入手できます．
 ```
 SECRET_KEY={secret ramdom sting}
 DATABASE_URL=postgresql://{user}:{password}@{IPaddress or hostname}:{port}/{dastabase}
@@ -149,7 +151,8 @@ docker, docker-composeをインストール
 
 ### 4.4.2 emwiki/.envファイルの変更
 + emwiki/.envファイルを，emwiki/.env.dockerファイルの内容に置きかえてください．
-+ SECRET_KEY(英字50字)を書き換えてください．
++ SECRET_KEYをランダムな英数記号50文字に置き換えてください.
+  + `emwiki/emwiki/emwiki/generate_secretkey_setting.py`を実行することで，ランダムに生成された50文字が入手できます．
 
 ### 4.4.3 起動
 + 10分以上時間がかかることがあります．
