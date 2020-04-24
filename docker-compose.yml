@@ -9,8 +9,8 @@ services:
       POSTGRES_DB: emwiki
     volumes:
       - ./docker/pgsql-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+    expose:
+      - "5432"
   python:
     build: .
     volumes:
@@ -30,3 +30,10 @@ services:
       - ./docker/static:/static
     depends_on:
       - python
+  adminer:
+    image: adminer
+    restart: always
+    ports: 
+      - 8080:8080
+    depends_on: 
+      - db
