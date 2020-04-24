@@ -92,7 +92,7 @@ emwiki/static/mizar-html/<here>
 ```
 
 
-## 4.3 開発環境
+## 4.3 開発環境の構築方法
 ### 4.3.1 依存ライブラリのインストール手順
 
 libpq-devをインストール(psycopg2のため)
@@ -102,13 +102,14 @@ sudo apt install libpq-dev
 piplockを使用して，仮想環境にPythonの依存ライブラリをインストール
 ```
 cd emwiki
-pipenv sync
+pipenv sync --dev
 ```
 
 ### 4.3.2データベースの作成
 
 Postgresデータベースを使用するため，dockerなどでpostgresデータベースを作成してください．
 
+作成後，以下の手順で.envファイルを書き換える必要があります．
 
 
 ### 4.3.3 emwiki/.envの内容を変更
