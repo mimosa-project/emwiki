@@ -1,0 +1,221 @@
+@charset "UTF-8";
+
+
+body {
+    margin: 0;
+    padding-top: 4rem;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    overflow: auto;
+    height: 90vh;
+}
+
+.item {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 90vh;
+    overflow: auto;
+}
+
+#sidebar {
+    position: absolute;
+    width: 300px;
+    height: 90vh;
+    left: 0;
+    border-right: 1px solid #808080;
+}
+
+#search {
+    position: relative;
+    height: 31px;
+    padding: 4px;
+    width: 291px;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    background-color: #e0e0e0;
+    border-bottom: 1px solid #808080;
+}
+
+#search-box {
+    height: 22px;
+    width: 280px;
+}
+
+.select-pain {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #f0f0f0;
+}
+
+.select-pain ul {
+    list-style-type: none;
+    margin:0;
+    padding: 5px;
+}
+
+.select-pain ul li {
+    cursor: pointer;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.select-pain ul li:hover {
+    color: #ffffff;
+    background-color: #0000cc;
+}
+
+.select-pain ul li:before {
+    margin-right: 10px;
+    font-weight: bold;
+    /*font-family: monospace;*/
+}
+
+.select-pain ul li.pred:before {
+    content: "\24df";
+    color: #8b4513;
+}
+
+.select-pain ul li.struct:before {
+    content: "\24e2";
+    color: #000000;
+}
+
+.select-pain ul li.mode:before {
+    content: "\24dc";
+    color: #006400;
+}
+
+.select-pain ul li.func:before {
+    content: "\24d5";
+    color: #0000cd;
+}
+
+.select-pain ul li.attr:before {
+    content: "\24d0";
+    color: #dc143c;
+}
+
+.select-pain b {
+    background-color: #00ffff;
+    font-weight: normal;
+}
+
+#index {
+    z-index: 2;
+}
+
+#result {
+    z-index: 3;
+    display: none;
+}
+
+#content {
+    position: absolute;
+    padding-bottom: 5px;
+    left: 300px;
+    right: 0;
+}
+
+#content h2 {
+    margin-left: 10px;
+}
+
+#content h2 span {
+    font-size: 15px;
+}
+
+#content h3 {
+    padding: 5px;
+    font-size: 20px;
+    border-left: 10px solid #00008b;
+    margin: 10px;
+}
+
+#content h3 span.type {
+    font-size: 25px;
+}
+
+
+#content h3 span.defined-in {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.mml-summary h1 {
+    font-size: 40px;
+    padding: 15px;
+    margin: 0px;
+    color: #ffffff;
+    background-color: #00008b;
+}
+
+.mml-element {
+    padding-bottom: 5px;
+    border: 5px solid #ffffff;
+    border-top: 2px solid #808080;
+}
+
+span[data-link] {
+    color: #0000cc;
+    font-weight: bold;
+}
+
+span[data-link]:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background: #0000cc;
+}
+
+span[data-href] {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+span[data-href]:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background: #cc0000;
+}
+
+.mml-element.selected {
+    border: 5px solid #adff2f;
+}
+
+.mml-element .source-box {
+    border: 1px solid #000000;
+    padding: 5px;
+    margin-left: 20px;
+}
+
+.mml-element .source-box div.add {
+    padding-left: 3mm;
+    padding-bottom: 0mm;
+    margin: 0 0 0 0;
+}
+
+.mml-element .source-box span.kw {
+    font-weight: bold;
+}
+
+.mml-element .source-box .main-sentence {
+    background: #7fffd4;
+}
+
+.mml-element .reference table {
+    margin: 20px;
+    border: 1px solid #808080;
+}
+
+.mml-element .reference table th {
+    background: #66cdaa;
+}
+
+.mml-element .reference table td {
+    border: 1px solid #808080;
+}
