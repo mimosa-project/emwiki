@@ -9,7 +9,6 @@ import os
 def render_article(request, article_name):
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_list.sort()
-    article_name = article_name
     file_path = os.path.join('mizar_html', article_name)
     context = {'article_name': article_name.split('.')[0],
                'file_path': file_path,
