@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'emserach'
 urlpatterns = [
-    path('', views.render_article, name='render_article'),
+    path('', views.ajax_search, name='ajax_search'),
 ]
