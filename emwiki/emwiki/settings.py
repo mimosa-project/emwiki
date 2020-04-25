@@ -132,9 +132,9 @@ LOGIN_REDIRECT_URL = 'article:render_article'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# テスト用
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# 本番用
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if DEBUG is True:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 STATIC_ROOT = '/code/static'
