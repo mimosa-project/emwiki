@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class='container-fluid'>
+{% for result in search_results%}
+<a class='btn btn-outline-dark btn-sm col-lg-1 col-md-2 col-sm-3 col-xs-4 m-1' href='{{ result.link }}'>
+    <h5 class="text-left">{{ result.subject }}</h5>
+    <p class="text-left font-italic">{{ result.attributes }}</p>
+</a>
+{% endfor %}
+</div>
+
+<script>
+$(function(){
+    $('#emsearch').attr('value', '{{ search_query }}');
+})
+</script>
+{% endblock %}
