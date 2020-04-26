@@ -1,33 +1,30 @@
 from article.classes import ArticleHandler
 import re
+from difflib import SequenceMatcher
 
 
 def search(search_query):
     search_results = []
     search_results += get_article_result(search_query)
+    search_results.sort(key=lambda x: x['weight'], reverse=True)
     return search_results
 
 
 def get_article_result(search_query):
-    result_weight_list = []
-    result_list = []
+    search_results = []
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_list.sort()
     for filename in file_list:
-        match_length = len(re.findall('[' + search_query + ']|' + search_query, filename, flags=re.IGNORECASE))
-        if match_length > len(search_query):
-            weight = (len(search_query) - (match_length - len(search_query))) / len(search_query)
-        else:
-            weight = match_length / len(search_query)
+        search_len, file_len = len(search_query), len(filename)
+        weight = max([SequenceMatcher(None, search_query, filename[i:i + search_len]).ratio() for i in range(file_len - search_len + 1)], default=0)
         if weight > 0.8:
-            result_weight_list.append({'name': filename, 'weight': weight})
-    result_weight_list.sort(key=lambda x: x['weight'], reverse=True)
-    for result in result_weight_list:
-        result_list.append(
-            {
-                'subject': result['name'],
-                'attributes': 'html',
-                'link': 'article/' + result['name'] + '.html'
-            }
-        )
-    return result_list
+            search_results.append(
+                {
+                    'name': filename,
+                    'weight': weight,
+                    'subject': filename,
+                    'attributes': 'html',
+                    'link': f'article/{filename}.html'
+                }
+            )
+    return search_results
