@@ -3,15 +3,12 @@ import re
 
 
 def search(search_query):
-    print(search_query)
     search_results = []
     search_results += get_article_result(search_query)
-    # search_results = [{'subject': 'abcmiz_0.html', 'attributes': 'html', 'link': '/article'}, {'subject': 'abcmiz_1.html', 'attributes': 'html', 'link': '/article'}]
     return search_results
 
 
 def get_article_result(search_query):
-
     result_weight_list = []
     result_list = []
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
