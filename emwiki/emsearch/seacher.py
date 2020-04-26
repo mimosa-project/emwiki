@@ -19,7 +19,7 @@ def get_article_result(search_query):
     for filename in file_list:
         match_length = len(re.findall('[' + search_query + ']|' + search_query, filename, flags=re.IGNORECASE))
         if match_length > len(search_query):
-            weight = (match_length - len(search_query)) / len(search_query)
+            weight = (len(search_query) - (match_length - len(search_query))) / len(search_query)
         else:
             weight = match_length / len(search_query)
         if weight > 0.8:
