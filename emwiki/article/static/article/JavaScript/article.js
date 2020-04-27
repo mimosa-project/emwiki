@@ -1,28 +1,41 @@
+$('#article').hide()
+
 $(function(){
     let $article = $('#article');
 
     //setup select2
-    $('#article-select').select2();
+    $('#article-select').select2();  
     $("#article-select").change(function() {
-        console.log("changed");
-        $('#article')[0].contentWindow.location.replace("/static/mizar_html/" + $(this).val() + ".html");
+        window.location.href = "/article/" + $(this).val() + ".html";
     });
     
     $("#article").on( 'load',function(){
+        let file_path = $article[0].contentDocument.location.pathname;
+        let file_hash = $article[0].contentDocument.location.hash
+        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
+        if(file_name !== window.location.pathname.split('/')[2]){
+            window.location.replace('/article/'+file_name+file_hash)
+        }else{
+            $article.show()
+        }
+
+        //iframe更新時にURLと違うarticleが一瞬表示されることを防ぐ
+        $article.contents().find('body').on('click', 'a[href*=".html"]:not([href*="'+file_name+'"])', function(){
+            $article.hide();
+        })
+
         //add base directory
-        $article.contents().find("head").prepend("<base href='/static/mizar_html/'/>");
+        $article.contents().find("head").prepend("<base href='/static/mizar_html/' />")
         
         //add iframe.css
         $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
-        
+  
         //config MathJax
         let iframe_MathJax = $article[0].contentWindow.MathJax;
         iframe_MathJax.Hub.Config({
             'HTML-CSS': {scale: 100}
         });
         
-        let file_path = $article[0].contentDocument.location.pathname;
-        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
         add_emwiki_components($article);
         $('#file_name').text(file_name);
         $article[0].contentWindow.onbeforeunload = function () {

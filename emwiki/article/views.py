@@ -3,13 +3,17 @@ from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .classes import ArticleHandler
-
+import os
 
 @ensure_csrf_cookie
-def render_article(request):
+def render_article(request, article_name):
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
-    file_path = 'optional/start.html'
-    context = {'file_path': file_path, 'file_list': file_list}
+    file_list.sort()
+    file_path = os.path.join('mizar_html', article_name)
+    context = {'article_name': article_name.split('.')[0],
+               'file_path': file_path,
+               'file_list': file_list,
+              }
     return render(request, 'article/article.html', context)
 
 
