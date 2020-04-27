@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% block head %}
+<link rel='stylesheet' href="{% static 'emsearch/CSS/index.css' %}" type='text/css'></link>
+{% endblock %}
 
 {% block content %}
 <div class='container-fluid'>
 {% for result in search_results%}
-<a class='btn btn-outline-dark btn-sm col-lg-1 col-md-2 col-sm-3 col-xs-4 m-1' href='{{ result.link }}'>
+<a class='btn btn-sm col-lg-1 col-md-2 col-sm-3 col-xs-4 m-1 shadow btn-{{ result.category }}' href='{{ result.link }}'>
     <h5 class="text-left">{{ result.subject }}</h5>
-    <p class="text-left font-italic">{{ result.attributes }}</p>
+    <p class="badge badge-secondary float-left">{{ result.category }}</p>
 </a>
 {% endfor %}
 </div>

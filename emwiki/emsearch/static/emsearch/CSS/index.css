@@ -1,0 +1,12 @@
+.btn-html,
+.btn-html.disabled, .btn-html:disabled {
+  color: #fff;
+  background-color: #339999;
+  border-color: #339999;
+}
+
+.btn-html:hover {
+    color: #fff;
+    background-color: #336666;
+    border-color: #336666;
+  }
