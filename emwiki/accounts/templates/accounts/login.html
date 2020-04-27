@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    <div class="col-md-6 offset-md-3 mt-5">
+        <div class="card">
+            <div class="card-body">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {{ field }}
+                    {{ field.errors }}
+                    <hr>
+                {% endfor %}
+                <button type="submit" class="btn btn-success btn-lg btn-block" >ログイン</button><hr>
+                <a href="{% url 'accounts:signup' %}" class="btn btn-success btn-lg btn-block" >Sign up</a>
+                <a href="{% url 'accounts:password_reset' %}" class="btn btn-success btn-lg btn-block" >Password reset</a>
+                <input type="hidden" name="next" value="{{ next }}" />
+                {% csrf_token %}
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

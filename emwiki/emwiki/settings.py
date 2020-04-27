@@ -41,6 +41,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'mmlreference.apps.MmlreferenceConfig',
+    'accounts.apps.AccountsConfig',
     'article.apps.ArticleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'emwiki.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,4 +127,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'article:render_article'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+if DEBUG is True:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 STATIC_ROOT = '/code/static'
