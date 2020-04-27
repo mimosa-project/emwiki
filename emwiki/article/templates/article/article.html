@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block content %}
-    <div id='file_name'></div>
-    <iframe id='article' name="article" src="/static/{{ file_path }}"></iframe>
+        <base href="/">
+            <iframe id='article' name="article" src="/static/{{ file_path }}" ></iframe>
+        </main><!-- /.container -->
+        <script>
+            var iframe_path = 'static/{{ file_path }}'+location.hash;
+           $('#article')[0].contentWindow.location.replace(iframe_path);
+        </script>
 {% endblock %}
