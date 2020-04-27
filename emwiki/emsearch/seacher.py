@@ -20,11 +20,10 @@ def get_article_result(search_query):
         if weight > 0.8:
             search_results.append(
                 {
-                    'name': filename,
                     'weight': weight,
                     'subject': filename,
-                    'attributes': 'html',
-                    'link': f'article/{filename}.html'
+                    'category': 'html',
+                    'link': f'article/{filename}.html',
                 }
             )
     return search_results
