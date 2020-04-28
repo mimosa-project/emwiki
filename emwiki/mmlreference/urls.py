@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'mmlreference'
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('<str:filename>', views.index, name='index'),
 ]
