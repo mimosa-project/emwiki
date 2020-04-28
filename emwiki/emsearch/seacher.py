@@ -5,12 +5,12 @@ from difflib import SequenceMatcher
 
 def search(search_query):
     search_results = []
-    search_results += get_article_result(search_query)
+    search_results += search_article(search_query)
     search_results.sort(key=lambda x: x['weight'], reverse=True)
     return search_results
 
 
-def get_article_result(search_query):
+def search_article(search_query):
     search_results = []
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_list.sort()
