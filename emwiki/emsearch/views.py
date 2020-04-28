@@ -14,7 +14,7 @@ def index(request):
 
 
 def get_keywords(request):
-    keywords_json_path = os.path.join(BASE_DIR, 'emsearch', "keywords.json")
+    keywords_json_path = os.path.join(BASE_DIR, 'emsearch','search_settings', "keywords.json")
     with open(keywords_json_path, 'r', encoding="utf-8") as f:
         keywords = json.load(f)
     return JsonResponse(keywords)
