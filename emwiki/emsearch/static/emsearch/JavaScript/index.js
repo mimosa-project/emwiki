@@ -8,10 +8,9 @@ $(function(){
     }
 
     function ajax_search(){
-        var search_query = $('#emsearch').val()
-        console.log(search_query);
+        var search_query = $('#emsearch').val();
+        var category = $('#category-select').val();
         if(search_query){
-            console.log(true);
             $.ajax({
                 url: '/search/search',
                 type: 'GET',
@@ -19,9 +18,8 @@ $(function(){
                 dataType: 'json',
                 timespan: 1000
             }).done( response => {
-                console.log(response)
+                var result_counter = 0;
                 $('#search_result').empty();
-                $('#search_result').append(`<div><span class='h2' id='number_of_results'>${response.search_results.length}</span> results</div>`);
                 $('#search_result').append(`
                     <table class="table table-hover mt-3">
                      <thead>
@@ -37,16 +35,20 @@ $(function(){
                 )
                 for(index in response.search_results){
                     let result = response.search_results[index]
-                    $('#result-table-body').append(`
-                        <tr class='position-relative'>
-                            <th scope="row" class='text-center'>${parseInt(index) + 1}</th>
-                            <td class="">
-                            <span class='category-${result.category} py-1 px-2 rounded-pill'>${ result.category }</span>
-                            </td>
-                            <td class='position-relative'><a class='stretched-link' href='${ result.link }'>${ result.subject }</a></td>
-                        </tr>
-                    `);
+                    if(category === 'all' || category === result.category){
+                        $('#result-table-body').append(`
+                            <tr class='position-relative'>
+                                <th scope="row" class='text-center'>${parseInt(index) + 1}</th>
+                                <td class="">
+                                <span class='category-${result.category} py-1 px-2 rounded-pill'>${ result.category }</span>
+                                </td>
+                                <td class='position-relative'><a class='stretched-link' href='${ result.link }'>${ result.subject }</a></td>
+                            </tr>
+                        `);
+                        result_counter++;
+                    }
                 }
+                $('#search_result').prepend(`<div><span class='h2' id='number_of_results'>${result_counter}</span> results</div>`);
             })
         }else{
             console.log(false)
@@ -56,4 +58,5 @@ $(function(){
 
     ajax_search();
     $('#emsearch').on('keyup', debounce(ajax_search, 300));
+    $('#category-select').on('change', ajax_search);
 });
