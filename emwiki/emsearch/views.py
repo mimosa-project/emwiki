@@ -20,7 +20,7 @@ def index(request):
 
 
 def search(request):
-    search_query = request.GET.get('search_query')
+    search_query = request.GET.get('search_query', default='')
     if(search_query):
         search_results = seacher.search(search_query)
     else:
