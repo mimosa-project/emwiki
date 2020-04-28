@@ -2,7 +2,20 @@
 
 {% load static %}
 {% block head %}
-<link rel='stylesheet' href="{% static 'emsearch/CSS/index.css' %}" type='text/css'></link>
+<style type="text/css">
+{% for key,value in categorys.items %}
+.btn-{{ key }}{
+  color: #fff;
+  background-color: {{ value.color }};
+  border-color: {{ value.color }};
+}
+.btn-{{ key }}:hover {
+  color: #fff;
+  background-color: {{ value.color_hover }};
+  border-color: {{ value.color_hover }};
+}
+{% endfor %}
+</style>
 {% endblock %}
 
 {% block content %}
