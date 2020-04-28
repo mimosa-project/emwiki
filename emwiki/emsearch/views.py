@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .seacher import search
+from . import seacher
 import json
 import os
 from emwiki.settings import BASE_DIR
@@ -8,17 +8,28 @@ from emwiki.settings import BASE_DIR
 
 
 def index(request):
-    search_query = request.GET.get('search_query')
-    search_results = search(search_query)
+    search_query = request.GET.get('search_query', default='')
     categorys_json_path = os.path.join(BASE_DIR, 'emsearch','search_settings', "categorys.json")
     with open(categorys_json_path, 'r', encoding="utf-8") as f:
         categorys = json.load(f)
     context = {
-        'search_results': search_results,
         'search_query': search_query,
         'categorys': categorys
     }
     return render(request, 'emsearch/index.html', context)
+
+
+def search(request):
+    search_query = request.GET.get('search_query')
+    if(search_query):
+        search_results = seacher.search(search_query)
+    else:
+        search_results = []
+    context = {
+        'search_results': search_results,
+        'search_query': search_query,
+    }
+    return JsonResponse(context)
 
 
 def get_keywords(request):
