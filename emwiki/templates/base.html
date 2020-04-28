@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <base href='/'>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,21 +16,24 @@
         <!-- Select2 -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-        <script src="{% static 'article/JavaScript/article.js' %}" defer='defer'></script>
-        <link rel='stylesheet' href="{% static 'article/CSS/article.css' %}" type='text/css'></link>
+
+        <!-- base CSS, JavaScript -->
+        <link rel='stylesheet' href="{% static 'CSS/base.css' %}" type='text/css'></link>
+        <script src="{% static 'JavaScript/base.js' %}"></script>
+
+        {% block head %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">emwiki</a>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/static/optional/start.html" target="article">Start</a>
-                </li>
+                <a class="navbar-brand" href="/">emwiki</a>
+                <ul class="navbar-nav mr-auto mw-100">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="search/">Search</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                 {% if user.is_authenticated %}
@@ -59,18 +63,21 @@
                 </li>
                 {% endif %}
                 </ul>
-                <select id="article-select" class="nav-item mr-sm-2 h-100 w-25">
-                {% for file_name in file_list %}
-                    {% if file_name == article_name %}
-                        <option value="{{ file_name }}" selected>
-                    {% else %}
-                        <option value="{{ file_name }}">
-                    {% endif %}
-                        {{ file_name }}
-                    </option>
-                {% endfor %}
-                </select>
             </div>
+            
+            <form class="form-inline mw-100 nav-item  mx-auto" action='/search' method='get'>
+                <div class="input-group">
+                    <input id='emsearch-nav' class="form-control mr-sm-2 mw-100" type="search" placeholder="Search" aria-label="Search" autocomplete='on' list='search_keywords' name='search_query'>
+                    <datalist id='search_keywords'>
+                        {% for keyword in search_keywords %}
+                            <option value='{{ keyword }}'>
+                        {% endfor %}
+                    </datalist>
+                <span class=''>
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </span>
+                </div>
+            </form>
         </nav>
             
         <main role="main" class="container-fluid h-100">

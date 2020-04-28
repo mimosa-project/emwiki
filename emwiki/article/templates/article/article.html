@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'article/JavaScript/article.js' %}" defer='defer'></script>
+    <link rel='stylesheet' href="{% static 'article/CSS/article.css' %}" type='text/css'></link>
+{% endblock %}
 
 {% block content %}
         <base href="/">
