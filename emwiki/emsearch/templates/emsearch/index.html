@@ -4,33 +4,33 @@
 {% block head %}
 <style type="text/css">
 {% for key,value in categorys.items %}
-.btn-{{ key }}{
+.category-{{ key }}{
   color: #fff;
   background-color: {{ value.color }};
-  border-color: {{ value.color }};
-}
-.btn-{{ key }}:hover {
-  color: #fff;
-  background-color: {{ value.color_hover }};
-  border-color: {{ value.color_hover }};
 }
 {% endfor %}
 </style>
+
+<script src="{% static 'emsearch/JavaScript/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class='container-fluid'>
-{% for result in search_results%}
-<a class='btn btn-sm col-lg-1 col-md-2 col-sm-3 col-xs-4 m-1 shadow btn-{{ result.category }}' href='{{ result.link }}'>
-    <h5 class="text-left">{{ result.subject }}</h5>
-    <p class="badge badge-secondary float-left">{{ result.category }}</p>
-</a>
-{% endfor %}
+<form class="form-inline mx-auto" action='/search' method='get'>
+  <div class='form-row w-100 mx-auto'>
+    <select class="form-control custom-select col-3 col-md-2 mr-1">
+      <option value="all" selected>All</option>
+      <option value="article">Article</option>
+      <option value="symbol">Symbol</option>
+      <option value="theorem">Theorem</option>
+    </select>
+    <input id='emsearch' class="form-control col-6 col-md-8" type="search" placeholder="Search" aria-label="Search" autocomplete='on' name='search_query' value='{{ search_query }}'>
+    <span class='col-1'>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </span>
+  </div>
+</form>
+<div id='search_result'>
+
 </div>
 
-<script>
-$(function(){
-    $('#emsearch').attr('value', '{{ search_query }}');
-})
-</script>
 {% endblock %}
