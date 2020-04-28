@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'home.apps.HomeConfig',
     'emsearch.apps.EmsearchConfig',
     'accounts.apps.AccountsConfig',
     'article.apps.ArticleConfig',
