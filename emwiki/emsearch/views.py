@@ -10,7 +10,15 @@ from emwiki.settings import BASE_DIR
 def index(request):
     search_query = request.GET.get('search_query')
     search_results = search(search_query)
-    return render(request, 'emsearch/index.html', context={'search_results': search_results, 'search_query': search_query})
+    categorys_json_path = os.path.join(BASE_DIR, 'emsearch','search_settings', "categorys.json")
+    with open(categorys_json_path, 'r', encoding="utf-8") as f:
+        categorys = json.load(f)
+    context = {
+        'search_results': search_results,
+        'search_query': search_query,
+        'categorys': categorys
+    }
+    return render(request, 'emsearch/index.html', context)
 
 
 def get_keywords(request):
