@@ -22,7 +22,7 @@ def get_article_result(search_query):
                 {
                     'weight': weight,
                     'subject': filename,
-                    'category': 'html',
+                    'category': 'article',
                     'link': f'article/{filename}.html',
                 }
             )
