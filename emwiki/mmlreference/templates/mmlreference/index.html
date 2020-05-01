@@ -1,29 +1,12 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% block head %}
-<base href='/static/'>
 
-<!-- MML Reference CSS -->
-<link rel='stylesheet' href="{% static 'mmlreference/CSS/mml-reference.css' %}"></link>
-
-<!-- MML Reference JavaScript 
-
-<script src="{% static 'mmlreference/JavaScript/mml-index.js' %}?version=20190603"></script>
-<script src="{% static 'mmlreference/JavaScript/mml-var.js' %}?version=20190603"></script>
-<script src="{% static 'mmlreference/JavaScript/mml-reference.js' %}?version=20190603"></script>
--->
 {% endblock %}
-
 
 {% block content %}
 <div id='mmlreference-content' class='item'>
+{% include  filename %}
 </div>
-<script id="filename" type="application/json">
-{
-  "filename": "{{ filename }}"
-}
-</script>
-<script src="{% static 'mmlreference/JavaScript/index.js' %}"></script>
 {% endblock %}

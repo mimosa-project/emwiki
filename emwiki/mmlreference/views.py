@@ -6,12 +6,7 @@ import json
 
 
 def index(request, filename):
-    mml_index_path = os.path.join(BASE_DIR, 'mmlreference', 'mml_index.json')
-    with open(mml_index_path, 'r') as f:
-        index_data = json.load(f)
     context = {
-        'filename': filename,
-        'symbol': index_data[filename]['symbol'],
-        'type': index_data[filename]['type']
+        'filename': f'mmlreference/mml-contents/{filename}.html'
     }
-    return render(request, 'mmlreference/index.html', context)
+    return render(request, f'mmlreference/index.html', context)
