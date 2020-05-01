@@ -14,6 +14,8 @@ import locale
 from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')
 
+from emwiki.settings import BASE_DIR
+
 
 class Processor:
     def __init__(self):
@@ -63,7 +65,7 @@ class Processor:
             content_writer.write(contents_dir + '/' + content.filename())
 
 if __name__ == '__main__':
-    from_dir = os.path.abspath(os.path.dirname(__file__)) + '/../../downloaded'
-    to_dir = os.path.abspath(os.path.dirname(__file__)) + '/../../html'
+    from_dir = os.path.join(BASE_DIR, 'static', 'mizar_html')
+    to_dir = os.path.join(BASE_DIR, 'mmlreference', 'templates', 'mmlreference')
     processor = Processor()
     processor.execute(from_dir, to_dir)
