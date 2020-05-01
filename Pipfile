@@ -6,12 +6,17 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 autopep8 = "*"
+pytest = "*"
+e1839a8 = {editable = true,path = "./emwiki/emwiki/setup/mmlfrontend"}
+mmlfrontend = {editable = true,path = "./emwiki/emwiki/setup/mmlfrontend"}
 
 [packages]
 django = "==2.2.10"
 django-environ = "*"
 psycopg2 = ">=2.7,<3.0"
 uwsgi = "==2.0.17"
+lxml = "*"
+natsort = "*"
 
 [requires]
 python_version = "3.7"
