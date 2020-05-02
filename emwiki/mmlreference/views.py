@@ -7,6 +7,6 @@ import json
 
 def index(request, filename):
     context = {
-        'filename': f'mmlreference/mml-contents/{filename}.html'
+        'filename': f'/static/mml-contents/{filename}'
     }
     return render(request, f'mmlreference/index.html', context)
