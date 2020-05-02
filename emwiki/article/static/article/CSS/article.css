@@ -1,18 +1,7 @@
-body {
-    padding-top: 4rem;
-    height: 95vh;
-}
-#file_name {
-    font-size: 150%;
-    margin: 0 auto;
-    text-align: center;
-}
-
 #article {
     border: 0;
     height: 100%;
     width: 100%;
     overflow: scroll;
-    overflow-x: hidden;
     font-size: 150%;
 }
