@@ -37,6 +37,5 @@ class Content:
         for i, e in enumerate(self.elements):
             fp.write("<li>" + e.element_link_html(e)
                      + " [" + e.source_link_html(e) + "]</li>\n")
-            #fp.write("<li><a href='#" + e.html_id() + "'>" + e.filename + "</a></li>\n")
         fp.write("</ol>\n"
                  "</div>\n")
