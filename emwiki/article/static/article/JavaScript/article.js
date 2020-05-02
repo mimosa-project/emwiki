@@ -2,12 +2,6 @@ $('#article').hide()
 
 $(function(){
     let $article = $('#article');
-
-    //setup select2
-    $('#article-select').select2();  
-    $("#article-select").change(function() {
-        window.location.href = "/article/" + $(this).val() + ".html";
-    });
     
     $("#article").on( 'load',function(){
         let file_path = $article[0].contentDocument.location.pathname;
