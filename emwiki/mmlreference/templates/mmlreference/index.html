@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<script src="{% static 'mmlreference/JavaScript/index.js' %}"></script>
+{% endblock %}
 
 {% block content %}
         <base href="/">
             <iframe id='mml-content' src="{{ filename }}" width='100%' height='100%'></iframe>
         </main><!-- /.container -->
-        <script>
-            var iframe_path = '{{ filename }}'+location.hash;
-           $('#mml-content')[0].contentWindow.location.replace(iframe_path);
-        </script>
 {% endblock %}
