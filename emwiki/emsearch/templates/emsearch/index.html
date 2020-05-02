@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block head %}
+<style type="text/css">
+{% for key,value in categorys.items %}
+.category-{{ key }}{
+  color: #fff;
+  background-color: {{ value.color }};
+}
+{% endfor %}
+</style>
+
+<script src="{% static 'emsearch/JavaScript/index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form class="form-inline mx-auto" action='/search' method='get'>
+  <div class='form-row w-100 mx-auto'>
+    <select id='category-select' class="form-control custom-select col-3 col-md-2 mr-1">
+      <option value="all" selected>All</option>
+      <option value="article">Article</option>
+      <option value="symbol">Symbol</option>
+      <option value="theorem">Theorem</option>
+    </select>
+    <input id='emsearch' class="form-control col-6 col-md-8" type="search" placeholder="Search" aria-label="Search" autocomplete='on' name='search_query' value='{{ search_query }}'>
+    <span class='col-1'>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </span>
+  </div>
+</form>
+<div id='search_result'>
+
+</div>
+
+{% endblock %}
