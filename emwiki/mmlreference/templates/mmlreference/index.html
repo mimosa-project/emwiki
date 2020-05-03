@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
-<script src="{% static 'mmlreference/JavaScript/index.js' %}"></script>
+    <script src="{% static 'mmlreference/JavaScript/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-        <base href="/">
-            <iframe id='mml-content' src="{{ filename }}" width='100%' height='100%'></iframe>
-        </main><!-- /.container -->
+    <iframe id='mml-content' src="" width='100%' height='100%'></iframe>
 {% endblock %}
