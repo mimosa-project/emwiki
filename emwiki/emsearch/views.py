@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from . import seacher
+from emsearch.searcher import Searcher
 import json
 import os
 from emwiki.settings import BASE_DIR
@@ -20,14 +20,12 @@ def index(request):
 
 
 def search(request):
-    search_query = request.GET.get('search_query', default='')
-    if(search_query):
-        search_results = seacher.search(search_query)
-    else:
-        search_results = []
+    query = request.GET.get('search_query', default='')
+    searcher = Searcher()
+    searcher.search_all(query)
     context = {
-        'search_results': search_results,
-        'search_query': search_query,
+        'search_results': [result.get_as_dict() for result in searcher.results],
+        'search_query': query,
     }
     return JsonResponse(context)
 
