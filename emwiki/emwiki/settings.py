@@ -142,4 +142,4 @@ else:
 
 STATIC_ROOT = '/code/static'
 
-MML_REFERENCE_INDEX_PATH = os.path.join(BASE_DIR, 'mmlreference', 'index.json')
+SYMBOL_INDEX_PATH = os.path.join(BASE_DIR, 'mmlreference', 'index.json')
