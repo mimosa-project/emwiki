@@ -5,6 +5,7 @@ __author__ = 'nakasho'
 import re
 import codecs
 from mmlfrontend.content import Content
+import json
 
 
 class IndexWriter:
@@ -12,17 +13,14 @@ class IndexWriter:
         self.contents = []
 
     def write(self, path):
-        types = ['"' + c.type + '"' for c in self.contents]
-        symbols = ['"' + self.escape_characters(c.symbol) + '"' for c in self.contents]
-        filenames = ['"' + self.escape_characters(c.filename()) + '"' for c in self.contents]
-        with codecs.open(path, 'w', 'utf-8-sig') as fp:
-            fp.write('var index_data = {"symbols": [' + ','.join(symbols) + '], ')
-            fp.write('"types": [' + ','.join(types) + '], ')
-            fp.write('"filenames": [' + ','.join(filenames) + ']};')
-
-    @staticmethod
-    def escape_characters(str):
-        return re.sub(r'([\\\'"])', r'\\\1', str)
+        index_dict = {}
+        for content in self.contents:
+            index_dict[content.filename()] = {
+                'type': content.type,
+                'symbol': content.symbol
+            }
+        with open(path, 'w') as f:
+            json.dump(index_dict, f)
 
 
 class ContentWriter:
