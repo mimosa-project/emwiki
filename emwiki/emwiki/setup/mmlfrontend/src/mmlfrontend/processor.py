@@ -14,7 +14,8 @@ import locale
 from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')
 
-from emwiki.settings import BASE_DIR
+from emwiki.settings import BASE_DIR, MML_REFERENCE_INDEX_PATH
+import urllib
 
 
 class Processor:
@@ -49,7 +50,7 @@ class Processor:
     def write(self, to_dir):
         index_writer = IndexWriter()
         index_writer.contents = self.contents
-        index_writer.write(to_dir + '/js/mml-index.js')
+        index_writer.write(MML_REFERENCE_INDEX_PATH)
 
         contents_dir = to_dir + '/mml-contents'
         if not os.path.exists(contents_dir):
@@ -66,6 +67,6 @@ class Processor:
 
 if __name__ == '__main__':
     from_dir = os.path.join(BASE_DIR, 'static', 'mizar_html')
-    to_dir = os.path.join(BASE_DIR, 'mmlreference', 'templates', 'mmlreference')
+    to_dir = os.path.join(BASE_DIR, 'static')
     processor = Processor()
     processor.execute(from_dir, to_dir)
