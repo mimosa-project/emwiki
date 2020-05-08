@@ -4,7 +4,9 @@ from difflib import SequenceMatcher
 import json
 from mmlreference.symbols import SymbolIndex
 from emwiki.settings import SYMBOL_INDEX_PATH
-
+from mmlreference.models import Symbol
+from django.db.models import Q
+import urllib
 
 class SearchResult():
 
@@ -56,18 +58,19 @@ class Searcher():
         self.results.sort(key=lambda symbolcontent: symbolcontent.weight, reverse=True)
 
     def search_symbol(self, query):
-        symbolindex = SymbolIndex()
-        symbolindex.read(SYMBOL_INDEX_PATH)
-        for symbolcontent in symbolindex.symbolcontents:
-            query_len, symbol_len = len(query), len(symbolcontent.symbol)
-            weight = max([SequenceMatcher(None, query, symbolcontent.symbol[i:i + query_len]).ratio() for i in range(symbol_len - query_len + 1)], default=0)
-            if weight > 0.8:
-                searchresult = SearchResult()
-                searchresult.set(
-                    weight,
-                    symbolcontent.symbol,
-                    symbolcontent.type,
-                    f'mmlreference/{symbolcontent.symbol}'
-                )
-                self.results.append(searchresult)
+        if query:
+            object_list = Symbol.objects.filter(
+                Q(symbol__icontains=query) | Q(type__exact=query)
+            )
+        else:
+            return
+        for object in object_list:
+            searchresult = SearchResult()
+            searchresult.set(
+                1,
+                object.symbol,
+                object.type,
+                f'mmlreference/{urllib.parse.quote(object.symbol)}'
+            )
+            self.results.append(searchresult)
         self.results.sort(key=lambda symbolcontent: symbolcontent.weight, reverse=True)
