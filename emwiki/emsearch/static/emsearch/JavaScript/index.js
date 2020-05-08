@@ -11,6 +11,11 @@ $(function(){
         var search_query = $('#emsearch').val();
         var category = $('#category-select').val();
         if(search_query){
+            $('#search_result').html(`
+                <div class="spinner-border text-primary"  role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            `)
             $.ajax({
                 url: '/search/search',
                 type: 'GET',
