@@ -6,21 +6,22 @@ import re
 import codecs
 from mmlfrontend.content import Content
 import json
+from mmlreference.models import Symbol
 
 
 class IndexWriter:
     def __init__(self):
         self.contents = []
 
-    def write(self, path):
-        index_dict = {}
+    def write(self):
+        Symbol.objects.all().delete()
         for content in self.contents:
-            index_dict[content.filename()] = {
-                'type': content.type,
-                'symbol': content.symbol
-            }
-        with open(path, 'w') as f:
-            json.dump(index_dict, f)
+            symbol = Symbol(
+                symbol=content.type,
+                type=content.type,
+                filename=content.filename()
+            )
+            symbol.save()
 
 
 class ContentWriter:
