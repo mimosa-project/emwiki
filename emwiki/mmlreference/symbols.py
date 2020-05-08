@@ -1,40 +1,23 @@
 import json
-
-
-class SymbolContent():
-
-    def __init__(self):
-        self.filename = ''
-        self.symbol = ''
-        self.type = ''
-
-    def set(self, filename, symbol, type):
-        self.filename = filename
-        self.symbol = symbol
-        self.type = type
+from mmlreference.models import Symbol
 
 
 class SymbolIndex():
 
     def __init__(self):
-        self.symbolcontents = []
+        self.symbols = []
 
-    def read(self, path):
-        with open(path, 'r') as f:
+    def read(self, index_path):
+        with open(index_path, 'r') as f:
             index_dict = json.load(f)
         for key, value in index_dict.items():
-            symbolcontent = SymbolContent()
-            symbolcontent.set(key, value['symbol'], value['type'])
-            self.symbolcontents.append(symbolcontent)
+            symbol = Symbol(
+                symbol=value['symbol'],
+                type=value['type'],
+                filename=key
+            )
+            self.symbols.append(symbol)
 
-    def find_symbolcontent_from_filename(self, filename):
-        for symbolcontent in self.symbolcontents:
-            if filename == symbolcontent.filename:
-                return symbolcontent
-        return
-
-    def find_symbolcontent_from_symbol(self, symbol):
-        for symbolcontent in self.symbolcontents:
-            if symbol == symbolcontent.symbol:
-                return symbolcontent
-        return
+    def save(self):
+        for symbol in self.symbols:
+            symbol.save()
