@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block content %}
+<div class='w-100 m-3'>
 <form class="form-inline mx-auto" action='/search' method='get'>
   <div class='form-row w-100 mx-auto'>
     <select id='category-select' class="form-control custom-select col-3 col-md-2 mr-1">
@@ -29,8 +30,8 @@
     </span>
   </div>
 </form>
-<div id='search_result'>
+<div id='search_result' class='mt-2'>
 
 </div>
-
+</div>
 {% endblock %}
