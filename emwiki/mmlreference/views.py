@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from emwiki.settings import SYMBOL_INDEX_PATH
-import json
-from django.http.response import JsonResponse, HttpResponseNotFound
+from django.http.response import JsonResponse
 import os
 import urllib
-from .symbols import SymbolIndex
+from mmlreference.models import Symbol
 
 # Create your views here.
 
@@ -17,23 +15,20 @@ def index(request, symbol):
 def index_json(request):
     symbol_encoded = request.GET.get('symbol', None)
     filename = request.GET.get('filename', None)
-    if filename or symbol_encoded:
-        symbolindex = SymbolIndex()
-        symbolindex.read(SYMBOL_INDEX_PATH)
     if filename:
-        symbolcontent = symbolindex.find_symbolcontent_from_filename(filename)
+        symbol = Symbol.objects.get(filename=filename)
     elif symbol_encoded:
-        symbol = urllib.parse.unquote(symbol_encoded)
-        symbolcontent = symbolindex.find_symbolcontent_from_symbol(symbol)
+        symbol_decoded = urllib.parse.unquote(symbol_encoded)
+        symbol = Symbol.objects.get(symbol=symbol_decoded)
     else:
         return
-    if not symbolcontent:
+    if not symbol:
         return
     response_dict = {
         'url_subdirectory': 'mmlreference',
         'static_subdirectory': os.path.join('static', 'mml-contents'),
-        'filename': symbolcontent.filename,
-        'symbol': symbolcontent.symbol,
-        'type': symbolcontent.type
+        'filename': symbol.filename,
+        'symbol': symbol.symbol,
+        'type': symbol.type
     }
     return JsonResponse(response_dict)
