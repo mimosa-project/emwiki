@@ -1,5 +1,29 @@
 {
     "article": {
-        "color": "#339999"
+        "color": "#EF845C"
+    },
+    "attr": {
+        "color": "#F9C270"
+    },
+    "cluster": {
+        "color": "#FFF67F"
+    },
+    "element": {
+        "color": "#C1DB81"
+    },
+    "func": {
+        "color": "#69BD83"
+    },
+    "mode": {
+        "color": "#61C1BE"
+    },
+    "pred": {
+        "color": "#54C3F1"
+    },
+    "reduce": {
+        "color": "#6C9BD2"
+    },
+    "struct": {
+        "color": "#796BAF"
     }
 }
