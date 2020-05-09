@@ -1,6 +1,0 @@
-- Parsing
-    tree structure is different from xml-Mizar
-    attribute is not redefine
-    "mode" + "is" pattern is not enclosed with oo::Definition
-    "redefine" + "pred" does not have the same parent node
-    There are keywords that don't have anchors ("redefine" + "mode", and so on)
