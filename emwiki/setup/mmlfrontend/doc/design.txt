@@ -1,0 +1,37 @@
+0. example
+
+Scala API docs
+http://www.scala-lang.org/api/current/
+
+HTML help by Microsoft
+
+
+1. checkboxes
+- basics
+[ ] mode
+[ ] func
+[ ] pred
+[ ] struct
+[ ] attr
+
+- additional
+[ ] cluster
+[ ] redefine
+
+- deal in advance
+[ ] synonym
+[ ] antonym
+
+2. additional information
+mode
+    hierarchy
+    relate func
+    relate pred
+    relate attr
+    cluster mapping
+func
+    redefine varieties
+pred
+    varieties
+struct
+    hierarchy
