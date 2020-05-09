@@ -40,9 +40,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'mmlreference.apps.MmlreferenceConfig',
+    'symbol.apps.SymbolConfig',
     'home.apps.HomeConfig',
-    'emsearch.apps.EmsearchConfig',
+    'search.apps.SearchConfig',
     'accounts.apps.AccountsConfig',
     'article.apps.ArticleConfig',
     'django.contrib.admin',
@@ -142,4 +142,4 @@ else:
 
 STATIC_ROOT = '/code/static'
 
-SYMBOL_INDEX_PATH = os.path.join(BASE_DIR, 'mmlreference', 'index.json')
+SYMBOL_INDEX_PATH = os.path.join(BASE_DIR, 'symbol', 'index.json')
