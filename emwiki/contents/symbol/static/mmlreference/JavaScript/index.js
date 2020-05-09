@@ -22,7 +22,7 @@ $(function(){
             symbol: symbol
         };
         $.getJSON(
-            '/mmlreference/index_json',
+            '/symbol/index_json',
             body,
             function(index){
                 state = {
@@ -80,6 +80,6 @@ $(function(){
             })
         });
         //add iframe.css
-        $('#mml-content').contents().find("head").append('<link rel="stylesheet" href="/static/mmlreference/CSS/content.css" type="text/css" />');
+        $('#mml-content').contents().find("head").append('<link rel="stylesheet" href="/static/symbol/CSS/content.css" type="text/css" />');
     });
 });

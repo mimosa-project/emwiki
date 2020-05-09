@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.http.response import JsonResponse
 import os
 import urllib
-from mmlreference.models import Symbol
+from symbol.models import Symbol
 
 # Create your views here.
 
 
 def index(request, symbol):
     context = {}
-    return render(request, f'mmlreference/index.html', context)
+    return render(request, f'symbol/index.html', context)
 
 
 def index_json(request):
@@ -25,7 +25,7 @@ def index_json(request):
     if not symbol:
         return
     response_dict = {
-        'url_subdirectory': 'mmlreference',
+        'url_subdirectory': 'symbol',
         'static_subdirectory': os.path.join('static', 'mml-contents'),
         'filename': symbol.filename,
         'symbol': symbol.symbol,

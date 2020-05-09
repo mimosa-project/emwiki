@@ -1,5 +1,5 @@
 import json
-from mmlreference.models import Symbol
+from symbol.models import Symbol
 
 
 class SymbolIndex():
