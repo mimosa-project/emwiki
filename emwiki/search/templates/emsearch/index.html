@@ -11,7 +11,7 @@
 {% endfor %}
 </style>
 
-<script src="{% static 'emsearch/JavaScript/index.js' %}"></script>
+<script src="{% static 'search/JavaScript/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
       <option value="symbol">Symbol</option>
       <option value="theorem">Theorem</option>
     </select>
-    <input id='emsearch' class="form-control col-6 col-md-8" type="search" placeholder="Search" aria-label="Search" autocomplete='on' name='search_query' value='{{ search_query }}'>
+    <input id='search' class="form-control col-6 col-md-8" type="search" placeholder="Search" aria-label="Search" autocomplete='on' name='search_query' value='{{ search_query }}'>
     <span class='col-1'>
         <button class="btn btn-outline-success" type="submit">Search</button>
     </span>

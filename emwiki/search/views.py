@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from emsearch.searcher import Searcher
+from search.searcher import Searcher
 import json
 import os
 from emwiki.settings import BASE_DIR
@@ -9,14 +9,14 @@ from emwiki.settings import BASE_DIR
 
 def index(request):
     search_query = request.GET.get('search_query', default='')
-    categorys_json_path = os.path.join(BASE_DIR, 'emsearch', 'search_settings', "categorys.json")
+    categorys_json_path = os.path.join(BASE_DIR, 'search', 'search_settings', "categorys.json")
     with open(categorys_json_path, 'r', encoding="utf-8") as f:
         categorys = json.load(f)
     context = {
         'search_query': search_query,
         'categorys': categorys
     }
-    return render(request, 'emsearch/index.html', context)
+    return render(request, 'search/index.html', context)
 
 
 def search(request):
@@ -31,7 +31,7 @@ def search(request):
 
 
 def get_keywords(request):
-    keywords_json_path = os.path.join(BASE_DIR, 'emsearch', 'search_settings', "keywords.json")
+    keywords_json_path = os.path.join(BASE_DIR, 'search', 'search_settings', "keywords.json")
     with open(keywords_json_path, 'r', encoding="utf-8") as f:
         keywords = json.load(f)
     return JsonResponse(keywords)

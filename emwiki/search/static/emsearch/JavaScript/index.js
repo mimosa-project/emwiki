@@ -8,7 +8,7 @@ $(function(){
     }
 
     function ajax_search(){
-        var search_query = $('#emsearch').val();
+        var search_query = $('#search').val();
         var category = $('#category-select').val();
         if(search_query){
             $('#search_result').html(`
@@ -62,6 +62,6 @@ $(function(){
     }
 
     ajax_search();
-    $('#emsearch').on('keyup', debounce(ajax_search, 300));
+    $('#search').on('keyup', debounce(ajax_search, 300));
     $('#category-select').on('change', ajax_search);
 });

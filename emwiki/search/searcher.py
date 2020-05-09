@@ -2,9 +2,9 @@ from article.classes import ArticleHandler
 import re
 from difflib import SequenceMatcher
 import json
-from mmlreference.symbols import SymbolIndex
+from symbol.symbols import SymbolIndex
 from emwiki.settings import SYMBOL_INDEX_PATH
-from mmlreference.models import Symbol
+from symbol.models import Symbol
 from django.db.models import Q
 import urllib
 
@@ -70,7 +70,7 @@ class Searcher():
                 1,
                 object.symbol,
                 object.type,
-                f'mmlreference/{urllib.parse.quote(object.symbol)}'
+                f'symbol/{urllib.parse.quote(object.symbol)}'
             )
             self.results.append(searchresult)
         self.results.sort(key=lambda symbolcontent: symbolcontent.weight, reverse=True)
