@@ -19,7 +19,7 @@ $(function(){
         })
 
         //add base directory
-        $article.contents().find("head").prepend("<base href='/static/mizar_html/' />")
+        $article.contents().find("head").prepend("<base href='/static/mml_articles/' />")
         
         //add iframe.css
         $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
@@ -31,10 +31,6 @@ $(function(){
         });
         
         add_emwiki_components($article);
-        $('#file_name').text(file_name);
-        $article[0].contentWindow.onbeforeunload = function () {
-            $("#file_name").text("Now Loading...");
-        };
     });
 
     // rendering commentPreview from commentTextarea text
