@@ -1,7 +1,7 @@
 # Mizar
-mizar_html/
+mml_articles/
 mml/
-mml-contents/
+mml_symbols/
 
 # Database
 pgsql-data/
