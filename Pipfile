@@ -9,6 +9,7 @@ autopep8 = "*"
 pytest = "*"
 e1839a8 = {editable = true,path = "./emwiki/emwiki/setup/mmlfrontend"}
 mmlfrontend = {editable = true,path = "./emwiki/emwiki/setup/mmlfrontend"}
+wheel = "*"
 
 [packages]
 django = "==2.2.10"
