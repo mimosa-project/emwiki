@@ -40,11 +40,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'symbol.apps.SymbolConfig',
+    'contents.contents.apps.ContentsConfig',
+    'contents.symbol.apps.SymbolConfig',
+    'contents.article.apps.ArticleConfig',
     'home.apps.HomeConfig',
     'search.apps.SearchConfig',
     'accounts.apps.AccountsConfig',
-    'article.apps.ArticleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,4 +143,10 @@ else:
 
 STATIC_ROOT = '/code/static'
 
-SYMBOL_INDEX_PATH = os.path.join(BASE_DIR, 'symbol', 'index.json')
+MML_ARTICLES_DIR = os.path.join(BASE_DIR, 'static', 'mml_articles')
+MML_SYMBOLS_DIR = os.path.join(BASE_DIR, 'static', 'mml_symbols')
+MML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
+MML_COMMENTED_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+COMMENTS_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'commentes')
+STATIC_ARTICLES_URL = STATIC_URL + "mml_articles/"
+STATIC_SYMBOLS_URL = STATIC_URL + "mml_symbols/"

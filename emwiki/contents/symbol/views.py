@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http.response import JsonResponse
 import os
 import urllib
-from symbol.models import Symbol
+from contents.symbol.models import Symbol
+from emwiki.settings import STATIC_SYMBOLS_URL
 
 # Create your views here.
 
@@ -26,7 +27,7 @@ def index_json(request):
         return
     response_dict = {
         'url_subdirectory': 'symbol',
-        'static_subdirectory': os.path.join('static', 'mml-contents'),
+        'static_subdirectory': STATIC_SYMBOLS_URL,
         'filename': symbol.filename,
         'symbol': symbol.symbol,
         'type': symbol.type

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from search.searcher import Searcher
 import json
 import os
@@ -19,6 +20,7 @@ def index(request):
     return render(request, 'search/index.html', context)
 
 
+@require_http_methods(["GET", ])
 def search(request):
     query = request.GET.get('search_query', default='')
     searcher = Searcher()
@@ -30,6 +32,7 @@ def search(request):
     return JsonResponse(context)
 
 
+@require_http_methods(["GET", ])
 def get_keywords(request):
     keywords_json_path = os.path.join(BASE_DIR, 'search', 'search_settings', "keywords.json")
     with open(keywords_json_path, 'r', encoding="utf-8") as f:

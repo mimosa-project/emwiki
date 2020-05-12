@@ -1,12 +1,9 @@
-from article.classes import ArticleHandler
-import re
+from contents.article.classes import ArticleHandler
+from contents.symbol.models import Symbol
 from difflib import SequenceMatcher
-import json
-from symbol.symbols import SymbolIndex
-from emwiki.settings import SYMBOL_INDEX_PATH
-from symbol.models import Symbol
 from django.db.models import Q
 import urllib
+
 
 class SearchResult():
 

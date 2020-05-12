@@ -1,5 +1,5 @@
 import json
-from symbol.models import Symbol
+from contents.symbol.models import Symbol
 
 
 class SymbolIndex():
