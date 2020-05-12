@@ -2,13 +2,10 @@ import glob
 import os
 import re
 import textwrap
-from emwiki.settings import BASE_DIR
+from emwiki.settings import MML_DIR, MML_COMMENTED_DIR, COMMENTS_DIR
 
 
 class ArticleHandler():
-    MML_DIR = "mizarfiles/mml/"
-    MML_COMMENTED_DIR = "mizarfiles/commentedMizar/"
-    COMMENT_DIR = "mizarfiles/comment/"
 
     def __init__(self, article_name):
         self.article_name = article_name
@@ -35,7 +32,7 @@ class ArticleHandler():
             List: [MizFile, MizFile, ...]
         """
         MizFile_list = []
-        mizfile_path_list = glob.glob(os.path.join(BASE_DIR, cls.MML_DIR, "*"))
+        mizfile_path_list = glob.glob(os.path.join(MML_DIR, "*"))
         for path in mizfile_path_list:
             mizfile = MizFile()
             mizfile.load(path)
@@ -49,8 +46,8 @@ class ArticleHandler():
             List: [Comment, Comment, Comment,...]
         """
         comment_list = []
-        comment_path_list = glob.glob(os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name, "*"))
-        mizfile = MizFile().load(os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz'))
+        comment_path_list = glob.glob(os.path.join(COMMENTS_DIR, self.article_name, "*"))
+        mizfile = MizFile().load(os.path.join(MML_DIR, f'{self.article_name}.miz'))
         for path in comment_path_list:
             comment = Comment(mizfile)
             comment.load(path)
@@ -65,7 +62,7 @@ class ArticleHandler():
             block_order (number): number of block order
             text (string): content text of Comment
         """
-        mizfile_path = os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz')
+        mizfile_path = os.path.join(MML_DIR, f'{self.article_name}.miz')
         mizfile = MizFile()
         mizfile.load(mizfile_path)
         comment = Comment(mizfile)
@@ -73,7 +70,7 @@ class ArticleHandler():
         comment.block_order = block_order
         comment.text = text
         comment_file_name = f'{block}_{block_order}'
-        comment_path = os.path.join(BASE_DIR, self.COMMENT_DIR, comment.mizfile.name, comment_file_name)
+        comment_path = os.path.join(COMMENTS_DIR, comment.mizfile.name, comment_file_name)
         comment.save(comment_path)
 
     def embed_comment_to_mml(self):
@@ -81,8 +78,8 @@ class ArticleHandler():
         """
         mizfile = MizFile()
         mizfile_name = f'{self.article_name}.miz'
-        mizfile_load_path = os.path.join(BASE_DIR, self.MML_DIR, mizfile_name)
-        mizfile_save_path = os.path.join(BASE_DIR, self.MML_COMMENTED_DIR, mizfile_name)
+        mizfile_load_path = os.path.join(MML_DIR, mizfile_name)
+        mizfile_save_path = os.path.join(MML_COMMENTED_DIR, mizfile_name)
         mizfile.load(mizfile_load_path)
         comments = self.comment_bundle_create()
         mizfile.embed_comments(comments)
@@ -101,9 +98,9 @@ class ArticleHandler():
                 ...
             }
         """
-        comments_dir = os.path.join(BASE_DIR, self.COMMENT_DIR, self.article_name)
+        comments_dir = os.path.join(COMMENTS_DIR, self.article_name)
         comment_path_list = glob.glob(os.path.join(comments_dir, "*"))
-        mizfile_path = os.path.join(BASE_DIR, self.MML_DIR, f'{self.article_name}.miz')
+        mizfile_path = os.path.join(MML_DIR, f'{self.article_name}.miz')
         mizfile = MizFile()
         mizfile.load(mizfile_path)
         comment_list = [Comment(mizfile).load(path) for path in comment_path_list]

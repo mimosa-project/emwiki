@@ -4,14 +4,16 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .classes import ArticleHandler
 import os
+from emwiki.settings import STATIC_ARTICLES_URL
+
 
 @ensure_csrf_cookie
 def render_article(request, article_name):
     file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
     file_list.sort()
-    file_path = os.path.join('mizar_html', article_name)
+    static_article_url = STATIC_ARTICLES_URL + article_name
     context = {'article_name': article_name.split('.')[0],
-               'file_path': file_path,
+               'static_article_url': static_article_url,
                'file_list': file_list,
               }
     return render(request, 'article/article.html', context)
