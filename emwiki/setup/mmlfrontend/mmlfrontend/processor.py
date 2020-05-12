@@ -6,16 +6,19 @@ import glob
 import os
 import os.path
 import time
-from mmlfrontend.reader import *
-from mmlfrontend.composer import *
-from mmlfrontend.writer import *
-from mmlfrontend.elements.element import *
+from mmlfrontend.reader import Reader
+from mmlfrontend.composer import Composer
+from mmlfrontend.writer import ModelWriter, ContentWriter
+from mmlfrontend.elements.element import Element
 import locale
 from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')
 
-from emwiki.settings import BASE_DIR, MML_REFERENCE_INDEX_PATH
+import django
+django.setup()
+from emwiki.settings import BASE_DIR, MML_ARTICLES_DIR, MML_SYMBOLS_DIR
 import urllib
+from contents.contents.models import Article
 
 
 class Processor:
@@ -23,6 +26,7 @@ class Processor:
         Element._total_num = 0
         self.elements = []
         self.contents = []
+        self.articles = []
 
     def execute(self, from_dir, to_dir):
         self.read(from_dir)
@@ -38,8 +42,11 @@ class Processor:
             print("reading {}/{}".format(i, total_count))
             reader = Reader()
             reader.read(html)
+            basename = os.path.basename(html)
+            article = Article(name=os.path.splitext(basename)[0], filename=basename)
             self.elements += reader.elements
-
+            self.articles.append(article)
+            
     def compose(self):
         print("composing...")
         composer = Composer()
@@ -48,11 +55,12 @@ class Processor:
         self.contents = composer.contents
 
     def write(self, to_dir):
-        index_writer = IndexWriter()
-        index_writer.contents = self.contents
-        index_writer.write(MML_REFERENCE_INDEX_PATH)
+        model_writer = ModelWriter()
+        model_writer.contents = self.contents
+        model_writer.articles = self.articles
+        model_writer.write()
 
-        contents_dir = to_dir + '/mml-contents'
+        contents_dir = to_dir
         if not os.path.exists(contents_dir):
             time.sleep(0.01)
             os.mkdir(contents_dir)
@@ -65,8 +73,9 @@ class Processor:
             content_writer.content = content
             content_writer.write(contents_dir + '/' + content.filename())
 
+
 if __name__ == '__main__':
-    from_dir = os.path.join(BASE_DIR, 'static', 'mizar_html')
-    to_dir = os.path.join(BASE_DIR, 'static')
+    from_dir = os.path.join(BASE_DIR, 'setup', 'mmlfrontend', 'tests', 'data', 'reader')  #MML_ARTICLES_DIR
+    to_dir = MML_SYMBOLS_DIR
     processor = Processor()
     processor.execute(from_dir, to_dir)

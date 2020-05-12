@@ -2,26 +2,33 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-import re
 import codecs
-from mmlfrontend.content import Content
-import json
-from symbol.models import Symbol
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emwiki.settings')
+import django
+django.setup()
+from contents.contents.models import Symbol, Article
 
 
-class IndexWriter:
+class ModelWriter:
     def __init__(self):
         self.contents = []
+        self.articles = []
 
     def write(self):
         Symbol.objects.all().delete()
+        Article.objects.all().delete()
         for content in self.contents:
             symbol = Symbol(
-                symbol=content.type,
-                type=content.type,
+                name=content.symbol,
                 filename=content.filename()
             )
+            print(len(symbol.name), symbol.name)
             symbol.save()
+        for article in self.articles:
+            print(len(article.name), article.name)
+            article.save()
 
 
 class ContentWriter:

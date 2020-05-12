@@ -35,17 +35,17 @@ class TestProcessor(TestCase):
         self.assertEqual(96, len(self.filter_by_type(processor.elements, 'attr')))
         self.assertEqual(279, len(self.filter_by_type(processor.elements, 'cluster')))
 
-    def copy_resources(self):
-        files = ["index.html", "start.html", "js/mml-var.js", "js/mml-reference.js", "css/mml-reference.css"]
-        os.makedirs(self._local_dir + '/data/processor/js/', exist_ok=True)
-        os.makedirs(self._local_dir + '/data/processor/css/', exist_ok=True)
-        for file in files:
-            src = self._local_dir + "/../html/" + file
-            dst = self._local_dir + "/data/processor/" + file
-            shutil.copyfile(src, dst)
+    #def copy_resources(self):
+    #    files = ["index.html", "start.html", "js/mml-var.js", "js/mml-reference.js", "css/mml-reference.css"]
+    #    os.makedirs(self._local_dir + '/data/processor/js/', exist_ok=True)
+    #    os.makedirs(self._local_dir + '/data/processor/css/', exist_ok=True)
+    #    for file in files:
+    #        src = self._local_dir + "/../html/" + file
+    #        dst = self._local_dir + "/data/processor/" + file
+    #        shutil.copyfile(src, dst)
 
     def test_execute(self):
-        self.copy_resources()
+        # self.copy_resources()
         contents_dir = self._local_dir + '/data/processor/mml-contents'
         if os.path.exists(contents_dir):
             shutil.rmtree(contents_dir)
@@ -55,5 +55,5 @@ class TestProcessor(TestCase):
         processor = Processor()
         processor.execute(from_dir, to_dir)
 
-    def test_copy_only(self):
-        self.copy_resources()
+    # def test_copy_only(self):
+    #     self.copy_resources()
