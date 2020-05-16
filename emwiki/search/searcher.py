@@ -1,4 +1,3 @@
-from contents.article.classes import ArticleHandler
 from contents.symbol.models import Symbol
 from difflib import SequenceMatcher
 from django.db.models import Q
