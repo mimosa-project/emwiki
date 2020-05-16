@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import urllib
-from .models import Symbol, Article
+from contents.symbol.models import Symbol
+from contents.article.models import Article
 import os
+from django.urls import reverse
 
 
 def index(request, type, name):
@@ -13,7 +15,9 @@ def index(request, type, name):
         'js_url': type + '/JavaScript/index.js',
         'context_js': {
             'type': type,
-            'name': name
+            'name': name,
+            'submit_comment_url': reverse('article:submit_comment'),
+            'order_comments_url': reverse('article:order_comments')
         }
     }
     return render(request, f'contents/index.html', context)
