@@ -4,6 +4,7 @@ from collections import deque
 
 
 class MizFile():
+
     TARGET_BLOCK = (
         "theorem",
         "definition",
@@ -14,33 +15,17 @@ class MizFile():
     )
     
     def __init__(self):
-        self.name = ""
-        self.text = ""
+        self.text = ''
 
-    def load(self, path):
-        """load Mizar File from path
-        
-        Args:
-            path (path): Mizar file exist
-        
-        Returns:
-            MizFile: self
-        """
-        self.name = os.path.splitext(os.path.basename(path))[0]
-        with open(path, "r") as f:
+    def read(self, from_dir):
+        with open(from_dir, 'r') as f:
             self.text = f.read()
-        return self
 
-    def save(self, path):
-        """save Mizar File to path
-
-        Args:
-            path (path): save self.text to path
-        """
-        with open(path, "w") as f:
+    def write(self, to_dir):
+        with open(to_dir, 'w') as f:
             f.write(self.text)
 
-    def collect_comment_locations(self):
+    def _collect_comment_locations(self):
         """collect comment locations
 
         Returns:
@@ -55,7 +40,9 @@ class MizFile():
         # To count the number of times each block appears
         count_dict = dict([[block, 0] for block in list(self.TARGET_BLOCK)])
         # this pattern match like "theorem", "  proof", "theorem :Th1:"
-        target_pattern = re.compile(f"([^a-zA-Z_]|^)+(?P<block>{'|'.join(self.TARGET_BLOCK)})([^a-zA-Z_]|$)")
+        target_pattern = re.compile(
+            f"([^a-zA-Z_]|^)+(?P<block>{'|'.join(self.TARGET_BLOCK)})([^a-zA-Z_]|$)"
+        )
         # stack block keyword like ["definition", "proof", "proof"]
         # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
         block_stack = []
@@ -100,29 +87,22 @@ class MizFile():
         return comment_locations
 
     def embed_comments(self, comments):
-        """embed comments to MizFile text
-        
-        Args:
-            comments (List of Comment): List of Comment which embed
+        """embed  to MizFile text
         """
 
-        if not comments:
-            print(f"skipped {self.name} becasue comment not exist")
-            return
-        print(f"embeded {len(comments)} comments to {self.name}")
         commented_mizar = ""
         mizar_lines = self.text.splitlines()
-        comment_location_list = self.collect_comment_locations()
+        comment_locations = self._collect_comment_locations()
         comment_dict = {block: {} for block in self.TARGET_BLOCK}
         for comment in comments:
             comment_dict[comment.block][comment.block_order] = comment
-        while len(comment_location_list):
-            comment_location_dict = comment_location_list.pop(-1)
+        while len(comment_locations):
+            comment_location_dict = comment_locations.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
-            comment = comment_dict[block].get(str(block_order), Comment(self))
-            if comment.text == "":
+            comment = comment_dict[block].get(str(block_order), None)
+            if comment is None or comment.text == '':
                 continue
             if block == "proof":
                 mizar_lines.insert(line_number + 1, comment.format_text())
@@ -131,49 +111,49 @@ class MizFile():
         commented_mizar = '\n'.join(mizar_lines)
         self.text = commented_mizar
 
-
-class Comment():
-    HEADER = "::: "
-    LINE_MAX_LENGTH = 75
-
-    def __init__(self, mizfile):
-        self.mizfile = mizfile
-        self.block = ""
-        self.block_order = 0
-        self.text = ""
-
-    def load(self, path):
-        """load comment from path
-        
-        Args:
-            path (path): path where comment exist
+    def extract_comments(self, article):
+        """extract comment in mizar string
         """
-        basename = os.path.basename(path)
-        self.article_name = os.path.splitext(basename)[0]
-        self.block, self.block_order = basename.split("_")
-        with open(path, "r") as f:
-            self.text = f.read()
-        return self
-
-    def save(self, path):
-        """save comment to path
-
-        Args:
-            path (path): path where save comment
-        """
-        if not os.path.exists(os.path.dirname(path)):
-            os.mkdir(os.path.dirname(path))
-        with open(path, 'w') as f:
-            f.write(self.text)
-
-    def format_text(self):
-        """format comment text
-        
-        Returns:
-            string: format comment text
-        """
+        print(f"extract {article.name}")
+        comments = []
         comment_lines = []
-        for line in self.text.splitlines():
-            for cut_line in textwrap.wrap(line, self.LINE_MAX_LENGTH):
-                comment_lines.append(f'{self.HEADER}{cut_line}')
-        return '\n'.join(comment_lines)
+        mizar_lines = self.text.splitlines()
+        push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
+        comment_locations = self._collect_comment_locations()
+        self.comments = []
+        while len(comment_locations):
+            comment_location_dict = comment_locations.pop(-1)
+            block = comment_location_dict["block"]
+            block_order = comment_location_dict["block_order"]
+            line_number = comment_location_dict["line_number"]
+            comment_deque = deque()
+            # Except for "proof", the comment is written before block,
+            # but in "proof", the comment is written after block
+            start = line_number - 1
+            step = -1
+            if block == "proof":
+                start = line_number + 1
+                step = 1
+
+            # Check each line matches push_pattern
+            for index, line in enumerate(mizar_lines[start::step]):
+                line_match = push_pattern.match(line)
+                if line_match:
+                    if block == "proof":
+                        comment_deque.append(line_match.group("comment"))
+                    else:
+                        comment_deque.appendleft(line_match.group("comment"))
+                    comment = Comment(
+                        article=article,
+                        block=block,
+                        block_order=block_order,
+                        text='\n'.join(comment_deque)
+                    )
+                    comments.append(comment)
+                    comment_lines.append(start + step * index)
+                else:
+                    break
+        mizar_lines_without_comment = \
+            [mizar_lines[i] for i in range(len(mizar_lines)) if i not in comment_lines]
+        self.text = '\n'.join(mizar_lines_without_comment)
+        return comments
