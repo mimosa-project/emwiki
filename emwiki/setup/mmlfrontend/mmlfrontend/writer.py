@@ -7,8 +7,11 @@ import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emwiki.settings')
 import django
+import os.path
 django.setup()
-from contents.contents.models import Symbol, Article
+from contents.article.models import Article, Comment
+from contents.article.classes import MizFile
+from contents.symbol.models import Symbol
 
 
 class ModelWriter:
@@ -19,16 +22,29 @@ class ModelWriter:
     def write(self):
         Symbol.objects.all().delete()
         Article.objects.all().delete()
+        symbols = []
+        articles = []
+        comments = []
         for content in self.contents:
             symbol = Symbol(
                 name=content.symbol,
                 filename=content.filename()
             )
-            print(len(symbol.name), symbol.name)
-            symbol.save()
+            symbols.append(symbol)
         for article in self.articles:
-            print(len(article.name), article.name)
-            article.save()
+            articles.append(article)
+            if os.path.exists(article.get_commented_path()):
+                print('exists')
+                mizfile = MizFile()
+                mizfile.read(article.get_commented_path())
+                comments.extend(mizfile.extract_comments(article))
+
+        print('Symbols:', len(symbols))
+        print('Articles:', len(articles))
+        print('Comments:', len(comments))
+        Symbol.objects.bulk_create(symbols)
+        Article.objects.bulk_create(articles)
+        Comment.objects.bulk_create(comments)
 
 
 class ContentWriter:
