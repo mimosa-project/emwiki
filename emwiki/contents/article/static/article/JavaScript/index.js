@@ -1,72 +1,82 @@
-$('#article').hide()
-
 $(function(){
-    let $article = $('#article');
-    
-    $("#article").on( 'load',function(){
-        let file_path = $article[0].contentDocument.location.pathname;
-        let file_hash = $article[0].contentDocument.location.hash
-        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
-        if(file_name !== window.location.pathname.split('/')[2]){
-            window.location.replace('/article/'+file_name+file_hash)
-        }else{
-            $article.show()
-        }
-
-        //iframe更新時にURLと違うarticleが一瞬表示されることを防ぐ
-        $article.contents().find('body').on('click', 'a[href*=".html"]:not([href*="'+file_name+'"])', function(){
-            $article.hide();
-        })
-
-        //add base directory
-        $article.contents().find("head").prepend("<base href='/static/mml_articles/' />")
-        
-        //add iframe.css
-        $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
-  
-        //config MathJax
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
-        iframe_MathJax.Hub.Config({
-            'HTML-CSS': {scale: 100}
-        });
-        
-        add_emwiki_components($article);
-    });
-
+    let $article = $('#mml-content');
+    var context = JSON.parse(document.getElementById('context').textContent);
     // rendering commentPreview from commentTextarea text
-    function comment_preview($edit, is_apply_mathjax = true){
-        let comment = $edit.find(".commentTextarea").val();
-        let commentHTML = commentText2html(comment);
-        $edit.find(".commentPreview").html(commentHTML);
-        if(is_apply_mathjax){
-            apply_mathjax();
+    function comment_preview($target_list){
+        for($target of $target_list){
+            let comment = $target.find(".commentTextarea").val();
+            let commentHTML = commentText2html(comment);
+            $target.find(".commentPreview").html(commentHTML);
         }
+        apply_mathjax();
     }
 
-    //Apply MathJax class="mathjax"
-    //This function is not guaranteed to work when MathJax in iframe is updated
-    function apply_mathjax(){
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
-        iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
-    }
+    // get comment
+    function display_comment($target_list){
 
-    //convert commentText to HTML for converion to Tex format
-    function commentText2html(commentText){
-        let commentText_lines = commentText.split(/\r\n|\r|\n/);
-        var html = '';
-        if(commentText === ''){
-            return html;
+        //Apply MathJax class="mathjax"
+        //This function is not guaranteed to work when MathJax in iframe is updated
+        function apply_mathjax(){
+            let iframe_MathJax = $article[0].contentWindow.MathJax;
+            iframe_MathJax.Hub.Queue(["Typeset",iframe_MathJax.Hub]);
         }
-        for (let index = 0; index < commentText_lines.length; index++) {
-            if (commentText_lines[index]){
-                html += `<p>${commentText_lines[index]}</p>`;
-            }else{
-                html += '<br>'
+
+        function set_comment_to_edit($edit, comment){
+            //set_comment_to_$edit
+
+            //convert commentText to HTML for converion to Tex format
+            function commentText2html(commentText){
+                let commentText_lines = commentText.split(/\r\n|\r|\n/);
+                var html = '';
+                if(commentText === ''){
+                    return html;
+                }
+                for (let index = 0; index < commentText_lines.length; index++) {
+                    if (commentText_lines[index]){
+                        html += `<p>${commentText_lines[index]}</p>`;
+                    }else{
+                        html += '<br>'
+                    }
+                }
+                //return html;
+                return `<p>${commentText}</p>`
             }
+
+            $edit.find(".commentTextarea").text(comment);
+            $edit.find(".commentPreview").html(commentText2html(comment));
         }
-        //return html;
-        return `<p>${commentText}</p>`
+
+        let body = {querys: []}
+        for(let $target of $target_list){
+            let block = $target.attr("block");
+            let block_order = $target.attr("block_order");
+            body.querys.push({
+                article_name: context['name'],
+                block: block,
+                block_order: block_order
+            })
+        }
+        $.ajax({
+            type: 'POST',
+            url: `${context['order_comments_url']}`,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(body)
+        }).done(function (data, textStatus, jqXHR) {
+            comments = data['comments']
+            for(comment of comments){
+                $target = $article.contents().find(`
+                    .edit[block="${comment['block']}"][block_order="${comment['block_order']}"]
+                `);
+                set_comment_to_edit($target, comment['text'])
+            }
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+            alert('Failed to get some comment\n' + textStatus);
+        });
+        apply_mathjax();
     }
+
+    
     function add_emwiki_components(){
         //current file path in static folder
         let file_path =  $article[0].contentDocument.location.pathname;
@@ -85,7 +95,6 @@ $(function(){
             'notation': [],
             'proof': []
         };
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
 
         let editHTML = 
         `<span class='edit'>
@@ -102,6 +111,8 @@ $(function(){
                 </div>
             </div>
         </span>`;
+
+        let $edit_list = []
 
         //add edit button
         
@@ -138,10 +149,13 @@ $(function(){
                 $edit.attr("block", target_name);
                 $edit.attr("block_order", target_object[target_name].length);
                 $edit.find(".editButton").attr("block", target_name);
+                $edit_list.push($edit)
             }
         });
 
         //add comment
+        display_comment($edit_list)
+        /*
         $.getJSON(`/article/order_comment/${article_name}`, function (data, textStatus, jqXHR) {
             for(let block in data){
                 for(let block_order in data[block]){
@@ -156,7 +170,7 @@ $(function(){
             apply_mathjax();
         }).fail(function(){
 
-        });
+        });*/
 
         
         //edit class editButton clicked
@@ -174,12 +188,12 @@ $(function(){
             let block_order = $edit.attr("block_order");
             //submit proof comment
             $.ajax({
-                url: '/article/submit_comment',
+                url: context['set_comment_url'],
                 type: 'POST',
                 dataType: 'text',
                 data: {
                     'block': block,
-                    'id': article_name,
+                    'article_name': article_name,
                     'block_order': block_order,
                     'comment': $edit.find(".commentTextarea").val()
                 },
@@ -187,6 +201,8 @@ $(function(){
                 $edit.find(".editcomment").hide();
                 $edit.find(".editButton").show();
                 //get proof setch
+                display_comment($edit)
+                /*
                 $.getJSON(`/article/order_comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
                     $edit.find(".commentTextarea").val(data[block][block_order]);
@@ -201,6 +217,7 @@ $(function(){
                         failed to get the comment from server`
                     );
                 });
+                */
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
                 comment_preview($edit);
                 alert(
@@ -213,12 +230,14 @@ $(function(){
 
         //edit class cancelButton clicked
         $article.contents().find('div').on( "click", '.cancelButton', function(){
-            let $edit = $(this).closest('.edit');
-            let block = $edit.attr("block");
-            let block_order = $edit.attr("block_order");
-            $edit.find(".editcomment").hide();
-            $edit.find(".editButton").show();
+            let $target = $(this).closest('.edit');
+            //let block = $edit.attr("block");
+            //let block_order = $edit.attr("block_order");
+            $target.find(".editcomment").hide();
+            $target.find(".editButton").show();
             //get proof comment
+            display_comment($target)
+            /*
             $.getJSON(`/article/order_comment/${article_name}`,
                 function (data, textStatus, jqXHR) {
                     $edit.find(".commentTextarea").val(data[block][block_order]);
@@ -232,8 +251,7 @@ $(function(){
                     `error : status->${textStatus}
                     failed to get the comment from server`
                 );
-            });
-            
+            });*/
         });
         //edit class previewButton clicked
         $article.contents().find('div').on( "click", '.previewButton', function(){
@@ -275,5 +293,22 @@ $(function(){
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
+    });
+
+    $article.on('load', function(){
+
+        //add base directory
+        $article.contents().find("head").prepend("<base href='/contents/article/' target='_top' />")
+        
+        //add iframe.css
+        $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
+  
+        //config MathJax
+        let iframe_MathJax = $article[0].contentWindow.MathJax;
+        iframe_MathJax.Hub.Config({
+            'HTML-CSS': {scale: 100}
+        });
+        
+        add_emwiki_components($article);
     });
 });
