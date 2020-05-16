@@ -18,7 +18,7 @@ import django
 django.setup()
 from emwiki.settings import BASE_DIR, MML_ARTICLES_DIR, MML_SYMBOLS_DIR
 import urllib
-from contents.contents.models import Article
+from contents.article.models import Article
 
 
 class Processor:
@@ -43,7 +43,7 @@ class Processor:
             reader = Reader()
             reader.read(html)
             basename = os.path.basename(html)
-            article = Article(name=os.path.splitext(basename)[0], filename=basename)
+            article = Article(name=os.path.splitext(basename)[0])
             self.elements += reader.elements
             self.articles.append(article)
             
