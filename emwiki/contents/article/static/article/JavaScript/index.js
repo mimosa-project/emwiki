@@ -153,25 +153,7 @@ $(function(){
             }
         });
 
-        //add comment
         display_comment($edit_list)
-        /*
-        $.getJSON(`/article/order_comment/${article_name}`, function (data, textStatus, jqXHR) {
-            for(let block in data){
-                for(let block_order in data[block]){
-                    $target = $article.contents().find(`
-                        .edit[block="${block}"][block_order="${block_order}"]
-                    `);
-                    $target.find(".commentTextarea").text(data[block][block_order]);
-                    comment_preview($target, false);
-                }
-            }
-        }).done(function(){
-            apply_mathjax();
-        }).fail(function(){
-
-        });*/
-
         
         //edit class editButton clicked
         $article.contents().find('div').on( "click", '.editButton', function(event){
@@ -200,24 +182,7 @@ $(function(){
             }).done(function(data) {
                 $edit.find(".editcomment").hide();
                 $edit.find(".editButton").show();
-                //get proof setch
                 display_comment($edit)
-                /*
-                $.getJSON(`/article/order_comment/${article_name}`,
-                function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data[block][block_order]);
-                }
-                ).done(function(){
-                    comment_preview($edit);
-                }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                    $edit.find(".commentTextarea").val(`failed to fetch error:${textStatus}`);
-                    comment_preview($edit);
-                    alert(
-                        `error : status->${textStatus}
-                        failed to get the comment from server`
-                    );
-                });
-                */
             }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
                 comment_preview($edit);
                 alert(
@@ -231,27 +196,10 @@ $(function(){
         //edit class cancelButton clicked
         $article.contents().find('div').on( "click", '.cancelButton', function(){
             let $target = $(this).closest('.edit');
-            //let block = $edit.attr("block");
-            //let block_order = $edit.attr("block_order");
             $target.find(".editcomment").hide();
             $target.find(".editButton").show();
-            //get proof comment
+
             display_comment($target)
-            /*
-            $.getJSON(`/article/order_comment/${article_name}`,
-                function (data, textStatus, jqXHR) {
-                    $edit.find(".commentTextarea").val(data[block][block_order]);
-                }
-            ).done(function(){
-                comment_preview($edit);
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $edit.find(".commentTextarea").val(`failed to fetch error:${textStatus}`);
-                comment_preview($edit);
-                alert(
-                    `error : status->${textStatus}
-                    failed to get the comment from server`
-                );
-            });*/
         });
         //edit class previewButton clicked
         $article.contents().find('div').on( "click", '.previewButton', function(){
