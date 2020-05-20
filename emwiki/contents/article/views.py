@@ -7,20 +7,28 @@ from emwiki.settings import STATIC_ARTICLES_URL
 from .models import Article, Comment
 from .classes import MizFile
 import json
-
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+    
 
 @ensure_csrf_cookie
 def submit_comment(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('<h1>403 Forbidden</h1>', content_type='text/html')
     article_name = request.POST.get('article_name', None)
     block = request.POST.get('block', None)
     block_order = request.POST.get("block_order", None)
     text = request.POST.get('comment', None)
     article = Article.objects.get(name=article_name)
-    comment = Comment(article, block, block_order, text)
+    if Comment.objects.filter(article=article, block=block, block_order=block_order).exists():
+        comment = Comment.objects.get(article=article, block=block, block_order=block_order)
+    else:
+        comment = Comment(article=article, block=block, block_order=block_order, text='')
+    comment.text = text
     comment.save()
     mizfile = MizFile()
     mizfile.read(article.get_mml_path())
-    mizfile.embed_comment(article.comment_set.all())
+    mizfile.embed_comments(article.comment_set.all())
     mizfile.write(article.get_commented_path())
     return HttpResponse()
 
@@ -41,5 +49,12 @@ def order_comments(request):
                 'block': comment.block,
                 'block_order': comment.block_order,
                 'text': comment.text
+            })
+        else:
+            comments.append({
+                'article_name': article_name,
+                'block': block,
+                'block_order': block_order,
+                'text': ''
             })
     return JsonResponse({'comments': comments})
