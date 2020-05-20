@@ -23,8 +23,9 @@ def index(request):
 @require_http_methods(["GET", ])
 def search(request):
     query = request.GET.get('search_query', default='')
+    category = request.GET.get('search_category', default='all')
     searcher = Searcher()
-    searcher.search_all(query)
+    searcher.search(query, category)
     context = {
         'search_results': [result.get_as_dict() for result in searcher.results],
         'search_query': query,
