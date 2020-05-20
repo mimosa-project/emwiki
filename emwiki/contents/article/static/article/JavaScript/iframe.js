@@ -175,17 +175,4 @@ var tooltip=function(){
 // reference show/hide - shortened because frequent, just a wrapper to tooltip.show/hide
 function rs(ref) { tooltip.show('url', mizhtm + 'refs/' + ref); }
 function rh() { tooltip.hide(); } 
-
-
-MathJax.Hub.Config({                                                                                                                            
-    extensions: ['tex2jax.js'],                                                                                                                   
-    jax: ['input/TeX', 'output/HTML-CSS'],                                                                                                        
-    tex2jax: {                                                                                                                                    
-        inlineMath: [ ['$','$'], ['\(','\)'] ],                                                                                                   
-        displayMath: [ ['$$','$$'], ['\[','\]'] ],                                                                                                
-        processClass: 'mathjax',                                                                                                                        
-        ignoreClass: 'no-mathjax',                                                                                                                      
-        processEscapes: true,                                                                                                                       
-    },                                                                                                                                            
-    'HTML-CSS': {   scale: 80, availableFonts: ['TeX'] }                                                                                     
-  });
+  
