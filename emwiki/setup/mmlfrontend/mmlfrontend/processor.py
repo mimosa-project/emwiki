@@ -6,12 +6,15 @@ import glob
 import os
 import os.path
 import time
-from mmlfrontend.reader import Reader
-from mmlfrontend.composer import Composer
-from mmlfrontend.writer import ModelWriter, ContentWriter
-from mmlfrontend.elements.element import Element
+from setup.mmlfrontend.mmlfrontend.reader import Reader
+from setup.mmlfrontend.mmlfrontend.composer import Composer
+from setup.mmlfrontend.mmlfrontend.writer import ContentWriter
+from setup.mmlfrontend.mmlfrontend.elements.element import Element
+from setup.mmlfrontend.mmlfrontend.models import SymbolInitializer
+from setup.mmlfrontend.mmlfrontend.models import SymbolInitializer
 import locale
 from natsort import humansorted
+
 locale.setlocale(locale.LC_ALL, '')
 
 import django

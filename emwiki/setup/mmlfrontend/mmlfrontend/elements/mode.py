@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 import re
-from mmlfrontend.elements.element import Element
+from setup.mmlfrontend.mmlfrontend.elements.element import Element
 
 
 class Mode(Element):

@@ -5,13 +5,13 @@ __author__ = 'nakasho'
 from builtins import staticmethod
 import os.path
 from lxml import html
-from mmlfrontend.elements.pred import Pred
-from mmlfrontend.elements.struct import Struct
-from mmlfrontend.elements.mode import Mode
-from mmlfrontend.elements.func import Func
-from mmlfrontend.elements.attr import Attr
-from mmlfrontend.elements.cluster import Cluster
-from mmlfrontend.elements.reduce import Reduce
+from setup.mmlfrontend.mmlfrontend.elements.pred import Pred
+from setup.mmlfrontend.mmlfrontend.elements.struct import Struct
+from setup.mmlfrontend.mmlfrontend.elements.mode import Mode
+from setup.mmlfrontend.mmlfrontend.elements.func import Func
+from setup.mmlfrontend.mmlfrontend.elements.attr import Attr
+from setup.mmlfrontend.mmlfrontend.elements.cluster import Cluster
+from setup.mmlfrontend.mmlfrontend.elements.reduce import Reduce
 
 
 class Reader:

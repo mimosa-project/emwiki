@@ -2,7 +2,7 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from mmlfrontend.content import Content
+from setup.mmlfrontend.mmlfrontend.content import Content
 import locale
 from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')

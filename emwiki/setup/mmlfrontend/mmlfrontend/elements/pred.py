@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from lxml import html
-from mmlfrontend.elements.element import Element
+from setup.mmlfrontend.mmlfrontend.elements.element import Element
 
 
 class Pred(Element):

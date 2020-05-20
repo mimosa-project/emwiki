@@ -2,7 +2,7 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from mmlfrontend.elements.element import Element
+from setup.mmlfrontend.mmlfrontend.elements.element import Element
 
 
 class Struct(Element):
