@@ -89,7 +89,6 @@ class MizFile():
     def embed_comments(self, comments):
         """embed  to MizFile text
         """
-
         commented_mizar = ""
         mizar_lines = self.text.splitlines()
         comment_locations = self._collect_comment_locations()
@@ -101,7 +100,7 @@ class MizFile():
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
-            comment = comment_dict[block].get(str(block_order), None)
+            comment = comment_dict[block].get(block_order, None)
             if comment is None or comment.text == '':
                 continue
             if block == "proof":
@@ -114,7 +113,6 @@ class MizFile():
     def extract_comments(self, article):
         """extract comment in mizar string
         """
-        print(f"extract {article.name}")
         comments = []
         comment_lines = []
         mizar_lines = self.text.splitlines()
