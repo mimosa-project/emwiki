@@ -1,26 +1,21 @@
 from contents.symbol.models import Symbol
+from contents.article.models import Article
 from difflib import SequenceMatcher
 from django.db.models import Q
 import urllib
+from functools import reduce
+from operator import and_
 
 
 class SearchResult():
 
-    def __init__(self):
-        self.weight = 0
-        self.subject = ''
-        self.category = ''
-        self.link = ''
-
-    def set(self, weight, subject, category, link):
-        self.weight = weight
+    def __init__(self, subject, category, link):
         self.subject = subject
         self.category = category
         self.link = link
 
     def get_as_dict(self):
         return {
-            'weight': self.weight,
             'subject': self.subject,
             'category': self.category,
             'link': self.link
@@ -32,41 +27,55 @@ class Searcher():
     def __init__(self):
         self.results = []
     
-    def search_all(self, query):
-        self.search_article(query)
-        self.search_symbol(query)
+    def search(self, query_text, category):
+        if category == 'all':
+            self.search_article(query_text)
+            self.search_symbol(query_text)
+        elif category == 'article':
+            self.search_article(query_text)
+        elif category == 'symbol':
+            self.search_symbol(query_text)
 
-    def search_article(self, query):
-        file_list = [article_handler.article_name for article_handler in ArticleHandler.bundle_create()]
-        file_list.sort()
-        for filename in file_list:
-            query_len, file_len = len(query), len(filename)
-            weight = max([SequenceMatcher(None, query, filename[i:i + query_len]).ratio() for i in range(file_len - query_len + 1)], default=0)
-            if weight > 0.8:
-                searchresult = SearchResult()
-                searchresult.set(
-                    weight,
-                    filename,
-                    'article',
-                    f'article/{filename}.html'
+    def search_article(self, query_text):
+        queryset = Article.objects.order_by('name')
+        if query_text:
+            query_text_replaced = query_text.replace(' ', '')
+            # Create a query to search for a Article that includes
+            # all the characters of "query_text_replaced"
+            # in Article.name
+            query = reduce(
+                and_, [Q(name__icontains=q) for q in query_text_replaced]
+            )
+            for q in queryset.filter(query):
+                result = SearchResult(
+                    q.name, 'article', q.get_absolute_url()
                 )
-                self.results.append(searchresult)
-        self.results.sort(key=lambda symbolcontent: symbolcontent.weight, reverse=True)
-
-    def search_symbol(self, query):
-        if query:
-            object_list = Symbol.objects.filter(
-                Q(symbol__icontains=query) | Q(type__exact=query)
-            )
+                self.results.append(result)
         else:
-            return
-        for object in object_list:
-            searchresult = SearchResult()
-            searchresult.set(
-                1,
-                object.symbol,
-                object.type,
-                f'symbol/{urllib.parse.quote(object.symbol)}'
+            for q in queryset:
+                result = SearchResult(
+                    q.name, 'article', q.get_absolute_url()
+                )
+                self.results.append(result)
+
+    def search_symbol(self, query_text):
+        queryset = Symbol.objects.order_by('name')
+        if query_text:
+            query_text_replaced = query_text.replace(' ', '')
+            # Create a query to search for a Symbol that includes
+            # all the characters of "query_text_replaced"
+            # in Symbol.name
+            query = reduce(
+                and_, [Q(name__icontains=q) for q in query_text_replaced]
             )
-            self.results.append(searchresult)
-        self.results.sort(key=lambda symbolcontent: symbolcontent.weight, reverse=True)
+            for q in queryset.filter(query):
+                result = SearchResult(
+                    q.name, 'symbol', q.get_absolute_url()
+                )
+                self.results.append(result)
+        else:
+            for q in queryset:
+                result = SearchResult(
+                    q.name, 'symbol', q.get_absolute_url()
+                )
+                self.results.append(result)
