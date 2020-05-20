@@ -7,14 +7,14 @@ import os
 from django.urls import reverse
 
 
-def index(request, type, name):
+def index(request, category, name):
     name = os.path.splitext(name)[0]
     context = {
-        'type': type,
+        'category': category,
         'name': name,
-        'js_url': type + '/JavaScript/index.js',
+        'js_url': category + '/JavaScript/index.js',
         'context_js': {
-            'type': type,
+            'category': category,
             'name': name,
             'submit_comment_url': reverse('article:submit_comment'),
             'order_comments_url': reverse('article:order_comments')
@@ -24,20 +24,19 @@ def index(request, type, name):
 
 
 def index_json(request):
-    type = request.GET.get('type', None)
+    category = request.GET.get('category', None)
     name_encoded = request.GET.get('name', None)
+    filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
-    print('type:', type)
-    print('name:', name)
-
-    if type == 'article':
+    if category == 'article':
         content = Article.objects.get(name=name)
-    elif type == 'symbol':
-        content = Symbol.objects.get(name=name)
-    else:
-        return
+    elif category == 'symbol':
+        if filename:
+            content = Symbol.objects.get(filename=filename)
+        else:
+            content = Symbol.objects.get(name=name)
     index = {
-        'type': type,
+        'category': category,
         'name': content.name,
         'url': content.get_absolute_url(),
         'iframe_url': content.get_static_url()
