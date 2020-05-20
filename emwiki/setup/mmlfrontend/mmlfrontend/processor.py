@@ -18,10 +18,8 @@ from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')
 
 import django
-django.setup()
 from emwiki.settings import BASE_DIR, MML_ARTICLES_DIR, MML_SYMBOLS_DIR
 import urllib
-from contents.article.models import Article
 
 
 class Processor:
@@ -29,7 +27,6 @@ class Processor:
         Element._total_num = 0
         self.elements = []
         self.contents = []
-        self.articles = []
 
     def execute(self, from_dir, to_dir):
         self.read(from_dir)
@@ -45,10 +42,7 @@ class Processor:
             print("reading {}/{}".format(i, total_count))
             reader = Reader()
             reader.read(html)
-            basename = os.path.basename(html)
-            article = Article(name=os.path.splitext(basename)[0])
             self.elements += reader.elements
-            self.articles.append(article)
             
     def compose(self):
         print("composing...")
@@ -58,10 +52,7 @@ class Processor:
         self.contents = composer.contents
 
     def write(self, to_dir):
-        model_writer = ModelWriter()
-        model_writer.contents = self.contents
-        model_writer.articles = self.articles
-        model_writer.write()
+        SymbolInitializer.create(self.contents)
 
         contents_dir = to_dir
         if not os.path.exists(contents_dir):
