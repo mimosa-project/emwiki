@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'emsearch.apps.EmsearchConfig',
     'accounts.apps.AccountsConfig',
     'article.apps.ArticleConfig',
+    'emgraph.apps.EmgraphConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
