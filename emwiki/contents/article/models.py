@@ -1,6 +1,5 @@
 from django.db import models
 from contents.contents.models import Content
-from django.urls import reverse_lazy
 from emwiki.settings import STATIC_ARTICLES_URL, MML_COMMENTED_DIR, MML_DIR, \
     MML_ARTICLES_DIR, MML_ARTICLES_ORIGINAL_DIR
 import textwrap
@@ -8,9 +7,6 @@ import os
 
 
 class Article(Content):
-    
-    def get_absolute_url(self):
-        return reverse_lazy('contents:index', kwargs={'category': 'article', 'name': self.name})
 
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
