@@ -5,15 +5,6 @@ from collections import deque
 
 class MizFile():
 
-    TARGET_BLOCK = (
-        "theorem",
-        "definition",
-        "registration",
-        "scheme",
-        "notation",
-        "proof",
-    )
-    
     def __init__(self):
         self.text = ''
 
@@ -25,7 +16,21 @@ class MizFile():
         with open(to_dir, 'w') as f:
             f.write(self.text)
 
-    def _collect_comment_locations(self):
+
+class CommentLocationCollector:
+    TARGET_BLOCK = (
+        "theorem",
+        "definition",
+        "registration",
+        "scheme",
+        "notation",
+        "proof",
+    )
+    
+    def __init__(self):
+        self.locations = []
+
+    def collect(self, mizfile):
         """collect comment locations
 
         Returns:
@@ -36,7 +41,6 @@ class MizFile():
                                     },
                                     ...
         """
-        comment_locations = []
         # To count the number of times each block appears
         count_dict = dict([[block, 0] for block in list(self.TARGET_BLOCK)])
         # this pattern match like "theorem", "  proof", "theorem :Th1:"
@@ -59,7 +63,7 @@ class MizFile():
         )
         push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
         pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
-        for line_number, line in enumerate(self.text.splitlines()):
+        for line_number, line in enumerate(mizfile.text.splitlines()):
             line = re.sub('::.*', "", line)
             target_match = target_pattern.match(line)
             push_list = push_pattern.findall(line)
@@ -79,24 +83,41 @@ class MizFile():
                 if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                     block = target_match.group('block')
                     count_dict[block] += 1
-                    comment_locations.append({
+                    self.locations.append({
                         "block": block,
                         "block_order": count_dict[block],
                         "line_number": line_number
                     })
-        return comment_locations
 
-    def embed_comments(self, comments):
+
+class ArticleArchiver:
+
+    def __init__(self, article):
+        self.article = article
+        self.mizfile = MizFile()
+        self.commentlocationcollector = CommentLocationCollector()
+
+    def archive(self):
+        self.mizfile.read(self.article.get_original_path())
+        self._embed(self.article.objects.comment_set.all())
+        self.mizfile.write(self.article.get_commented_path())
+
+    def extract(self):
+        self.mizfile.read(self.article.get_commented_path())
+        comments = self._excavate()
+        Comment.objects.bulk_create(comments)
+
+    def _embed(self, comments):
         """embed  to MizFile text
         """
         commented_mizar = ""
-        mizar_lines = self.text.splitlines()
-        comment_locations = self._collect_comment_locations()
+        mizar_lines = self.mizfile.text.splitlines()
+        self.commentlocationcollector.collect(self.mizfile)
         comment_dict = {block: {} for block in self.TARGET_BLOCK}
         for comment in comments:
             comment_dict[comment.block][comment.block_order] = comment
-        while len(comment_locations):
-            comment_location_dict = comment_locations.pop(-1)
+        while len(self.commentlocationcollector.locations):
+            comment_location_dict = self.commentlocationcollector.locations.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
@@ -108,19 +129,18 @@ class MizFile():
             else:
                 mizar_lines.insert(line_number, comment.format_text())
         commented_mizar = '\n'.join(mizar_lines)
-        self.text = commented_mizar
+        self.mizfile.text = commented_mizar
 
-    def extract_comments(self, article):
+    def _emcavate(self):
         """extract comment in mizar string
         """
         comments = []
         comment_lines = []
-        mizar_lines = self.text.splitlines()
+        mizar_lines = self.mizfile.text.splitlines()
         push_pattern = re.compile(f'(\\s*){Comment.HEADER}(?P<comment>.*)')
-        comment_locations = self._collect_comment_locations()
-        self.comments = []
-        while len(comment_locations):
-            comment_location_dict = comment_locations.pop(-1)
+        self.commentlocationcollector.collect(self.mizfile)
+        while len(self.commentlocationcollector.locations):
+            comment_location_dict = self.commentlocationcollector.locations.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
             line_number = comment_location_dict["line_number"]
@@ -142,7 +162,7 @@ class MizFile():
                     else:
                         comment_deque.appendleft(line_match.group("comment"))
                     comment = Comment(
-                        article=article,
+                        article=self.article,
                         block=block,
                         block_order=block_order,
                         text='\n'.join(comment_deque)
@@ -153,5 +173,5 @@ class MizFile():
                     break
         mizar_lines_without_comment = \
             [mizar_lines[i] for i in range(len(mizar_lines)) if i not in comment_lines]
-        self.text = '\n'.join(mizar_lines_without_comment)
+        self.mizfile.text = '\n'.join(mizar_lines_without_comment)
         return comments
