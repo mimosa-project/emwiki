@@ -1,7 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.views.generic import TemplateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'home/index.html', context={})
+class IndexView(TemplateView):
+    template_name = 'home/index.html'
