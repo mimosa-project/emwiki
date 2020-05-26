@@ -4,5 +4,5 @@ from django.urls import reverse_lazy
 # Create your views here.
 
 
-class IndexView(TemplateView):
+class HomeView(TemplateView):
     template_name = 'home/index.html'
