@@ -1,6 +1,7 @@
 import re
 from contents.article.models import Comment
 from collections import deque
+import os
 
 
 class MizFile():
@@ -103,9 +104,11 @@ class ArticleArchiver:
         self.mizfile.write(self.article.get_commented_path())
 
     def extract(self):
-        self.mizfile.read(self.article.get_commented_path())
-        comments = self._excavate()
-        Comment.objects.bulk_create(comments)
+        comments = []
+        if os.path.exists(self.article.get_commented_path()):
+            self.mizfile.read(self.article.get_commented_path())
+            comments = self._excavate()
+        return comments
 
     def _embed(self, comments):
         """embed  to MizFile text
@@ -131,7 +134,7 @@ class ArticleArchiver:
         commented_mizar = '\n'.join(mizar_lines)
         self.mizfile.text = commented_mizar
 
-    def _emcavate(self):
+    def _excavate(self):
         """extract comment in mizar string
         """
         comments = []
