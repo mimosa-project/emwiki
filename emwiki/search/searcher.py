@@ -12,14 +12,14 @@ class Searcher:
         self.symbolsearcher = SymbolSearcher()
     
     def search(self, query_text, category):
-        if category == 'all':
+        if category == 'All':
             results = []
             results.extend(self.articlesearcher.search(query_text))
             results.extend(self.symbolsearcher.search(query_text))
             return results
-        elif category == 'article':
+        elif category == 'Article':
             return self.articlesearcher.search(query_text)
-        elif category == 'symbol':
+        elif category == 'Symbol':
             return self.symbolsearcher.search(query_text)
 
 
