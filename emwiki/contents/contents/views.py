@@ -5,32 +5,33 @@ from contents.symbol.models import Symbol
 from contents.article.models import Article
 import os
 from django.urls import reverse
+from django.views.generic import TemplateView
 
 
-def index(request, category, name):
-    name = os.path.splitext(name)[0]
-    context = {
-        'category': category,
-        'name': name,
-        'js_url': category + '/JavaScript/index.js',
-        'context_js': {
-            'category': category,
-            'name': name,
+class ContentView(TemplateView):
+    template_name = 'contents/index.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['name'] = os.path.splitext(kwargs['name'])[0]
+        context = super().get_context_data(**kwargs)
+        context["js_url"] = kwargs['category'].lower() + '/JavaScript/index.js'
+        context["context_for_js"] = {
+            'category': kwargs['category'],
+            'name': kwargs['name'],
             'submit_comment_url': reverse('article:submit_comment'),
             'order_comments_url': reverse('article:order_comments')
         }
-    }
-    return render(request, f'contents/index.html', context)
+        return context
 
 
-def index_json(request):
+def normalize_content_url(request):
     category = request.GET.get('category', None)
     name_encoded = request.GET.get('name', None)
     filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
-    if category == 'article':
+    if category == 'Article':
         content = Article.objects.get(name=name)
-    elif category == 'symbol':
+    elif category == 'Symbol':
         if filename:
             content = Symbol.objects.get(filename=filename)
         else:
