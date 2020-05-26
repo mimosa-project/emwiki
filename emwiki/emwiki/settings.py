@@ -40,7 +40,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'setup.apps.SetupConfig',
+    'initialization.apps.InitializationConfig',
     'contents.contents.apps.ContentsConfig',
     'contents.symbol.apps.SymbolConfig',
     'contents.article.apps.ArticleConfig',
@@ -150,5 +150,5 @@ MML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
 MML_COMMENTED_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
 MML_ARTICLES_DIR = os.path.join(BASE_DIR, 'static', 'mml_articles')
 COMMENTS_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'commentes')
-STATIC_ARTICLES_URL = STATIC_URL + "mml_articles_test/"
+STATIC_ARTICLES_URL = STATIC_URL + "mml_articles/"
 STATIC_SYMBOLS_URL = STATIC_URL + "mml_symbols/"
