@@ -20,7 +20,7 @@ var jump_to = function(category=undefined, name=undefined, filename=undefined, a
         filename: filename
     };
     $.getJSON(
-        '/contents/index_json',
+        '/contents/normalize_content_url',
         body,
         function(index){
             state = {

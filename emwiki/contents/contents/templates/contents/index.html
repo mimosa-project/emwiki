@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-    {{ context_js|json_script:"context" }}
+    {{ context_for_js|json_script:"context" }}
     <script src="{% static 'contents/JavaScript/index.js' %}"></script>
     <script src="{% static js_url %}"></script>
 {% endblock %}

@@ -4,6 +4,6 @@ from . import views
 
 app_name = 'contents'
 urlpatterns = [
-    path('index_json', views.index_json, name='index_json'),
-    path('<str:category>/<path:name>', views.index, name='index')
+    path('normalize_content_url', views.normalize_content_url, name='normalize_content_url'),
+    path('<str:category>/<path:name>', views.ContentView.as_view(), name='index')
 ]
