@@ -1,7 +1,8 @@
-import re
-from contents.article.models import Comment
 from collections import deque
+import re
 import os
+
+from contents.article.models import Comment
 
 
 class MizFile():

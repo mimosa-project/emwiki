@@ -1,8 +1,10 @@
 import glob
 import os
-from contents.article.models import Article
-from contents.article.classes import ArticleArchiver
+
 from tqdm import tqdm
+
+from contents.article.classes import ArticleArchiver
+from contents.article.models import Article
 
 
 class ArticleGenerator():

@@ -1,4 +1,5 @@
 from contents.article.models import Article, Comment
+
 from .files import FileGenerator
 from .models import ArticleGenerator, CommentGenerator
 

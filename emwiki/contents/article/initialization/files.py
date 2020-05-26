@@ -1,8 +1,9 @@
-from lxml import html
 from collections import OrderedDict
-from tqdm import tqdm
-import os
 import glob
+import os
+
+from lxml import html
+from tqdm import tqdm
 
 
 class FileGenerator:

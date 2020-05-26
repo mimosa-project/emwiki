@@ -1,15 +1,16 @@
+import json
+import os
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-import os
+
 from emwiki.settings import STATIC_ARTICLES_URL
-from .models import Article, Comment
 from .classes import MizFile
-import json
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-    
+from .models import Article, Comment
+
 
 @ensure_csrf_cookie
 def submit_comment(request):

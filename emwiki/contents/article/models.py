@@ -1,9 +1,11 @@
+import os
+import textwrap
+
 from django.db import models
+
 from contents.contents.models import Content
 from emwiki.settings import STATIC_ARTICLES_URL, MML_COMMENTED_DIR, MML_DIR, \
     MML_ARTICLES_DIR, MML_ARTICLES_ORIGINAL_DIR
-import textwrap
-import os
 
 
 class Article(Content):
