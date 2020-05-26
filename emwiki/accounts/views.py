@@ -18,6 +18,7 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect, resolve_url
 from django.core.signing import SignatureExpired, BadSignature, loads, dumps
 from django.http import HttpResponseBadRequest
+
 from .models import User
 
 
