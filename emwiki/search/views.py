@@ -5,37 +5,42 @@ from search.searcher import Searcher
 import json
 import os
 from emwiki.settings import BASE_DIR
-# Create your views here.
+from django.views.generic import TemplateView
+from contents.article.models import Article
+from contents.symbol.models import Symbol
 
 
-def index(request):
-    search_query = request.GET.get('search_query', default='')
-    categorys_json_path = os.path.join(BASE_DIR, 'search', 'search_settings', "categorys.json")
-    with open(categorys_json_path, 'r', encoding="utf-8") as f:
-        categorys = json.load(f)
-    context = {
-        'search_query': search_query,
-        'categorys': categorys
+class SearchView(TemplateView):
+    template_name = 'search/index.html'
+    categorys = {
+        'Article': {
+            'color': Article.color
+        },
+        'Symbol': {
+            'color': Symbol.color
+        }
     }
-    return render(request, 'search/index.html', context)
+    
+    def get_context_data(self, **kwargs):
+        query_text = self.request.GET.get('search_query', default='')
+        query_category = self.request.GET.get('search_category', default='All')
+        searcher = Searcher()
+        result_objects = searcher.search(query_text, query_category)
 
-
-@require_http_methods(["GET", ])
-def search(request):
-    query = request.GET.get('search_query', default='')
-    category = request.GET.get('search_category', default='all')
-    searcher = Searcher()
-    searcher.search(query, category)
-    context = {
-        'search_results': [result.get_as_dict() for result in searcher.results],
-        'search_query': query,
-    }
-    return JsonResponse(context)
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'query_text': query_text,
+            'query_category': query_category,
+            'result_objects': result_objects
+        })
+        return context
 
 
 @require_http_methods(["GET", ])
 def get_keywords(request):
-    keywords_json_path = os.path.join(BASE_DIR, 'search', 'search_settings', "keywords.json")
-    with open(keywords_json_path, 'r', encoding="utf-8") as f:
-        keywords = json.load(f)
-    return JsonResponse(keywords)
+    keywords = []
+    article_names = [article.name for article in Article.objects.all().order_by('name')]
+    symbol_names = [symbol.name for symbol in Symbol.objects.all().order_by('name')]
+    keywords.extend(article_names)
+    keywords.extend(symbol_names)
+    return JsonResponse({'keywords': keywords})
