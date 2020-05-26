@@ -1,8 +1,10 @@
-from contents.symbol.models import Symbol
-from contents.article.models import Article
-from django.db.models import Q
 from functools import reduce
 from operator import and_
+
+from django.db.models import Q
+
+from contents.article.models import Article
+from contents.symbol.models import Symbol
 
 
 class Searcher:

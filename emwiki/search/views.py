@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from search.searcher import Searcher
 import json
 import os
-from emwiki.settings import BASE_DIR
+
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView
+
 from contents.article.models import Article
 from contents.symbol.models import Symbol
+from emwiki.settings import BASE_DIR
+from search.searcher import Searcher
 
 
 class SearchView(TemplateView):
