@@ -6,6 +6,10 @@ from contents.article.models import Comment
 
 
 class MizFile():
+    """.mizファイル
+
+    入出力を担当
+    """
 
     def __init__(self):
         self.text = ''
@@ -20,6 +24,8 @@ class MizFile():
 
 
 class CommentLocationCollector:
+    """テキスト内のComment追加位置を収集
+    """
     TARGET_BLOCK = (
         "theorem",
         "definition",
@@ -93,6 +99,8 @@ class CommentLocationCollector:
 
 
 class ArticleArchiver:
+    """Articleの保管，読み込みを担当
+    """
 
     def __init__(self, article):
         self.article = article
@@ -100,11 +108,15 @@ class ArticleArchiver:
         self.commentlocationcollector = CommentLocationCollector()
 
     def archive(self):
+        """コメントを埋め込み保存
+        """
         self.mizfile.read(self.article.get_original_path())
         self._embed(self.article.objects.comment_set.all())
         self.mizfile.write(self.article.get_commented_path())
 
     def extract(self):
+        """コメントを取り出す
+        """
         comments = []
         if os.path.exists(self.article.get_commented_path()):
             self.mizfile.read(self.article.get_commented_path())
@@ -112,7 +124,7 @@ class ArticleArchiver:
         return comments
 
     def _embed(self, comments):
-        """embed  to MizFile text
+        """embed to MizFile text
         """
         commented_mizar = ""
         mizar_lines = self.mizfile.text.splitlines()
