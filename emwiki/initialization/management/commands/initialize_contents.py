@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from contents.article.initialization.processor import Processor as ArticleProcessor
 from contents.symbol.initialization.processor import Processor as SymbolProcessor
 
