@@ -1,7 +1,9 @@
+import os
+
 from django.db import models
+
 from contents.contents.models import Content
 from emwiki.settings import STATIC_SYMBOLS_URL, MML_SYMBOLS_DIR
-import os
 
 
 class Symbol(Content):
