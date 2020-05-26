@@ -7,6 +7,7 @@ import os
 
 
 class Article(Content):
+    color = '#EF845C'
 
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
@@ -22,6 +23,10 @@ class Article(Content):
 
     def get_original_path(self):
         return os.path.join(MML_ARTICLES_ORIGINAL_DIR, self.name + '.html')
+
+    @classmethod
+    def get_static_dir(cls):
+        return MML_ARTICLES_DIR
 
 
 class Comment(models.Model):
