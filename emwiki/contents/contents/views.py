@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-import urllib
-from contents.symbol.models import Symbol
-from contents.article.models import Article
 import os
+import urllib
+
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
+
+from contents.article.models import Article
+from contents.symbol.models import Symbol
 
 
 class ContentView(TemplateView):
