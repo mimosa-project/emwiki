@@ -32,6 +32,15 @@ $(function(){
         }
     });
 
+    var article_jump_to = function(category=undefined, name=undefined, filename=undefined, anchor="", history_method=''){
+        if(name){
+            context['name'] = name
+        }else{
+            context['name'] =filename.split('.')[0]
+        }
+        jump_to(category, name, filename, anchor, history_method)
+    }
+
     $article.on('load', function(){
         
         add_emwiki_components($article);
@@ -41,7 +50,7 @@ $(function(){
             event.stopPropagation();
             let filename = $(this).attr('href').split('#')[0];
             let anchor = $(this).attr('href').split('#')[1];
-            jump_to('Article', null, filename, `#${anchor}`, 'push');
+            article_jump_to('Article', null, filename, `#${anchor}`, 'push');
         });
 
         //edit class editButton clicked
@@ -135,9 +144,7 @@ $(function(){
             apply_mathjax();
         }
 
-         // get comment
         function fetch_comment($target_list){
-
             let body = {querys: []}
             for(let $target of $target_list){
                 let block = $target.attr("block");
