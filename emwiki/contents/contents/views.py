@@ -16,13 +16,13 @@ class ContentView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['name'] = os.path.splitext(kwargs['name'])[0]
         context = super().get_context_data(**kwargs)
-        context["js_url"] = kwargs['category'].lower() + '/JavaScript/index.js'
         context["context_for_js"] = {
-            'category': kwargs['category'],
+            'category': kwargs['category'].title(),
             'name': kwargs['name'],
             'submit_comment_url': reverse('article:submit_comment'),
             'order_comments_url': reverse('article:order_comments')
         }
+        context["js_url"] = kwargs['category'].lower() + '/JavaScript/index.js'
         return context
 
 
@@ -31,7 +31,10 @@ def normalize_content_url(request):
     name_encoded = request.GET.get('name', None)
     filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
+    print('normalize ', category, name, filename)
     if category == 'Article':
+        if filename:
+            name = os.path.splitext(filename)[0]
         content = Article.objects.get(name=name)
     elif category == 'Symbol':
         if filename:
