@@ -20,7 +20,7 @@ $(function(){
         $('#mml-content').contents().find(`span[data-link]`).each(function(){
             $(this).on('click', function(){
                 var link = $(this).attr('data-link').split("#");
-                jump_to('symbol', null, filename=link[0], `#${anchor=link[1]}`, 'push')
+                jump_to('Symbol', null, filename=link[0], `#${anchor=link[1]}`, 'push')
                 select(link[1]);
             })
         });
