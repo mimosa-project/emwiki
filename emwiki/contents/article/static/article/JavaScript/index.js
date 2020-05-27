@@ -2,10 +2,6 @@ $(function(){
     let $article = $('#mml-content');
     var context = JSON.parse(document.getElementById('context').textContent);
 
-    
-
-   
-    
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -37,34 +33,15 @@ $(function(){
     });
 
     $article.on('load', function(){
-/*
-        //add base directory
-        $article.contents().find("head").prepend("<base href='/contents/article/' target='_top' />")
-        
-        //add iframe.css
-        $article.contents().find("head").append('<link rel="stylesheet" href="/static/article/CSS/iframe.css" type="text/css" />');
-
-        $article.contents().find('head').prepend(`
-            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        `)
-
-        $article.contents().find("head").append('<script type="text/javascript" src="/static/article/JavaScript/iframe.js" />');
-  */
-        //config MathJax
-        /*
-        let iframe_MathJax = $article[0].contentWindow.MathJax;
-        iframe_MathJax.Hub.Config({
-            'HTML-CSS': {scale: 100}
-        });*/
         
         add_emwiki_components($article);
 
         //edit class editButton clicked
         $article.contents().find('body').on( "click", 'a[title]:not([href="javascript:()"])', function(event){
-            let filename, anchor = $(this).attr('href').split('#');
-            jump_to('article', null, filename, `#${anchor}`);
             event.stopPropagation();
+            let filename = $(this).attr('href').split('#')[0];
+            let anchor = $(this).attr('href').split('#')[1];
+            jump_to('Article', null, filename, `#${anchor}`, 'push');
         });
 
         //edit class editButton clicked
@@ -191,7 +168,6 @@ $(function(){
             }).always(function(){
                 comment_preview($target_list)
             });
-            
         }
         
         function add_emwiki_components(){
