@@ -31,7 +31,6 @@ def normalize_content_url(request):
     name_encoded = request.GET.get('name', None)
     filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
-    print('normalize ', category, name, filename)
     if category == 'Article':
         if filename:
             name = os.path.splitext(filename)[0]
