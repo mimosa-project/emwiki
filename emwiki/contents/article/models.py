@@ -1,34 +1,17 @@
-import os
 import textwrap
 
 from django.db import models
 
 from contents.contents.models import Content
-from emwiki.settings import STATIC_ARTICLES_URL, MML_COMMENTED_DIR, MML_DIR, \
-    MML_ARTICLES_DIR, MML_ARTICLES_ORIGINAL_DIR
+from emwiki.settings import STATIC_ARTICLES_URL
 
 
 class Article(Content):
+    category = 'Article'
     color = '#EF845C'
 
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
-
-    def get_static_path(self):
-        return os.path.join(MML_ARTICLES_DIR, self.name + '.html')
-
-    def get_commented_path(self):
-        return os.path.join(MML_COMMENTED_DIR, self.name + '.miz')
-
-    def get_mml_path(self):
-        return os.path.join(MML_DIR, self.name + '.miz')
-
-    def get_original_path(self):
-        return os.path.join(MML_ARTICLES_ORIGINAL_DIR, self.name + '.html')
-
-    @classmethod
-    def get_static_dir(cls):
-        return MML_ARTICLES_DIR
 
 
 class Comment(models.Model):
