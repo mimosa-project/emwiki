@@ -1,5 +1,4 @@
-import json
-import os
+from collections import OrderedDict
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -8,25 +7,27 @@ from django.views.generic import TemplateView
 
 from contents.article.models import Article
 from contents.symbol.models import Symbol
-from emwiki.settings import BASE_DIR
-from search.searcher import Searcher
+from contents.article.scripts.article_searcher import ArticleSearcher
+from contents.symbol.scripts.symbol_searcher import SymbolSearcher
 
 
 class SearchView(TemplateView):
     template_name = 'search/index.html'
-    categorys = {
-        'Article': {
-            'color': Article.color
-        },
-        'Symbol': {
-            'color': Symbol.color
-        }
-    }
+
+    def __init__(self):
+        self.searchers = OrderedDict({
+            Article.category: ArticleSearcher(),
+            Symbol.category: SymbolSearcher()
+        })
     
     def get_context_data(self, **kwargs):
         query_text = self.request.GET.get('search_query', default='')
         query_category = self.request.GET.get('search_category', default='All')
-        searcher = Searcher()
+
+        contents = []
+        for category, searcher in self.searchers:
+            if query_category == 'All' or query_category == category:
+                contents.extend(searcher.search(query_text))
         result_objects = searcher.search(query_text, query_category)
 
         context = super().get_context_data(**kwargs)
