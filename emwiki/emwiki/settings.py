@@ -144,11 +144,25 @@ else:
 
 STATIC_ROOT = '/code/static'
 
-MML_ARTICLES_ORIGINAL_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_original_articles')
-MML_SYMBOLS_DIR = os.path.join(BASE_DIR, 'static', 'mml_symbols')
-MML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
-MML_COMMENTED_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
-MML_ARTICLES_DIR = os.path.join(BASE_DIR, 'static', 'mml_articles')
-COMMENTS_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'commentes')
+
+ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
+SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
+CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
+
+
+RAW_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
+COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+
+RAW_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_original_articles')
+PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'mml_articles')
+
+PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'mml_symbols')
+
 STATIC_ARTICLES_URL = STATIC_URL + "mml_articles/"
 STATIC_SYMBOLS_URL = STATIC_URL + "mml_symbols/"
+
+TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
+TEST_MML_DIR = os.path.join(TEST_DATA_DIR, 'mml')
+TEST_MML_ARTICLES_ORIGINAL_DIR = os.path.join(TEST_DATA_DIR, 'mml_original_articles')
+TEST_MML_ARTICLES_DIR = os.path.join(TEST_DATA_DIR, 'mml_articles')
+TEST_MML_COMMENTED_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
