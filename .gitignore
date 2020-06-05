@@ -1,8 +1,9 @@
 # Mizar
-mml_articles/
-mml_original_articles/
+htmlized_mml/
+symbol_html/
 mml/
-mml_symbols/
+mml_commented/
+!testdata
 
 # Database
 pgsql-data/
