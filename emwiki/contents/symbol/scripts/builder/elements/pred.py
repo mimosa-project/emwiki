@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from lxml import html
-from contents.symbol.initialization.elements.element import Element
+from .element import Element
 
 
 class Pred(Element):

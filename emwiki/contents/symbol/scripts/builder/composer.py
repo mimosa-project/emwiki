@@ -2,7 +2,7 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from contents.symbol.initialization.content import Content
+from .content import Content
 import locale
 from natsort import humansorted
 locale.setlocale(locale.LC_ALL, '')

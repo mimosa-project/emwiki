@@ -5,7 +5,7 @@ __author__ = 'nakasho'
 import codecs
 
 
-class ContentWriter:
+class Writer:
     def __init__(self):
         self.content = None
 

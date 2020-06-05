@@ -2,7 +2,7 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from contents.symbol.initialization.elements.element import Element
+from .elements.element import Element
 
 
 class Content:

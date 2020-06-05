@@ -5,13 +5,13 @@ __author__ = 'nakasho'
 from builtins import staticmethod
 import os.path
 from lxml import html
-from contents.symbol.initialization.elements.pred import Pred
-from contents.symbol.initialization.elements.struct import Struct
-from contents.symbol.initialization.elements.mode import Mode
-from contents.symbol.initialization.elements.func import Func
-from contents.symbol.initialization.elements.attr import Attr
-from contents.symbol.initialization.elements.cluster import Cluster
-from contents.symbol.initialization.elements.reduce import Reduce
+from .elements.pred import Pred
+from .elements.struct import Struct
+from .elements.mode import Mode
+from .elements.func import Func
+from .elements.attr import Attr
+from .elements.cluster import Cluster
+from .elements.reduce import Reduce
 
 
 class Reader:

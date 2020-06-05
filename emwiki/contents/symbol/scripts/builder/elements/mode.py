@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 import re
-from contents.symbol.initialization.elements.element import Element
+from .element import Element
 
 
 class Mode(Element):
