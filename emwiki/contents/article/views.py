@@ -1,14 +1,10 @@
 import json
-import os
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from emwiki.settings import STATIC_ARTICLES_URL
-from .classes import MizFile
+from contents.contents.scripts.mizfile_archiver import MizFileArchiver
 from .models import Article, Comment
 
 
@@ -27,10 +23,8 @@ def submit_comment(request):
         comment = Comment(article=article, block=block, block_order=block_order, text='')
     comment.text = text
     comment.save()
-    mizfile = MizFile()
-    mizfile.read(article.get_mml_path())
-    mizfile.embed_comments(article.comment_set.all())
-    mizfile.write(article.get_commented_path())
+    mizfile_archiver = MizFileArchiver()
+    mizfile_archiver.save(article)
     return HttpResponse()
 
 
@@ -43,19 +37,14 @@ def order_comments(request):
         block = query['block']
         block_order = query['block_order']
         article = Article.objects.get(name=article_name)
+        text = ''
         if Comment.objects.filter(article=article, block=block, block_order=block_order).exists():
             comment = Comment.objects.get(article=article, block=block, block_order=block_order)
-            comments.append({
-                'aritcle_name': comment.article.name,
-                'block': comment.block,
-                'block_order': comment.block_order,
-                'text': comment.text
-            })
-        else:
-            comments.append({
-                'article_name': article_name,
-                'block': block,
-                'block_order': block_order,
-                'text': ''
-            })
+            text = comment.text
+        comments.append({
+            'article_name': article_name,
+            'block': block,
+            'block_order': block_order,
+            'text': text
+        })
     return JsonResponse({'comments': comments})
