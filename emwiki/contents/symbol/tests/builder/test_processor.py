@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from unittest import TestCase
-from mmlfrontend.processor import Processor
+from contents.symbol.scripts.builder.processor import Processor
 import os
 import os.path
 import shutil
@@ -24,7 +24,7 @@ class TestProcessor(TestCase):
         return [e for e in elements if e.type() == typename]
 
     def test_read(self):
-        from_dir = self._local_dir + '/data/processor/mml-articles'
+        from_dir = self._local_dir + '/testdata/processor/mml-articles'
         processor = Processor()
         processor.read(from_dir)
 
@@ -37,21 +37,21 @@ class TestProcessor(TestCase):
 
     #def copy_resources(self):
     #    files = ["index.html", "start.html", "js/mml-var.js", "js/mml-reference.js", "css/mml-reference.css"]
-    #    os.makedirs(self._local_dir + '/data/processor/js/', exist_ok=True)
-    #    os.makedirs(self._local_dir + '/data/processor/css/', exist_ok=True)
+    #    os.makedirs(self._local_dir + '/testdata/processor/js/', exist_ok=True)
+    #    os.makedirs(self._local_dir + '/testdata/processor/css/', exist_ok=True)
     #    for file in files:
     #        src = self._local_dir + "/../html/" + file
-    #        dst = self._local_dir + "/data/processor/" + file
+    #        dst = self._local_dir + "/testdata/processor/" + file
     #        shutil.copyfile(src, dst)
 
     def test_execute(self):
         # self.copy_resources()
-        contents_dir = self._local_dir + '/data/processor/mml-contents'
+        contents_dir = self._local_dir + '/testdata/processor/mml-contents'
         if os.path.exists(contents_dir):
             shutil.rmtree(contents_dir)
 
-        from_dir = self._local_dir + '/data/processor/mml-articles'
-        to_dir = self._local_dir + '/data/processor'
+        from_dir = self._local_dir + '/testdata/processor/mml-articles'
+        to_dir = self._local_dir + '/testdata/processor'
         processor = Processor()
         processor.execute(from_dir, to_dir)
 

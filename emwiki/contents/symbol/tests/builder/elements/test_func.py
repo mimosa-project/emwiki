@@ -2,7 +2,7 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from tests.elements.test_element import TestElement
+from contents.symbol.tests.scripts.builder.elements.test_element import TestElement
 
 
 class TestFunc(TestElement):

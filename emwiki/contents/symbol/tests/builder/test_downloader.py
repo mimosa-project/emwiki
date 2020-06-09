@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from unittest import TestCase
-from mmlfrontend.downloader import Downloader
+from contents.symbol.scripts.builder.downloader import Downloader
 import os
 import os.path
 
@@ -34,7 +34,7 @@ class TestDownloader(TestCase):
 
     def test_read_index(self):
         downloader = Downloader()
-        path = "file:///" + self._local_dir + "/data/downloader/page_index.html"
+        path = "file:///" + self._local_dir + "/testdata/downloader/page_index.html"
         path = path.replace('\\', '/')
         downloader.read_index(path)
         self.assertEqual(len(downloader.files), 1195)

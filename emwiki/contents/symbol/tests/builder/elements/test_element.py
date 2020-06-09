@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from unittest import TestCase
-from mmlfrontend.reader import Reader
+from contents.symbol.scripts.builder.reader import Reader
 import os.path
 
 
@@ -18,7 +18,7 @@ class TestElement(TestCase):
         pass
 
     def read_by_name(self, name):
-        path = "file:///" + self._local_dir + "/data/reader/" + name + ".html"
+        path = "file:///" + self._local_dir + "/testdata/reader/" + name + ".html"
         path = path.replace('\\', '/')
         reader = Reader()
         reader.read(path)

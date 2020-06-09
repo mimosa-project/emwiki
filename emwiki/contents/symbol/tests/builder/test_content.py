@@ -3,7 +3,7 @@
 __author__ = 'nakasho'
 
 from unittest import TestCase
-from mmlfrontend.content import Content
+from contents.symbol.scripts.builder.content import Content
 
 
 class TestContent(TestCase):
