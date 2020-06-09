@@ -1,5 +1,12 @@
+"""Save and load MizFile
+
+Todo:
+    * Article,MizFileに依存したくない(Adaptor?要検討)
+    * Module感がない
+"""
+
+
 from collections import deque
-import glob
 import re
 import os
 
@@ -9,7 +16,12 @@ from emwiki.settings import RAW_MIZFILE_DIR, COMMENTED_MIZFILE_DIR
 
 
 class MizFileArchiver:
-    """MizFileの保管，読み込みを担当
+    """Save and load MizFile using Model
+
+    Attributes:
+        raw_mizfile_dir(string): The directory where the original MizFile is stored
+        commented_mizfile_dir(string): The directory where the commented MizFile is stored
+        commentlocationcollector(CommentLocationCollector): Collecting additional comment locations in the text
     """
 
     def __init__(self):
@@ -18,38 +30,53 @@ class MizFileArchiver:
         self.commentlocationcollector = CommentLocationCollector()
 
     def push(self, article):
-        """コメントを埋め込み保存
+        """Embed and save Comment in the MizFile indicated by the argument
+
+        Args:
+            article(Article): target article
         """
         basename = article.name + '.miz'
         raw_mizfile = MizFile(
-            article.name,
             os.path.join(self.raw_mizfile_dir, basename)
         )
         commented_mizfile = MizFile(
-            article.name,
             os.path.join(self.commented_mizfile_dir, basename)
         )
 
         raw_mizfile.read()
-        commented_mizfile.text = self._embed(
-            raw_mizfile.text, article.objects.comment_set.all()
-        )
+        if article.comment_set.all():
+            commented_mizfile.text = self._embed(
+                raw_mizfile.text, article.comment_set.all()
+            )
+        else:
+            commented_mizfile.text = raw_mizfile.text
         commented_mizfile.write()
 
     def pull(self, article):
-        """コメントを取り出す
+        """Extract and load Comment in the MizFile indicated by the argument
+
+        Args:
+            article(Article): target article
+        Returns:
+            comments(list of Comment): Extracted comments
         """
         comments = []
         basename = article.name + '.miz'
         commented_mizfile_path = os.path.join(self.commented_mizfile_dir, basename)
         if os.path.exists(commented_mizfile_path):
-            commented_mizfile = MizFile(article.name, commented_mizfile_path)
+            commented_mizfile = MizFile(commented_mizfile_path)
             commented_mizfile.read()
             raw_text, comments = self._extract(commented_mizfile.text, article)
         return comments
 
     def _embed(self, raw_text, comments):
-        """embed to MizFile text
+        """embed comments in raw_text
+
+        Args:
+            raw_text(string): raw text of mizfile
+            comments(list of Comments): Embedded Comments
+        Returns:
+            commented_text(string): commented text
         """
         mizar_lines = raw_text.splitlines()
         self.commentlocationcollector.collect(raw_text)
@@ -72,7 +99,14 @@ class MizFileArchiver:
         return commented_text
 
     def _extract(self, text, article):
-        """extract comment in mizar string
+        """extract comment in commented_text
+
+        Args:
+            text(string): commented text of mizfile
+            article(string): article key of the extracted comments
+        Returns:
+            raw_text(string): raw text of mizfile
+            comments(list of comments): extracted comments
         """
         comments = []
         comment_lines = []
@@ -118,7 +152,7 @@ class MizFileArchiver:
 
 
 class CommentLocationCollector:
-    """テキスト内のComment追加位置を収集
+    """Collecting additional comment locations
     """
     TARGET_BLOCK = (
         "theorem",

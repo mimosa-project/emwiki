@@ -30,11 +30,12 @@ class SymbolInitializer(ContentInitializer):
 
     def _create_models(self):
         symbols = []
-        html_paths = glob.glob(os.path.join(self.product_htmlizedmml_dir, "*.html"))
-        for path in html_paths:
-            basename = os.path.basename(path)
-            name_encoded = os.path.splitext(basename)[0]
-            name = urllib.parse.unquote(name_encoded)
-            symbol = Symbol(name=name)
-            symbols.append(symbol)
+        contents = self.builder.processor.contents
+        for content in contents:
+            path = os.path.join(self.product_htmlizedmml_dir, content.filename())
+            if os.path.isfile(path):
+                symbol = Symbol(name=content.symbol, filename=content.filename())
+                symbols.append(symbol)
+            else:
+                raise Exception
         Symbol.objects.bulk_create(symbols)

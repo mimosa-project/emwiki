@@ -1,12 +1,11 @@
 from abc import ABCMeta, abstractmethod
-import codecs
+import os
 
 from lxml import html
 
 
 class File(metaclass=ABCMeta):
-    def __init__(self, name, path):
-        self.name = name
+    def __init__(self, path):
         self.path = path
 
     @abstractmethod
@@ -24,8 +23,9 @@ class MizFile(File):
     入出力を担当
     """
 
-    def __init__(self, name, path):
-        self.text = ''
+    def __init__(self, path):
+        super().__init__(path)
+        self.text = None
 
     def read(self):
         with open(self.path, 'r') as f:
@@ -37,7 +37,8 @@ class MizFile(File):
 
 
 class HtmlizedMmlFile(File):
-    def __init__(self, name, path):
+    def __init__(self, path):
+        super().__init__(path)
         self.root = None
 
     def read(self):
@@ -47,30 +48,3 @@ class HtmlizedMmlFile(File):
         text = html.tostring(self.root, pretty_print=True, encoding='utf-8').decode('utf-8')
         with open(self.path, 'w') as f:
             f.write(text)
-
-
-class SymbolHtmlFile(File):
-    def __init__(self, name, path):
-        self.content = []
-
-    def read(self):
-        pass
-
-    def write(self):
-        with codecs.open(self.path, 'w', 'utf-8-sig') as fp:
-            fp.write("<!DOCTYPE html>\n"
-                     "<html lang='en'>\n")
-            self.write_header(fp)
-            self.write_body(fp)
-            fp.write("</html>\n")
-
-    def _write_header(self, fp):
-        fp.write("<head>\n"
-                 "<meta charset='UTF-8'>\n"
-                 "<title>" + self.content.symbol + "</title>\n"
-                 "</head>\n")
-
-    def _write_body(self, fp):
-        fp.write("<body>\n")
-        self.content.write(fp)
-        fp.write("</body>\n")
