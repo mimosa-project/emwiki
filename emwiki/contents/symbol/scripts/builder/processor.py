@@ -17,7 +17,7 @@ class Processor:
         self.elements = []
         self.contents = []
 
-    def execute(self, from_dir):
+    def execute(self, from_dir, to_dir):
         self.read(from_dir)
         self.compose()
         self.write(to_dir)
@@ -46,5 +46,5 @@ class Processor:
         for content in tqdm(self.contents):
             writer = Writer()
             writer.content = content
-            filename = urllib.parse.quote(content.symbol)
-            writer.write(os.path.join(to_dir, filename)
+            filename = content.filename()
+            writer.write(os.path.join(to_dir, filename))
