@@ -5,7 +5,7 @@ import os
 from lxml import html
 from tqdm import tqdm
 
-from contents.contents.scripts.content_builder import ContentBuilder
+from contents.contents.scripts.builder import ContentBuilder
 from contents.contents.scripts.files import HtmlizedMmlFile
 
 
@@ -17,14 +17,14 @@ class ArticleBuilder(ContentBuilder):
         for from_path in tqdm(html_paths):
             basename = os.path.basename(from_path)
             to_path = os.path.join(to_dir, basename)
-            raw_html_file = HtmlizedMmlFile()
-            raw_html_file = raw_html_file.read(from_path)
-            product_html_file = HtmlizedMmlFile()
+            raw_html_file = HtmlizedMmlFile(from_path)
+            raw_html_file.read()
+            product_html_file = HtmlizedMmlFile(to_path)
             product_html_file.root = self._convert_head(raw_html_file.root)
-            product_html_file.write(to_path)
+            product_html_file.write()
 
     def _convert_head(self, root):
-        for node in self.root.xpath('//head/*'):
+        for node in root.xpath('//head/*'):
             parent = node.getparent()
             parent.remove(node)
         head = root.xpath('//head')[0]
