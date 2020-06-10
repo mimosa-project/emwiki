@@ -4,7 +4,7 @@
 {% block head %}
 {{ query_text|json_script:"query_text" }}
 <style type="text/css">
-{% for key,value in view.categorys.items %}
+{% for key,value in view.search_targets.items %}
 .category-{{ key }}{
   color: #fff;
   background-color: {{ value.color }};
@@ -22,7 +22,7 @@
   <div class='form-row w-100 mx-auto'>
     <select name='search_category' id='category-select' class="form-control custom-select col-3 col-md-2 mr-1">
       <option value="All" selected>All</option>
-      {% for category in view.categorys%}
+      {% for category in view.search_targets.keys %}
         {% ifequal category query_category %}
           <option value="{{ category }}" selected >{{ category }}</option>
         {% else %}
