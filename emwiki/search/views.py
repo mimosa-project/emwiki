@@ -28,9 +28,10 @@ class SearchView(TemplateView):
         query_category = self.request.GET.get('search_category', default='All')
 
         contents = []
-        for category, searcher in self.searchers.items():
-            if query_category == 'All' or query_category == category:
-                contents.extend(searcher.search(query_text))
+        if query_category != 'All' or query_text != '':
+            for category, searcher in self.searchers.items():
+                if query_category == 'All' or query_category == category:
+                    contents.extend(searcher.search(query_text))
 
         context = super().get_context_data(**kwargs)
         context.update({
