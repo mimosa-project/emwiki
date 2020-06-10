@@ -168,13 +168,20 @@ class Element:
         return 'ELM' + str(self.id)
 
     def write(self, fp, i):
-        attrs = "class='mml-element' id='" + self.html_id() + "'"
-        fp.write("<div " + attrs + ">\n")
-        fp.write("<h2>" + str(i) + ". "
-                 + "  <span data-link='" + self.content.filename() + "'>[Back to top]</span></h2>\n")
+        fp.write(f'''
+            <div class='card mml-element mt-2'  id='{self.html_id()}'>
+                <div class='card-header'>
+                    <h3>{str(i)}. {self.element_link_html(self)} [{self.source_link_html(self)}]</h3>
+                </div>
+                <div class='card-body'>
+        
+        ''')
         self.write_source_code(fp)
         self.write_relations(fp)
-        fp.write("</div>\n<hr/>\n")
+        fp.write('''
+                </div>
+            </div>
+        ''')
 
     @staticmethod
     def source_link_html(e):
@@ -193,29 +200,37 @@ class Element:
         self.add_to_attr(self.main_sentence, 'class', 'main-sentence')
         try:
             source_code = html.tostring(self.defblock, pretty_print=True, encoding='utf-8').decode('utf-8')
-            fp.write("<div class='source'>\n"
-                     "<h3>Source <span class='defined-in'> [" + self.source_link_html(self) + "]</span></h3>\n"
-                     "<div class='source-box'>\n" + source_code + "</div>\n"
-                     "</div>\n")
+            fp.write(f'''
+                <div class='source'>
+                    <h4>Source <span class='defined-in'> [{self.source_link_html(self)}]</span></h4>
+                    <div class='source-box bg-light p-3'>
+                        {source_code}
+                    </div>
+                </div>
+            ''')
         finally:
             self.remove_from_attr(self.main_sentence, 'class', 'main-sentence')
 
     def write_relations(self, fp):
         if len(self.relations) > 0:
-            fp.write("<div class='reference'>\n"
-                     "<h3>Referenced In</h3>\n")
+            fp.write('''
+                <div class='reference'>
+                    <h4>Referenced In</h4>
+            ''')
             for t in ['struct', 'mode', 'pred', 'attr', 'func', 'cluster', 'reduce']:
                 self.write_relations_per_type(fp, t)
-            fp.write("</div>\n")
+            fp.write('</div>')
 
     def write_relations_per_type(self, fp, type):
         elements = [e for e in self.relations if e.type() == type]
         elements = humansorted(elements, key=lambda e: (e.symbol, e.filename))
         if len(elements) > 0:
-            fp.write("<div class='related-" + type + "'>\n"
-                     "<table class='pure-table'>\n"
-                     "<thead><tr><th colspan='2'>" + type + "</th></tr></thead>\n"
-                     "<tbody>\n")
+            fp.write(f'''
+                <div class="related-{type}">
+                     <table class="table table-sm table-hover table-borderd table-responsive">
+                     <thead><tr><th colspan="2">{type}</th></tr></thead>
+                     <tbody>
+            ''')
             if type in ["cluster", "reduce"]:
                 for e in elements:
                     fp.write("<tr><td>" + e.main_sentence.text_content() + "</td>")
