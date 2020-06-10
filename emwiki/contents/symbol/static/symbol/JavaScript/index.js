@@ -12,7 +12,7 @@ $(function(){
         $('#mml-content').contents().find("span[data-href]").each( function(){
             $(this).on('click', function(){
                 var url;
-                url = `/article/${$(this).attr('data-href')}`
+                url = `/contents/Article/${$(this).attr('data-href')}`
                 return window.open(url, '_blank').focus();
             })
         });
@@ -24,7 +24,5 @@ $(function(){
                 select(link[1]);
             })
         });
-        //add iframe.css
-        $('#mml-content').contents().find("head").append('<link rel="stylesheet" href="/static/symbol/CSS/content.css" type="text/css" />');
     });
 });
