@@ -1,9 +1,5 @@
-#!/usr/bin/env python
-# encoding: utf-8
-__author__ = 'nakasho'
-
-from contents.symbol.tests.scripts.builder.elements.test_element import TestElement
-from contents.symbol.scripts.builder.elements.element import Element
+from contents.symbol.scripts.build_processor.elements.element import Element
+from contents.symbol.tests.scripts.build_processor.elements.test_element import TestElement
 
 
 class TestPred(TestElement):

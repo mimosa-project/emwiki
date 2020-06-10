@@ -1,8 +1,4 @@
-#!/usr/bin/env python
-# encoding: utf-8
-__author__ = 'nakasho'
-
-from contents.symbol.tests.scripts.builder.elements.test_element import TestElement
+from contents.symbol.tests.scripts.build_processor.elements.test_element import TestElement
 
 
 class TestFunc(TestElement):
@@ -63,6 +59,7 @@ class TestFunc(TestElement):
             self.assertEqual(i in synonym_indices, funcs[i].is_synonym(), i)
             self.assertEqual("abcmiz_1", funcs[i].filename)
 
+"""
     def test_read_funct_1(self):
         reader = self.read_by_name("funct_1")
         funcs = self.filter_by_type(reader.elements, 'func')
@@ -77,4 +74,4 @@ class TestFunc(TestElement):
             self.assertEqual(i in redefine_indices, funcs[i].is_redefine(), i)
             self.assertEqual(i in synonym_indices, funcs[i].is_synonym(), i)
             self.assertEqual("funct_1", funcs[i].filename)
-
+"""

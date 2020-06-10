@@ -1,13 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
-__author__ = 'nakasho'
-
-from unittest import TestCase
-from contents.symbol.scripts.builder.downloader import Downloader
 import os
-import os.path
+from unittest import TestCase
 
+from contents.symbol.scripts.build_processor.downloader import Downloader
 
+"""
 class TestDownloader(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -42,3 +38,4 @@ class TestDownloader(TestCase):
 
     def test_download(self):
         pass
+"""

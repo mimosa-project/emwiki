@@ -1,24 +1,21 @@
-#!/usr/bin/env python
-# encoding: utf-8
-__author__ = 'nakasho'
-
+import os
 from unittest import TestCase
-from contents.symbol.scripts.builder.reader import Reader
-import os.path
+
+from contents.symbol.scripts.build_processor.reader import Reader
+from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
 
 
 class TestElement(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls._local_dir = os.path.dirname(os.path.dirname(__file__))
-        cls._local_dir = cls._local_dir.replace('\\', '/')
+        pass
 
     @classmethod
     def tearDownClass(cls):
         pass
 
     def read_by_name(self, name):
-        path = "file:///" + self._local_dir + "/testdata/reader/" + name + ".html"
+        path = os.path.join(TEST_RAW_HTMLIZEDMML_DIR, name + ".html")
         path = path.replace('\\', '/')
         reader = Reader()
         reader.read(path)
