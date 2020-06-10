@@ -46,5 +46,5 @@ class HtmlizedMmlFile(File):
 
     def write(self):
         text = html.tostring(self.root, pretty_print=True, encoding='utf-8').decode('utf-8')
-        with open(self.path, 'w') as f:
+        with open(self.path, mode='w') as f:
             f.write(text)
