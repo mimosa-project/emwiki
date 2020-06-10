@@ -11,6 +11,7 @@ from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_COMMENTED_MIZFILE_DIR, \
 class MizFileArchiverTest(TestCase):
 
     def setUp(self):
+        Article.objects.all().delete()
         self.mizfile_archiver = MizFileArchiver()
         self.mizfile_archiver.raw_mizfile_dir = TEST_RAW_MIZFILE_DIR
         self.mizfile_archiver.commented_mizfile_dir = TEST_COMMENTED_MIZFILE_DIR
