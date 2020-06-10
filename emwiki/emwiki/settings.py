@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'search.apps.SearchConfig',
     'accounts.apps.AccountsConfig',
+    'graph.apps.GraphConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('search/', include('search.urls')),
+    path('graph/', include('graph.urls')),
     path('contents/', include('contents.contents.urls')),
     path('article/', include('contents.article.urls')),
     path('accounts/', include('accounts.urls')),
