@@ -13,7 +13,9 @@ class ArticleBuilder(ContentBuilder):
 
     def bulk_build(self, from_dir, to_dir):
         html_paths = glob.glob(os.path.join(from_dir, "*.html"))
-        print(f'generating Files from {from_dir} to {to_dir}')
+        print(f'Building Files')
+        print(f'    from {from_dir}')
+        print(f'    to   {to_dir}')
         for from_path in tqdm(html_paths):
             basename = os.path.basename(from_path)
             to_path = os.path.join(to_dir, basename)
