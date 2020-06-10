@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from contents.contents.lib.initializer import EmwikiInitializer
+from contents.contents.scripts.emwiki_initializer import EmwikiInitializer
 
 
 class Command(BaseCommand):

@@ -1,9 +1,9 @@
 import glob
 import os
 
-from contents.contents.scripts.content_initializer import ContentInitializer
+from contents.contents.scripts.initializer import ContentInitializer
 from contents.article.models import Article
-from contents.article.scripts.article_builder import ArticleBuilder
+from contents.article.scripts.builder import ArticleBuilder
 from emwiki.settings import RAW_HTMLIZEDMML_DIR, PRODUCT_HTMLIZEDMML_DIR
 
 

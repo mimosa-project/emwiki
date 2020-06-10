@@ -2,9 +2,9 @@ import glob
 import os
 import urllib
 
-from contents.contents.scripts.content_initializer import ContentInitializer
+from contents.contents.scripts.initializer import ContentInitializer
 from contents.symbol.models import Symbol
-from contents.symbol.scripts.symbol_builder import SymbolBuilder
+from contents.symbol.scripts.builder import SymbolBuilder
 from emwiki.settings import RAW_HTMLIZEDMML_DIR, PRODUCT_SYMBOLHTML_DIR
 
 

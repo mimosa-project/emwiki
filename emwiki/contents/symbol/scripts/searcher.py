@@ -3,7 +3,7 @@ from operator import and_
 
 from django.db.models import Q
 
-from contents.contents.scripts.content_searcher import ContentSearcher
+from contents.contents.scripts.searcher import ContentSearcher
 from contents.symbol.models import Symbol
 
 

@@ -2,7 +2,7 @@ import os
 
 from django.test import TestCase, Client
 
-from contents.article.initializers.initializer import ArticleInitializer
+from contents.article.scripts.initializer import ArticleInitializer
 from contents.article.models import Article
 from emwiki.settings import TEST_MML_ARTICLES_ORIGINAL_DIR, \
     TEST_MML_ARTICLES_DIR

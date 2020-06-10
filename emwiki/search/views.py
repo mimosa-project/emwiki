@@ -7,8 +7,8 @@ from django.views.generic import TemplateView
 
 from contents.article.models import Article
 from contents.symbol.models import Symbol
-from contents.article.scripts.article_searcher import ArticleSearcher
-from contents.symbol.scripts.symbol_searcher import SymbolSearcher
+from contents.article.scripts.searcher import ArticleSearcher
+from contents.symbol.scripts.searcher import SymbolSearcher
 
 
 class SearchView(TemplateView):
