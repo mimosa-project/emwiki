@@ -170,3 +170,5 @@ TEST_COMMENTED_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
 
 TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
+
+TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'symbol_html')
