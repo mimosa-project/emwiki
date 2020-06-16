@@ -11,6 +11,3 @@ class ContentBuilder(metaclass=ABCMeta):
     def tearDownClass(cls):
         pass
 
-    @abstractmethod
-    def test_bulk_build(self):
-        pass
