@@ -1,6 +1,9 @@
 # Mizar
 htmlized_mml/
 symbol_html/
+product_htmlized_mml/
+product_symbol_html/
+outputs/
 mml/
 mml_commented/
 !testdata
