@@ -164,7 +164,9 @@ STATIC_SYMBOLS_URL = STATIC_URL + "symbol_html/"
 
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
 
-TEST_CACHE_DIR = os.path.join(TEST_DATA_DIR, 'cachedata')
+TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
+TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_htmlized_mml')
+TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_symbol_html')
 
 TEST_RAW_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml')
 TEST_COMMENTED_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
@@ -172,4 +174,4 @@ TEST_COMMENTED_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
 TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
 
-TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'symbol_html')
+TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
