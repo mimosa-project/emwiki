@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from contents.contents.scripts.mizfile_archiver import MizFileArchiver
+from contents.article.miz_file import MizFile
 from .models import Article, Comment
 
 
@@ -23,8 +23,10 @@ def submit_comment(request):
         comment = Comment(article=article, block=block, block_order=block_order, text='')
     comment.text = text
     comment.save()
-    mizfile_archiver = MizFileArchiver()
-    mizfile_archiver.save(article)
+    mizfile = MizFile(article.get_raw_mizfile_path())
+    mizfile.read()
+    mizfile.embed(article.comment_set.all())
+    mizfile.write()
     return HttpResponse()
 
 
