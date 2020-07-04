@@ -7,6 +7,7 @@ class Content(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
     category = None
     color = None
+    file_dir = None
     
     class Meta:
         abstract = True
@@ -22,3 +23,6 @@ class Content(models.Model):
 
     def get_static_url(self):
         return NotImplementedError
+
+    def get_file_path(self):
+        pass
