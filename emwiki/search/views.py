@@ -1,14 +1,13 @@
 from collections import OrderedDict
 
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView
 
 from contents.article.models import Article
+from contents.article.searcher import ArticleSearcher
 from contents.symbol.models import Symbol
-from contents.article.scripts.searcher import ArticleSearcher
-from contents.symbol.scripts.searcher import SymbolSearcher
+from contents.symbol.searcher import SymbolSearcher
 
 
 class SearchView(TemplateView):
