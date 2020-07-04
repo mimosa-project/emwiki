@@ -3,15 +3,29 @@ import textwrap
 from django.db import models
 
 from contents.contents.models import Content
-from emwiki.settings import STATIC_ARTICLES_URL
+from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR, \
+    RAW_MIZFILE_DIR, COMMENTED_MIZFILE_DIR
 
 
 class Article(Content):
     category = 'Article'
     color = '#EF845C'
+    file_dir = PRODUCT_HTMLIZEDMML_DIR
+
+    raw_mizfile_dir = RAW_MIZFILE_DIR
+    commented_mizfile_dir = COMMENTED_MIZFILE_DIR
 
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
+
+    def get_file_path(self):
+        return os.path.join(self.file_dir, f'{self.name}.html')
+
+    def get_raw_mizfile_path(self):
+        return os.path.join(self.raw_mizfile_dir, f'{self.name}.miz')
+
+    def get_commented_mizfile_path(self):
+        return os.path.join(self.commented_mizfile_dir, f'{self.name}.miz')
 
 
 class Comment(models.Model):
