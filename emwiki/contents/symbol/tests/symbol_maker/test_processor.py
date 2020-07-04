@@ -3,7 +3,7 @@ import os
 import shutil
 from unittest import TestCase
 
-from contents.symbol.scripts.build_processor.processor import Processor
+from contents.symbol.symbol_maker.processor import Processor
 from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR, TEST_PRODUCT_SYMBOLHTML_DIR
 
 

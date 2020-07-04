@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from contents.symbol.scripts.build_processor.content import Content
+from contents.symbol.symbol_maker.content import Content
 
 
 class TestContent(TestCase):

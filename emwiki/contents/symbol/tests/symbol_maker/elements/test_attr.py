@@ -1,4 +1,4 @@
-from contents.symbol.tests.scripts.build_processor.elements.test_element import TestElement
+from contents.symbol.tests.symbol_maker.elements.test_element import TestElement
 
 
 class TestAttr(TestElement):

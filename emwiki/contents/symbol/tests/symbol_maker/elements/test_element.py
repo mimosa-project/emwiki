@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from contents.symbol.scripts.build_processor.reader import Reader
+from contents.symbol.symbol_maker.reader import Reader
 from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
 
 
