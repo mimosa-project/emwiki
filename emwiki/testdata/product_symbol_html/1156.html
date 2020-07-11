@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang='en'>
+
+                <head>
+                    <meta charset='UTF-8'>
+                    <title>arity-rich</title>
+                    <link rel='stylesheet' href='/static/symbol/CSS/iframe.css' type='text/css' />
+
+                    <!-- Bootstrap -->
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                </head>
+                
+            <body data-spy="scroll" data-target="#list-of-definitions">
+            <main class="container-fluid">
+            <div class="row">
+        <div id="content" class="col-9 pl-3">
+            <div class="mml-summary">
+                <h1 class="d-inline">arity-rich</h1>
+                <hr class="mb-0">
+                <h4 class="mb-5">attr</h4>
+        
+                <div class='card mb-5'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>List of Definitions (1)</h5>
+                        <ol class='section-nav'>
+        
+                            <li class="toc-entry toc-h2">
+                                <span data-link='1156.html#ELM258'>arity-rich</span>[<span data-href='abcmiz_a.html#V3'>abcmiz_a</span>]
+                            </li>
+            
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        
+            <div class='card mml-element mt-2'  id='ELM258'>
+                <div class='card-header'>
+                    <h3>1. <span data-link='1156.html#ELM258'>arity-rich</span> [<span data-href='abcmiz_a.html#V3'>abcmiz_a</span>]</h3>
+                </div>
+                <div class='card-body'>
+        
+        
+                <div class='source'>
+                    <h4>Source <span class='defined-in'> [<span data-href='abcmiz_a.html#V3'>abcmiz_a</span>]</span></h4>
+                    <div class='source-box bg-light p-3'>
+                        <div>
+<span class="kw">definition</span><div class="add">
+<span class="kw">let </span><font color="Maroon" title="c2">C</font> be   non  <span title="STRUCT_0:attr.11" data-href="struct_0.html#V11">void</span>  <span title="CATALG_1:NM.1" data-href="catalg_1.html#NM1">Signature</span>;<br><div about="#D28" typeof="oo:Definition" class="main-sentence">
+<a name="V3"><span class="kw">attr</span> </a><font color="Maroon" title="c1">C</font> is  <span title="ABCMIZ_A:attr.3" data-link="1156.html#ELM258">arity-rich</span> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E28">Def12</font></span>: <a name="D12"><span class="comment"><font color="firebrick">:: ABCMIZ_A:def 12</font></span><br></a> for <font color="Olive" title="b1">n</font> being   <span title="ORDINAL1:NM.5" data-href="ordinal1.html#NM5">Nat</span><br>  for <font color="Olive" title="b2">s</font> being   <span title="MSUALG_1:NM.1" data-href="msualg_1.html#NM1">SortSymbol</span> of <font color="Maroon" title="c1">C</font>  holds <span class="p1"> { <span class="default"> <font color="Olive" title="b3">o</font> where <font color="Olive" title="b3">o</font> is   <span title="MSUALG_1:NM.2" data-href="msualg_1.html#NM2">OperSymbol</span> of <font color="Maroon" title="c1">C</font> : (  <span title="MSUALG_1:func.2" data-href="msualg_1.html#K2">the_result_sort_of</span> <font color="Olive" title="b3">o</font> <span title="HIDDEN:pred.1" data-href="hidden.html#R1">=</span> <font color="Olive" title="b2">s</font> &amp;  <span title="FINSEQ_1:func.3" data-href="finseq_1.html#K3">len</span> <span class="p1">(<span class="default"><span title="MSUALG_1:func.1" data-href="msualg_1.html#K1">the_arity_of</span> <font color="Olive" title="b3">o</font></span>)</span> <span title="HIDDEN:pred.1" data-href="hidden.html#R1">=</span> <font color="Olive" title="b1">n</font> ) </span> } </span>  is  <span title="FINSET_1:NV.2" data-href="finset_1.html#NV2">infinite</span> ;<br>
+</div>
+<span class="kw">let </span><font color="Maroon" title="c3">o</font> be   <span title="MSUALG_1:NM.2" data-href="msualg_1.html#NM2">OperSymbol</span> of <font color="Maroon" title="c2">C</font>;<br><div about="#D29" typeof="oo:Definition">
+<a name="V4"><span class="kw">attr</span> </a><font color="Maroon" title="c2">o</font> is  <span title="ABCMIZ_A:attr.4" data-link="1157.html#ELM259">nullary</span> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E29">Def13</font></span>: <a name="D13"><span class="comment"><font color="firebrick">:: ABCMIZ_A:def 13</font></span><br></a> <span title="MSUALG_1:func.1" data-href="msualg_1.html#K1">the_arity_of</span> <font color="Maroon" title="c2">o</font> <span title="HIDDEN:pred.1" data-href="hidden.html#R1">=</span>  <span title="XBOOLE_0:func.1" data-href="xboole_0.html#K1">{}</span> ;<br>
+</div>
+<div about="#D30" typeof="oo:Definition">
+<a name="V5"><span class="kw">attr</span> </a><font color="Maroon" title="c2">o</font> is  <span title="ABCMIZ_A:attr.5" data-link="1158.html#ELM260">unary</span> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E30">Def14</font></span>: <a name="D14"><span class="comment"><font color="firebrick">:: ABCMIZ_A:def 14</font></span><br></a> <span title="FINSEQ_1:func.3" data-href="finseq_1.html#K3">len</span> <span class="p1">(<span class="default"><span title="MSUALG_1:func.1" data-href="msualg_1.html#K1">the_arity_of</span> <font color="Maroon" title="c2">o</font></span>)</span> <span title="HIDDEN:pred.1" data-href="hidden.html#R1">=</span> 1;<br>
+</div>
+<div about="#D31" typeof="oo:Definition">
+<a name="V6"><span class="kw">attr</span> </a><font color="Maroon" title="c2">o</font> is  <span title="ABCMIZ_A:attr.6" data-link="1159.html#ELM261">binary</span> <span class="kw"> means </span>:<span class="lab"><font color="Green" title="E31">Def15</font></span>: <a name="D15"><span class="comment"><font color="firebrick">:: ABCMIZ_A:def 15</font></span><br></a> <span title="FINSEQ_1:func.3" data-href="finseq_1.html#K3">len</span> <span class="p1">(<span class="default"><span title="MSUALG_1:func.1" data-href="msualg_1.html#K1">the_arity_of</span> <font color="Maroon" title="c2">o</font></span>)</span> <span title="HIDDEN:pred.1" data-href="hidden.html#R1">=</span> 2;<br>
+</div>
+</div>
+<span class="kw">end;</span>
+</div>
+
+
+                    </div>
+                </div>
+            
+                <div class='reference'>
+                    <h4>Referenced In</h4>
+            
+                <div class="related-cluster">
+                     <table class="table table-sm table-hover table-borderd table-responsive">
+                     <thead><tr><th colspan="2">cluster</th></tr></thead>
+                     <tbody>
+            <tr><td>
+cluster  non  void  V150()  arity-rich   ->  non  void   with_an_operation_for_each_sort   for    ManySortedSign ;
+</td><td><span data-href='abcmiz_a.html#CC5'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster V150()  constructor   arity-rich   ->  initialized   for    ManySortedSign ;
+</td><td><span data-href='abcmiz_a.html#CC6'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  MaxConstrSign  ->  arity-rich  ;
+</td><td><span data-href='abcmiz_a.html#FC9'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  non  empty   non  void  V71() V150()  constructor   initialized   arity-rich   for    ManySortedSign ;
+</td><td><span data-href='abcmiz_a.html#RC11'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  constructor   nullary   for    OperSymbol of s;
+</td><td><span data-href='abcmiz_a.html#RC12'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  constructor   unary   for    OperSymbol of s;
+</td><td><span data-href='abcmiz_a.html#RC13'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  constructor   binary   for    OperSymbol of s;
+</td><td><span data-href='abcmiz_a.html#RC14'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  constructor   unary   for    Element of  the carrier' of C;
+</td><td><span data-href='abcmiz_a.html#RC15'>abcmiz_a</span></td></tr>
+<tr><td>
+cluster  constructor   binary   for    Element of  the carrier' of C;
+</td><td><span data-href='abcmiz_a.html#RC16'>abcmiz_a</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+                </div>
+            </div>
+        </div><div id="scrollspy" class="col-3" >
+            <nav id="list-of-definitions" class="d-none d-xl-block bd-toc sticky-top" aria-label="Secondary navigation">
+                <h4>1 Definitions</h4>
+                <ol class="section-nav">
+        
+                <li class="toc-entry toc-h2">
+                    <span data-link='1156.html#ELM258'>arity-rich</span>[<span data-href='abcmiz_a.html#V3'>abcmiz_a</span>]
+                </li>
+            
+                </ol>
+            </nav>
+        </div>
+            </div>
+            </main>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            </body>
+        </html>
