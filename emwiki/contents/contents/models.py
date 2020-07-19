@@ -13,7 +13,7 @@ class Content(models.Model):
         abstract = True
 
     def __str__(self):
-        return f'{self.category}:{self.name}'
+        return f'{self.get_category()}:{self.name}'
 
     @classmethod
     def get_category(cls):
@@ -34,7 +34,7 @@ class Content(models.Model):
     def get_absolute_url(self):
         return reverse_lazy(
             'contents:index',
-            kwargs={'category': self.category, 'name': self.name}
+            kwargs={'category': self.get_category(), 'name': self.name}
         )
 
     def get_static_url(self):

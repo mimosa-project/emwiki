@@ -60,7 +60,7 @@ class Content:
                 </div>
             </div>
         ''')
-    
+
     def write_scrollspy(self, fp):
         fp.write(f'''
             <nav id="list-of-definitions" class="d-none d-xl-block bd-toc sticky-top" aria-label="Secondary navigation">

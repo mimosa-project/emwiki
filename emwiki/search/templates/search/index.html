@@ -7,7 +7,7 @@
 {% for key,value in view.search_targets.items %}
 .category-{{ key }}{
   color: #fff;
-  background-color: {{ value.color }};
+  background-color: {{ value.get_color }};
 }
 {% endfor %}
 </style>
@@ -51,7 +51,7 @@
         <tr class='position-relative'>
           <th scope="row" class='text-center'>{{ forloop.counter }}</th>
           <td class="">
-          <span class='category-{{ object.category }} py-1 px-2 rounded-pill'>{{ object.category }}</span>
+          <span class='category-{{ object.get_category }} py-1 px-2 rounded-pill'>{{ object.get_category }}</span>
           </td>
           <td class='position-relative'><a class='subject stretched-link' href='{{ object.get_absolute_url }}'>{{ object.name }}</a></td>
         </tr>

@@ -1,3 +1,5 @@
+from functools import reduce
+from operator import and_, or_
 import os
 import urllib
 
@@ -31,15 +33,12 @@ def normalize_content_url(request):
     name_encoded = request.GET.get('name', None)
     filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
+    content = None
+    print(category)
     if category == 'Article':
-        if filename:
-            name = os.path.splitext(filename)[0]
-        content = Article.objects.get(name=name)
+        content = Article.get_model(name=name, filename=filename)
     elif category == 'Symbol':
-        if filename:
-            content = Symbol.objects.get(filename=filename)
-        else:
-            content = Symbol.objects.get(name=name)
+        content = Symbol.get_model(name=name, filename=filename)
     index = {
         'category': category,
         'name': content.name,

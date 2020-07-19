@@ -13,15 +13,15 @@ from contents.symbol.searcher import SymbolSearcher
 class SearchView(TemplateView):
     template_name = 'search/index.html'
     search_targets = {
-        Article.category: Article,
-        Symbol.category: Symbol
+        Article.get_category(): Article,
+        Symbol.get_category(): Symbol
     }
 
     def __init__(self):
         self.searchers = OrderedDict()
-        self.searchers[Article.category] = ArticleSearcher()
-        self.searchers[Symbol.category] = SymbolSearcher()
-    
+        self.searchers[Article.get_category()] = ArticleSearcher()
+        self.searchers[Symbol.get_category()] = SymbolSearcher()
+
     def get_context_data(self, **kwargs):
         query_text = self.request.GET.get('search_query', default='')
         query_category = self.request.GET.get('search_category', default='All')
