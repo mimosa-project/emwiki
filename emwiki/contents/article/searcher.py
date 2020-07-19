@@ -1,5 +1,5 @@
 from functools import reduce
-from operator import and_
+from operator import and_, or_
 
 from django.db.models import Q
 
@@ -11,14 +11,35 @@ class ArticleSearcher(ContentSearcher):
 
     def search(self, query_text):
         queryset = Article.objects.order_by('name')
+        results = []
         if query_text:
-            query_text_replaced = query_text.replace(' ', '')
-            # Create a query to search for a Article that includes
-            # all the characters of "query_text_replaced"
-            # in Article.name
+            queries = query_text.split()
+
+            # 完全一致
             query = reduce(
-                and_, [Q(name__icontains=q) for q in query_text_replaced]
+                or_, [Q(name__iexact=q) for q in queries]
             )
-            return queryset.filter(query)
+            results.extend(queryset.filter(query))
+            queryset = queryset.exclude(query)
+
+            # 前方一致
+            query = Q(name__istartswith=queries[0])
+            results.extend(queryset.filter(query))
+            queryset = queryset.exclude(query)
+
+            # 部分一致(and)
+            query = reduce(
+                and_, [Q(name__icontains=q) for q in queries]
+            )
+            results.extend(queryset.filter(query))
+            queryset = queryset.exclude(query)
+
+            # 後方一致
+            # query = Q(name__iendswith=queries[-1])
+            # results.extend(queryset.filter(query))
+            # queryset = queryset.exclude(query)
+
+            return results
         else:
-            return queryset
+            results = queryset
+            return results
