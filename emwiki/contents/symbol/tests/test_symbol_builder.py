@@ -19,7 +19,7 @@ class SymbolBuilderTest(TestCase):
         self.builder.create_models()
         self.builder.delete_models()
         self.assertEqual(0, len(Symbol.objects.all()))
-        
+
     def test_create_models(self):
         self.builder.create_models()
         self.assertEqual(262, len(Symbol.objects.all()))

@@ -26,7 +26,8 @@ class MizFileTest(TestCase, FileTest):
 
     @classmethod
     def tearDownClass(cls):
-        os.remove(cls.to_path)
+        if os.path.exists(cls.to_path):
+            os.remove(cls.to_path)
         cls.builder.delete_models()
 
     def test_constractor(self):
@@ -75,7 +76,7 @@ class MizFileTest(TestCase, FileTest):
 
         self.assertEqual(commented_mizfile.text, raw_mizfile.text)
 
-        self.assertEqual(len(comments), len(self.article.comment_set.all()))
+        self.assertEqual(len(comments), 238)
 
     def test_restorebility(self):
         raw_mizfile = MizFile(os.path.join(TEST_RAW_MIZFILE_DIR, 'abcmiz_0.miz'))

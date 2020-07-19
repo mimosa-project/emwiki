@@ -20,13 +20,13 @@ class HtmlizedMmlBuilderTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.builder.delete_files()
+        cls.builder.create_files()
 
     def test_delete_files(self):
         self.builder.delete_files()
         product_paths = glob.glob(os.path.join(TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR, '*.html'))
         self.assertEqual(0, len(product_paths))
-        
+
     def test_create_files(self):
         self.builder.create_files()
         product_paths = glob.glob(os.path.join(TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR, '*.html'))

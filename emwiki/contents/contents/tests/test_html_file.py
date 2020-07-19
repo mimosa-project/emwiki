@@ -27,7 +27,7 @@ class HtmlFileTest(TestCase, FileTest):
         html_file.path = self.bad_path
         with self.assertRaises(Exception):
             html_file.read()
-            
+
     def test_write(self):
         html_file = HtmlFile(self.from_path)
         html_file.read()
