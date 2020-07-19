@@ -1,11 +1,11 @@
 import glob
 import os
-import urllib
 
 from natsort import humansorted
 from tqdm import tqdm
 
 from .composer import Composer
+from .content import Content
 from .elements.element import Element
 from .reader import Reader
 from .writer import Writer
@@ -14,6 +14,7 @@ from .writer import Writer
 class Processor:
     def __init__(self):
         Element._total_num = 0
+        Content._total_num = 0
         self.elements = []
         self.contents = []
 
@@ -30,7 +31,7 @@ class Processor:
             reader = Reader()
             reader.read(html)
             self.elements += reader.elements
-            
+
     def compose(self):
         print("composing...")
         composer = Composer()

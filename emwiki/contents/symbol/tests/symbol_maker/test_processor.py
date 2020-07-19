@@ -4,7 +4,8 @@ import shutil
 from unittest import TestCase
 
 from contents.symbol.symbol_maker.processor import Processor
-from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR, TEST_PRODUCT_SYMBOLHTML_DIR
+from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR,\
+    TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR
 
 
 class TestProcessor(TestCase):
@@ -33,11 +34,11 @@ class TestProcessor(TestCase):
         self.assertEqual(279, len(self.filter_by_type(processor.elements, 'cluster')))
 
     def test_execute(self):
-        symbolhtml_paths = glob.glob(os.path.join(TEST_PRODUCT_SYMBOLHTML_DIR, '*.html'))
+        symbolhtml_paths = glob.glob(os.path.join(TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR, '*.html'))
         for path in symbolhtml_paths:
             os.remove(path)
 
         from_dir = TEST_RAW_HTMLIZEDMML_DIR
-        to_dir = TEST_PRODUCT_SYMBOLHTML_DIR
+        to_dir = TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR
         processor = Processor()
         processor.execute(from_dir, to_dir)
