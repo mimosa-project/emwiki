@@ -9,18 +9,38 @@ from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR, \
 
 
 class Article(Content):
-    category = 'Article'
-    color = '#EF845C'
-    file_dir = PRODUCT_HTMLIZEDMML_DIR
 
     raw_mizfile_dir = RAW_MIZFILE_DIR
     commented_mizfile_dir = COMMENTED_MIZFILE_DIR
+
+    @classmethod
+    def get_category(cls):
+        return 'Article'
+
+    @classmethod
+    def get_color(cls):
+        return '#EF845C'
+
+    @classmethod
+    def get_file_fir(cls):
+        return PRODUCT_HTMLIZEDMML_DIR
+
+    @classmethod
+    def get_model(cls, name=None, filename=None):
+        if filename:
+            name = os.path.splitext(filename)[0]
+        elif name:
+            pass
+        else:
+            raise ValueError
+
+        return Article.objects.get(name=name)
 
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
 
     def get_file_path(self):
-        return os.path.join(self.file_dir, f'{self.name}.html')
+        return os.path.join(self.get_file_dir(), f'{self.name}.html')
 
     def get_raw_mizfile_path(self):
         return os.path.join(self.raw_mizfile_dir, f'{self.name}.miz')
@@ -40,7 +60,7 @@ class Comment(models.Model):
 
     def format_text(self):
         """format comment text
-        
+
         Returns:
             string: format comment text
         """

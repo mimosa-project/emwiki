@@ -8,12 +8,28 @@ class Content(models.Model):
     category = None
     color = None
     file_dir = None
-    
+
     class Meta:
         abstract = True
 
     def __str__(self):
         return f'{self.category}:{self.name}'
+
+    @classmethod
+    def get_category(cls):
+        return NotImplementedError
+
+    @classmethod
+    def get_color(cls):
+        return NotImplementedError
+
+    @classmethod
+    def get_file_dir(cls):
+        return NotImplementedError
+
+    @classmethod
+    def get_model(cls, name=None, filename=None):
+        return NotImplementedError
 
     def get_absolute_url(self):
         return reverse_lazy(
@@ -25,4 +41,4 @@ class Content(models.Model):
         return NotImplementedError
 
     def get_file_path(self):
-        pass
+        return NotImplementedError

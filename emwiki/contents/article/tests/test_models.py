@@ -20,12 +20,12 @@ class ArticleTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.builder.delete_models()
-    
+
     def test_attributes(self):
         for article in Article.objects.all():
             self.assertIsNotNone(article.name)
-            self.assertEqual(article.category, 'Article')
-            self.assertIsNotNone(article.color)
+            self.assertEqual(article.get_category(), 'Article')
+            self.assertIsNotNone(article.get_color())
             self.assertFalse(article.name.endswith('.html'))
 
     def test_url_methods(self):
@@ -64,7 +64,7 @@ class CommentTest(TestCase):
             self.assertEqual(comment.block, comment_answer['block'])
             self.assertEqual(comment.block_order, comment_answer['block_order'])
             self.assertEqual(comment.text, comment_answer['text'])
-    
+
     def test_format_text(self):
         for comment in Comment.objects.all():
             if not comment.format_text() == '':
