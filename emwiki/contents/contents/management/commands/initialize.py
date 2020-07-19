@@ -40,11 +40,11 @@ class Command(BaseCommand):
             contents_initializers.append(article_initializer)
             html_initializers.append(htmlized_mml_initializer)
         elif target == 'symbol':
-            contents_initializers.append(article_initializer)
+            contents_initializers.append(symbol_initializer)
             html_initializers.append(symbol_html_initializer)
-        
+
         for initializer in contents_initializers:
             initializer.initialize()
-        
+
         for initializer in html_initializers:
-            initializer.initialize
+            initializer.initialize()
