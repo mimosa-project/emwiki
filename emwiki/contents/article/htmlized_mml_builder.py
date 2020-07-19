@@ -26,6 +26,8 @@ class HtmlizedMmlBuilder(HtmlBuilder):
         print(f'Building Files')
         print(f'    from {self.from_dir}')
         print(f'    to   {self.to_dir}')
+        if not os.path.exists(self.to_dir):
+            os.mkdir(self.to_dir)
         for from_path in tqdm(html_paths):
             basename = os.path.basename(from_path)
             to_path = os.path.join(self.to_dir, basename)
