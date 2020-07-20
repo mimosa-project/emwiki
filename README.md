@@ -58,7 +58,9 @@ git clone https://github.com/mimosa-project/emwiki.git
 
 ### 4.2.1 MML
 + **文字コードがutf-8ではないファイルが存在する場合がある．**
-  + 各自iconvなどのコマンドでutf-8に変換してください．
+  + 各自nkfなどのコマンドでutf-8に変換してください．(以下例)
+  + `sudo apt install nkf`
+  + `nkf -w8 --overwrite emwiki/emwiki/contents/mizarfiles/mml/*.miz`
 + MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/system/)からダウンロードできます．
 ```
 emwiki/mizarfiles/mml/<here>

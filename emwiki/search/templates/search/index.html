@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block head %}
+{{ query_text|json_script:"query_text" }}
+<style type="text/css">
+{% for key,value in view.search_targets.items %}
+.category-{{ key }}{
+  color: #fff;
+  background-color: {{ value.get_color }};
+}
+{% endfor %}
+</style>
+<link rel='stylesheet' href="{% static 'search/CSS/highlight.css' %}" type='text/css'></link>
+<script src="{% static 'search/JavaScript/highlight.js' %}"></script>
+<script src="{% static 'search/JavaScript/index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class='w-100 m-3'>
+<form class="form-inline mx-auto" action='/search' method='get'>
+  <div class='form-row w-100 mx-auto'>
+    <select name='search_category' id='category-select' class="form-control custom-select col-3 col-md-2 mr-1">
+      <option value="All" selected>All</option>
+      {% for category in view.search_targets.keys %}
+        {% ifequal category query_category %}
+          <option value="{{ category }}" selected >{{ category }}</option>
+        {% else %}
+          <option value="{{ category }}" >{{ category }}</option>
+        {% endifequal %}
+      {% endfor %}
+    </select>
+    <input id='search' class="form-control col-6 col-md-8" type="search" placeholder="Search" aria-label="Search" autocomplete='on' name='search_query' list='search_keywords' 
+      value='{{ query_text }}'>
+    <span class='col-1'>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </span>
+  </div>
+</form>
+<div id='search_result' class='mt-2'>
+  <table class="table table-hover mt-3">
+    <thead>
+    <tr class=''>
+    <th scope="col" class='text-center' style='width:10%'>#</th>
+    <th scope="col" class='' style='width:10%'>Category</th>
+    <th scope="col" class='' style='width:70%'>Name</th>
+    </tr>
+    </thead>
+    <tbody id='result-table-body'>
+      {% for object in result_objects%}
+        <tr class='position-relative'>
+          <th scope="row" class='text-center'>{{ forloop.counter }}</th>
+          <td class="">
+          <span class='category-{{ object.get_category }} py-1 px-2 rounded-pill'>{{ object.get_category }}</span>
+          </td>
+          <td class='position-relative'><a class='subject stretched-link' href='{{ object.get_absolute_url }}'>{{ object.name }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endblock %}

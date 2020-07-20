@@ -6,12 +6,17 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 autopep8 = "*"
+pytest = "*"
+wheel = "*"
 
 [packages]
 django = "==2.2.13"
 django-environ = "*"
 psycopg2 = ">=2.7,<3.0"
 uwsgi = "==2.0.17"
+lxml = "*"
+natsort = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"
