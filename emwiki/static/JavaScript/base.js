@@ -8,6 +8,5 @@ $(function(){
         for(var keyword of response.keywords){
             $('#search_keywords').append('<option value="' + keyword + '">')
         }
-    })
-    
+    }) 
 })

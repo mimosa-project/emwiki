@@ -40,11 +40,13 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'contents.contents.apps.ContentsConfig',
+    'contents.symbol.apps.SymbolConfig',
+    'contents.article.apps.ArticleConfig',
     'home.apps.HomeConfig',
-    'emsearch.apps.EmsearchConfig',
+    'search.apps.SearchConfig',
     'accounts.apps.AccountsConfig',
-    'article.apps.ArticleConfig',
-    'emgraph.apps.EmgraphConfig',
+    'graph.apps.GraphConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -141,3 +143,35 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 STATIC_ROOT = '/code/static'
+
+
+ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
+SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
+CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
+
+
+RAW_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
+COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+
+RAW_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'htmlized_mml')
+PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')
+
+PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'symbol_html')
+
+STATIC_ARTICLES_URL = STATIC_URL + "htmlized_mml/"
+STATIC_SYMBOLS_URL = STATIC_URL + "symbol_html/"
+
+
+TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
+
+TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
+TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_htmlized_mml')
+TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_symbol_html')
+
+TEST_RAW_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml')
+TEST_COMMENTED_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
+
+TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
+TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
+
+TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')

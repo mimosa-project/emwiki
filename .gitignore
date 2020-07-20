@@ -1,6 +1,15 @@
-# Mizar
-mizar_html/
-mml/
+# Mizar Files
+emwiki/contents/mizarfiles/htmlized_mml/
+emwiki/contents/mizarfiles/mml
+emwiki/contents/mizarfiles/mml_commented
+
+# Static files
+htmlized_mml
+symbol_html
+
+
+# testdata
+testdata/outputs/
 
 # Database
 pgsql-data/

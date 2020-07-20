@@ -1,4 +1,10 @@
 body {
     padding-top: 4rem;
-    height: 95vh;
+    height: 100vh;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+    padding: 0;
 }

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    {{ context_for_js|json_script:"context" }}
+    <script src="{% static 'contents/JavaScript/index.js' %}"></script>
+    <script src="{% static js_url %}"></script>
+{% endblock %}
+
+{% block content %}
+    <iframe id='mml-content' width='100%' height='100%' importance='low'></iframe>
+{% endblock %}
