@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <!-- JavaScriptを読み込む -->
+    <script src="{% static 'graph/JavaScript/graph.js' %}" defer='defer'></script>
+    <!-- CSSを読み込む -->
+    <link rel='stylesheet' href="{% static 'graph/CSS/graph.css' %}" type='text/css'></link>
+{% endblock %}
+
+{% block content %}
+<!-- ここにHTMLの内容を記述する -->
+<!-- Bootstrap4が使えます -->
+<h1>This is Graph View</h1>
+{% endblock %}
