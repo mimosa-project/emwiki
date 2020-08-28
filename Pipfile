@@ -17,6 +17,7 @@ uwsgi = "==2.0.17"
 lxml = "*"
 natsort = "*"
 tqdm = "*"
+gitpython = "*"
 
 [requires]
 python_version = "3.7"
