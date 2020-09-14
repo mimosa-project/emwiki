@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>emgraph</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        {% load static %}
+        <script src="{% static "graph/cytoscape.js/dist/cytoscape.min.js" %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static "graph/CSS/style.css"%}">
+        {{ graph_elements|json_script:"graph_elements" }}
+        <script src="{% static "graph/JavaScript/draw_graph.js" %}"></script>
+    </head>
+    <body>
+        <div>
+            <input type="text" name="article_name" id="article_name" autocomplete="on"
+                placeholder="&#xf002; Search Article" list="article_list" spellcheck="false">
+            <datalist id="article_list">
+            </datalist>
+            <input type="submit" value="search" id="search">
+            <p style="display:inline;" id="select_article">SELECT: </p>
+            <br>
+            <p style="display:inline;">Upper Level</p>
+            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="1000">
+            <p style="display:inline;">Lower Level</p>
+            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="1000">
+            <br>
+            <button type="button" value="reload" id="reload">reset</button>
+        </div>
+        <div id="graph">
+            
+        </div>
+    </body>
+</html>
