@@ -2,4 +2,4 @@ from django.views.generic import TemplateView
 
 
 class GraphView(TemplateView):
-    pass
+    template_name = 'graph/graph.html'

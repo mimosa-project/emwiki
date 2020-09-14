@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>emgraph</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        {% load static %}
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
         <script src="{% static "graph/cytoscape.js/dist/cytoscape.min.js" %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static "graph/CSS/style.css"%}">
         {{ graph_elements|json_script:"graph_elements" }}
         <script src="{% static "graph/JavaScript/draw_graph.js" %}"></script>
-    </head>
-    <body>
+{% endblock %}
+
+
+{% block content %}
         <div>
             <input type="text" name="article_name" id="article_name" autocomplete="on"
                 placeholder="&#xf002; Search Article" list="article_list" spellcheck="false">
@@ -28,5 +29,4 @@
         <div id="graph">
             
         </div>
-    </body>
-</html>
+{% endblock %}
