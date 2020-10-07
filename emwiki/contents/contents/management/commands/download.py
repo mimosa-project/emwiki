@@ -18,12 +18,10 @@ class Command(BaseCommand):
         self.stdout.write('Start initializing emwiki contents')
         target = options['target']
 
-        target = options['target']
-
         if target == 'mml':
             path = 'http://mizar.org/version/current/mml'
             extension = '.miz'
-            to_dir = os.path.abspath(os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml'))
+            to_dir = os.path.abspath(os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'emwiki-contents', 'mml'))
             downloader = Downloader(path, extension)
         elif target == 'html':
             path = 'http://mizar.org/version/current/html'
