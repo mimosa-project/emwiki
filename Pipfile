@@ -18,6 +18,8 @@ lxml = "*"
 natsort = "*"
 tqdm = "*"
 gitpython = "*"
+beautifulsoup4 = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
