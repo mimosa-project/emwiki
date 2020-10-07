@@ -24,6 +24,9 @@ class MizFile(File):
         with open(self.path, 'w') as f:
             f.write(self.text)
 
+    def add(self, repo):
+        repo.index.add(self.path)
+
     def embed(self, comments):
         """embed comments in raw_text
 
