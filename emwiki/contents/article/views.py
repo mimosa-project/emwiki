@@ -7,7 +7,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from contents.article.miz_file import MizFile
 from .models import Article, Comment
-from emwiki.settings import LOCAL_COMMENT_REPOSITORY
+from emwiki.settings import LOCAL_COMMENT_REPOSITORY_DIR
 
 
 @ensure_csrf_cookie
@@ -29,13 +29,13 @@ def submit_comment(request):
     mizfile.read()
     mizfile.extract(article)
     mizfile.embed(article.comment_set.all())
+    repo = git.Repo(LOCAL_COMMENT_REPOSITORY_DIR)
+    repo.git.checkout('mml_commented_test')
     mizfile.write()
-    LOCAL_COMMENT_REPOSITORY.git.checkout('mml_commented_test')
-
     commit_message = f'Update {article.name}\n\nUsername: {request.user.username}'
-    LOCAL_COMMENT_REPOSITORY.git.add(mizfile.path)
-    LOCAL_COMMENT_REPOSITORY.index.commit(commit_message)
-    origin = git.remote.Remote(repo=LOCAL_COMMENT_REPOSITORY, name='origin')
+    repo.git.add(mizfile.path)
+    repo.index.commit(commit_message)
+    origin = git.remote.Remote(repo=repo, name='origin')
     origin.push('mml_commented_test')
     return HttpResponse()
 
