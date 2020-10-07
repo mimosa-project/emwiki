@@ -1,11 +1,13 @@
 import json
 
+import git
 from django.http import HttpResponse, HttpResponseForbidden
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from contents.article.miz_file import MizFile
 from .models import Article, Comment
+from emwiki.settings import LOCAL_COMMENT_REPOSITORY
 
 
 @ensure_csrf_cookie
@@ -26,7 +28,14 @@ def submit_comment(request):
     mizfile = MizFile(article.get_raw_mizfile_path())
     mizfile.read()
     mizfile.embed(article.comment_set.all())
+    mizfile.path = article.get_commented_mizfile_path()
+
+    LOCAL_COMMENT_REPOSITORY.git.checkout('mml_commented_test')
+
     mizfile.write()
+    mizfile.add(LOCAL_COMMENT_REPOSITORY)
+    LOCAL_COMMENT_REPOSITORY.index.commit('test commit')
+    LOCAL_COMMENT_REPOSITORY
     return HttpResponse()
 
 
