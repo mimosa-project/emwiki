@@ -60,10 +60,11 @@ git clone https://github.com/mimosa-project/emwiki.git
 + **文字コードがutf-8ではないファイルが存在する場合がある．**
   + 各自nkfなどのコマンドでutf-8に変換してください．(以下例)
   + `sudo apt install nkf`
+  + `ulimit -n 2048`
   + `nkf -w8 --overwrite emwiki/emwiki/contents/mizarfiles/mml/*.miz`
 + MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/system/)からダウンロードできます．
 ```
-emwiki/mizarfiles/mml/<here>
+emwiki/contents/mizarfiles/mml/<here>
 ```
 
 ### 4.2.2 Commented MML
@@ -74,29 +75,29 @@ emwiki/mizarfiles/mml/<here>
 + 以下のディレクトリにファイルを追加してください．
 + コマンドを実行することでDownload可能`pipenv run manage.py download html`
 ```
-emwiki/static/mizar-html/<here>
+emwiki/contents/mizargiles/htmlized_mml/<here>
 ```
 ### 4.2.4 ディレクトリ構成
 追加後，以下のようなディレクトリ構成にしてください．
 ```
     emwiki
     |- emwiki
-    |- mizarfiles
-      |- emwiki-contents
+    |- contents
+      |- mizarfiles
         |- mml
           |- abcmiz_0.miz
           |- abcmiz_1.miz
           |- ...
-      |- htmlized_mml
-        |- proofs
-        |- refs
-        |- abcmiz_1.html
-        |- abcmiz_1.html
-        |- ...
-      |- mml
-        |- abcmiz_0.miz
-        |- abcmiz_1.miz
-        |- ...
+        |- htmlized_mml
+          |- proofs
+          |- refs
+          |- abcmiz_1.html
+          |- abcmiz_1.html
+          |- ...
+        |- commented_mml
+          |- abcmiz_0.miz
+          |- abcmiz_1.miz
+          |- ...
     |- static
        |- optional
     ...
@@ -117,8 +118,25 @@ pipenv sync --dev
 ```
 
 ### 4.3.2データベースの作成
++ Postgresデータベースを使用するため，dockerなどでpostgresデータベースを作成してください．
++ docker, docker-composeをインストール(WSL2で開発する際はdocker-desktopをインストール)
++ docker-compose.ymlを作成
+  + 
+```
+version: "3"
 
-Postgresデータベースを使用するため，dockerなどでpostgresデータベースを作成してください．
+services:
+  db:
+    image: postgres:10-alpine
+    container_name: db-container 
+    ports: 
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=emwiki_dev
+```
++ `docker-compose up`で起動  
 
 作成後，以下の手順で.envファイルを書き換える必要があります．
 
