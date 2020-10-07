@@ -150,15 +150,13 @@ ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
 SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
 CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
 
+MIZARFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles')
+MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')
 
-RAW_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
-# COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
-COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'emwiki-contents', 'mml')
-
-LOCAL_COMMENT_REPOSITORY = git.Repo(os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'emwiki-contents'))
+LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
 REMOTE_COMMENT_REPOSITORY_URL = env('COMMENT_REPOSITORY_URL')
 
-RAW_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'htmlized_mml')
+RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')
 
 PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'symbol_html')
