@@ -25,17 +25,18 @@ def submit_comment(request):
         comment = Comment(article=article, block=block, block_order=block_order, text='')
     comment.text = text
     comment.save()
-    mizfile = MizFile(article.get_raw_mizfile_path())
+    mizfile = MizFile(article.get_mizfile_path())
     mizfile.read()
+    mizfile.extract(article)
     mizfile.embed(article.comment_set.all())
-    mizfile.path = article.get_commented_mizfile_path()
-
+    mizfile.write()
     LOCAL_COMMENT_REPOSITORY.git.checkout('mml_commented_test')
 
-    mizfile.write()
-    mizfile.add(LOCAL_COMMENT_REPOSITORY)
-    LOCAL_COMMENT_REPOSITORY.index.commit('test commit')
-    LOCAL_COMMENT_REPOSITORY
+    commit_message = f'Update {article.name}\n\nUsername: {request.user.username}'
+    LOCAL_COMMENT_REPOSITORY.git.add(mizfile.path)
+    LOCAL_COMMENT_REPOSITORY.index.commit(commit_message)
+    origin = git.remote.Remote(repo=LOCAL_COMMENT_REPOSITORY, name='origin')
+    origin.push('mml_commented_test')
     return HttpResponse()
 
 
