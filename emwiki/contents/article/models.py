@@ -4,14 +4,12 @@ import os
 from django.db import models
 
 from contents.contents.models import Content
-from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR, \
-    RAW_MIZFILE_DIR, COMMENTED_MIZFILE_DIR
+from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR, MIZFILE_DIR
 
 
 class Article(Content):
 
-    raw_mizfile_dir = RAW_MIZFILE_DIR
-    commented_mizfile_dir = COMMENTED_MIZFILE_DIR
+    mizfile_dir = MIZFILE_DIR
 
     @classmethod
     def get_category(cls):
@@ -42,11 +40,8 @@ class Article(Content):
     def get_file_path(self):
         return os.path.join(self.get_file_dir(), f'{self.name}.html')
 
-    def get_raw_mizfile_path(self):
-        return os.path.join(self.raw_mizfile_dir, f'{self.name}.miz')
-
-    def get_commented_mizfile_path(self):
-        return os.path.join(self.commented_mizfile_dir, f'{self.name}.miz')
+    def get_mizfile_path(self):
+        return os.path.join(self.mizfile_dir, f'{self.name}.miz')
 
 
 class Comment(models.Model):
