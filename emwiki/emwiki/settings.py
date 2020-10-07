@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+import git
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -151,7 +152,11 @@ CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
 
 
 RAW_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
-COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+# COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'emwiki-contents', 'mml')
+
+LOCAL_COMMENT_REPOSITORY = git.Repo(os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'emwiki-contents'))
+REMOTE_COMMENT_REPOSITORY_URL = env('COMMENT_REPOSITORY_URL')
 
 RAW_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'htmlized_mml')
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')
@@ -175,3 +180,6 @@ TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
 
 TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
+
+TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
+TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
