@@ -23,12 +23,9 @@ class HtmlizedMmlBuilder(HtmlBuilder):
 
     def create_files(self):
         html_paths = glob.glob(os.path.join(self.from_dir, "*.html"))
-        print(f'Building Files')
-        print(f'    from {self.from_dir}')
-        print(f'    to   {self.to_dir}')
         if not os.path.exists(self.to_dir):
             os.mkdir(self.to_dir)
-        for from_path in tqdm(html_paths):
+        for from_path in tqdm(html_paths, desc='Creating Htmlized MML'):
             basename = os.path.basename(from_path)
             to_path = os.path.join(self.to_dir, basename)
             raw_html_file = HtmlFile(from_path)
