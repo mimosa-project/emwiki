@@ -66,29 +66,38 @@ git clone https://github.com/mimosa-project/emwiki.git
 emwiki/mizarfiles/mml/<here>
 ```
 
-### 4.2.2 HTMLized MML
+### 4.2.2 Commented MML
++ `git clone https://github.com/mimosa-project/emwiki-contents.git`
+
+### 4.2.3 HTMLized MML
 + HTMLized MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできます．
 + 以下のディレクトリにファイルを追加してください．
++ コマンドを実行することでDownload可能`pipenv run manage.py download html`
 ```
 emwiki/static/mizar-html/<here>
 ```
-### 4.2.3 ディレクトリ構成
+### 4.2.4 ディレクトリ構成
 追加後，以下のようなディレクトリ構成にしてください．
 ```
     emwiki
     |- emwiki
     |- mizarfiles
-       |- mml
+      |- emwiki-contents
+        |- mml
           |- abcmiz_0.miz
           |- abcmiz_1.miz
           |- ...
+      |- htmlized_mml
+        |- proofs
+        |- refs
+        |- abcmiz_1.html
+        |- abcmiz_1.html
+        |- ...
+      |- mml
+        |- abcmiz_0.miz
+        |- abcmiz_1.miz
+        |- ...
     |- static
-       |- mizar_html
-          |- proofs
-          |- refs
-          |- abcmiz_1.html
-          |- abcmiz_1.html
-          |- ...
        |- optional
     ...
 ```
@@ -101,7 +110,7 @@ libpq-devをインストール(psycopg2のため)
 ```
 sudo apt install libpq-dev
 ```
-piplockを使用して，仮想環境にPythonの依存ライブラリをインストール
+pipenv.lockを使用して，仮想環境にPythonの依存ライブラリをインストール
 ```
 cd emwiki
 pipenv sync --dev
@@ -174,7 +183,23 @@ sudo docker-compose down
 + MML，コメントファイル，コメント追記済みMMLは`emwiki/emwiki/mizarfiles`にあります．
 + 静的ファイル(Djangoのcollectされたstatic)はホスト側の`emwiki/docker/static`にあります.
 
-## 5 Licence
+## 5 Update
++ emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
++ MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
+### emwiki-contents
++ emwiki-contentsとは，emwiki内の
++ `/emwiki/contents/mizarfiles/emwiki-contents`
+
++ `/emwiki/contents/mizarfiles/emwiki-contents`にemwiki-contentsのリモートリポジトリが存在します．
+### CommentedMMLの格納リポジトリの作成
+### 5.1 MMLのバージョンを更新する
++ MMLの更新
+  + emwiki-contentsのリモートリポジトリで`mml`ブランチに移動する
+  + `/emwiki/contents/mizarfiles/emwiki-contents/mml`を，新しいMMLと交換する
+  + commitする
+  + pushする
+
+## 6 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
 
