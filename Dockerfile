@@ -11,9 +11,9 @@ COPY emwiki/ emwiki/
 COPY emwiki/.env emwiki/
 COPY docker/ docker/
 
-RUN pipenv run python emwiki/manage.py download 
-RUN pipenv run python emwiki/manage.py initialize all
+RUN pipenv run python emwiki/manage.py register all
 
 CMD pipenv run python emwiki/manage.py collectstatic  && \
+    pipenv run python emwiki/manage.py makemigrations && \
     pipenv run python emwiki/manage.py migrate && \
     pipenv run uwsgi --chdir=/code/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
