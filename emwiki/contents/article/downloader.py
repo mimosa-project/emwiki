@@ -20,7 +20,7 @@ class Downloader:
                 self.urls.append(href)
 
     def download(self, to_dir):
-        for url in tqdm(self.urls):
+        for url in tqdm(self.urls, desc=f'Downloading {self.extension}'):
             filename = url.split('/')[-1]
             to_path = to_dir + '/' + filename
 
