@@ -2,38 +2,56 @@ version: '3'
 
 services:
   db:
-    image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: emwiki
+    image: postgres:latest
+    restart: unless-stopped
+    env_file:
+      - .env.db
     volumes:
-      - ./docker/pgsql-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     expose:
       - "5432"
   python:
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: uwsgi --chdir=/workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     volumes:
-      - ./docker/static:/code/static
-      - ./emwiki/contents/mizarfiles:/code/emwiki/contents/mizarfiles
+      - .:/workspace:cached
+      - static-volume:/workspace/emwiki/staticfiles
+      - media-volume:/workspace/emwiki/mediafiles
+      - emwiki-contents-volume:/workspace/emwiki/contents/mizarfiles/emwiki-contents:cached
     expose:
       - "8001"
+    env_file:
+      - .env
     depends_on:
       - db
-  nginx:
-    image: nginx:1.17
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./docker:/etc/nginx/conf.d
-      - ./docker/uwsgi_params:/etc/nginx/uwsgi_params
-      - ./docker/static:/static
-    depends_on:
-      - python
   adminer:
-    image: adminer
-    restart: always
+    image: adminer:latest
+    restart: unless-stopped
     ports: 
       - 8080:8080
     depends_on: 
       - db
+  nginx:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: unless-stopped
+    environment: 
+      DOMAINS: 'localhost'
+      # STAGE: 'production' # Don't use production until staging works
+    volumes:
+      - ./nginx/nginx.ssl.conf:/var/lib/nginx-conf/localhost.ssl.conf.erb:ro
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - static-volume:/staticfiles
+      - media-volume:/mediafiles
+    depends_on: 
+      - python
+
+volumes:
+    postgres-data:
+    static-volume:
+    media-volume:
+    emwiki-contents-volume:
