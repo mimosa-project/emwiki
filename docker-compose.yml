@@ -34,21 +34,27 @@ services:
     depends_on: 
       - db
   nginx:
+    image: nginx:1.17
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - static-volume:/staticfiles
+      - media-volume:/mediafiles
+    depends_on:
+      - python
+  https-portal:
     image: steveltn/https-portal:1
     ports:
       - '80:80'
       - '443:443'
     restart: unless-stopped
     environment: 
-      DOMAINS: 'localhost'
-      # STAGE: 'production' # Don't use production until staging works
-    volumes:
-      - ./nginx/nginx.ssl.conf:/var/lib/nginx-conf/localhost.ssl.conf.erb:ro
-      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
-      - static-volume:/staticfiles
-      - media-volume:/mediafiles
+      DOMAINS: 'localhost->http://nginx:8000'
+      STAGE: 'local' # Don't use production until staging works
     depends_on: 
-      - python
+      - nginx
 
 volumes:
     postgres-data:
