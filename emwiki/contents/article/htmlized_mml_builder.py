@@ -40,7 +40,7 @@ class HtmlizedMmlBuilder(HtmlBuilder):
             parent.remove(node)
         head = root.xpath('//head')[0]
         head_elements = OrderedDict()
-        head_elements['base'] = html.Element('base', href='/static/mml_articles/', target='_self')
+        head_elements['base'] = html.Element('base', href='/static/htmlized_mml/', target='_self')
         head_elements['mathjax_config'] = html.Element('script', type="text/javascript", src="/static/article/JavaScript/mathjax.js")
         head_elements['mathjax_for_IE11'] = html.Element('script', src="https://polyfill.io/v3/polyfill.min.js?features=es6")
         head_elements['mathjax'] = html.Element('script', id="MathJax-script", src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js", type="text/javascript")
