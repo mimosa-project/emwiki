@@ -34,188 +34,112 @@ upgrade
 ```
 sudo apt upgrade
 ```
-install Python
-```
-sudo apt install python3.7 python3.7-dev
-```
-install pip3
-```
-sudo apt install python3-pip
-```
-install pipenv
-```
-sudo pip3 install pipenv
-```
-git clone
-```
-git clone https://github.com/mimosa-project/emwiki.git
-```
-
-
-### 4.2 必要ファイルの追加
-+ MML, HTMLized MML ファイルを追加する．
-+ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
-
-### 4.2.1 MML
-+ **文字コードがutf-8ではないファイルが存在する場合がある．**
-  + 各自nkfなどのコマンドでutf-8に変換してください．(以下例)
-  + `sudo apt install nkf`
-  + `ulimit -n 2048`
-  + `nkf -w8 --overwrite emwiki/emwiki/contents/mizarfiles/mml/*.miz`
-+ MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/system/)からダウンロードできます．
-```
-emwiki/contents/mizarfiles/mml/<here>
-```
-
-### 4.2.2 Commented MML
-+ `git clone https://github.com/mimosa-project/emwiki-contents.git`
-
-### 4.2.3 HTMLized MML
-+ HTMLized MMLファイルは[ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からダウンロードできます．
-+ 以下のディレクトリにファイルを追加してください．
-+ コマンドを実行することでDownload可能`pipenv run manage.py download html`
-```
-emwiki/contents/mizargiles/htmlized_mml/<here>
-```
-### 4.2.4 ディレクトリ構成
-追加後，以下のようなディレクトリ構成にしてください．
-```
-    emwiki
-    |- emwiki
-    |- contents
-      |- mizarfiles
-        |- mml
-          |- abcmiz_0.miz
-          |- abcmiz_1.miz
-          |- ...
-        |- htmlized_mml
-          |- proofs
-          |- refs
-          |- abcmiz_1.html
-          |- abcmiz_1.html
-          |- ...
-        |- commented_mml
-          |- abcmiz_0.miz
-          |- abcmiz_1.miz
-          |- ...
-    |- static
-       |- optional
-    ...
-```
-
-
-## 4.3 開発環境の構築方法
-### 4.3.1 依存ライブラリのインストール手順
-
-libpq-devをインストール(psycopg2のため)
-```
-sudo apt install libpq-dev
-```
-pipenv.lockを使用して，仮想環境にPythonの依存ライブラリをインストール
-```
-cd emwiki
-pipenv sync --dev
-```
-
-### 4.3.2データベースの作成
-+ Postgresデータベースを使用するため，dockerなどでpostgresデータベースを作成してください．
-+ docker, docker-composeをインストール(WSL2で開発する際はdocker-desktopをインストール)
-+ docker-compose.ymlを作成
-  + 
-```
-version: "3"
-
-services:
-  db:
-    image: postgres:10-alpine
-    container_name: db-container 
-    ports: 
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=emwiki_dev
-```
-+ `docker-compose up`で起動  
-
-作成後，以下の手順で.envファイルを書き換える必要があります．
-
-
-### 4.3.3 emwiki/.envの内容を変更
-
-仮想環境に入る
-```
-pipenv shell
-```
-
-+ emwiki/.envファイルを書き換える．
-+ postgresデータベースを利用するため，dockerなどでデータベースを作成後，下記のようにURLを.envで指定してください．
-+ SECRET_KEYをランダムな英数記号50文字に置き換えてください．
-  + `emwiki/emwiki/emwiki/generate_secretkey_setting.py`を実行することで，ランダムに生成された50文字が入手できます．
-```
-SECRET_KEY={secret ramdom sting}
-DATABASE_URL=postgresql://{user}:{password}@{IPaddress or hostname}:{port}/{dastabase}
-```
-
-migrate
-```
-python manage.py migrate
-```
-
-superuser作成
-```
-python manage.py createsuperuser
-```
-### 4.3.4 開発用サーバーの立ち上げ
-+ 仮想環境に入った状態で行ってください．
-```
-python manage.py runserver
-```
-
-## 4.4 本番環境
-
-### 4.4.1 dockerのインストール
 
 docker, docker-composeをインストール
++ [Get Docker](https://docs.docker.com/get-docker/)
++ WSL2を用いる場合はDocker Desktop for Windowsをインストール
 
-### 4.4.2 emwiki/.envファイルの変更
-+ emwiki/.envファイルを，emwiki/.env.dockerファイルの内容に置きかえてください．
-+ SECRET_KEYをランダムな英数記号50文字に置き換えてください.
-  + `emwiki/emwiki/emwiki/generate_secretkey_setting.py`を実行することで，ランダムに生成された50文字が入手できます．
+GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)をForkする
 
-### 4.4.3 起動
-+ 10分以上時間がかかることがあります．
+git clone
 ```
-sudo docker-compose up --build -d
+git clone {your forked origin repository}
 ```
-### 4.4.4 superuserの作成
+
+### 4.2 .envファイルを更新
+#### 開発環境
++ `.devcontainer/.env`を、`.devcontainer/.env-sample`を元に新たに作成する
+  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する(emwiki-contentsのURL)
+  + その他は適宜変更する
++ `.devcontainer/.env.db`を、`.devcontainer/.env.db-sample`を元に新たに作成する
+  + 適宜変更する
+### 本番環境
++ `.env`を、`.env-sample`を元に新たに作成する
+  + **(must)**`DEBUG=False`に設定
+  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
+  + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
+  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
+  + **(must)**`SQL_USER`を再設定する
+  + **(must)**`SQL_PASSWORD`を再設定する
+  + その他の設定を適宜再設定する
++ `.env.db`を、`.env.db-sample`を元に新たに作成する
+  + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
+  + **(must)**`.env`に設定した`SQL_PASSWORD`の値を`POSTGRES_PASSWORD`に設定
++ `docker-compose.yml`内のhttps-portalを変更
+  + **(must)**`DOMAINS: 'localhost->http://nginx:8000'`の`localhost`を、デプロイするドメインに変更する
+  + **(must)**`STAGE: 'production'`をコメントから外す
+
+
+### 4.3 必要ファイルの追加
++ MML, HTMLized MML ファイルを追加する．
++ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
++ **MMLをHP等からDownloadする際にはutf-8に変換を行うこと**
++ `initialize.sh`を実行する事で、必要ファイルのDLが完了する
+  + 必ず先に`.devcontainer/.env`or`.env`を作成する
 ```
-sudo docker-compose exec python pipenv run python /code/emwiki/manage.py createsuperuser
+sh initialize.sh
 ```
-### 4.4.5 終了
++ 確認事項
+  + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
+  + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
+
+### 4.4コンテナの作成
+#### 開発環境
++ 必要ファイルは`.devcontainer`の中にある
++ VSCodeの`ms-vscode-remote.remote-containers`を用いることで簡単に行うことができる
 ```
-sudo docker-compose down
+cd .devcontainer
+docker-compose up -d --build
 ```
-### 4.4.6 生成物
-+ DBデータはホスト側の`emwiki/docker/pgsql-data`にあります．
-+ MML，コメントファイル，コメント追記済みMMLは`emwiki/emwiki/mizarfiles`にあります．
-+ 静的ファイル(Djangoのcollectされたstatic)はホスト側の`emwiki/docker/static`にあります.
+#### 本番環境
++ 時間がかかる点に注意．
++ 実行後、5分程度待つ(uwsgiの起動を待つため)
+```
+docker-compose up -d --build
+```
+
+### 4.5 superuserの作成
+#### 開発環境
++ コンテナ内で`python manage.py createsuperuser`を実行する
+#### 本番環境
+```
+docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
+```
+
+### 4.6 終了
+```
+docker-compose down
+```
+### 4.7 永続化データ
+dockerのvolumeに保管されている
+#### 開発環境
++ コード全体: ./
++ Postgres Data: postgres-data
++ emwiki-contentsは、.devcontainer/.envに指定したレポジトリに自動的にPushされる
+#### 本番環境
++ コード全体: ./
++ Postgres Data: postgres-data
++ static Data: static-volume
++ media Data: media-volume
++ emwiki-contents: emwiki-contents-volume
++ nginx設定ファイル: nginx/nginx.conf
++ uwsgi params: nginx/uwsgi_params
++ emwiki-contentsは、.envに指定したレポジトリに自動的にPushされる
 
 ## 5 Update
 + emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
 ### emwiki-contents
-+ emwiki-contentsとは，emwiki内の
-+ `/emwiki/contents/mizarfiles/emwiki-contents`
-
-+ `/emwiki/contents/mizarfiles/emwiki-contents`にemwiki-contentsのリモートリポジトリが存在します．
-### CommentedMMLの格納リポジトリの作成
-### 5.1 MMLのバージョンを更新する
-+ MMLの更新
-  + emwiki-contentsのリモートリポジトリで`mml`ブランチに移動する
-  + `/emwiki/contents/mizarfiles/emwiki-contents/mml`を，新しいMMLと交換する
-  + commitする
-  + pushする
++ `mml`ブランチにcheckoutする
++ `/emwiki/contents/mizarfiles/emwiki-contents/mml`を新しいMMLと交換する
++ add, commit(commitメッセージにバージョン情報をつける)
++ `mml_commented`ブランチにcheckoutする
++ 新たな`mml`ブランチの変更を`mml_commented`ブランチにマージする
+### HTMLized MML
++ [ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からDL可能
++ emwiki-contentsのバージョンと統一させる
++ `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`に配置する
++ `initialize.sh`を書き換える
 
 ## 6 Licence
 
