@@ -4,7 +4,10 @@ ENV PYTHONUNBUFFERED 1
 
 COPY . ./workspace/
 
-# Install dependencies global\
-RUN pip -q install -r ./workspace/emwiki/requirements.txt
+# Install dependencies global
+WORKDIR /workspace
+RUN pip -q install pipenv
+RUN pipenv install --system
+WORKDIR /
 
 ENTRYPOINT ["sh", "/workspace/emwiki/entrypoint.prod.sh"]
