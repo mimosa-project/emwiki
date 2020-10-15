@@ -59,6 +59,7 @@ git clone {your forked origin repository}
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
+  + **(must)**`COMMENT_PUSH_BRANCH`が`mml_commented`担っているかチェック
   + **(must)**`SQL_USER`を再設定する
   + **(must)**`SQL_PASSWORD`を再設定する
   + その他の設定を適宜再設定する
@@ -91,21 +92,34 @@ sh initialize.sh
 cd .devcontainer
 docker-compose up -d --build
 ```
+以下コンテナ内で実行
++ superuserの作成
+```
+python manage.py createsuperuser
+```
++ MML, HTMLizedMMLファイルの加工
+```
+python manage.py generate all
+```
++ Article, Comment, Symbolの登録
+```
+python manage.py register all
+```
++ 実行
+```
+python manage.py runserver
+```
+
 #### 本番環境
 + 時間がかかる点に注意．
 + 実行後、5分程度待つ(uwsgiの起動を待つため)
 ```
 docker-compose up -d --build
 ```
-
-### 4.5 superuserの作成
-#### 開発環境
-+ コンテナ内で`python manage.py createsuperuser`を実行する
-#### 本番環境
++ superuserの作成
 ```
 docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
 ```
-
 ### 4.6 終了
 ```
 docker-compose down
