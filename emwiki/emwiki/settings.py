@@ -146,9 +146,6 @@ if DEBUG is True:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-
-
-
 ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
 SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
 CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
@@ -158,6 +155,7 @@ MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')
 
 LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
 REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
+COMMENT_PUSH_BRANCH = os.environ.get('COMMENT_PUSH_BRANCH')
 
 RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')

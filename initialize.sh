@@ -28,4 +28,4 @@ else
 fi
 
 echo 'Cloning emwiki-contents'
-git clone -b mml_commented $COMMENT_REPOSITORY_URL emwiki/contents/mizarfiles/emwiki-contents
+git clone -b $COMMENT_PUSH_BRANCH $COMMENT_REPOSITORY_URL emwiki/contents/mizarfiles/emwiki-contents
