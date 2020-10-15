@@ -25,8 +25,11 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 #    && rm -rf /tmp/pip-tmp
 
 # Install dependencies global
-COPY emwiki/requirements.txt ./workspace/
-RUN pip install -r ./workspace/requirements.txt
+COPY Pipfile Pipfile.lock ./workspace/
+WORKDIR /workspace
+RUN pip -q install pipenv
+RUN pipenv install --system
+WORKDIR /
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
