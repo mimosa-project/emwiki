@@ -14,7 +14,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: uwsgi --chdir=/workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
+    command: uwsgi --chdir=./workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     volumes:
       - .:/workspace:cached
       - static-volume:/workspace/emwiki/staticfiles
@@ -26,15 +26,9 @@ services:
       - .env
     depends_on:
       - db
-  adminer:
-    image: adminer:latest
-    restart: unless-stopped
-    ports: 
-      - 8080:8080
-    depends_on: 
-      - db
+
   nginx:
-    image: nginx:1.17
+    image: nginx:latest
     ports:
       - "8000:8000"
     volumes:
@@ -52,7 +46,7 @@ services:
     restart: unless-stopped
     environment: 
       DOMAINS: 'localhost->http://nginx:8000'
-      STAGE: 'local' # Don't use production until staging works
+      # STAGE: 'production' # Don't use production until staging works
     depends_on: 
       - nginx
 
