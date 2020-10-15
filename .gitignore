@@ -15,9 +15,6 @@ testdata/outputs/
 # Database
 pgsql-data/
 
-# VSCode
-.vscode/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -104,6 +101,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.env.db
 .venv
 env/
 venv/
