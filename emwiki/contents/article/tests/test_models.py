@@ -6,7 +6,7 @@ from django.test import TestCase, Client
 
 from contents.article.article_builder import ArticleBuilder
 from contents.article.models import Article, Comment
-from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_COMMENTED_MIZFILE_DIR
+from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_MIZFILE_DIR
 
 
 class ArticleTest(TestCase):
@@ -41,7 +41,7 @@ class CommentTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = TEST_COMMENTED_MIZFILE_DIR
+        cls.builder.from_dir = TEST_MIZFILE_DIR
         cls.builder.create_models()
         cls.article = Article.objects.get(name='abcmiz_0')
 

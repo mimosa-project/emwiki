@@ -7,19 +7,19 @@ from contents.article.models import Article
 from contents.article.miz_file import MizFile
 from contents.article.article_builder import ArticleBuilder
 from contents.contents.tests.test_file import FileTest
-from emwiki.settings import TEST_OUTPUTS_DIR, TEST_RAW_MIZFILE_DIR,\
-    TEST_COMMENTED_MIZFILE_DIR
+from emwiki.settings import TEST_OUTPUTS_DIR, TEST_MIZFILE_DIR,\
+    TEST_RAW_MIZFILE_DIR
 
 
 class MizFileTest(TestCase, FileTest):
-    from_path = os.path.join(TEST_RAW_MIZFILE_DIR, 'abcmiz_0.miz')
+    from_path = os.path.join(TEST_MIZFILE_DIR, 'abcmiz_0.miz')
     bad_path = 'abcmiz'
     to_path = os.path.join(TEST_OUTPUTS_DIR, 'abcmiz_0.miz')
 
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = TEST_COMMENTED_MIZFILE_DIR
+        cls.builder.from_dir = TEST_MIZFILE_DIR
         cls.builder.delete_models()
         cls.builder.create_models()
         cls.article = Article.objects.get(name='abcmiz_0')
@@ -57,7 +57,7 @@ class MizFileTest(TestCase, FileTest):
 
     def test_embed(self):
         raw_mizfile = MizFile(os.path.join(TEST_RAW_MIZFILE_DIR, 'abcmiz_0.miz'))
-        commented_mizfile = MizFile(os.path.join(TEST_COMMENTED_MIZFILE_DIR, 'abcmiz_0.miz'))
+        commented_mizfile = MizFile(os.path.join(TEST_MIZFILE_DIR, 'abcmiz_0.miz'))
 
         raw_mizfile.read()
         commented_mizfile.read()
@@ -68,7 +68,7 @@ class MizFileTest(TestCase, FileTest):
 
     def test_extract(self):
         raw_mizfile = MizFile(os.path.join(TEST_RAW_MIZFILE_DIR, 'abcmiz_0.miz'))
-        commented_mizfile = MizFile(os.path.join(TEST_COMMENTED_MIZFILE_DIR, 'abcmiz_0.miz'))
+        commented_mizfile = MizFile(os.path.join(TEST_MIZFILE_DIR, 'abcmiz_0.miz'))
 
         raw_mizfile.read()
         commented_mizfile.read()
