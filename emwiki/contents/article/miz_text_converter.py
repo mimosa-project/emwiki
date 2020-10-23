@@ -2,7 +2,7 @@ from collections import deque
 import re
 
 
-class MizTextProcessor:
+class MizTextConverter:
     """Collecting additional comment locations
     """
     TARGET_BLOCK = (
