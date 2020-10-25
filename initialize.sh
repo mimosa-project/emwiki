@@ -1,13 +1,13 @@
 #!/bin/sh
 
-if [ -e .env ]; then
-    . .env
-    echo 'Loaded environment from .env'
-elif [ -e .devcontainer/.env ]; then
+if [ $1 = "dev" -a -e .devcontainer/.env ]; then
     . .devcontainer/.env
-    echo 'Loaded environment from .devcontainer.env'
+    echo 'Loaded environment from .devcontainer/.env'
+elif [ $1 = "prod" -a -e .prodcontainer/.env ]; then
+    . .prodcontainer/.env
+    echo 'Loaded environment from .prodcontainer/.env'
 else
-    echo 'NO .env or .devcontainer/.env Detected'
+    echo 'NO .env or .devcontainer/.env Detected or Not specifyed "dev" or "prod"'
     exit
 fi
 
@@ -28,4 +28,4 @@ else
 fi
 
 echo 'Cloning emwiki-contents'
-git clone -b $COMMENT_PUSH_BRANCH $COMMENT_REPOSITORY_URL emwiki/contents/mizarfiles/emwiki-contents
+git clone -b $COMMENT_COMMIT_BRANCH $COMMENT_REPOSITORY_URL emwiki/contents/mizarfiles/emwiki-contents
