@@ -1,20 +1,10 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:latest
-    restart: unless-stopped
-    env_file:
-      - .env.db
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    expose:
-      - "5432"
   python:
     build:
-      context: ./
-      dockerfile: Dockerfile
-    command: uwsgi --chdir=./workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
+      context: ..
+      dockerfile: .prodcontainer/Dockerfile
     volumes:
       - .:/workspace:cached
       - static-volume:/workspace/emwiki/staticfiles
@@ -24,9 +14,18 @@ services:
       - "8001"
     env_file:
       - .env
+    command: uwsgi --chdir=./workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     depends_on:
       - db
-
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env.db
+    expose:
+      - "5432"
   nginx:
     image: nginx:latest
     ports:
@@ -45,7 +44,8 @@ services:
       - '443:443'
     restart: unless-stopped
     environment: 
-      DOMAINS: 'localhost->http://nginx:8000'
+      DOMAINS: 'emwiki->http://nginx:8000'
+      STAGE: 'local'
       # STAGE: 'production' # Don't use production until staging works
     depends_on: 
       - nginx
