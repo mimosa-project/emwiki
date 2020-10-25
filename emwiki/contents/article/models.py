@@ -53,24 +53,5 @@ class Comment(models.Model):
     HEADER = "::: "
     LINE_MAX_LENGTH = 75
 
-    def format_text(self):
-        """format comment text
-
-        Returns:
-            string: format comment text
-        """
-        comment_lines = []
-        if self.text == '':
-            lines = []
-        else:
-            lines = self.text.split('\n')
-        for line in lines:
-            if len(line) > self.LINE_MAX_LENGTH:
-                for cut_line in textwrap.wrap(line, self.LINE_MAX_LENGTH):
-                    comment_lines.append(f'{self.HEADER}{cut_line}')
-            else:
-                comment_lines.append(f'{self.HEADER}{line}')
-        return '\n'.join(comment_lines)
-
     def __str__(self):
         return f'{self.article.name}:{self.block}_{self.block_order}'
