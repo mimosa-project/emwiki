@@ -20,7 +20,7 @@ class Article(Content):
         return '#EF845C'
 
     @classmethod
-    def get_file_fir(cls):
+    def get_htmlfile_dir(cls):
         return PRODUCT_HTMLIZEDMML_DIR
 
     @classmethod
@@ -37,8 +37,8 @@ class Article(Content):
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
 
-    def get_file_path(self):
-        return os.path.join(self.get_file_dir(), f'{self.name}.html')
+    def get_htmlfile_path(self):
+        return os.path.join(self.get_htmlfile_dir(), f'{self.name}.html')
 
     def get_mizfile_path(self):
         return os.path.join(self.mizfile_dir, f'{self.name}.miz')
