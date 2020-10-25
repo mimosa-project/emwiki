@@ -4,9 +4,9 @@ services:
   python:
     build:
       context: ..
-      dockerfile: .prodcontainer/Dockerfile
+      dockerfile: ./.prodcontainer/Dockerfile
     volumes:
-      - .:/workspace:cached
+      - ..:/workspace:cached
       - static-volume:/workspace/emwiki/staticfiles
       - media-volume:/workspace/emwiki/mediafiles
       - emwiki-contents-volume:/workspace/emwiki/contents/mizarfiles/emwiki-contents:cached

@@ -4,7 +4,7 @@ services:
   python:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: ./.devcontainer/Dockerfile
       args:
         # [Choice] Python version: 3, 3.8, 3.7, 3.6
         VARIANT: 3.7
