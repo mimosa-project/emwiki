@@ -26,15 +26,6 @@ written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfil
 
 ## 4 Install
 ### 4.1 ホストの準備
-update
-```
-sudo apt update
-```
-upgrade
-```
-sudo apt upgrade
-```
-
 docker, docker-composeをインストール
 + [Get Docker](https://docs.docker.com/get-docker/)
 + WSL2を用いる場合はDocker Desktop for Windowsをインストール
@@ -59,7 +50,7 @@ git clone {your forked origin repository}
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
-  + **(must)**`COMMENT_PUSH_BRANCH`が`mml_commented`担っているかチェック
+  + **(must)**`COMMENT_COMMIT_BRANCH`が`mml_commented`担っているかチェック
   + **(must)**`SQL_USER`を再設定する
   + **(must)**`SQL_PASSWORD`を再設定する
   + その他の設定を適宜再設定する
@@ -75,11 +66,16 @@ git clone {your forked origin repository}
 + MML, HTMLized MML ファイルを追加する．
 + **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
 + **MMLをHP等からDownloadする際にはutf-8に変換を行うこと**
-+ `initialize.sh`を実行する事で、必要ファイルのDLが完了する
++ `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
   + 必ず先に`.devcontainer/.env`or`.env`を作成する
-```
-sh initialize.sh
-```
++ .devcontainer/.envを使用  
+  ```
+  sh initialize.sh dev
+  ```
++ .prodcontainer/.envを使用
+  ```
+  sh initialize.sh prod
+  ```
 + 確認事項
   + 以下のディレクトリにMMLファイル、HTMLized MMLファイルがあることを確認する
   + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
@@ -93,26 +89,27 @@ sh initialize.sh
 cd .devcontainer
 docker-compose up -d --build
 ```
-コンテナ作成時のみ、以下をコンテナ内で実行
-+ 以下のインタプリタを設定
+
++ pythonの実行時、以下のインタプリタを設定
   + VSCodeの場合は、コマンドパレットから、`python select interpreter`から設定できる
-```
-/usr/local/bin/python
-```
+  ```
+  /usr/local/bin/python
+  ```
 + superuserの作成
-```
-python manage.py createsuperuser
-```
-+ MML, HTMLizedMMLファイルの加工
-```
-python manage.py generate all
-```
-+ Article, Comment, Symbolの登録
-```
-python manage.py register all
-```
-コンテナ作成・起動後、実行方法は通常通り
-+ 実行
+  ```
+  python manage.py createsuperuser
+  ```
++ 独自コマンド
+  + MML, HTMLizedMMLファイルの加工
+  ```
+  python manage.py generate_files all
+  ```
+  + Article, Comment, Symbolの登録
+  ```
+  python manage.py register_db all
+  ```
+
++ コンテナ作成・起動後、実行方法は通常通り
 ```
 python manage.py runserver
 ```
@@ -127,12 +124,11 @@ docker-compose up -d --build
 ```
 docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
 ```
-### 4.6 終了
+### 4.5 終了
 ```
 docker-compose down
 ```
-### 4.7 永続化データ
-dockerのvolumeに保管されている
+### 4.6 永続化データ
 #### 開発環境
 + コード全体: ./
 + Postgres Data: postgres-data
@@ -150,19 +146,35 @@ dockerのvolumeに保管されている
 ## 5 Update MML version
 + emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
-### emwiki-contents
+### 5.1 emwiki-contents
 + `mml`ブランチにcheckoutする
 + `/emwiki/contents/mizarfiles/emwiki-contents/mml`を新しいMMLと交換する
 + add, commit(commitメッセージにバージョン情報をつける)
 + `mml_commented`ブランチにcheckoutする
 + 新たな`mml`ブランチの変更を`mml_commented`ブランチにマージする
-### HTMLized MML
+### 5.2 HTMLized MML
 + [ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からDL可能
 + emwiki-contentsのバージョンと統一させる
 + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`に配置する
 + `initialize.sh`を書き換える
 
 ## 6 Buckup
+### 6.1 emwiki-contents
++ pythonコンテナに入る
+  + `docker exec <container name> bash`
++ emwiki-contentsのレポジトリに移動
+  + `cd /workspace/emwiki/contents/mizarfiles/emwiki-contents`
++ 上のリポジトリに移動してGitのPushを実行
+  + `git push origin mml_commented`
+
+### 6.2 PostgreSQL data
++ 以下のファイルをコピーしておく
+  + 復元時には以下のディレクトリにバックアップしたデータを置きコンテナを立ち上げる
++ 開発環境
+  + `.devcontainer/postgres-data`
++ 本番環境
+  + `.prodcontainer/postgres-data`
+
 
 ## 7 Licence
 
