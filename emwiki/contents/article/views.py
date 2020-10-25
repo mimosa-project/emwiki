@@ -23,7 +23,7 @@ def submit_comment(request):
     comment.text = text
     comment.save()
     article.save_db2mizfile()
-    article.push_mizfile2origin(request.user.username)
+    article.commit_mizfile(request.user.username)
     return HttpResponse()
 
 

@@ -5,7 +5,8 @@ from django.db import models
 
 from contents.contents.models import Content
 from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR,\
-     MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_PUSH_BRANCH
+     MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_COMMIT_BRANCH,\
+     REMOTE_COMMENT_REPOSITORY_URL
 from contents.article.miz_text_converter import MizTextConverter
 
 
@@ -61,7 +62,7 @@ class Article(Content):
                     block_order=comment['block_order']
                 )
             )
-        Comment.objects.all().delete()
+        self.comment_set.all().delete()
         Comment.objects.bulk_create(comment_model_instances)
 
     def save_db2mizfile(self):
@@ -81,14 +82,14 @@ class Article(Content):
         with open(self.get_mizfile_path(), 'w') as f:
             f.write(commented_text)
 
-    def push_mizfile2origin(self, username):
+    def commit_mizfile(self, username):
         repo = git.Repo(LOCAL_COMMENT_REPOSITORY_DIR)
-        repo.git.checkout(COMMENT_PUSH_BRANCH)
+        repo.config_writer().set_value("user", "name", "emwiki").release()
+        repo.config_writer().set_value("user", "email", "emwiki-email").release()
+        repo.git.checkout(COMMENT_COMMIT_BRANCH)
         commit_message = f'Update {self.name}\n\nUsername: {username}'
         repo.git.add(self.get_mizfile_path())
         repo.index.commit(commit_message)
-        origin = git.remote.Remote(repo=repo, name='origin')
-        origin.push(COMMENT_PUSH_BRANCH)
 
 
 class Comment(models.Model):
