@@ -18,7 +18,7 @@ class Symbol(Content):
         return '#F9C270'
 
     @classmethod
-    def get_file_dir(cls):
+    def get_htmlfile_dir(cls):
         return PRODUCT_SYMBOLHTML_DIR
 
     @classmethod
@@ -35,5 +35,5 @@ class Symbol(Content):
     def get_static_url(self):
         return STATIC_SYMBOLS_URL + self.filename
 
-    def get_file_path(self):
+    def get_htmlfile_path(self):
         return os.path.join(self.file_dir, f'{self.filename}')
