@@ -3,11 +3,10 @@ import os
 from django.test import TestCase
 
 from contents.contents.html_file import HtmlFile
-from contents.contents.tests.test_file import FileTest
 from emwiki.settings import TEST_OUTPUTS_DIR, TEST_RAW_HTMLIZEDMML_DIR
 
 
-class HtmlFileTest(TestCase, FileTest):
+class HtmlFileTest(TestCase):
     from_path = os.path.join(TEST_RAW_HTMLIZEDMML_DIR, 'abcmiz_0.html')
     bad_path = 'abcmiz'
     to_path = os.path.join(TEST_OUTPUTS_DIR, 'abcmiz_0.html')
