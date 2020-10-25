@@ -48,7 +48,10 @@ class MizTextConverter:
                 else:
                     break
         mizar_lines_without_comment = \
-            [mizar_lines[i] for i in range(len(mizar_lines)) if i not in comment_lines]
+            [
+                mizar_lines[i]
+                for i in range(len(mizar_lines)) if i not in comment_lines
+            ]
         raw_text = '\n'.join(mizar_lines_without_comment)
         return raw_text
 
@@ -64,8 +67,8 @@ class MizTextConverter:
         Returns:
             commented_text(string): commented text
         """
-        mizar_lines = self.text.split('\n')
-        locations = self.collect_locations(self.text)
+        mizar_lines = text.split('\n')
+        locations = self.collect_locations(text)
         while len(locations):
             comment_location_dict = locations.pop(-1)
             block = comment_location_dict["block"]
@@ -106,6 +109,7 @@ class MizTextConverter:
 
         mizar_lines = text.split('\n')
         locations = self.collect_locations(text)
+        comments = list()
         while len(locations):
             comment_location_dict = locations.pop(-1)
             block = comment_location_dict["block"]
@@ -123,7 +127,6 @@ class MizTextConverter:
 
             # Add comment_one_line_text to comment_deque if match push_pattern
             # Then, add comment made by comment_deque to comments
-            comments = []
             comment_deque = deque()
             push_pattern = re.compile(f'(\\s*){self.HEADER}(?P<comment>.*)')
             for index, line in enumerate(mizar_lines[start::step]):
@@ -234,5 +237,5 @@ class MizTextConverter:
         for line in text.split('\n'):
             if len(line) > self.LINE_MAX_LENGTH:
                 raise Exception
-            if not re.match(f'^{self.HEADER}.*'):
+            if not re.match(f'^{self.HEADER}.*', line):
                 raise Exception
