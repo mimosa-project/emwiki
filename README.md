@@ -81,6 +81,7 @@ git clone {your forked origin repository}
 sh initialize.sh
 ```
 + 確認事項
+  + 以下のディレクトリにMMLファイル、HTMLized MMLファイルがあることを確認する
   + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
   + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
 
@@ -92,7 +93,12 @@ sh initialize.sh
 cd .devcontainer
 docker-compose up -d --build
 ```
-以下コンテナ内で実行
+コンテナ作成時のみ、以下をコンテナ内で実行
++ 以下のインタプリタを設定
+  + VSCodeの場合は、コマンドパレットから、`python select interpreter`から設定できる
+```
+/usr/local/bin/python
+```
 + superuserの作成
 ```
 python manage.py createsuperuser
@@ -105,6 +111,7 @@ python manage.py generate all
 ```
 python manage.py register all
 ```
+コンテナ作成・起動後、実行方法は通常通り
 + 実行
 ```
 python manage.py runserver
@@ -140,7 +147,7 @@ dockerのvolumeに保管されている
 + uwsgi params: nginx/uwsgi_params
 + emwiki-contentsは、.envに指定したレポジトリに自動的にPushされる
 
-## 5 Update
+## 5 Update MML version
 + emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
 ### emwiki-contents
@@ -155,7 +162,9 @@ dockerのvolumeに保管されている
 + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`に配置する
 + `initialize.sh`を書き換える
 
-## 6 Licence
+## 6 Buckup
+
+## 7 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
 
