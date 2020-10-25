@@ -11,4 +11,4 @@ RUN pip -q install pipenv
 RUN pipenv install --system
 WORKDIR /
 
-ENTRYPOINT ["sh", "/workspace/emwiki/.prodcontainer/entrypoint.sh"]
+ENTRYPOINT ["sh", "/workspace/.prodcontainer/entrypoint.sh"]

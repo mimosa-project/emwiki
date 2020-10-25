@@ -20,4 +20,4 @@ RUN pip -q install pipenv
 RUN pipenv install --system
 WORKDIR /
 
-RUN ["sh", "/workspace/emwiki/.devcontainer/entrypoint.sh"]
+RUN ["sh", "/workspace/.devcontainer/entrypoint.sh"]
