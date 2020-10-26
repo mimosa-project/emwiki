@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  python:
+    build:
+      context: ..
+      dockerfile: ./.prodcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - static-volume:/workspace/emwiki/staticfiles
+      - media-volume:/workspace/emwiki/mediafiles
+      - emwiki-contents-volume:/workspace/emwiki/contents/mizarfiles/emwiki-contents:cached
+    expose:
+      - "8001"
+    env_file:
+      - .env
+    command: uwsgi --chdir=./workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env.db
+    expose:
+      - "5432"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - static-volume:/staticfiles
+      - media-volume:/mediafiles
+    depends_on:
+      - python
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: unless-stopped
+    environment: 
+      DOMAINS: 'emwiki->http://nginx:8000'
+      STAGE: 'local'
+      # STAGE: 'production' # Don't use production until staging works
+    depends_on: 
+      - nginx
+
+volumes:
+    postgres-data:
+    static-volume:
+    media-volume:
+    emwiki-contents-volume:

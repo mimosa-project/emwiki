@@ -24,7 +24,7 @@ class Content(models.Model):
         return NotImplementedError
 
     @classmethod
-    def get_file_dir(cls):
+    def get_htmlfile_dir(cls):
         return NotImplementedError
 
     @classmethod
@@ -40,5 +40,5 @@ class Content(models.Model):
     def get_static_url(self):
         return NotImplementedError
 
-    def get_file_path(self):
+    def get_htmlfile_path(self):
         return NotImplementedError

@@ -1,17 +1,18 @@
-import textwrap
+import git
 import os
 
 from django.db import models
 
 from contents.contents.models import Content
-from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR, \
-    RAW_MIZFILE_DIR, COMMENTED_MIZFILE_DIR
+from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR,\
+     MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_COMMIT_BRANCH,\
+     REMOTE_COMMENT_REPOSITORY_URL
+from contents.article.miz_text_converter import MizTextConverter
 
 
 class Article(Content):
 
-    raw_mizfile_dir = RAW_MIZFILE_DIR
-    commented_mizfile_dir = COMMENTED_MIZFILE_DIR
+    mizfile_dir = MIZFILE_DIR
 
     @classmethod
     def get_category(cls):
@@ -22,7 +23,7 @@ class Article(Content):
         return '#EF845C'
 
     @classmethod
-    def get_file_fir(cls):
+    def get_htmlfile_dir(cls):
         return PRODUCT_HTMLIZEDMML_DIR
 
     @classmethod
@@ -39,14 +40,56 @@ class Article(Content):
     def get_static_url(self):
         return STATIC_ARTICLES_URL + self.name + '.html'
 
-    def get_file_path(self):
-        return os.path.join(self.get_file_dir(), f'{self.name}.html')
+    def get_htmlfile_path(self):
+        return os.path.join(self.get_htmlfile_dir(), f'{self.name}.html')
 
-    def get_raw_mizfile_path(self):
-        return os.path.join(self.raw_mizfile_dir, f'{self.name}.miz')
+    def get_mizfile_path(self):
+        return os.path.join(self.mizfile_dir, f'{self.name}.miz')
 
-    def get_commented_mizfile_path(self):
-        return os.path.join(self.commented_mizfile_dir, f'{self.name}.miz')
+    def load_mizfile2db(self):
+        with open(self.get_mizfile_path(), 'r') as f:
+            text = f.read()
+        miztextconverter = MizTextConverter()
+        comments = miztextconverter.extract_comments(text)
+
+        comment_model_instances = []
+        for comment in comments:
+            comment_model_instances.append(
+                Comment(
+                    article=self,
+                    text=comment['text'],
+                    block=comment['block'],
+                    block_order=comment['block_order']
+                )
+            )
+        self.comment_set.all().delete()
+        Comment.objects.bulk_create(comment_model_instances)
+
+    def save_db2mizfile(self):
+        with open(self.get_mizfile_path(), 'r') as f:
+            text = f.read()
+        comments = [
+            {
+                'text': comment.text,
+                'block': comment.block,
+                'block_order': comment.block_order
+            }
+            for comment in Comment.objects.all()
+        ]
+        miztextconverter = MizTextConverter()
+        raw_text = miztextconverter.remove_comments(text)
+        commented_text = miztextconverter.embed_comments(raw_text, comments)
+        with open(self.get_mizfile_path(), 'w') as f:
+            f.write(commented_text)
+
+    def commit_mizfile(self, username):
+        repo = git.Repo(LOCAL_COMMENT_REPOSITORY_DIR)
+        repo.config_writer().set_value("user", "name", "emwiki").release()
+        repo.config_writer().set_value("user", "email", "emwiki-email").release()
+        repo.git.checkout(COMMENT_COMMIT_BRANCH)
+        commit_message = f'Update {self.name}\n\nUsername: {username}'
+        repo.git.add(self.get_mizfile_path())
+        repo.index.commit(commit_message)
 
 
 class Comment(models.Model):
@@ -57,25 +100,6 @@ class Comment(models.Model):
 
     HEADER = "::: "
     LINE_MAX_LENGTH = 75
-
-    def format_text(self):
-        """format comment text
-
-        Returns:
-            string: format comment text
-        """
-        comment_lines = []
-        if self.text == '':
-            lines = []
-        else:
-            lines = self.text.split('\n')
-        for line in lines:
-            if len(line) > self.LINE_MAX_LENGTH:
-                for cut_line in textwrap.wrap(line, self.LINE_MAX_LENGTH):
-                    comment_lines.append(f'{self.HEADER}{cut_line}')
-            else:
-                comment_lines.append(f'{self.HEADER}{line}')
-        return '\n'.join(comment_lines)
 
     def __str__(self):
         return f'{self.article.name}:{self.block}_{self.block_order}'

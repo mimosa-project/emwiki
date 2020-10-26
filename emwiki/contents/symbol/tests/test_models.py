@@ -38,7 +38,7 @@ class SymbolTest(TestCase):
             self.assertIsNotNone(symbol.filename)
             self.assertEqual(symbol.get_category(), 'Symbol')
             self.assertIsNotNone(symbol.get_color())
-            self.assertTrue(os.path.exists(symbol.get_file_dir()))
+            self.assertTrue(os.path.exists(symbol.get_htmlfile_dir()))
             self.assertFalse(symbol.name.endswith('.html'))
 
     def test_url_methods(self):

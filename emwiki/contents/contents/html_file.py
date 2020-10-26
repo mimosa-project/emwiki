@@ -1,12 +1,10 @@
 from lxml import html
 
-from contents.contents.file import File
 
-
-class HtmlFile(File):
+class HtmlFile:
 
     def __init__(self, path):
-        super().__init__(path)
+        self.path = path
         self.root = None
 
     def read(self):

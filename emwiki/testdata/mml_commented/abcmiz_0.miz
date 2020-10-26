@@ -55,7 +55,7 @@ registration
 end;
 
 ::: 
-::: This is test of \n
+::: This is test
 ::: 
 definition
   let T be RelStr;

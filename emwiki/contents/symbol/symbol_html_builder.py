@@ -9,7 +9,7 @@ from emwiki.settings import RAW_HTMLIZEDMML_DIR
 
 class SymbolHtmlBuilder(HtmlBuilder):
     from_dir = RAW_HTMLIZEDMML_DIR
-    to_dir = Symbol.get_file_dir()
+    to_dir = Symbol.get_htmlfile_dir()
 
     def delete_files(self):
         if os.path.exists(self.to_dir):

@@ -11,12 +11,16 @@ wheel = "*"
 
 [packages]
 django = "==2.2.13"
-django-environ = "*"
 psycopg2 = ">=2.7,<3.0"
 uwsgi = "==2.0.17"
 lxml = "*"
 natsort = "*"
 tqdm = "*"
+gitpython = "*"
+beautifulsoup4 = "*"
+requests = "*"
+mypy = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.7"

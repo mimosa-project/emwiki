@@ -2,6 +2,7 @@
 emwiki/contents/mizarfiles/htmlized_mml/
 emwiki/contents/mizarfiles/mml
 emwiki/contents/mizarfiles/mml_commented
+emwiki/contents/mizarfiles/emwiki-contents
 
 # Static files
 htmlized_mml
@@ -12,10 +13,7 @@ symbol_html
 testdata/outputs/
 
 # Database
-pgsql-data/
-
-# VSCode
-.vscode/
+postgres-data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -103,6 +101,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.env.db
 .venv
 env/
 venv/

@@ -6,7 +6,7 @@ from django.test import TestCase, Client
 
 from contents.article.article_builder import ArticleBuilder
 from contents.article.models import Article, Comment
-from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_COMMENTED_MIZFILE_DIR
+from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_MIZFILE_DIR
 
 
 class ArticleTest(TestCase):
@@ -41,7 +41,7 @@ class CommentTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = TEST_COMMENTED_MIZFILE_DIR
+        cls.builder.from_dir = TEST_MIZFILE_DIR
         cls.builder.create_models()
         cls.article = Article.objects.get(name='abcmiz_0')
 
@@ -52,7 +52,7 @@ class CommentTest(TestCase):
     def test_attributes(self):
         comment_answers = [
             {'block': 'registration', 'block_order': 1, 'text': 'This is test\nline 2\nline 3'},
-            {'block': 'definition', 'block_order': 1, 'text': '\nThis is test of \\n\n'},
+            {'block': 'definition', 'block_order': 1, 'text': '\nThis is test\n'},
             {'block': 'definition', 'block_order': 2, 'text': '$$This is test of MathJax$$\n$\star $'},
         ]
         for comment_answer in comment_answers:
@@ -64,9 +64,3 @@ class CommentTest(TestCase):
             self.assertEqual(comment.block, comment_answer['block'])
             self.assertEqual(comment.block_order, comment_answer['block_order'])
             self.assertEqual(comment.text, comment_answer['text'])
-
-    def test_format_text(self):
-        for comment in Comment.objects.all():
-            if not comment.format_text() == '':
-                for line in comment.format_text().split('\n'):
-                    self.assertTrue(re.match(f'{Comment.HEADER}', line))

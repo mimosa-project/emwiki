@@ -34,7 +34,6 @@ def normalize_content_url(request):
     filename = request.GET.get('filename', None)
     name = urllib.parse.unquote(name_encoded)
     content = None
-    print(category)
     if category == 'Article':
         content = Article.get_model(name=name, filename=filename)
     elif category == 'Symbol':

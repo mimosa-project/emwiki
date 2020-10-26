@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,21 +19,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-env.read_env(os.path.join(BASE_DIR, '.env'))
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY is written at localsettings.py
-SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY is written at localsettings.py
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG')
 
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(' ')
 
 
 # Application definition
@@ -90,7 +83,14 @@ WSGI_APPLICATION = 'emwiki.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db()
+    'default': {
+        'ENGINE': os.environ.get("SQL_ENGINE", 'djagno.db.backends.sqlite3'),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+    }
 }
 
 # Password validation
@@ -130,7 +130,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = '/'
@@ -142,18 +146,18 @@ if DEBUG is True:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-STATIC_ROOT = '/code/static'
-
-
 ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
 SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
 CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
 
+MIZARFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles')
+MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')
 
-RAW_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml')
-COMMENTED_MIZFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'mml_commented')
+LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
+REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
+COMMENT_COMMIT_BRANCH = os.environ.get('COMMENT_COMMIT_BRANCH')
 
-RAW_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles', 'htmlized_mml')
+RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')
 
 PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'symbol_html')
@@ -169,9 +173,12 @@ TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_ht
 TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_symbol_html')
 
 TEST_RAW_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml')
-TEST_COMMENTED_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
+TEST_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
 
 TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
 
 TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
+
+TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
+TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
