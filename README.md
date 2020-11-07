@@ -40,11 +40,12 @@ git clone {your forked origin repository}
 ### 4.2 .envファイルを更新
 #### 開発環境
 + `.devcontainer/.env`を、`.devcontainer/.env-sample`を元に新たに作成する
-  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する(emwiki-contentsのURL)
-  + その他は適宜変更する
+  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
+    + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkして、ForkしたレポジトリのURLに書き換える
+  + その他の変更は、原則必要なし
 + `.devcontainer/.env.db`を、`.devcontainer/.env.db-sample`を元に新たに作成する
-  + 適宜変更する
-### 本番環境
+  + 変更は、原則必要なし
+#### 本番環境
 + `.env`を、`.env-sample`を元に新たに作成する
   + **(must)**`DEBUG=False`に設定
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
@@ -63,43 +64,51 @@ git clone {your forked origin repository}
 
 
 ### 4.3 必要ファイルの追加
-+ MML, HTMLized MML ファイルを追加する．
-+ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
-+ **MMLをHP等からDownloadする際にはutf-8に変換を行うこと**
-+ `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
-  + 必ず先に`.devcontainer/.env`or`.env`を作成する
-+ .devcontainer/.envを使用  
++ 開発環境、本番環境の、いずれかの方法でファイルを追加する
++ 最後に確認事項を読み、ファイルの存在を確認する
+  + なければを手動で追加する際の注意点を参考に、手動でファイルを追加する
+#### 開発環境
++ .devcontainer/.envを使用する
+  + 必ず先に`.devcontainer/.env`を作成する
   ```
   sh initialize.sh dev
   ```
-+ .prodcontainer/.envを使用
+#### 本番環境
++ .prodcontainer/.envを使用する
+  + 必ず先に`.prodcontainer/.env`を作成する
   ```
   sh initialize.sh prod
   ```
-+ 確認事項
-  + 以下のディレクトリにMMLファイル、HTMLized MMLファイルがあることを確認する
-  + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
-  + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
+#### 手動で追加する際の注意点
++ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
++ **MMLをHP等からDownloadする際にはutf-8に変換を行うこと**
++ `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
+
+#### 確認事項
++ 以下のディレクトリにMMLファイル、HTMLized MMLファイルがあることを確認する
++ `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
++ `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
 
 ### 4.4コンテナの作成
 #### 開発環境
 + 必要ファイルは`.devcontainer`の中にある
-+ VSCodeの`ms-vscode-remote.remote-containers`を用いることで簡単に行うことができる
++ VSCodeの拡張機能`ms-vscode-remote.remote-containers`を用いることで簡単に行うことができる
++ 時間がかかる点に注意．
 ```
 cd .devcontainer
 docker-compose up -d --build
 ```
-
-+ pythonの実行時、以下のインタプリタを設定
-  + VSCodeの場合は、コマンドパレットから、`python select interpreter`から設定できる
-  ```
-  /usr/local/bin/python
-  ```
-+ superuserの作成
-  ```
-  python manage.py createsuperuser
-  ```
-+ 独自コマンド
++ 以下をコンテナ内で実行
+  + pythonの実行時、以下のインタプリタを設定
+    + VSCodeの場合は、コマンドパレットから、`python select interpreter`から設定できる
+    ```
+    /usr/local/bin/python
+    ```
+  + superuserの作成
+    ```
+    python manage.py createsuperuser
+    ```
++ 独自コマンド(実行する必要なし)
   + MML, HTMLizedMMLファイルの加工
   ```
   python manage.py generate_files all
@@ -109,7 +118,7 @@ docker-compose up -d --build
   python manage.py register_db all
   ```
 
-+ コンテナ作成・起動後、実行方法は通常通り
++ コンテナ作成・起動後、実行方法は通常通り(コンテナ内で実行)
 ```
 python manage.py runserver
 ```
