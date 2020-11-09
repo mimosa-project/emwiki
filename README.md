@@ -19,7 +19,7 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
   + Dependency graph
   
   
-![emwiki](https://user-images.githubusercontent.com/49423101/75423437-0c960400-5982-11ea-86e5-382c462a6fc7.png)
+![emwiki](https://user-images.githubusercontent.com/49423101/98566104-b8556900-22f1-11eb-89fb-662a353d0dcb.png)
 
 ## 3 Requirement
 written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfile)
