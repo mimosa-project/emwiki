@@ -9,6 +9,7 @@ from contents.article.searcher import ArticleSearcher
 from contents.symbol.models import Symbol
 from contents.symbol.searcher import SymbolSearcher
 
+from search.theorem_searcher import TheoremSearcher
 
 class SearchView(TemplateView):
     template_name = 'search/index.html'
@@ -49,3 +50,38 @@ def get_keywords(request):
     keywords.extend(article_names)
     keywords.extend(symbol_names)
     return JsonResponse({'keywords': keywords})
+
+
+class SearchTheoremView(TemplateView):
+    template_name= 'search/search-theorem.html'
+
+    def get_context_data(self, **kwargs):
+        query_text = self.request.GET.get('search_query', default='')
+        order_by = self.request.GET.get('order_by', default='Relevance')
+
+        #検索
+        search_results = TheoremSearcher.Searcher(query_text)
+
+        #並べ替え
+        if order_by == "Label : ASC":
+            search_results = sorted(search_results, key=lambda x:x['Label'])
+        
+        elif order_by == "Label : DESC":
+            search_results = sorted(search_results, key=lambda x:x['Label'], reverse=True)
+
+        elif order_by == "Text : ASC":
+            search_results = sorted(search_results, key=lambda x:x['Text'])
+        
+        elif order_by == "Text : DESC":
+            search_results = sorted(search_results, key=lambda x:x['Text'], reverse=True)
+
+        else:
+            search_results = sorted(search_results, key=lambda x:x['Relevance'], reverse=True)
+
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'query_text': query_text,
+            'result_list': search_results,
+            'order_by': order_by
+        })
+        return context
