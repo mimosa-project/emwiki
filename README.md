@@ -99,14 +99,13 @@ cd .devcontainer
 docker-compose up -d --build
 ```
 + 以下をコンテナ内で実行
-  + pythonの実行時、以下のインタプリタを設定
-    + VSCodeの場合は、コマンドパレットから、`python select interpreter`から設定できる
-    ```
-    /usr/local/bin/python
-    ```
   + superuserの作成
     ```
     python manage.py createsuperuser
+    ```
+  + エラーが出る場合、以下のインタプリタが設定されているか確認する
+    ```
+    /usr/local/bin/python
     ```
 + 独自コマンド(実行する必要なし)
   + MML, HTMLizedMMLファイルの加工
