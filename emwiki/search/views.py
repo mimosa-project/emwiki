@@ -10,6 +10,7 @@ from contents.symbol.models import Symbol
 from contents.symbol.searcher import SymbolSearcher
 
 from search.theorem_searcher import TheoremSearcher
+from search.models import Theorem, SearchHistory, SearchResult
 
 class SearchView(TemplateView):
     template_name = 'search/index.html'
@@ -53,35 +54,45 @@ def get_keywords(request):
 
 
 class SearchTheoremView(TemplateView):
-    template_name= 'search/search-theorem.html'
+    template_name= 'search/search_theorem.html'
 
     def get_context_data(self, **kwargs):
         query_text = self.request.GET.get('search_query', default='')
-        order_by = self.request.GET.get('order_by', default='Relevance')
-
-        #検索
-        search_results = TheoremSearcher.Searcher(query_text)
-
-        #並べ替え
-        if order_by == "Label : ASC":
-            search_results = sorted(search_results, key=lambda x:x['Label'])
-        
-        elif order_by == "Label : DESC":
-            search_results = sorted(search_results, key=lambda x:x['Label'], reverse=True)
-
-        elif order_by == "Text : ASC":
-            search_results = sorted(search_results, key=lambda x:x['Text'])
-        
-        elif order_by == "Text : DESC":
-            search_results = sorted(search_results, key=lambda x:x['Text'], reverse=True)
-
-        else:
-            search_results = sorted(search_results, key=lambda x:x['Relevance'], reverse=True)
-
+        order_by = self.request.GET.get('order_by', default='relevance')
         context = super().get_context_data(**kwargs)
-        context.update({
-            'query_text': query_text,
-            'result_list': search_results,
-            'order_by': order_by
-        })
+
+        if query_text:
+            ##検索
+            searcher = TheoremSearcher()
+            search_results = searcher.search(query_text)
+            search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
+
+            ##クエリをデータベースに登録
+            search_history_obj = SearchHistory.register_search_history(query_text)
+
+            ##検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存
+            Theorem.register_theorem(search_results)
+
+            ##検索履歴に対しての検索結果の情報をデータベースに保存
+            search_results = SearchResult.register_search_result(search_results, search_history_obj)
+
+            ##contextの情報を更新
+            context.update({
+                'query_text': query_text,
+                'result_list': search_results,
+                'order_by': order_by
+            })
+
         return context
+
+
+    ##ajaxによるクリック情報を受け取った場合
+    def post(self,request):
+        button_type = request.POST.get("button_type", None)
+        id = request.POST.get("id", None)
+        res = {'id': id}
+
+        ##検索結果に対するクリック情報を更新
+        SearchResult.update_search_result(button_type, id)
+        
+        return JsonResponse(res)
