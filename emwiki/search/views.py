@@ -10,7 +10,7 @@ from contents.symbol.models import Symbol
 from contents.symbol.searcher import SymbolSearcher
 
 from search.theorem_searcher import TheoremSearcher
-from search.models import Theorem, SearchHistory, SearchResult
+from search.models import Theorem, History, HistoryItem
 
 class SearchView(TemplateView):
     template_name = 'search/index.html'
@@ -65,16 +65,19 @@ class SearchTheoremView(TemplateView):
             ##検索
             searcher = TheoremSearcher()
             search_results = searcher.search(query_text)
-            search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
 
-            ##クエリをデータベースに登録
-            search_history_obj = SearchHistory.register_search_history(query_text)
+            if search_results:
+                ##並べ替え
+                search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
 
-            ##検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存
-            Theorem.register_theorem(search_results)
+                ##クエリをデータベースに登録
+                history = History.register_history(query_text)
 
-            ##検索履歴に対しての検索結果の情報をデータベースに保存
-            search_results = SearchResult.register_search_result(search_results, search_history_obj)
+                ##検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存
+                Theorem.register_theorem(search_results)
+
+                ##検索履歴に対しての検索結果の情報をデータベースに保存
+                search_results = HistoryItem.register_history_item(search_results, history)
 
             ##contextの情報を更新
             context.update({
@@ -87,12 +90,12 @@ class SearchTheoremView(TemplateView):
 
 
     ##ajaxによるクリック情報を受け取った場合
-    def post(self,request):
+    def post(self, request):
         button_type = request.POST.get("button_type", None)
         id = request.POST.get("id", None)
         res = {'id': id}
 
         ##検索結果に対するクリック情報を更新
-        SearchResult.update_search_result(button_type, id)
+        HistoryItem.update_history_item(id, button_type)
         
         return JsonResponse(res)
