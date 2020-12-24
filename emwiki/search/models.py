@@ -1,7 +1,7 @@
 from django.db import models
 
 class Theorem(models.Model):
-    label = models.CharField(max_length=30)
+    label = models.CharField(max_length=30, db_index=True)
     theorem = models.TextField()
 
     def __str__(self):
@@ -10,13 +10,16 @@ class Theorem(models.Model):
     ##テーブルに登録されていない定理を登録
     @classmethod
     def register_theorem(cls, search_results):
-            registered_theorems = Theorem.objects.values_list('label', flat=True)
+            registered_theorems = set(Theorem.objects.values_list('label', flat=True))
+            new_theorems = []
             for search_result in search_results:
                 if search_result['label'] not in registered_theorems:
-                    new_theorem = Theorem(label=search_result['label'], theorem=search_result['text'])
-                    new_theorem.save()
+                    theorem = Theorem(label=search_result['label'], theorem=search_result['text'])
+                    new_theorems.append(theorem)
 
-class SearchHistory(models.Model):
+            Theorem.objects.bulk_create(new_theorems)
+
+class History(models.Model):
     query = models.TextField('query')
 
     def __str__(self):
@@ -24,13 +27,13 @@ class SearchHistory(models.Model):
 
     ##検索履歴を登録
     @classmethod
-    def register_search_history(cls, query_text):
-            search_history_obj = SearchHistory(query=query_text)
-            search_history_obj.save()
-            return search_history_obj
+    def register_history(cls, query_text):
+            history = History(query=query_text)
+            history.save()
+            return history
 
-class SearchResult(models.Model):
-    search_history = models.ForeignKey(SearchHistory, on_delete=models.CASCADE)
+class HistoryItem(models.Model):
+    history = models.ForeignKey(History, on_delete=models.CASCADE)
     theorem = models.ForeignKey(Theorem, on_delete=models.CASCADE)
     relevance = models.FloatField()
     click = models.BooleanField()
@@ -41,32 +44,38 @@ class SearchResult(models.Model):
 
     ##検索結果をデータベースに登録し, 登録時のキーをリストに追加
     @classmethod
-    def register_search_result(cls, search_results, search_history):
+    def register_history_item(cls, search_results, history):
+            new_history_items = []
             for search_result in search_results:
-                result_info = SearchResult(relevance=search_result['relevance'], click=False, favorite=False)
-                result_info.search_history = SearchHistory.objects.get(pk=search_history.id)
-                result_info.theorem = Theorem.objects.get(label=search_result['label'])
-                result_info.save()
-                iddict = {'id': result_info.id}
+                history_item = HistoryItem(relevance=search_result['relevance'], click=False, favorite=False)
+                history_item.history = History.objects.get(pk=history.id)
+                history_item.theorem = Theorem.objects.get(label=search_result['label'])
+                new_history_items.append(history_item)
+
+            HistoryItem.objects.bulk_create(new_history_items)
+            new_history_item_list = HistoryItem.objects.filter(history=history).order_by('-relevance')
+            for search_result, new_history_item in zip(search_results, new_history_item_list):
+                iddict = {'id': new_history_item.id}
                 search_result.update(iddict)
 
             return search_results
 
     ##urlまたはお気に入りボタンがクリックれたとき, 情報を更新
     @classmethod
-    def update_search_result(cls, button_type, id):
+    def update_history_item(cls, id, button_type):
 
         ##お気に入りボタンがクリックされたとき
         if button_type == 'fav':
-            search_result = SearchResult.objects.get(id=id)
-            search_result.favorite = not search_result.favorite
-            search_result.save()
+            history_item = HistoryItem.objects.get(id=id)
+            history_item.favorite = not history_item.favorite
+            history_item.save()
 
         ##URlがクリックされたとき
         if button_type == 'url':
-            search_result = SearchResult.objects.get(id=id)
-            search_result.click = True
-            search_result.save()
+            history_item = HistoryItem.objects.get(id=id)
+            history_item.click = True
+            history_item.save()
+
 
 
 
