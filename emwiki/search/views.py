@@ -62,13 +62,12 @@ class SearchTheoremView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         if query_text:
+            
             ##検索
             searcher = TheoremSearcher()
-            search_results = searcher.search(query_text)
+            search_results = searcher.search(query_text, 100)
 
             if search_results:
-                ##並べ替え
-                search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
 
                 ##クエリをデータベースに登録
                 history = History.register_history(query_text)
