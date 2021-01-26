@@ -27,5 +27,29 @@ else
     echo 'HTMLized MML Directory already exists'
 fi
 
+if [ ! -d emwiki/search/data ]; then
+    mkdir temp
+    mkdir emwiki/search/data
+    echo 'Downloading new mizar-data'
+    wget http://mizar.uwb.edu.pl/~softadm/current/mizar-8.1.09_5.57.1355-arm-linux.tar -O temp/mizar.tar
+    echo 'Extracting data for search_theorem'
+    tar -xf temp/mizar.tar -C temp
+    tar -zxf temp/mizshare.tar.gz -C temp
+    echo 'Converting abstr files to utf-8'
+    ulimit -n 2048
+    nkf -w --overwrite temp/abstr/*.abs
+    echo 'Moving data for search_theorem'
+    mv temp/abstr emwiki/search/data
+    mv temp/mml.vct emwiki/search/data
+    echo 'Generating data for search_theorem'
+    cd emwiki
+    python3 search/generate_data_for_search.py
+    echo 'Remoing chaches'
+    cd ..
+    rm -r temp
+else
+    echo 'data for search_theorem already exists'
+fi
+
 echo 'Cloning emwiki-contents'
 git clone -b $COMMENT_COMMIT_BRANCH $COMMENT_REPOSITORY_URL emwiki/contents/mizarfiles/emwiki-contents

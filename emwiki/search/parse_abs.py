@@ -33,14 +33,14 @@ def create_abs_dictionary():
     # definition               51      abcmiz_0.abs  BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
 
     cwd = os.getcwd()
-    path = "./abstr"
+    path = "search/data/abstr"
     os.chdir(path)
     files = sorted(glob.glob("*.abs"))
     os.chdir(cwd)
 
-    with open ("abs_dictionary.txt", "w") as file_abs_dictionary:
+    with open ("search/data/abs_dictionary.txt", "w") as file_abs_dictionary:
         for file in files:
-            with open("./abstr/"+file, "r") as f:
+            with open("search/data/abstr/"+file, "r") as f:
                 lines = f.readlines()
 
                 is_definition_block = 0 # definitionのブロック内にあるかどうか  definition ~~ end; までの部分
@@ -169,8 +169,8 @@ def create_document_vectors():
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; 1 3 
     """
 
-    with open("document_vectors.txt", "w") as file_document_vectors:
-        with open("abs_dictionary.txt", "r") as f:
+    with open("search/data/document_vectors.txt", "w") as file_document_vectors:
+        with open("search/data/abs_dictionary.txt", "r") as f:
             lines = f.readlines()
             for line in lines:
                 line = line.replace(",", " ")
@@ -182,11 +182,11 @@ def save_abs_dictionary_by_byte():
     """
     abs_dictionary.txtを行ごとにバイト数を求め、tell.pklに保存する関数
     """
-    with open("abs_dictionary.txt", "rb") as f:
+    with open("search/data/abs_dictionary.txt", "rb") as f:
         tell = []
         tell_append = tell.append
         tell_append(0)
-        with open("tell.pkl", "wb") as fi:
+        with open("search/data/tell.pkl", "wb") as fi:
             while True:
                 a = f.readline()
                 if not a:
