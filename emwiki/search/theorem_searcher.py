@@ -7,6 +7,7 @@ from collections import defaultdict
 
 class TheoremSearcher:
     def search(self, search_word, count_top):
+        HTMLIZED_MML_URL = "http://mizar.org/version/current/html/"
 
         search_word = search_word.replace(",", " ")
         search_word = search_word.replace(";", "")
@@ -50,12 +51,10 @@ class TheoremSearcher:
     
             result_append(search_result)
 
-        ##並べ替え
-        result = sorted(result, key=lambda x:x['relevance'], reverse=True)
 
         # URLを生成
         for res in result:
-            url = 'http://mizar.org/version/current/html/' + res['label'].split(':')[0].lower() + '.html#t' + res['label'].split(':')[1]
+            url = HTMLIZED_MML_URL + res['label'].split(':')[0].lower() + '.html#t' + res['label'].split(':')[1]
             urldict = {'url': url}
             res.update(urldict)
 

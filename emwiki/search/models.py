@@ -53,10 +53,17 @@ class HistoryItem(models.Model):
                 new_history_items.append(history_item)
 
             HistoryItem.objects.bulk_create(new_history_items)
-            new_history_item_list = HistoryItem.objects.filter(history=history).order_by('-relevance')
+
+            #ラベル順に並べ替え
+            search_results = sorted(search_results, key=lambda x:x['label'])
+            new_history_item_list = HistoryItem.objects.filter(history=history).order_by('theorem__label')
+
             for search_result, new_history_item in zip(search_results, new_history_item_list):
                 iddict = {'id': new_history_item.id}
                 search_result.update(iddict)
+
+            #関連度順に並べ替え
+            search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
 
             return search_results
 
