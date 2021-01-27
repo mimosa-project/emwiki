@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/emwiki/manage.py",
-            "pythonPath": "/usr/local/bin/python",
+            "python": "/usr/local/bin/python",
             "console": "integratedTerminal",
             "args": [
                 "runserver",
