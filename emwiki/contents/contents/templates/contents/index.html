@@ -8,5 +8,36 @@
 {% endblock %}
 
 {% block content %}
-    <iframe id='mml-content' width='100%' height='100%' importance='low'></iframe>
+    <div class="container-fluid h-100">
+        <div class="row h-100 flex-xl-nowrap">
+            <div class="col-12 col-md-3 col-xl-2 bd-sidebar h-100"  style="overflow: scroll;">
+                <input type="search"  class="form-control sticky-top" id="search-input" placeholder="Search...">
+                <br>
+                <div>
+                    <ul class="list-group list-group-flush" id="listdata">
+                        {% for model in models %}
+                        <a class="list-group-item list-group-item-action py-0 {% if name == model.name %}active{% endif %}" href="{{model.get_absolute_url}}">
+                                {{model.name}}
+                        </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-4 h-100">
+                <div style="height:10%;">
+                    <h1>{{name}}</h1>
+                </div>
+                <iframe id='mml-content' class="w-100" importance='low' style="height:90%;"></iframe>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'article/JavaScript/jquery.searcher.js'%}"></script>
+<script>
+$("#listdata").searcher({
+    itemSelector: "a",
+    textSelector:  "", // the text is within the item element (li) itself
+    inputSelector: "#search-input"
+});
+</script>
+
 {% endblock %}
