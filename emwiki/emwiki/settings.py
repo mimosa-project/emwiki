@@ -165,6 +165,9 @@ PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'symbol_html')
 STATIC_ARTICLES_URL = STATIC_URL + "htmlized_mml/"
 STATIC_SYMBOLS_URL = STATIC_URL + "symbol_html/"
 
+ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
+VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
+DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
 
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
 

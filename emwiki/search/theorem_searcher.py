@@ -1,9 +1,10 @@
+import os
 from gensim import corpora, models, similarities
 from search.parse_abs import is_variable, processing_variables_with_emparser
 import re
 import pickle
 from collections import defaultdict
-
+from emwiki.settings import DATA_FOR_SEARCH_DIR
 
 class TheoremSearcher:
     def search(self, search_word, count_top):
@@ -14,11 +15,11 @@ class TheoremSearcher:
         input_doc = processing_variables_with_emparser(search_word.split())
         input_doc = input_doc.split()
 
-        tfidf = models.TfidfModel.load('search/data/tfidf.model') 
-        lsi = models.LsiModel.load('search/data/lsi_topics300.model')
-        dictionary = corpora.Dictionary.load('search/data/search_dictionary.dict')
+        tfidf = models.TfidfModel.load(os.path.join(DATA_FOR_SEARCH_DIR, 'tfidf.model')) 
+        lsi = models.LsiModel.load(os.path.join(DATA_FOR_SEARCH_DIR, 'lsi_topics300.model'))
+        dictionary = corpora.Dictionary.load(os.path.join(DATA_FOR_SEARCH_DIR, 'search_dictionary.dict'))
 
-        index = similarities.MatrixSimilarity.load('search/data/lsi_index.index')
+        index = similarities.MatrixSimilarity.load(os.path.join(DATA_FOR_SEARCH_DIR, 'lsi_index.index'))
 
         query_vector = dictionary.doc2bow(input_doc)
 
@@ -29,12 +30,12 @@ class TheoremSearcher:
         result = []
         result_append = result.append
 
-        with open("search/data/tell.pkl", "rb") as f:
+        with open(os.path.join(DATA_FOR_SEARCH_DIR, 'tell.pkl'), "rb") as f:
             tell = pickle.load(f)
 
         for idx in sims[:count_top]:
             search_result = {}
-            with open("search/data/abs_dictionary.txt", "rb") as f:
+            with open(os.path.join(DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "rb") as f:
                 f.seek(tell[idx[0]])
                 doc_list = f.read(tell[idx[0]+1]-tell[idx[0]]).decode('utf-8').split()
 

@@ -5,6 +5,8 @@ import pickle
 from pathlib import Path
 import glob
 from collections import defaultdict
+from emwiki.settings import ABSTR_DIR, VCT_DIR, DATA_FOR_SEARCH_DIR
+
 
 
 def is_variable(word):
@@ -33,14 +35,14 @@ def create_abs_dictionary():
     # definition               51      abcmiz_0.abs  BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
 
     cwd = os.getcwd()
-    path = "search/data/abstr"
+    path = ABSTR_DIR
     os.chdir(path)
     files = sorted(glob.glob("*.abs"))
     os.chdir(cwd)
 
-    with open ("search/data/abs_dictionary.txt", "w") as file_abs_dictionary:
+    with open (os.path.join(DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "w") as file_abs_dictionary:
         for file in files:
-            with open("search/data/abstr/"+file, "r") as f:
+            with open(os.path.join(ABSTR_DIR, file), "r") as f:
                 lines = f.readlines()
 
                 is_definition_block = 0 # definitionのブロック内にあるかどうか  definition ~~ end; までの部分
@@ -135,10 +137,8 @@ def processing_variables_with_emparser(line):
     return
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; 1 3 
     """
-    DATA_DIR = Path("search/data")
-    ABS_DIR = os.path.join(DATA_DIR, 'mml.vct')
     lexer = Lexer()
-    lexer.load_symbol_dict(ABS_DIR)
+    lexer.load_symbol_dict(os.path.join(VCT_DIR, 'mml.vct'))
     lexer.build_len2symbol()
 
     variable2appearance = defaultdict(int)
@@ -169,8 +169,8 @@ def create_document_vectors():
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; 1 3 
     """
 
-    with open("search/data/document_vectors.txt", "w") as file_document_vectors:
-        with open("search/data/abs_dictionary.txt", "r") as f:
+    with open(os.path.join(DATA_FOR_SEARCH_DIR, 'document_vectors.txt'), "w") as file_document_vectors:
+        with open(os.path.join(DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "r") as f:
             lines = f.readlines()
             for line in lines:
                 line = line.replace(",", " ")
@@ -182,11 +182,11 @@ def save_abs_dictionary_by_byte():
     """
     abs_dictionary.txtを行ごとにバイト数を求め、tell.pklに保存する関数
     """
-    with open("search/data/abs_dictionary.txt", "rb") as f:
+    with open(os.path.join(DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "rb") as f:
         tell = []
         tell_append = tell.append
         tell_append(0)
-        with open("search/data/tell.pkl", "wb") as fi:
+        with open(os.path.join(DATA_FOR_SEARCH_DIR, 'tell.pkl'), "wb") as fi:
             while True:
                 a = f.readline()
                 if not a:

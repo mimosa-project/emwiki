@@ -6,6 +6,7 @@ from contents.contents.content_initializer import ContentInitializer
 from contents.contents.html_initializer import HtmlInitializer
 from contents.symbol.symbol_builder import SymbolBuilder
 from contents.symbol.symbol_html_builder import SymbolHtmlBuilder
+from search.data_generator_for_search import DataGeneratorForSearch
 
 
 class Command(BaseCommand):
@@ -25,14 +26,18 @@ class Command(BaseCommand):
         symbol_html_builder = SymbolHtmlBuilder()
         htmlized_mml_initializer = HtmlInitializer(htmlized_mml_builder)
         symbol_html_initializer = HtmlInitializer(symbol_html_builder)
+        data_generator_for_search = DataGeneratorForSearch()
 
         if target == 'all':
             html_initializers.append(htmlized_mml_initializer)
             html_initializers.append(symbol_html_initializer)
+            data_generator_for_search.generate_data_for_search()
         elif target == 'article':
             html_initializers.append(htmlized_mml_initializer)
         elif target == 'symbol':
             html_initializers.append(symbol_html_initializer)
+        elif target == 'search':
+            data_generator_for_search.generate_data_for_search()
 
         for initializer in html_initializers:
             initializer.initialize()
