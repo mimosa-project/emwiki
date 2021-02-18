@@ -25,10 +25,6 @@ class ContentView(TemplateView):
             'order_comments_url': reverse('article:order_comments')
         }
         context["js_url"] = kwargs['category'].lower() + '/JavaScript/index.js'
-        if kwargs['category'].title() == 'Article':
-            context['models'] = Article.objects.all().order_by('name')
-        elif kwargs['category'].title() == 'Symbol':
-            context["models"] = Symbol.objects.all().order_by('name')
         return context
 
 
