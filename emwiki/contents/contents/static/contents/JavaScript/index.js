@@ -50,6 +50,37 @@ $(function(){
             }
         });
     }
+    $listdata = $('#listdata')
+    if(context['category'] === 'Article'){
+        $.getJSON(
+            '/article/order_article_names',
+            function(data){
+                $.each(data.article_names.sort(), function(index, article_name){
+                    $listdata.append(
+                        `<a class="list-group-item list-group-item-action py-0" 
+                            href="/contents/Article/${article_name}">
+                            ${article_name}
+                        </a>`
+                    )
+                })
+            }
+        )
+    }else if(context['category'] === 'Symbol'){
+        $.getJSON(
+            '/symbol/order_symbol_names',
+            function(data){
+                $.each(data.symbol_names.sort(), function(index, symbol_name){
+                    let uri = encodeURI('/contents/Symbol/' + symbol_name);
+                    $listdata.append(
+                        `<a class="list-group-item list-group-item-action py-0" 
+                            href="${uri}">
+                            ${symbol_name}
+                        </a>`
+                    )
+                })
+            }
+        )
+    }
     
     jump_to(context['category'], context['name'], null, location.hash, 'replace')
 });

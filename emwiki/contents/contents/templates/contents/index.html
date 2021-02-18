@@ -15,11 +15,6 @@
                 <br>
                 <div>
                     <ul class="list-group list-group-flush" id="listdata">
-                        {% for model in models %}
-                        <a class="list-group-item list-group-item-action py-0 {% if name == model.name %}active{% endif %}" href="{{model.get_absolute_url}}">
-                                {{model.name}}
-                        </a>
-                        {% endfor %}
                     </ul>
                 </div>
             </div>
