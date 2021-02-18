@@ -33,6 +33,7 @@ var jump_to = function(category=undefined, name=undefined, filename=undefined, a
             }else if(history_method=='replace'){
                 history.replaceState(state, '', `${index['url']}${anchor}`);
             }
+            $('#content_name').text(index['name'])
             $('#mml-content')[0].contentWindow.location.replace(`${index['iframe_url']}${anchor}`);
         }
     )

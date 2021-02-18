@@ -20,17 +20,15 @@
                 </div>
             </div>
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 h-100">
-                <div id='content_name' style="height:10%;">
-                    <h1 class="display-4">
-                        {{name}}
-                        {% if category == 'Article'%}
-                        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
-                        data-content="<pre>{% include bib_path %}</pre>">
-                        bib
-                        </button>
-                        {% endif %}
-                    </h1>
-                </div>
+                <h1 style="height:10%;">
+                    <span class='display-4' id="content_name">{{name}}</span>
+                    {% if category == 'Article'%}
+                    <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+                    data-content="<pre>{% include bib_path %}</pre>">
+                    bib
+                    </button>
+                    {% endif %}
+                </h1>
                 <iframe id='mml-content' class="w-100" importance='low' style="height:90%;"></iframe>
             </div>
         </div>
