@@ -67,6 +67,10 @@ git clone {your forked origin repository}
 + 開発環境、本番環境の、いずれかの方法でファイルを追加する
 + 最後に確認事項を読み、ファイルの存在を確認する
   + なければを手動で追加する際の注意点を参考に、手動でファイルを追加する
+
+#### 開発・本番環境共通
++ bibファイルを追加する
+  + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`に、bibファイルを配置する
 #### 開発環境
 + .devcontainer/.envを使用する
   + 必ず先に`.devcontainer/.env`を作成する
@@ -85,11 +89,12 @@ git clone {your forked origin repository}
 + `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
 
 #### 確認事項
-+ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
++ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイル、bibファイルがあることを確認する
 + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
 + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
 + `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
 + `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
++ `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`
 
 ### 4.4コンテナの作成
 #### 開発環境
