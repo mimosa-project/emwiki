@@ -9,6 +9,8 @@ from contents.article.searcher import ArticleSearcher
 from contents.symbol.models import Symbol
 from contents.symbol.searcher import SymbolSearcher
 
+from search.theorem_searcher import TheoremSearcher
+from search.models import Theorem, History, HistoryItem
 
 class SearchView(TemplateView):
     template_name = 'search/index.html'
@@ -49,3 +51,50 @@ def get_keywords(request):
     keywords.extend(article_names)
     keywords.extend(symbol_names)
     return JsonResponse({'keywords': keywords})
+
+
+class SearchTheoremView(TemplateView):
+    template_name= 'search/search_theorem.html'
+
+    def get_context_data(self, **kwargs):
+        query_text = self.request.GET.get('search_query', default='')
+        order_by = self.request.GET.get('order_by', default='relevance')
+        context = super().get_context_data(**kwargs)
+
+        if query_text:
+            
+            ##検索
+            searcher = TheoremSearcher()
+            search_results = searcher.search(query_text, 100)
+
+            if search_results:
+
+                ##クエリをデータベースに登録
+                history = History.register_history(query_text)
+
+                ##検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存
+                Theorem.register_theorem(search_results)
+
+                ##検索履歴に対しての検索結果の情報をデータベースに保存
+                search_results = HistoryItem.register_history_item(search_results, history)
+
+            ##contextの情報を更新
+            context.update({
+                'query_text': query_text,
+                'result_list': search_results,
+                'order_by': order_by
+            })
+
+        return context
+
+
+    ##ajaxによるクリック情報を受け取った場合
+    def post(self, request):
+        button_type = request.POST.get("button_type", None)
+        id = request.POST.get("id", None)
+        res = {'id': id}
+
+        ##検索結果に対するクリック情報を更新
+        HistoryItem.update_history_item(id, button_type)
+        
+        return JsonResponse(res)

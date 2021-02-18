@@ -85,9 +85,11 @@ git clone {your forked origin repository}
 + `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
 
 #### 確認事項
-+ 以下のディレクトリにMMLファイル、HTMLized MMLファイルがあることを確認する
++ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
 + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
 + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
++ `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
++ `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
 
 ### 4.4コンテナの作成
 #### 開発環境
@@ -165,7 +167,14 @@ docker-compose down
 + emwiki-contentsのバージョンと統一させる
 + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`に配置する
 + `initialize.sh`を書き換える
-
+### 5.3 data for search theorem
++ 定理検索を使用するには`project_dir/emwiki/search/data/`内にabsファイルとvctファイルから生成されるデータが必要
++ absファイルとvctファイルはMizarをダウンロードすることで入手可能
++ データを生成するにはabsファイルとvctファイルをそれぞれ`project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`, `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`に配置し, 以下のコマンドを実行(実行に時間がかかります)
+  ```
+  python manage.py generate_files search
+  ```
++ absファイルとvctファイルのダウンロード等は, `initialize.sh`を書き換えることで行う
 ## 6 Buckup
 ### 6.1 emwiki-contents
 + pythonコンテナに入る
