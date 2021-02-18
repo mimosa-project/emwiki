@@ -5,6 +5,7 @@
     {{ context_for_js|json_script:"context" }}
     <script src="{% static 'contents/JavaScript/index.js' %}"></script>
     <script src="{% static js_url %}"></script>
+    <link rel='stylesheet' href="{% static 'contents/CSS/index.css' %}" type='text/css'></link>
 {% endblock %}
 
 {% block content %}
@@ -19,8 +20,16 @@
                 </div>
             </div>
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 h-100">
-                <div style="height:10%;">
-                    <h1>{{name}}</h1>
+                <div id='content_name' style="height:10%;">
+                    <h1 class="display-4">
+                        {{name}}
+                        {% if category == 'Article'%}
+                        <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+                        data-content="<pre>{% include bib_path %}</pre>">
+                        bib
+                        </button>
+                        {% endif %}
+                    </h1>
                 </div>
                 <iframe id='mml-content' class="w-100" importance='low' style="height:90%;"></iframe>
             </div>
