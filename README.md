@@ -84,6 +84,7 @@ git clone {your forked origin repository}
 
 #### 開発・本番環境共通
 + bibファイルを追加する
+  + bibファイルを用意する(Mizarの実行バイナリをダウンロードして解凍し，bib/fmbibs.zipを解凍することで入手可能)
   + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`に、bibファイルを配置する
 #### 開発環境
 + .devcontainer/.envを使用する
