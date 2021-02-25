@@ -6,6 +6,7 @@
     <script src="{% static 'contents/JavaScript/index.js' %}"></script>
     <script src="{% static js_url %}"></script>
     <link rel='stylesheet' href="{% static 'contents/CSS/index.css' %}" type='text/css'></link>
+    <script src="{% static 'article/JavaScript/jquery.searcher.js'%}"></script>
 {% endblock %}
 
 {% block content %}
@@ -33,13 +34,4 @@
             </div>
         </div>
     </div>
-<script src="{% static 'article/JavaScript/jquery.searcher.js'%}"></script>
-<script>
-$("#listdata").searcher({
-    itemSelector: "a",
-    textSelector:  "", // the text is within the item element (li) itself
-    inputSelector: "#search-input"
-});
-</script>
-
 {% endblock %}
