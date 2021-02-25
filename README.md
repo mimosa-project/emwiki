@@ -64,7 +64,7 @@ git clone {your forked origin repository}
 #### 本番環境
 + `.env`を、`.env-sample`を元に新たに作成
   + **(must)**`DEBUG=False`に設定
-  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
+  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定
   + **(must)**`COMMENT_COMMIT_BRANCH`を`mml_commented`に設定
