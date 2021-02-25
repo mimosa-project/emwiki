@@ -1,15 +1,17 @@
-import os
-from gensim import corpora, models, similarities
-from search.parse_abs import is_variable, processing_variables_with_emparser
-import re
-import pickle
 from collections import defaultdict
+import os
+import pickle
+import re
+
+from django.urls import reverse
+from gensim import corpora, models, similarities
+
 from emwiki.settings import DATA_FOR_SEARCH_DIR
+from search.parse_abs import is_variable, processing_variables_with_emparser
+
 
 class TheoremSearcher:
     def search(self, search_word, count_top):
-        HTMLIZED_MML_URL = "http://mizar.org/version/current/html/"
-
         search_word = search_word.replace(",", " ")
         search_word = search_word.replace(";", "")
         input_doc = processing_variables_with_emparser(search_word.split())
@@ -52,12 +54,11 @@ class TheoremSearcher:
     
             result_append(search_result)
 
-
         # URLを生成
         for res in result:
-            url = HTMLIZED_MML_URL + res['label'].split(':')[0].lower() + '.html#t' + res['label'].split(':')[1]
-            urldict = {'url': url}
+            path = reverse('contents:index', kwargs=dict(category='article', name=res['label'].split(':')[0].lower()))
+            anchor = f"t{res['label'].split(':')[1]}"
+            urldict = {'url': f'{path}#{anchor}'}
             res.update(urldict)
-
 
         return result
