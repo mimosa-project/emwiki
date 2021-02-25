@@ -28,14 +28,16 @@ written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfil
 emparserのインストールが必要です.
 #### Git clone
 ```
-git clone –-recursive https://github.com/mimosa-project/emparser.git
+git clone --recursive https://github.com/mimosa-project/emparser.git
 ```
 #### Setup development environment
 ```
+resolve importlib- conflict
 pipenv install
 ```
 #### Install
 ```
+install cmake
 python setup.py install
 ```
 ## 4 Install
@@ -60,20 +62,20 @@ git clone {your forked origin repository}
 + `.devcontainer/.env.db`を、`.devcontainer/.env.db-sample`を元に新たに作成する
   + 変更は、原則必要なし
 #### 本番環境
-+ `.env`を、`.env-sample`を元に新たに作成する
++ `.env`を、`.env-sample`を元に新たに作成
   + **(must)**`DEBUG=False`に設定
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字程度)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
-  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
-  + **(must)**`COMMENT_COMMIT_BRANCH`が`mml_commented`担っているかチェック
-  + **(must)**`SQL_USER`を再設定する
-  + **(must)**`SQL_PASSWORD`を再設定する
-  + その他の設定を適宜再設定する
-+ `.env.db`を、`.env.db-sample`を元に新たに作成する
+  + **(must)**`COMMENT_REPOSITORY_URL`を再設定
+  + **(must)**`COMMENT_COMMIT_BRANCH`を`mml_commented`に設定
+  + **(must)**`SQL_USER`を再設定
+  + **(must)**`SQL_PASSWORD`を再設定
+  + その他の設定を適宜再設定
++ `.env.db`を、`.env.db-sample`を元に新たに作成
   + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
   + **(must)**`.env`に設定した`SQL_PASSWORD`の値を`POSTGRES_PASSWORD`に設定
 + `docker-compose.yml`内のhttps-portalを変更
-  + **(must)**`DOMAINS: 'localhost->http://nginx:8000'`の`localhost`を、デプロイするドメインに変更する
+  + **(must)**`DOMAINS: 'localhost->http://nginx:8000'`の`localhost`を、デプロイするドメインに変更
   + **(must)**`STAGE: 'production'`をコメントから外す
 
 
@@ -95,15 +97,17 @@ git clone {your forked origin repository}
   ```
 #### 手動で追加する際の注意点
 + **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
-+ **MMLをHP等からDownloadする際にはutf-8に変換を行うこと**
++ **MML(.miz, .abs)をHP等からDownloadする際にはutf-8に変換を行うこと**
 + `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
 
 #### 確認事項
 + 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
-+ `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
-+ `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
-+ `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
-+ `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
+  + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
+  + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
+  + `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
+  + `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
++ 以下のディレクトリを作成する
+  + `emwiki/search/data`
 
 ### 4.4コンテナの作成
 #### 開発環境
