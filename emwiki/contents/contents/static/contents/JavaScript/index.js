@@ -33,6 +33,7 @@ var jump_to = function(category=undefined, name=undefined, filename=undefined, a
             }else if(history_method=='replace'){
                 history.replaceState(state, '', `${index['url']}${anchor}`);
             }
+            $('#content_name').text(index['name'])
             $('#mml-content')[0].contentWindow.location.replace(`${index['iframe_url']}${anchor}`);
         }
     )
@@ -50,6 +51,43 @@ $(function(){
             }
         });
     }
+    $listdata = $('#listdata')
+    if(context['category'] === 'Article'){
+        $.getJSON(
+            '/article/order_article_names',
+            function(data){
+                $.each(data.article_names.sort(), function(index, article_name){
+                    $listdata.append(
+                        `<a class="list-group-item list-group-item-action py-0" 
+                            href="/contents/Article/${article_name}">
+                            ${article_name}
+                        </a>`
+                    )
+                })
+            }
+        )
+    }else if(context['category'] === 'Symbol'){
+        $.getJSON(
+            '/symbol/order_symbol_names',
+            function(data){
+                $.each(data.symbol_names.sort(), function(index, symbol_name){
+                    let uri = encodeURI('/contents/Symbol/' + symbol_name);
+                    $listdata.append(
+                        `<a class="list-group-item list-group-item-action py-0" 
+                            href="${uri}">
+                            ${symbol_name}
+                        </a>`
+                    )
+                })
+            }
+        )
+    }
+
+    $("#listdata").searcher({
+        itemSelector: "a",
+        textSelector:  "", // the text is within the item element (li) itself
+        inputSelector: "#search-input"
+    });
     
     jump_to(context['category'], context['name'], null, location.hash, 'replace')
 });

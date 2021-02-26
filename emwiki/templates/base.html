@@ -33,10 +33,10 @@
                 <a class="navbar-brand" href="/">emwiki</a>
                 <ul class="navbar-nav mr-auto mw-100">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'home:about' %}">About</a>
+                        <a class="nav-link" href="{% url 'contents:index' 'Article' 'abcmiz_0'  %}">Article</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'home:usage' %}">Usage</a>
+                        <a class="nav-link" href="{% url 'contents:index' 'Symbol' '!' %}">Symbol</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'search:search' %}">Search</a>
@@ -74,16 +74,6 @@
                 {% endif %}
                 </ul>
             </div>
-            
-            <form class="form-inline mw-100 nav-item  mx-auto" action='/search' method='get'>
-                <div class="input-group">
-                    <input id='search-nav' class="form-control mr-sm-2 mw-100" type="search" placeholder="Search" aria-label="Search" autocomplete='on' list='search_keywords' name='search_query'>
-                    <datalist id='search_keywords'></datalist>
-                <span class=''>
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </span>
-                </div>
-            </form>
         </header>
             
         <main id='main' role="main" class="container-fluid">
