@@ -32,12 +32,10 @@ git clone --recursive https://github.com/mimosa-project/emparser.git
 ```
 #### Setup development environment
 ```
-resolve importlib- conflict
 pipenv install
 ```
 #### Install
 ```
-install cmake
 python setup.py install
 ```
 ## 4 Install
