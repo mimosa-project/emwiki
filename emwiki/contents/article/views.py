@@ -10,7 +10,7 @@ from .models import Article, Comment
 @ensure_csrf_cookie
 def submit_comment(request):
     if not request.user.is_authenticated:
-        return HttpResponseForbidden('<h1>403 Forbidden</h1>', content_type='text/html')
+        return HttpResponseForbidden('<h1>403 Forbidden: User is not authenticated</h1>', content_type='text/html')
     article_name = request.POST.get('article_name', None)
     block = request.POST.get('block', None)
     block_order = request.POST.get("block_order", None)
@@ -47,3 +47,13 @@ def order_comments(request):
             'text': text
         })
     return JsonResponse({'comments': comments})
+
+
+def order_article_names(request):
+    data = {
+        'article_names': [
+            article.name
+            for article in Article.objects.all()
+        ]
+    }
+    return JsonResponse(data)

@@ -24,6 +24,8 @@ class ContentView(TemplateView):
             'submit_comment_url': reverse('article:submit_comment'),
             'order_comments_url': reverse('article:order_comments')
         }
+        if context['category'].title() == 'Article':
+            context['bib_path'] = f'article/fmbibs/{context["name"]}.bib'
         context["js_url"] = kwargs['category'].lower() + '/JavaScript/index.js'
         return context
 

@@ -42,6 +42,7 @@ $(function(){
     }
 
     $article.on('load', function(){
+        $('[data-toggle="popover"]').popover()
         
         add_emwiki_components($article);
 

@@ -81,6 +81,11 @@ git clone {your forked origin repository}
 + 開発環境、本番環境の、いずれかの方法でファイルを追加する
 + 最後に確認事項を読み、ファイルの存在を確認する
   + なければを手動で追加する際の注意点を参考に、手動でファイルを追加する
+
+#### 開発・本番環境共通
++ bibファイルを追加する
+  + bibファイルを用意する(Mizarの実行バイナリをダウンロードして解凍し，bib/fmbibs.zipを解凍することで入手可能)
+  + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`に、bibファイルを配置する
 #### 開発環境
 + .devcontainer/.envを使用する
   + 必ず先に`.devcontainer/.env`を作成する
@@ -104,6 +109,7 @@ git clone {your forked origin repository}
   + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
   + `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
   + `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
+  + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`
 + 以下のディレクトリを作成する
   + `emwiki/search/data`
 
