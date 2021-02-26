@@ -1,3 +1,11 @@
+# Security
+## 概要
+Webアプリケーションについてのセキュリティまとめ
+## 対策
++ `manage.py check --deploy `をデプロイ前に実行
+## 参考
++ https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+
 # XSS
 ## 概要
 Webアプリケーションの脆弱性。
