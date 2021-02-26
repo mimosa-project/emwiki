@@ -12,11 +12,20 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         && chown -R USERUID:USER_GID /home/vscode; \
     fi
 
+# Install emparser
+RUN apt -y update
+RUN apt -y upgrade
+RUN apt -y install cmake
+RUN pip -q install pipenv
+RUN git clone --recursive https://github.com/mimosa-project/emparser.git
+WORKDIR /emparser
+RUN pipenv install --system --skip-lock
+RUN python setup.py install
+
 COPY . /workspace/
 
 # Install dependencies global
 WORKDIR /workspace
-RUN pip -q install pipenv
 RUN pipenv install --system --skip-lock
 WORKDIR /
 
