@@ -1,3 +1,4 @@
+var context = JSON.parse(document.getElementById('context').textContent);
 $(function(){
     function select(anchor){
         //アンカーされているコンテンツをマーク(CSSでborderを指定して囲むため)
@@ -11,8 +12,7 @@ $(function(){
 
         $('#mml-content').contents().find("span[data-href]").each( function(){
             $(this).on('click', function(){
-                var url;
-                url = `/contents/Article/${$(this).attr('data-href')}`
+                var url = encodeURI(context['article_base_uri'] + $(this).attr('data-href'));
                 return window.open(url, '_blank').focus();
             })
         });
