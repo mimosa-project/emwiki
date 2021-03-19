@@ -22,6 +22,7 @@ class ContentView(TemplateView):
             'category': kwargs['category'].title(),
             'name': kwargs['name'],
             'contents_normalize_content_url': reverse('contents:normalize_content_url'),
+            # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
             'contents_base_uri': reverse(
                 'contents:index',
                 kwargs=dict(category=kwargs['category'].title(), name='content-name')
