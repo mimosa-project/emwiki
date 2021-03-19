@@ -14,7 +14,7 @@ services:
       - "8001"
     env_file:
       - .env
-    command: uwsgi --chdir=./workspace/emwiki --module emwiki.wsgi --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
+    command: uwsgi --chdir=./workspace/emwiki --mount /emwiki=/workspace/emwiki/emwiki/wsgi.py --manage-script-name --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     depends_on:
       - db
   db:

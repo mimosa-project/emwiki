@@ -3,9 +3,9 @@ from django.http.response import JsonResponse
 from .models import Symbol
 
 
-def order_symbol_names(request):
+def order_names(request):
     data = {
-        'symbol_names': [
+        'names': [
             symbol.name
             for symbol in Symbol.objects.all()
         ]

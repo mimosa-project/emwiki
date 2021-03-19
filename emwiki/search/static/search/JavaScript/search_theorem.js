@@ -1,3 +1,4 @@
+var context = JSON.parse(document.getElementById('context').textContent);
 $(document).ready(function () {
     function getCookie(name) {
     var cookieValue = null;
@@ -34,7 +35,7 @@ $(function(){
     $('.button_url').on('click', function(){
         var db_id = $(this).attr('name')
         $.ajax({
-            url: '/search/search_theorem/',
+            url: context['search_uri'],
             type: 'post',
             data: {'button_type': 'url', 'id': db_id},
             dataType: 'json'
@@ -50,7 +51,7 @@ $(function(){
     $('.button_fav').on('click', function(){
         var db_id = $(this).attr('name')
         $.ajax({
-            url: '/search/search_theorem/',
+            url: context['search_uri'],
             type: 'post',
             data: {'button_type': 'fav', 'id': db_id},
             dataType: 'json'
