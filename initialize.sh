@@ -42,7 +42,8 @@ if [ ! -d emwiki/contents/mizarfiles/abstr ]; then
     rm -r emwiki/contents/mizarfiles/vct
     rm -r emwiki/search/data
     echo 'Moving abstrfiles for search_theorem'
-    mv temp/abstr emwiki/contents/mizarfiles
+    mkdir emwiki/contents/mizarfiles/abstr
+    mv temp/abstr/*.abs emwiki/contents/mizarfiles/abstr
     mkdir emwiki/contents/mizarfiles/vct
     mv temp/mml.vct emwiki/contents/mizarfiles/vct
     mkdir emwiki/search/data
