@@ -20,7 +20,7 @@ var jump_to = function(category=undefined, name=undefined, filename=undefined, a
         filename: filename
     };
     $.getJSON(
-        '/contents/normalize_content_url',
+        context['contents_normalize_content_url'],
         body,
         function(index){
             state = {
@@ -52,36 +52,20 @@ $(function(){
         });
     }
     $listdata = $('#listdata')
-    if(context['category'] === 'Article'){
-        $.getJSON(
-            '/article/order_article_names',
-            function(data){
-                $.each(data.article_names.sort(), function(index, article_name){
-                    $listdata.append(
-                        `<a class="list-group-item list-group-item-action py-0" 
-                            href="/contents/Article/${article_name}">
-                            ${article_name}
-                        </a>`
-                    )
-                })
-            }
-        )
-    }else if(context['category'] === 'Symbol'){
-        $.getJSON(
-            '/symbol/order_symbol_names',
-            function(data){
-                $.each(data.symbol_names.sort(), function(index, symbol_name){
-                    let uri = encodeURI('/contents/Symbol/' + symbol_name);
-                    $listdata.append(
-                        `<a class="list-group-item list-group-item-action py-0" 
-                            href="${uri}">
-                            ${symbol_name}
-                        </a>`
-                    )
-                })
-            }
-        )
-    }
+    $.getJSON(
+        context['order_names_uri'],
+        function(data){
+            $.each(data.names.sort(), function(index, name){
+                let uri = encodeURI(context['contents_base_uri'] + name);
+                $listdata.append(
+                    `<a class="list-group-item list-group-item-action py-0" 
+                        href="${uri}">
+                        ${name}
+                    </a>`
+                )
+            })
+        }
+    )
 
     $("#listdata").searcher({
         itemSelector: "a",

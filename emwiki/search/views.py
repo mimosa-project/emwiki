@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+from django.urls import reverse
+from django.views.decorators.http import require_http_methods
 from django.views.defaults import bad_request
 from django.views.generic import TemplateView
 
@@ -40,7 +42,10 @@ class SearchTheoremView(TemplateView):
             context.update({
                 'query_text': query_text,
                 'result_list': search_results,
-                'order_by': order_by
+                'order_by': order_by,
+                'context_for_js': {
+                    'search_uri': reverse('search:search_theorem')
+                }
             })
         return self.render_to_response(context)
 

@@ -49,9 +49,9 @@ def order_comments(request):
     return JsonResponse({'comments': comments})
 
 
-def order_article_names(request):
+def order_names(request):
     data = {
-        'article_names': [
+        'names': [
             article.name
             for article in Article.objects.all()
         ]

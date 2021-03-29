@@ -21,8 +21,19 @@ class ContentView(TemplateView):
         context["context_for_js"] = {
             'category': kwargs['category'].title(),
             'name': kwargs['name'],
+            'contents_normalize_content_url': reverse('contents:normalize_content_url'),
+            # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
+            'contents_base_uri': reverse(
+                'contents:index',
+                kwargs=dict(category=kwargs['category'].title(), name='content-name')
+            ).replace('content-name', ''),
+            'article_base_uri': reverse(
+                'contents:index',
+                kwargs=dict(category='Article', name='content-name')
+            ).replace('content-name', ''),
             'submit_comment_url': reverse('article:submit_comment'),
-            'order_comments_url': reverse('article:order_comments')
+            'order_comments_url': reverse('article:order_comments'),
+            'order_names_uri': reverse(f"{kwargs['category'].lower()}:order_names")
         }
         if context['category'].title() == 'Article':
             context['bib_path'] = f'article/fmbibs/{context["name"]}.bib'
