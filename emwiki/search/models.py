@@ -7,7 +7,7 @@ class Theorem(models.Model):
     def __str__(self):
         return self.label
 
-    ##テーブルに登録されていない定理を登録
+    # テーブルに登録されていない定理を登録
     @classmethod
     def register_theorem(cls, search_results):
             registered_theorems = set(Theorem.objects.values_list('label', flat=True))
@@ -36,7 +36,7 @@ class HistoryItem(models.Model):
     def __str__(self):
         return self.theorem.label
 
-    ##検索結果をデータベースに登録し, 登録時のキーをリストに追加
+    # 検索結果をデータベースに登録し, 登録時のキーをリストに追加
     @classmethod
     def register_history_item(cls, search_results, history):
             new_history_items = []
@@ -48,32 +48,27 @@ class HistoryItem(models.Model):
 
             HistoryItem.objects.bulk_create(new_history_items)
 
+    # idを辞書のリストに追加
     @classmethod
-    def update_search_results_id(cls, search_results, history):
-        #ラベル順に並べ替え
+    def collect_history_item_id(cls, search_results, history):
+        # ラベル順に並べ替え
         search_results = sorted(search_results, key=lambda x:x['label'])
         new_history_item_list = HistoryItem.objects.filter(history=history).order_by('theorem__label').all()
-        return [
-            dict(search_results[i].items(), id=new_history_item_list[i].id)
-            for i in range(len(search_results))
-        ]
+        for i in range(len(search_results)):
+            search_results[i]['id'] = new_history_item_list[i].id
 
-    ##urlまたはお気に入りボタンがクリックれたとき, 情報を更新
+    # urlまたはお気に入りボタンがクリックれたとき, 情報を更新
     @classmethod
     def update_history_item(cls, id, button_type):
 
-        ##お気に入りボタンがクリックされたとき
+        # お気に入りボタンがクリックされたとき
         if button_type == 'fav':
             history_item = HistoryItem.objects.get(id=id)
             history_item.favorite = not history_item.favorite
             history_item.save()
 
-        ##URlがクリックされたとき
+        # URlがクリックされたとき
         if button_type == 'url':
             history_item = HistoryItem.objects.get(id=id)
             history_item.click = True
             history_item.save()
-
-
-
-
