@@ -32,8 +32,6 @@ class SearchTheoremView(TemplateView):
                 HistoryItem.register_history_item(search_results, history)
                 # 検索結果のIDをデータベースから取得
                 HistoryItem.collect_history_item_id(search_results, history)
-                for i in range(100): 
-                    print(search_results[i]['id'])
                 # 関連度順に並べ替え
                 search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
             # contextの情報を更新

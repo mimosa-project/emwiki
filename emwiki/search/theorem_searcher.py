@@ -6,15 +6,14 @@ import re
 from django.urls import reverse
 from gensim import corpora, models, similarities
 
-from emwiki.settings import DATA_FOR_SEARCH_DIR
-from search.parse_abs import is_variable, processing_variables_with_emparser
-
+from emwiki.settings import DATA_FOR_SEARCH_DIR, VCT_DIR
+from search.parse_abs import is_variable, lexer, rename_variable_and_symbol
 
 class TheoremSearcher:
     def search(self, search_word, count_top):
         search_word = search_word.replace(",", " ")
         search_word = search_word.replace(";", "")
-        input_doc = processing_variables_with_emparser(search_word.split())
+        input_doc = rename_variable_and_symbol(search_word.split(), lexer)
         input_doc = input_doc.split()
 
         tfidf = models.TfidfModel.load(os.path.join(DATA_FOR_SEARCH_DIR, 'tfidf.model')) 
