@@ -1,11 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from contents.article.article_builder import ArticleBuilder
-from contents.article.htmlized_mml_builder import HtmlizedMmlBuilder
-from contents.contents.content_initializer import ContentInitializer
-from contents.contents.html_initializer import HtmlInitializer
-from contents.symbol.symbol_builder import SymbolBuilder
-from contents.symbol.symbol_html_builder import SymbolHtmlBuilder
+from article.article_builder import ArticleBuilder
+from article.htmlized_mml_builder import HtmlizedMmlBuilder
+from content.content_initializer import ContentInitializer
+from content.html_initializer import HtmlInitializer
+from symbol.symbol_builder import SymbolBuilder
+from symbol.symbol_html_builder import SymbolHtmlBuilder
 from search.data_generator_for_search import DataGeneratorForSearch
 
 

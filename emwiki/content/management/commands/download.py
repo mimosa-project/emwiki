@@ -2,7 +2,7 @@ import os
 
 from django.core.management.base import BaseCommand
 
-from contents.article.downloader import Downloader
+from article.downloader import Downloader
 from emwiki.settings import BASE_DIR
 
 

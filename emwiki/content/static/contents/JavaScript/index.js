@@ -66,12 +66,6 @@ $(function(){
             })
         }
     )
-
-    $("#listdata").searcher({
-        itemSelector: "a",
-        textSelector:  "", // the text is within the item element (li) itself
-        inputSelector: "#search-input"
-    });
     
     jump_to(context['category'], context['name'], null, location.hash, 'replace')
 });

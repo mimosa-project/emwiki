@@ -8,8 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from contents.article.models import Article
-from contents.symbol.models import Symbol
+from article.models import Article
+from symbol.models import Symbol
 
 
 class ContentView(TemplateView):
