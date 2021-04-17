@@ -2,8 +2,8 @@ import glob
 import os
 from tqdm import tqdm
 
-from contents.article.models import Article, Comment
-from contents.contents.content_builder import ContentBuilder
+from article.models import Article, Comment
+from content.content_builder import ContentBuilder
 from emwiki.settings import MIZFILE_DIR
 
 

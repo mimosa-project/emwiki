@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from emwiki.settings import TEST_OUTPUTS_DIR, TEST_MIZFILE_DIR,\
     TEST_RAW_MIZFILE_DIR
-from contents.article.miz_text_converter import MizTextConverter
+from article.miz_text_converter import MizTextConverter
 
 
 class MizTextConverterTest(TestCase):

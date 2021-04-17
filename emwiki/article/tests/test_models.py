@@ -4,8 +4,8 @@ import shutil
 
 from django.test import TestCase, Client
 
-from contents.article.article_builder import ArticleBuilder
-from contents.article.models import Article, Comment
+from article.article_builder import ArticleBuilder
+from article.models import Article, Comment
 from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_MIZFILE_DIR
 
 

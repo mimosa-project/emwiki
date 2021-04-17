@@ -6,9 +6,9 @@ import shutil
 from lxml import html
 from tqdm import tqdm
 
-from contents.article.models import Article
-from contents.contents.html_builder import HtmlBuilder
-from contents.contents.html_file import HtmlFile
+from article.models import Article
+from content.html_builder import HtmlBuilder
+from content.html_file import HtmlFile
 from emwiki.settings import RAW_HTMLIZEDMML_DIR, PRODUCT_HTMLIZEDMML_DIR
 
 

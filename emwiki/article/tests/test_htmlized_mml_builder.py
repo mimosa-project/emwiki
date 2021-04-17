@@ -2,7 +2,7 @@ import glob
 import os
 import shutil
 
-from contents.article.htmlized_mml_builder import HtmlizedMmlBuilder
+from article.htmlized_mml_builder import HtmlizedMmlBuilder
 from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR, TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR
 from django.test import TestCase
 

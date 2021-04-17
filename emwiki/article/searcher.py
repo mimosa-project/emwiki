@@ -3,8 +3,8 @@ from operator import and_, or_
 
 from django.db.models import Q
 
-from contents.article.models import Article
-from contents.contents.searcher import ContentSearcher
+from article.models import Article
+from content.searcher import ContentSearcher
 
 
 class ArticleSearcher(ContentSearcher):

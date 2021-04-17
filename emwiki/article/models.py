@@ -3,11 +3,11 @@ import os
 
 from django.db import models
 
-from contents.contents.models import Content
+from content.models import Content
 from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR,\
      MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_COMMIT_BRANCH,\
      REMOTE_COMMENT_REPOSITORY_URL
-from contents.article.miz_text_converter import MizTextConverter
+from article.miz_text_converter import MizTextConverter
 
 
 class Article(Content):

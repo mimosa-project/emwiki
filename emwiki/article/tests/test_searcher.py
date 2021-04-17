@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-from contents.article.models import Article
-from contents.article.article_builder import ArticleBuilder
-from contents.article.searcher import ArticleSearcher
+from article.models import Article
+from article.article_builder import ArticleBuilder
+from article.searcher import ArticleSearcher
 from emwiki.settings import TEST_RAW_MIZFILE_DIR
 
 

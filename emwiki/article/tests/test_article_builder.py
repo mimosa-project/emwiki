@@ -1,5 +1,5 @@
-from contents.article.article_builder import ArticleBuilder
-from contents.article.models import Article
+from article.article_builder import ArticleBuilder
+from article.models import Article
 from emwiki.settings import TEST_MIZFILE_DIR, TEST_MIZFILE_DIR
 from django.test import TestCase
 

@@ -1,6 +1,6 @@
 import os
 
-from contents.article.downloader import Downloader
+from article.downloader import Downloader
 from emwiki.settings import TEST_DOWNLOAD_MML_DIR, TEST_DOWNLOAD_HTML_DIR
 from django.test import TestCase
 
