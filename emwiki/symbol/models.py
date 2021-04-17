@@ -2,7 +2,7 @@ import os
 
 from django.db import models
 
-from contents.contents.models import Content
+from content.models import Content
 from emwiki.settings import STATIC_SYMBOLS_URL, PRODUCT_SYMBOLHTML_DIR
 
 

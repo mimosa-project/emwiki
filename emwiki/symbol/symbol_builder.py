@@ -1,6 +1,6 @@
-from contents.symbol.models import Symbol
-from contents.symbol.symbol_maker.processor import Processor
-from contents.contents.content_builder import ContentBuilder
+from symbol.models import Symbol
+from symbol.symbol_maker.processor import Processor
+from content.content_builder import ContentBuilder
 from emwiki.settings import RAW_HTMLIZEDMML_DIR
 
 

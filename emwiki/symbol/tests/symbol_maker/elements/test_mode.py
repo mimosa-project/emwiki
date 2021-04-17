@@ -1,4 +1,4 @@
-from contents.symbol.tests.symbol_maker.elements.test_element import TestElement
+from symbol.tests.symbol_maker.elements.test_element import TestElement
 
 
 class TestMode(TestElement):

@@ -1,9 +1,9 @@
 import os
 import shutil
 
-from contents.contents.html_builder import HtmlBuilder
-from contents.symbol.models import Symbol
-from contents.symbol.symbol_maker.processor import Processor
+from content.html_builder import HtmlBuilder
+from symbol.models import Symbol
+from symbol.symbol_maker.processor import Processor
 from emwiki.settings import RAW_HTMLIZEDMML_DIR
 
 

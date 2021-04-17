@@ -1,5 +1,5 @@
-from contents.symbol.symbol_maker.elements.element import Element
-from contents.symbol.tests.symbol_maker.elements.test_element import TestElement
+from symbol.symbol_maker.elements.element import Element
+from symbol.tests.symbol_maker.elements.test_element import TestElement
 
 
 class TestPred(TestElement):

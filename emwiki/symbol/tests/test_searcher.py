@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-from contents.symbol.models import Symbol
-from contents.symbol.searcher import SymbolSearcher
-from contents.symbol.symbol_builder import SymbolBuilder
+from symbol.models import Symbol
+from symbol.searcher import SymbolSearcher
+from symbol.symbol_builder import SymbolBuilder
 from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
 
 

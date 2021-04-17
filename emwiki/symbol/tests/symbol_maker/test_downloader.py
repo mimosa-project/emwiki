@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from contents.symbol.symbol_maker.downloader import Downloader
+from symbol.symbol_maker.downloader import Downloader
 
 """
 class TestDownloader(TestCase):

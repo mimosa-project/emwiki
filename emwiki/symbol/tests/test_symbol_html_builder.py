@@ -2,7 +2,7 @@ import glob
 import os
 import shutil
 
-from contents.symbol.symbol_html_builder import SymbolHtmlBuilder
+from symbol.symbol_html_builder import SymbolHtmlBuilder
 from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR, TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR
 from django.test import TestCase
 
