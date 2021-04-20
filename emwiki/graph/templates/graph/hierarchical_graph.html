@@ -3,10 +3,10 @@
 
 
 {% block head %}
-        <script src="{% static "graph/cytoscape.js/dist/cytoscape.min.js" %}"></script>
-        <link rel="stylesheet" type="text/css" href="{% static "graph/CSS/style.css"%}">
+        <script src="https://unpkg.com/cytoscape@3.18.2/dist/cytoscape.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static "graph/CSS/graph.css"%}">
         {{ graph_elements|json_script:"graph_elements" }}
-        <script src="{% static "graph/JavaScript/draw_graph.js" %}"></script>
+        <script src="{% static "graph/JavaScript/graph.js" %}"></script>
 {% endblock %}
 
 
@@ -20,13 +20,12 @@
             <p style="display:inline;" id="select_article">SELECT: </p>
             <br>
             <p style="display:inline;">Upper Level</p>
-            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="1000">
+            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="100">
             <p style="display:inline;">Lower Level</p>
-            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="1000">
+            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="100">
             <br>
             <button type="button" value="reload" id="reload">reset</button>
         </div>
-        <div id="graph">
-            
+        <div id="graph">  
         </div>
 {% endblock %}

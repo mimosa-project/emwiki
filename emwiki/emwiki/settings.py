@@ -180,6 +180,9 @@ ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
 VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
 DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
 
+GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
+GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
+
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
 
 TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
