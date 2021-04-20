@@ -201,11 +201,7 @@ $(function(){
     ]);
 
     /* 初期状態の設定 */
-    all_nodes_positions = cy.nodes().positions();  //ノードの位置を記録　今のところ使ってない
-    let all_nodes = cy.nodes();
-    let all_elements = cy.elements();
     cy.fit(cy.nodes().orphans());
-
 
     // 強調表示する祖先、子孫の世代数の初期化
     let ancestor_generations = 1;
@@ -242,7 +238,6 @@ $(function(){
         }
     });
 
-
     // 強調表示したい祖先、子孫の世代数を取得
     $("#ancestor_generations").on("change", function(){
         ancestor_generations = $("#ancestor_generations").val();
@@ -251,7 +246,6 @@ $(function(){
         descendant_generations = $("#descendant_generations").val();
     });
 
-
     // 背景をクリックしたときの処理
     cy.on("tap", function(event){
         let clicked_point = event.target;
@@ -259,19 +253,6 @@ $(function(){
             reset_elements_style(cy);
         }
     });
-
-
-    // ノードをクリックした場合、リンクに飛ぶ(htmlリンクの設定)
-    // faded状態ならば反応しない
-    cy.nodes().on("cxttap", function(event){
-        let clicked_node = event.target;
-        try {  // your browser may block popups
-            window.open(this.data("href"));
-        } catch(e){  // fall back on url change
-            window.location.href = this.data("href");
-        }
-    });
-
 
     // クリックしたノードの親と子、自身を色変更
     cy.nodes().on("tap", function(e){
@@ -284,7 +265,6 @@ $(function(){
         $("#select_article").text("SELECT: " + clicked_node_name);
     });
 
-
     // reloadボタンでリロードにする
     $(document).ready(function(){
         $("#reload").click(function(){
@@ -292,14 +272,6 @@ $(function(){
         });
     });
 });
-
-
-function reset_graph(cy, all_nodes_positions) {
-    /**
-    * 移動したノードなどを初期の位置に戻す。
-    **/
-    location.reload();  //画面をリロード
-}
 
 
 /**
