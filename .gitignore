@@ -7,8 +7,8 @@ emwiki/contents/mizarfiles/abstr
 emwiki/contents/mizarfiles/vct
 emwiki/search/data
 fmbibs/
-reftags
-symbtags
+emwiki/contents/mizarfiles/reftags
+emwiki/contents/mizarfiles/symbtags
 
 # Static files
 htmlized_mml
