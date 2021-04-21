@@ -16,7 +16,6 @@ $(function(){
                 data:{
                     id: graph["elements"]["nodes"][i][j]["id"],
                     name: graph["elements"]["nodes"][i][j]["name"],
-                    is_dummy: graph["elements"]["nodes"][i][j]["is_dummy"],
                     href: graph["elements"]["nodes"][i][j]["href"]
                 },
                 position:{
@@ -57,7 +56,7 @@ $(function(){
         },
         // Style of non-linked nodes
         {
-            selector: "node[!href][!is_dummy]",
+            selector: "node[!href]",
             css: {"background-color": "#a9a9a9", "z-index": 1}
         },
         // Style of highlight nodes
@@ -181,13 +180,6 @@ $(function(){
             css: {"line-color": "#006400", "curve-style": "straight",
             "target-arrow-color": "#006400", "arrow-scale": 5, "width": 10, "opacity": 1, "z-index": 20}
         },
-
-        /* ダミーノードを指すエッジが選択された場合 */
-        {
-            selector: cy.nodes().edgesTo("node.selected[?is_dummy]"),
-            css: {"line-color": "green", "target-arrow-shape": "none", "curve-style": "straight",
-            "arrow-scale": 10, "width": 5, "z-index": 10, width: 20}  //arrow-scale 0
-        },
         // Style of not highlight nodes
         {
             selector: "node.faded",
@@ -211,7 +203,7 @@ $(function(){
     /* 検索機能の追加 */
     // 全ノード名の取得
     let all_article_names = [];
-    cy.nodes("[!is_dummy]").forEach(function(node){
+    cy.nodes().forEach(function(node){
         all_article_names.push(node.data("name"));
     });
     all_article_names.sort();
@@ -380,35 +372,4 @@ function fade_out_faded_elements(cy){  // change_style_to_fade_for_not_selected_
     let other = cy.elements();
     other = other.difference(cy.elements(".highlight"));
     cy.$(other).addClass("faded");
-}
-
-
-/**
- * nodes内からダミーノードを探し、ダミーでないノードまでたどる。
- * @param {cytoscape object} cy cytoscape.jsのグラフ本体
- * @param {cytoscape object} select_element 選択状態になった要素の集合
- * @param {boolean} is_target 祖先をたどるか
- * @return {cytoscape object} connect_node_collection 新たに強調表示になったノードの集合
-**/
-function search_not_dummy_node(cy, select_elements, is_targets) {
-    let connect_node_collection = cy.collection();
-    for (let node of Object.values(select_elements.nodes())){
-        if(node.data){
-            if(node.data("is_dummy")){
-                let dummy_node_and_edge = (is_targets) ? node.outgoers() : node.incomers();
-                cy.$(dummy_node_and_edge).addClass("selected");  // is_targetならselected_ancestorsに追加
-                let dummy_node = dummy_node_and_edge.nodes();  // dummy_nodeって名前良くない
-                while(dummy_node.data("is_dummy")){
-                    dummy_node_and_edge = (is_targets) ? dummy_node.outgoers() : dummy_node.incomers();
-                    cy.$(dummy_node_and_edge).addClass("selected");
-                    dummy_node = dummy_node_and_edge.nodes();
-                }
-                connect_node_collection = connect_node_collection.union(dummy_node);
-            }
-            else{
-                connect_node_collection = connect_node_collection.union(node);
-            }
-        }
-    }
-    return connect_node_collection;
 }
