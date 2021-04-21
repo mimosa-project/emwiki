@@ -3,10 +3,6 @@ from emwiki.settings import GRAPH_ELS_DIR
 import json
 
 
-CATEGORIES = ['constructors', 'notations', 'registrations', 'theorems', 'schemes',
-              'definitions', 'requirements', 'expansions', 'equalities']
-
-
 class GraphView(TemplateView):
     template_name = 'graph/hierarchical_graph.html'
 
@@ -15,5 +11,4 @@ class GraphView(TemplateView):
         with open(GRAPH_ELS_DIR + "/graph_attrs/dot_graph.json", "r") as f_in:
             graph_elements = json.load(f_in)
         context['graph_elements'] = graph_elements
-        context['categories'] = CATEGORIES
         return context
