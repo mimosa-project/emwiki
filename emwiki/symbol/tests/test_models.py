@@ -1,6 +1,8 @@
 import os
 
+from django.template.loader import get_template
 from django.test import TestCase, Client
+from django.template.exceptions import TemplateSyntaxError
 
 from symbol.symbol_builder import SymbolBuilder
 from symbol.models import Symbol
@@ -19,31 +21,21 @@ class SymbolTest(TestCase):
     def tearDownClass(cls):
         cls.builder.delete_models()
 
-    def test_get_model(self):
-        name = 'is_applicable_to'
-        model = Symbol.get_model(name=name)
-        self.assertEqual(model.name, name)
-
-        name = 'is_applicable_to'
-        model = Symbol.get_model(name=name)
-        self.assertEqual(model.name, name)
-
-        filename = '0.html'
-        model = Symbol.get_model(filename=filename)
-        self.assertEqual(model.filename, filename)
-
     def test_attributes(self):
         for symbol in Symbol.objects.all():
             self.assertIsNotNone(symbol.name)
             self.assertIsNotNone(symbol.filename)
-            self.assertEqual(symbol.get_category(), 'Symbol')
-            self.assertIsNotNone(symbol.get_color())
             self.assertTrue(os.path.exists(symbol.get_htmlfile_dir()))
             self.assertFalse(symbol.name.endswith('.html'))
 
     def test_url_methods(self):
         client = Client()
         for symbol in Symbol.objects.all():
-            absolute_response = client.get(symbol.get_absolute_url())
+            try:
+                absolute_response = client.get(symbol.get_absolute_url())
+            except TemplateSyntaxError:
+                print(symbol)
+                raise TemplateSyntaxError
+
             self.assertEqual(absolute_response.status_code, 200)
-            self.assertIsNotNone(symbol.get_static_url())
+            self.assertIsNotNone(get_template(symbol.template_path))

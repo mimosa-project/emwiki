@@ -1,39 +1,28 @@
 import os
 
 from django.db import models
+from django.urls import reverse
 
-from content.models import Content
-from emwiki.settings import STATIC_SYMBOLS_URL, PRODUCT_SYMBOLHTML_DIR
+from emwiki.settings import PRODUCT_SYMBOLHTML_DIR
 
 
-class Symbol(Content):
+class Symbol(models.Model):
+    name = models.CharField(primary_key=True, max_length=50)
     filename = models.CharField(max_length=20)
 
-    @classmethod
-    def get_category(cls):
-        return 'Symbol'
-
-    @classmethod
-    def get_color(cls):
-        return '#F9C270'
+    def __str__(self):
+        return f'{self.name}:{self.filename}'
 
     @classmethod
     def get_htmlfile_dir(cls):
         return PRODUCT_SYMBOLHTML_DIR
 
-    @classmethod
-    def get_model(cls, name=None, filename=None):
-        if filename:
-            model = Symbol.objects.get(filename=filename)
-        elif name:
-            model = Symbol.objects.get(name=name)
-        else:
-            raise ValueError
-
-        return model
-
-    def get_static_url(self):
-        return STATIC_SYMBOLS_URL + self.filename
+    @property
+    def template_path(self):
+        return f"symbol/symbol_html/{self.filename}"
 
     def get_htmlfile_path(self):
         return os.path.join(self.file_dir, f'{self.filename}')
+
+    def get_absolute_url(self):
+        return reverse("symbol:index", kwargs=dict(name=self.name))
