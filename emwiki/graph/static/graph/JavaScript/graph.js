@@ -311,22 +311,6 @@ function highlight_select_elements(cy, select_node, ancestor_generations, descen
 
 
 /**
- * 選んだ1つのノードに近づく、焦点を当てる。
- * @param {cytoscape object} cy: cytoscapeグラフ本体
- * @param {cytoscape object} selected_node: cyの単一のノード。近づきたいノード。
- * @return
-**/
-function focus_on_selected_node(cy, selected_node){
-    cy.animate({
-        fit:{
-            eles: selected_node,
-            padding: 310
-        }
-    });
-}
-
-
-/**
  * 選択したノード(select_node)とその祖先または子孫を任意の世代数(generations)までを
  * 強調表示するクラスに追加する。
  * アルゴリズム
