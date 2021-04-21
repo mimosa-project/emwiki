@@ -47,12 +47,12 @@ $(function(){
                     "content": "data(name)", "font-size": 40, "opacity": 1, "z-index": 1,
                     "text-halign":"center", "text-valign": "center", "font-style": "normal",
                     "font-weight": "bold", "color": "#ffffff",
-                    "text-outline-color": "red", "text-outline-opacity": 1, "text-outline-width": 10}  // 0.8 30
+                    "text-outline-color": "red", "text-outline-opacity": 1, "text-outline-width": 10}
         },
         {
             selector: "edge",
             css: {"line-color": "black", "target-arrow-shape": "triangle", "curve-style": "straight",
-            "target-arrow-color": "black", "arrow-scale": 3, "width": 5, "opacity": 0.3, "z-index": 1}  //0.3
+            "target-arrow-color": "black", "arrow-scale": 3, "width": 5, "opacity": 0.3, "z-index": 1}
         },
         // Style of non-linked nodes
         {
@@ -188,7 +188,7 @@ $(function(){
         // Style of not highlight nodes and edges
         {
             selector: ".faded",
-            css: {"opacity": 0.4, "z-index": 0}  // 0.05, 0
+            css: {"opacity": 0.4, "z-index": 0}
         },
     ]);
 
