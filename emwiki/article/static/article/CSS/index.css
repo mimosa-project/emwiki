@@ -6,9 +6,7 @@ div#article body {
 
 .commentPreviewWrapper{
     background-color: #e6ffed;
-    padding: 7px;
-    border-left: solid 30px #cdffd8;
-    transform: translateX(-30px);
+    margin-right: 10px;
 }
 
 .commentTextarea {
@@ -66,42 +64,13 @@ div#article body {
     border-radius: 3px;
     transition: .4s;
 } 
-.previewButton:hover {
-    background: #b4b4b4;
-    color: white;
-}
 
 .editButton {
-    display: inline-block;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0);
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #e6ffed;
+    color: #b4b4b4;
     border: none;
-    border-radius: 20%;
-    transition: .4s;
-    position: absolute;
     text-align: center;
-    left: -0;
-    width: 1.5rem;
-    height: 1.5rem;
-    transform: translateY(-20px);
-    font-size: 1.4rem;
 }
-
-.commentPreviewWrapper:hover + .editButton, .editButton:hover{
-    background-color: #0366d6;
-    color: white;
-}
-
-.editButton:hover {
-    transition: .4s;
-    width: 1.8rem;
-    height: 1.8rem;
-    font-size: 1.6rem;
-}
-
-
-
 
 
 

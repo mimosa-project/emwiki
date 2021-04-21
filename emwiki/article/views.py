@@ -1,35 +1,34 @@
-import json
 import os
 
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import HttpResponse, HttpResponseForbidden
-from django.http.response import JsonResponse
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.cache import cache_page
 from django.views import View
-from django.views.generic import TemplateView
 
 from .models import Article, Comment
 from emwiki.settings import RAW_HTMLIZEDMML_DIR
 
 
-class ArticleView(TemplateView):
-    template_name = "article/index.html"
-
-    def get_context_data(self, **kwargs):
-        article = Article.objects.get(name=kwargs["name"])
-        kwargs['name'] = os.path.splitext(kwargs['name'])[0]
-        context = super().get_context_data(**kwargs)
+class ArticleView(View):
+    def get(self, request, filename, *args, **kwargs):
+        name = os.path.splitext(filename)[0]
+        article = Article.objects.get(name=name)
+        context = dict()
         context['name'] = article.name
-        context['template_path'] = f"article/htmlized_mml/{kwargs['name']}.html"
-        context['bib_path'] = f'article/fmbibs/{context["name"]}.bib'
+        context['template_path'] = f"article/htmlized_mml/{article.name}.html"
+        context['bib_path'] = f'article/fmbibs/{article.name}.bib'
         context["context_for_js"] = {
+            'is_authenticated': self.request.user.is_authenticated,
+            'name': article.name,
             'comments': list(Comment.objects.filter(article=article).values()),
             'comment_url': reverse('article:comment'),
+            'names_url': reverse('article:names')
         }
-        return context
+        return render(request, "article/index.html", context)
 
 
 class ProofView(View):
@@ -40,26 +39,32 @@ class ProofView(View):
         )
 
 
+class RefView(View):
+    def get(self, request, article_name, ref_name):
+        return HttpResponse(
+            open(os.path.join(RAW_HTMLIZEDMML_DIR, 'refs', article_name, ref_name)).read(),
+            content_type='application/xml'
+        )
+
+
 class CommentView(View):
 
-    def get(self, request):
-        json_str = request.body.decode("utf-8")
-        params = json.loads(json_str)['params']
+    def get(self, request, *args, **kwargs):
         query = Comment.objects
-        if params.exists('article_name'):
+        if 'article_name' in request.GET:
             query = query.filter(
-                article=Article.object.get(name=params["article_name"])
+                article=Article.objects.get(name=request.GET.get("article_name"))
             )
-        if params.exists('block'):
+        if 'block' in request.GET:
             query = query.filter(
-                block=params['block']
+                block=request.GET.get('block')
             )
-        if params.exists('block_order'):
+        if 'block_order' in request.GET:
             query = query.filter(
-                block_order=querys["block_order"]
+                block_order=int(request.GET.get("block_order"))
             )
         return HttpResponse(
-            serializers.serialize('json', query.all(), content_type='application/json')
+            serializers.serialize('json', query.all()), content_type='application/json'
         )
 
     @method_decorator(login_required)
@@ -78,3 +83,13 @@ class CommentView(View):
         article.save_db2mizfile()
         article.commit_mizfile(request.user.username)
         return HttpResponse(status=201)
+
+
+@cache_page(60*60*24*365)
+def get_names(request):
+    return HttpResponse(
+            serializers.serialize(
+                'json', Article.objects.order_by("name").all()
+            ),
+            content_type='application/json'
+        )

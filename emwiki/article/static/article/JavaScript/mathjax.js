@@ -1,5 +1,10 @@
 MathJax = {
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    },
     tex: {
+      packages: {'[+]': ['textmacros']},
       inlineMath: [           // start/end delimiter pairs for in-line math
         ['$', '$'],
         ['\\(', '\\)']

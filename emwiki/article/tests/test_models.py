@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 
+from django.template.loader import get_template
 from django.test import TestCase, Client
 
 from article.article_builder import ArticleBuilder
@@ -24,8 +25,6 @@ class ArticleTest(TestCase):
     def test_attributes(self):
         for article in Article.objects.all():
             self.assertIsNotNone(article.name)
-            self.assertEqual(article.get_category(), 'Article')
-            self.assertIsNotNone(article.get_color())
             self.assertFalse(article.name.endswith('.html'))
 
     def test_url_methods(self):
@@ -33,7 +32,7 @@ class ArticleTest(TestCase):
         for article in Article.objects.all():
             absolute_response = client.get(article.get_absolute_url())
             self.assertEqual(absolute_response.status_code, 200)
-            self.assertIsNotNone(article.get_static_url())
+            self.assertIsNotNone(get_template(article.template_url))
 
 
 class CommentTest(TestCase):

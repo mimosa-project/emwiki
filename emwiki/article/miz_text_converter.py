@@ -170,6 +170,36 @@ class MizTextConverter:
         # stack block keyword like ["definition", "proof", "proof"]
         # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
         block_stack = []
+        stack_rules = {
+            "Text-Item": {
+                "push": "",
+                "pop": ""
+            },
+            "Definitional-Block": {
+                "push": "definition",
+                "pop": "end;"
+            },
+            "Registration-Block": {
+                "push": "registration",
+                "pop": "and"
+            },
+            "Notaion-Block": {
+                "push": "notation",
+                "pop": "end"
+            },
+            "Theorem": {
+                "push": "theorem",
+                "pop": ";"
+            },
+            "Scheme-Item": {
+                "push": "scheme",
+                "pop": "end;"
+            },
+            "proof": {
+                "push": "proof",
+                "pop": "end"
+            }
+        }
         push_keywords = (
             "definition",
             "registration",
@@ -184,21 +214,22 @@ class MizTextConverter:
         push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
         pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
         for line_number, line in enumerate(text.split('\n')):
+            # print(block_stack)
             line = re.sub('::.*', "", line)
             target_match = target_pattern.match(line)
             push_list = push_pattern.findall(line)
             pop_list = pop_pattern.findall(line)
-            if len(block_stack) > 0 and block_stack[-1] == "scheme" and re.search("(proof)|;", line):
+            if len(block_stack) > 0 and block_stack[-1] == "scheme" and re.search(r"proof|;", line):
                 block_stack.append("proof")
                 target_match = re.match("(?P<block>proof)", "proof")
             elif push_list:
                 for block in push_list:
                     block_stack.append(block)
             if pop_list:
-                if len(block_stack) > 0 and block_stack[-2:-1] == ["scheme", "proof"]:
-                    block_stack.pop(-1)
+                if len(block_stack) > 1 and block_stack[-2] == "scheme" and block_stack[-1] == "proof":
+                    block_stack.pop()
                 for block in pop_list:
-                    block_stack.pop(-1)
+                    block_stack.pop()
             if target_match:
                 if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                     block = target_match.group('block')

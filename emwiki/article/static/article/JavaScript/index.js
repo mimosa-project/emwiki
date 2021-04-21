@@ -1,255 +1,25 @@
-class Initializer {
-    static initialize() {
-        this.set_csrf_token_on_post();
-
-    }
-
-    static set_csrf_token_on_post() {
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-    
-        //get csrf_token from cookie
-        var csrftoken = getCookie('csrftoken');
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-    }
-}
-
+var context = JSON.parse(document.getElementById('context').textContent);
 
 class Article {
-
+    constructor(name, element) {
+        this.name = name;
+        this.element = element;
+    }
 }
 
-class Comment {
-    preview() {
-
-    }
-
-    reder() {
-
-    }
-    // rendering commentPreview from commentTextarea text
-    function comment_preview($target_list){
-        //Apply MathJax class="mathjax"
-        //This function is not guaranteed to work when MathJax in iframe is updated
-        function apply_mathjax(){
-            let iframe_MathJax = $article[0].contentWindow.MathJax;
-            if(iframe_MathJax){
-                iframe_MathJax.typeset();
-            }
-        }
-
-        //convert commentText to HTML for converion to Tex format
-        function commentText2html(commentText){
-            let commentText_lines = commentText.split(/\r\n|\r|\n/);
-            var html = '';
-            if(commentText === ''){
-                return html;
-            }
-            for (let index = 0; index < commentText_lines.length; index++) {
-                if (commentText_lines[index]){
-                    html += `<p>${commentText_lines[index]}</p>`;
-                }else{
-                    html += '<br>'
-                }
-            }
-            //return html;
-            return `<p>${commentText}</p>`
-        }
-
-        for($target of $target_list){
-            let comment = $target.find(".commentTextarea").val();
-            let commentHTML = commentText2html(comment);
-            $target.find(".commentPreview").html(commentHTML);
-        }
-        apply_mathjax();
-    }
-
-}
-
-$(function(){
-    let $article = $('#article');
-    var context = JSON.parse(document.getElementById('context').textContent);
-
-    let initializer = new Initializer();
-    initializer.initialize();
-
-    $('[data-toggle="popover"]').popover()
-    
-    add_emwiki_components($article);
-
-    //edit class editButton clicked
-    $article.contents().find('body').on( "click", '.editButton', function(event){
-        let $edit = $(this).closest('.edit');
-        $edit.find(".editcomment").show();
-        $edit.find(".editButton").hide();
-        event.stopPropagation();
-    });
-
-    //edit class submitButton clicked
-    $article.contents().find('body').on( "click", '.submitButton', function(){
-        let $edit = $(this).closest('.edit');
-        let block = $edit.attr("block");
-        let block_order = $edit.attr("block_order");
-        //submit proof comment
-        $.ajax({
-            url: context['comment_url'],
-            type: 'POST',
-            dataType: 'text',
-            data: {
-                'block': block,
-                'article_name': context['name'],
-                'block_order': block_order,
-                'comment': $edit.find(".commentTextarea").val()
-            },
-        }).done(function(data) {
-            $edit.find(".editcomment").hide();
-            $edit.find(".editButton").show();
-            fetch_comment([$edit,])
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-            comment_preview([$edit,]);
-            alert(
-                `error : status->${textStatus}
-                !!!Not yet saved!!!`
-            );
-        });
-    });
-
-    //edit class cancelButton clicked
-    $article.contents().find('body').on( "click", '.cancelButton', function(){
-        let $target = $(this).closest('.edit');
-        $target.find(".editcomment").hide();
-        $target.find(".editButton").show();
-
-        fetch_comment([$target,])
-    });
-    //edit class previewButton clicked
-    $article.contents().find('body').on( "click", '.previewButton', function(){
-        comment_preview([$(this).closest(".edit"),]);
-    });
-    //edit class commentTextarea changed
-    $article.contents().find('body').on( "input", '.commentTextarea', function(){
-        comment_preview([$(this).closest('.edit'),]);
-    });
-
-    // rendering commentPreview from commentTextarea text
-    function comment_preview($target_list){
-        //Apply MathJax class="mathjax"
-        //This function is not guaranteed to work when MathJax in iframe is updated
-        function apply_mathjax(){
-            let iframe_MathJax = $article[0].contentWindow.MathJax;
-            if(iframe_MathJax){
-                iframe_MathJax.typeset();
-            }
-        }
-
-        //convert commentText to HTML for converion to Tex format
-        function commentText2html(commentText){
-            let commentText_lines = commentText.split(/\r\n|\r|\n/);
-            var html = '';
-            if(commentText === ''){
-                return html;
-            }
-            for (let index = 0; index < commentText_lines.length; index++) {
-                if (commentText_lines[index]){
-                    html += `<p>${commentText_lines[index]}</p>`;
-                }else{
-                    html += '<br>'
-                }
-            }
-            //return html;
-            return `<p>${commentText}</p>`
-        }
-
-        for($target of $target_list){
-            let comment = $target.find(".commentTextarea").val();
-            let commentHTML = commentText2html(comment);
-            $target.find(".commentPreview").html(commentHTML);
-        }
-        apply_mathjax();
-    }
-
-    function fetch_comment($target_list){
-        console.log("fetch comment!")
-        let body = {querys: []}
-        for(let $target of $target_list){
-            let block = $target.attr("block");
-            let block_order = $target.attr("block_order");
-            body.querys.push({
-                article_name: context['name'],
-                block: block,
-                block_order: block_order
-            })
-        }
-        $.ajax({
-            type: 'GET',
-            url: `${context['comment_url']}`,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: {'article_name': context['name']}
-        }).done(function (data, textStatus, jqXHR) {
-            comments = data['comments']
-            for(comment of comments){
-                $target = $article.contents().find(`
-                    .edit[block="${comment['block']}"][block_order="${comment['block_order']}"]
-                `);
-                $target.find(".commentTextarea").val(comment['text']);
-            }
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-            console.log(XMLHttpRequest.textStatus)
-            alert('Failed to get some comment\n' + textStatus);
-        }).always(function(){
-            comment_preview($target_list)
-        });
-    }
-    
-    function add_emwiki_components(){
-        //current file path in static folder
-        let file_path =  location.pathname;
-        //current file name like "abcmiz_0.html"
-        let file_name = file_path.slice(file_path.lastIndexOf('/')+1);
-        //current article_name like "abcmiz_0"
-        let article_name = file_name.split(".")[0];
-        //edit target selector
-        let target_CSS_selector = 'span.kw';
-        //target DOMs list
-        let target_object = {
-            'definition': [],
-            'theorem': [],
-            'registration': [],
-            'scheme': [],
-            'notation': [],
-            'proof': []
-        };
-
-        let editHTML = 
-        `<span class='edit'>
-            <div class='commentPreviewWrapper'>
-            <div class='commentPreview mathjax' style='display:block'></div>
+class Editor {
+    constructor(comment) {
+        this.comment = comment;
+        this.html = 
+        `<div class='edit'>
+            <div class='d-flex flex-row'>
+                <button type='button' class='editButton'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+                <div class='commentPreviewWrapper flex-fill'>    
+                    <div class='commentPreview mathjax' style='display:block'></div>
+                </div>
             </div>
-            <button type='button' class='editButton'>+</button>
             <div class='editcomment' style='display:none'>
                 <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
                 <div class='toolbar'>
@@ -258,46 +28,250 @@ $(function(){
                     <button type='button' class='previewButton'>preview</button>
                 </div>
             </div>
-        </span>`;
-        //add edit button
-        let $edit_list = []
-        $article.contents().find(target_CSS_selector).each(function (target_index, target) {
-            //sometimes $(target).text() is like "theorem " so trim()
-            target_name = $(target).text().trim();
-            let $edit;
-            if( target_name in target_object){
-                if(target_name === "proof"){
-                    $(target).after(editHTML);
-                    $edit = $(target).next();
-                    $(target).parent().click(function (e) { 
-                        $edit.toggle();
-                    });
-                    $edit.mouseover(function (event) { 
-                        event.stopPropagation();
-                    });
-                    $edit.click(function (event) {
-                        event.stopPropagation();
-                    })
-                    $edit.find(".editButton").click(function (event) {
-                        $edit.find(".editcomment").show();
-                        $edit.find(".editButton").hide();
-                        event.stopPropagation();
-                    })
-                    $edit.hide();
-                    $edit.find(".commentPreview").css("margin-left", "3mm");
-                    $edit.find(".editcomment").css("margin-left", "3mm");
-                }else{
-                    $(target).before(editHTML);
-                    $edit = $(target).prev();
-                }
-                target_object[target_name].push($edit);
-                $edit.attr("block", target_name);
-                $edit.attr("block_order", target_object[target_name].length);
-                $edit.find(".editButton").attr("block", target_name);
-                $edit_list.push($edit)
+        </div>`;
+        this.create();
+    }
+
+    get text() {
+        return this.element.find(".commentTextarea").val();
+    }
+
+    set text(text) {
+        this.element.find(".commentTextarea").val(text);
+    }
+
+    create() {
+        let editor = this;
+        editor.comment.element.before(editor.html);
+        editor.element = editor.comment.element.prev();
+        //edit class editButton clicked
+        editor.element.find('.editButton').on( "click", function(event){
+            if(context["is_authenticated"]) {
+                editor.element.find(".editcomment").show();
+                editor.element.find(".editButton").hide();
+            }else {
+                alert("Editing is only allowed to registered users \nPlease login or signup");
             }
+            
+            event.stopPropagation();
         });
 
-        fetch_comment($edit_list)
+        //edit class submitButton clicked
+        editor.element.find('.submitButton').on( "click", function(){
+            editor.comment.submit(function() {
+                editor.hide();
+                editor.comment.fetch();
+            });
+        });
+        //edit class cancelButton clicked
+        editor.element.find(".cancelButton").on( "click", function(){
+            editor.hide();
+            editor.comment.fetch();
+        });
+        //edit class previewButton clicked
+        editor.element.find('.previewButton').on( "click", function(){
+            editor.render();
+        });
+        //edit class commentTextarea changed
+        editor.element.find(".commentTextarea").on( "input", function(){
+            editor.render();
+        });
     }
+
+    hide() {
+        this.element.find(".editcomment").hide();
+        this.element.find(".editButton").show();
+    }
+
+    show() {
+        this.element.find(".editcomment").show();
+        this.element.find(".editButton").hide();
+    }
+
+    render() {
+        //convert commentText to HTML for converion to Tex format
+        this.element.find(".commentPreview").html(Editor.commentText2html(this.text));
+        MathJax.typesetPromise(this.element.find(".commentPreview"));
+    }
+
+    static bulk_render(editors) {
+        editors.forEach((editor) => {
+            editor.element.find(".commentPreview").html(Editor.commentText2html(editor.text));
+        })
+        MathJax.typesetPromise();
+    }
+
+    static commentText2html(commentText){
+        if(commentText === '') {
+            return commentText
+        }
+        let commentText_lines = commentText.split(/\r\n|\r|\n/);
+        var html = '';
+        for (let index = 0; index < commentText_lines.length; index++) {
+            html += `<p>${commentText_lines[index]}</p>`;
+        }
+        return html
+    }
+}
+
+class Comment {
+    constructor(article, element, block, block_order, comment_url) {
+        this.article = article;
+        this.block = block;
+        this.block_order = block_order;
+        this.comment_url = comment_url;
+        if(block == 'proof') {
+            this.element = element.closest('a')
+        }else {
+            this.element = element;
+        }
+        this.editor = new Editor(this);
+    }
+
+    get text() {
+        return this.editor.text;
+    };
+
+    submit(callback = function(){}) {
+        $.post({
+            url: this.comment_url,
+            dataType: 'text',
+            data: {
+                'article_name': this.article.name,
+                'block': this.block,
+                'block_order': this.block_order,
+                'comment': this.text
+            },
+        }).done(function(data) {
+            callback();
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest, textStatus, errorThrown)
+            if(errorThrown === "Forbidden") {
+                alert("Editing is only allowed to registered users \nPlease login or signup");
+            } else {
+                alert(`Error: ${textStatus}`)
+            }
+        });
+    }
+
+    static bulk_fetch(article, comments, comment_url=context["comment_url"]) {
+        $.get({
+            url: comment_url,
+            data: {article_name: article.name}
+        })
+        .done(function (data) {
+            data.forEach((comment_fetched) => {
+                try {
+                    comments.find((comment) => {
+                        return (
+                            comment.block === comment_fetched.fields.block &&
+                            comment.block_order === comment_fetched.fields.block_order
+                        )
+                    }).editor.text = comment_fetched.fields.text;
+                } catch(e) {
+                    console.log(comment_fetched)
+                    console.log(e);
+                }
+            })
+            let editors = comments.map((comment) => comment.editor);
+            Editor.bulk_render(editors);
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+            alert('Failed to get some comment\n' + textStatus);
+        });
+    }
+
+    fetch(comment_url=context["comment_url"]) {
+        // declarate decause `this` reserved by jQuery in $.get
+        let comment = this;
+        $.get({
+            url: `${comment_url}`,
+            data: {article_name: comment.article.name, block: comment.block, block_order: comment.block_order},
+        }).done(function (data) {
+            comment.editor.text = data[0]["fields"]["text"];
+            comment.editor.render();
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+            alert('Failed to get some comment\n' + textStatus);
+        });
+    }
+}
+
+
+class Parser {
+    constructor($root) {
+        this.root = $root;
+        this.target_block_names = [
+            'definition',
+            'theorem',
+            'registration',
+            'scheme',
+            'notation',
+            'proof'
+        ];
+        this.target_CSS_selector = 'span.kw';
+    }
+    list_comments(article) {
+        let comments = [];
+        let counter = {}
+        this.target_block_names.forEach(function(value) {
+            counter[value] = 0;
+        });
+        for(let target of this.root.find(this.target_CSS_selector)){
+            //sometimes $(target).text() return string like "theorem " so trim()
+            let block_name = $(target).text().trim();
+            if(this.target_block_names.includes(block_name)){
+                if(
+                    block_name === "proof" &&
+                    !$(target).closest("div").attr("typeof") === "oo:Proof"
+                ) {console.log("skipped!");continue;}
+                let comment = new Comment(
+                    article,
+                    $(target),
+                    block_name,
+                    ++counter[block_name]
+                );
+                comments.push(comment);
+            }
+        };
+        return comments
+    }
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+$(function() {
+
+    //get csrf_token from cookie
+    var csrftoken = getCookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    let article = new Article(context["name"], $("#article"));
+    let parser = new Parser(article.element);
+    let comments = parser.list_comments(article);
+    Comment.bulk_fetch(article, comments);
+    
+    $('[data-toggle="popover"]').popover()
 });

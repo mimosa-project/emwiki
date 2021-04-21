@@ -2,43 +2,34 @@ import git
 import os
 
 from django.db import models
+from django.urls import reverse
 
-from content.models import Content
-from emwiki.settings import STATIC_ARTICLES_URL, PRODUCT_HTMLIZEDMML_DIR,\
+from emwiki.settings import PRODUCT_HTMLIZEDMML_DIR,\
      MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_COMMIT_BRANCH,\
      REMOTE_COMMENT_REPOSITORY_URL
 from article.miz_text_converter import MizTextConverter
 
 
-class Article(Content):
-
+class Article(models.Model):
+    name = models.CharField(primary_key=True, max_length=50)
     mizfile_dir = MIZFILE_DIR
 
-    @classmethod
-    def get_category(cls):
-        return 'Article'
-
-    @classmethod
-    def get_color(cls):
-        return '#EF845C'
+    def __str__(self):
+        return f'{self.name}'
 
     @classmethod
     def get_htmlfile_dir(cls):
         return PRODUCT_HTMLIZEDMML_DIR
 
-    @classmethod
-    def get_model(cls, name=None, filename=None):
-        if filename:
-            name = os.path.splitext(filename)[0]
-        elif name:
-            pass
-        else:
-            raise ValueError
+    @property
+    def template_url(self):
+        return f"article/htmlized_mml/{self.name}.html"
 
-        return Article.objects.get(name=name)
-
-    def get_static_url(self):
-        return STATIC_ARTICLES_URL + self.name + '.html'
+    def get_absolute_url(self):
+        return reverse(
+            'article:index',
+            kwargs={'filename': self.name}
+        )
 
     def get_htmlfile_path(self):
         return os.path.join(self.get_htmlfile_dir(), f'{self.name}.html')
