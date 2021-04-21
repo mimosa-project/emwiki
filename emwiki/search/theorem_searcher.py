@@ -55,8 +55,12 @@ class TheoremSearcher:
 
         # URLを生成
         for res in result:
-            path = reverse('contents:index', kwargs=dict(category='article', name=res['label'].split(':')[0].lower()))
-            anchor = f"t{res['label'].split(':')[1]}"
+            filename, anchor = res['label'].split(':')
+            path = reverse('article:index', kwargs=dict(filename=filename.lower()))
+            if re.match('def', anchor):
+                anchor = anchor.replace('def', 'D')
+            else:
+                anchor = f"T{anchor}"
             urldict = {'url': f'{path}#{anchor}'}
             res.update(urldict)
 
