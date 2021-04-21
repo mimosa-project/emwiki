@@ -105,10 +105,10 @@ git clone {your forked origin repository}
 
 #### 確認事項
 + 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
-  + `project_dir/emwiki/contents/mizarfiles/emwiki-contents/mml/{*.miz}`
-  + `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`
-  + `project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`
-  + `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`
+  + `project_dir/emwiki/mizarfiles/emwiki-contents/mml/{*.miz}`
+  + `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`
+  + `project_dir/emwiki/mizarfiles/abstr/{*.abs}`
+  + `project_dir/emwiki/mizarfiles/vct/mml.vct`
   + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`
 + 以下のディレクトリを作成する
   + `emwiki/search/data`
@@ -180,19 +180,19 @@ docker-compose down
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
 ### 5.1 emwiki-contents
 + `mml`ブランチにcheckoutする
-+ `/emwiki/contents/mizarfiles/emwiki-contents/mml`を新しいMMLと交換する
++ `/emwiki/mizarfiles/emwiki-contents/mml`を新しいMMLと交換する
 + add, commit(commitメッセージにバージョン情報をつける)
 + `mml_commented`ブランチにcheckoutする
 + 新たな`mml`ブランチの変更を`mml_commented`ブランチにマージする
 ### 5.2 HTMLized MML
 + [ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からDL可能
 + emwiki-contentsのバージョンと統一させる
-+ `project_dir/emwiki/contents/mizarfiles/htmlized_mml/{*.html}`に配置する
++ `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`に配置する
 + `initialize.sh`を書き換える
 ### 5.3 data for search theorem
 + 定理検索を使用するには`project_dir/emwiki/search/data/`内にabsファイルとvctファイルから生成されるデータが必要
 + absファイルとvctファイルはMizarをダウンロードすることで入手可能
-+ データを生成するにはabsファイルとvctファイルをそれぞれ`project_dir/emwiki/contents/mizarfiles/abstr/{*.abs}`, `project_dir/emwiki/contents/mizarfiles/vct/mml.vct`に配置し, 以下のコマンドを実行(実行に時間がかかります)
++ データを生成するにはabsファイルとvctファイルをそれぞれ`project_dir/emwiki/mizarfiles/abstr/{*.abs}`, `project_dir/emwiki/mizarfiles/vct/mml.vct`に配置し, 以下のコマンドを実行(実行に時間がかかります)
   ```
   python manage.py generate_files search
   ```
@@ -202,7 +202,7 @@ docker-compose down
 + pythonコンテナに入る
   + `docker exec <container name> bash`
 + emwiki-contentsのレポジトリに移動
-  + `cd /workspace/emwiki/contents/mizarfiles/emwiki-contents`
+  + `cd /workspace/emwiki/mizarfiles/emwiki-contents`
 + 上のリポジトリに移動してGitのPushを実行
   + `git push origin mml_commented`
 
