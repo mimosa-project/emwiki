@@ -170,36 +170,6 @@ class MizTextConverter:
         # stack block keyword like ["definition", "proof", "proof"]
         # ["difinition", "proof", "proof"] means "definition proof proof <-here-> end end end"
         block_stack = []
-        stack_rules = {
-            "Text-Item": {
-                "push": "",
-                "pop": ""
-            },
-            "Definitional-Block": {
-                "push": "definition",
-                "pop": "end;"
-            },
-            "Registration-Block": {
-                "push": "registration",
-                "pop": "and"
-            },
-            "Notaion-Block": {
-                "push": "notation",
-                "pop": "end"
-            },
-            "Theorem": {
-                "push": "theorem",
-                "pop": ";"
-            },
-            "Scheme-Item": {
-                "push": "scheme",
-                "pop": "end;"
-            },
-            "proof": {
-                "push": "proof",
-                "pop": "end"
-            }
-        }
         push_keywords = (
             "definition",
             "registration",
@@ -211,10 +181,10 @@ class MizTextConverter:
             "now",
             "proof",
         )
-        push_pattern = re.compile(f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
+        push_pattern = re.compile(
+            f"(?:[^a-zA-Z_]|^)(?P<block>{'|'.join(push_keywords)})(?=[^a-zA-Z_]|$)")
         pop_pattern = re.compile(r'(?:[^a-zA-Z_]|^)end(?=[^a-zA-Z_]|$)')
         for line_number, line in enumerate(text.split('\n')):
-            # print(block_stack)
             line = re.sub('::.*', "", line)
             target_match = target_pattern.match(line)
             push_list = push_pattern.findall(line)
