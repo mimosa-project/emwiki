@@ -15,9 +15,17 @@ $(function(){
 
     $("#symbol").find(`span[data-link]`).each(function(){
         $(this).on('click', function(){
+            let url = undefined;
             var link = $(this).attr('data-link').split("#");
-            location.href = encodeURI(`${link[0]}#${link[1]}`);
+            $.get({
+                url: context["adjust_name_url"],
+                data: {name: link[0]},
+            }).done(function (data) {
+                location.href = encodeURI(`${data}#${link[1]}`);
             select(link[1]);
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                console.log('Failed to get symbol name\n' + textStatus);
+            });
         })
     });
 });

@@ -1,8 +1,7 @@
-import os
-
+from django.conf import settings
 from django.core import serializers
-from django.shortcuts import redirect, get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.decorators.cache import cache_page
@@ -23,6 +22,7 @@ class SymbolView(View):
         # you can use these variables in index.js
         context["context_for_js"] = {
             'names_url': reverse('symbol:names'),
+            'adjust_name_url': reverse('symbol:adjust_name'),
             # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
             'article_base_uri': reverse(
                 'article:index',
@@ -32,12 +32,21 @@ class SymbolView(View):
         return render(request, 'symbol/index.html', context)
 
 
+def adjust_name(request):
+    requested_name = request.GET.get("name")
+    if Symbol.objects.filter(filename=requested_name).exists():
+        return HttpResponse(Symbol.objects.get(filename=requested_name).name)
+    elif Symbol.objects.filter(name=requested_name).exists():
+        return HttpResponse(requested_name)
+    else:
+        return HttpResponseNotFound
+
 
 @cache_page(60 * 60 * 24 * 365, cache=settings.MIZAR_VERSION)
 def get_names(request):
     return HttpResponse(
-            serializers.serialize(
-                'json', Symbol.objects.order_by("name").all()
-            ),
-            content_type='application/json'
-        )
+        serializers.serialize(
+            'json', Symbol.objects.order_by("name").all()
+        ),
+        content_type='application/json'
+    )
