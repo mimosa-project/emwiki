@@ -90,11 +90,11 @@ class CommentView(View):
         return HttpResponse(status=201)
 
 
-@cache_page(60*60*24*365)
+@cache_page(60 * 60 * 24 * 365, cache=settings.MIZAR_VERSION)
 def get_names(request):
     return HttpResponse(
-            serializers.serialize(
-                'json', Article.objects.order_by("name").all()
-            ),
-            content_type='application/json'
-        )
+        serializers.serialize(
+            'json', Article.objects.order_by("name").all()
+        ),
+        content_type='application/json'
+    )

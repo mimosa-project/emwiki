@@ -34,7 +34,6 @@ ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(' ')
 
 INSTALLED_APPS = [
     'article.apps.ArticleConfig',
-    'content.apps.ContentConfig',
     'symbol.apps.SymbolConfig',
     'home.apps.HomeConfig',
     'search.apps.SearchConfig',
@@ -117,6 +116,8 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
+
+MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 
 # Internationalization

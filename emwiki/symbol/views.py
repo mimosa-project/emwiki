@@ -32,7 +32,8 @@ class SymbolView(View):
         return render(request, 'symbol/index.html', context)
 
 
-@cache_page(60*60*24*365)
+
+@cache_page(60 * 60 * 24 * 365, cache=settings.MIZAR_VERSION)
 def get_names(request):
     return HttpResponse(
             serializers.serialize(
