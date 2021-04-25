@@ -1,20 +1,32 @@
-from collections import OrderedDict
 import glob
 import os
 import shutil
+from collections import OrderedDict
 
+from django.conf import settings
 from lxml import html
 from tqdm import tqdm
 
-from article.models import Article
-from content.html_builder import HtmlBuilder
-from content.html_file import HtmlFile
-from emwiki.settings import RAW_HTMLIZEDMML_DIR, PRODUCT_HTMLIZEDMML_DIR
+
+class HtmlFile:
+
+    def __init__(self, path):
+        self.path = path
+        self.root = None
+
+    def read(self):
+        self.root = html.parse(self.path)
+
+    def write(self):
+        text = html.tostring(self.root, pretty_print=True,
+                             encoding='utf-8').decode('utf-8')
+        with open(self.path, mode='w') as f:
+            f.write(text)
 
 
-class HtmlizedMmlBuilder(HtmlBuilder):
-    from_dir = RAW_HTMLIZEDMML_DIR
-    to_dir = PRODUCT_HTMLIZEDMML_DIR
+class HtmlizedMmlBuilder:
+    from_dir = settings.RAW_HTMLIZEDMML_DIR
+    to_dir = settings.PRODUCT_HTMLIZEDMML_DIR
 
     def delete_files(self):
         if os.path.exists(self.to_dir):

@@ -55,6 +55,7 @@ git clone {your forked origin repository}
 #### 開発環境
 + `.devcontainer/.env`を、`.devcontainer/.env-sample`を元に新たに作成する
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
+  + `MIZAR_VERSION`を再設定する
     + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkして、ForkしたレポジトリのURLに書き換える
   + その他の変更は、原則必要なし
 + `.devcontainer/.env.db`を、`.devcontainer/.env.db-sample`を元に新たに作成する
@@ -68,6 +69,7 @@ git clone {your forked origin repository}
   + **(must)**`COMMENT_COMMIT_BRANCH`を`mml_commented`に設定
   + **(must)**`SQL_USER`を再設定
   + **(must)**`SQL_PASSWORD`を再設定
+  + **(must)**`MIZAR_VERSION`を再設定
   + その他の設定を適宜再設定
 + `.env.db`を、`.env.db-sample`を元に新たに作成
   + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
@@ -134,11 +136,14 @@ docker-compose up -d --build
 + 独自コマンド(実行する必要なし)
   + MML, HTMLizedMMLファイルの加工
   ```
-  python manage.py generate_files all
+  python manage.py build_htmlizedmml
+  python manage.py build_mmlreference
+  python manage.py build_search_data
   ```
   + Article, Comment, Symbolの登録
   ```
-  python manage.py register_db all
+  python manage.py load_articles
+  python manage.py load_symbols
   ```
 
 + コンテナ作成・起動後、実行方法は通常通り(コンテナ内で実行)

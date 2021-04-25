@@ -1,14 +1,17 @@
 import glob
 import os
+
+from django.conf import settings
 from tqdm import tqdm
 
 from article.models import Article, Comment
-from content.content_builder import ContentBuilder
-from emwiki.settings import MIZFILE_DIR
 
 
-class ArticleBuilder(ContentBuilder):
-    from_dir = MIZFILE_DIR
+class ArticleBuilder:
+    from_dir = settings.MIZFILE_DIR
+
+    def __init__(self):
+        self.objects = []
 
     def delete_models(self):
         Article.objects.all().delete()
@@ -18,7 +21,8 @@ class ArticleBuilder(ContentBuilder):
     def create_models(self):
         html_paths = glob.glob(os.path.join(self.from_dir, "*.miz"))
         articles = []
-        for from_path in tqdm(html_paths, desc='Creating Article, Comment Models'):
+        for from_path in tqdm(
+                html_paths, desc='Creating Article, Comment Models'):
             basename = os.path.basename(from_path)
             name = os.path.splitext(basename)[0]
             article = Article(name)
