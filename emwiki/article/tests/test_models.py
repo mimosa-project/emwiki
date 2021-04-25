@@ -1,13 +1,9 @@
-import os
-import re
-import shutil
-
 from django.template.loader import get_template
 from django.test import TestCase, Client
 
 from article.article_builder import ArticleBuilder
 from article.models import Article, Comment
-from emwiki.settings import TEST_RAW_MIZFILE_DIR, TEST_MIZFILE_DIR
+from django.conf import settings
 
 
 class ArticleTest(TestCase):
@@ -15,7 +11,7 @@ class ArticleTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = TEST_RAW_MIZFILE_DIR
+        cls.builder.from_dir = settings.TEST_RAW_MIZFILE_DIR
         cls.builder.create_models()
 
     @classmethod
@@ -40,7 +36,7 @@ class CommentTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = TEST_MIZFILE_DIR
+        cls.builder.from_dir = settings.TEST_MIZFILE_DIR
         cls.builder.create_models()
         cls.article = Article.objects.get(name='abcmiz_0')
 
@@ -50,9 +46,11 @@ class CommentTest(TestCase):
 
     def test_attributes(self):
         comment_answers = [
-            {'block': 'registration', 'block_order': 1, 'text': 'This is test\nline 2\nline 3'},
+            {'block': 'registration', 'block_order': 1,
+                'text': 'This is test\nline 2\nline 3'},
             {'block': 'definition', 'block_order': 1, 'text': '\nThis is test\n'},
-            {'block': 'definition', 'block_order': 2, 'text': '$$This is test of MathJax$$\n$\star $'},
+            {'block': 'definition', 'block_order': 2,
+                'text': '$$This is test of MathJax$$\n$\star $'},
         ]
         for comment_answer in comment_answers:
             comment = Comment.objects.get(
@@ -61,5 +59,6 @@ class CommentTest(TestCase):
             )
             self.assertEqual(comment.article, self.article)
             self.assertEqual(comment.block, comment_answer['block'])
-            self.assertEqual(comment.block_order, comment_answer['block_order'])
+            self.assertEqual(comment.block_order,
+                             comment_answer['block_order'])
             self.assertEqual(comment.text, comment_answer['text'])

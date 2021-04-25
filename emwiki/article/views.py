@@ -1,16 +1,16 @@
 import os
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.urls import reverse
-from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 
 from .models import Article, Comment
-from emwiki.settings import RAW_HTMLIZEDMML_DIR
 
 
 class ArticleView(View):
@@ -34,7 +34,8 @@ class ArticleView(View):
 class ProofView(View):
     def get(self, request, article_name, proof_name):
         return HttpResponse(
-            open(os.path.join(RAW_HTMLIZEDMML_DIR, 'proofs', article_name, proof_name)).read(),
+            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR, 'proofs',
+                 article_name, proof_name)).read(),
             content_type='application/xml'
         )
 
@@ -42,7 +43,8 @@ class ProofView(View):
 class RefView(View):
     def get(self, request, article_name, ref_name):
         return HttpResponse(
-            open(os.path.join(RAW_HTMLIZEDMML_DIR, 'refs', article_name, ref_name)).read(),
+            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR,
+                 'refs', article_name, ref_name)).read(),
             content_type='application/xml'
         )
 
@@ -53,7 +55,8 @@ class CommentView(View):
         query = Comment.objects
         if 'article_name' in request.GET:
             query = query.filter(
-                article=Article.objects.get(name=request.GET.get("article_name"))
+                article=Article.objects.get(
+                    name=request.GET.get("article_name"))
             )
         if 'block' in request.GET:
             query = query.filter(
@@ -75,9 +78,11 @@ class CommentView(View):
         text = request.POST.get('comment', None)
         article = Article.objects.get(name=article_name)
         if Comment.objects.filter(article=article, block=block, block_order=block_order).exists():
-            comment = Comment.objects.get(article=article, block=block, block_order=block_order)
+            comment = Comment.objects.get(
+                article=article, block=block, block_order=block_order)
         else:
-            comment = Comment(article=article, block=block, block_order=block_order, text='')
+            comment = Comment(article=article, block=block,
+                              block_order=block_order, text='')
         comment.text = text
         comment.save()
         article.save_db2mizfile()

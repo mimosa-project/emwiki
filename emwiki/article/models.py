@@ -1,25 +1,23 @@
-import git
 import os
 
+import git
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
-from emwiki.settings import PRODUCT_HTMLIZEDMML_DIR,\
-     MIZFILE_DIR, LOCAL_COMMENT_REPOSITORY_DIR, COMMENT_COMMIT_BRANCH,\
-     REMOTE_COMMENT_REPOSITORY_URL
 from article.miz_text_converter import MizTextConverter
 
 
 class Article(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    mizfile_dir = MIZFILE_DIR
+    mizfile_dir = settings.MIZFILE_DIR
 
     def __str__(self):
         return f'{self.name}'
 
     @classmethod
     def get_htmlfile_dir(cls):
-        return PRODUCT_HTMLIZEDMML_DIR
+        return settings.PRODUCT_HTMLIZEDMML_DIR
 
     @property
     def template_url(self):
@@ -74,10 +72,10 @@ class Article(models.Model):
             f.write(commented_text)
 
     def commit_mizfile(self, username):
-        repo = git.Repo(LOCAL_COMMENT_REPOSITORY_DIR)
+        repo = git.Repo(settings.LOCAL_COMMENT_REPOSITORY_DIR)
         repo.config_writer().set_value("user", "name", "emwiki").release()
         repo.config_writer().set_value("user", "email", "emwiki-email").release()
-        repo.git.checkout(COMMENT_COMMIT_BRANCH)
+        repo.git.checkout(settings.COMMENT_COMMIT_BRANCH)
         commit_message = f'Update {self.name}\n\nUsername: {username}'
         repo.git.add(self.get_mizfile_path())
         repo.index.commit(commit_message)

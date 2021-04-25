@@ -1,7 +1,7 @@
 import os
 
 from article.downloader import Downloader
-from emwiki.settings import TEST_DOWNLOAD_MML_DIR, TEST_DOWNLOAD_HTML_DIR
+from django.conf import settings
 from django.test import TestCase
 
 
@@ -31,10 +31,10 @@ class DownloaderTest(TestCase):
 
         mml_downloader.read_index()
         mml_downloader.urls = mml_downloader.urls[:5]
-        mml_downloader.download(TEST_DOWNLOAD_MML_DIR)
-        self.assertEqual(len(os.listdir(TEST_DOWNLOAD_MML_DIR)), 6)
+        mml_downloader.download(settings.TEST_DOWNLOAD_MML_DIR)
+        self.assertEqual(len(os.listdir(settings.TEST_DOWNLOAD_MML_DIR)), 6)
 
         html_downloader.read_index()
         html_downloader.urls = html_downloader.urls[:5]
-        html_downloader.download(TEST_DOWNLOAD_HTML_DIR)
-        self.assertEqual(len(os.listdir(TEST_DOWNLOAD_HTML_DIR)), 6)
+        html_downloader.download(settings.TEST_DOWNLOAD_HTML_DIR)
+        self.assertEqual(len(os.listdir(settings.TEST_DOWNLOAD_HTML_DIR)), 6)

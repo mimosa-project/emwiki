@@ -1,6 +1,6 @@
 from symbol.symbol_builder import SymbolBuilder
 from symbol.models import Symbol
-from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
+from django.conf import settings
 from django.test import TestCase
 
 
@@ -9,7 +9,7 @@ class SymbolBuilderTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.builder = SymbolBuilder()
-        cls.builder.from_dir = TEST_RAW_HTMLIZEDMML_DIR
+        cls.builder.from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
 
     def test_delete_models(self):
         self.builder.create_models()

@@ -6,7 +6,7 @@ from django.template.exceptions import TemplateSyntaxError
 
 from symbol.symbol_builder import SymbolBuilder
 from symbol.models import Symbol
-from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
+from django.conf import settings
 
 
 class SymbolTest(TestCase):
@@ -14,7 +14,7 @@ class SymbolTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = SymbolBuilder()
-        cls.builder.from_dir = TEST_RAW_HTMLIZEDMML_DIR
+        cls.builder.from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
         cls.builder.create_models()
 
     @classmethod

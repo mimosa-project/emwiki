@@ -2,7 +2,7 @@ import os
 from unittest import TestCase
 
 from symbol.symbol_maker.reader import Reader
-from emwiki.settings import TEST_RAW_HTMLIZEDMML_DIR
+from django.conf import settings
 
 
 class TestElement(TestCase):
@@ -15,7 +15,7 @@ class TestElement(TestCase):
         pass
 
     def read_by_name(self, name):
-        path = os.path.join(TEST_RAW_HTMLIZEDMML_DIR, name + ".html")
+        path = os.path.join(settings.TEST_RAW_HTMLIZEDMML_DIR, name + ".html")
         path = path.replace('\\', '/')
         reader = Reader()
         reader.read(path)

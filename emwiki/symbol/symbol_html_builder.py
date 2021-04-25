@@ -1,14 +1,13 @@
 import os
 import shutil
 
-from content.html_builder import HtmlBuilder
 from symbol.models import Symbol
 from symbol.symbol_maker.processor import Processor
-from emwiki.settings import RAW_HTMLIZEDMML_DIR
+from django.conf import settings
 
 
-class SymbolHtmlBuilder(HtmlBuilder):
-    from_dir = RAW_HTMLIZEDMML_DIR
+class SymbolHtmlBuilder:
+    from_dir = settings.RAW_HTMLIZEDMML_DIR
     to_dir = Symbol.get_htmlfile_dir()
 
     def delete_files(self):
@@ -17,7 +16,7 @@ class SymbolHtmlBuilder(HtmlBuilder):
         os.mkdir(self.to_dir)
 
     def create_files(self):
-        print(f'Building Files')
+        print('Building Files')
         print(f'    from {self.from_dir}')
         print(f'    to   {self.to_dir}')
         processor = Processor()

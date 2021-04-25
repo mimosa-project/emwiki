@@ -1,11 +1,14 @@
 from symbol.models import Symbol
 from symbol.symbol_maker.processor import Processor
-from content.content_builder import ContentBuilder
-from emwiki.settings import RAW_HTMLIZEDMML_DIR
+
+from django.conf import settings
 
 
-class SymbolBuilder(ContentBuilder):
-    from_dir = RAW_HTMLIZEDMML_DIR
+class SymbolBuilder:
+    from_dir = settings.RAW_HTMLIZEDMML_DIR
+
+    def __init__(self):
+        self.objects = []
 
     def delete_models(self):
         Symbol.objects.all().delete()
@@ -20,4 +23,4 @@ class SymbolBuilder(ContentBuilder):
             symbol = Symbol(name=content.symbol, filename=content.filename())
             symbols.append(symbol)
         Symbol.objects.bulk_create(symbols)
-        print(f'Created Symbols')
+        print('Created Symbols')

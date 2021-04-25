@@ -3,7 +3,7 @@ import os
 from django.db import models
 from django.urls import reverse
 
-from emwiki.settings import PRODUCT_SYMBOLHTML_DIR
+from django.conf import settings
 
 
 class Symbol(models.Model):
@@ -15,7 +15,7 @@ class Symbol(models.Model):
 
     @classmethod
     def get_htmlfile_dir(cls):
-        return PRODUCT_SYMBOLHTML_DIR
+        return settings.PRODUCT_SYMBOLHTML_DIR
 
     @property
     def template_path(self):
