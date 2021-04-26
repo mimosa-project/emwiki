@@ -9,35 +9,28 @@ $(function(){
         wheelSensitivity: 0.1
     });
     let graph = JSON.parse(document.getElementById('graph_elements').textContent);
-    for(let i in graph["elements"]["nodes"]){
-        for(let j in graph["elements"]["nodes"][i]){
-            cy.add({
-                group: "nodes",
-                data:{
-                    id: graph["elements"]["nodes"][i][j]["id"],
-                    name: graph["elements"]["nodes"][i][j]["name"],
-                    href: graph["elements"]["nodes"][i][j]["href"]
-                },
-                position:{
-                    x: (graph["elements"]["nodes"][i][j]["x"] + 1) * 300,
-                    y: (graph["elements"]["nodes"][i][j]["y"] + 1) * 300
-                }
-            });
-        }
-    }
-    // Add edges to a graph
-    for(let i in graph["elements"]["edges"]){
-        for(let j in graph["elements"]["edges"][i]){
-            cy.add({
-                group: "edges",
-                data:{
-                    source: graph["elements"]["edges"][i][j]["source"],
-                    target: graph["elements"]["edges"][i][j]["target"]
-                }
-            });
-        }
-    }
+    let nodes = graph["elements"]["nodes"];
+    let edges = graph["elements"]["edges"];
+    let nodes_and_edges = [];
 
+    for(let i in nodes){
+        for(let j in nodes[i]){
+            let node = {};
+            node["group"] = "nodes";
+            node["data"] = {"id": nodes[i][j]["id"], "name": nodes[i][j]["name"], "href": nodes[i][j]["href"]};
+            node["position"] = {"x": (nodes[i][j]["x"] + 1) * 300, "y": (nodes[i][j]["y"] + 1) * 300};
+            nodes_and_edges.push(node);
+        }
+    }
+    for(let i in edges){
+        for(let j in edges[i]){
+            let edge = {};
+            edge["group"] = "edges";
+            edge["data"] = {"source":edges[i][j]["source"], "target":edges[i][j]["target"]};
+            nodes_and_edges.push(edge);
+        }
+    }
+    cy.add(nodes_and_edges);
     // Set graph style
     cy.style([
         // Initial style
@@ -216,10 +209,10 @@ $(function(){
         // dropdownで選択したノード名、または記述したノード名を取得
         let select_node_name = $("#article_name").val();
         let select_node = cy.nodes().filter(function(ele){
-            return ele.data("name") == select_node_name;
+            return ele.data("name") === select_node_name;
         });
         // ノードが存在するか確認し、処理
-        if(select_node.data("name")){
+        if(select_node.length){
             reset_elements_style(cy);
             cy.$(select_node).addClass("selected");
             highlight_select_elements(cy, select_node, ancestor_generations, descendant_generations);
@@ -311,35 +304,35 @@ function highlight_select_elements(cy, select_node, ancestor_generations, descen
 
 
 /**
- * 選択したノード(select_node)とその祖先または子孫を任意の世代数(generations)までを
+ * 選択したノード(select_node)とその祖先または子孫を任意の世代数(generation)までを
  * 強調表示するクラスに追加する。
  * アルゴリズム
  *      次の処理を辿りたい世代数まで繰り返す
-            1. node_to_get_connectionの親(もしくは子)ノードとそのエッジを強調表示させるクラスに追加する
-            2. 1でクラスに追加したノードをnode_to_get_connectionとして更新する
-            3. 2でnode_to_get_connectionが空ならループを中断する
+            1. first_connected_elementsの親(もしくは子)ノードとそのエッジを強調表示させるクラスに追加する
+            2. 1でクラスに追加したノードをfirst_connected_elementsとして更新する
+            3. 2でfirst_connected_elementsが空ならループを中断する
  * @param {cytoscape object} cy cytoscapeのグラフ本体
- * @param {int} generations 辿りたい世代数
+ * @param {int} generation 辿りたい世代数
  * @param {cytoscape object} select_node 選択したノード
  * @param {boolean} is_ancestor 辿りたいのは祖先かどうか。trueなら祖先、falseなら子孫を強調表示させていく。
  * @return
 **/
-function highlight_connected_elements(cy, generations, select_node, is_ancestor){
-    let node_to_get_connection = cy.collection();  // 親(もしくは子)を取得したいノードのコレクション（≒リスト）
-    node_to_get_connection = node_to_get_connection.union(select_node);
-    for (let i=0; i<generations; i++){
+function highlight_connected_elements(cy, generation, select_node, is_ancestor){
+    let first_connected_elements = cy.collection();  // 親(もしくは子)を取得したいノードのコレクション（≒リスト）
+    first_connected_elements = first_connected_elements.union(select_node);
+    for (let i=0; i<generation; i++){
         let class_name = is_ancestor ? "selected_ancestors" : "selected_descendants";
         class_name += Math.min(9, i);
-        let next_node_to_get_connection = cy.collection();
-        cy.$(node_to_get_connection).forEach(function(n){
+        let second_connected_elements = cy.collection();
+        cy.$(first_connected_elements).forEach(function(n){
             let connect_elements = is_ancestor ? n.outgoers() : n.incomers();
             connect_elements = connect_elements.difference(cy.$(connect_elements).filter(".highlight"));
             cy.$(connect_elements).addClass("highlight");
             cy.$(connect_elements).nodes().addClass(class_name);
-            next_node_to_get_connection = next_node_to_get_connection.union(connect_elements.nodes());
+            second_connected_elements = second_connected_elements.union(connect_elements.nodes());
         });
-        node_to_get_connection = next_node_to_get_connection;
-        if (node_to_get_connection.length === 0){
+        first_connected_elements = second_connected_elements;
+        if (first_connected_elements.length === 0){
             break;
         }
     }
