@@ -1,9 +1,6 @@
 #!/bin/sh
 
-python /workspace/emwiki/manage.py makemigrations
-python /workspace/emwiki/manage.py migrate
-python /workspace/emwiki/manage.py generate_files all
-python /workspace/emwiki/manage.py register_db all
-python /workspace/emwiki/manage.py collectstatic --noinput
-
+pipenv sync
+pipenv run python /workspace/emwiki/emwiki/manage.py migrate
+pipenv run python /workspace/emwiki/emwiki/manage.py register_db all
 exec "$@"
