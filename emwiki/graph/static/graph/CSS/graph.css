@@ -1,6 +1,6 @@
 #graph{
-    position: relative;
-    height: 755px;
-    width: 1910px;
+    position: absolute;
+    height: 80%;
+    width: 100%;
     background-color: #f0f0f0;
 }
