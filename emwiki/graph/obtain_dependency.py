@@ -10,20 +10,12 @@ CATEGORIES = ['vocabularies', 'constructors', 'notations', 'registrations', 'the
 
 def make_miz_dependency():
     """
-    各カテゴリ内で参照しているファイルを取得する。
+    articleが参照しているarticle郡を取得する．
+    参照しているarticle=環境部に記載されたarticle（ただし，vocabulariesを除く）
     Args:
     Return:
-        miz_file_dict: 各カテゴリ(vocabularies, constructors等)において、各ライブラリが
-                       どのライブラリを参照しているかを示す辞書。
-                       例：lib_aがlib_x, lib_y, ... をvocabulariesで参照している場合、
-                        miz_file_dict = {
-                            'vocabularies': {
-                                'lib_a': {'lib_x', 'lib_y', ...},
-                                ...
-                            }
-                            'constructors': { ... },
-                            ...
-                        }
+        article2dependency: keyがarticle名，valueがkeyのarticleが参照しているarticle郡．
+                            key: str(), value: set()
     """
     cwd = os.getcwd()
     try:
@@ -119,9 +111,10 @@ def merge_values(key2list, remove_keys=list()):
     valueがlistのdictについて，そのvalueをマージする．
     その後，重複を取り除く．
     Args: 
-        key2list: valueがlistのdict
-        remove_keys: マージしたくないkeyがある場合は記述する
+        key2list: valueがlist()の辞書
+        remove_keys: マージしたくない項目がある場合は，ここに記述することで取り除くことができる
     Return:
+        merge_values_set: key2listのvalueをマージしたもの．set()．
         
     """
     merge_values = []
