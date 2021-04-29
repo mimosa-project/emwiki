@@ -6,15 +6,12 @@ services:
       context: ..
       dockerfile: ./.prodcontainer/Dockerfile
     volumes:
-      - ..:/workspace:cached
-      - static-volume:/workspace/emwiki/staticfiles
-      - media-volume:/workspace/emwiki/mediafiles
-      - emwiki-contents-volume:/workspace/emwiki/mizarfiles/emwiki-contents:cached
+      - ..:/workspace/emwiki:cached
+      - static-volume:/workspace/emwiki/emwiki/staticfiles
+      - media-volume:/workspace/emwiki/emwiki/mediafiles
     expose:
       - "8001"
-    env_file:
-      - .env
-    command: uwsgi --chdir=./workspace/emwiki --mount /emwiki=/workspace/emwiki/emwiki/wsgi.py --manage-script-name --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
+    command: pipenv run uwsgi --chdir=/workspace/emwiki/emwiki --mount /emwiki=/workspace/emwiki/emwiki/emwiki/wsgi.py --manage-script-name --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     depends_on:
       - db
   db:
@@ -22,14 +19,16 @@ services:
     restart: unless-stopped
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    env_file:
-      - .env.db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     expose:
       - "5432"
   nginx:
     image: nginx:latest
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params

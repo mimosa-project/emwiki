@@ -1,12 +1,8 @@
 #!/bin/sh
 
-python /workspace/emwiki/manage.py makemigrations
-python /workspace/emwiki/manage.py migrate
-python /workspace/emwiki/manage.py build_htmlizedmml
-python /workspace/emwiki/manage.py build_mmlreference
-python /workspace/emwiki/manage.py build_search_data
+pipenv sync
+pipenv run python /workspace/emwiki/emwiki/manage.py migrate
 python /workspace/emwiki/manage.py load_articles
 python /workspace/emwiki/manage.py load_symbols
-python /workspace/emwiki/manage.py collectstatic --noinput
 
 exec "$@"

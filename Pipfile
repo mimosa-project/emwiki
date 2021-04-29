@@ -23,6 +23,7 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
+emparser = {path = "./emparser"}
 
 [requires]
 python_version = "3.7"
