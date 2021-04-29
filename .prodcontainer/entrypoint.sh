@@ -2,5 +2,7 @@
 
 pipenv sync
 pipenv run python /workspace/emwiki/emwiki/manage.py migrate
-pipenv run python /workspace/emwiki/emwiki/manage.py register_db all
+python /workspace/emwiki/manage.py load_articles
+python /workspace/emwiki/manage.py load_symbols
+
 exec "$@"

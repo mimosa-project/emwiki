@@ -54,5 +54,5 @@ class SearchTheoremView(TemplateView):
 
         # 検索結果に対するクリック情報を更新
         HistoryItem.update_history_item(id, button_type)
-        
+
         return JsonResponse({'id': id})
