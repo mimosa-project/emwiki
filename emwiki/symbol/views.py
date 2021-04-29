@@ -11,11 +11,7 @@ from .models import Symbol
 
 class SymbolView(View):
     def get(self, request, name):
-        try:
-            symbol = Symbol.objects.get(name=str(name).replace('.html', ''))
-        except Symbol.DoesNotExist:
-            symbol = get_object_or_404(Symbol, filename=name)
-            return redirect(symbol)
+        symbol = Symbol.objects.get(name=str(name).replace('.html', ''))
         context = dict()
         # you can use these variables in index.html
         context["symbol"] = symbol
