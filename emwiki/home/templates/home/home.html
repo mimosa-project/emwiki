@@ -8,7 +8,6 @@
     <div class="container">
       <h1 class="display-3">emwiki</h1>
       <p>This Web application can write a TeX-format description in the Mizar Mathmatical Library (MML), and make the description follow the MML update. This Web application provides users with the function of adding, editing, and browsing description of MML on a Wiki format Web platform. If there is an update to the MML, link the description to the new MML by running the program on the server.</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">GitHub &raquo;</a></p>
     </div>
   </div>
 
@@ -17,13 +16,13 @@
     <div class="row">
       <div class="col-md-4">
         <h2>Article</h2>
-        <p>Under Construction</p>
-        <p><a class="btn btn-secondary" href="{% url 'contents:index' 'Article' 'abcmiz_0'  %}" role="button">Access &raquo;</a></p>
+        <p>You can add comments to the HTMLized MML</p>
+        <p><a class="btn btn-secondary" href="{% url 'article:index' 'abcmiz_0'  %}" role="button">Access &raquo;</a></p>
       </div>
       <div class="col-md-4">
         <h2>Symbol</h2>
-        <p>Under Construction</p>
-        <p><a class="btn btn-secondary" href="{% url 'contents:index' 'Symbol' '!' %}" role="button">Access &raquo;</a></p>
+        <p>You can quickly find symbols.</p>
+        <p><a class="btn btn-secondary" href="{% url 'symbol:index' '!' %}" role="button">Access &raquo;</a></p>
       </div>
       <div class="col-md-4">
         <h2>Search</h2>
@@ -37,7 +36,6 @@
       </div>
     </div>
 
-    <hr>
 
   </div> <!-- /container -->
 

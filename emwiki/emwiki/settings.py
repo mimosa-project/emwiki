@@ -33,9 +33,8 @@ ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(' ')
 # Application definition
 
 INSTALLED_APPS = [
-    'contents.contents.apps.ContentsConfig',
-    'contents.symbol.apps.SymbolConfig',
-    'contents.article.apps.ArticleConfig',
+    'article.apps.ArticleConfig',
+    'symbol.apps.SymbolConfig',
     'home.apps.HomeConfig',
     'search.apps.SearchConfig',
     'accounts.apps.AccountsConfig',
@@ -111,6 +110,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
+
+MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -157,24 +165,19 @@ if DEBUG is True:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-ARTICLE_DIR = os.path.join(BASE_DIR, 'contents', 'article')
-SYMBOL_DIR = os.path.join(BASE_DIR, 'contents', 'symbol')
-CONTENTS_DIR = os.path.join(BASE_DIR, 'contents', 'contents')
+CONTENTS_DIR = os.path.join(BASE_DIR, 'contents')
 
-MIZARFILE_DIR = os.path.join(BASE_DIR, 'contents', 'mizarfiles')
-MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')
+MIZARFILE_DIR = os.path.join(BASE_DIR, 'mizarfiles')
+MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')\
 
 LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
 REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
 COMMENT_COMMIT_BRANCH = os.environ.get('COMMENT_COMMIT_BRANCH')
 
 RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
-PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'static', 'htmlized_mml')
+PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
 
-PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'static', 'symbol_html')
-
-STATIC_ARTICLES_URL = STATIC_URL + "htmlized_mml/"
-STATIC_SYMBOLS_URL = STATIC_URL + "symbol_html/"
+PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
 
 ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
 VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)

@@ -26,7 +26,7 @@ COPY . /workspace/
 
 # Install dependencies global
 WORKDIR /workspace
-RUN pipenv install --system --skip-lock
+RUN pipenv install --system --skip-lock --dev
 WORKDIR /
 
 RUN ["sh", "/workspace/.devcontainer/entrypoint.sh"]
