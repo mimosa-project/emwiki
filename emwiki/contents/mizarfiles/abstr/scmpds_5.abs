@@ -1,0 +1,349 @@
+:: Computation of Two Consecutive Program Blocks for SCMPDS
+::  by JingChao Chen
+::
+:: Received June 15, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, SCMPDS_2, AMI_1, FSM_1, INT_1, SETFAM_1,
+      RELAT_1, SCMFSA_7, CARD_1, SCMPDS_4, FUNCT_1, AMISTD_2, VALUED_1,
+      ARYTM_3, TARSKI, XXREAL_0, TURING_1, FUNCT_4, XBOOLE_0, SCMFSA6B,
+      CIRCUIT2, GRAPHSP, MSUALG_1, AMI_2, AMI_3, SCMPDS_1, COMPLEX1, STRUCT_0,
+      ARYTM_1, NAT_1, SCMPDS_5, PARTFUN1, EXTPRO_1, SCMFSA6C, COMPOS_1,
+      SCMFSA6A;
+ notations TARSKI, XBOOLE_0, XTUPLE_0, SETFAM_1, ENUMSET1, SUBSET_1, CARD_1,
+      ORDINAL1, NUMBERS, XCMPLX_0, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_4, INT_1,
+      NAT_1, STRUCT_0, MEMSTR_0, COMPOS_0, COMPOS_1, EXTPRO_1, VALUED_1, AMI_2,
+      FUNCT_7, SCMPDS_I, SCMPDS_1, SCMPDS_2, INT_2, SCMPDS_4, XXREAL_0;
+ constructors ENUMSET1, XXREAL_0, REAL_1, INT_2, SCMPDS_1, SCMPDS_4, PRE_POLY,
+      DOMAIN_1, AMI_3, NAT_D, MEMSTR_0, RELSET_1, XTUPLE_0;
+ registrations XREAL_0, INT_1, SCMPDS_2, SCMPDS_4, ORDINAL1, AFINSQ_1,
+      COMPOS_1, EXTPRO_1, FUNCT_4, MEMSTR_0, AMI_3, COMPOS_0, XTUPLE_0, NAT_1;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve x for set,
+  m,n for Nat,
+  a,b,c for Int_position,
+  i for Instruction of SCMPDS,
+  s,s1,s2 for State of SCMPDS,
+  k1,k2 for Integer,
+  loc,l1 for Nat,
+  I,J for Program of SCMPDS,
+  N for with_non-empty_elements set;
+
+::$CT 11
+
+theorem :: SCMPDS_5:12
+  for I,J being Program of SCMPDS holds I c= stop (I ';' J);
+
+theorem :: SCMPDS_5:13
+  dom stop I c= dom stop (I ';' J);
+
+theorem :: SCMPDS_5:14
+  for I,J being Program of SCMPDS holds
+   stop I +* stop (I ';' J) = stop (I ';' J);
+
+theorem :: SCMPDS_5:15
+  (Initialize s).a = s.a;
+
+reserve P,P1,P2,Q for Instruction-Sequence of SCMPDS;
+
+theorem :: SCMPDS_5:16
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS
+    st stop I c= P1 & stop I c= P2
+  for k being Nat holds
+    Comput(P1,s,k) =  Comput(P2,s,k) &
+   CurInstr(P1,Comput(P1,s,k)) = CurInstr(P2,Comput(P2,s,k));
+
+theorem :: SCMPDS_5:17
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS
+   st stop I c= P1 & stop I c= P2
+  holds LifeSpan(P1,s) = LifeSpan(P2,s) &
+   Result(P1,s) =  Result(P2,s);
+
+::$CT
+
+theorem :: SCMPDS_5:19
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS, J being Program of SCMPDS
+   st stop I c= P
+  for m st m <= LifeSpan(P,s)
+   holds  Comput(P,s,m) =  Comput(P+*(I ';' J),s,m);
+
+theorem :: SCMPDS_5:20
+ for s being 0-started State of SCMPDS
+ for I being parahalting Program of SCMPDS, J being Program of SCMPDS
+   st stop I c= P
+ for m st m <= LifeSpan(P,s)
+ holds  Comput(P,s,m) =  Comput(P+*stop(I ';' J), s,m);
+
+begin :: Non halting instrutions and parahalting instrutions
+
+definition
+::$CD
+  let i be Instruction of SCMPDS;
+  attr i is parahalting means
+:: SCMPDS_5:def 2
+
+  Load i is parahalting;
+end;
+
+registration
+  cluster No-StopCode shiftable parahalting for Instruction of SCMPDS;
+end;
+
+theorem :: SCMPDS_5:21
+  goto k1 is No-StopCode;
+
+registration
+  let a;
+  cluster return a -> No-StopCode;
+end;
+
+registration
+  let a,k1;
+  cluster a := k1 -> No-StopCode;
+  cluster saveIC(a,k1) -> No-StopCode;
+end;
+
+registration
+  let a,k1,k2;
+  cluster (a,k1)<>0_goto k2 -> No-StopCode;
+  cluster (a,k1)<=0_goto k2 -> No-StopCode;
+  cluster (a,k1)>=0_goto k2 -> No-StopCode;
+  cluster (a,k1) := k2 -> No-StopCode;
+end;
+
+registration
+  let a,k1,k2;
+  cluster AddTo(a,k1,k2) -> No-StopCode;
+end;
+
+registration
+  let a,b,k1,k2;
+  cluster AddTo(a,k1,b,k2) -> No-StopCode;
+  cluster SubFrom(a,k1,b,k2) -> No-StopCode;
+  cluster MultBy(a,k1,b,k2) -> No-StopCode;
+  cluster Divide(a,k1,b,k2) -> No-StopCode;
+  cluster (a,k1) := (b,k2) -> No-StopCode;
+end;
+
+registration
+  cluster halt SCMPDS -> parahalting;
+end;
+
+registration
+  let i be parahalting Instruction of SCMPDS;
+  cluster Load i -> parahalting for Program of SCMPDS;
+end;
+
+registration
+  let a,k1;
+  cluster a := k1 -> parahalting;
+end;
+
+registration
+  let a,k1,k2;
+  cluster (a,k1) := k2 -> parahalting;
+  cluster AddTo(a,k1,k2) -> parahalting;
+end;
+
+registration
+  let a,b,k1,k2;
+  cluster AddTo(a,k1,b,k2) -> parahalting;
+  cluster SubFrom(a,k1,b,k2) -> parahalting;
+  cluster MultBy(a,k1,b,k2) -> parahalting;
+  cluster Divide(a,k1,b,k2) -> parahalting;
+  cluster (a,k1) := (b,k2) -> parahalting;
+end;
+
+theorem :: SCMPDS_5:22
+  InsCode i =1 implies i is not parahalting;
+
+registration
+  cluster parahalting shiftable halt-free for Program of SCMPDS;
+end;
+
+registration
+  let I,J be halt-free Program of SCMPDS;
+  cluster I ';' J -> halt-free;
+end;
+
+registration :: musi byc do najmniej jedna instrukcja rozna of halt
+:: nie moze to byc np. Trivial-AMI
+  let i be No-StopCode Instruction of SCMPDS;
+  cluster Load i -> halt-free;
+end;
+
+registration
+  let i be No-StopCode Instruction of SCMPDS, J be halt-free Program of
+  SCMPDS;
+  cluster i ';' J -> halt-free;
+end;
+
+registration
+  let I be halt-free Program of SCMPDS, j be No-StopCode Instruction of
+  SCMPDS;
+  cluster I ';' j -> halt-free;
+end;
+
+registration
+  let i,j be No-StopCode Instruction of SCMPDS;
+  cluster i ';' j -> halt-free;
+end;
+
+theorem :: SCMPDS_5:23
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS st stop I c= P
+   holds IC Comput(P, s,LifeSpan(P +* stop I,s)) =  card I;
+
+theorem :: SCMPDS_5:24
+ for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS,k be Nat st
+     k < LifeSpan(P +* stop I,s)
+ holds IC Comput(P +* stop I,s,k) in dom I;
+
+theorem :: SCMPDS_5:25
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS,k be Nat st
+    I c= P & k <= LifeSpan(P +* stop I,s)
+   holds Comput(P, s,k) = Comput(P +* stop I,s,k);
+
+theorem :: SCMPDS_5:26
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS st I c= P
+   holds IC Comput(P,s,LifeSpan(P +* stop I,s)) =  card I;
+
+theorem :: SCMPDS_5:27
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS st I c= P
+  holds CurInstr(P,Comput(P, s,LifeSpan(P +* stop I,s))) = halt SCMPDS
+    or IC Comput(P, s,LifeSpan(P +* stop I,s)) = card I;
+
+theorem :: SCMPDS_5:28
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS,k being Nat
+   st I c= P & k < LifeSpan(P +* stop I,s)
+  holds CurInstr(P,Comput(P,s,k)) <> halt SCMPDS;
+
+theorem :: SCMPDS_5:29
+ for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS,
+      J being Program of SCMPDS, k being Nat
+   st k <= LifeSpan(P +* stop I,s)
+ holds Comput(P +* stop I,s,k) = Comput(P+*(I ';' J),s,k);
+
+theorem :: SCMPDS_5:30
+  for s being 0-started State of SCMPDS
+  for I being parahalting Program of SCMPDS,J being Program of SCMPDS,
+      k being Nat st k <= LifeSpan(P +* stop I,s)
+  holds  Comput(P +* stop I, s,k) =  Comput(P+*stop(I ';' J),s,k);
+
+registration
+  let I be parahalting Program of SCMPDS,
+      J be parahalting shiftable Program of SCMPDS;
+  cluster I ';' J -> parahalting for Program of SCMPDS;
+end;
+
+registration
+  let i be parahalting Instruction of SCMPDS, J be parahalting shiftable
+  Program of SCMPDS;
+  cluster i ';' J -> parahalting;
+end;
+
+registration
+  let I be parahalting Program of SCMPDS, j be parahalting shiftable
+  Instruction of SCMPDS;
+  cluster I ';' j -> parahalting;
+end;
+
+registration
+  let i be parahalting Instruction of SCMPDS, j be parahalting shiftable
+  Instruction of SCMPDS;
+  cluster i ';' j -> parahalting;
+end;
+
+theorem :: SCMPDS_5:31
+  for s being State of SCMPDS, s1 being 0-started State of SCMPDS,
+      J being parahalting shiftable Program of SCMPDS
+    st stop J c= P & s = Comput(P1 +* stop J, s1,m)
+  holds Exec(CurInstr(P,s),IncIC(s,n)) = IncIC(Following(P,s),n);
+
+begin :: Computation of two consecutive program blocks
+
+theorem :: SCMPDS_5:32
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS,J being
+  parahalting shiftable Program of SCMPDS,k being Nat st
+  stop (I ';' J) c= P holds
+   IncIC(Comput(P +* stop I +* stop J,
+     Initialize Result(P +* stop I,s),k),card I)
+  =  Comput(P+*stop(I ';' J),s,LifeSpan(P +* stop I,s)+k);
+
+theorem :: SCMPDS_5:33
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS,
+      J being parahalting shiftable Program of SCMPDS holds
+  LifeSpan(P+*stop(I ';' J), s)
+   = LifeSpan(P +* stop I,s) +
+     LifeSpan(P +* stop I +* stop J,Initialize Result(P +* stop I,s));
+
+theorem :: SCMPDS_5:34
+  for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS,J being
+parahalting shiftable Program of SCMPDS holds IExec(I ';' J,P,s)
+ = IncIC(IExec(J,P,Initialize IExec(I,P,s)),card I);
+
+theorem :: SCMPDS_5:35
+ for s being 0-started State of SCMPDS
+ for I being parahalting halt-free Program of SCMPDS,J being
+  parahalting shiftable Program of SCMPDS holds IExec(I ';' J,P,s).a
+   = IExec(J,P,Initialize IExec(I,P,s)).a;
+
+begin :: Computation of the program consisting of a instruction and a block
+
+::$CT
+
+theorem :: SCMPDS_5:37
+ s1 | (SCM-Data-Loc \/ {IC SCMPDS})
+  = s2 | (SCM-Data-Loc \/ {IC SCMPDS}) implies s1 =  s2;
+
+theorem :: SCMPDS_5:38
+  DataPart s1 = DataPart s2 & InsCode i <> 3 implies
+   DataPart Exec(i,s1) = DataPart Exec(i,s2);
+
+theorem :: SCMPDS_5:39
+  for i being shiftable Instruction of SCMPDS holds (DataPart s1 =
+  DataPart s2 implies DataPart Exec(i,s1) = DataPart Exec(i,s2));
+
+theorem :: SCMPDS_5:40
+ for s being 0-started State of SCMPDS
+  for i being parahalting Instruction of SCMPDS
+   holds Exec(i,s) = IExec(Load i,P,s);
+
+theorem :: SCMPDS_5:41
+ for s being 0-started State of SCMPDS
+  for I being parahalting halt-free Program of SCMPDS,
+      j being parahalting shiftable Instruction of SCMPDS
+ holds IExec(I ';' j,P,s).a = Exec(j,IExec(I,P,s)).a;
+
+theorem :: SCMPDS_5:42
+  for s being 0-started State of SCMPDS
+  for i being No-StopCode parahalting Instruction of SCMPDS,
+      j being shiftable parahalting Instruction of SCMPDS
+ holds IExec(i ';' j,P,s).a = Exec(j,Exec(i, s)).a;
+

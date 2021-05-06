@@ -1,0 +1,1234 @@
+:: About Supergraphs, {P}art {III}
+::  by Sebastian Koch
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, RELAT_1, FUNCT_1, XXREAL_0, TARSKI,
+      ORDINAL4, ARYTM_3, CARD_1, XBOOLE_0, NAT_1, ARYTM_1, GLIB_000, PBOOLE,
+      FINSET_1, ZFMISC_1, RELAT_2, GLIB_002, FUNCOP_1, TREES_1, GLIB_001,
+      FUNCT_4, ABIAN, REWRITE1, CHORD, HELLY, FINSEQ_8, GRAPH_1, RFINSEQ,
+      XCMPLX_0, CARD_2, GRAPH_2, GLIB_006, GLIB_007, SCMYCIEL, GLIB_003,
+      EQREL_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, EQREL_1, FUNCT_1,
+      ORDINAL1, RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCT_3,
+      FUNCOP_1, FUNCT_4, FINSET_1, CARD_1, PBOOLE, NUMBERS, XCMPLX_0, XXREAL_0,
+      XREAL_0, NAT_1, INT_1, VALUED_0, NAT_D, CARD_2, FINSEQ_1, RVSUM_1,
+      RFINSEQ, FUNCT_7, ABIAN, FINSEQ_6, GLIB_000, FINSEQ_8, GRAPH_2, GRAPH_5,
+      GLIB_001, GLIB_002, HELLY, GLIB_003, CHORD, GLIB_006, GLIB_007;
+ constructors DOMAIN_1, BINOP_1, BINOP_2, FINSOP_1, RVSUM_1, FINSEQ_5, GRAPH_5,
+      ABIAN, WELLORD2, FUNCT_2, FIB_NUM2, FINSEQ_8, GLIB_001, GLIB_002, HELLY,
+      RELSET_1, FUNCT_3, CHORD, NAT_D, GRAPH_2, RFINSEQ, FINSEQ_6, CARD_2,
+      FUNCT_7, FINSEQ_1, SUBSET_1, GLIB_006, GLIB_007, RELAT_1, GLIB_003,
+      EQREL_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, FINSET_1, ABIAN,
+      NUMBERS, XREAL_0, NAT_1, MEMBERED, FINSEQ_1, GLIB_000, GLIB_001, HELLY,
+      GLIB_002, CHORD, INT_1, VALUED_0, CARD_1, FUNCT_2, PARTFUN1, HURWITZ2,
+      RELSET_1, RAMSEY_1, FUNCT_4, SUBSET_1, GLIB_006, GLIB_007, GLIB_003,
+      MSAFREE5, JORDAN1J, CARD_5, EQREL_1;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin
+
+::: START into GLIB_000 ?
+
+registration
+  let G be _Graph, v be Vertex of G;
+  cluster -> trivial for inducedSubgraph of G, {v};
+end;
+
+theorem :: GLIB_008:1
+  for G being _Graph, X being set, v being Vertex of G
+  holds G.edgesBetween(X \ {v}) = G.edgesBetween(X) \ v.edgesInOut();
+
+theorem :: GLIB_008:2
+  for G being _Graph, X being set, v being Vertex of G st v is isolated
+  holds G.edgesBetween(X \ {v}) = G.edgesBetween(X);
+
+theorem :: GLIB_008:3
+  for G being non-Dmulti _Graph, v being Vertex of G
+  holds v.inDegree() = card v.inNeighbors();
+
+theorem :: GLIB_008:4
+  for G being non-Dmulti _Graph, v being Vertex of G
+  holds v.outDegree() = card v.outNeighbors();
+
+theorem :: GLIB_008:5
+  for G being simple _Graph, v being Vertex of G
+  holds v.degree() = card v.allNeighbors();
+
+theorem :: GLIB_008:6
+  for G being _Graph holds G is loopless iff
+    for v being Vertex of G holds not v in v.allNeighbors();
+
+theorem :: GLIB_008:7
+  for G being _Graph, v being Vertex of G
+  holds v is isolated iff v.allNeighbors() = {};
+
+theorem :: GLIB_008:8
+  for G1 being _Graph, v being set, G2 being removeVertex of G1, v
+  st G1 is trivial or not v in the_Vertices_of G1 holds G1 == G2;
+
+theorem :: GLIB_008:9
+  for G1, G2 being _Graph, v being set
+  st G1 == G2 & (G1 is trivial or not v in the_Vertices_of G1)
+  holds G2 is removeVertex of G1, v;
+
+:: converse of GLIB_000:21
+theorem :: GLIB_008:10
+  for G being _Graph holds (ex v1, v2 being Vertex of G st v1 <> v2)
+    implies G is non trivial;
+
+registration
+  let G be non trivial _Graph, X be set;
+  cluster -> non trivial for removeEdges of G, X;
+end;
+
+theorem :: GLIB_008:11
+  for G1 being finite _Graph, G2 being Subgraph of G1
+  holds G2 is spanning iff G1.order() = G2.order();
+
+theorem :: GLIB_008:12
+  for G1 being _Graph, G2 being spanning Subgraph of G1
+  st the_Edges_of G1 = the_Edges_of G2 holds G1 == G2;
+
+theorem :: GLIB_008:13
+  for G1 being finite _Graph, G2 being spanning Subgraph of G1
+  st G1.size() = G2.size() holds G1 == G2;
+
+theorem :: GLIB_008:14
+  for G1 being _Graph, V being set, G2 being inducedSubgraph of G1, V
+  st G2 is spanning holds G1 == G2;
+
+theorem :: GLIB_008:15
+  for G being _Graph holds G is non trivial iff
+    ex H being Subgraph of G st H is non spanning;
+
+theorem :: GLIB_008:16
+  for G being _Graph
+  holds (ex v being Vertex of G st v is endvertex) implies G is non trivial;
+
+:: removeEdge and removeVertex commute, Part I
+theorem :: GLIB_008:17
+  for G1 being _Graph, v,e being set, G2 being removeVertex of G1, v
+  for G3 being removeEdge of G1, e, G4 being removeEdge of G2, e
+  holds G4 is removeVertex of G3, v;
+
+:: removeEdge and removeVertex commute, Part II
+theorem :: GLIB_008:18
+  for G1 being _Graph, v,e being set
+  for G2 being removeEdge of G1, e
+  for G3 being removeVertex of G1, v, G4 being removeVertex of G2, v
+  holds G4 is removeEdge of G3, e;
+
+registration
+  let G be finite connected _Graph;
+  cluster spanning Tree-like connected acyclic for Subgraph of G;
+end;
+
+theorem :: GLIB_008:19
+  for G1 being connected _Graph, G2 being Subgraph of G1
+  st the_Edges_of G1 c= the_Edges_of G2 holds G1 == G2;
+
+theorem :: GLIB_008:20
+  for G1 being finite connected _Graph, G2 being Subgraph of G1
+  st G1.size() = G2.size() holds G1 == G2;
+
+theorem :: GLIB_008:21
+  for G1 being finite Tree-like _Graph
+  for G2 being spanning Tree-like Subgraph of G1
+  holds G1 == G2;
+
+registration
+  let G be non trivial _Graph;
+  cluster non spanning trivial connected for Subgraph of G;
+end;
+
+:: counterpart of GLIB_002:12
+theorem :: GLIB_008:22
+  for G being _Graph, v1, v2 being Vertex of G st not v1 in G.reachableFrom(v2)
+  holds G.reachableFrom(v1) misses G.reachableFrom(v2);
+
+theorem :: GLIB_008:23
+  for G being _Graph holds G.componentSet() is a_partition of the_Vertices_of G
+;
+
+theorem :: GLIB_008:24
+  for G being _Graph, C being a_partition of the_Vertices_of G,
+    v being Vertex of G
+  st C = G.componentSet() holds EqClass(v,C) = G.reachableFrom(v);
+
+:: holds more generally when G is non trivial and v0 is non cut-vertex;
+:: however, this theorem is used to show that endvertex implies non cut-vertex
+theorem :: GLIB_008:25
+  for G1 being _Graph, v0, v1 being Vertex of G1
+  for G2 being removeVertex of G1,v0, v2 being Vertex of G2
+  st v0 is endvertex & v1 = v2 & v1 in G1.reachableFrom(v0)
+  holds G2.reachableFrom(v2) = G1.reachableFrom(v1) \ {v0};
+
+theorem :: GLIB_008:26
+  for G1 being non trivial _Graph, v0,v1 being Vertex of G1
+  for G2 being removeVertex of G1, v0, v2 being Vertex of G2
+  st v1 = v2 & not v1 in G1.reachableFrom(v0)
+  holds G2.reachableFrom(v2) = G1.reachableFrom(v1);
+
+theorem :: GLIB_008:27
+  for G being non trivial finite Tree-like _Graph, v being Vertex of G
+  st G.order() = 2 holds v is endvertex;
+
+registration
+  let G be non trivial connected _Graph, v be Vertex of G;
+  cluster v.allNeighbors() -> non empty;
+end;
+
+:: END into GLIB_002 ?
+
+:: into HELLY ?
+theorem :: GLIB_008:28
+  for T being _Tree, a being Vertex of T holds T.pathBetween(a,a) = T.walkOf(a)
+;
+
+:: into HELLY ?
+theorem :: GLIB_008:29
+  for T being _Tree, a,b being Vertex of T, e being object
+  st e Joins a,b,T holds T.pathBetween(a,b) = T.walkOf(a,e,b);
+
+:: into HELLY ?
+theorem :: GLIB_008:30
+  for T being non trivial finite _Tree, v being Vertex of T
+  ex v1, v2 being Vertex of T
+  st v1 <> v2 & v1 is endvertex & v2 is endvertex &
+    v in T.pathBetween(v1,v2).vertices();
+
+:: into HELLY ?
+theorem :: GLIB_008:31
+  for G1 being non trivial finite Tree-like _Graph
+  for G2 being non spanning connected Subgraph of G1
+  ex v being Vertex of G1 st v is endvertex & not v in the_Vertices_of G2;
+
+:: START into GLIB_006 ?
+
+theorem :: GLIB_008:32
+  for G2, G3 being _Graph, V being set, G1 being addVertices of G2, V
+  st G2 == G3 holds G1 is addVertices of G3, V;
+
+theorem :: GLIB_008:33
+  for G2 being _Graph, G1 being Supergraph of G2
+  st the_Edges_of G1 = the_Edges_of G2
+  holds G1 is addVertices of G2, the_Vertices_of G1 \ the_Vertices_of G2;
+
+theorem :: GLIB_008:34
+  for G1 being finite _Graph, G2 being Subgraph of G1 st G1.size() = G2.size()
+  holds G1 is addVertices of G2, the_Vertices_of G1 \ the_Vertices_of G2;
+
+theorem :: GLIB_008:35
+  for G1 being non trivial _Graph, v being Vertex of G1
+  for G2 being removeVertex of G1, v st v is isolated
+  holds G1 is addVertex of G2, v;
+
+theorem :: GLIB_008:36
+  for G2, G3 being _Graph, v1,e,v2 being object, G1 being addEdge of G2,v1,e,v2
+  st G2 == G3 holds G1 is addEdge of G3,v1,e,v2;
+
+theorem :: GLIB_008:37
+  for G1 being _Graph, e being set, G2 being removeEdge of G1, e
+  st e in the_Edges_of G1
+  holds G1 is addEdge of G2, (the_Source_of G1).e, e, (the_Target_of G1).e;
+
+theorem :: GLIB_008:38
+  for G1 being non trivial _Graph, v being Vertex of G1, e being object
+  for G2 being removeVertex of G1, v
+  st {e} = v.edgesInOut() & not e Joins v,v,G1 :: i.e. v is endvertex
+  holds G1 is addAdjVertex of G2, v.adj(e), e, v
+    or G1 is addAdjVertex of G2, v, e, v.adj(e);
+
+theorem :: GLIB_008:39
+  for G2 being _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  for w being Vertex of G1, v being Vertex of G2
+  st v2 in G2.reachableFrom(v1) & v = w
+  holds G1.reachableFrom(w) = G2.reachableFrom(v);
+
+theorem :: GLIB_008:40
+  for G2 being _Graph, v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st v2 in G2.reachableFrom(v1) holds G1.componentSet() = G2.componentSet();
+
+:: v1 and v2 are connected in supergraph
+theorem :: GLIB_008:41
+  for G2 being _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  for w1, w2 being Vertex of G1
+  st not e in the_Edges_of G2 & w1 = v1 & w2 = v2
+  holds w2 in G1.reachableFrom(w1);
+
+:: their components are connected as well
+theorem :: GLIB_008:42
+  for G2 being _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  for w1 being Vertex of G1
+  st not e in the_Edges_of G2 & w1 = v1
+  holds G1.reachableFrom(w1) = G2.reachableFrom(v1) \/ G2.reachableFrom(v2);
+
+:: the other components stay unaffected
+theorem :: GLIB_008:43
+  for G2 being _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  for w being Vertex of G1, v being Vertex of G2
+  st not e in the_Edges_of G2 & v = w &
+    not v in G2.reachableFrom(v1) & not v in G2.reachableFrom(v2)
+  holds G1.reachableFrom(w) = G2.reachableFrom(v);
+
+:: composition of component set in graph with added edge
+theorem :: GLIB_008:44
+  for G2 being _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G2
+  holds G1.componentSet() =
+    (G2.componentSet() \ {G2.reachableFrom(v1), G2.reachableFrom(v2)})
+      \/ {G2.reachableFrom(v1) \/ G2.reachableFrom(v2)};
+
+:: removing an endvertex doesn't change number of components
+theorem :: GLIB_008:45
+  for G1 being _Graph, v being Vertex of G1, G2 being removeVertex of G1, v
+  st v is endvertex holds G1.numComponents() = G2.numComponents();
+
+registration
+  let G be _Graph;
+  cluster endvertex -> non cut-vertex for Vertex of G;
+end;
+
+theorem :: GLIB_008:46
+  for G1 being non trivial finite connected _Graph
+  for G2 being non spanning connected Subgraph of G1
+  ex v being Vertex of G1 st v is non cut-vertex & not v in the_Vertices_of G2;
+
+:: into GLIB_007 ?
+theorem :: GLIB_008:47
+  for G1 being non trivial simple _Graph, v being Vertex of G1
+  for G2 being removeVertex of G1, v
+  holds G1 is addAdjVertexAll of G2, v, v.allNeighbors();
+
+begin :: Edgeless and non edgeless graphs
+
+definition
+  let G be _Graph;
+  attr G is edgeless means
+:: GLIB_008:def 1
+  the_Edges_of G = {};
+end;
+
+theorem :: GLIB_008:48
+  for G being _Graph holds G is edgeless iff card the_Edges_of G = 0;
+
+theorem :: GLIB_008:49
+  for G being _Graph holds G is edgeless iff G.size() = 0;
+
+registration
+  let G be _Graph;
+  cluster -> edgeless for removeEdges of G, the_Edges_of G;
+end;
+
+registration
+  cluster edgeless for _Graph;
+  let G be _Graph;
+  cluster edgeless spanning for Subgraph of G;
+  cluster edgeless trivial for Subgraph of G;
+end;
+
+registration
+  let G be edgeless _Graph;
+  cluster the_Edges_of G -> empty;
+end;
+
+registration
+  cluster edgeless -> non-multi non-Dmulti loopless simple Dsimple for _Graph;
+  cluster trivial loopless -> edgeless for _Graph;
+  let V be non empty set, S,T be Function of {},V;
+  cluster createGraph(V,{},S,T) -> edgeless;
+end;
+
+theorem :: GLIB_008:50
+  for G being edgeless_Graph, e,v1,v2 being object
+  holds not e Joins v1,v2,G & not e DJoins v1,v2,G;
+
+theorem :: GLIB_008:51
+  for G being edgeless_Graph, e being object, X, Y being set
+  holds not e SJoins X,Y,G & not e DSJoins X,Y,G;
+
+theorem :: GLIB_008:52
+  for G1, G2 being _Graph st G1 == G2
+  holds G1 is edgeless implies G2 is edgeless;
+
+registration
+  let G be edgeless _Graph;
+  cluster -> trivial for Walk of G;
+  cluster -> edgeless for Subgraph of G;
+  let X be set;
+  cluster G.edgesInto(X) -> empty;
+  cluster G.edgesOutOf(X) -> empty;
+  cluster G.edgesInOut(X) -> empty;
+  cluster G.edgesBetween(X) -> empty;
+  cluster G.set(WeightSelector, X) -> edgeless;
+  cluster G.set(ELabelSelector, X) -> edgeless;
+  cluster G.set(VLabelSelector, X) -> edgeless;
+  cluster -> edgeless for addVertices of G, X;
+  cluster -> edgeless for reverseEdgeDirections of G, X;
+  let Y be set;
+  cluster G.edgesBetween(X,Y) -> empty;
+  cluster G.edgesDBetween(X,Y) -> empty;
+end;
+
+registration
+  cluster edgeless -> acyclic chordal for _Graph;
+  cluster trivial edgeless -> Tree-like for _Graph;
+  cluster non trivial edgeless -> non connected non Tree-like non complete
+    for _Graph;
+  cluster connected edgeless -> trivial for _Graph;
+end;
+
+theorem :: GLIB_008:53
+  for G1 being edgeless _Graph, G2 being Subgraph of G1
+  holds G1 is addVertices of G2, the_Vertices_of G1 \ the_Vertices_of G2;
+
+theorem :: GLIB_008:54
+  for G2 being _Graph, v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  holds G1 is non edgeless;
+
+theorem :: GLIB_008:55
+  for G2 being _Graph, v1 being Vertex of G2, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v2 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds G1 is non edgeless;
+
+theorem :: GLIB_008:56
+  for G2 being _Graph, v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v1 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds G1 is non edgeless;
+
+theorem :: GLIB_008:57
+  for G2 being _Graph, v being object
+  for V being non empty Subset of the_Vertices_of G2
+  for G1 being addAdjVertexAll of G2,v,V st not v in the_Vertices_of G2
+  holds G1 is non edgeless;
+
+registration
+  let G be _Graph;
+  cluster -> non edgeless for addAdjVertexToAll of G, the_Vertices_of G;
+  cluster -> non edgeless for addAdjVertexFromAll of G, the_Vertices_of G;
+  cluster -> non edgeless for addAdjVertexAll of G, the_Vertices_of G;
+  let v be Vertex of G;
+  cluster -> non edgeless for
+    addAdjVertex of G, v, the_Edges_of G, the_Vertices_of G;
+  cluster -> non edgeless for
+    addAdjVertex of G, the_Vertices_of G, the_Edges_of G, v;
+  let w be Vertex of G;
+  cluster -> non edgeless for addEdge of G, v, the_Edges_of G, w;
+end;
+
+registration
+  let G be edgeless _Graph;
+  cluster -> trivial for Component of G;
+  let v be Vertex of G;
+  cluster v.edgesIn() -> empty;
+  cluster v.edgesOut() -> empty;
+  cluster v.edgesInOut() -> empty;
+end;
+
+registration
+  let G be edgeless _Graph;
+  cluster -> isolated non cut-vertex non endvertex for Vertex of G;
+  let v be Vertex of G;
+  cluster v.inDegree() -> empty;
+  cluster v.outDegree() -> empty;
+  cluster v.inNeighbors() -> empty;
+  cluster v.outNeighbors() -> empty;
+end;
+
+registration
+  let G be edgeless _Graph, v be Vertex of G;
+  cluster v.degree() -> empty;
+  cluster v.allNeighbors() -> empty;
+end;
+
+registration
+  cluster trivial finite edgeless for _Graph;
+  cluster non trivial finite edgeless for _Graph;
+  cluster trivial finite non edgeless for _Graph;
+  cluster non trivial finite non edgeless for _Graph;
+end;
+
+registration
+  let G be non edgeless _Graph;
+  cluster the_Edges_of G -> non empty;
+  cluster -> non edgeless for Supergraph of G;
+  let X be set;
+  cluster -> non edgeless for reverseEdgeDirections of G, X;
+  cluster G.set(WeightSelector, X) -> non edgeless;
+  cluster G.set(ELabelSelector, X) -> non edgeless;
+  cluster G.set(VLabelSelector, X) -> non edgeless;
+end;
+
+definition
+  let G be non edgeless _Graph;
+  mode Edge of G is Element of the_Edges_of G;
+end;
+
+theorem :: GLIB_008:58
+  for G1 being finite edgeless _Graph, G2 being Subgraph of G1
+  st G1.order() = G2.order() holds G1 == G2;
+
+definition
+  let GF be Graph-yielding Function;
+  attr GF is edgeless means
+:: GLIB_008:def 2
+  for x being object st x in dom GF
+    ex G being _Graph st GF.x = G & G is edgeless;
+end;
+
+definition
+  let GF be non empty Graph-yielding Function;
+  redefine attr GF is edgeless means
+:: GLIB_008:def 3
+
+  for x being Element of dom GF holds GF.x is edgeless;
+end;
+
+definition
+  let GSq be GraphSeq;
+  redefine attr GSq is edgeless means
+:: GLIB_008:def 4
+  for n being Nat holds GSq.n is edgeless;
+end;
+
+registration
+  cluster trivial loopless -> edgeless for Graph-yielding Function;
+  cluster edgeless -> non-multi non-Dmulti loopless simple Dsimple acyclic
+    for Graph-yielding Function;
+end;
+
+registration
+  let GF be edgeless non empty Graph-yielding Function, x be Element of dom GF;
+  cluster GF.x -> edgeless;
+end;
+
+registration
+  let GSq be edgeless GraphSeq, x be Nat;
+  cluster GSq.x -> edgeless;
+end;
+
+begin :: Finite Graph sequences
+
+registration
+  let G be _Graph;
+  cluster <* G *> -> Graph-yielding;
+end;
+
+registration
+  let G be finite _Graph;
+  cluster <* G *> -> finite;
+end;
+
+registration
+  let G be loopless _Graph;
+  cluster <* G *> -> loopless;
+end;
+
+registration
+  let G be trivial _Graph;
+  cluster <* G *> -> trivial;
+end;
+
+registration
+  let G be non trivial _Graph;
+  cluster <* G *> -> non-trivial;
+end;
+
+registration
+  let G be non-multi _Graph;
+  cluster <* G *> -> non-multi;
+end;
+
+registration
+  let G be non-Dmulti _Graph;
+  cluster <* G *> -> non-Dmulti;
+end;
+
+registration
+  let G be simple _Graph;
+  cluster <* G *> -> simple;
+end;
+
+registration
+  let G be Dsimple _Graph;
+  cluster <* G *> -> Dsimple;
+end;
+
+registration
+  let G be connected _Graph;
+  cluster <* G *> -> connected;
+end;
+
+registration
+  let G be acyclic _Graph;
+  cluster <* G *> -> acyclic;
+end;
+
+registration
+  let G be Tree-like _Graph;
+  cluster <* G *> -> Tree-like;
+end;
+
+registration
+  let G be edgeless _Graph;
+  cluster <* G *> -> edgeless;
+end;
+
+registration
+  cluster empty Graph-yielding for FinSequence;
+  cluster non empty Graph-yielding for FinSequence;
+end;
+
+registration
+  let p be non empty Graph-yielding FinSequence;
+  cluster p.1 -> Function-like Relation-like;
+  cluster p.len p -> Function-like Relation-like;
+end;
+
+registration
+  let p be non empty Graph-yielding FinSequence;
+  cluster p.1 -> finite NAT-defined;
+  cluster p.len p -> finite NAT-defined;
+end;
+
+registration
+  let p be non empty Graph-yielding FinSequence;
+  cluster p.1 -> [Graph-like];
+  cluster p.len p -> [Graph-like];
+end;
+
+registration
+  cluster non empty finite loopless trivial non-multi non-Dmulti simple Dsimple
+    connected acyclic Tree-like edgeless for Graph-yielding FinSequence;
+  cluster non empty finite loopless non-trivial non-multi non-Dmulti simple
+    Dsimple connected acyclic Tree-like for Graph-yielding FinSequence;
+end;
+
+registration
+  let p be Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> Graph-yielding;
+  cluster p /^ n -> Graph-yielding;
+  let m be Nat;
+  cluster smid(p,m,n) -> Graph-yielding;
+  cluster (m,n)-cut p -> Graph-yielding;
+end;
+
+registration
+  let p be finite Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> finite;
+  cluster p /^ n -> finite;
+  let m be Nat;
+  cluster smid(p,m,n) -> finite;
+  cluster (m,n)-cut p -> finite;
+end;
+
+registration
+  let p be loopless Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> loopless;
+  cluster p /^ n -> loopless;
+  let m be Nat;
+  cluster smid(p,m,n) -> loopless;
+  cluster (m,n)-cut p -> loopless;
+end;
+
+registration
+  let p be trivial Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> trivial;
+  cluster p /^ n -> trivial;
+  let m be Nat;
+  cluster smid(p,m,n) -> trivial;
+  cluster (m,n)-cut p -> trivial;
+end;
+
+registration
+  let p be non-trivial Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> non-trivial;
+  cluster p /^ n -> non-trivial;
+  let m be Nat;
+  cluster smid(p,m,n) -> non-trivial;
+  cluster (m,n)-cut p -> non-trivial;
+end;
+
+registration
+  let p be non-multi Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> non-multi;
+  cluster p /^ n -> non-multi;
+  let m be Nat;
+  cluster smid(p,m,n) -> non-multi;
+  cluster (m,n)-cut p -> non-multi;
+end;
+
+registration
+  let p be non-Dmulti Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> non-Dmulti;
+  cluster p /^ n -> non-Dmulti;
+  let m be Nat;
+  cluster smid(p,m,n) -> non-Dmulti;
+  cluster (m,n)-cut p -> non-Dmulti;
+end;
+
+registration
+  let p be simple Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> simple;
+  cluster p /^ n -> simple;
+  let m be Nat;
+  cluster smid(p,m,n) -> simple;
+  cluster (m,n)-cut p -> simple;
+end;
+
+registration
+  let p be Dsimple Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> Dsimple;
+  cluster p /^ n -> Dsimple;
+  let m be Nat;
+  cluster smid(p,m,n) -> Dsimple;
+  cluster (m,n)-cut p -> Dsimple;
+end;
+
+registration
+  let p be connected Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> connected;
+  cluster p /^ n -> connected;
+  let m be Nat;
+  cluster smid(p,m,n) -> connected;
+  cluster (m,n)-cut p -> connected;
+end;
+
+registration
+  let p be acyclic Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> acyclic;
+  cluster p /^ n -> acyclic;
+  let m be Nat;
+  cluster smid(p,m,n) -> acyclic;
+  cluster (m,n)-cut p -> acyclic;
+end;
+
+registration
+  let p be Tree-like Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> Tree-like;
+  cluster p /^ n -> Tree-like;
+  let m be Nat;
+  cluster smid(p,m,n) -> Tree-like;
+  cluster (m,n)-cut p -> Tree-like;
+end;
+
+registration
+  let p be edgeless Graph-yielding FinSequence, n be Nat;
+  cluster p | n -> edgeless;
+  cluster p /^ n -> edgeless;
+  let m be Nat;
+  cluster smid(p,m,n) -> edgeless;
+  cluster (m,n)-cut p -> edgeless;
+end;
+
+registration
+  let p, q be Graph-yielding FinSequence;
+  cluster p ^ q -> Graph-yielding;
+  cluster p ^' q -> Graph-yielding;
+end;
+
+registration
+  let p, q be finite Graph-yielding FinSequence;
+  cluster p ^ q -> finite;
+  cluster p ^' q -> finite;
+end;
+
+registration
+  let p, q be loopless Graph-yielding FinSequence;
+  cluster p ^ q -> loopless;
+  cluster p ^' q -> loopless;
+end;
+
+registration
+  let p, q be trivial Graph-yielding FinSequence;
+  cluster p ^ q -> trivial;
+  cluster p ^' q -> trivial;
+end;
+
+registration
+  let p, q be non-trivial Graph-yielding FinSequence;
+  cluster p ^ q -> non-trivial;
+  cluster p ^' q -> non-trivial;
+end;
+
+registration
+  let p, q be non-multi Graph-yielding FinSequence;
+  cluster p ^ q -> non-multi;
+  cluster p ^' q -> non-multi;
+end;
+
+registration
+  let p, q be non-Dmulti Graph-yielding FinSequence;
+  cluster p ^ q -> non-Dmulti;
+  cluster p ^' q -> non-Dmulti;
+end;
+
+registration
+  let p, q be simple Graph-yielding FinSequence;
+  cluster p ^ q -> simple;
+  cluster p ^' q -> simple;
+end;
+
+registration
+  let p, q be Dsimple Graph-yielding FinSequence;
+  cluster p ^ q -> Dsimple;
+  cluster p ^' q -> Dsimple;
+end;
+
+registration
+  let p, q be connected Graph-yielding FinSequence;
+  cluster p ^ q -> connected;
+  cluster p ^' q -> connected;
+end;
+
+registration
+  let p, q be acyclic Graph-yielding FinSequence;
+  cluster p ^ q -> acyclic;
+  cluster p ^' q -> acyclic;
+end;
+
+registration
+  let p, q be Tree-like Graph-yielding FinSequence;
+  cluster p ^ q -> Tree-like;
+  cluster p ^' q -> Tree-like;
+end;
+
+registration
+  let p, q be edgeless Graph-yielding FinSequence;
+  cluster p ^ q -> edgeless;
+  cluster p ^' q -> edgeless;
+end;
+
+registration
+  let G1, G2 be _Graph;
+  cluster <* G1, G2 *> -> Graph-yielding;
+  let G3 be _Graph;
+  cluster <* G1, G2, G3 *> -> Graph-yielding;
+end;
+
+registration
+  let G1, G2 be finite _Graph;
+  cluster <* G1, G2 *> -> finite;
+  let G3 be finite _Graph;
+  cluster <* G1, G2, G3 *> -> finite;
+end;
+
+registration
+  let G1, G2 be loopless _Graph;
+  cluster <* G1, G2 *> -> loopless;
+  let G3 be loopless _Graph;
+  cluster <* G1, G2, G3 *> -> loopless;
+end;
+
+registration
+  let G1, G2 be trivial _Graph;
+  cluster <* G1, G2 *> -> trivial;
+  let G3 be trivial _Graph;
+  cluster <* G1, G2, G3 *> -> trivial;
+end;
+
+registration
+  let G1, G2 be non trivial _Graph;
+  cluster <* G1, G2 *> -> non-trivial;
+  let G3 be non trivial _Graph;
+  cluster <* G1, G2, G3 *> -> non-trivial;
+end;
+
+registration
+  let G1, G2 be non-multi _Graph;
+  cluster <* G1, G2 *> -> non-multi;
+  let G3 be non-multi _Graph;
+  cluster <* G1, G2, G3 *> -> non-multi;
+end;
+
+registration
+  let G1, G2 be non-Dmulti _Graph;
+  cluster <* G1, G2 *> -> non-Dmulti;
+  let G3 be non-Dmulti _Graph;
+  cluster <* G1, G2, G3 *> -> non-Dmulti;
+end;
+
+registration
+  let G1, G2 be simple _Graph;
+  cluster <* G1, G2 *> -> simple;
+  let G3 be simple _Graph;
+  cluster <* G1, G2, G3 *> -> simple;
+end;
+
+registration
+  let G1, G2 be Dsimple _Graph;
+  cluster <* G1, G2 *> -> Dsimple;
+  let G3 be Dsimple _Graph;
+  cluster <* G1, G2, G3 *> -> Dsimple;
+end;
+
+registration
+  let G1, G2 be connected _Graph;
+  cluster <* G1, G2 *> -> connected;
+  let G3 be connected _Graph;
+  cluster <* G1, G2, G3 *> -> connected;
+end;
+
+registration
+  let G1, G2 be acyclic _Graph;
+  cluster <* G1, G2 *> -> acyclic;
+  let G3 be acyclic _Graph;
+  cluster <* G1, G2, G3 *> -> acyclic;
+end;
+
+registration
+  let G1, G2 be Tree-like _Graph;
+  cluster <* G1, G2 *> -> Tree-like;
+  let G3 be Tree-like _Graph;
+  cluster <* G1, G2, G3 *> -> Tree-like;
+end;
+
+registration
+  let G1, G2 be edgeless _Graph;
+  cluster <* G1, G2 *> -> edgeless;
+  let G3 be edgeless _Graph;
+  cluster <* G1, G2, G3 *> -> edgeless;
+end;
+
+begin :: Construction of finite Graphs
+
+:: finite addition of vertices can be finitely constructed with addVertex only
+theorem :: GLIB_008:59
+  for G2 being _Graph, V being finite set, G1 being addVertices of G2, V
+  ex p being non empty Graph-yielding FinSequence
+  st p.1 == G2 & p.len p = G1 & len p = card (V \ the_Vertices_of G2) + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being Vertex of G1
+    st p.(n+1) is addVertex of p.n, v & not v in the_Vertices_of p.n;
+
+theorem :: GLIB_008:60
+  for G being finite _Graph, H being Subgraph of G st G.size() = H.size()
+  ex p being non empty finite Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.order() - H.order() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being Vertex of G
+    st p.(n+1) is addVertex of p.n, v & not v in the_Vertices_of p.n;
+
+theorem :: GLIB_008:61
+  for G being finite edgeless _Graph, H being Subgraph of G
+  ex p being non empty finite edgeless Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.order() - H.order() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being Vertex of G
+    st p.(n+1) is addVertex of p.n,v & not v in the_Vertices_of p.n;
+
+:: finite edgeless graphs can be finitely constructed with addVertex only
+theorem :: GLIB_008:62
+  for G being finite edgeless _Graph
+  ex p being non empty finite edgeless Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.order() &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being Vertex of G
+    st p.(n+1) is addVertex of p.n,v & not v in the_Vertices_of p.n;
+
+scheme :: GLIB_008:sch 1
+  FinEdgelessGraphs { P[finite _Graph] } :
+    for G being finite edgeless _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite edgeless _Graph, v being object
+    for G1 being addVertex of G2,v
+    st not v in the_Vertices_of G2 & P[G2] holds P[G1];
+
+theorem :: GLIB_008:63
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is edgeless &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being object st p.(n+1) is addVertex of p.n,v
+  holds p.len p is edgeless;
+
+theorem :: GLIB_008:64
+  for G being finite _Graph, H being spanning Subgraph of G
+  ex p being non empty finite Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.size() - H.size() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v1,v2 being Vertex of G, e being object
+    st p.(n+1) is addEdge of p.n,v1,e,v2 &
+      e in the_Edges_of G \ the_Edges_of p.n &
+      v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n;
+
+theorem :: GLIB_008:65
+  for G being finite _Graph
+  ex p being non empty finite Graph-yielding FinSequence
+  st p.1 is edgeless & p.len p = G & len p = G.size() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v1,v2 being Vertex of G, e being object
+    st p.(n+1) is addEdge of p.n,v1,e,v2 &
+      e in the_Edges_of G \ the_Edges_of p.n &
+      v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n;
+
+theorem :: GLIB_008:66
+  for G being finite connected _Graph, H being spanning connected Subgraph of G
+  ex p being non empty finite connected Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.size() - H.size() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v1,v2 being Vertex of G, e being object
+    st p.(n+1) is addEdge of p.n,v1,e,v2 &
+      e in the_Edges_of G \ the_Edges_of p.n &
+      v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n;
+
+theorem :: GLIB_008:67
+  for G1 being finite _Graph, H being Subgraph of G1
+  ex G2 being spanning Subgraph of G1,
+    p being non empty finite Graph-yielding FinSequence
+  st H.size() = G2.size() & p.1 == H & p.len p = G2 &
+    len p = G1.order() - H.order() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    ex v being Vertex of G1 st p.(n+1) is addVertex of p.n, v &
+      not v in the_Vertices_of p.n;
+
+theorem :: GLIB_008:68
+  for G being finite _Graph, H being Subgraph of G
+  ex p being non empty finite Graph-yielding FinSequence
+  st p.1 == H & p.len p = G &
+    len p = G.order() + G.size() - (H.order() + H.size()) + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    (ex v1,v2 being Vertex of G, e being object
+     st p.(n+1) is addEdge of p.n,v1,e,v2 &
+       e in the_Edges_of G \ the_Edges_of p.n &
+       v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n) or
+    (ex v being Vertex of G st p.(n+1) is addVertex of p.n, v &
+      not v in the_Vertices_of p.n);
+
+:: finite graphs can be finitely constructed with addVertex and addEdge only
+theorem :: GLIB_008:69
+  for G being finite _Graph
+  ex p being non empty finite Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.order() + G.size() &
+    for n being Element of dom p st n <= len p - 1 holds
+    (ex v1,v2 being Vertex of G, e being object
+     st p.(n+1) is addEdge of p.n,v1,e,v2 &
+       e in the_Edges_of G \ the_Edges_of p.n &
+       v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n) or
+    (ex v being Vertex of G st p.(n+1) is addVertex of p.n, v &
+      not v in the_Vertices_of p.n);
+
+scheme :: GLIB_008:sch 2
+  FinGraphs { P[finite _Graph] } : for G being finite _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite _Graph, v being object
+    for G1 being addVertex of G2,v
+    st not v in the_Vertices_of G2 & P[G2] holds P[G1] and
+   for G2 being finite _Graph, v1, v2 being Vertex of G2, e being object
+    for G1 being addEdge of G2,v1,e,v2
+    st not e in the_Edges_of G2 & P[G2] holds P[G1];
+
+theorem :: GLIB_008:70
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is finite &
+    for n being Element of dom p st n <= len p - 1 holds
+    (ex v being object st p.(n+1) is addVertex of p.n,v) or
+    (ex v1,e,v2 being object st p.(n+1) is addEdge of p.n,v1,e,v2)
+  holds p.len p is finite;
+
+theorem :: GLIB_008:71
+  for G being finite Tree-like _Graph, H being connected Subgraph of G
+  ex p being non empty finite Tree-like Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.order() - H.order() + 1 &
+    for n being Element of dom p st n <= len p - 1
+    ex v1,v2 being Vertex of G, e being object
+    st p.(n+1) is addAdjVertex of p.n,v1,e,v2 &
+      e in the_Edges_of G \ the_Edges_of p.n &
+      ((v1 in the_Vertices_of p.n & not v2 in the_Vertices_of p.n) or
+        (not v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n));
+
+:: finite trees can be finitely constructed with addAdjVertex only
+theorem :: GLIB_008:72
+  for G being finite Tree-like _Graph
+  ex p being non empty finite Tree-like Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.order() &
+    for n being Element of dom p st n <= len p - 1
+    ex v1,v2 being Vertex of G, e being object
+    st p.(n+1) is addAdjVertex of p.n,v1,e,v2 &
+      e in the_Edges_of G \ the_Edges_of p.n &
+      ((v1 in the_Vertices_of p.n & not v2 in the_Vertices_of p.n) or
+        (not v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n));
+
+scheme :: GLIB_008:sch 3
+  FinTrees { P[finite _Graph] } :
+    for G being finite Tree-like _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite Tree-like _Graph
+    for v being Vertex of G2, e, w being object
+    st not e in the_Edges_of G2 & not w in the_Vertices_of G2 & P[G2]
+    holds (for G1 being addAdjVertex of G2,v,e,w holds P[G1]) &
+      (for G1 being addAdjVertex of G2,w,e,v holds P[G1]);
+
+theorem :: GLIB_008:73
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is Tree-like &
+    for n being Element of dom p st n <= len p - 1
+    ex v1,e,v2 being object st p.(n+1) is addAdjVertex of p.n,v1,e,v2
+  holds p.len p is Tree-like;
+
+:: finite connected graphs can be constructed with addAdjVertex and addEdge
+theorem :: GLIB_008:74
+  for G being finite connected _Graph
+  ex p being non empty finite connected Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.size() + 1 &
+    for n being Element of dom p st n <= len p - 1 holds
+    (ex v1,v2 being Vertex of G, e being object
+     st p.(n+1) is addAdjVertex of p.n,v1,e,v2 &
+       e in the_Edges_of G \ the_Edges_of p.n &
+       ((v1 in the_Vertices_of p.n & not v2 in the_Vertices_of p.n) or
+         (not v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n)) ) or
+    (ex v1,v2 being Vertex of G, e being object
+     st p.(n+1) is addEdge of p.n,v1,e,v2 &
+       e in the_Edges_of G \ the_Edges_of p.n &
+       v1 in the_Vertices_of p.n & v2 in the_Vertices_of p.n);
+
+scheme :: GLIB_008:sch 4
+  FinConnectedGraphs { P[finite _Graph] } :
+    for G being finite connected _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite connected _Graph
+    for v being Vertex of G2, e, w being object
+    st not e in the_Edges_of G2 & not w in the_Vertices_of G2 & P[G2]
+    holds (for G1 being addAdjVertex of G2,v,e,w holds P[G1]) &
+      (for G1 being addAdjVertex of G2,w,e,v holds P[G1]) and
+   for G2 being finite connected _Graph
+    for v1,v2 being Vertex of G2, e being object
+    for G1 being addEdge of G2,v1,e,v2
+    st not e in the_Edges_of G2 & P[G2] holds P[G1];
+
+theorem :: GLIB_008:75
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is connected &
+    for n being Element of dom p st n <= len p - 1
+    ex v1,e,v2 being object st p.(n+1) is addAdjVertex of p.n,v1,e,v2
+      or p.(n+1) is addEdge of p.n,v1,e,v2
+  holds p.len p is connected;
+
+theorem :: GLIB_008:76
+  for G2 being _Graph, v being object
+  for V1 being set, V2 being finite set
+  for G1 being addAdjVertexAll of G2, v, V1 \/ V2
+  st V1 \/ V2 c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    V1 misses V2
+  ex p being non empty Graph-yielding FinSequence
+  st p.1 = G2 & p.len p = G1 & len p = card V2 + 2 &
+    p.2 is addAdjVertexAll of G2, v, V1 &
+    for n being Element of dom p st 2 <= n & n <= len p - 1 holds
+    ex w being Vertex of G2, e being object
+    st e in the_Edges_of G1 \ the_Edges_of p.n &
+      (p.(n+1) is addEdge of p.n,v,e,w or p.(n+1) is addEdge of p.n,w,e,v);
+
+theorem :: GLIB_008:77
+  for G2 being _Graph, v being object
+  for V being finite set, G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  ex p being non empty Graph-yielding FinSequence
+  st p.1 = G2 & p.len p = G1 & len p = card V + 2 & p.2 is addVertex of G2,v &
+    for n being Element of dom p st 2 <= n & n <= len p - 1 holds
+    ex w being Vertex of G2, e being object
+    st e in the_Edges_of G1 \ the_Edges_of p.n &
+      (p.(n+1) is addEdge of p.n,v,e,w or p.(n+1) is addEdge of p.n,w,e,v);
+
+theorem :: GLIB_008:78
+  for G2 being _Graph, v being object
+  for V being non empty finite set, G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  ex p being non empty Graph-yielding FinSequence
+  st p.1 = G2 & p.len p = G1 & len p = card V + 1 &
+    (ex w being Vertex of G2, e being object
+     st e in the_Edges_of G1 \ the_Edges_of G2 &
+     (p.2 is addAdjVertex of G2,v,e,w or p.2 is addAdjVertex of G2,w,e,v)) &
+    for n being Element of dom p st 2 <= n & n <= len p - 1 holds
+    ex w being Vertex of G2, e being object
+    st e in the_Edges_of G1 \ the_Edges_of p.n &
+      (p.(n+1) is addEdge of p.n,v,e,w or p.(n+1) is addEdge of p.n,w,e,v);
+
+theorem :: GLIB_008:79
+  for G being finite simple _Graph
+  for W being set, H being inducedSubgraph of G, W
+  ex p being non empty finite simple Graph-yielding FinSequence
+  st p.1 == H & p.len p = G & len p = G.order() - H.order() + 1 &
+    for n being Element of dom p st n <= len p - 1
+    ex v being object, V being finite set
+    st v in the_Vertices_of G \ the_Vertices_of p.n &
+      V c= the_Vertices_of p.n & p.(n+1) is addAdjVertexAll of p.n,v,V;
+
+theorem :: GLIB_008:80
+  for G being finite simple _Graph
+  ex p being non empty finite simple Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.order() &
+    for n being Element of dom p st n <= len p - 1
+    ex v being object, V being finite set
+    st v in the_Vertices_of G \ the_Vertices_of p.n &
+      V c= the_Vertices_of p.n & p.(n+1) is addAdjVertexAll of p.n,v,V;
+
+scheme :: GLIB_008:sch 5
+  FinSimpleGraphs { P[finite _Graph] } :
+    for G being finite simple _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite simple _Graph, v being object, V being finite set
+    for G1 being addAdjVertexAll of G2,v,V
+    st not v in the_Vertices_of G2 & V c= the_Vertices_of G2 & P[G2]
+    holds P[G1];
+
+theorem :: GLIB_008:81
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is simple &
+    for n being Element of dom p st n <= len p - 1
+    ex v being object, V being set st p.(n+1) is addAdjVertexAll of p.n,v,V
+  holds p.len p is simple;
+
+theorem :: GLIB_008:82
+  for G being finite simple connected _Graph
+  ex p being non empty finite simple connected Graph-yielding FinSequence
+  st p.1 is trivial edgeless & p.len p = G & len p = G.order() &
+    for n being Element of dom p st n <= len p - 1
+    ex v being object, V being non empty finite set
+    st v in the_Vertices_of G \ the_Vertices_of p.n &
+      V c= the_Vertices_of p.n & p.(n+1) is addAdjVertexAll of p.n,v,V;
+
+scheme :: GLIB_008:sch 6
+  FinSimpleConnectedGraphs { P[finite _Graph] } :
+    for G being finite simple connected _Graph holds P[G]
+provided
+   for G being trivial edgeless _Graph holds P[G] and
+   for G2 being finite simple connected _Graph
+    for v being object, V being non empty finite set
+    for G1 being addAdjVertexAll of G2,v,V
+    st not v in the_Vertices_of G2 & V c= the_Vertices_of G2 & P[G2]
+    holds P[G1];
+
+theorem :: GLIB_008:83
+  for p being non empty Graph-yielding FinSequence
+  st p.1 is simple connected &
+    for n being Element of dom p st n <= len p - 1
+    ex v being object, V being non empty set
+    st p.(n+1) is addAdjVertexAll of p.n,v,V
+  holds p.len p is simple connected;

@@ -1,0 +1,151 @@
+:: The Uniform Continuity of Functions on Normed Linear Spaces
+::  by Takaya Nishiyama , Artur Korni{\l}owicz and Yasunari Shidama
+::
+:: Received April 6, 2004
+:: Copyright (c) 2004-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, REAL_1, NORMSP_1, PARTFUN1, NAT_1, PRE_TOPC,
+      TARSKI, RELAT_1, CARD_1, ARYTM_3, ARYTM_1, STRUCT_0, COMPLEX1, XBOOLE_0,
+      XXREAL_0, VALUED_1, SUPINF_2, FUNCT_1, CFCONT_1, NFCONT_1, RCOMP_1,
+      VALUED_0, SEQ_2, ORDINAL2, FCONT_1, FUNCT_2, SEQ_4, LOPBAN_1, ALI2,
+      FUNCOP_1, POWER, SEQ_1, RSSPACE3, FUNCT_7, NFCONT_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, FUNCOP_1, XCMPLX_0, XXREAL_0, XREAL_0, ORDINAL1, NUMBERS,
+      COMPLEX1, REAL_1, NAT_1, RLVECT_1, STRUCT_0, PRE_TOPC, VALUED_1, SEQ_1,
+      SEQ_2, VALUED_0, SEQ_4, ABIAN, POWER, VFUNCT_1, NORMSP_0, NORMSP_1,
+      LOPBAN_1, RSSPACE3, NFCONT_1, RECDEF_1;
+ constructors REAL_1, SQUARE_1, COMPLEX1, SEQ_2, SEQ_4, POWER, ABIAN, VFUNCT_1,
+      RSSPACE3, LOPBAN_3, NFCONT_1, RECDEF_1, RELSET_1, COMSEQ_2;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, XXREAL_0, XREAL_0,
+      MEMBERED, STRUCT_0, VALUED_1, FUNCT_2, NUMBERS, VALUED_0, NORMSP_1,
+      NAT_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Uniform Continuity of Functions on Normed Linear Spaces
+
+reserve n,m for Nat,
+  x,X,X1 for set,
+  s,g,r,p for Real,
+  S,T for RealNormSpace,
+  f,f1,f2 for PartFunc of S, T,
+  s1,s2,q1 for sequence of S,
+  x0,x1, x2 for Point of S,
+  Y for Subset of S;
+
+definition
+  let X,S,T;
+  let f;
+  pred f is_uniformly_continuous_on X means
+:: NFCONT_2:def 1
+
+  X c= dom f & for r st 0<r
+ex s st 0<s & for x1,x2 st x1 in X & x2 in X & ||.x1 - x2.|| < s holds ||. f/.
+  x1 - f/.x2 .|| < r;
+end;
+
+definition
+  let X,S;
+  let f be PartFunc of the carrier of S,REAL;
+  pred f is_uniformly_continuous_on X means
+:: NFCONT_2:def 2
+
+  X c= dom f & for r st 0<r
+ex s st 0<s & for x1,x2 st x1 in X & x2 in X & ||.x1 - x2.|| < s holds |.f/.
+  x1 - f/.x2.| < r;
+end;
+
+theorem :: NFCONT_2:1
+  f is_uniformly_continuous_on X & X1 c= X implies f
+  is_uniformly_continuous_on X1;
+
+theorem :: NFCONT_2:2
+  f1 is_uniformly_continuous_on X & f2 is_uniformly_continuous_on X1
+  implies f1+f2 is_uniformly_continuous_on X/\X1;
+
+theorem :: NFCONT_2:3
+  f1 is_uniformly_continuous_on X & f2 is_uniformly_continuous_on X1
+  implies f1-f2 is_uniformly_continuous_on X/\X1;
+
+theorem :: NFCONT_2:4
+  f is_uniformly_continuous_on X implies p(#)f is_uniformly_continuous_on X;
+
+theorem :: NFCONT_2:5
+  f is_uniformly_continuous_on X implies -f is_uniformly_continuous_on X;
+
+theorem :: NFCONT_2:6
+  f is_uniformly_continuous_on X implies ||.f .|| is_uniformly_continuous_on X;
+
+theorem :: NFCONT_2:7
+  f is_uniformly_continuous_on X implies f is_continuous_on X;
+
+theorem :: NFCONT_2:8
+  for f be PartFunc of the carrier of S, REAL st f
+  is_uniformly_continuous_on X holds f is_continuous_on X;
+
+theorem :: NFCONT_2:9
+  f is_Lipschitzian_on X implies f is_uniformly_continuous_on X;
+
+theorem :: NFCONT_2:10
+  for f, Y st Y is compact & f is_continuous_on Y holds f
+  is_uniformly_continuous_on Y;
+
+theorem :: NFCONT_2:11
+  Y c= dom f & Y is compact & f is_uniformly_continuous_on Y implies f.:
+  Y is compact;
+
+theorem :: NFCONT_2:12
+  for f be PartFunc of the carrier of S, REAL for Y st Y <> {} & Y c=
+dom f & Y is compact & f is_uniformly_continuous_on Y ex x1,x2 st x1 in Y & x2
+in Y & f/.x1 = upper_bound (f.:Y) & f/.x2 = lower_bound (f.:Y);
+
+theorem :: NFCONT_2:13
+  X c= dom f & f|X is constant implies f is_uniformly_continuous_on X;
+
+begin :: Contraction Mapping Principle on Normed Linear Spaces
+
+definition
+  let M be non empty NORMSTR;
+  let f be Function of M,M;
+  attr f is contraction  means
+:: NFCONT_2:def 3
+
+    ex L being Real st 0 < L & L < 1 & for x,y being Point of M holds
+    ||.f.x - f.y.|| <=L*||.x - y.||;
+end;
+
+registration
+ let M be RealNormSpace;
+ cluster contraction for Function of M,M;
+end;
+
+definition
+ let M be RealNormSpace;
+  mode Contraction of M is contraction Function of M,M;
+end;
+
+theorem :: NFCONT_2:14
+  for X be RealBanachSpace
+  for f be Function of X, X st f is Contraction of X
+   ex xp be Point of X st f.xp=xp & for x be Point of X st f.x=x
+  holds xp=x;
+
+theorem :: NFCONT_2:15
+  for X be RealBanachSpace for f be Function of X,X st
+   ex n0 be Nat st iter(f,n0) is Contraction of X
+   ex xp be Point of X st f.xp=xp &
+  for x be Point of X st f.x=x holds xp=x;
+
+theorem :: NFCONT_2:16
+  for K, L, e be Real st 0 < K & K < 1 & 0 < e
+   ex n be Nat st |.L * (K to_power n).| < e;

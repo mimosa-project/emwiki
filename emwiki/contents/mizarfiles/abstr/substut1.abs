@@ -1,0 +1,802 @@
+:: Substitution in First-Order Formulas: Elementary Properties
+::  by Patrick Braselmann and Peter Koepke
+::
+:: Received September 25, 2004
+:: Copyright (c) 2004-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, QC_LANG1, CQC_LANG, FINSEQ_1, PARTFUN1,
+      XBOOLE_0, FUNCT_1, RELAT_1, XXREAL_0, NAT_1, TARSKI, FINSET_1, ZFMISC_1,
+      ZF_LANG, CLASSES2, CARD_1, BVFUNC_2, ORDINAL4, REALSET1, XBOOLEAN,
+      MARGREL1, MCART_1, ARYTM_3, SUBSTUT1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, XTUPLE_0, SUBSET_1, RELAT_1, FUNCT_1,
+      CARD_1, ORDINAL1, NUMBERS, FINSEQ_1, NAT_1, QC_LANG1, QC_LANG3, PARTFUN1,
+      SEQ_4, CQC_LANG, FINSET_1, RELSET_1, FUNCT_2, DOMAIN_1, MCART_1,
+      XXREAL_0, CARD_3;
+ constructors PARTFUN1, DOMAIN_1, XXREAL_0, NAT_1, SEQ_4, QC_LANG3, CQC_SIM1,
+      RELSET_1, ORDINAL1, CARD_3, ORDERS_1, XTUPLE_0;
+ registrations XBOOLE_0, SUBSET_1, FUNCT_1, ORDINAL1, RELSET_1, PARTFUN1,
+      FINSET_1, FINSEQ_1, QC_LANG1, CQC_LANG, XXREAL_0, XTUPLE_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve A for QC-alphabet;
+reserve a,b,b1,b2,c,d for object,
+  i,j,k,n for Nat,
+  x,y,x1,x2 for bound_QC-variable of A,
+  P for QC-pred_symbol of k,A,
+  ll for CQC-variable_list of k,A,
+  l1 ,l2 for FinSequence of QC-variables(A),
+  p for QC-formula of A,
+  s,t for QC-symbol of A;
+
+definition
+  let A;
+  func vSUB(A) -> set equals
+:: SUBSTUT1:def 1
+  PFuncs(bound_QC-variables(A),bound_QC-variables(A));
+end;
+
+registration
+  let A;
+  cluster vSUB(A) -> non empty;
+end;
+
+definition
+  let A;
+  mode CQC_Substitution of A is Element of vSUB(A);
+end;
+
+registration
+  let A;
+  cluster vSUB(A) -> functional;
+end;
+
+reserve Sub for CQC_Substitution of A;
+
+definition
+  let A;
+  let Sub;
+  func @Sub -> PartFunc of bound_QC-variables(A),bound_QC-variables(A) equals
+:: SUBSTUT1:def 2
+  Sub;
+end;
+
+theorem :: SUBSTUT1:1
+  a in dom Sub implies Sub.a in bound_QC-variables(A);
+
+definition
+  let A;
+  let l be FinSequence of QC-variables(A);
+  let Sub;
+  func CQC_Subst(l,Sub) -> FinSequence of QC-variables(A) means
+:: SUBSTUT1:def 3
+
+  len it =
+len l & for k st 1 <= k & k <= len l holds (l.k in dom Sub implies it.k = Sub.(
+  l.k)) & (not l.k in dom Sub implies it.k = l.k);
+end;
+
+definition
+  let A;
+  let l be FinSequence of bound_QC-variables(A);
+  func @l -> FinSequence of QC-variables(A) equals
+:: SUBSTUT1:def 4
+  l;
+end;
+
+definition
+  let A;
+  let l be FinSequence of bound_QC-variables(A);
+  let Sub;
+  func CQC_Subst(l,Sub) -> FinSequence of bound_QC-variables(A) equals
+:: SUBSTUT1:def 5
+  CQC_Subst(
+  @l,Sub);
+end;
+
+definition
+  let A;
+  let Sub;
+  let X be set;
+  redefine func Sub|X -> CQC_Substitution of A;
+end;
+
+registration
+  let A;
+  cluster finite for CQC_Substitution of A;
+end;
+
+definition
+  let A;
+  let x, p, Sub;
+  func RestrictSub(x,p,Sub) -> finite CQC_Substitution of A equals
+:: SUBSTUT1:def 6
+  Sub|{y : y in
+  still_not-bound_in p & y is Element of dom Sub & y <> x & y <> Sub.y};
+end;
+
+definition
+  let A;
+  let l1;
+  func Bound_Vars(l1) -> Subset of bound_QC-variables(A) equals
+:: SUBSTUT1:def 7
+  { l1.k : 1 <= k &
+  k <= len l1 & l1.k in bound_QC-variables(A)};
+end;
+
+definition
+  let A;
+  let p;
+  func Bound_Vars(p) -> Subset of bound_QC-variables(A) means
+:: SUBSTUT1:def 8
+
+  ex F being
+  Function of QC-WFF(A), bool bound_QC-variables(A)
+   st it = F.p & for p being Element
+of QC-WFF(A) for d1,d2 being Subset of bound_QC-variables(A)
+holds (p = VERUM(A) implies
+  F.p = {}(bound_QC-variables(A))) & (p is atomic implies F.p = Bound_Vars(
+the_arguments_of p)) & (p is negative & d1 = F.the_argument_of p implies F.p =
+  d1) & (p is conjunctive & d1 = F.the_left_argument_of p & d2 = F.
+  the_right_argument_of p implies F.p = d1 \/ d2) & (p is universal & d1 = F.
+  the_scope_of p implies F.p = (d1 \/ {bound_in p}));
+end;
+
+theorem :: SUBSTUT1:2
+  Bound_Vars(VERUM(A)) = {};
+
+theorem :: SUBSTUT1:3
+  for p being QC-formula of A st p is atomic holds Bound_Vars(p) = Bound_Vars
+  (the_arguments_of p);
+
+theorem :: SUBSTUT1:4
+  for p being QC-formula of A st p is negative holds Bound_Vars(p) =
+  Bound_Vars(the_argument_of p);
+
+theorem :: SUBSTUT1:5
+  for p being QC-formula of A st p is conjunctive holds Bound_Vars(p) = (
+  Bound_Vars(the_left_argument_of p)) \/ ( Bound_Vars(the_right_argument_of p))
+;
+
+theorem :: SUBSTUT1:6
+  for p being QC-formula of A st p is universal holds Bound_Vars(p) =
+  Bound_Vars(the_scope_of p) \/ {bound_in p};
+
+registration
+  let A;
+  let p;
+  cluster Bound_Vars(p) -> finite;
+end;
+
+definition
+  let A;
+  let p;
+  func Dom_Bound_Vars(p) -> finite Subset of QC-symbols(A) equals
+:: SUBSTUT1:def 9
+  {s : x.s in Bound_Vars p};
+end;
+
+reserve finSub for finite CQC_Substitution of A;
+
+definition
+  let A;
+  let finSub;
+  func Sub_Var(finSub) -> finite Subset of QC-symbols(A) equals
+:: SUBSTUT1:def 10
+  {s : x.s in rng finSub};
+end;
+
+definition
+  let A;
+  let p, finSub;
+  func NSub(p,finSub) -> non empty Subset of QC-symbols(A) equals
+:: SUBSTUT1:def 11
+  NAT\(Dom_Bound_Vars(p)\/ Sub_Var(finSub));
+end;
+
+definition
+  let A;
+  let finSub, p;
+  func upVar(finSub,p) -> QC-symbol of A equals
+:: SUBSTUT1:def 12
+  the Element of NSub(p,finSub);
+end;
+
+definition
+  let A;
+  let x, p, finSub;
+  assume
+ ex Sub st finSub = RestrictSub(x,All(x,p),Sub);
+  func ExpandSub(x,p,finSub) -> CQC_Substitution of A equals
+:: SUBSTUT1:def 13
+  finSub \/ {[x,x.upVar(finSub,p)]}
+    if x in rng finSub otherwise finSub \/ {[x,x]};
+end;
+
+definition
+  let A;
+  let p, Sub; let b be object;
+  pred p,Sub PQSub b means
+:: SUBSTUT1:def 14
+
+  (p is universal implies b = ExpandSub(
+  bound_in p,the_scope_of p, RestrictSub(bound_in p,p,Sub))) & (not p is
+  universal implies b = {});
+end;
+
+definition
+  let A;
+  func QSub(A) -> Function means
+:: SUBSTUT1:def 15
+  a in it iff ex p,Sub,b st a = [[p,Sub],b] & p, Sub PQSub b;
+end;
+
+begin :: Definition and Properties of the
+:: Formula - Substitution - Construction
+
+reserve e for Element of vSUB(A);
+
+theorem :: SUBSTUT1:7
+  [:QC-WFF(A),vSUB(A):] is Subset of [:[:NAT, QC-symbols(A):]*,vSUB(A):] &
+(for k being Nat, p being (QC-pred_symbol of k,A),
+ll being QC-variable_list
+  of k,A , e being Element of vSUB(A) holds [<*p*>^ll,e]
+in [:QC-WFF(A),vSUB(A):]) & (for e
+  being Element of vSUB(A) holds [<*[0, 0]*>,e] in
+[:QC-WFF(A),vSUB(A):]) & (for p being
+FinSequence of [:NAT,QC-symbols(A):], e being Element of vSUB(A)
+st [p,e] in [:QC-WFF(A),vSUB(A):]
+holds [<*[1, 0]*>^p,e] in [:QC-WFF(A),vSUB(A):]) &
+(for p, q being FinSequence of [:
+  NAT, QC-symbols(A):], e being Element of vSUB(A) st
+[p,e] in [:QC-WFF(A),vSUB(A):] & [q,e] in [:
+  QC-WFF(A),vSUB(A):] holds [<*[2, 0]*>^p^q,e]
+in [:QC-WFF(A),vSUB(A):]) & (for x being
+bound_QC-variable of A, p being FinSequence of [:NAT, QC-symbols(A):],
+e being Element of vSUB(A)
+st [p,(QSub(A)).[<*[3, 0]*>^<*x*>^p,e]] in [:QC-WFF(A),vSUB(A):]
+holds [<*[3, 0]*>^<*x*>^p,e] in [:QC-WFF(A),vSUB(A):]);
+
+definition
+  let A;
+  let IT be set;
+  attr IT is A-Sub-closed means
+:: SUBSTUT1:def 16
+
+  IT is Subset of [:[:NAT, QC-symbols(A):]*,vSUB(A):] &
+  (for k being Nat, p being (QC-pred_symbol of k,A), ll being
+QC-variable_list of k,A, e being Element of vSUB(A) holds
+[<*p*>^ll,e] in IT) & (for
+e being Element of vSUB(A) holds [<*[0, 0]*>,e] in IT) &
+(for p being FinSequence of [:NAT,QC-symbols(A):],
+     e being Element of vSUB(A) st
+[p,e] in IT holds [<*[1, 0]*>^p,e]
+  in IT) & (for p, q being FinSequence of [:NAT, QC-symbols(A):],
+  e being Element of vSUB(A)
+  st [p,e] in IT & [q,e] in IT holds [<*[2, 0]*>^p^q,e] in IT) & (for x being
+bound_QC-variable of A, p being FinSequence of [:NAT, QC-symbols(A):],
+e being Element of vSUB(A) st [p,(QSub(A)).[<*[3, 0]*>^<*x*>^p,e]] in IT holds
+[<*[3, 0]*>^<*x*>^p,e] in IT);
+end;
+
+registration
+  let A;
+  cluster A-Sub-closed non empty for set;
+end;
+
+definition
+  let A;
+  func QC-Sub-WFF(A) -> non empty set means
+:: SUBSTUT1:def 17
+
+  it is A-Sub-closed & for D
+  being non empty set st D is A-Sub-closed holds it c= D;
+end;
+
+reserve S,S9,S1,S2,S19,S29,T1,T2 for Element of QC-Sub-WFF(A);
+
+theorem :: SUBSTUT1:8
+  ex p,e st S = [p,e];
+
+registration
+  let A;
+  cluster QC-Sub-WFF(A) -> A-Sub-closed;
+end;
+
+definition
+  let A;
+  let P be QC-pred_symbol of A;
+  let l be FinSequence of QC-variables(A);
+  let e;
+  assume
+ the_arity_of P = len l;
+  func Sub_P(P,l,e) -> Element of QC-Sub-WFF(A) equals
+:: SUBSTUT1:def 18
+
+  [P!l,e];
+end;
+
+theorem :: SUBSTUT1:9
+  for k being Nat, P being QC-pred_symbol of k,A, ll being
+  QC-variable_list of k,A holds Sub_P(P,ll,e) = [P!ll,e];
+
+definition
+  let A;
+  let S;
+  attr S is A-Sub_VERUM means
+:: SUBSTUT1:def 19
+
+  ex e st S = [VERUM(A),e];
+end;
+
+definition
+  let A;
+  let S;
+  redefine func S`1 -> Element of QC-WFF(A);
+  redefine func S`2 -> Element of vSUB(A);
+end;
+
+theorem :: SUBSTUT1:10
+  S = [S`1,S`2];
+
+definition
+  let A;
+  let S;
+  func Sub_not S -> Element of QC-Sub-WFF(A) equals
+:: SUBSTUT1:def 20
+  ['not' S`1,S`2];
+end;
+
+definition
+  let A;
+  let S, S9;
+  assume
+ S`2 = (S9)`2;
+  func Sub_&(S,S9) -> Element of QC-Sub-WFF(A) equals
+:: SUBSTUT1:def 21
+
+  [(S`1) '&' ((S9)`1)
+  ,S`2];
+end;
+
+reserve B for Element of [:QC-Sub-WFF(A),bound_QC-variables(A):];
+
+definition
+  let A;
+  let B;
+  redefine func B`1 -> Element of QC-Sub-WFF(A);
+  redefine func B`2 -> Element of bound_QC-variables(A);
+end;
+
+definition
+  let A;
+  let B;
+  attr B is quantifiable means
+:: SUBSTUT1:def 22
+
+  ex e st (B`1)`2 = (QSub(A)).[All((B)`2,(B`1) `1),e];
+end;
+
+definition
+  let A;
+  let B;
+  assume
+ B is quantifiable;
+  mode second_Q_comp of B -> Element of vSUB(A) means
+:: SUBSTUT1:def 23
+
+    (B`1)`2 = (QSub(A)).[All (B`2,(B`1)`1),it];
+end;
+
+reserve SQ for second_Q_comp of B;
+
+definition
+  let A;
+  let B, SQ;
+  assume
+ B is quantifiable;
+  func Sub_All(B,SQ) -> Element of QC-Sub-WFF(A) equals
+:: SUBSTUT1:def 24
+
+  [All(B`2,(B`1)`1)
+  ,SQ];
+end;
+
+definition
+  let A;
+  let S, x;
+  redefine func [S,x] -> Element of [:QC-Sub-WFF(A),bound_QC-variables(A):];
+end;
+
+scheme :: SUBSTUT1:sch 1
+  SubQCInd { Al() -> QC-alphabet, Pro[Element of QC-Sub-WFF(Al())]}:
+for S being Element of QC-Sub-WFF(Al())
+  holds Pro[S]
+provided
+ for k being Nat, P being (QC-pred_symbol of k,Al()), ll being
+QC-variable_list of k,Al(), e being Element of vSUB(Al()) holds
+Pro[Sub_P(P,ll,e)] and
+ for S being Element of QC-Sub-WFF(Al()) st
+S is Al()-Sub_VERUM holds Pro[S] and
+ for S being Element of QC-Sub-WFF(Al()) st Pro[S] holds Pro[Sub_not S] and
+ for S,S9 being Element of QC-Sub-WFF(Al())
+st S`2 = (S9)`2 & Pro[S] & Pro[S9] holds Pro[Sub_&(S,S9)] and
+ for x being bound_QC-variable of Al(),
+S being Element of QC-Sub-WFF(Al()), SQ
+being second_Q_comp of [S,x] st [S,x] is quantifiable & Pro[S] holds Pro[
+Sub_All([S,x], SQ)];
+
+definition
+  let A;
+  let S;
+  attr S is Sub_atomic means
+:: SUBSTUT1:def 25
+
+  ex k being Nat, P being
+QC-pred_symbol of k,A, ll being QC-variable_list of k,A,
+e being Element of vSUB(A) st
+  S = Sub_P(P,ll,e);
+end;
+
+theorem :: SUBSTUT1:11
+  S is Sub_atomic implies S`1 is atomic;
+
+registration
+  let A;
+  let k be Nat;
+  let P be (QC-pred_symbol of k,A), ll be QC-variable_list of k,A;
+  let e be Element of vSUB(A);
+  cluster Sub_P(P,ll,e) -> Sub_atomic;
+end;
+
+definition
+  let A;
+  let S;
+  attr S is Sub_negative means
+:: SUBSTUT1:def 26
+
+  ex S9 st S = Sub_not S9;
+  attr S is Sub_conjunctive means
+:: SUBSTUT1:def 27
+
+  ex S1,S2 st S = Sub_&(S1,S2) & S1`2 = S2`2;
+end;
+
+definition
+  let A;
+  let S;
+  attr S is Sub_universal means
+:: SUBSTUT1:def 28
+
+  ex B,SQ st S = Sub_All(B,SQ) & B is quantifiable;
+end;
+
+theorem :: SUBSTUT1:12
+  for S holds S is A-Sub_VERUM or S is Sub_atomic or S is
+  Sub_negative or S is Sub_conjunctive or S is Sub_universal;
+
+definition
+  let A;
+  let S such that
+ S is Sub_atomic;
+  func Sub_the_arguments_of S -> FinSequence of QC-variables(A) means
+:: SUBSTUT1:def 29
+
+  ex k being Nat, P being (QC-pred_symbol of k,A), ll being
+QC-variable_list of k,A, e being Element of vSUB(A)
+st it = ll & S = Sub_P(P,ll,e);
+end;
+
+definition
+  let A;
+  let S such that
+ S is Sub_negative;
+  func Sub_the_argument_of S -> Element of QC-Sub-WFF(A) means
+:: SUBSTUT1:def 30
+
+  S = Sub_not it;
+end;
+
+definition
+  let A;
+  let S such that
+ S is Sub_conjunctive;
+  func Sub_the_left_argument_of S -> Element of QC-Sub-WFF(A) means
+:: SUBSTUT1:def 31
+
+  ex S9 st S = Sub_&(it,S9) & it`2 = (S9)`2;
+end;
+
+definition
+  let A;
+  let S such that
+ S is Sub_conjunctive;
+  func Sub_the_right_argument_of S -> Element of QC-Sub-WFF(A) means
+:: SUBSTUT1:def 32
+
+  ex S9 st S = Sub_&(S9,it) & (S9)`2 = it`2;
+end;
+
+definition
+  let A;
+  let S such that
+ S is Sub_universal;
+  func Sub_the_bound_of S -> bound_QC-variable of A means
+:: SUBSTUT1:def 33
+  ex B,SQ st S = Sub_All(B, SQ) & B`2 = it & B is quantifiable;
+end;
+
+definition
+  let A;
+  let A2 be Element of QC-Sub-WFF(A) such that
+ A2 is Sub_universal;
+  func Sub_the_scope_of A2 -> Element of QC-Sub-WFF(A) means
+:: SUBSTUT1:def 34
+
+  ex B,SQ st A2 = Sub_All(B,SQ) & B`1 = it & B is quantifiable;
+end;
+
+registration
+  let A;
+  let S;
+  cluster Sub_not S -> Sub_negative;
+end;
+
+theorem :: SUBSTUT1:13
+  S1`2 = S2`2 implies Sub_&(S1,S2) is Sub_conjunctive;
+
+theorem :: SUBSTUT1:14
+  B is quantifiable implies Sub_All(B,SQ) is Sub_universal;
+
+theorem :: SUBSTUT1:15
+  Sub_not(S) = Sub_not(S9) implies S = S9;
+
+theorem :: SUBSTUT1:16
+  Sub_the_argument_of(Sub_not(S)) = S;
+
+theorem :: SUBSTUT1:17
+  S1`2 = S2`2 & (S19)`2 = (S29)`2 & Sub_&(S1,S2) = Sub_&(S19,S29)
+  implies S1 = S19 & S2 = S29;
+
+theorem :: SUBSTUT1:18
+  S1`2 = S2`2 implies Sub_the_left_argument_of(Sub_&(S1,S2)) = S1;
+
+theorem :: SUBSTUT1:19
+  S1`2 = S2`2 implies Sub_the_right_argument_of(Sub_&(S1,S2)) = S2;
+
+theorem :: SUBSTUT1:20
+  for B1,B2 being Element of [:QC-Sub-WFF(A),bound_QC-variables(A):], SQ1
+being second_Q_comp of B1, SQ2 being second_Q_comp of B2 st B1 is quantifiable
+  & B2 is quantifiable & Sub_All(B1,SQ1) = Sub_All(B2,SQ2) holds B1 = B2;
+
+theorem :: SUBSTUT1:21
+  B is quantifiable implies Sub_the_scope_of(Sub_All(B,SQ)) = B`1;
+
+scheme :: SUBSTUT1:sch 2
+  SubQCInd2 {Al() -> QC-alphabet, Pro[Element of QC-Sub-WFF(Al())]}:
+for S being Element of QC-Sub-WFF(Al())
+  holds Pro[S]
+provided
+ for S being Element of QC-Sub-WFF(Al()) holds (S is Sub_atomic implies Pro
+[S]) & (S is Al()-Sub_VERUM implies Pro[S]) & (S is Sub_negative & Pro[
+Sub_the_argument_of S] implies Pro[S]) & (S is Sub_conjunctive & Pro[
+Sub_the_left_argument_of S] & Pro[Sub_the_right_argument_of S] implies Pro[S])
+& (S is Sub_universal & Pro[Sub_the_scope_of S] implies Pro[S]);
+
+theorem :: SUBSTUT1:22
+  S is Sub_negative implies len @((Sub_the_argument_of(S))`1) < len @(S`1);
+
+theorem :: SUBSTUT1:23
+  S is Sub_conjunctive implies len @((Sub_the_left_argument_of(S))
+  `1) < len @(S`1) & len @((Sub_the_right_argument_of(S))`1) < len @(S`1);
+
+theorem :: SUBSTUT1:24
+  S is Sub_universal implies len@((Sub_the_scope_of(S))`1) < len @ (S`1);
+
+theorem :: SUBSTUT1:25
+  (S is A-Sub_VERUM implies ((@S`1).1)`1 = 0) & (S is Sub_atomic
+  implies ex k being Nat st (@S`1).1 is QC-pred_symbol of k,A)
+& (S is
+Sub_negative implies ((@S`1).1)`1 = 1) & (S is Sub_conjunctive implies ((@S`1).
+  1)`1 = 2) & (S is Sub_universal implies ((@S`1).1)`1 = 3);
+
+theorem :: SUBSTUT1:26
+  S is Sub_atomic implies ((@S`1).1)`1 <> 0 & ((@S`1).1)`1 <> 1 &
+  ((@S`1).1)`1 <> 2 & ((@S`1).1)`1 <> 3;
+
+theorem :: SUBSTUT1:27
+  not (ex S st S is Sub_atomic Sub_negative or S is Sub_atomic
+  Sub_conjunctive or S is Sub_atomic Sub_universal or S is Sub_negative
+  Sub_conjunctive or S is Sub_negative Sub_universal or S is Sub_conjunctive
+Sub_universal or S is A-Sub_VERUM Sub_atomic or S is A-Sub_VERUM
+Sub_negative or S
+  is A-Sub_VERUM Sub_conjunctive or S is A-Sub_VERUM Sub_universal );
+
+scheme :: SUBSTUT1:sch 3
+  SubFuncEx { Al() -> QC-alphabet, D()-> non empty set,
+  V() -> (Element of D()), A(Element of QC-Sub-WFF(Al())) -> (Element of D()),
+  N(Element of D()) -> (Element of D()),
+  C((Element of D()),(Element of D())) -> (Element of D()),
+  R(set,Element of QC-Sub-WFF(Al()), Element of D()) -> Element of D()} :
+ex F being Function of QC-Sub-WFF(Al()), D()
+st for S being Element of QC-Sub-WFF(Al())
+for d1,d2 being Element of D() holds (S is Al()-Sub_VERUM implies F.S = V()) &
+(S is Sub_atomic implies F.S = A(S)) & (S is Sub_negative &
+d1 = F.Sub_the_argument_of S implies F.S = N(d1)) & (S is Sub_conjunctive &
+d1 = F.Sub_the_left_argument_of S & d2 = F.Sub_the_right_argument_of S
+implies F.S = C(d1, d2)) & (S is Sub_universal & d1 = F.Sub_the_scope_of S
+implies F.S = R(Al(),S,d1));
+
+scheme :: SUBSTUT1:sch 4
+  SubQCFuncUniq { Al() -> QC-alphabet, D() -> non empty set,
+      F1() -> (Function of QC-Sub-WFF(Al()), D()),
+      F2() -> (Function of QC-Sub-WFF(Al()), D()), V() -> (Element of D()),
+      A(set) -> (Element of D()), N(set) -> (Element of D()),
+      C(set,set) -> (Element of D()), R(set,set,set) -> Element of D()}
+:
+F1() = F2()
+provided
+ for S being Element of QC-Sub-WFF(Al()) for d1,d2 being Element of D()
+holds (S is Al()-Sub_VERUM implies F1().S = V()) &
+(S is Sub_atomic implies F1().S =
+A(S)) & (S is Sub_negative & d1 = F1().Sub_the_argument_of S implies F1().S = N
+(d1)) & (S is Sub_conjunctive & d1 = F1().Sub_the_left_argument_of S & d2 = F1(
+).Sub_the_right_argument_of S implies F1().S = C(d1, d2)) & (S is Sub_universal
+& d1 = F1().Sub_the_scope_of S implies F1().S = R(Al(),S, d1)) and
+ for S being Element of QC-Sub-WFF(Al()) for d1,d2 being Element of D()
+holds (S is Al()-Sub_VERUM implies F2().S = V()) &
+(S is Sub_atomic implies F2().S =
+A(S)) & (S is Sub_negative & d1 = F2().Sub_the_argument_of S implies F2().S = N
+(d1)) & (S is Sub_conjunctive & d1 = F2().Sub_the_left_argument_of S & d2 = F2(
+).Sub_the_right_argument_of S implies F2().S = C(d1, d2)) & (S is Sub_universal
+& d1 = F2().Sub_the_scope_of S implies F2().S = R(Al(),S, d1));
+
+definition
+  let A;
+  let S;
+  func @S -> Element of [:QC-WFF(A),vSUB(A):] equals
+:: SUBSTUT1:def 35
+  S;
+end;
+
+reserve Z for Element of [:QC-WFF(A),vSUB(A):];
+
+definition
+  let A;
+  let Z;
+  redefine func Z`1 -> Element of QC-WFF(A);
+  redefine func Z`2 -> CQC_Substitution of A;
+end;
+
+definition
+  let A;
+  let Z;
+  func S_Bound(Z) -> bound_QC-variable of A equals
+:: SUBSTUT1:def 36
+  x.upVar(RestrictSub(bound_in Z`1
+,Z`1,Z`2),(the_scope_of Z`1)) if bound_in(Z`1) in rng(RestrictSub(bound_in Z`1,
+  Z`1,Z`2)) otherwise bound_in(Z`1);
+end;
+
+definition
+  let A;
+  let S, p;
+  func Quant(S,p) -> Element of QC-WFF(A) equals
+:: SUBSTUT1:def 37
+  All(S_Bound(@S),p);
+end;
+
+begin :: Definition and Properties of Substitution
+:: (Ebb et al, Chapter III, Definition 8.1/8.2)
+
+definition
+  let A;
+  let S be Element of QC-Sub-WFF(A);
+  func CQC_Sub(S) -> Element of QC-WFF(A) means
+:: SUBSTUT1:def 38
+
+  ex F being Function of
+QC-Sub-WFF(A),QC-WFF(A) st it = F.S & for S9 being Element of
+QC-Sub-WFF(A) holds (S9 is
+  A-Sub_VERUM implies F.S9 = VERUM(A)) & ( S9 is Sub_atomic implies F.S9 = (
+the_pred_symbol_of ((S9)`1))! CQC_Subst(Sub_the_arguments_of S9,(S9)`2)) & (S9
+  is Sub_negative implies F.S9 = 'not' (F.(Sub_the_argument_of S9))) & (S9 is
+  Sub_conjunctive implies F.S9 = (F.Sub_the_left_argument_of S9) '&' (F.
+Sub_the_right_argument_of S9)) & (S9 is Sub_universal implies F.S9 = Quant(S9,F
+  .Sub_the_scope_of S9));
+end;
+
+theorem :: SUBSTUT1:28
+  S is Sub_negative implies CQC_Sub(S) = 'not' CQC_Sub( Sub_the_argument_of S);
+
+theorem :: SUBSTUT1:29
+  CQC_Sub(Sub_not S) = 'not' CQC_Sub(S);
+
+theorem :: SUBSTUT1:30
+  S is Sub_conjunctive implies CQC_Sub(S) = (CQC_Sub(
+  Sub_the_left_argument_of S)) '&' (CQC_Sub(Sub_the_right_argument_of S));
+
+theorem :: SUBSTUT1:31
+  S1`2 = S2`2 implies CQC_Sub(Sub_&(S1,S2)) = (CQC_Sub(S1)) '&' ( CQC_Sub(S2));
+
+theorem :: SUBSTUT1:32
+  S is Sub_universal implies CQC_Sub(S) = Quant(S,CQC_Sub( Sub_the_scope_of S))
+;
+
+definition
+  let A;
+  func CQC-Sub-WFF(A) -> Subset of QC-Sub-WFF(A) equals
+:: SUBSTUT1:def 39
+  {S : S`1 is Element of
+  CQC-WFF(A)};
+end;
+
+registration
+  let A;
+  cluster CQC-Sub-WFF(A) -> non empty;
+end;
+
+theorem :: SUBSTUT1:33
+  S is A-Sub_VERUM implies CQC_Sub(S) is Element of CQC-WFF(A);
+
+theorem :: SUBSTUT1:34
+  for h being FinSequence holds h is CQC-variable_list of k,A iff h
+  is FinSequence of bound_QC-variables(A) & len h = k;
+
+theorem :: SUBSTUT1:35
+  CQC_Sub(Sub_P(P,ll,e)) is Element of CQC-WFF(A);
+
+theorem :: SUBSTUT1:36
+  CQC_Sub(S) is Element of CQC-WFF(A) implies CQC_Sub(Sub_not S) is
+  Element of CQC-WFF(A);
+
+theorem :: SUBSTUT1:37
+  S1`2 = S2`2 & CQC_Sub(S1) is Element of CQC-WFF(A) & CQC_Sub(S2) is
+  Element of CQC-WFF(A) implies CQC_Sub(Sub_&(S1,S2)) is Element of CQC-WFF(A);
+
+reserve xSQ for second_Q_comp of [S,x];
+
+theorem :: SUBSTUT1:38
+  CQC_Sub(S) is Element of CQC-WFF(A) & [S,x] is quantifiable implies
+  CQC_Sub(Sub_All([S,x],xSQ)) is Element of CQC-WFF(A);
+
+reserve S for Element of CQC-Sub-WFF(A);
+
+scheme :: SUBSTUT1:sch 5
+  SubCQCInd { Al() -> QC-alphabet, Pro[set] } :
+for S being Element of CQC-Sub-WFF(Al()) holds Pro[S]
+provided
+ for S,S9 being Element of CQC-Sub-WFF(Al()),
+x being bound_QC-variable of Al(),
+SQ being second_Q_comp of [S,x],
+k being Nat,
+ll being CQC-variable_list of k,Al(),
+P being (QC-pred_symbol of k,Al()),
+e being Element of vSUB(Al()) holds
+Pro[Sub_P(P,ll,e)] &
+(S is Al()-Sub_VERUM implies Pro[S]) &
+(Pro[S] implies Pro[Sub_not S]) &
+(S`2 = (S9)`2 & Pro[S] & Pro[S9] implies Pro[Sub_&(S,S9)]) &
+([S,x] is quantifiable
+& Pro[S] implies Pro[Sub_All([S,x], SQ)]);
+
+definition
+  let A;
+  let S;
+  redefine func CQC_Sub(S) -> Element of CQC-WFF(A);
+end;
+
+theorem :: SUBSTUT1:39
+  rng @Sub c= bound_QC-variables(A);

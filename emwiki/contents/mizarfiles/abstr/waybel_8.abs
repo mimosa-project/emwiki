@@ -1,0 +1,314 @@
+:: Algebraic Lattices
+::  by Robert Milewski
+::
+:: Received December 1, 1996
+:: Copyright (c) 1996-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, RELAT_2, ORDERS_2, STRUCT_0, CAT_1, YELLOW_0, SUBSET_1,
+      RCOMP_1, WELLORD1, TARSKI, LATTICES, REWRITE1, WAYBEL_0, XXREAL_0,
+      WAYBEL_3, WAYBEL_6, CARD_FIL, LATTICE3, EQREL_1, ORDINAL2, FINSET_1,
+      ZFMISC_1, WAYBEL_4, MSSUBFAM, WAYBEL_7, INT_2, WAYBEL_1, FUNCT_1,
+      GROUP_6, RELAT_1, BINOP_1, SEQM_3, YELLOW_1, FILTER_1, SETFAM_1,
+      WAYBEL_8, CARD_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, SETFAM_1, CARD_1, FINSET_1,
+      RELAT_1, TOLER_1, FUNCT_1, RELSET_1, FUNCT_2, DOMAIN_1, RELAT_2,
+      STRUCT_0, ORDERS_2, LATTICE3, QUANTAL1, YELLOW_0, YELLOW_1, YELLOW_2,
+      WAYBEL_0, WAYBEL_1, WAYBEL_3, WAYBEL_4, WAYBEL_6, WAYBEL_7;
+ constructors DOMAIN_1, TOLER_1, QUANTAL1, ORDERS_3, WAYBEL_1, YELLOW_3,
+      WAYBEL_3, WAYBEL_4, WAYBEL_6, WAYBEL_7, RELSET_1, PRALG_1;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, FINSET_1, STRUCT_0, LATTICE3,
+      YELLOW_0, WAYBEL_0, YELLOW_1, YELLOW_2, WAYBEL_1, WAYBEL_2, WAYBEL_3,
+      WAYBEL_4, WAYBEL_6;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin :: The Subset of All Compact Elements
+
+definition :: DEFINITION 4.1
+  let L be non empty reflexive RelStr;
+  func CompactSublatt L -> strict full SubRelStr of L means
+:: WAYBEL_8:def 1
+
+  for x be Element of L holds x in the carrier of it iff x is compact;
+end;
+
+registration
+  let L be lower-bounded non empty reflexive antisymmetric RelStr;
+  cluster CompactSublatt L -> non empty;
+end;
+
+theorem :: WAYBEL_8:1
+  for L be complete LATTICE for x,y,k be Element of L holds x <= k & k
+  <= y & k in the carrier of CompactSublatt L implies x << y;
+
+theorem :: WAYBEL_8:2 :: REMARK 4.2
+  for L be complete LATTICE for x be Element of L holds uparrow x is
+  Open Filter of L iff x is compact;
+
+theorem :: WAYBEL_8:3 :: REMARK 4.3
+  for L be lower-bounded with_suprema non empty Poset holds
+CompactSublatt L is join-inheriting & Bottom L in the carrier of CompactSublatt
+  L;
+
+definition
+  let L be non empty reflexive RelStr;
+  let x be Element of L;
+  func compactbelow x -> Subset of L equals
+:: WAYBEL_8:def 2
+  {y where y is Element of L: x >= y
+  & y is compact};
+end;
+
+theorem :: WAYBEL_8:4
+  for L be non empty reflexive RelStr for x,y be Element of L holds
+  y in compactbelow x iff x >= y & y is compact;
+
+theorem :: WAYBEL_8:5
+  for L be non empty reflexive RelStr for x be Element of L holds
+  compactbelow x = downarrow x /\ the carrier of CompactSublatt L;
+
+theorem :: WAYBEL_8:6
+  for L be non empty reflexive transitive RelStr for x be Element
+  of L holds compactbelow x c= waybelow x;
+
+registration
+  let L be non empty lower-bounded reflexive antisymmetric RelStr;
+  let x be Element of L;
+  cluster compactbelow x -> non empty;
+end;
+
+begin :: Algebraic Lattices
+
+definition
+  let L be non empty reflexive RelStr;
+  attr L is satisfying_axiom_K means
+:: WAYBEL_8:def 3
+
+  for x be Element of L holds x = sup compactbelow x;
+end;
+
+definition :: DEFINITION 4.4
+  let L be non empty reflexive RelStr;
+  attr L is algebraic means
+:: WAYBEL_8:def 4
+
+  (for x being Element of L holds
+  compactbelow x is non empty directed) & L is up-complete satisfying_axiom_K;
+end;
+
+theorem :: WAYBEL_8:7  :: PROPOSITION 4.5
+  for L be LATTICE holds L is algebraic iff ( L is continuous & for
+  x,y be Element of L st x << y ex k be Element of L st k in the carrier of
+  CompactSublatt L & x <= k & k <= y );
+
+registration
+  cluster algebraic -> continuous for LATTICE;
+end;
+
+registration
+  cluster algebraic -> up-complete satisfying_axiom_K for non empty reflexive
+    RelStr;
+end;
+
+registration
+  let L be non empty with_suprema Poset;
+  cluster CompactSublatt L -> join-inheriting;
+end;
+
+definition
+  let L be non empty reflexive RelStr;
+  attr L is arithmetic means
+:: WAYBEL_8:def 5
+
+  L is algebraic & CompactSublatt L is meet-inheriting;
+end;
+
+begin :: Arithmetic Lattices
+
+registration
+  cluster arithmetic -> algebraic for LATTICE;
+end;
+
+registration
+  cluster trivial -> arithmetic for LATTICE;
+end;
+
+registration
+  cluster 1-element strict for LATTICE;
+end;
+
+theorem :: WAYBEL_8:8
+  for L1,L2 be non empty reflexive antisymmetric RelStr st the
+RelStr of L1 = the RelStr of L2 & L1 is up-complete for x1,y1 be Element of L1
+  for x2,y2 be Element of L2 st x1 = x2 & y1 = y2 & x1 << y1 holds x2 << y2;
+
+theorem :: WAYBEL_8:9
+  for L1,L2 be non empty reflexive antisymmetric RelStr st the
+RelStr of L1 = the RelStr of L2 & L1 is up-complete for x be Element of L1 for
+  y be Element of L2 st x = y & x is compact holds y is compact;
+
+theorem :: WAYBEL_8:10
+  for L1,L2 be up-complete non empty reflexive antisymmetric
+RelStr st the RelStr of L1 = the RelStr of L2 for x be Element of L1 for y be
+  Element of L2 st x = y holds compactbelow x = compactbelow y;
+
+theorem :: WAYBEL_8:11
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 & L1 is non
+  empty holds L2 is non empty;
+
+theorem :: WAYBEL_8:12
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 & L1
+  is reflexive holds L2 is reflexive;
+
+theorem :: WAYBEL_8:13
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 & L1
+  is transitive holds L2 is transitive;
+
+theorem :: WAYBEL_8:14
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 & L1
+  is antisymmetric holds L2 is antisymmetric;
+
+theorem :: WAYBEL_8:15
+  for L1,L2 be non empty reflexive RelStr st the RelStr of L1 =
+  the RelStr of L2 & L1 is up-complete holds L2 is up-complete;
+
+theorem :: WAYBEL_8:16
+  for L1,L2 be up-complete non empty reflexive antisymmetric
+RelStr st the RelStr of L1 = the RelStr of L2 & L1 is satisfying_axiom_K & for
+  x be Element of L1 holds compactbelow x is non empty directed holds L2 is
+  satisfying_axiom_K;
+
+theorem :: WAYBEL_8:17
+  for L1,L2 be non empty reflexive antisymmetric RelStr st the
+  RelStr of L1 = the RelStr of L2 & L1 is algebraic holds L2 is algebraic;
+
+theorem :: WAYBEL_8:18
+  for L1,L2 be LATTICE st the RelStr of L1 = the RelStr of L2 & L1
+  is arithmetic holds L2 is arithmetic;
+
+registration
+  let L be non empty RelStr;
+  cluster the RelStr of L -> non empty;
+end;
+
+registration
+  let L be non empty reflexive RelStr;
+  cluster the RelStr of L -> reflexive;
+end;
+
+registration
+  let L be transitive RelStr;
+  cluster the RelStr of L -> transitive;
+end;
+
+registration
+  let L be antisymmetric RelStr;
+  cluster the RelStr of L -> antisymmetric;
+end;
+
+registration
+  let L be with_infima RelStr;
+  cluster the RelStr of L -> with_infima;
+end;
+
+registration
+  let L be with_suprema RelStr;
+  cluster the RelStr of L -> with_suprema;
+end;
+
+registration
+  let L be up-complete non empty reflexive RelStr;
+  cluster the RelStr of L -> up-complete;
+end;
+
+registration
+  let L be algebraic non empty reflexive antisymmetric RelStr;
+  cluster the RelStr of L -> algebraic;
+end;
+
+registration
+  let L be arithmetic LATTICE;
+  cluster the RelStr of L -> arithmetic;
+end;
+
+theorem :: WAYBEL_8:19 :: PROPOSITION 4.7 a)
+  for L be algebraic LATTICE holds L is arithmetic iff CompactSublatt L
+  is LATTICE;
+
+theorem :: WAYBEL_8:20  :: PROPOSITION 4.7 b)
+  for L be algebraic lower-bounded LATTICE holds L is arithmetic
+  iff L-waybelow is multiplicative;
+
+theorem :: WAYBEL_8:21 :: COROLLARY 4.8.a)
+  for L be arithmetic lower-bounded LATTICE, p be Element of L holds p
+  is pseudoprime implies p is prime;
+
+theorem :: WAYBEL_8:22 :: COROLLARY 4.8.b)
+  for L be algebraic distributive lower-bounded LATTICE st for p being
+  Element of L st p is pseudoprime holds p is prime holds L is arithmetic;
+
+registration
+  let L be algebraic LATTICE;
+  let c be closure Function of L,L;
+  cluster non empty directed for Subset of Image c;
+end;
+
+theorem :: WAYBEL_8:23
+  for L be algebraic LATTICE for c be closure Function of L,L st c
+is directed-sups-preserving holds c.:([#]CompactSublatt L) c= [#]CompactSublatt
+  Image c;
+
+theorem :: WAYBEL_8:24 :: PROPOSITION 4.9.(i)
+  for L be algebraic lower-bounded LATTICE for c be closure Function of
+  L,L st c is directed-sups-preserving holds Image c is algebraic LATTICE;
+
+theorem :: WAYBEL_8:25 :: PROPOSITION 4.9.(ii)
+  for L be algebraic lower-bounded LATTICE, c be closure Function of L,L
+  st c is directed-sups-preserving holds c.:([#]CompactSublatt L) = [#]
+  CompactSublatt Image c;
+
+begin :: Boolean Posets as Algebraic Lattices
+
+theorem :: WAYBEL_8:26
+  for X,x be set holds x is Element of BoolePoset X iff x c= X;
+
+theorem :: WAYBEL_8:27
+  for X be set for x,y be Element of BoolePoset X holds x << y iff
+for Y be Subset-Family of X st y c= union Y ex Z be finite Subset of Y st x c=
+  union Z;
+
+theorem :: WAYBEL_8:28
+  for X be set for x be Element of BoolePoset X holds x is finite
+  iff x is compact;
+
+theorem :: WAYBEL_8:29
+  for X be set for x be Element of BoolePoset X holds compactbelow
+  x = the set of all y where y is finite Subset of x;
+
+theorem :: WAYBEL_8:30
+  for X be set for F be Subset of X holds F in the carrier of
+  CompactSublatt BoolePoset X iff F is finite;
+
+registration
+  let X be set;
+  let x be Element of BoolePoset X;
+  cluster compactbelow x -> lower directed;
+end;
+
+theorem :: WAYBEL_8:31  :: EXAMPLES 4.11.(1b)
+  for X be set holds BoolePoset X is algebraic;
+
+registration
+  let X be set;
+  cluster BoolePoset X -> algebraic;
+end;

@@ -1,0 +1,442 @@
+:: A Test for the Stability of Networks
+::  by Agnieszka Rowi\'nska-Schwarzweller and Christoph Schwarzweller
+::
+:: Received January 17, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, POLYNOM2, COMPLFLD, POLYNOM1, ARYTM_1, FUNCT_1, REAL_1,
+      COMPLEX1, POLYNOM3, RELAT_1, RLVECT_1, FINSEQ_1, ZFMISC_1, INT_1,
+      VECTSP_1, ALGSEQ_1, GROUP_1, ALGSTR_1, POLYNOM5, SGRAPH1, ALGSTR_0,
+      FUNCT_4, RATFUNC1, MCART_1, HURWITZ, HURWITZ2, XBOOLE_0, POLYNOM4,
+      BINOP_1, PARTFUN1, LATTICES, XREAL_0, ABIAN, XCMPLX_0, SQUARE_1,
+      STRUCT_0, SUBSET_1, SUPINF_2, NAT_1, NUMBERS, CARD_1, MESFUNC1, XXREAL_0,
+      VALUED_0, YELLOW_8;
+ notations TARSKI, SUBSET_1, VALUED_0, NUMBERS, ORDINAL1, XCMPLX_0, COMPLEX1,
+      COMPLFLD, XREAL_0, SQUARE_1, RELAT_1, ALGSTR_0, FUNCT_7, VECTSP_1,
+      ARYTM_3, FUNCT_1, FUNCT_2, NAT_1, NAT_D, INT_1, GROUP_1, ABIAN, BINOP_1,
+      XXREAL_0, STRUCT_0, ALGSTR_1, RLVECT_1, VFUNCT_1, NORMSP_1, ALGSEQ_1,
+      POLYNOM3, POLYNOM4, POLYNOM5, RATFUNC1, HURWITZ;
+ constructors BINOP_1, REAL_1, BINARITH, ALGSTR_1, POLYNOM5, BHSP_1, RELSET_1,
+      FUNCT_4, ARYTM_3, ABIAN, NAT_D, SQUARE_1, POLYNOM4, VFUNCT_1, RATFUNC1,
+      HURWITZ, ALGSEQ_1, BINOP_2, XXREAL_2;
+ registrations XBOOLE_0, ORDINAL1, RELSET_1, XCMPLX_0, XXREAL_0, INT_1, NAT_1,
+      MEMBERED, STRUCT_0, VECTSP_1, COMPLFLD, ALGSTR_1, POLYNOM4, POLYNOM5,
+      XREAL_0, VALUED_0, ABIAN, FUNCT_2, RATFUNC1, POLYNOM3, VFUNCT_1,
+      XTUPLE_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: HURWITZ2:1
+for x,y being Complex st Im(x) = 0 & Re(y) = 0 holds Re(x/y) = 0;
+
+theorem :: HURWITZ2:2
+for a being Complex holds a * a*' = |.a.|^2;
+
+registration
+cluster Hurwitz for Polynomial of F_Complex;
+end;
+
+registration
+cluster 0 -> even;
+end;
+
+theorem :: HURWITZ2:3
+for L being add-associative right_zeroed right_complementable
+            associative distributive non empty doubleLoopStr
+for k being even Element of NAT
+for x being Element of L
+holds (power L).(-x,k) = (power L).(x,k);
+
+theorem :: HURWITZ2:4
+for L being add-associative right_zeroed right_complementable
+            associative distributive non empty doubleLoopStr
+for k being odd Element of NAT
+for x being Element of L
+holds (power L).(-x,k) = - ((power L).(x,k));
+
+theorem :: HURWITZ2:5
+for k being even Element of NAT
+for x being Element of F_Complex st Re(x) = 0
+holds Im((power F_Complex).(x,k)) = 0;
+
+theorem :: HURWITZ2:6
+for k being odd Element of NAT
+for x being Element of F_Complex st Re(x) = 0
+holds Re((power F_Complex).(x,k)) = 0;
+
+begin :: Even and Odd Part of Polynomials
+
+definition
+let L be non empty ZeroStr;
+let p be sequence of L;
+func even_part p -> sequence of L means
+:: HURWITZ2:def 1
+  for i being even Nat holds it.i = p.i &
+  for i being odd Nat holds it.i = 0.L;
+func odd_part p -> sequence of L means
+:: HURWITZ2:def 2
+  for i being even Nat holds it.i = 0.L &
+  for i being odd Nat holds it.i = p.i;
+end;
+
+registration
+let L be non empty ZeroStr;
+let p be Polynomial of L;
+cluster even_part p -> finite-Support;
+cluster odd_part p -> finite-Support;
+end;
+
+theorem :: HURWITZ2:7
+for L being non empty ZeroStr
+holds even_part 0_.(L) = 0_.(L) & odd_part 0_.(L) = 0_.(L);
+
+theorem :: HURWITZ2:8
+for L being non empty multLoopStr_0
+holds even_part 1_.(L) = 1_.(L) & odd_part 1_.(L) = 0_.(L);
+
+theorem :: HURWITZ2:9
+for L being left_zeroed right_zeroed non empty addLoopStr,
+    p being Polynomial of L
+holds even_part p + odd_part p = p;
+
+theorem :: HURWITZ2:10
+for L being left_zeroed right_zeroed non empty addLoopStr,
+    p being Polynomial of L
+holds odd_part p + even_part p = p;
+
+theorem :: HURWITZ2:11
+for L being add-associative right_zeroed right_complementable
+      non empty addLoopStr,
+    p being Polynomial of L
+holds p - odd_part p = even_part p;
+
+theorem :: HURWITZ2:12
+for L being add-associative right_zeroed right_complementable
+      non empty addLoopStr,
+    p being Polynomial of L
+holds p - even_part p = odd_part p;
+
+theorem :: HURWITZ2:13
+for L being add-associative right_zeroed right_complementable
+            Abelian non empty addLoopStr,
+    p being Polynomial of L
+holds even_part p - p = - odd_part p;
+
+theorem :: HURWITZ2:14
+for L being add-associative right_zeroed right_complementable
+            Abelian non empty addLoopStr,
+    p being Polynomial of L
+holds odd_part p - p = - even_part p;
+
+theorem :: HURWITZ2:15
+for L being add-associative right_zeroed right_complementable
+            Abelian non empty addLoopStr,
+    p,q being Polynomial of L
+holds even_part(p+q) = even_part(p) + even_part(q);
+
+theorem :: HURWITZ2:16
+for L being add-associative right_zeroed right_complementable
+            Abelian non empty addLoopStr,
+    p,q being Polynomial of L
+holds odd_part(p+q) = odd_part(p) + odd_part(q);
+
+theorem :: HURWITZ2:17
+for L being well-unital non empty doubleLoopStr
+for p being Polynomial of L st deg p is even
+holds even_part Leading-Monomial(p) = Leading-Monomial(p);
+
+theorem :: HURWITZ2:18
+for L being well-unital non empty doubleLoopStr
+for p being Polynomial of L st deg p is odd
+holds even_part Leading-Monomial(p) = 0_.(L);
+
+theorem :: HURWITZ2:19
+for L being well-unital non empty doubleLoopStr
+for p being Polynomial of L st deg p is even
+holds odd_part Leading-Monomial(p) = 0_.(L);
+
+theorem :: HURWITZ2:20
+for L being well-unital non empty doubleLoopStr
+for p being Polynomial of L st deg p is odd
+holds odd_part Leading-Monomial(p) = Leading-Monomial(p);
+
+theorem :: HURWITZ2:21
+for L being well-unital add-associative right_zeroed right_complementable
+            Abelian associative distributive non degenerated doubleLoopStr
+for p being non zero Polynomial of L
+holds deg even_part(p) <> deg odd_part(p);
+
+theorem :: HURWITZ2:22
+for L being well-unital add-associative right_zeroed right_complementable
+            associative Abelian distributive non degenerated doubleLoopStr
+for p being Polynomial of L
+holds deg even_part(p) <= deg p & deg odd_part(p) <= deg p;
+
+theorem :: HURWITZ2:23
+for L being well-unital add-associative right_zeroed right_complementable
+            associative Abelian distributive non degenerated doubleLoopStr
+for p being Polynomial of L
+holds deg p = max( deg even_part(p), deg odd_part(p));
+
+begin :: Even and Odd Polynomials and Rational Functions
+
+definition
+let L be non empty addLoopStr;
+let f be Function of L,L;
+attr f is even means
+:: HURWITZ2:def 3
+  for x being Element of L holds f.(-x) = f.x;
+attr f is odd means
+:: HURWITZ2:def 4
+  for x being Element of L holds f.(-x) = - f.x;
+end;
+
+definition
+let L be well-unital non empty doubleLoopStr;
+let p be Polynomial of L;
+attr p is even means
+:: HURWITZ2:def 5
+  Polynomial-Function(L,p) is even;
+attr p is odd means
+:: HURWITZ2:def 6
+  Polynomial-Function(L,p) is odd;
+end;
+
+definition
+let L be well-unital non trivial doubleLoopStr;
+let Z be rational_function of L;
+attr Z is odd means
+:: HURWITZ2:def 7
+  (Z`1 is even & Z`2 is odd) or (Z`1 is odd & Z`2 is even);
+end;
+
+notation
+let L be well-unital non trivial doubleLoopStr;
+let Z be rational_function of L;
+antonym Z is even for Z is odd;
+end;
+
+registration
+let L be well-unital non empty doubleLoopStr;
+cluster even for Polynomial of L;
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable
+         well-unital non empty doubleLoopStr;
+cluster odd for Polynomial of L;
+end;
+
+registration
+let L be well-unital add-associative right_zeroed right_complementable
+         associative non degenerated doubleLoopStr;
+cluster non zero even for Polynomial of L;
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable
+         Abelian well-unital non degenerated doubleLoopStr;
+cluster non zero odd for Polynomial of L;
+end;
+
+theorem :: HURWITZ2:24
+for L being well-unital non empty doubleLoopStr
+for p being even Polynomial of L
+for x being Element of L
+holds eval(p,-x) = eval(p,x);
+
+theorem :: HURWITZ2:25
+for L being add-associative right_zeroed right_complementable Abelian
+            well-unital non degenerated doubleLoopStr
+for p being odd Polynomial of L
+for x being Element of L
+holds eval(p,-x) = - eval(p,x);
+
+registration
+let L be well-unital non empty doubleLoopStr;
+cluster 0_.(L) -> even;
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable
+         well-unital non empty doubleLoopStr;
+cluster 0_.(L) -> odd;
+end;
+
+registration
+let L be well-unital add-associative right_zeroed right_complementable
+         associative non degenerated doubleLoopStr;
+cluster 1_.(L) -> even;
+end;
+
+registration
+let L be Abelian add-associative right_zeroed right_complementable
+         well-unital left-distributive non empty doubleLoopStr;
+let p,q be even Polynomial of L;
+cluster p + q -> even;
+end;
+
+registration
+let L be Abelian add-associative right_zeroed right_complementable
+         well-unital left-distributive non degenerated doubleLoopStr;
+let p,q be odd Polynomial of L;
+cluster p + q -> odd;
+end;
+
+registration
+let L be Abelian add-associative right_zeroed right_complementable
+         associative well-unital distributive non degenerated doubleLoopStr;
+let p be Polynomial of L;
+cluster even_part(p) -> even;
+cluster odd_part(p) -> odd;
+end;
+
+theorem :: HURWITZ2:26
+for L being Abelian add-associative right_zeroed right_complementable
+            well-unital distributive non degenerated doubleLoopStr
+for p being even Polynomial of L
+for q being odd Polynomial of L
+for x being Element of L
+st x is_a_common_root_of p,q holds -x is_a_root_of p+q;
+
+theorem :: HURWITZ2:27
+for p being Hurwitz Polynomial of F_Complex
+holds even_part(p), odd_part(p) have_no_common_roots;
+
+begin :: Real Positive Polynomials and Rational Functions
+
+definition
+let p be Polynomial of F_Complex;
+attr p is real means
+:: HURWITZ2:def 8
+  for i being Nat holds p.i is Real;
+attr p is positive means
+:: HURWITZ2:def 9
+  for x being Element of F_Complex holds Re(x) > 0 implies Re(eval(p,x)) > 0;
+end;
+
+registration
+cluster 0_.(F_Complex) -> real non positive;
+cluster 1_.(F_Complex) -> real positive;
+end;
+
+registration
+cluster non zero real positive for Polynomial of F_Complex;
+end;
+
+registration
+cluster real -> real-valued for Polynomial of F_Complex;
+end;
+
+registration
+let p be real Polynomial of F_Complex;
+cluster even_part(p) -> real;
+cluster odd_part(p) -> real;
+end;
+
+definition
+let L be non empty addLoopStr;
+let p be Polynomial of L;
+attr p is with_all_coefficients means
+:: HURWITZ2:def 10
+  for i being Nat st i <= deg p holds p.i <> 0;
+end;
+
+definition
+let p be real Polynomial of F_Complex;
+attr p is with_positive_coefficients means
+:: HURWITZ2:def 11
+  for i being Nat st i <= deg p holds p.i > 0;
+attr p is with_negative_coefficients means
+:: HURWITZ2:def 12
+  for i being Nat st i <= deg p holds p.i < 0;
+end;
+
+registration
+cluster with_positive_coefficients -> with_all_coefficients
+        for real Polynomial of F_Complex;
+cluster with_negative_coefficients -> with_all_coefficients
+        for real Polynomial of F_Complex;
+end;
+
+registration
+cluster non constant with_positive_coefficients
+                                         for real Polynomial of F_Complex;
+end;
+
+registration
+let p be non zero with_all_coefficients real Polynomial of F_Complex;
+cluster even_part p -> non zero;
+end;
+
+registration
+let p be non constant with_all_coefficients real Polynomial of F_Complex;
+cluster odd_part p -> non zero;
+end;
+
+definition
+let Z be rational_function of F_Complex;
+attr Z is real means
+:: HURWITZ2:def 13
+  for i being Nat holds (Z`1).i is Real & (Z`2).i is Real;
+attr Z is positive means
+:: HURWITZ2:def 14
+  for x being Element of F_Complex
+  st Re(x) > 0 & eval(Z`2,x) <> 0 holds Re(eval(Z,x)) > 0;
+end;
+
+registration
+cluster non zero odd real positive for rational_function of F_Complex;
+end;
+
+registration
+let p1 be real Polynomial of F_Complex;
+let p2 be non zero real Polynomial of F_Complex;
+cluster [p1,p2] -> real for rational_function of F_Complex;
+end;
+
+begin :: The Theorem
+
+definition
+  mode one_port_function is real positive rational_function of F_Complex;
+  mode reactance_one_port_function is
+                      odd real positive rational_function of F_Complex;
+end;
+
+theorem :: HURWITZ2:28
+for p being real Polynomial of F_Complex
+for x being Element of F_Complex st Re(x) = 0
+holds Im(eval(even_part(p),x)) = 0;
+
+theorem :: HURWITZ2:29
+for p being real Polynomial of F_Complex
+for x being Element of F_Complex st Re(x) = 0
+holds Re(eval(odd_part(p),x)) = 0;
+
+theorem :: HURWITZ2:30
+for p be non constant with_positive_coefficients real Polynomial of F_Complex
+st [even_part(p),odd_part(p)] is positive &
+   even_part(p),odd_part(p) have_no_common_roots
+holds (for x being Element of F_Complex
+       st Re(x) = 0 & eval(odd_part(p),x) <> 0
+       holds Re(eval([even_part(p),odd_part(p)],x)) >= 0) &
+       even_part(p) + odd_part(p) is Hurwitz;
+
+theorem :: HURWITZ2:31
+for p be non constant with_positive_coefficients real Polynomial of F_Complex
+st [even_part(p),odd_part(p)] is one_port_function &
+   degree([even_part(p),odd_part(p)]) = degree p
+holds p is Hurwitz;
+

@@ -1,0 +1,658 @@
+:: Modelling Real World Using Stochastic Processes and Filtration
+::  by Peter Jaeger
+::
+:: Received December 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINANCE1, SERIES_1, SEQ_1, RANDOM_3, FINANCE2, NUMBERS, XBOOLE_0,
+      PROB_1, SUBSET_1, REAL_1, TARSKI, RELAT_1, FUNCT_1, ARYTM_3, XXREAL_0,
+      VALUED_1, ARYTM_1, NAT_1, CARD_1, ZFMISC_1, RPR_1, SETFAM_1, FINANCE3,
+      EQREL_1, FUNCOP_1, KOLMOG01, FUNCT_7, MEMBERED, RANDOM_1;
+ notations TARSKI, SUBSET_1, XBOOLE_0, SERIES_1, SEQ_1, SETFAM_1, ENUMSET1,
+      RELAT_1, FINANCE1, RANDOM_3, NUMBERS, XREAL_0, XXREAL_0, XCMPLX_0,
+      MEMBERED, FUNCT_1, VALUED_1, NAT_1, FUNCT_2, PROB_1, SEQ_4, FINANCE2,
+      RELSET_1, FUNCOP_1, KOLMOG01, RANDOM_1;
+ constructors SERIES_1, REAL_1, RELSET_1, SEQ_4, FINANCE2, ENUMSET1, RANDOM_2,
+      KOLMOG01, RANDOM_1, RANDOM_3;
+ registrations PROB_1, FINANCE1, SUBSET_1, NAT_1, XREAL_0, MEMBERED, ORDINAL1,
+      FUNCT_2, NUMBERS, VALUED_0, VALUED_1, RELSET_1, INT_1, XBOOLE_0;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+theorem :: FINANCE3:1
+  for a, b being object st a <> b holds
+    {a} c< {a,b};
+
+registration let I be non empty Subset of NAT;
+  cluster In(I,bool REAL) -> non empty;
+end;
+
+theorem :: FINANCE3:2
+  for T being Nat holds
+   {w where w is Element of NAT: w>0 & w<=T} c=
+     {w where w is Element of NAT: w<=T};
+
+theorem :: FINANCE3:3
+  for T being Nat holds
+    {w where w is Element of NAT: w <= T} is non empty Subset of NAT;
+
+theorem :: FINANCE3:4
+  for T being Nat st T>0 holds
+    {w where w is Element of NAT: w>0 & w <= T} is non empty Subset of NAT;
+
+:: Special Random-Variables
+
+theorem :: FINANCE3:5
+  for d being Nat,
+      phi being Real_Sequence,
+      Omega being non empty set,
+      F being SigmaField of Omega,
+      X being non empty set,
+      G being sequence of X,
+      w being Element of Omega holds
+   {PortfolioValueFutExt(d,phi,F,G,w)} is Event of Borel_Sets;
+
+definition
+  let d be Nat;
+  let phi be Real_Sequence;
+  let Omega be non empty set;
+  let F be SigmaField of Omega;
+  let X be non empty set;
+  let G be sequence of X;
+  let w be Element of Omega;
+  redefine func PortfolioValueFutExt(d,phi,F,G,w) -> Element of REAL;
+end;
+
+definition
+  let Omega be non empty set;
+  let F be SigmaField of Omega;
+  let X be non empty set;
+  let G be sequence of X;
+  let phi be Real_Sequence;
+  let d be Nat;
+  func RVPortfolioValueFutExt(phi,F,G,d) -> Function of Omega,REAL
+   means
+:: FINANCE3:def 1
+   for w being Element of Omega holds
+     it.w = PortfolioValueFutExt(d,phi,F,G,w);
+end;
+
+theorem :: FINANCE3:6
+  for Omega be non empty set
+  for F be SigmaField of Omega
+  for G be sequence of set_of_random_variables_on(F,Borel_Sets)
+  for phi be Real_Sequence
+  for d be Nat holds
+  RVPortfolioValueFutExt(phi,F,G,d) is random_variable of F,Borel_Sets;
+
+definition
+  let d be Nat;
+  let phi be Real_Sequence;
+  let Omega be non empty set;
+  let F be SigmaField of Omega;
+  let X be non empty set;
+  let G be sequence of X;
+  let w be Element of Omega;
+  redefine func PortfolioValueFut(d,phi,F,G,w) -> Real equals
+:: FINANCE3:def 2
+  Partial_Sums((RVPortfolioValueFutExt_El(phi,F,G,w))^\1).(d-1);
+end;
+
+definition
+  let d be Nat;
+  let phi be Real_Sequence;
+  let Omega be non empty set;
+  let F be SigmaField of Omega;
+  let X be non empty set;
+  let G be sequence of X;
+  let w be Element of Omega;
+  redefine func PortfolioValueFut(d,phi,F,G,w) -> Element of REAL;
+end;
+
+definition
+  let Omega be non empty set;
+  let F be SigmaField of Omega;
+  let X be non empty set;
+  let G be sequence of X;
+  let phi be Real_Sequence;
+  let d be Nat;
+  func RVPortfolioValueFut(phi,F,G,d) -> Function of Omega,REAL means
+:: FINANCE3:def 3
+  for w being Element of Omega holds
+   it.w = PortfolioValueFut(d+1,phi,F,G,w);
+end;
+
+theorem :: FINANCE3:7
+  for Omega be non empty set
+  for F be SigmaField of Omega
+  for G be sequence of set_of_random_variables_on(F,Borel_Sets)
+  for phi be Real_Sequence
+  for d be Nat holds
+   RVPortfolioValueFut(phi,F,G,d) is random_variable of F,Borel_Sets;
+
+theorem :: FINANCE3:8
+  for d being Nat,
+      phi be Real_Sequence,
+      Omega be non empty set,
+      F be SigmaField of Omega,
+      X be non empty set,
+      G be sequence of X,
+      w be Element of Omega holds
+   PortfolioValueFut(d+1,phi,F,G,w) = RVPortfolioValueFut(phi,F,G,d).w &
+   {PortfolioValueFut(d+1,phi,F,G,w)} is Event of Borel_Sets;
+
+theorem :: FINANCE3:9
+  for Omega being non empty set,
+      F being SigmaField of Omega,
+      X being non empty set,
+      G being sequence of X,
+      phi being Real_Sequence,
+      d being Nat holds
+  RVPortfolioValueFutExt(phi,F,G,d+1) = RVPortfolioValueFut(phi,F,G,d) +
+   RVElementsOfPortfolioValue_fut(phi,F,G,0);
+
+theorem :: FINANCE3:10
+  for Omega, Omega2 being non empty set,
+      Sigma being SigmaField of Omega,
+      Sigma2 being SigmaField of Omega2,
+      s being Element of Omega2 holds
+   Omega --> s is (Sigma,Sigma2)-random_variable-like;
+
+theorem :: FINANCE3:11
+  for Omega being non empty set,
+      Sigma being SigmaField of Omega,
+      RV being random_variable of Sigma,Borel_Sets,
+      K being Real holds
+    RV-(Omega-->K) is random_variable of Sigma,Borel_Sets;
+
+definition
+  let Omega be non empty set;
+  let RV be Function of Omega,REAL;
+  let w be Element of Omega;
+  func SetForCall-Option(RV,w) -> Element of REAL equals
+:: FINANCE3:def 4
+  RV.w if RV.w>=0 otherwise 0;
+end;
+
+definition
+  let Omega be non empty set;
+  let Sigma be SigmaField of Omega;
+  let RV be random_variable of Sigma,Borel_Sets;
+  let K be Real;
+  func Call-Option(RV,K) -> Function of Omega,REAL means
+:: FINANCE3:def 5
+  for w being Element of Omega holds
+    ((RV-(Omega-->K)).w>=0 implies it.w=(RV-(Omega-->K)).w) &
+    ((RV-(Omega-->K)).w<0 implies it.w=0);
+end;
+
+:: Special sigma-Fields
+
+theorem :: FINANCE3:12
+  for A1 being SetSequence of {1,2,3,4},
+      w being Real st w = 1 or w = 3 holds
+    (for n being Nat holds
+      A1.n = {} or A1.n = {1,2} or A1.n = {3,4} or A1.n = {1,2,3,4})
+  implies {w}<>Intersection A1;
+
+theorem :: FINANCE3:13
+  for A1 being SetSequence of {1,2,3,4},
+      w being Real st w = 2 or w = 4 holds
+  (for n being Nat holds
+     A1.n = {} or A1.n = {1,2} or A1.n = {3,4} or A1.n = {1,2,3,4})
+    implies {w}<>Intersection A1;
+
+theorem :: FINANCE3:14
+  for MySigmaField, A1, A2 being set st
+    MySigmaField={{},{1,2,3,4}} & A1 in MySigmaField & A2 in MySigmaField
+      holds
+   A1 /\ A2 in MySigmaField;
+
+theorem :: FINANCE3:15
+  for A1 being SetSequence of {1,2,3,4} st
+  (for n being Nat,k being Nat holds not (A1.n /\ A1.k = {})) &
+  rng A1 c= {{},{1,2},{3,4},{1,2,3,4}} holds
+  (Intersection A1 = {} or
+   Intersection A1 = {1,2} or Intersection A1 = {3,4} or
+   Intersection A1 = {1,2,3,4});
+
+theorem :: FINANCE3:16
+  for A1 being SetSequence of {1,2,3,4},
+      MyOmega being set st
+   MyOmega = {{},{1,2},{3,4},{1,2,3,4}} & Intersection A1={1,2,3,4} holds
+   Intersection A1 in MyOmega;
+
+theorem :: FINANCE3:17
+  for A1 being SetSequence of {1,2,3,4},
+      MyOmega being set st
+   MyOmega = {{},{1,2},{3,4},{1,2,3,4}} & Intersection A1={3,4} holds
+   Intersection A1 in MyOmega;
+
+theorem :: FINANCE3:18
+  for A1 being SetSequence of {1,2,3,4},
+      MyOmega being set st
+   MyOmega = {{},{1,2},{3,4},{1,2,3,4}} & Intersection A1={1,2} holds
+   Intersection A1 in MyOmega;
+
+theorem :: FINANCE3:19
+  for A1 being SetSequence of {1,2,3,4},
+      MyOmega being set st
+   MyOmega = {{},{1,2},{3,4},{1,2,3,4}} & Intersection A1={} holds
+   Intersection A1 in MyOmega;
+
+theorem :: FINANCE3:20
+  for MyOmega being set,
+      A1 being SetSequence of {1,2,3,4} st
+     rng A1 c= MyOmega &
+     MyOmega = {{},{1,2},{3,4},{1,2,3,4}}
+  holds Intersection A1 in MyOmega;
+
+theorem :: FINANCE3:21
+  for MySigmaField, MySet being set,
+      A1 being SetSequence of MySet st MySet={1,2,3,4} &
+    rng A1 c= MySigmaField & MySigmaField = {{},{1,2,3,4}} holds
+  Intersection A1 <> {} implies Intersection A1 in MySigmaField;
+
+theorem :: FINANCE3:22
+  for MySigmaField, MySet being set,
+      A1 being SetSequence of MySet st
+    MySet={1,2,3,4} &
+    rng A1 c= MySigmaField & MySigmaField = {{},{1,2,3,4}} holds
+  for k1 being Nat, k2 being Nat holds A1.k1 /\ A1.k2 in MySigmaField;
+
+definition
+  func Special_SigmaField1 -> SigmaField of {1,2,3,4} equals
+:: FINANCE3:def 6
+    {{},{1,2,3,4}};
+end;
+
+definition
+  func Special_SigmaField2 -> SigmaField of {1,2,3,4} equals
+:: FINANCE3:def 7
+    {{},{1,2},{3,4},{1,2,3,4}};
+end;
+
+definition
+::$CD
+end;
+
+theorem :: FINANCE3:23
+  for Omega being set st Omega = {1,2,3,4} holds
+    {1} c= Omega &
+    {2} c= Omega &
+    {3} c= Omega &
+    {4} c= Omega &
+    {1,2} c= Omega &
+    {3,4} c= Omega &
+    {} c= Omega &
+    Omega c= Omega;
+
+theorem :: FINANCE3:24
+  for Omega being set st
+    Omega={1,2,3,4} holds
+    Omega in Special_SigmaField1 &
+    {} in Special_SigmaField1 &
+    {1,2} in Special_SigmaField2 &
+    {3,4} in Special_SigmaField2 &
+    Omega in Special_SigmaField2 &
+    {} in Special_SigmaField2 &
+    Omega in Trivial-SigmaField {1,2,3,4} &
+    {} in Trivial-SigmaField {1,2,3,4} &
+    {1} in Trivial-SigmaField {1,2,3,4} &
+    {2} in Trivial-SigmaField {1,2,3,4} &
+    {3} in Trivial-SigmaField {1,2,3,4} &
+    {4} in Trivial-SigmaField {1,2,3,4};
+
+theorem :: FINANCE3:25
+  Special_SigmaField1 c< Special_SigmaField2 &
+  Special_SigmaField2 c< Trivial-SigmaField {1,2,3,4};
+
+:: Construction of Filtration and Examples
+
+theorem :: FINANCE3:26
+  ex Omega being non empty set st
+    ex F1,F2,F3 being SigmaField of Omega st
+    F1 c< F2 & F2 c< F3;
+
+theorem :: FINANCE3:27
+  ex Omega1,Omega2,Omega3,Omega4 being non empty set st
+ Omega1 c< Omega2 & Omega2 c< Omega3 & Omega3 c< Omega4 &
+ (ex F1 being SigmaField of Omega1,
+    F2 being SigmaField of Omega2,
+    F3 being SigmaField of Omega3,
+    F4 being SigmaField of Omega4 st
+ F1 c= F2 & F2 c= F3 & F3 c= F4);
+
+definition
+  let Omega be non empty set;
+  let Sigma be SigmaField of Omega;
+  let I be non empty real-membered set;
+  mode Filtration of I,Sigma -> ManySortedSigmaField of I,Sigma means
+:: FINANCE3:def 9
+  for s,t being Element of I st s<=t holds it.s is Subset of it.t;
+end;
+
+definition
+  let I, Omega be non empty set;
+  let Sigma be SigmaField of Omega;
+  let Filt be ManySortedSigmaField of I, Sigma;
+  let i be Element of I;
+  func El_Filtration(i,Filt) -> SigmaField of Omega equals
+:: FINANCE3:def 10
+    Filt.i;
+end;
+
+definition
+  let k be Element of {1,2,3};
+  func Set1_of_SigmaField3(k) -> Subset of bool {1,2,3,4} equals
+:: FINANCE3:def 11
+  Special_SigmaField1 if k=1 otherwise
+    Special_SigmaField2;
+end;
+
+definition
+  let k be Element of {1,2,3};
+  func Set2_of_SigmaField3(k) -> Subset of bool {1,2,3,4} equals
+:: FINANCE3:def 12
+  Set1_of_SigmaField3(k) if k<=2 otherwise
+    Trivial-SigmaField {1,2,3,4};
+end;
+
+theorem :: FINANCE3:28
+  for Omega being non empty set,
+      Sigma being SigmaField of Omega,
+      I being non empty real-membered set st
+      I={1,2,3} & Sigma=bool {1,2,3,4} & Omega = {1,2,3,4} holds
+  ex MyFunc being Filtration of I,Sigma st
+     MyFunc.1=Special_SigmaField1 &
+     MyFunc.2=Special_SigmaField2 &
+     MyFunc.3=Trivial-SigmaField {1,2,3,4};
+
+theorem :: FINANCE3:29
+  for Omega being non empty set,
+    Sigma being SigmaField of Omega,
+    Sigma2 being SigmaField of {1} st
+    Omega={1,2,3,4} holds
+    ex X1 being Function of Omega,{1} st
+     X1 is random_variable of Special_SigmaField1,Sigma2 &
+     X1 is random_variable of Special_SigmaField2,Sigma2 &
+     X1 is random_variable of Trivial-SigmaField {1,2,3,4},Sigma2;
+
+::  The first example of the existence of a random-variable depends
+::  on a special underlying sigma-field and given Filtration
+
+theorem :: FINANCE3:30
+  ex Omega, Omega2 be non empty set,
+     Sigma be SigmaField of Omega,
+     Sigma2 be SigmaField of Omega2,
+     I be non empty real-membered set,
+     Q be Filtration of I,Sigma st
+  ex rv being Function of Omega,Omega2 st
+    for i being Element of I holds
+      rv is random_variable of El_Filtration(i,Q),Sigma2;
+
+:: Next theorem gives also the existence of random_variables
+:: depending on arbitrary sigma-fields and filtrations
+
+theorem :: FINANCE3:31
+  for Omega, Omega2 being non empty set,
+      Sigma being SigmaField of Omega,
+      Sigma2 being SigmaField of Omega2,
+      I being non empty real-membered set,
+      Q being ManySortedSigmaField of I,Sigma holds
+  ex rv being Function of Omega,Omega2 st
+     for i being Element of I holds
+    rv is random_variable of El_Filtration(i,Q),Sigma2;
+
+:: Stochastic Process: adapted and predictable
+
+:: The next statement is important for the usage of a probability measure
+:: with Events depending on SigmaFields in a given filtration.
+
+theorem :: FINANCE3:32
+  for Omega being non empty set,
+      Sigma being SigmaField of Omega,
+      Sigma2 being SigmaField of Omega st Sigma2 c= Sigma holds
+      for E2 being Event of Sigma2 holds E2 is Event of Sigma;
+
+:: Next we define the stochastic process
+
+definition
+  let Omega,Omega2 be non empty set,
+      Sigma be SigmaField of Omega,
+      Sigma2 be SigmaField of Omega2,
+      I be non empty real-membered set;
+  mode Stochastic_Process of I,Sigma,Sigma2 ->
+   Function of I,set_of_random_variables_on(Sigma,Sigma2) means
+:: FINANCE3:def 13
+   for k being Element of I holds
+    ex RV being Function of Omega,Omega2 st
+      it.k=RV & RV is (Sigma,Sigma2)-random_variable-like;
+ end;
+
+:: Because adapted and predicted stochastic processes are very important for
+:: Stochastic finance, we implement them now:
+
+definition
+  let Omega,Omega2 be non empty set,
+      Sigma be SigmaField of Omega,
+      Sigma2 be SigmaField of Omega2,
+      I be non empty real-membered set,
+      Stoch be Stochastic_Process of I,Sigma,Sigma2,
+      k be Element of I;
+  func RVProcess(Stoch,k) -> random_variable of Sigma,Sigma2 equals
+:: FINANCE3:def 14
+   Stoch.k;
+end;
+
+definition
+  let Omega,Omega2 be non empty set,
+      Sigma be SigmaField of Omega,
+      Sigma2 be SigmaField of Omega2,
+      I be non empty real-membered set,
+      Stoch be Stochastic_Process of I,Sigma,Sigma2;
+  mode Adapted_Stochastic_Process of Stoch ->
+   Function of I,set_of_random_variables_on(Sigma,Sigma2) means
+:: FINANCE3:def 15
+  ex k being Filtration of I,Sigma st
+   for i being Element of I holds
+    RVProcess(Stoch,i) is (El_Filtration(i,k),Sigma2)-random_variable-like;
+end;
+
+definition
+  let Omega,Omega2 be non empty set;
+  let Sigma be SigmaField of Omega;
+  let Sigma2 be SigmaField of Omega2;
+  let I, J be non empty Subset of NAT;
+  let Stoch be Stochastic_Process of In(J,bool REAL),Sigma,Sigma2;
+  mode Predictable_Stochastic_Process of I,J,Sigma,Sigma2,Stoch ->
+  Function of J,set_of_random_variables_on(Sigma,Sigma2) means
+:: FINANCE3:def 16
+  ex k being Filtration of In(I,bool REAL), Sigma st
+   for j being Element of In(J,bool REAL),
+       i being Element of In(I,bool REAL) st j-1=i holds
+    RVProcess(Stoch,j) is (El_Filtration(i,k),Sigma2)-random_variable-like;
+end;
+
+definition
+  let Omega,Omega2 be non empty set;
+  let Sigma be SigmaField of Omega;
+  let Sigma2 be SigmaField of Omega2;
+  let I be non empty real-membered set;
+  let MyFunc be ManySortedSigmaField of I,Sigma;
+  let Stoch be Stochastic_Process of I,Sigma,Sigma2;
+  attr Stoch is (MyFunc)-stoch_proc_wrt_to_Filtration means
+:: FINANCE3:def 17
+   for i being Element of I holds
+   RVProcess(Stoch,i) is
+     (El_Filtration(i,MyFunc),Sigma2)-random_variable-like;
+end;
+
+theorem :: FINANCE3:33
+  for Omega,Omega2 being non empty set,
+      Sigma being SigmaField of Omega,
+      Sigma2 being SigmaField of Omega2,
+      I being non empty real-membered set,
+      MyFunc being Filtration of I,Sigma,
+      Stoch being Stochastic_Process of I,Sigma,Sigma2 st
+    Stoch is (MyFunc)-stoch_proc_wrt_to_Filtration holds
+    Stoch is Adapted_Stochastic_Process of Stoch;
+
+:: Example for a Stochastic Process
+
+definition
+  let k1,k2 be Element of REAL;
+  let Omega be non empty set;
+  let k be Element of Omega;
+  func Set1_for_RandomVariable(k1,k2,k) -> Element of REAL equals
+:: FINANCE3:def 18
+    k1 if (k=1 or k=2) otherwise k2;
+  func Set4_for_RandomVariable(k1,k2,k) -> Element of REAL equals
+:: FINANCE3:def 19
+    k1 if k=3 otherwise k2;
+end;
+
+definition
+  let k2,k3,k4 be Element of REAL;
+  let Omega be non empty set;
+  let k be Element of Omega;
+  func Set3_for_RandomVariable(k2,k3,k4,k) -> Element of REAL equals
+:: FINANCE3:def 20
+  k2 if k=2 otherwise Set4_for_RandomVariable(k3,k4,k);
+end;
+
+definition
+  let k1,k2,k3,k4 be Element of REAL;
+  let Omega be non empty set;
+  let k be Element of Omega;
+  func Set2_for_RandomVariable(k1,k2,k3,k4,k) -> Element of REAL equals
+:: FINANCE3:def 21
+   k1 if k=1 otherwise Set3_for_RandomVariable(k2,k3,k4,k);
+end;
+
+theorem :: FINANCE3:34
+  for k1,k2,k3,k4 being Element of REAL holds
+  for Omega being set st Omega={1,2,3,4}
+  ex f being Function of Omega,REAL st
+   f.1=k1 & f.2=k2 & f.3=k3 & f.4=k4;
+
+theorem :: FINANCE3:35
+  for k1,k2,k3,k4 be Element of REAL holds
+  for Omega being non empty set st Omega={1,2,3,4} holds
+  for Sigma being SigmaField of Omega,
+      I being non empty real-membered set,
+      MyFunc being ManySortedSigmaField of I,Sigma st
+      MyFunc.1=Special_SigmaField1 &
+      MyFunc.2=Special_SigmaField2 &
+      MyFunc.3=Trivial-SigmaField {1,2,3,4} holds
+        for eli being Element of I st eli=3 holds
+    ex f being Function of Omega,REAL st
+     f.1=k1 & f.2=k2 & f.3=k3 & f.4=k4 &
+     f is (El_Filtration(eli,MyFunc),Borel_Sets)-random_variable-like;
+
+theorem :: FINANCE3:36
+  for k1,k2 being Element of REAL,
+      Omega being non empty set st Omega={1,2,3,4} holds
+  for Sigma being SigmaField of Omega,
+      I being non empty real-membered set,
+      MyFunc being ManySortedSigmaField of I,Sigma st
+      MyFunc.1=Special_SigmaField1 &
+      MyFunc.2=Special_SigmaField2 &
+      MyFunc.3=Trivial-SigmaField {1,2,3,4} holds
+        for eli being Element of I st eli=2 holds
+    ex f being Function of Omega,REAL st
+     f.1=k1 & f.2=k1 & f.3=k2 & f.4=k2 &
+     f is (El_Filtration(eli,MyFunc),Borel_Sets)-random_variable-like;
+
+theorem :: FINANCE3:37
+  for k1 being Element of REAL,
+      Omega being non empty set st Omega={1,2,3,4} holds
+  for Sigma being SigmaField of Omega,
+      I being non empty real-membered set,
+      MyFunc being ManySortedSigmaField of I,Sigma st
+      MyFunc.1=Special_SigmaField1 &
+      MyFunc.2=Special_SigmaField2 &
+      MyFunc.3=Trivial-SigmaField {1,2,3,4} holds
+        for eli being Element of I st eli=1 holds
+    ex f being Function of Omega,REAL st
+     f.1=k1 & f.2=k1 & f.3=k1 & f.4=k1 &
+     f is (El_Filtration(eli,MyFunc),Borel_Sets)-random_variable-like;
+
+theorem :: FINANCE3:38
+  for Omega being non empty set st Omega={1,2,3,4} holds
+  for Sigma being SigmaField of Omega,
+      I being non empty real-membered set
+    st I={1,2,3} & Sigma = bool {1,2,3,4} holds
+    for MyFunc being ManySortedSigmaField of I,Sigma st
+      MyFunc.1=Special_SigmaField1 &
+      MyFunc.2=Special_SigmaField2 &
+      MyFunc.3=Trivial-SigmaField {1,2,3,4} holds
+       for Prob being Function of Sigma, REAL holds
+         for i being Element of I holds
+          ex RV being Function of Omega,REAL st
+           RV is (El_Filtration(i,MyFunc),Borel_Sets)-random_variable-like;
+
+definition
+  let I be non empty real-membered set such that  I={1,2,3};
+  let i be Element of I such that  i=2 or i=3;
+  let Omega be non empty set such that  Omega={1,2,3,4};
+  let Sigma be SigmaField of Omega such that  Sigma=bool Omega;
+  let f1 be Function of Omega,REAL such that
+   f1.1=60 & f1.2=80 & f1.3=100 & f1.4=120;
+  let f2 be Function of Omega,REAL such that
+   f2.1=80 & f2.2=80 & f2.3=120 & f2.4=120;
+  let f3 be Function of Omega,REAL;
+  func FunctionRV1(i,Sigma,f1,f2,f3) -> Element of
+    set_of_random_variables_on(Sigma,Borel_Sets) equals
+:: FINANCE3:def 22
+     f2 if i=2 otherwise f1;
+ end;
+
+definition
+  let I be non empty real-membered set such that  I={1,2,3};
+  let i be Element of I;
+  let Omega be non empty set such that  Omega={1,2,3,4};
+  let Sigma be SigmaField of Omega such that  Sigma=bool Omega;
+  let f1,f2 be Function of Omega,REAL;
+  let f3 be Function of Omega,REAL such that
+   f3.1=100 & f3.2=100 & f3.3=100 & f3.4=100;
+  func FunctionRV2(i,Sigma,f1,f2,f3) ->
+  Element of set_of_random_variables_on(Sigma,Borel_Sets) equals
+:: FINANCE3:def 23
+    FunctionRV1(i,Sigma,f1,f2,f3) if (i=2 or i=3) otherwise f3;
+end;
+
+theorem :: FINANCE3:39
+  for Omega, Omega2 being non empty set st Omega={1,2,3,4} holds
+  for Sigma being SigmaField of Omega,
+      I being non empty real-membered set st
+    I={1,2,3} & Sigma=bool{1,2,3,4} holds
+    for MyFunc being Filtration of I,Sigma st
+      MyFunc.1=Special_SigmaField1 &
+      MyFunc.2=Special_SigmaField2 &
+      MyFunc.3=Trivial-SigmaField {1,2,3,4}
+    ex Stoch being Stochastic_Process of I,Sigma,Borel_Sets st
+       (for k being Element of I holds
+       (ex RV being Function of Omega,REAL st
+       (Stoch.k=RV & RV is (Sigma,Borel_Sets)-random_variable-like) &
+         RV is (El_Filtration(k,MyFunc),Borel_Sets)-random_variable-like) &
+         (ex f being Function of Omega,REAL st
+             k=1 implies f.1=100 & f.2=100 & f.3=100 & f.4=100 & Stoch.k=f)&
+         (ex f being Function of Omega,REAL st
+             k=2 implies f.1=80 & f.2=80 & f.3=120 & f.4=120 & Stoch.k=f) &
+         (ex f being Function of Omega,REAL st
+             k=3 implies f.1=60 & f.2=80 & f.3=100 & f.4=120 & Stoch.k=f) &
+           Stoch is (MyFunc)-stoch_proc_wrt_to_Filtration) &
+           Stoch is Adapted_Stochastic_Process of Stoch;

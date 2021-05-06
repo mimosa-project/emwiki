@@ -1,0 +1,478 @@
+:: Posterior Probability on Finite Set
+::  by Hiroyuki Okazaki
+::
+:: Received July 4, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies DIST_2, DIST_1, FINSEQ_1, RELAT_1, FINSEQ_4, NAT_1, XXREAL_0,
+      FUNCT_7, FUNCT_1, RPR_1, CARD_1, XBOOLE_0, CQC_SIM1, ARYTM_3, TARSKI,
+      ZFMISC_1, SUBSET_1, NUMBERS, PROB_2, FINSET_1, UPROOTS, MATRPROB,
+      MARGREL1, CARD_3, XBOOLEAN, VALUED_1, EQREL_1, PROB_1, SETFAM_1, FUNCT_2,
+      ORDINAL2, ARYTM_1, FUNCT_3, RANDOM_1, SEQ_2, REAL_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, SETFAM_1, RELAT_1, FUNCT_1, RELSET_1,
+      PARTFUN1, ORDINAL1, FUNCT_2, DOMAIN_1, FUNCT_3, FINSET_1, CARD_1,
+      NUMBERS, XCMPLX_0, CARD_3, KURATO_0, FRECHET, COMSEQ_2, XXREAL_0,
+      XREAL_0, REAL_1, NAT_1, FINSEQ_1, VALUED_1, FINSEQ_2, XBOOLEAN, SEQ_2,
+      MARGREL1, FINSEQ_4, RVSUM_1, RPR_1, PROB_1, PROB_2, BVFUNC_1, UPROOTS,
+      MATRPROB, RANDOM_1, DIST_1;
+ constructors KURATO_0, FRECHET, COMSEQ_2, CARD_3, RELSET_1, DOMAIN_1, REAL_1,
+      BINOP_2, FINSEQ_4, RVSUM_1, RPR_1, PROB_4, BVFUNC_1, UPROOTS, PROB_3,
+      DIST_1, RANDOM_1, SEQ_2, MESFUNC5, SEQ_4, WELLORD2, NUMBERS;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, FUNCT_2,
+      FINSET_1, CARD_1, NUMBERS, XXREAL_0, XREAL_0, NAT_1, MEMBERED, VALUED_0,
+      FINSEQ_1, DIST_1, VALUED_1, MARGREL1, MATRPROB, XBOOLEAN, XCMPLX_0,
+      ORDINAL1;
+ requirements REAL, BOOLE, SUBSET, NUMERALS, ARITHM;
+
+
+begin :: Equivalent Distributed Finite and Distributed Sample Spaces
+
+theorem :: DIST_2:1
+  for Y be non empty finite set,
+  s be FinSequence of Y
+  st Y={1} & s=<*1*> holds
+  FDprobSEQ (s)=<*1*>;
+
+theorem :: DIST_2:2
+  for S be non empty finite set,
+  p be distProbFinS of S,
+  s be FinSequence of S st FDprobSEQ (s)=p holds
+  distribution( p,S )=Finseq-EQclass(s) &
+  s in distribution( p,S );
+
+theorem :: DIST_2:3
+  for S be non empty finite set,
+  x be Element of S holds
+  x in rng canFS(S) &
+  ex n be Nat st n in dom (canFS S) & x=(canFS S).n & n in Seg (card S);
+
+registration let S be non empty finite set;
+  cluster -> non empty for Element of distribution_family S;
+end;
+
+definition
+  let S be non empty finite set,
+  D be Element of distribution_family(S);
+  redefine mode Element of D -> FinSequence of S;
+end;
+
+theorem :: DIST_2:4
+  for S be non empty finite set,
+  D be Element of distribution_family(S),
+  s,t be Element of D holds
+  s,t -are_prob_equivalent;
+
+notation
+  let S be non empty finite set,
+  D be Element of distribution_family(S);
+  synonym D is well-distributed for D is with_non-empty_elements;
+end;
+
+theorem :: DIST_2:5
+  for S be non empty finite set,
+  s be FinSequence of S holds
+  (for x be set holds FDprobability(x,s)= 0)
+  iff s is empty;
+
+registration
+  let S be non empty finite set;
+  cluster well-distributed for Element of distribution_family(S);
+end;
+
+theorem :: DIST_2:6
+  for S be non empty finite set,
+  D be Element of distribution_family(S)
+  holds not D is well-distributed iff
+  D = {<*>S};
+
+definition
+  let S be non empty finite set;
+  mode EqSampleSpaces of S is
+    well-distributed Element of distribution_family(S);
+end;
+
+registration let S be non empty finite set;
+  cluster uniform_distribution(S) -> well-distributed;
+end;
+
+theorem :: DIST_2:7
+  for S be non empty finite set,
+  D be EqSampleSpaces of S holds
+  (GenProbSEQ(S)).D is distProbFinS of S;
+
+begin :: Probability Measure of Equivalent Distributed Finite and Distributed Sample Spaces
+
+definition
+  let S be non empty finite set, a be Element of S;
+  func index(a) -> Element of NAT equals
+:: DIST_2:def 1
+  a..(canFS(S));
+end;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S;
+  func ProbFinS_of D -> distProbFinS of S equals
+:: DIST_2:def 2
+  (GenProbSEQ S).D;
+end;
+
+definition
+  let judgefunc be BOOLEAN-valued Function;
+  func trueEVENT(judgefunc) -> Event of dom judgefunc equals
+:: DIST_2:def 3
+  judgefunc"{TRUE};
+end;
+
+theorem :: DIST_2:8
+  for S be non empty finite set,
+  f be S-valued Function,
+  judgefunc be Function of S,BOOLEAN holds
+  trueEVENT(judgefunc*f) is Event of dom f;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  judgefunc be Function of S,BOOLEAN;
+  func Prob(judgefunc,s) -> Real equals
+:: DIST_2:def 4
+  card (trueEVENT(judgefunc*s))/(len s);
+end;
+
+theorem :: DIST_2:9
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  judgefunc be Function of S,BOOLEAN,
+  F be non empty finite set,E be Event of F
+  st F = dom s & E = trueEVENT(judgefunc*s) holds
+  Prob(judgefunc,s) = prob(E);
+
+theorem :: DIST_2:10
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  a be Element of S,
+  s be Element of D,
+  judgefunc be Function of S,BOOLEAN
+  st (for x be set holds x=a iff judgefunc.x = TRUE) holds
+  Prob(judgefunc,s)= FDprobability (a,s);
+
+definition
+  let S be set,
+  s be FinSequence of S,
+  A be Subset of dom s;
+  func extract(s,A) -> FinSequence of S equals
+:: DIST_2:def 5
+  s*(canFS(A));
+end;
+
+theorem :: DIST_2:11
+  for S be set,
+  s be FinSequence of S,
+  A be Subset of (dom s) holds
+  len extract(s,A) = card A &
+  for i be Nat st i in dom extract(s,A) holds
+  (extract(s,A)).i=s.((canFS(A)).i);
+
+theorem :: DIST_2:12
+  for S be non empty finite set,
+  s be FinSequence of S,
+  A be Subset of (dom s),
+  f be Function st f=canFS(A)
+  holds extract(s,A)*f" = s|A;
+
+theorem :: DIST_2:13
+  for S be non empty finite set,
+  f be S-valued Function,
+  judgefunc be Function of S,BOOLEAN,
+  n be set st n in dom f holds
+  n in trueEVENT(judgefunc*f) iff f.n in trueEVENT(judgefunc);
+
+theorem :: DIST_2:14
+  for S be non empty finite set,
+  f be S-valued Function,
+  judgefunc be Function of S,BOOLEAN holds
+  trueEVENT(judgefunc*f) = f"(trueEVENT(judgefunc));
+
+theorem :: DIST_2:15
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  judgefunc be Function of S,BOOLEAN holds
+  ex A be Subset of dom freqSEQ(s)
+  st A= trueEVENT(judgefunc*canFS(S)) &
+  card (trueEVENT(judgefunc*s)) = Sum extract(freqSEQ(s),A);
+
+theorem :: DIST_2:16
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D holds
+  freqSEQ(s) = (len s) (#) FDprobSEQ(s);
+
+theorem :: DIST_2:17
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s,t be Element of D,
+  judgefunc be Function of S,BOOLEAN holds
+  Prob(judgefunc,s)= Prob(judgefunc,t);
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  judgefunc be Function of S,BOOLEAN;
+  func Prob(judgefunc,D) -> Real means
+:: DIST_2:def 6
+  for s be Element of D holds it = Prob(judgefunc,s);
+end;
+
+theorem :: DIST_2:18
+  for S be non empty finite set,
+  s be Element of S*,
+  judgefunc be Function of S,BOOLEAN holds
+  Coim(judgefunc*s,TRUE) in bool (dom s);
+
+definition
+  let S be set,
+  SS be Subset of S;
+  func MembershipDecision(SS) -> Function of S,BOOLEAN equals
+:: DIST_2:def 7
+  chi(SS,S);
+end;
+
+theorem :: DIST_2:19
+  for S be non empty finite set,
+  BS be Subset of S holds
+  ex judgefunc be Function of S,BOOLEAN st
+  Coim(judgefunc,TRUE) = BS;
+
+theorem :: DIST_2:20
+  for S be non empty finite set,
+  s be Element of S*,
+  f be Function of S,BOOLEAN,
+  F be SigmaField of (dom s) st F = bool (dom s)
+  holds Coim(f*s,TRUE) is Event of F;
+
+theorem :: DIST_2:21
+  for S be non empty finite set,
+  s be Element of S*,
+  f,g be Function of S,BOOLEAN
+  holds Coim((f 'or' g)*s,TRUE) = Coim (f*s,TRUE) \/ Coim(g*s,TRUE);
+
+theorem :: DIST_2:22
+  for S be non empty finite set,
+  s be Element of S*,
+  f,g be Function of S,BOOLEAN
+  holds Coim((f '&' g)*s,TRUE) = Coim (f*s,TRUE) /\ Coim(g*s,TRUE);
+
+theorem :: DIST_2:23
+  for S be non empty finite set,
+  s be Element of S*,
+  f be Function of S,BOOLEAN
+  holds Coim(( 'not' f)*s,TRUE) = dom s \ Coim (f*s,TRUE);
+
+theorem :: DIST_2:24
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  f,g be Function of S,BOOLEAN
+  holds Prob((f 'or' g),s) =
+  card (trueEVENT(f*s) \/ trueEVENT(g*s))/(len s);
+
+theorem :: DIST_2:25
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  f,g be Function of S,BOOLEAN
+  holds Prob((f '&' g),s) =
+  card (trueEVENT(f*s) /\ trueEVENT(g*s))/(len s);
+
+theorem :: DIST_2:26
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  s be Element of D,
+  f be Function of S,BOOLEAN
+  holds Prob(('not' f),s) = 1 - Prob(f,s);
+
+theorem :: DIST_2:27
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  f,g be Function of S,BOOLEAN holds
+  Prob((f 'or' g),D)
+  = Prob(f,D) + Prob(g,D) - Prob((f '&' g),D);
+
+theorem :: DIST_2:28
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  f be Function of S,BOOLEAN
+  holds Prob(('not' f),D) = 1 - Prob(f,D);
+
+theorem :: DIST_2:29
+
+for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  f be Function of S, BOOLEAN
+  st f = chi(S,S)
+  holds Prob(f,D) = 1;
+
+theorem :: DIST_2:30
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  f be Function of S,BOOLEAN
+  holds 0<= Prob(f,D);
+
+theorem :: DIST_2:31
+  for S be non empty finite set,
+  A,B be set,
+  f,g be Function of S,BOOLEAN
+  st A c= S & B c= S & f = chi(A,S) & g = chi(B,S)
+  holds chi((A\/ B),S) = f 'or' g;
+
+theorem :: DIST_2:32
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  A,B be set,
+  f,g be Function of S,BOOLEAN
+  st A c= S & B c= S & A misses B & f = chi(A,S) & g = chi(B,S)
+  holds Prob(f '&' g,D) = 0;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S;
+  mode Probability of D -> Function of Funcs(S,BOOLEAN), REAL means
+:: DIST_2:def 8
+  for judgefunc be Element of Funcs(S,BOOLEAN) holds
+  it.judgefunc = Prob(judgefunc,D);
+end;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S;
+  func Trivial-Probability (D) -> Probability of Trivial-SigmaField (S) means
+:: DIST_2:def 9
+  for x be set st x in Trivial-SigmaField (S) holds
+  ex ch be Function of S,BOOLEAN
+  st ch = chi(x,S) & it.x =Prob(ch,D);
+end;
+
+begin :: Sampling and Posterior Probability
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S;
+  mode sample of D -> Element of S means
+:: DIST_2:def 10
+   ex s being Element of D st it in rng s;
+end;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  x be sample of D;
+  func Prob(x) -> Real equals
+:: DIST_2:def 11
+  Prob(MembershipDecision({x}),D);
+end;
+
+theorem :: DIST_2:33
+  for S be non empty finite set,
+  D be EqSampleSpaces of S, x be sample of D
+  holds Prob(x)= (ProbFinS_of D).(index(x));
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S;
+  mode samplingRNG of D -> non empty Subset of S means
+:: DIST_2:def 12
+  ex x be sample of D st x in it;
+end;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  X be samplingRNG of D;
+  func Prob(X) -> Real equals
+:: DIST_2:def 13
+  Prob(MembershipDecision(X),D);
+end;
+
+theorem :: DIST_2:34
+  for S be non empty finite set,
+  X be Subset of S,
+  s,t be FinSequence of S,
+  SD be Subset of dom s,
+  x be Subset of X
+  st SD = s"X &t = extract(s,SD) holds
+  card (s"x) = card (t"x);
+
+theorem :: DIST_2:35
+  for S be non empty finite set,
+  X be Subset of S,
+  s,t be FinSequence of S,
+  SD be Subset of dom s,
+  x be set
+  st SD = s"X & t = extract(s,SD) & x in X holds
+  frequency(x,s) = frequency(x,t);
+
+theorem :: DIST_2:36
+  for S be non empty finite set,
+  D be Element of distribution_family(S),
+  s be FinSequence of S st s in D holds
+  D = Finseq-EQclass(s);
+
+theorem :: DIST_2:37
+  for S be non empty finite set,
+  X be Subset of S,
+  s be FinSequence of S holds
+  s"X = trueEVENT((MembershipDecision(X))*s);
+
+theorem :: DIST_2:38
+  for S be non empty finite set,
+  X be non empty Subset of S,
+  D be EqSampleSpaces of S,
+  s1,s2 be Element of D,
+  t1,t2 be FinSequence of S,
+  SD1 be Subset of dom s1,
+  SD2 be Subset of dom s2 st
+  SD1 = s1"X &t1 = extract(s1,SD1) &
+  SD2 = s2"X &t2 = extract(s2,SD2) holds
+  t1,t2 -are_prob_equivalent;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  X be samplingRNG of D;
+  func ConditionalSS(X) -> EqSampleSpaces of S means
+:: DIST_2:def 14
+
+  ex s be Element of D, t be FinSequence of S,
+  SD be Subset of dom s
+  st SD = s"X & t = extract(s,SD) & t in it;
+end;
+
+definition
+  let S be non empty finite set,
+  D be EqSampleSpaces of S,
+  X be samplingRNG of D,
+  f be Function of S, BOOLEAN;
+  func Prob(f,X) -> Real equals
+:: DIST_2:def 15
+  Prob(f, ConditionalSS(X));
+end;
+
+theorem :: DIST_2:39
+  for S be non empty finite set,
+  D be EqSampleSpaces of S,
+  X be samplingRNG of D,
+  f be Function of S,BOOLEAN holds
+  Prob(f,X) * Prob(X) = Prob(f '&' (MembershipDecision(X)),D);

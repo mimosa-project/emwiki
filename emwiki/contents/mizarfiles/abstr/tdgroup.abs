@@ -1,0 +1,193 @@
+:: A Construction of an Abstract Space of Congruence of Vectors
+::  by Grzegorz Lewandowski and Krzysztof Pra\.zmowski
+::
+:: Received May 23, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies SUBSET_1, VECTSP_1, ARYTM_3, NUMBERS, SUPINF_2, XBOOLE_0,
+      ALGSTR_0, STRUCT_0, RLVECT_1, PBOOLE, RELAT_1, ZFMISC_1, ANALOAF, CARD_1,
+      ARYTM_1, TDGROUP;
+ notations TARSKI, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, REAL_1,
+      STRUCT_0, ALGSTR_0, ANALOAF, RELSET_1, RLVECT_1, VECTSP_1;
+ constructors BINOP_2, ANALOAF, REAL_1, DOMAIN_1, VECTSP_1, MEMBERED, NUMBERS;
+ registrations RELSET_1, STRUCT_0, VECTSP_1, ANALOAF, MEMBERED, XREAL_0;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+theorem :: TDGROUP:1
+  for a being Element of G_Real holds ex b being Element of G_Real st b + b = a
+;
+
+theorem :: TDGROUP:2
+  for a being Element of G_Real st a + a = 0.G_Real holds a = 0.G_Real;
+
+definition
+  let IT be non empty addLoopStr;
+  attr IT is Two_Divisible means
+:: TDGROUP:def 1
+
+  for a being Element of IT holds ex b being Element of IT st b + b = a;
+end;
+
+registration
+  cluster G_Real -> Fanoian Two_Divisible;
+end;
+
+registration
+  cluster strict Fanoian Two_Divisible add-associative right_zeroed
+    right_complementable Abelian for non empty addLoopStr;
+end;
+
+definition
+  mode Two_Divisible_Group is Two_Divisible add-associative right_zeroed
+    right_complementable Abelian non empty addLoopStr;
+end;
+
+definition
+  mode Uniquely_Two_Divisible_Group is Fanoian Two_Divisible add-associative
+    right_zeroed right_complementable Abelian non empty addLoopStr;
+end;
+
+theorem :: TDGROUP:3
+  for AG being add-associative right_zeroed right_complementable Abelian
+  non empty addLoopStr holds (AG is Uniquely_Two_Divisible_Group iff (for a
+  being Element of AG holds (ex b being Element of AG st b + b = a)) & (for a
+  being Element of AG st a + a = 0.AG holds a = 0.AG));
+
+reserve ADG for Uniquely_Two_Divisible_Group;
+reserve a,b,c,d,a9,b9,c9,p,q for Element of ADG;
+reserve x,y for set;
+
+notation
+  let ADG be non empty addLoopStr;
+  let a,b be Element of ADG;
+  synonym a # b for a+b;
+end;
+
+definition
+  let ADG be non empty addLoopStr;
+
+  func CONGRD(ADG) -> Relation of [:the carrier of ADG,the carrier of ADG:]
+  means
+:: TDGROUP:def 2
+
+  for a,b,c,d being Element of ADG holds [[a,b],[c,d]] in it iff a # d = b # c;
+end;
+
+definition
+  let ADG be non empty addLoopStr;
+  func AV(ADG) -> strict AffinStruct equals
+:: TDGROUP:def 3
+  AffinStruct(#the carrier of ADG,
+    CONGRD(ADG)#);
+end;
+
+registration
+  let ADG be non empty addLoopStr;
+  cluster AV ADG -> non empty;
+end;
+
+theorem :: TDGROUP:4
+  the carrier of AV(ADG) = the carrier of ADG & the CONGR of AV(ADG) =
+  CONGRD(ADG);
+
+definition
+  let ADG;
+  let a,b,c,d;
+  pred a,b ==> c,d means
+:: TDGROUP:def 4
+
+  [[a,b],[c,d]] in the CONGR of AV(ADG);
+end;
+
+theorem :: TDGROUP:5
+  a,b ==> c,d iff a # d = b # c;
+
+theorem :: TDGROUP:6
+  ex a,b being Element of G_Real st a<>b;
+
+theorem :: TDGROUP:7
+  ex ADG st ex a,b st a<>b;
+
+theorem :: TDGROUP:8
+  a,b ==> c,c implies a=b;
+
+theorem :: TDGROUP:9
+  a,b ==> p,q & c,d ==> p,q implies a,b ==> c,d;
+
+theorem :: TDGROUP:10
+  ex d st a,b ==> c,d;
+
+theorem :: TDGROUP:11
+  a,b ==> a9,b9 & a,c ==> a9,c9 implies b,c ==> b9,c9;
+
+theorem :: TDGROUP:12
+  ex b st a,b ==> b,c;
+
+theorem :: TDGROUP:13
+  a,b ==> b,c & a,b9 ==> b9,c implies b=b9;
+
+theorem :: TDGROUP:14
+  a,b ==> c,d implies a,c ==> b,d;
+
+reserve AS for non empty AffinStruct;
+
+theorem :: TDGROUP:15
+  (ex a,b being Element of ADG st a<>b) implies (ex a,b being
+Element of AV(ADG) st a<>b) & (for a,b,c being Element of AV(ADG) st a,b // c,c
+holds a=b) & (for a,b,c,d,p,q being Element of AV(ADG) st a,b // p,q & c,d // p
+  ,q holds a,b // c,d) & (for a,b,c being Element of AV(ADG) ex d being Element
+of AV(ADG) st a,b // c,d) & (for a,b,c,a9,b9,c9 being Element of AV(ADG) st a,b
+// a9,b9 & a,c // a9,c9 holds b,c // b9,c9) & (for a,c being Element of AV(ADG)
+  ex b being Element of AV(ADG) st a,b // b,c) & (for a,b,c,b9 being Element of
+AV(ADG) st a,b // b,c & a,b9 // b9,c holds b = b9) & for a,b,c,d being Element
+  of AV(ADG) st a,b // c,d holds a,c // b,d;
+
+definition
+  let IT be non empty AffinStruct;
+
+  attr IT is AffVect-like means
+:: TDGROUP:def 5
+
+  (for a,b,c being Element of IT st a,b
+// c,c holds a=b) & (for a,b,c,d,p,q being Element of IT st a,b // p,q & c,d //
+p,q holds a,b // c,d) & (for a,b,c being Element of IT ex d being Element of IT
+st a,b // c,d) & (for a,b,c,a9,b9,c9 being Element of IT st a,b // a9,b9 & a,c
+// a9,c9 holds b,c // b9,c9) & (for a,c being Element of IT ex b being Element
+  of IT st a,b // b,c) & (for a,b,c,b9 being Element of IT st a,b // b,c & a,b9
+// b9,c holds b = b9) & for a,b,c,d being Element of IT st a,b // c,d holds a,c
+  // b,d;
+end;
+
+registration
+  cluster strict AffVect-like for non trivial AffinStruct;
+end;
+
+definition
+  mode AffVect is AffVect-like non trivial AffinStruct;
+end;
+
+theorem :: TDGROUP:16
+  for AS holds (ex a,b being Element of AS st a<>b) & (for a,b,c being
+  Element of AS st a,b // c,c holds a=b) & (for a,b,c,d,p,q being Element of AS
+  st a,b // p,q & c,d // p,q holds a,b // c,d) & (for a,b,c being Element of AS
+ex d being Element of AS st a,b // c,d) & (for a,b,c,a9,b9,c9 being Element of
+AS st a,b // a9,b9 & a,c // a9,c9 holds b,c // b9,c9) & (for a,c being Element
+of AS ex b being Element of AS st a,b // b,c) & (for a,b,c,b9 being Element of
+  AS st a,b // b,c & a,b9 // b9,c holds b = b9) & (for a,b,c,d being Element of
+  AS st a,b // c,d holds a,c // b,d) iff AS is AffVect;
+
+theorem :: TDGROUP:17
+  (ex a,b being Element of ADG st a<>b) implies AV(ADG) is AffVect;

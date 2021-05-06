@@ -1,0 +1,730 @@
+:: Some Remarks about Product Spaces
+::  by Sebastian Koch
+::
+:: Received September 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, SUBSET_1, PRE_TOPC, FUNCT_1, FUNCT_2, RELAT_1,
+      XBOOLE_0, TARSKI, ZFMISC_1, ORDINAL2, TOPS_2, RCOMP_1, T_0TOPSP,
+      SETFAM_1, RLVECT_3, CARD_1, EQREL_1, CARD_3, PARTFUN1, FUNCT_7, WAYBEL18,
+      FUNCOP_1, TOPS_5, PBOOLE, RLVECT_2, WAYBEL_3, PRALG_1, FUNCT_4, CANTOR_1,
+      FINSET_1, ALGSPEC1, SETLIM_2;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ENUMSET1, SETFAM_1, PBOOLE,
+      RELAT_1, FUNCT_1, FINSET_1, ORDINAL1, RELSET_1, PARTFUN1, TOPS_2,
+      FUNCT_2, FUNCT_3, DOMAIN_1, CARD_1, CARD_3, FUNCOP_1, FUNCT_4, FUNCT_7,
+      EQREL_1, STRUCT_0, PRALG_1, ALGSPEC1, PRE_TOPC, BORSUK_1, T_0TOPSP,
+      CANTOR_1, BORSUK_2, BORSUK_3, WAYBEL_3, WAYBEL18;
+ constructors TOPS_2, CANTOR_1, TOPALG_6, MONOID_0, WAYBEL18, FUNCT_4, FUNCT_7,
+      ALGSPEC1, BORSUK_3;
+ registrations SUBSET_1, FUNCT_1, FUNCT_2, STRUCT_0, PRE_TOPC, TOPS_1,
+      BORSUK_1, RELSET_1, CARD_1, ORDINAL1, NAT_1, XBOOLE_0, MONOID_0,
+      PRE_POLY, FUNCOP_1, CARD_3, FUNCT_4, FINSET_1, WAYBEL18, RELAT_1, PBOOLE,
+      TOPGRP_1;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin  :: Preliminaries
+
+:: into FUNCT_1 ?
+:: compare FUNCT_1:4
+theorem :: TOPS_5:1
+  for f being one-to-one Function, y being object st rng f = {y}
+  holds dom f = {f".y};
+
+:: into FUNCT_1 ?
+theorem :: TOPS_5:2
+  for f being one-to-one Function, y1, y2 being object st rng f = {y1, y2}
+  holds dom f = {f".y1, f".y2};
+
+:: into PARTFUN1 ?
+registration
+  let X, Y be set;
+  cluster empty X-defined Y-valued one-to-one for Function;
+end;
+
+:: into FINSET_1 ?
+registration
+  let T,S be set;
+  let f be Function of T,S;
+  let G be finite Subset-Family of T;
+  cluster f.:G -> finite;
+end;
+
+:: into RELSET_2 ?
+theorem :: TOPS_5:3
+  for A being set, F being Subset-Family of A, R be Relation holds
+    R.: meet F c= meet {R.:X where X is Subset of A : X in F};
+
+:: into RELSET_2 ?
+theorem :: TOPS_5:4
+  for A being set, F being Subset-Family of A, f be one-to-one Function holds
+    f.: meet F = meet {f.:X where X is Subset of A : X in F};
+
+:: into EQREL_1 ?
+theorem :: TOPS_5:5
+  for X being set, Y being non empty set, f being Function of X, Y
+  holds {f"{y} where y is Element of Y : y in rng f} is a_partition of X;
+
+:: into FUNCOP_1 ?
+theorem :: TOPS_5:6
+  for X being non empty set, x,y being object st X --> x = X --> y holds x = y;
+
+:: into FUNCOP_1 ?
+theorem :: TOPS_5:7
+  for i being object, J being ManySortedSet of {i} holds J = {i} --> J.i;
+
+:: into CARD_1 ?
+theorem :: TOPS_5:8
+  for I being 2-element set, i,j being Element of I st i <> j holds I = {i,j};
+
+:: into FUNCT_4 ?
+:: compare FUNCT_4:66
+theorem :: TOPS_5:9
+  for I being 2-element set, f being ManySortedSet of I
+  for i,j being Element of I st i <> j holds f = (i,j) --> (f.i,f.j);
+
+:: into FUNCT_4 ?
+theorem :: TOPS_5:10
+  for a,b,c,d being object st a <> b holds (a,b) --> (c,d) = (b,a) --> (d,c);
+
+:: into FUNCT_4 ?
+theorem :: TOPS_5:11
+  for f being Function, i, j being object st i in dom f & j in dom f
+  holds f = f +* (i,j) --> (f.i,f.j);
+
+:: into FUNCT_4 ?
+:: compare FUNCT_7:15, FUNCT_4:114
+theorem :: TOPS_5:12
+  for x,y,z being object holds (x .--> y) +* (x .--> z) = x .--> z;
+
+:: into PBOOLE ?
+registration
+  cluster non non-empty for Function;
+end;
+
+:: BEGIN into CARD_3 ?
+
+theorem :: TOPS_5:13
+  for X, Y being non empty set, y being Element of Y
+  holds X --> y in product (X --> Y);
+
+theorem :: TOPS_5:14
+  for X being non empty set, Y being set, Z being Subset of Y
+  holds product(X --> Z) c= product (X --> Y);
+
+theorem :: TOPS_5:15
+  for X being non empty set, i being object holds
+  product ({i} --> X) = {{i} --> x where x is Element of X : not contradiction}
+;
+
+theorem :: TOPS_5:16
+  for X being non empty set, i, f being object
+  holds f in product({i} --> X) iff ex x being Element of X st f = {i} --> x;
+
+:: compare YELLOW17:8
+theorem :: TOPS_5:17
+  for X being non empty set, i being object, x being Element of X
+  holds proj({i} --> X,i).({i} --> x) = x;
+
+:: compare CARD_3:26
+theorem :: TOPS_5:18
+  for X, Y being set holds X <> {} & Y = {} iff product (X --> Y) = {};
+
+registration
+  let f be empty Function, x be object;
+  cluster proj(f,x) -> trivial;
+end;
+
+theorem :: TOPS_5:19
+  for f being trivial Function, x being object st x in dom f
+  holds proj(f,x) is one-to-one;
+
+registration
+  let x,y be object;
+  cluster proj(x .--> y,x) -> one-to-one;
+end;
+
+registration
+  let I be 1-element set, J be ManySortedSet of I, i be Element of I;
+  cluster proj(J,i) -> one-to-one;
+end;
+
+theorem :: TOPS_5:20
+  for X being non empty set, Y being Subset of X, i being object
+  holds proj({i} --> X,i).:product ({i} --> Y) = Y;
+
+theorem :: TOPS_5:21
+  for f, g being non-empty Function, i, x being object
+  st x in product f /\ product(f+*g) holds proj(f,i).x = proj(f+*g,i).x;
+
+theorem :: TOPS_5:22
+  for f, g being non-empty Function, i being object, A being set
+  st A c= product f /\ product(f+*g) holds proj(f,i).:A = proj(f+*g,i).:A;
+
+theorem :: TOPS_5:23
+  for f, g being non-empty Function
+  st dom g c= dom f & for i being object st i in dom g holds g.i c= f.i
+  holds product(f+*g) c= product f;
+
+theorem :: TOPS_5:24
+  for f, g being non-empty Function
+  st dom g c= dom f & for i being object st i in dom g holds g.i c= f.i holds
+    for i being object st i in dom f \ dom g
+    holds proj(f,i).:product(f+*g) = f.i;
+
+theorem :: TOPS_5:25
+  for f, g being non-empty Function
+  st dom g c= dom f & for i being object st i in dom g holds g.i c= f.i
+  holds for i being object st i in dom g holds proj(f,i).:product(f+*g) = g.i;
+
+theorem :: TOPS_5:26
+  for f, g being non-empty Function
+  st dom g = dom f & for i being object st i in dom g holds g.i c= f.i
+  holds for i being object st i in dom g holds proj(f,i).:product g = g.i;
+
+theorem :: TOPS_5:27
+  for f being Function, X, Y being set, i being object st X c= Y
+  holds product(f +* (i .--> X)) c= product(f +* (i .--> Y));
+
+theorem :: TOPS_5:28
+  for i,j being object, A, B, C, D being set st A c= C & B c= D
+  holds product((i,j) --> (A,B)) c= product((i,j) --> (C,D));
+
+theorem :: TOPS_5:29
+  for X, Y being set, f, i, j being object st i <> j
+  holds f in product((i,j) --> (X,Y)) iff
+    ex x,y being object st x in X & y in Y & f = (i,j) --> (x,y);
+
+theorem :: TOPS_5:30
+  for f being non-empty Function, X, Y being set, i, j, x, y being object
+  for g being Function
+  st x in X & y in Y & i <> j & g in product f
+  holds g +* (i,j) --> (x,y) in product(f +* (i,j) --> (X,Y));
+
+theorem :: TOPS_5:31
+  for f being Function, A, B, C, D being set, i, j being object
+  st A c= C & B c= D
+  holds product(f +* (i,j) --> (A,B)) c= product(f +* (i,j) --> (C,D));
+
+theorem :: TOPS_5:32
+  for f being Function, A, B being set, i, j being object
+  st i in dom f & j in dom f & A c= f.i & B c= f.j
+  holds product(f +* (i,j) --> (A,B)) c= product f;
+
+:: $\prod_{i\in I} A_i \cap \prod_{i\in I} B_i = \prod_{i\in I} (A_i \cap B_i)$
+:: compare MSUALG_2:1
+theorem :: TOPS_5:33
+  for I being set, f, g being ManySortedSet of I
+  holds product f /\ product g = product(f (/\) g);
+
+theorem :: TOPS_5:34
+  for I being 2-element set, f being ManySortedSet of I
+  for i, j being Element of I, x being object st i <> j
+  holds f +* (i,x) = (i,j) --> (x,f.j) & f +* (j,x) = (i,j) --> (f.i,x);
+
+theorem :: TOPS_5:35
+  for f being non-empty Function, X being set, i being object st i in dom f
+  holds f +* (i,X) is non-empty iff X is non empty;
+
+theorem :: TOPS_5:36
+  for f being non-empty Function, X being set, i being object st i in dom f
+  holds product(f +* (i,X)) = {} iff X is empty;
+
+theorem :: TOPS_5:37
+  for f being non-empty Function, X being set, i, x being object
+  for g being Function st i in dom f & x in X & g in product f
+  holds g +* (i,x) in product(f +* (i,X));
+
+theorem :: TOPS_5:38
+  for f being Function, X, Y being set, i being object st i in dom f & X c= Y
+  holds product(f +* (i,X)) c= product(f +* (i,Y));
+
+:: compare YELLOW17:2
+theorem :: TOPS_5:39
+  for f being Function, X being set, i being object st i in dom f & X c= f.i
+  holds product(f +* (i,X)) c= product(f);
+
+theorem :: TOPS_5:40
+  for f being non-empty Function, X, Y being non empty set, i, j being object
+  st i in dom f & j in dom f & (not X c= f.i or not f.j c= Y) &
+    product (f +* (i,X)) c= product (f +* (j,Y))
+  holds i = j & X c= Y;
+
+theorem :: TOPS_5:41
+  for f being non-empty Function, X being set, i being object
+  st i in dom f & product(f +* (i,X)) c= product f holds X c= f.i;
+
+theorem :: TOPS_5:42
+  for f being non-empty Function, X, Y being non empty set, i, j being object
+  st i in dom f & j in dom f & (X <> f.i or Y <> f.j) &
+    product (f +* (i,X)) = product (f +* (j,Y))
+  holds i = j & X = Y;
+
+theorem :: TOPS_5:43
+  for f being non-empty Function, X being set, i being object
+  st i in dom f & X c= f.i holds proj(f,i).:product(f +* (i,X)) = X;
+
+theorem :: TOPS_5:44
+  for x,y,z being object holds (x .--> y) +* (x,z) = x .--> z;
+
+:: END into FUNCT_7 ?
+
+:: into PRALG_1 ?
+registration
+  let I being non empty set;
+  let J being 1-sorted-yielding non-Empty ManySortedSet of I;
+  cluster Carrier J -> non-empty;
+end;
+
+begin :: Remarks about Product Spaces
+
+theorem :: TOPS_5:45
+  for T,S being TopSpace, f being Function of T,S
+  holds f is open iff
+    ex B being Basis of T st
+      for V being Subset of T st V in B holds f.:V is open;
+
+theorem :: TOPS_5:46
+  for T1,T2,S1,S2 being non empty TopSpace
+  for f being Function of T1, S1, g being Function of T2, S2
+  st f is open & g is open holds [: f,g :] is open;
+
+theorem :: TOPS_5:47
+  for S,T being non empty TopSpace, f being Function of S,T
+  st f is bijective &
+    ex K being Basis of S, L being Basis of T st f.:K = L
+  holds f is being_homeomorphism;
+
+theorem :: TOPS_5:48
+  for S,T being non empty TopSpace, f being Function of S,T
+  st f is bijective &
+    ex K being prebasis of S, L being prebasis of T st f.:K = L
+  holds f is being_homeomorphism;
+
+:: compare TOPGEN_5:71 (the converse)
+theorem :: TOPS_5:49
+  for S, T being TopSpace
+  st ex K being Basis of S, L being Basis of T st K = INTERSECTION(L,{[#]S})
+  holds S is SubSpace of T;
+
+theorem :: TOPS_5:50
+  for S, T being TopSpace
+  st [#]S c= [#]T & ex K being prebasis of S, L being prebasis of T
+    st K = INTERSECTION(L,{[#]S})
+  holds S is SubSpace of T;
+
+theorem :: TOPS_5:51
+  for S, T being TopSpace
+  st ex K being prebasis of S, L being prebasis of T
+    st [#]S in K & K = INTERSECTION(L,{[#]S})
+  holds S is SubSpace of T;
+
+theorem :: TOPS_5:52
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for i being Element of I holds rng proj(J,i) = the carrier of J.i;
+
+registration
+  let X be set, T be TopStruct;
+  cluster X --> T -> TopStruct-yielding;
+end;
+
+definition
+  let F be Relation;
+  attr F is TopSpace-yielding means
+:: TOPS_5:def 1
+
+  for x being object st x in rng F holds x is TopSpace;
+end;
+
+registration
+  cluster TopSpace-yielding -> TopStruct-yielding for Relation;
+end;
+
+registration
+  cluster TopSpace-yielding -> 1-sorted-yielding for Function;
+end;
+
+registration
+  let X be set, T be TopSpace;
+  cluster X --> T -> TopSpace-yielding;
+end;
+
+registration
+  let I be set;
+  cluster TopSpace-yielding non-Empty for ManySortedSet of I;
+end;
+
+definition
+  let I being non empty set;
+  let J being TopSpace-yielding non-Empty ManySortedSet of I;
+  let i be Element of I;
+  redefine func J.i -> non empty TopSpace;
+end;
+
+definition
+  let f be Function;
+  func ProjMap f -> ManySortedFunction of dom f means
+:: TOPS_5:def 2
+
+  for x being object st x in dom f holds it.x = proj(f,x);
+end;
+
+registration
+  let f be empty Function;
+  cluster ProjMap f -> empty;
+end;
+
+registration
+  let f be non-empty Function;
+  cluster ProjMap f -> non-empty;
+end;
+
+registration
+  let f be non non-empty Function;
+  cluster ProjMap f -> empty-yielding;
+end;
+
+definition
+  let I be non empty set;
+  let J be TopStruct-yielding non-Empty ManySortedSet of I;
+  func ProjMap J -> ManySortedSet of I equals
+:: TOPS_5:def 3
+  ProjMap Carrier J;
+end;
+
+registration
+  let I be non empty set;
+  let J be TopStruct-yielding non-Empty ManySortedSet of I;
+  cluster ProjMap J -> Function-yielding non empty non-empty;
+end;
+
+theorem :: TOPS_5:53
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for i being Element of I holds (ProjMap J).i = proj(J,i);
+
+:: this functor will be used to express the notion of
+:: "all but finitely many factors being the full factor space"
+:: when considering the canonical base of the product topology
+definition
+  let I be non empty set;
+  let J be TopStruct-yielding non-Empty ManySortedSet of I;
+  let f be one-to-one I-valued Function;
+  func product_basis_selector(J,f) -> ManySortedSet of rng f equals
+:: TOPS_5:def 4
+  ((ProjMap J).:.:(I-indexing(f"))) | rng f;
+end;
+
+registration
+  let I be non empty set;
+  let J be TopStruct-yielding non-Empty ManySortedSet of I;
+  let f be empty one-to-one I-valued Function;
+  cluster product_basis_selector(J,f) -> empty;
+end;
+
+theorem :: TOPS_5:54
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for f being one-to-one I-valued Function
+  for i being Element of I st i in rng f
+  holds product_basis_selector(J,f).i = proj(J,i).:(f".i);
+
+theorem :: TOPS_5:55
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for f being one-to-one I-valued Function
+  st f" is non-empty & dom f c= bool product Carrier J
+  holds product_basis_selector(J,f) is non-empty;
+
+theorem :: TOPS_5:56
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  holds {} in product_prebasis J;
+
+:: compare YELLOW17:16
+theorem :: TOPS_5:57
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for P being non empty Subset of product Carrier J st P in product_prebasis J
+  holds ex i being Element of I st proj(J,i).:P is open &
+    for j being Element of I st j <> i holds proj(J,j).:P = [#](J.j);
+
+theorem :: TOPS_5:58
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for P being non empty Subset of product Carrier J st P in product_prebasis J
+  holds (for j being Element of I holds proj(J,j).:P is open) &
+    ex i being Element of I
+    st for j being Element of I st j <> i holds proj(J,j).:P = [#](J.j);
+
+theorem :: TOPS_5:59
+  for I being non empty set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for f being one-to-one I-valued Function
+  for X being Subset-Family of product Carrier J
+  st X c= product_prebasis J & dom f = X & f" is non-empty &
+    for A being Subset of product Carrier J st A in X
+    holds proj(J,f/.A).:A is open
+  holds for i being Element of I holds
+    (not i in rng f implies
+      proj(J,i).:product(Carrier J +* product_basis_selector(J,f)) = [#](J.i))
+    & (i in rng f implies
+      proj(J,i).:product(Carrier J +* product_basis_selector(J,f)) is open);
+
+theorem :: TOPS_5:60
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for f being one-to-one I-valued Function
+  for X being Subset-Family of product Carrier J
+  st X c= product_prebasis J & dom f = X & f" is non-empty &
+    for A being Subset of product Carrier J st A in X
+    holds proj(J,f/.A).:A is open
+  holds for i being Element of I holds
+    proj(J,i).:product(Carrier J +* product_basis_selector(J,f)) is open &
+    (not i in rng f implies
+      proj(J,i).:product(Carrier J +* product_basis_selector(J,f)) = [#](J.i));
+
+:: Theorem of canonical product base characterization
+theorem :: TOPS_5:61
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for P being Subset of product Carrier J
+  holds P in FinMeetCl product_prebasis J iff
+    ex X being Subset-Family of product Carrier J,
+      f being one-to-one I-valued Function
+    st X c= product_prebasis J & X is finite & P = Intersect X & dom f = X &
+      P = product(Carrier J +* product_basis_selector(J,f));
+
+theorem :: TOPS_5:62
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for P being non empty Subset of product Carrier J
+  holds P in FinMeetCl product_prebasis J implies
+    ex X being Subset-Family of product Carrier J,
+      f being one-to-one I-valued Function
+    st X c= product_prebasis J & X is finite & P = Intersect X & dom f = X &
+      for i being Element of I holds proj(J,i).:P is open &
+        (not i in rng f implies proj(J,i).:P = [#](J.i));
+
+theorem :: TOPS_5:63
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for P being non empty Subset of product Carrier J
+  holds P in FinMeetCl product_prebasis J implies
+    ex I0 being finite Subset of I st for i being Element of I holds
+      proj(J,i).:P is open & (not i in I0 implies proj(J,i).:P = [#](J.i));
+
+:: characterization of the canonical prebasis of
+:: the product topology over one factor
+theorem :: TOPS_5:64
+  for I being 1-element set
+  for J being TopStruct-yielding non-Empty ManySortedSet of I
+  for i being Element of I, P being Subset of product Carrier J
+  holds P in product_prebasis J iff ex V being Subset of J.i
+    st V is open & P = product ({i} --> V);
+
+theorem :: TOPS_5:65
+  for I being 1-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  holds the topology of product J = product_prebasis J;
+
+:: characterization of open sets in the product topology over one factor
+theorem :: TOPS_5:66
+  for I being 1-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i being Element of I, P being Subset of product J
+  holds P is open iff ex V being Subset of J.i
+    st V is open & P = product ({i} --> V);
+
+registration
+  let I being non empty set;
+  let J being TopStruct-yielding non-Empty ManySortedSet of I;
+  let i be Element of I;
+  cluster proj(J,i) -> continuous onto;
+end;
+
+registration
+  let I being non empty set;
+  let J being TopSpace-yielding non-Empty ManySortedSet of I;
+  let i be Element of I;
+  cluster proj(J,i) -> open;
+end;
+
+theorem :: TOPS_5:67
+  for I being 1-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i being Element of I holds proj(J,i) is being_homeomorphism;
+
+:: the product topology over one factor is homeomorphic to that factor
+theorem :: TOPS_5:68
+  for I being 1-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i being Element of I
+  holds product J, J.i are_homeomorphic;
+
+:: characterization of the canonical prebasis of
+:: the product topology over two factors
+theorem :: TOPS_5:69
+  for I being 2-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I, P being Subset of product Carrier J st i <> j
+  holds P in product_prebasis J iff
+    (ex V being Subset of J.i st
+      V is open & P = product((i,j) --> (V,[#](J.j)) ) ) or
+    (ex W being Subset of J.j st
+      W is open & P = product((i,j) --> ([#](J.i),W) ) );
+
+:: characterization of the canonical basis of
+:: the product topology over two factors
+theorem :: TOPS_5:70
+  for I being 2-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I, P being Subset of product Carrier J st i <> j
+  holds P in FinMeetCl product_prebasis J iff
+    ex V being Subset of J.i, W being Subset of J.j
+    st V is open & W is open & P = product((i,j) --> (V,W));
+
+theorem :: TOPS_5:71 ::Th71:
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I
+  holds <: proj(J,i), proj(J,j) :> is Function of product J, [: J.i, J.j :];
+
+:: can be generalized: P only needs to contain the square F.i x F.j
+:: at one point p, the Proof works the same
+theorem :: TOPS_5:72
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for P being Subset of product Carrier J
+  for i,j being Element of I st i <> j &
+    (ex F being ManySortedSet of I st P = product F &
+      for k being Element of I holds F.k c= (Carrier J).k)
+  holds <: proj(J,i), proj(J,j) :>.:P = [: proj(J,i).:P, proj(J,j).:P :];
+
+theorem :: TOPS_5:73
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I, f being Function of product J, [: J.i, J.j :]
+  st i <> j & f = <: proj(J,i), proj(J,j) :>
+  holds f is onto open;
+
+theorem :: TOPS_5:74
+  for I being 2-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I, f being Function of product J, [: J.i, J.j :]
+  st i <> j & f = <: proj(J,i), proj(J,j) :>
+  holds f is being_homeomorphism;
+
+:: the product topology over two factors is
+:: homeomorphic to the cartesian product of these two factors
+:: ( [: S,T :], [: T,S :] are_homeomorphic is a corrolary,
+::  but it is already in the MML)
+theorem :: TOPS_5:75
+  for I being 2-element set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for i,j being Element of I st i <> j
+  holds product J, [: J.i,J.j :] are_homeomorphic;
+
+registration
+  let I1, I2 be non empty set;
+  let J be TopSpace-yielding non-Empty ManySortedSet of I2;
+  let f be Function of I1, I2;
+  cluster J*f -> TopSpace-yielding non-Empty;
+end;
+
+definition
+  let I1, I2 be non empty set;
+  let J1 be TopSpace-yielding non-Empty ManySortedSet of I1;
+  let J2 be TopSpace-yielding non-Empty ManySortedSet of I2;
+  let p be Function of I1, I2;
+  assume that  p is bijective and
+     for i being Element of I1 holds J1.i, (J2*p).i are_homeomorphic;
+  mode ProductHomeo of J1, J2, p -> Function of product J1, product J2 means
+:: TOPS_5:def 5
+
+  ex F being ManySortedFunction of I1 st
+    (for i being Element of I1 ex f being Function of J1.i, (J2*p).i
+      st F.i = f & f is being_homeomorphism) &
+    for g being Element of product J1, i being Element of I1 holds
+      (it.g).(p.i) = (F.i).(g.i);
+end;
+
+:: characterization of images of certain subsets under product homeomorphism
+theorem :: TOPS_5:76
+  for I1, I2 being non empty set
+  for J1 being TopSpace-yielding non-Empty ManySortedSet of I1
+  for J2 being TopSpace-yielding non-Empty ManySortedSet of I2
+  for p being Function of I1, I2, H being ProductHomeo of J1, J2, p
+  for F being ManySortedFunction of I1
+  st p is bijective &
+    (for i being Element of I1 ex f being Function of J1.i, (J2*p).i
+      st F.i = f & f is being_homeomorphism) &
+    (for g being Element of product J1, i being Element of I1 holds
+      (H.g).(p.i) = (F.i).(g.i))
+  holds for i being Element of I1, U being Subset of J1.i holds
+    H.:product(Carrier J1 +* (i,U)) = product(Carrier J2 +* (p.i,(F.i).:U));
+
+theorem :: TOPS_5:77
+  for I1, I2 being non empty set
+  for J1 being TopSpace-yielding non-Empty ManySortedSet of I1
+  for J2 being TopSpace-yielding non-Empty ManySortedSet of I2
+  for p being Function of I1, I2, H being ProductHomeo of J1, J2, p
+  st p is bijective &
+    for i being Element of I1 holds J1.i, (J2*p).i are_homeomorphic
+  holds H is bijective;
+
+theorem :: TOPS_5:78
+  for I1, I2 being non empty set
+  for J1 being TopSpace-yielding non-Empty ManySortedSet of I1
+  for J2 being TopSpace-yielding non-Empty ManySortedSet of I2
+  for p being Function of I1, I2, H being ProductHomeo of J1, J2, p
+  st p is bijective &
+    for i being Element of I1 holds J1.i, (J2*p).i are_homeomorphic
+  holds H is being_homeomorphism;
+
+:: pairwise homeomorphic factors lead to homeomorphic products
+theorem :: TOPS_5:79
+  for I1, I2 being non empty set
+  for J1 being TopSpace-yielding non-Empty ManySortedSet of I1
+  for J2 being TopSpace-yielding non-Empty ManySortedSet of I2
+  for p being Function of I1, I2
+  st p is bijective &
+    for i being Element of I1 holds J1.i, (J2*p).i are_homeomorphic
+  holds product J1, product J2 are_homeomorphic;
+
+theorem :: TOPS_5:80
+  for I being non empty set
+  for J1, J2 being TopSpace-yielding non-Empty ManySortedSet of I
+  for p being Permutation of I
+  st for i being Element of I holds J1.i, (J2*p).i are_homeomorphic
+  holds product J1, product J2 are_homeomorphic;
+
+:: permutations of the underlying set family lead to a homeomorphic copy of
+:: the original product
+:: (the following one could also be done with TopStruct-yielding
+::  but then the theorems before couldn't be used and the long argumentation
+::  would have to be repeated for most parts)
+theorem :: TOPS_5:81
+  for I being non empty set
+  for J being TopSpace-yielding non-Empty ManySortedSet of I
+  for p being Permutation of I
+  holds product J, product(J*p) are_homeomorphic;
+
+:: if each factor of the first product is a subspace of a corresponding
+:: factor of the second product, the first product is a subspae of the second
+theorem :: TOPS_5:82
+  for I being non empty set
+  for J1, J2 being TopSpace-yielding non-Empty ManySortedSet of I
+  st for i being Element of I holds J1.i is SubSpace of J2.i
+  holds product J1 is SubSpace of product J2;

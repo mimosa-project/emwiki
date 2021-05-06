@@ -1,0 +1,81 @@
+:: Modifying addresses of instructions of { \bf SCM_FSA }
+::  by Andrzej Trybulec and Yatsuka Nakamura
+::
+:: Received February 14, 1996
+:: Copyright (c) 1996-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, AMI_1, AMI_3, SCMFSA_2, AMISTD_2, CARD_1,
+      GRAPHSP, ARYTM_3, RELAT_1, FUNCT_1, FUNCT_4, XBOOLE_0, FSM_1, ARYTM_1,
+      INT_1, COMPLEX1, PARTFUN1, FINSEQ_1, FINSEQ_2, NAT_1, COMPOS_1;
+ notations TARSKI, XBOOLE_0, ENUMSET1, XTUPLE_0, SUBSET_1, ORDINAL1, NUMBERS,
+      CARD_3, XXREAL_0, XCMPLX_0, NAT_1, NAT_D, VALUED_1, INT_1, INT_2,
+      RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, FUNCT_4, FUNCOP_1, FUNCT_7,
+      FINSEQ_1, FINSEQ_2, STRUCT_0, MEMSTR_0, COMPOS_0, COMPOS_1, EXTPRO_1,
+      AMI_3, SCMFSA_2, AMISTD_2, AMISTD_5;
+ constructors DOMAIN_1, XXREAL_0, AMI_3, SCMFSA_2, NAT_D, RELSET_1, VALUED_1,
+      AMISTD_2, AMISTD_5, PBOOLE, FUNCT_7, MEMSTR_0, FINSEQ_2;
+ registrations XBOOLE_0, ORDINAL1, RELSET_1, XREAL_0, INT_1, SCMFSA_2, AMI_3,
+      SCMFSA10, AMISTD_2, VALUED_0, EXTPRO_1, MEMSTR_0, FINSEQ_1, COMPOS_0,
+      XTUPLE_0, NAT_1;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Incrementing addresses
+
+reserve L, j, k, l, m, n, p, q for Nat,
+  A for Data-Location,
+  I for Instruction of SCM;
+
+registration
+ let a,b be Int-Location;
+ cluster a:=b -> ins-loc-free;
+ cluster AddTo(a,b) -> ins-loc-free;
+ cluster SubFrom(a,b) -> ins-loc-free;
+ cluster MultBy(a,b) -> ins-loc-free;
+ cluster Divide(a,b) -> ins-loc-free;
+end;
+
+theorem :: SCMFSA_4:1
+  for k,loc being Nat
+  holds IncAddr(goto loc,k) = goto (loc + k);
+
+theorem :: SCMFSA_4:2
+  for k,loc being Nat, a being Int-Location
+   holds IncAddr(a=0_goto loc,k) = a=0_goto (loc + k);
+
+theorem :: SCMFSA_4:3
+  for k,loc being Nat, a being Int-Location
+       holds IncAddr(a>0_goto loc,k) = a>0_goto (loc + k);
+
+registration
+ let a,b be Int-Location; let f be FinSeq-Location;
+ cluster b:=(f,a) -> ins-loc-free;
+ cluster (f,a):=b -> ins-loc-free;
+end;
+
+registration
+ let a be Int-Location; let f be FinSeq-Location;
+ cluster a:=len f -> ins-loc-free;
+ cluster f:=<0,...,0>a -> ins-loc-free;
+end;
+
+reserve i for Instruction of SCM+FSA;
+
+begin :: Incrementing Addresses in a finite partial state
+
+registration
+ cluster SCM+FSA -> relocable;
+end;
+
+theorem :: SCMFSA_4:4
+ not InsCode i in {6,7,8} implies IncAddr(i,k) = i;

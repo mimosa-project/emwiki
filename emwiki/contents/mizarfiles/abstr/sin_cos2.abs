@@ -1,0 +1,241 @@
+:: Properties of Trigonometric Function
+::  by Takashi Mitsuishi and Yuguang Yang
+::
+:: Received March 13, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XREAL_0, SUBSET_1, XXREAL_0, CARD_1, ARYTM_3, RELAT_1,
+      SQUARE_1, ARYTM_1, SIN_COS, XXREAL_1, ORDINAL2, REAL_1, FDIFF_1, FUNCT_1,
+      VALUED_0, NAT_1, NEWTON, BINOP_2, PARTFUN1, FUNCOP_1, SEQ_1, VALUED_1,
+      FUNCT_2, SEQ_2, TARSKI, RCOMP_1, XBOOLE_0, FCONT_1, SIN_COS2, FUNCT_7,
+      ORDINAL1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0,
+      VALUED_0, FUNCT_1, FUNCT_2, RELSET_1, FCONT_1, FDIFF_1, NAT_1, FUNCOP_1,
+      SQUARE_1, NEWTON, PARTFUN1, SEQ_2, RCOMP_1, RFUNCT_1, SIN_COS, VALUED_1,
+      SEQ_1, BINOP_2, XXREAL_0, REAL_1;
+ constructors PARTFUN1, FUNCOP_1, REAL_1, SQUARE_1, NAT_1, BINOP_2, SEQ_2,
+      RCOMP_1, RFUNCT_1, RFUNCT_2, FCONT_1, FDIFF_1, SIN_COS, VALUED_1,
+      RELSET_1, NEWTON, COMSEQ_2, NUMBERS;
+ registrations XBOOLE_0, RELSET_1, NUMBERS, XXREAL_0, XREAL_0, SQUARE_1,
+      MEMBERED, RCOMP_1, FDIFF_1, SIN_COS, VALUED_0, VALUED_1, FUNCT_2,
+      FCONT_3, NEWTON, SEQ_2, ORDINAL1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Monotone increasing and monotone decreasing of sine and cosine.
+
+reserve p,q,r,th,th1 for Real;
+reserve n for Nat;
+
+theorem :: SIN_COS2:1
+  p>=0 & r>=0 implies p+r>=2*sqrt(p*r);
+
+theorem :: SIN_COS2:2
+  sin|].0,PI/2.[ is increasing;
+
+theorem :: SIN_COS2:3
+  sin|].PI/2,PI.[ is decreasing;
+
+theorem :: SIN_COS2:4
+  cos|].0,PI/2.[ is decreasing;
+
+theorem :: SIN_COS2:5
+  cos|].PI/2,PI.[ is decreasing;
+
+theorem :: SIN_COS2:6
+  sin|].PI,3/2*PI.[ is decreasing;
+
+theorem :: SIN_COS2:7
+  sin|].3/2*PI,2*PI.[ is increasing;
+
+theorem :: SIN_COS2:8
+  cos|].PI,3/2*PI.[ is increasing;
+
+theorem :: SIN_COS2:9
+  cos|].3/2*PI,2*PI.[ is increasing;
+
+theorem :: SIN_COS2:10
+  for n being Nat holds sin.th = sin.(2*PI*n + th);
+
+theorem :: SIN_COS2:11
+  for n being Nat holds cos.th = cos.(2*PI*n + th);
+
+begin ::Hyperbolic sine, hyperbolic cosine and hyperbolic tangent.
+
+definition
+  func sinh -> Function of REAL, REAL means
+:: SIN_COS2:def 1
+
+  for d being Real holds it.d=(exp_R.d - exp_R.(-d))/2;
+end;
+
+definition
+  let d be object;
+  func sinh(d) -> number equals
+:: SIN_COS2:def 2
+  sinh.d;
+end;
+
+registration
+  let d be object;
+  cluster sinh(d) -> real;
+end;
+
+definition
+  func cosh -> Function of REAL, REAL means
+:: SIN_COS2:def 3
+
+  for d being Real holds it.d=(exp_R.d + exp_R.(-d))/2;
+end;
+
+definition
+  let d be object;
+  func cosh(d) -> number equals
+:: SIN_COS2:def 4
+  cosh.d;
+end;
+
+registration
+  let d be object;
+  cluster cosh(d) -> real;
+end;
+
+definition
+  func tanh -> Function of REAL, REAL means
+:: SIN_COS2:def 5
+
+  for d being Real
+  holds it.d=(exp_R.d - exp_R.(-d))/(exp_R.d + exp_R.(-d));
+end;
+
+definition
+  let d be object;
+  func tanh(d) -> number equals
+:: SIN_COS2:def 6
+  tanh.d;
+end;
+
+registration
+  let d be object;
+  cluster tanh(d) -> real;
+end;
+
+theorem :: SIN_COS2:12
+  exp_R.(p+q) = exp_R.(p) * exp_R.(q);
+
+theorem :: SIN_COS2:13
+  exp_R.0 = 1;
+
+theorem :: SIN_COS2:14
+  (cosh.p)^2-(sinh.p)^2=1 & (cosh.p)*(cosh.p)-(sinh.p)*(sinh.p)=1;
+
+theorem :: SIN_COS2:15
+  cosh.p <> 0 & cosh.p > 0 & cosh.0 = 1;
+
+theorem :: SIN_COS2:16
+  sinh.0 = 0;
+
+theorem :: SIN_COS2:17
+  tanh.p = (sinh.p)/(cosh.p);
+
+theorem :: SIN_COS2:18
+  (sinh.p)^2 = 1/2*(cosh.(2*p) - 1) & (cosh.p)^2 = 1/2*(cosh.(2*p) + 1);
+
+theorem :: SIN_COS2:19
+  cosh.(-p) = cosh.p & sinh.(-p) = -sinh.p & tanh.(-p) = -tanh.p;
+
+theorem :: SIN_COS2:20
+  cosh.(p+r)=(cosh.p)*(cosh.r) + (sinh.p)*(sinh.r) & cosh.(p-r)=(cosh.p)
+  *(cosh.r) - (sinh.p)*(sinh.r);
+
+theorem :: SIN_COS2:21
+  sinh.(p+r)=(sinh.p)*(cosh.r) + (cosh.p)*(sinh.r) & sinh.(p-r)=(sinh.p)
+  *(cosh.r) - (cosh.p)*(sinh.r);
+
+theorem :: SIN_COS2:22
+  tanh.(p+r) = (tanh.p + tanh.r)/(1+ (tanh.p)*(tanh.r)) & tanh.(p-r) = (
+  tanh.p - tanh.r)/(1- (tanh.p)*(tanh.r));
+
+theorem :: SIN_COS2:23
+  sinh.(2*p) = 2*(sinh.p)*(cosh.p) & cosh.(2*p) = 2*(cosh.p)^2 - 1 &
+  tanh.(2*p) = (2*tanh.p)/(1+(tanh.p)^2);
+
+theorem :: SIN_COS2:24
+  (sinh.p)^2 - (sinh.q)^2 = (sinh.(p+q))*(sinh.(p-q)) & (sinh.(p+q
+))*(sinh.(p-q)) = (cosh.p)^2 - (cosh.q)^2 & (sinh.p)^2 - (sinh.q)^2 = (cosh.p)
+  ^2 - (cosh.q)^2;
+
+theorem :: SIN_COS2:25
+  (sinh.p)^2 + (cosh.q)^2 = (cosh.(p+q))*(cosh.(p-q)) & (cosh.(p+q
+))*(cosh.(p-q)) = (cosh.p)^2 + (sinh.q)^2 & (sinh.p)^2 + (cosh.q)^2 = (cosh.p)
+  ^2 + (sinh.q)^2;
+
+theorem :: SIN_COS2:26
+  sinh.p + sinh.r = 2*(sinh.(p/2+r/2))*(cosh.(p/2-r/2)) & sinh.p - sinh.
+  r = 2*(sinh.(p/2-r/2))*(cosh.(p/2+r/2));
+
+theorem :: SIN_COS2:27
+  cosh.p + cosh.r = 2*(cosh.(p/2+r/2))*(cosh.(p/2-r/2)) & cosh.p - cosh.
+  r = 2*(sinh.(p/2-r/2))*(sinh.(p/2+r/2));
+
+theorem :: SIN_COS2:28
+  tanh.p + tanh.r = (sinh.(p+r))/((cosh.p)*(cosh.r)) & tanh.p - tanh.r =
+  (sinh.(p-r))/((cosh.p)*(cosh.r));
+
+theorem :: SIN_COS2:29
+  (cosh.p + sinh.p) |^ n = cosh.(n*p) + sinh.(n*p);
+
+theorem :: SIN_COS2:30
+  dom sinh=REAL & dom cosh=REAL & dom tanh=REAL;
+
+theorem :: SIN_COS2:31
+  sinh is_differentiable_in p & diff(sinh,p)=cosh.p;
+
+theorem :: SIN_COS2:32
+  cosh is_differentiable_in p & diff(cosh,p)=sinh.p;
+
+theorem :: SIN_COS2:33
+  tanh is_differentiable_in p & diff(tanh,p)=1/(cosh.p)^2;
+
+theorem :: SIN_COS2:34
+  sinh is_differentiable_on REAL & diff(sinh,p)=cosh.p;
+
+theorem :: SIN_COS2:35
+  cosh is_differentiable_on REAL & diff(cosh,p)=sinh.p;
+
+theorem :: SIN_COS2:36
+  tanh is_differentiable_on REAL & diff(tanh,p)=1/(cosh.p)^2;
+
+theorem :: SIN_COS2:37
+  cosh.p >= 1;
+
+theorem :: SIN_COS2:38
+  sinh is_continuous_in p;
+
+theorem :: SIN_COS2:39
+  cosh is_continuous_in p;
+
+theorem :: SIN_COS2:40
+  tanh is_continuous_in p;
+
+theorem :: SIN_COS2:41
+  sinh|REAL is continuous;
+
+theorem :: SIN_COS2:42
+  cosh|REAL is continuous;
+
+theorem :: SIN_COS2:43
+  tanh|REAL is continuous;
+
+theorem :: SIN_COS2:44
+  tanh.p<1 & tanh.p>-1;

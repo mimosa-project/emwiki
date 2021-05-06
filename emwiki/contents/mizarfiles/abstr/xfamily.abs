@@ -1,0 +1,68 @@
+:: Families of Subsets
+::  by Andrzej Trybulec
+::
+:: Received December 13, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies MCART_1, RECDEF_2;
+ notations TARSKI, XTUPLE_0;
+ constructors TARSKI, XTUPLE_0;
+
+
+begin
+
+scheme :: XFAMILY:sch 1
+  Separation { A()-> set, P[object] } :
+  ex X being set st for x being set holds x in X iff x in A() & P[x];
+
+scheme :: XFAMILY:sch 2
+  Extensionality { X,Y() -> set, P[set] } : X() = Y()
+provided
+ for x being set holds x in X() iff P[x] and
+ for x being set holds x in Y() iff P[x];
+
+scheme :: XFAMILY:sch 3
+  SetEq { P[set] } :
+  for X1,X2 being set st
+    (for x being set holds x in X1 iff P[x]) &
+    (for x being set holds x in X2 iff P[x]) holds X1 = X2;
+
+definition let x be object;
+ redefine func x`1 -> set;
+ redefine func x`2 -> set;
+end;
+
+definition
+  let x be object;
+  redefine func x`1_3 -> set;
+  redefine func x`2_3 -> set;
+end;
+
+definition
+  let x be object;
+  redefine func x`1_4 -> set;
+  redefine func x`2_4 -> set;
+end;
+
+:: definition
+::   let x1,x2 be element;
+::   redefine func [x1,x2] -> set;
+::   coherence by TARSKI:1;
+:: end;
+
+:: definition
+::   let x1,x2,x3 be element;
+::   redefine func [x1,x2,x3] -> set;
+::   coherence by TARSKI:1;
+:: end;
+

@@ -1,0 +1,906 @@
+:: Prime Factorization of Sums and Differences of Two Like Powers
+::  by Rafa{\l} Ziobro
+:: 
+:: Received June 30, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ABIAN, NUMBERS, NAT_1, INT_1, ARYTM_3, XXREAL_0, CARD_1, ARYTM_1,
+      INT_2, COMPLEX1, RELAT_1, NEWTON, SQUARE_1, XCMPLX_0, POWER, PYTHTRIP,
+      NAT_3, REAL_1, SUBSET_1, ORDINAL1, ZFMISC_1;
+ notations ABIAN, NUMBERS, XCMPLX_0, XXREAL_0, INT_1, INT_2, ORDINAL1,
+      SQUARE_1, NEWTON, POWER, XREAL_0, PYTHTRIP, IRRAT_1, NAT_3, TARSKI,
+      XBOOLE_0, SUBSET_1, CARD_1, ZFMISC_1, NAT_1, NAT_D, RELAT_1, FUNCT_1;
+ constructors ABIAN, SQUARE_1, NAT_1, NAT_D, NEWTON, POWER, PREPOWER, ORDINAL1,
+      PEPIN, PYTHTRIP, RAT_1, NAT_3, NUMBERS, XXREAL_0, XREAL_0, WSIERP_1,
+      MOEBIUS1, EULER_1;
+ registrations ABIAN, ORDINAL1, XXREAL_0, XREAL_0, NAT_1, INT_1, NEWTON,
+      WSIERP_1, XCMPLX_0, SQUARE_1, POWER, PYTHTRIP, NAT_3, NEWTON01, NEWTON02,
+      ABSVALUE, NAT_6, RAT_1, NAT_2, INT_2, MOEBIUS1;
+ requirements REAL, NUMERALS, SUBSET, ARITHM;
+
+
+begin
+
+reserve a,b,c,d,x,j,k,l,m,n,o,xi,xj for Nat,
+  p,q,t,z,u,v for Integer,
+  a1,b1,c1,d1 for Complex;
+
+theorem :: NEWTON03:1
+  a1|^(n+k) + b1|^(n+k) = a1|^n*(a1|^k + b1|^k) + b1|^k*(b1|^n-a1|^n);
+
+theorem :: NEWTON03:2
+  a1|^(n+k) - b1|^(n+k) = a1|^n*(a1|^k - b1|^k) +
+  b1|^k*(a1|^n - b1|^n);
+
+theorem :: NEWTON03:3
+  a1|^(m+2) + b1|^(m+2) =
+    (a1+b1)*(a1|^(m+1) + b1|^(m+1)) - a1*b1*(a1|^(m)+ b1|^(m));
+
+definition
+  let a be Nat;
+  redefine attr a is trivial means
+:: NEWTON03:def 1
+  a <= 1;
+end;
+
+definition
+  let a be Complex;
+  redefine func a^2 -> set equals
+:: NEWTON03:def 2
+  a|^2;
+end;
+
+definition
+  let a,b be Integer;
+  redefine func a gcd b -> Nat equals
+:: NEWTON03:def 3
+  |.a.| gcd |.b.|;
+  redefine func a lcm b -> Nat equals
+:: NEWTON03:def 4
+  |.a.| lcm |.b.|;
+end;
+
+registration
+  let a,b be positive Real;
+  cluster max(a,b) -> positive;
+  cluster min(a,b) -> positive;
+end;
+
+registration
+  let a be non zero Integer, b be Integer;
+  cluster a gcd b -> non zero;
+end;
+
+registration
+  let a be non zero Complex, n be Nat;
+  cluster a|^n -> non zero;
+end;
+
+registration
+  let a be non trivial Nat, n be non zero Nat;
+  cluster a|^n -> non trivial;
+end;
+
+registration
+  let a be Integer;
+  cluster |.a.| -> natural;
+end;
+
+registration
+  let a be even Integer;
+  cluster |.a.| -> even;
+end;
+
+registration
+  let a be Nat;
+  reduce a lcm a to a;
+  reduce a gcd a to a;
+end;
+
+registration
+  let a be non zero Integer, b be Integer;
+  cluster a gcd b -> positive;
+end;
+
+registration
+  let a,b be Integer;
+  reduce a gcd (a gcd b) to a gcd b;
+  reduce a lcm (a lcm b) to a lcm b;
+end;
+
+registration
+  let a be Integer;
+  reduce a gcd 1 to 1;
+  reduce (a+1) gcd a to 1;
+end;
+
+theorem :: NEWTON03:4
+  for t,z be Integer holds
+    t|^n gcd z|^n = (t gcd z)|^n;
+
+registration
+  let a be Integer, n be Nat;
+  reduce (a+1)|^n gcd a|^n to 1;
+end;
+
+registration
+  let a1,b1;
+  reduce a1|^0 - b1|^0 to 0;
+end;
+
+registration
+  let a be non negative Real, n be Nat;
+  cluster a|^n -> non negative;
+end;
+
+registration
+  cluster non trivial for odd Nat;
+  cluster non trivial for even Nat;
+end;
+
+registration
+  let a be positive Real, n be Nat;
+  cluster a|^n -> positive;
+end;
+
+registration
+  let a be Integer;
+  cluster a*a -> square;
+  cluster a/a -> square;
+end;
+
+registration
+  cluster non square for Element of NAT;
+end;
+
+registration
+  cluster prime -> non square for Element of NAT;
+end;
+
+registration
+  cluster even for prime Nat;
+  cluster odd for prime Nat;
+end;
+
+registration
+  cluster prime -> non square for Integer;
+end;
+
+registration
+  let a be square Element of NAT;
+  cluster sqrt a -> natural;
+end;
+
+registration
+  let a be Integer;
+  cluster a|^2 -> square;
+  cluster a*a -> square;
+end;
+
+registration
+  cluster non square for Integer;
+end;
+
+registration
+  cluster zero -> trivial for Nat;
+end;
+
+registration
+  cluster square for Nat;
+end;
+
+registration
+  cluster non zero for Element of NAT;
+  cluster non trivial for square Element of NAT;
+end;
+
+registration
+  cluster trivial -> square for Nat;
+end;
+
+registration
+  cluster non square -> non zero for Integer;
+end;
+
+theorem :: NEWTON03:5
+  for a,b,c,d be Integer holds
+    a divides b & c divides d implies a*c divides b*d;
+
+theorem :: NEWTON03:6
+  for a,b be Integer holds
+    a divides b iff a lcm b = |.b.|;
+
+registration
+  let a be Integer;
+  reduce a lcm 0 to 0;
+end;
+
+registration
+  let a be Nat;
+  reduce a lcm 1 to a;
+end;
+
+registration
+  let a,b;
+  reduce a*b lcm a to a*b;
+  reduce (a gcd b) lcm b to b;
+  reduce a gcd (a lcm b) to a;
+end;
+
+theorem :: NEWTON03:7
+  for a,b be Integer holds
+    |.a*b.| = (a gcd b)*(a lcm b);
+
+theorem :: NEWTON03:8
+  for a,b be Integer holds a|^n lcm b|^n = (a lcm b)|^n;
+
+registration
+  let a be square Element of NAT, b be square Element of NAT;
+  cluster a gcd b -> square;
+  cluster a lcm b -> square;
+end;
+
+registration
+  let a,b be square Integer;
+  cluster a gcd b -> square;
+  cluster a lcm b -> square;
+end;
+
+theorem :: NEWTON03:9
+  for t be Integer holds t is odd iff t gcd 2 = 1;
+
+definition
+  let t be Integer;
+  redefine attr t is odd means
+:: NEWTON03:def 5
+  t gcd 2 = 1;
+end;
+
+registration
+  let a be odd Integer;
+  cluster |.a.| -> odd;
+  cluster -a -> odd;
+end;
+
+registration
+  let a,b be even Integer;
+  cluster (a gcd b) -> even;
+ end;
+
+registration
+  let a be Integer;
+  let b be odd Integer;
+  cluster (a gcd b) -> odd;
+end;
+
+registration
+  let a be Nat;
+  reduce |.-a.| to a;
+end;
+
+registration
+  let t,z be even Integer;
+  cluster t + z -> even;
+  cluster t - z -> even;
+  cluster t*z -> even;
+end;
+
+registration
+  let t,z be odd Integer;
+  cluster t + z -> even;
+  cluster t - z -> even;
+  cluster t*z -> odd;
+end;
+
+registration
+  let t be odd Integer, z be even Integer;
+  cluster t + z -> odd;
+  cluster t - z -> odd;
+  cluster t*z -> even;
+end;
+
+theorem :: NEWTON03:10
+  for a be non zero square Integer, b be Integer holds
+  a*b is square implies b is square;
+
+registration
+  let a be square Element of NAT, n be Nat;
+  cluster a|^n -> square;
+end;
+
+registration
+  let a be square Integer, n be Nat;
+  cluster a|^n -> square;
+end;
+
+registration
+  let a be non zero square Integer, b be non square Integer;
+  cluster a*b -> non square;
+end;
+
+registration
+  let a be Element of NAT;
+  let b be even Nat;
+  cluster a|^b -> square;
+end;
+
+registration
+  let a be non square Element of NAT;
+  let b be odd Nat;
+  cluster a|^b -> non square;
+end;
+
+registration
+  let a be non zero square Integer;
+  cluster a+1 -> non square;
+end;
+
+registration
+  let a be non zero square Element of NAT;
+  cluster a+1 -> non square;
+end;
+
+registration
+  let a be non zero square object, b be non square Element of NAT;
+  cluster a*b -> non square;
+end;
+
+registration
+  let a be non zero square Integer;
+  let n,m be Nat;
+  cluster a|^n + a|^m -> non square;
+end;
+
+registration
+  let a be non zero square Element of NAT;
+  let n,m be Nat;
+  cluster a|^n + a|^m -> non square;
+end;
+
+registration
+  let a be non zero square Integer;
+  let p be prime Nat;
+  cluster p*a -> non square;
+end;
+
+registration
+  let a be non trivial Element of NAT;
+  cluster a-1 -> non zero;
+end;
+
+registration
+  let q be square Integer;
+  cluster |.q.| -> square;
+end;
+
+registration
+  let x be non zero Integer;
+  cluster |.x.| -> non zero;
+end;
+
+registration
+  let a be non trivial square Element of NAT;
+  cluster a-1 -> non square;
+end;
+
+registration
+  let a be non trivial Element of NAT;
+  cluster a*(a-1) -> non square;
+end;
+
+registration
+  let a,b be Integer, n,m be Nat;
+  cluster ((a|^n+b|^n)*(a|^m-b|^m)+(a|^m+b|^m)*(a|^n-b|^n)) -> even;
+  cluster ((a|^n+b|^n)*(a|^m+b|^m)+(a|^m-b|^m)*(a|^n-b|^n)) -> even;
+end;
+
+registration
+  let a be even Integer;
+  cluster a/2 -> integer;
+end;
+
+registration
+  let a,b be non zero Nat;
+  cluster a+b -> non trivial;
+end;
+
+registration
+  let b be non zero Nat, a,c be non trivial Nat;
+  reduce c |-count c|^(a |-count b) to (a |-count b);
+end;
+
+registration
+  let a,b be non zero Integer;
+  cluster a/(a gcd b) -> integer;
+  cluster (a lcm b)/b -> integer;
+  cluster (a lcm b)/(a gcd b) -> integer;
+end;
+
+registration
+  let a be even Integer;
+  reduce a gcd 2 to 2;
+end;
+
+registration
+  cluster non zero for even Nat;
+end;
+
+registration
+  let a be even Integer, n be non zero Nat;
+  cluster a*n -> even;
+  cluster a|^n -> even;
+end;
+
+registration
+  let a be Integer, n be zero Nat;
+  cluster a*n -> even;
+  cluster a|^n -> odd;
+end;
+
+registration
+  let a be Element of NAT;
+  reduce |.a.| to a;
+end;
+
+registration
+  cluster non negative -> natural for Integer;
+end;
+
+registration
+  let a be non negative Real;
+  let n be non zero Nat;
+  reduce n-root (a|^n) to a;
+  reduce (n-root a)|^n to a;
+end;
+
+:: solvable by ATP, yet not by verifier
+
+theorem :: NEWTON03:11
+  not a divides b implies not a*c divides b;
+
+:: Roots
+
+:: see PEPIN:30;
+
+theorem :: NEWTON03:12
+  for a,b be non negative Real, n be positive Nat holds
+    a|^n = b|^n iff a = b;
+
+registration
+  let a be Real, n be even Nat;
+  cluster a|^n -> non negative;
+end;
+
+registration
+  let a be negative Real, n be odd Nat;
+  cluster a|^n -> negative;
+end;
+
+theorem :: NEWTON03:13
+  for a,b be Real, n be odd Nat holds a|^n = b|^n iff a = b;
+
+theorem :: NEWTON03:14
+  for a,b st a,b are_coprime holds for n be non zero Nat holds
+  a*b = c|^n iff
+    (n-root a in NAT & n-root b in NAT & c = (n-root a)*(n-root b));
+
+:: DIVISION
+
+theorem :: NEWTON03:15
+  for n be non zero Nat, a be Integer, b be Integer holds
+  b|^n divides a|^n iff b divides a;
+
+theorem :: NEWTON03:16
+  for a be Integer, m,n be Nat st
+    m>=n holds a|^n divides a|^m;
+
+theorem :: NEWTON03:17
+for a,b be Integer holds
+a divides b & b|^m divides c implies a|^m divides c;
+
+theorem :: NEWTON03:18
+for a,p be Integer holds
+p|^(2*n+k) divides a|^2 implies p|^n divides a;
+
+theorem :: NEWTON03:19
+  for a,b be odd square Element of NAT holds
+    8 divides a - b;
+
+theorem :: NEWTON03:20
+  for a,b be odd Nat holds 4 divides a-b implies not 4 divides a|^n + b|^n;
+
+theorem :: NEWTON03:21
+  for a,b be odd Nat holds
+  (4 divides a|^n + b|^n) implies not 4 divides a|^(2*n) + b|^(2*n);
+
+theorem :: NEWTON03:22
+  for a,b be odd Nat holds
+  (4 divides a|^n - b|^n) implies not 4 divides a|^(2*n) + b|^(2*n);
+
+theorem :: NEWTON03:23
+  for a,b be odd Nat holds
+    2|^m divides a|^n - b|^n implies 2|^(m+1) divides a|^(2*n) - b|^(2*n);
+
+theorem :: NEWTON03:24
+  a1|^3 - b1|^3 = (a1 - b1)*(a1|^2 + b1|^2 + a1*b1);
+
+:: por NEWTON02:196;
+theorem :: NEWTON03:25
+  for n be odd Nat holds 3 divides a|^n + b|^n iff 3 divides a + b;
+
+theorem :: NEWTON03:26
+  for c be Integer holds c divides (a-b) implies c divides a|^n - b|^n;
+
+theorem :: NEWTON03:27
+  for n be odd Nat holds 3 divides a|^n - b|^n iff 3 divides a - b;
+
+theorem :: NEWTON03:28
+  for n be Nat holds a|^n, (a-b)|^n are_congruent_mod b;
+
+theorem :: NEWTON03:29
+  for a be non trivial Nat holds
+  ex n be prime Nat st n divides a;
+
+theorem :: NEWTON03:30
+  for p be prime Nat holds p divides (p+(k+1))*(p-(k+1)) implies k+1 >= p;
+
+theorem :: NEWTON03:31
+  for p be prime Nat, k be non zero Nat st k < p holds
+    not p divides p|^2 - k|^2;
+
+theorem :: NEWTON03:32
+  for a,b be Integer, p be odd prime Nat st not p divides b holds
+  p divides (a-b) implies not p divides (a+b);
+
+theorem :: NEWTON03:33
+  for a be non zero square Element of NAT, p be prime Nat st
+  p divides a holds not a+p is square;
+
+theorem :: NEWTON03:34
+  for a be non zero square Element of NAT, p be prime Nat holds
+  a+p is square implies p = 2*sqrt(a) + 1;
+
+theorem :: NEWTON03:35
+  for a,b,c be Integer st a,b are_coprime holds
+    c gcd (a*b) = (c gcd a)*(c gcd b);
+
+theorem :: NEWTON03:36
+  for p be prime Nat holds a divides p|^n implies ex k st a = p|^k;
+
+theorem :: NEWTON03:37
+  for a,b be non zero Nat, p be prime Nat st a + b = p holds a,b are_coprime;
+
+theorem :: NEWTON03:38
+  for a,b be non zero Nat, p be prime Nat holds
+  a|^n + b|^n = p|^n implies a,b are_coprime;
+
+theorem :: NEWTON03:39
+  for a,b be non zero Nat st c >= a+b holds
+    c|^(k+1)*(a+b) > a|^(k+2) + b|^(k+2);
+
+theorem :: NEWTON03:40
+  for a,c be Nat, b be non zero Nat holds
+  a*b < c < a*(b+1) implies not a divides c & not c divides a;
+
+theorem :: NEWTON03:41
+  for a,b be Real holds
+    a + b = min(a,b) + max(a,b);
+
+:: max (a*b,a*c) = a*max(b,c) & min (a*b,a*c) = a*min(b,c) by FUZZY_2:41;
+:: max (a+b,a+c) = a+max(b,c) & min (a+b,a+c) = a+min(b,c) by FUZZY_2:42;
+
+theorem :: NEWTON03:42
+  for a,b be non negative Real holds
+  max(a|^n,b|^n) = (max(a,b))|^n & min (a|^n,b|^n) = (min(a,b))|^n;
+
+theorem :: NEWTON03:43
+  for p be prime Nat holds
+  a*b = p|^n implies ex k,l be Nat st
+  a = p|^k & b= p|^l & k+l = n;
+
+:: according to ATP it may be proved by PYTHTRIP:def 1
+theorem :: NEWTON03:44
+  for a,b be non trivial Nat holds
+    a,b are_coprime implies not a divides b & not b divides a;
+
+theorem :: NEWTON03:45
+  for a be non trivial Nat, p be prime Nat st p > a holds
+    not p divides a & not a divides p;
+
+theorem :: NEWTON03:46
+  for p be prime Nat holds
+    a gcd p = 1 or a gcd p = p;
+
+theorem :: NEWTON03:47
+  for a be non trivial Nat, p be prime Nat holds
+    a divides p|^n implies p divides a;
+
+:: Count
+
+theorem :: NEWTON03:48
+  for a,b be odd Nat, m be even Nat holds
+    2 |-count (a|^m + b|^m) = 1;
+
+theorem :: NEWTON03:49
+  for a be non zero Nat holds
+    ex k be odd Nat st a = 2|^(2 |-count a)*k;
+
+:: must precede definition of |-count for Integers.
+theorem :: NEWTON03:50
+  for b be non zero Nat holds
+  a > b implies ex p be prime Nat st p |-count a > p |-count b;
+
+theorem :: NEWTON03:51
+  for a,b,c be Nat st a <> 1 & b <> 0 & c <> 0 &
+    b > a |-count c holds not a|^b divides c;
+
+theorem :: NEWTON03:52
+  for b be non zero Integer, a be Integer st |.a.| <> 1 holds
+  a|^(|.a.| |-count |.b.|) divides b &
+    not a|^((|.a.||-count |.b.|)+1) divides b;
+
+theorem :: NEWTON03:53
+  for b be non zero Integer, a be Integer st |.a.| <> 1 holds
+  a|^n divides b & not a|^(n+1) divides b implies
+  n = |.a.| |-count |.b.|;
+
+theorem :: NEWTON03:54
+  for b be non zero Nat, a be non trivial Nat holds
+    a divides b iff a |-count (a gcd b) = 1;
+
+theorem :: NEWTON03:55
+  for b,n be non zero Nat, a be non trivial Nat holds
+    a |-count (a gcd b) = 1 iff a|^n |-count (a gcd b)|^n = 1;
+
+theorem :: NEWTON03:56
+  for b be non zero Nat, a be non trivial Nat holds
+   a |-count (a gcd b) = 0 iff not a |-count (a gcd b) = 1;
+
+definition
+  let a,b be Integer;
+  func a |-count b -> Nat equals
+:: NEWTON03:def 6
+  |.a.| |-count |.b.|;
+end;
+
+definition
+  let a be Integer such that
+   |.a.| <> 1;
+  let b be non zero Integer;
+  redefine func a |-count b means
+:: NEWTON03:def 7
+
+  a|^it divides b & not a|^(it+1) divides b;
+end;
+
+theorem :: NEWTON03:57
+  for p be prime Nat, a,b be non zero Integer holds
+    p |-count (a*b) = (p |-count a) + (p |-count b);
+
+theorem :: NEWTON03:58
+  for a be non trivial Nat, b be non zero Nat holds
+    a|^(a |-count b) <= b;
+
+theorem :: NEWTON03:59
+  for a be non trivial Nat, b be non zero Integer holds
+    a|^n divides b iff n <= a |-count b;
+
+theorem :: NEWTON03:60
+  for a be non trivial Nat, b be non zero Integer, n be non zero Nat holds
+    n*(a |-count b) <= a |-count b|^n < n*((a |-count b) + 1);
+
+theorem :: NEWTON03:61
+  for a be non trivial Nat, b, n be non zero Nat holds
+    b < a implies a |-count b|^n < n;
+
+theorem :: NEWTON03:62
+  for a be non trivial Nat, b be non zero Nat holds
+    b < a|^n implies a |-count b < n;
+
+theorem :: NEWTON03:63
+  for a, b be non zero Nat, n be non trivial Nat holds
+    (a+b) |-count (a|^n + b|^n) < n;
+
+theorem :: NEWTON03:64
+  for a,b be non zero Nat holds a gcd b = 1 iff
+    (for c be non trivial Nat holds (c|-count a)*(c|-count b) = 0);
+
+theorem :: NEWTON03:65
+  for m be non zero even Nat, a,b be odd Nat st a <> b holds
+    2 |-count (a|^(2*m) - b|^(2*m)) >= 2 |-count (a|^m - b|^m) + 1;
+
+theorem :: NEWTON03:66
+  for m be non zero even Nat, a,b be odd Nat st a <> b holds
+    2 |-count (a|^(2*m) - b|^(2*m)) = 2 |-count (a|^m - b|^m) + 1;
+
+theorem :: NEWTON03:67
+  for p be prime Nat, a,b be Integer st |.a.| <> |.b.| holds
+    p |-count (a|^2 - b|^2) = (p |-count (a-b)) + (p|-count (a+b));
+
+theorem :: NEWTON03:68
+  for p be prime Nat, a,b be Integer st |.a.| <> |.b.| holds
+    p |-count (a|^3 - b|^3) =
+      (p |-count (a-b))+ (p|-count (a|^2 + a*b + b|^2));
+
+theorem :: NEWTON03:69
+  for a,b be non zero Nat holds
+    a/(a gcd b) = (a lcm b)/b;
+
+theorem :: NEWTON03:70
+  for b be non zero Nat holds
+    a lcm (a*n + b) = (a*n/b + 1)*(a lcm b);
+
+theorem :: NEWTON03:71
+  for b be non zero Nat holds a lcm ((n*a+1)*b) = (n*a+1)*(a lcm b);
+
+theorem :: NEWTON03:72
+  for a be non trivial Nat, n,b be non zero Nat holds
+    a |-count b >= n*(a|^n |-count b);
+
+theorem :: NEWTON03:73
+  for a,b be odd Integer holds
+    4 divides a-b iff not 4 divides a+b;
+
+theorem :: NEWTON03:74
+  for a,b be odd Integer holds 2 |-count (a|^2 + b|^2) = 1;
+
+theorem :: NEWTON03:75
+  for p be prime Nat, a,b be Nat st a <> b holds
+    p |-count (a + b) >= p |-count (a gcd b);
+
+:: p |-count (a + b)
+
+theorem :: NEWTON03:76
+  for a be non zero Integer, b be non trivial Nat, c be Integer holds
+  a = b|^(b |-count a)*c implies not b divides c;
+
+registration
+  let a be non zero Integer, b be non trivial Nat;
+  cluster a/(b|^(b |-count a)) -> integer;
+end;
+
+registration
+  let a be non zero Integer;
+  cluster a/(2|^(2 |-count a)) -> integer;
+  cluster a/(2|^(2 |-count a)) -> odd;
+end;
+
+theorem :: NEWTON03:77
+  for a be non zero Integer, b be non trivial Nat holds
+  b |-count a = 0 iff not b divides a;
+
+registration
+  let a be odd Integer;
+  cluster 2 |-count a -> zero;
+  reduce a/(2|^(2 |-count a)) to a;
+end;
+
+theorem :: NEWTON03:78
+  for a be prime Nat, b be non zero Integer, c be Nat holds
+  a |-count (b|^c) = c*(a |-count b);
+
+theorem :: NEWTON03:79
+  for a,b be non zero Nat, n be odd Nat holds
+    (a|^(n+2)+b|^(n+2))/(a+b) = a|^(n+1)+ b|^(n+1) - a*b*((a|^n+b|^n)/(a+b));
+
+theorem :: NEWTON03:80
+  for a,b be odd Integer, n be Nat holds
+  2 |-count (a|^(2*n+1) - b|^(2*n+1)) = 2 |-count (a-b);
+
+theorem :: NEWTON03:81
+  for a,b be odd Integer, m be odd Nat holds
+    2 |-count (a|^m + b|^m) = 2 |-count (a+b);
+
+:: a <> b would not be necessary if 2 |-count 0 is defined
+theorem :: NEWTON03:82
+  for a,b be odd Nat st a <> b holds
+  1 = min (2 |-count (a-b), 2|-count (a+b));
+
+theorem :: NEWTON03:83
+  for a be non trivial Nat, b,c be non zero Integer holds
+  a |-count b > a |-count c implies a|^(a |-count c) divides b &
+  not a|^(a |-count b) divides c;
+
+theorem :: NEWTON03:84
+  for a be non trivial Nat, b,c be non zero Integer holds
+  a|^(a |-count b) divides c & a|^(a |-count c) divides b
+  implies a |-count b = a |-count c;
+
+theorem :: NEWTON03:85
+  for a,b be Integer, m,n be Nat holds
+  a|^n divides b & not a|^m divides b implies m > n;
+
+theorem :: NEWTON03:86
+  for a be non trivial Nat, b,c be non zero Integer holds
+  a |-count b = a |-count c & a|^n divides b implies a|^n divides c;
+
+theorem :: NEWTON03:87
+  for a be non trivial Nat, b,c be non zero Integer holds
+  a |-count b = a |-count c iff
+  (for n be Nat holds a|^n divides b iff a|^n divides c);
+
+theorem :: NEWTON03:88
+  for a,b be odd Integer st |.a.| <> |.b.| holds
+    2 |-count (a-b)|^2 <> 2|-count (a+b)|^2 &
+    2 |-count (a-b)|^2 <> 2|-count a|^2-b|^2;
+
+:: MOEBIUS1:6, for non prime numbers
+theorem :: NEWTON03:89
+  for b be non trivial Nat, a be non zero Integer holds
+    b |-count a <> 0 iff b divides a;
+
+theorem :: NEWTON03:90
+  for b be non trivial Nat, a be non zero Nat holds
+    (b |-count a) = 0 iff a mod b <> 0;
+
+theorem :: NEWTON03:91
+  for p be prime Nat, a be non trivial Nat holds
+    a |-count p <= 1;
+
+theorem :: NEWTON03:92
+  for a,b be non trivial Nat, c be non zero Nat holds
+    a|^((a |-count b)*(b |-count c)) <= c;
+
+theorem :: NEWTON03:93
+  for p be prime Nat, a be non trivial Nat, b be non zero Nat holds
+    a |-count (p|^b) <= b;
+
+theorem :: NEWTON03:94
+  for p be prime Nat, a be non trivial Nat holds
+    (p |-count a)*(a |-count p|^n) <= n;
+
+theorem :: NEWTON03:95
+  for a,b be non trivial Nat, c be non zero Nat holds
+    (a |-count b)*(b|-count c) <= (a |-count c);
+
+theorem :: NEWTON03:96
+  for a be non zero Nat, b be odd Nat holds
+    2 |-count (a*b) = 2 |-count a;
+
+theorem :: NEWTON03:97 :: NAT_5:1 extended
+  for a be non trivial Nat holds
+    a|^(n+1) + a|^n < a|^(n+2);
+
+theorem :: NEWTON03:98
+  for a be non trivial Nat holds
+    (a+1)|^n + (a+1)|^n < (a+1)|^(n+1);
+
+theorem :: NEWTON03:99
+  for a be non trivial odd Nat holds
+    a|^n + a|^n < a|^(n+1);
+
+theorem :: NEWTON03:100 ::: (p|^a)|^c = p|^b implies a divides b  contraposed
+  for p be non trivial Nat holds
+    not a divides b implies (p|^a)|^c <> p|^b;
+
+theorem :: NEWTON03:101
+  for a,b be non zero Integer, n be non zero Nat holds
+  (ex p be prime Nat st not n divides p|-count a) implies a <> b|^n;
+
+theorem :: NEWTON03:102
+  for a,b be non zero Integer, n be non zero Nat holds
+  a = b|^n implies (for p be prime Nat holds n divides p |-count a);
+
+theorem :: NEWTON03:103
+  for a,b be positive Real, n be non trivial Nat holds
+    (a+b)|^n > a|^n + b|^n;
+
+theorem :: NEWTON03:104
+  for a,b be non zero Integer, p be odd prime Nat st
+    |.a.| <> |.b.| & not p divides b holds
+    p |-count (a|^2 - b|^2) = max (p |-count (a-b), p |-count (a+b));
+
+theorem :: NEWTON03:105
+  for a be non trivial Nat, b be non zero Integer holds
+    a |-count (a|^n*b) = n + a|-count b;
+

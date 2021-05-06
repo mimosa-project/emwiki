@@ -1,0 +1,163 @@
+:: Maximum Number of Steps Taken by Modular Exponentiation and Euclidean 
+:: Algorithm
+::  by Hiroyuki Okazaki , Koich Nagao and Yuichi Futa
+:: 
+:: Received March 11, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, FINSEQ_1, FINSEQ_2, RELAT_1, FUNCT_1, COMPLEX1,
+      PARTFUN1, NAT_1, SUBSET_1, NUMBERS, INT_1, INT_2, CARD_1, ARYTM_1,
+      XXREAL_0, ARYTM_3, ORDINAL4, NTALGO_1, POWER, NEWTON, BINARI_6, NTALGO_2,
+      MARGREL1, BINARITH, XBOOLEAN, BINARI_3, FUNCOP_1, SEQ_1, SQUARE_1,
+      ASYMPT_1, ASYMPT_2, EUCLID, ASYMPT_0, PRE_FF, FIB_NUM, BINARI_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCOP_1,
+      NUMBERS, XCMPLX_0, XXREAL_0, SQUARE_1, NAT_1, INT_1, COMPLEX1, NAT_D,
+      FINSEQ_1, FINSEQ_2, MARGREL1, SEQ_1, NEWTON, BINARITH, BINARI_2,
+      BINARI_3, BINARI_6, POWER, ASYMPT_0, ASYMPT_1, EUCLID, ASYMPT_2,
+      NTALGO_1, INT_2, PRE_FF, FIB_NUM;
+ constructors SQUARE_1, NAT_D, SERIES_1, RELSET_1, FUNCSDOM, ASYMPT_0,
+      ASYMPT_1, NEWTON, ASYMPT_2, NTALGO_1, PRE_FF, FIB_NUM, BINARITH,
+      BINARI_2, BINARI_6, TREES_3, EUCLID, BINARI_3;
+ registrations ORDINAL1, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, MEMBERED,
+      VALUED_0, SQUARE_1, XBOOLE_0, RELAT_1, INT_1, ASYMPT_0, POWER, FINSEQ_1,
+      ASYMPT_1, PARTFUN3, NEWTON, FIB_NUM3, FINSEQ_2, EUCLID, CARD_1, REAL_3,
+      COMPLEX1, MARGREL1, NEWTON04, ORDINAL2;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin :: Right--to--left Binary Algorithm for Modular Exponentiation
+
+definition
+  let F be Element of BOOLEAN*;
+  let x be object;
+  redefine func F.x -> Nat;
+end;
+
+definition
+  let n,m be Nat;
+  redefine func n to_power m -> Nat;
+end;
+
+definition
+  let a,b be object,c be Nat;
+  func BinBranch(a,b,c) equals
+:: NTALGO_2:def 1
+  a if c = 0 otherwise b;
+end;
+
+definition
+  let a,b,c be Nat;
+  redefine func BinBranch(a,b,c) -> Nat;
+end;
+
+definition
+  let a, n, m be Element of NAT;
+  func ALGO_BPOW(a,n,m) -> Element of NAT means
+:: NTALGO_2:def 2
+  ex A,B be sequence of NAT st
+  it = B. (LenBSeq n)
+  &
+  A.0 = a mod m & B.0 = 1 &
+  ( for i be Nat holds
+  A.(i+1) = (A.i)*(A.i) mod m &
+  B.(i+1) = BinBranch((B.i),(B.i)*(A.i) mod m,(Nat2BL.n).(i+1))
+  );
+end;
+
+theorem :: NTALGO_2:1
+  for a,m,i be Nat, A be sequence of NAT st
+  A.0 = a mod m & (for j be Nat holds A.(j+1) = (A.j)*(A.j) mod m)
+  holds A.i = a to_power (2 to_power i) mod m;
+
+theorem :: NTALGO_2:2
+  LenBSeq 0 = 1;
+
+theorem :: NTALGO_2:3
+  LenBSeq 1 = 1;
+
+theorem :: NTALGO_2:4
+  for x be Nat st 2 <= x holds 1 < LenBSeq x;
+
+theorem :: NTALGO_2:5
+  for n be Nat st 0 < n holds
+  LenBSeq n = [\ log(2,n) /] +1;
+
+theorem :: NTALGO_2:6
+  Nat2BL.0 = <* 0 *>;
+
+theorem :: NTALGO_2:7
+  Nat2BL.1 = <*1*>;
+
+theorem :: NTALGO_2:8
+  for n be Element of NAT st 0 < n holds
+    (Nat2BL.n).(LenBSeq n) = 1;
+
+theorem :: NTALGO_2:9
+  Nat2BL.2 = <*0,1*>;
+
+theorem :: NTALGO_2:10
+  Nat2BL.3 = <*1,1*>;
+
+theorem :: NTALGO_2:11
+  Nat2BL.4 = <*0,0,1*>;
+
+theorem :: NTALGO_2:12
+  for n be Nat holds Nat2BL. (2|^n) = (0*n) ^ <*1*>;
+
+theorem :: NTALGO_2:13
+  for m be Element of NAT holds ALGO_BPOW(0,0,m) = 1;
+
+theorem :: NTALGO_2:14
+  for n,m be Element of NAT st 0 < n holds
+  ALGO_BPOW(0,n,m) = 0;
+
+theorem :: NTALGO_2:15
+  for a,n,m be Element of NAT st 0 < n & m <= 1 holds
+  ALGO_BPOW(a,n,m) = 0;
+
+theorem :: NTALGO_2:16
+  for a,n,m be Element of NAT st a <> 0 & 1 < m holds
+  ALGO_BPOW(a,n,m) = a to_power n mod m;
+
+begin :: Lame's Theorem
+
+theorem :: NTALGO_2:17
+  Fib(5) = 5;
+
+theorem :: NTALGO_2:18
+  1 < tau;
+
+theorem :: NTALGO_2:19
+  tau < 2;
+
+theorem :: NTALGO_2:20
+  log(tau,10) < 5;
+
+theorem :: NTALGO_2:21
+  for n be Nat st 3 <= n holds tau to_power (n-2) < Fib(n);
+
+theorem :: NTALGO_2:22
+  for a,b be Element of INT st
+  |.a.| > |.b.| & b > 1 holds
+  ex A,B be sequence of NAT,
+     C be Real_Sequence,
+     n be Element of NAT st
+  A.0 = |.a.| & B.0 = |.b.| &
+  (for i be Nat holds
+  A.(i+1) = B.i &
+  B.(i+1) = A.i mod B.i) &
+  n = (min*{i where i is Nat: B.i = 0} ) &
+  a gcd b = A.n &
+  Fib(n+1) <= |. b .| &
+  n <= 5*[/ log(10,|. b .|) \] &
+  n <= C.(|. b .|) & C is polynomially-bounded;

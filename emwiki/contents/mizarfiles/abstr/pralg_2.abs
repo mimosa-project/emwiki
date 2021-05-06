@@ -1,0 +1,300 @@
+:: Products of Many Sorted Algebras
+::  by Beata Madras
+::
+:: Received April 25, 1994
+:: Copyright (c) 1994-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, MSUALG_1, CARD_3, FUNCT_1, SUBSET_1, PBOOLE, RELAT_1,
+      FUNCT_6, TARSKI, FUNCOP_1, FINSEQ_4, FUNCT_5, ZFMISC_1, PRALG_1, MCART_1,
+      COMPLEX1, STRUCT_0, MARGREL1, RLVECT_2, FUNCT_2, PRALG_2, PARTFUN1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1,
+      FUNCT_2, BINOP_1, XTUPLE_0, MCART_1, STRUCT_0, FUNCOP_1, FINSEQ_2,
+      FUNCT_5, FUNCT_6, CARD_3, PBOOLE, PRALG_1, MSUALG_1;
+ constructors BINOP_1, FUNCT_6, PRALG_1, MSUALG_1, RELSET_1, FUNCT_5, XTUPLE_0,
+      SETFAM_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, FUNCOP_1, CARD_3, PBOOLE, STRUCT_0,
+      MSUALG_1, RELSET_1, FINSEQ_2, FINSEQ_1, XTUPLE_0;
+ requirements BOOLE, SUBSET;
+
+
+begin
+
+reserve I,J for set,i,j,x for object,
+  S for non empty ManySortedSign;
+
+::
+:: Preliminaries
+::
+
+registration
+  let X be with_common_domain functional non empty set;
+  cluster -> DOM X -defined for Element of X;
+end;
+
+registration
+  let X be with_common_domain functional non empty set;
+  cluster -> total for Element of X;
+end;
+
+begin
+
+:: Operations on Functions
+
+definition
+  let F be Function;
+
+  func Commute F -> Function means
+:: PRALG_2:def 1
+
+  (for x holds x in dom it iff ex f
+  being Function st f in dom F & x = commute f) & for f being Function st f in
+  dom it holds it.f = F.commute f;
+end;
+
+theorem :: PRALG_2:1
+  for F be Function st dom F = {{}} holds Commute F = F;
+
+definition
+  let f be Function-yielding Function;
+
+  redefine func Frege f -> ManySortedFunction of product doms f means
+:: PRALG_2:def 2
+
+  for g be Function st g in product doms f holds it.g = f..g;
+end;
+
+registration
+  let I;
+  let A,B be non-empty ManySortedSet of I;
+  cluster [|A,B|] -> non-empty;
+end;
+
+theorem :: PRALG_2:2
+  for I be non empty set, J be set, A,B be ManySortedSet of I, f be
+  Function of J,I holds [|A,B|]*f = [|A*f,B*f|];
+
+definition
+  let I be non empty set;
+  let A,B be non-empty ManySortedSet of I, pj being Element of I*, rj being
+  Element of I, f be Function of A#.pj,A.rj, g be Function of B#.pj,B.rj;
+
+  func [[:f,g:]] -> Function of [|A,B|]#.pj,[|A,B|].rj means
+:: PRALG_2:def 3
+  for h be Function st h in [|A,B|]#.pj holds it.h = [f.(pr1 h),g.(pr2 h)];
+end;
+
+definition
+  let I be non empty set,J;
+  let A,B be non-empty ManySortedSet of I, p be Function of J,I*, r be
+  Function of J,I, F be ManySortedFunction of A#*p,A*r, G be ManySortedFunction
+  of B#*p,B*r;
+  func [[:F,G:]] -> ManySortedFunction of [|A,B|]#*p,[|A,B|]*r means
+:: PRALG_2:def 4
+  for j st
+j in J for pj being Element of I*, rj being Element of I st pj = p.j & rj = r.j
+for f be Function of A#.pj,A.rj, g be Function of B#.pj,B.rj st f = F.j & g = G
+  .j holds it.j = [[:f,g:]];
+end;
+
+begin
+
+::
+:: Family of Many Sorted Universal Algebras
+::
+
+definition
+  let I,S;
+  mode MSAlgebra-Family of I,S -> ManySortedSet of I means
+:: PRALG_2:def 5
+
+    for i st i in I holds it.i is non-empty MSAlgebra over S;
+end;
+
+definition
+  let I be non empty set, S;
+  let A be MSAlgebra-Family of I,S, i be Element of I;
+  redefine func A.i -> non-empty MSAlgebra over S;
+end;
+
+definition
+  let S be non empty ManySortedSign, U1 be MSAlgebra over S;
+  func |.U1.| -> set equals
+:: PRALG_2:def 6
+  union (rng the Sorts of U1);
+end;
+
+registration
+  let S be non empty ManySortedSign, U1 be non-empty MSAlgebra over S;
+  cluster |.U1.| -> non empty;
+end;
+
+definition
+  let I be non empty set, S be non empty ManySortedSign, A be MSAlgebra-Family
+  of I,S;
+  func |.A.| -> set equals
+:: PRALG_2:def 7
+  union the set of all |.A.i.| where i is Element of I;
+end;
+
+registration
+  let I be non empty set, S be non empty ManySortedSign, A be MSAlgebra-Family
+  of I,S;
+  cluster |.A.| -> non empty;
+end;
+
+begin
+
+::
+:: Product of Many Sorted Universal Algebras
+::
+
+theorem :: PRALG_2:3
+  for S be non void non empty ManySortedSign, U0 be MSAlgebra over
+  S, o be OperSymbol of S holds Args(o,U0) = product ((the Sorts of U0)*(
+the_arity_of o)) & dom ((the Sorts of U0)*(the_arity_of o)) = dom (the_arity_of
+  o) & Result(o,U0) = (the Sorts of U0).(the_result_sort_of o);
+
+theorem :: PRALG_2:4
+  for S be non void non empty ManySortedSign, U0 be MSAlgebra over
+  S, o be OperSymbol of S st the_arity_of o = {} holds Args(o,U0) = {{}};
+
+definition
+  let S;
+  let U1,U2 be non-empty MSAlgebra over S;
+  func [:U1,U2:] -> MSAlgebra over S equals
+:: PRALG_2:def 8
+  MSAlgebra (# [|the Sorts of U1,the
+    Sorts of U2|], [[:the Charact of U1,the Charact of U2:]] #);
+end;
+
+registration
+  let S;
+  let U1,U2 be non-empty MSAlgebra over S;
+  cluster [:U1,U2:] -> strict;
+end;
+
+definition
+  let I,S;
+  let s be SortSymbol of S, A be MSAlgebra-Family of I,S;
+  func Carrier (A,s) -> ManySortedSet of I means
+:: PRALG_2:def 9
+
+  for i be set st i in
+I ex U0 being MSAlgebra over S st U0 = A.i & it.i = (the Sorts of U0).s if I <>
+  {} otherwise it = {};
+end;
+
+registration
+  let I,S;
+  let s be SortSymbol of S, A be MSAlgebra-Family of I,S;
+  cluster Carrier (A,s) -> non-empty;
+end;
+
+definition
+  let I,S;
+  let A be MSAlgebra-Family of I,S;
+  func SORTS(A) -> ManySortedSet of the carrier of S means
+:: PRALG_2:def 10
+
+  for s be SortSymbol of S holds it.s = product Carrier(A,s);
+end;
+
+registration
+  let I, S;
+  let A be MSAlgebra-Family of I,S;
+  cluster SORTS(A) -> non-empty;
+end;
+
+definition
+  let I;
+  let S be non empty ManySortedSign, A be MSAlgebra-Family of I,S;
+  func OPER(A) -> ManySortedFunction of I means
+:: PRALG_2:def 11
+
+  for i be set st i in I
+ex U0 being MSAlgebra over S st U0 = A.i & it.i = the Charact of U0 if I <> {}
+  otherwise it = {};
+end;
+
+theorem :: PRALG_2:5
+  for S be non empty ManySortedSign, A be MSAlgebra-Family of I,S
+  holds dom uncurry (OPER A) = [:I,the carrier' of S:];
+
+theorem :: PRALG_2:6
+  for I be non empty set, S be non void non empty ManySortedSign,
+  A be MSAlgebra-Family of I,S, o be OperSymbol of S holds commute (OPER A) in
+  Funcs(the carrier' of S, Funcs(I,rng uncurry (OPER A)));
+
+definition
+  let I be set, S be non void non empty ManySortedSign, A be MSAlgebra-Family
+  of I,S, o be OperSymbol of S;
+  func A?.o -> ManySortedFunction of I equals
+:: PRALG_2:def 12
+  (commute (OPER A)).o;
+end;
+
+theorem :: PRALG_2:7
+  for I be non empty set, i be Element of I, S be non void non
+empty ManySortedSign, A be MSAlgebra-Family of I,S, o be OperSymbol of S holds
+  (A?.o).i = Den(o,A.i);
+
+theorem :: PRALG_2:8
+  for I be non empty set, S be non void non empty ManySortedSign, A be
+MSAlgebra-Family of I,S, o be OperSymbol of S, x be set st x in rng (Frege (A?.
+  o)) holds x is Function;
+
+theorem :: PRALG_2:9
+  for I be non empty set, S be non void non empty ManySortedSign,
+A be MSAlgebra-Family of I,S, o be OperSymbol of S, f be Function st f in rng (
+Frege (A?.o)) holds dom f = I & for i be Element of I holds f.i in Result(o,A.i
+  );
+
+theorem :: PRALG_2:10
+  for I be non empty set, S be non void non empty ManySortedSign,
+A be MSAlgebra-Family of I,S, o be OperSymbol of S, f be Function st f in dom (
+Frege (A?.o)) holds dom f = I & (for i be Element of I holds f.i in Args(o,A.i)
+  ) & rng f c= Funcs(dom(the_arity_of o),|.A.|);
+
+theorem :: PRALG_2:11
+  for I be non empty set, S be non void non empty ManySortedSign,
+A be MSAlgebra-Family of I,S, o be OperSymbol of S holds dom doms (A?.o) = I &
+  for i be Element of I holds (doms (A?.o)).i = Args(o,A.i);
+
+definition
+  let I;
+  let S be non void non empty ManySortedSign, A be MSAlgebra-Family of I,S;
+  func OPS(A) -> ManySortedFunction of (SORTS A)# * the Arity of S, (SORTS A)
+  * the ResultSort of S means
+:: PRALG_2:def 13
+  for o be OperSymbol of S holds it.o=IFEQ(
+  the_arity_of o,{},commute(A?.o),Commute Frege(A?.o)) if I <> {} otherwise not
+  contradiction;
+end;
+
+definition
+  let I be set, S be non void non empty ManySortedSign, A be MSAlgebra-Family
+  of I,S;
+  func product A -> MSAlgebra over S equals
+:: PRALG_2:def 14
+  MSAlgebra (# SORTS A, OPS A #);
+end;
+
+registration
+  let I be set, S be non void non empty ManySortedSign, A be MSAlgebra-Family
+  of I,S;
+  cluster product A -> strict;
+end;
+
+theorem :: PRALG_2:12
+  for S be non void non empty ManySortedSign, A be MSAlgebra-Family of I
+  ,S holds the Sorts of product A = SORTS A & the Charact of product A = OPS A;

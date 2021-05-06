@@ -1,0 +1,439 @@
+:: Gauge Integral
+::  by Roland Coghetto
+:: 
+:: Received September 3, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies VALUED_1, MEMBERED, PARTFUN1, SEQ_4, INTEGRA1, MEASURE7, COUSIN,
+      RELAT_1, NUMBERS, SUBSET_1, NAT_1, FUNCT_1, ARYTM_3, FINSEQ_2, ZFMISC_1,
+      COMPLEX1, XBOOLE_0, REAL_1, CARD_1, XXREAL_0, ARYTM_1, FINSEQ_1, CARD_3,
+      ORDINAL4, TARSKI, ORDINAL2, XXREAL_2, XXREAL_1, MEASURE5, RFINSEQ,
+      PARTFUN3, VALUED_0, COUSIN2, FUNCT_7, FUNCT_3;
+ notations VALUED_1, MEMBERED, PARTFUN1, XXREAL_2, FUNCT_1, XBOOLE_0, TARSKI,
+      XCMPLX_0, XXREAL_0, FINSEQ_1, ZFMISC_1, SUBSET_1, NAT_1, FINSEQ_2,
+      FUNCT_2, NUMBERS, XREAL_0, COMPLEX1, SEQ_2, RVSUM_1, RELSET_1, RCOMP_1,
+      MEASURE5, SEQ_4, INTEGRA1, PARTFUN3, COUSIN, VALUED_0, FUNCT_3, INTEGRA3,
+      RFINSEQ;
+ constructors NEWTON, RCOMP_3, RVSUM_1, COMSEQ_2, SEQ_4, MEASURE6, RFINSEQ,
+      MATRPROB, COUSIN, INTEGRA3;
+ registrations SEQ_2, VALUED_1, XXREAL_2, COMPLEX1, SUBSET_1, FUNCT_1,
+      RELSET_1, XXREAL_0, XREAL_0, MEMBERED, VALUED_0, FUNCT_2, FINSEQ_1,
+      CARD_1, NAT_1, MEASURE5, INTEGRA1, SEQM_3, RELAT_1, ORDINAL1, XCMPLX_0,
+      NUMBERS, SEQ_4, PARTFUN3, COUSIN, FINSET_1, NEWTON03, XBOOLE_0, RCOMP_3;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve a,b,c,d,e for Real;
+
+theorem :: COUSIN2:1
+  a - b <= c & b <= a implies |. b - a .| <= c;
+
+theorem :: COUSIN2:2
+  b - a <= c & a <= b implies |. b - a .| <= c;
+
+theorem :: COUSIN2:3
+  a <= b <= c & |.a - d.| <= e & |.c - d.| <= e implies |. b - d .| <= e;
+
+theorem :: COUSIN2:4
+  (for c st 0 < c holds |.a - b.| <= c) implies a = b;
+
+theorem :: COUSIN2:5
+  for b,c,d being non negative Real st
+  d < e / (2 * b * |. c .|) holds
+  b is positive & c is positive;
+
+theorem :: COUSIN2:6
+  a <> 0 implies a * (b / (2 * a)) = b / 2;
+
+theorem :: COUSIN2:7
+  for b,c,d being non negative Real st a <= b * c * d &
+  d < e / (2 * b * |. c .|) holds a <= e / 2;
+
+begin :: Vector lattice / Riesz Space
+
+definition
+  let X be non empty set;
+  let f,g be Function of X,REAL;
+  func min(f,g) -> Function of X,REAL means
+:: COUSIN2:def 1
+  for x be Element of X holds it.x = min(f.x,g.x);
+  commutativity;
+  func max(f,g) -> Function of X,REAL means
+:: COUSIN2:def 2
+  for x be Element of X holds it.x = max(f.x,g.x);
+  commutativity;
+end;
+
+registration
+  let X be non empty set;
+  let f,g be positive-yielding Function of X,REAL;
+  cluster min(f,g) -> positive-yielding;
+end;
+
+registration
+  let X be non empty set;
+  let f,g be positive-yielding Function of X,REAL;
+  cluster max(f,g) -> positive-yielding;
+end;
+
+definition
+  let X be non empty set;
+  let f,g be Function of X,REAL;
+  pred f <= g means
+:: COUSIN2:def 3
+for x being Element of X holds f.x <= g.x;
+end;
+
+theorem :: COUSIN2:8
+  for X being non empty set
+  for f,g being Function of X,REAL holds
+  min(f,g) <= f;
+
+theorem :: COUSIN2:9
+  for X being non empty real-membered set st
+  (for r being Real st r in X holds upper_bound X = r) holds
+  ex r being Real st X = {r};
+
+theorem :: COUSIN2:10
+  for X being non empty real-membered set st
+  (for r being Real st r in X holds lower_bound X = r) holds
+  ex r being Real st X = {r};
+
+theorem :: COUSIN2:11
+  for X be non empty bounded_below bounded_above real-membered set
+  st upper_bound X = lower_bound X
+  holds ex r be Real st X = {r};
+
+begin :: chi
+
+reserve X,Y for set,
+          Z for non empty set,
+          r for Real,
+          s for ExtReal,
+          A for Subset of REAL,
+          f for real-valued Function;
+
+theorem :: COUSIN2:12
+  chi(X,Y) is Function of Y,REAL;
+
+theorem :: COUSIN2:13
+  A c= ].r,s.[ implies A is bounded_below;
+
+theorem :: COUSIN2:14
+  A c= ].s,r.[ implies A is bounded_above;
+
+theorem :: COUSIN2:15
+  rng f c= [.a,b.] implies f is bounded;
+
+theorem :: COUSIN2:16
+  a <= b implies {a,b} c= [.a,b.];
+
+theorem :: COUSIN2:17
+  chi(X,Y) is bounded;
+
+theorem :: COUSIN2:18
+  X misses Y implies (for x being Element of X holds (chi(Y,X)).x = 0);
+
+theorem :: COUSIN2:19
+  for f be Function of Z,REAL holds (f is constant iff
+  (ex r be Real st f = r (#) chi(Z,Z)));
+
+theorem :: COUSIN2:20
+  chi(X,X) is positive-yielding;
+
+begin
+
+reserve I for non empty closed_interval Subset of REAL,
+       TD for tagged_division of I,
+        D for Division of I,
+        T for Element of set_of_tagged_Division(D),
+        f for PartFunc of I,REAL;
+
+theorem :: COUSIN2:21
+  f is lower_integrable implies lower_sum(f,D) <= lower_integral(f);
+
+theorem :: COUSIN2:22
+  f is upper_integrable implies upper_integral(f) <= upper_sum(f,D);
+
+definition
+  let A be non empty closed_interval Subset of REAL;
+  func tagged_divs A -> set means
+:: COUSIN2:def 4
+    for x being set holds (x in it iff x is tagged_division of A);
+end;
+
+registration
+  let A be non empty closed_interval Subset of REAL;
+  cluster tagged_divs A -> non empty;
+end;
+
+definition
+  let A be non empty closed_interval Subset of REAL;
+  let TD be tagged_division of A;
+  func tagged_of TD -> non empty non-decreasing FinSequence of REAL means
+:: COUSIN2:def 5
+
+  ex D being Division of A, T being Element of set_of_tagged_Division(D) st
+  it = T & TD = [D,T];
+end;
+
+theorem :: COUSIN2:23
+  TD = [D,T] implies T = tagged_of TD &
+  D = division_of TD;
+
+theorem :: COUSIN2:24
+  len tagged_of TD = len division_of TD;
+
+definition
+  let A be non empty closed_interval Subset of REAL;
+  let TD be tagged_division of A;
+  func len TD -> Element of NAT equals
+:: COUSIN2:def 6
+    len division_of TD;
+  func dom TD -> set equals
+:: COUSIN2:def 7
+    dom division_of TD;
+end;
+
+theorem :: COUSIN2:25
+  for I being non empty closed_interval Subset of REAL,
+  D being Division of I, T being Element of set_of_tagged_Division(D) holds
+  rng T c= I;
+
+theorem :: COUSIN2:26
+  for I being non empty closed_interval Subset of REAL
+  for jauge1,jauge2 being positive-yielding Function of I,REAL
+  for TD being jauge1-fine tagged_division of I st jauge1 <= jauge2 holds
+  TD is jauge2-fine tagged_division of I;
+
+begin :: Jauge integral: definition
+
+definition
+  let I be non empty closed_interval Subset of REAL;
+  let f be PartFunc of I,REAL;
+  let TD be tagged_division of I;
+  func tagged_volume(f,TD) -> FinSequence of REAL means
+:: COUSIN2:def 8
+    len it = len TD &
+    for i being Nat st i in dom TD holds it.i = f.((tagged_of TD).i) *
+      vol(divset(division_of TD,i));
+end;
+
+definition
+  let I be non empty closed_interval Subset of REAL;
+  let f be PartFunc of I,REAL;
+  let TD be tagged_division of I;
+  func tagged_sum(f,TD) -> Real equals
+:: COUSIN2:def 9
+Sum tagged_volume(f,TD);
+end;
+
+theorem :: COUSIN2:27
+  Y c= X implies chi(X,Y) = chi(Y,Y);
+
+reserve f for Function of I,REAL;
+
+theorem :: COUSIN2:28
+  I is non empty trivial implies vol I = 0;
+
+theorem :: COUSIN2:29
+  for r being Real st I = {r} holds
+  (for D being Division of I holds D = <* r *> );
+
+definition
+  let I be non empty closed_interval Subset of REAL;
+  let f be Function of I,REAL;
+  attr f is HK-integrable means
+:: COUSIN2:def 10
+  ex J being Real st
+    for epsilon being Real st epsilon > 0 holds
+      ex jauge being positive-yielding Function of I,REAL st
+      for TD being tagged_division of I st TD is jauge-fine
+        holds |.tagged_sum(f,TD) - J.| <= epsilon;
+end;
+
+definition
+  let I be non empty closed_interval Subset of REAL;
+  let f be Function of I,REAL;
+  assume
+ f is HK-integrable;
+  func HK-integral f -> Real means
+:: COUSIN2:def 11
+  for epsilon being Real st epsilon > 0 holds
+    ex jauge being positive-yielding Function of I,REAL st
+      for TD being tagged_division of I st TD is jauge-fine
+      holds |.tagged_sum(f,TD) - it.| <= epsilon;
+end;
+
+theorem :: COUSIN2:30
+  for f being Function of I,REAL st I is trivial holds
+  f is HK-integrable & HK-integral(f) = 0;
+
+theorem :: COUSIN2:31
+  A misses I & f = chi(A,I) implies tagged_sum(f,TD) = 0;
+
+theorem :: COUSIN2:32
+  A misses I & f = chi(A,I) implies f is HK-integrable & HK-integral(f) = 0;
+
+theorem :: COUSIN2:33
+  I c= A & f = chi(A,I) implies f is HK-integrable & HK-integral(f) = vol(I);
+
+registration
+  let I be non empty closed_interval Subset of REAL;
+  cluster HK-integrable for Function of I,REAL;
+end;
+
+begin :: Linearity of jauge-integrale
+
+reserve f,g for HK-integrable Function of I,REAL,
+          r for Real;
+
+theorem :: COUSIN2:34
+  for i being Nat st i in dom TD holds
+  (tagged_volume(r(#)f,TD)).i
+    = r * f.((tagged_of TD).i) * vol(divset(division_of TD,i));
+
+theorem :: COUSIN2:35
+  tagged_volume(r(#)f,TD) = r * tagged_volume(f,TD);
+
+theorem :: COUSIN2:36
+  for i being Nat st i in dom TD holds
+  (tagged_volume(f + g,TD)).i
+    = f.((tagged_of TD).i) * vol(divset(division_of TD,i))
+      + g.((tagged_of TD).i) * vol(divset(division_of TD,i));
+
+theorem :: COUSIN2:37
+  tagged_volume(f + g,TD) = tagged_volume(f,TD) + tagged_volume(g,TD);
+
+theorem :: COUSIN2:38
+  f is HK-integrable implies
+  r (#) f is HK-integrable Function of I,REAL &
+  HK-integral (r (#) f) = r * HK-integral f;
+
+theorem :: COUSIN2:39
+  f + g is HK-integrable Function of I,REAL &
+  HK-integral (f + g) = HK-integral f + HK-integral g;
+
+theorem :: COUSIN2:40
+  for f being Function of I,REAL st f is constant holds
+  (f is HK-integrable & ex r being Real st
+  f = r (#) chi(I,I) & HK-integral f = r * vol(I));
+
+begin :: integrable + bounded -> HK-integrable
+
+registration
+  let I being non empty closed_interval Subset of REAL;
+  cluster integrable for Function of I,REAL;
+end;
+
+registration
+  let X be non empty set;
+  cluster bounded for Function of X,REAL;
+end;
+
+theorem :: COUSIN2:41
+  for f being bounded Function of I,REAL holds
+  |. upper_bound (rng f) - lower_bound (rng f) .| = 0 iff f is constant;
+
+registration
+  let I be non empty closed_interval Subset of REAL;
+  cluster bounded for integrable Function of I,REAL;
+end;
+
+theorem :: COUSIN2:42
+  for f being PartFunc of I,REAL st f is upper_integrable holds
+  ex r being Real st for D being Division of I holds r < upper_sum(f,D);
+
+theorem :: COUSIN2:43
+  for f being PartFunc of I,REAL st f is lower_integrable holds
+  ex r being Real st for D being Division of I holds lower_sum(f,D) < r;
+
+theorem :: COUSIN2:44
+  for f being Function of I,REAL
+  for D,D1 being Division of I st D.1 = lower_bound I & D1 = D/^1
+  holds upper_sum(f,D1) = (upper_sum(f,D)) & lower_sum(f,D1) = lower_sum(f,D);
+
+reserve f for bounded integrable Function of I,REAL;
+
+theorem :: COUSIN2:45
+  for i being Nat st i in dom TD holds
+  (lower_volume(f,division_of TD)).i <= (tagged_volume(f,TD)).i
+    <= (upper_volume(f,division_of TD)).i;
+
+theorem :: COUSIN2:46
+  Sum lower_volume(f,division_of TD) <= Sum tagged_volume(f,TD)
+    <= Sum upper_volume(f,division_of TD);
+
+theorem :: COUSIN2:47
+  for epsilon being Real st I is non trivial & 0 < epsilon holds
+  ex D being Division of I st D.1 <> lower_bound I &
+  upper_sum(f,D) < integral(f) + (epsilon / 2) &
+  integral(f) - (epsilon / 2) < lower_sum(f,D) &
+  upper_sum(f,D) - lower_sum(f,D) < epsilon;
+
+reserve jauge for positive-yielding Function of I,REAL;
+
+theorem :: COUSIN2:48
+  jauge = r (#) chi(I,I) implies 0 < r;
+
+reserve D for tagged_division of I;
+
+theorem :: COUSIN2:49
+  jauge = r (#) chi(I,I) & D is jauge-fine
+  implies delta(division_of D) <= r;
+
+reserve r1,r2,s for Real,
+           D,D1 for Division of I,
+             fc for Function of I,REAL;
+
+theorem :: COUSIN2:50
+  ex i being Nat st i in dom D &
+  min rng upper_volume(fc,D) = (upper_volume(fc,D)).i;
+
+theorem :: COUSIN2:51
+  for f being Function of I,REAL
+  for epsilon being Real st
+  fc = chi(I,I) &
+  r1 = min rng upper_volume(fc,D1) &
+  r2 = epsilon / (2 * (len D1) *
+    |. upper_bound (rng f) - lower_bound (rng f) .| ) &
+  0 < r1 & 0 < r2 & s = min(r1,r2) / 2 &
+  jauge = s (#) fc & TD is jauge-fine holds
+  delta(division_of TD) < min rng upper_volume(fc,D1) &
+  delta(division_of TD) < epsilon / (2 * (len D1) *
+    |. upper_bound (rng f) - lower_bound (rng f) .| );
+
+theorem :: COUSIN2:52
+  for p being FinSequence of REAL st
+  (for i being Nat st i in dom p holds r <= p.i) &
+  ex i0 being Nat st i0 in dom p & p.i0 = r holds
+  r = inf rng p;
+
+theorem :: COUSIN2:53
+   fc = chi(I,I) implies 0 <= min rng upper_volume(fc,D) &
+   (0 = min rng upper_volume(fc,D) iff divset(D,1) = [.D.1,D.1.]);
+
+theorem :: COUSIN2:54
+  divset(D,1) = [.D.1,D.1.] implies D.1 = lower_bound I;
+
+theorem :: COUSIN2:55
+  for f being bounded integrable Function of I,REAL
+  holds f is HK-integrable & HK-integral(f) = integral(f);
+
+registration
+  let I be non empty closed_interval Subset of REAL;
+  cluster bounded integrable -> HK-integrable for Function of I,REAL;
+end;
+

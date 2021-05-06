@@ -1,0 +1,812 @@
+:: Manysorted Sets
+::  by Andrzej Trybulec
+::
+:: Received July 7, 1993
+:: Copyright (c) 1993-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FUNCT_1, RELAT_1, SETFAM_1, XBOOLE_0, SUBSET_1, PARTFUN1,
+      FUNCOP_1, TARSKI, FUNCT_2, ZFMISC_1, MEMBER_1, FUNCT_4, PBOOLE, NAT_1,
+      SETLIM_2;
+ notations TARSKI, ZFMISC_1, XBOOLE_0, SUBSET_1, SETFAM_1, RELAT_1, FUNCT_1,
+      ORDINAL1, PARTFUN1, FUNCT_2, FUNCT_4, FUNCOP_1;
+ constructors SETFAM_1, FUNCOP_1, ORDINAL1, RELSET_1, PARTFUN1, FUNCT_4;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, FUNCOP_1, FUNCT_4,
+      RELAT_1;
+ requirements BOOLE, SUBSET;
+
+
+begin
+
+reserve i,j,e,u for object;
+
+theorem :: PBOOLE:1
+  for f being Function st f is non-empty holds rng f is
+  with_non-empty_elements;
+
+theorem :: PBOOLE:2
+  for f being Function holds f is empty-yielding iff f = {} or rng f = {
+  {} };
+
+reserve I for set; :: of indices
+
+registration
+  let I;
+  cluster total for I-defined Function;
+end;
+
+definition
+  let I;
+  mode ManySortedSet of I is total I-defined Function;
+end;
+
+reserve x,X,Y,Z,V for ManySortedSet of I;
+
+scheme :: PBOOLE:sch 1
+  KuratowskiFunction{A()-> set, F(object) -> set}:
+ ex f being ManySortedSet of A() st
+  for e being object st e in A() holds f.e in F(e)
+provided
+ for e being object st e in A() holds F(e) <> {};
+
+definition
+  let I,X,Y;
+  pred X in Y means
+:: PBOOLE:def 1
+
+  for i being object st i in I holds X.i in Y.i;
+  pred X c= Y means
+:: PBOOLE:def 2
+
+  for i being object st i in I holds X.i c= Y.i;
+  reflexivity;
+end;
+
+definition
+  let I be non empty set,X,Y be ManySortedSet of I;
+  redefine pred X in Y;
+  asymmetry;
+end;
+
+scheme :: PBOOLE:sch 2
+  PSeparation { I()-> set, A() -> ManySortedSet of I(), P[object,object] } :
+   ex X being ManySortedSet of I() st
+    for i being object st i in I()
+     for e being object holds e in X.i iff e in A().i & P[i,e];
+
+theorem :: PBOOLE:3
+  (for i being object st i in I holds X.i = Y.i) implies X = Y;
+
+definition
+  let I;
+  func EmptyMS I -> ManySortedSet of I equals
+:: PBOOLE:def 3
+  I --> {};
+  let X,Y;
+  func X (\/) Y -> ManySortedSet of I means
+:: PBOOLE:def 4
+
+  for i being object st i in I holds it.i = X.i \/ Y.i;
+  commutativity;
+  idempotence;
+  func X (/\) Y -> ManySortedSet of I means
+:: PBOOLE:def 5
+
+  for i being object st i in I holds it.i = X.i /\ Y.i;
+  commutativity;
+  idempotence;
+  func X (\) Y -> ManySortedSet of I means
+:: PBOOLE:def 6
+
+  for i being object st i in I holds it.i = X.i \ Y.i;
+  pred X overlaps Y means
+:: PBOOLE:def 7
+
+  for i being object st i in I holds X.i meets Y.i;
+  symmetry;
+  pred X misses Y means
+:: PBOOLE:def 8
+
+  for i being object st i in I holds X.i misses Y.i;
+  symmetry;
+end;
+
+notation
+  let I;
+  let X,Y;
+  antonym X meets Y for X misses Y;
+end;
+
+definition
+  let I,X,Y;
+  func X (\+\) Y -> ManySortedSet of I equals
+:: PBOOLE:def 9
+  (X (\) Y) (\/) (Y (\) X);
+  commutativity;
+end;
+
+theorem :: PBOOLE:4
+  for i st i in I holds (X (\+\) Y).i = X.i \+\ Y.i;
+
+theorem :: PBOOLE:5
+  for i being object holds EmptyMS I.i = {};
+
+theorem :: PBOOLE:6
+  (for i being object st i in I holds X.i = {}) implies X = EmptyMS I;
+
+theorem :: PBOOLE:7
+  x in X or x in Y implies x in X (\/) Y;
+
+theorem :: PBOOLE:8
+  x in X (/\) Y iff x in X & x in Y;
+
+theorem :: PBOOLE:9
+  x in X & X c= Y implies x in Y;
+
+theorem :: PBOOLE:10
+  x in X & x in Y implies X overlaps Y;
+
+theorem :: PBOOLE:11
+  X overlaps Y implies ex x st x in X & x in Y;
+
+theorem :: PBOOLE:12
+  x in X (\) Y implies x in X;
+
+begin
+
+definition
+  let I,X,Y;
+  redefine pred X = Y means
+:: PBOOLE:def 10
+  for i being object st i in I holds X.i = Y.i;
+end;
+
+theorem :: PBOOLE:13
+  X c= Y & Y c= Z implies X c= Z;
+
+theorem :: PBOOLE:14
+  X c= X (\/) Y;
+
+theorem :: PBOOLE:15
+  X (/\) Y c= X;
+
+theorem :: PBOOLE:16
+  X c= Z & Y c= Z implies X (\/) Y c= Z;
+
+theorem :: PBOOLE:17
+  Z c= X & Z c= Y implies Z c= X (/\) Y;
+
+theorem :: PBOOLE:18
+  X c= Y implies X (\/) Z c= Y (\/) Z;
+
+theorem :: PBOOLE:19
+  X c= Y implies X (/\) Z c= Y (/\) Z;
+
+theorem :: PBOOLE:20
+  X c= Y & Z c= V implies X (\/) Z c= Y (\/) V;
+
+theorem :: PBOOLE:21
+  X c= Y & Z c= V implies X (/\) Z c= Y (/\) V;
+
+theorem :: PBOOLE:22
+  X c= Y implies X (\/) Y = Y;
+
+theorem :: PBOOLE:23
+  X c= Y implies X (/\) Y = X;
+
+theorem :: PBOOLE:24
+  X (/\) Y c= X (\/) Z;
+
+theorem :: PBOOLE:25
+  X c= Z implies X (\/) Y (/\) Z = (X (\/) Y) (/\) Z;
+
+theorem :: PBOOLE:26
+  X = Y (\/) Z iff Y c= X & Z c= X & for V st Y c= V & Z c= V holds X c= V;
+
+theorem :: PBOOLE:27
+  X = Y (/\) Z iff X c= Y & X c= Z & for V st V c= Y & V c= Z holds V c= X;
+
+theorem :: PBOOLE:28
+  (X (\/) Y) (\/) Z = X (\/) (Y (\/) Z);
+
+theorem :: PBOOLE:29
+  (X (/\) Y) (/\) Z = X (/\) (Y (/\) Z);
+
+theorem :: PBOOLE:30
+  X (/\) (X (\/) Y) = X;
+
+theorem :: PBOOLE:31
+  X (\/) (X (/\) Y) = X;
+
+theorem :: PBOOLE:32
+  X (/\) (Y (\/) Z) = X (/\) Y (\/) X (/\) Z;
+
+theorem :: PBOOLE:33
+  X (\/) Y (/\) Z = (X (\/) Y) (/\) (X (\/) Z);
+
+theorem :: PBOOLE:34
+  (X (/\) Y) (\/) (X (/\) Z) = X implies X c= Y (\/) Z;
+
+theorem :: PBOOLE:35
+  (X (\/) Y) (/\) (X (\/) Z) = X implies Y (/\) Z c= X;
+
+theorem :: PBOOLE:36
+  (X (/\) Y) (\/) (Y (/\) Z) (\/) (Z (/\) X)
+    = (X (\/) Y) (/\) (Y (\/) Z) (/\) (Z (\/) X);
+
+theorem :: PBOOLE:37
+  X (\/) Y c= Z implies X c= Z;
+
+theorem :: PBOOLE:38
+  X c= Y (/\) Z implies X c= Y;
+
+theorem :: PBOOLE:39
+  X (\/) Y (\/) Z = (X (\/) Z) (\/) (Y (\/) Z);
+
+theorem :: PBOOLE:40
+  X (/\) Y (/\) Z = (X (/\) Z) (/\) (Y (/\) Z);
+
+theorem :: PBOOLE:41
+  X (\/) (X (\/) Y) = X (\/) Y;
+
+theorem :: PBOOLE:42
+  X (/\) (X (/\) Y) = X (/\) Y;
+
+begin :: ManySortedSet with empty components
+
+theorem :: PBOOLE:43
+  EmptyMS I c= X;
+
+theorem :: PBOOLE:44
+  X c= EmptyMS I implies X = EmptyMS I;
+
+theorem :: PBOOLE:45
+  X c= Y & X c= Z & Y (/\) Z = EmptyMS I implies X = EmptyMS I;
+
+theorem :: PBOOLE:46
+  X c= Y & Y (/\) Z = EmptyMS I implies X (/\) Z = EmptyMS I;
+
+theorem :: PBOOLE:47
+  X (\/) EmptyMS I = X & EmptyMS I (\/) X = X;
+
+theorem :: PBOOLE:48
+  X (\/) Y = EmptyMS I implies X = EmptyMS I;
+
+theorem :: PBOOLE:49
+  X (/\) EmptyMS I = EmptyMS I;
+
+theorem :: PBOOLE:50
+  X c= (Y (\/) Z) & X (/\) Z = EmptyMS I implies X c= Y;
+
+theorem :: PBOOLE:51
+  Y c= X & X (/\) Y = EmptyMS I implies Y = EmptyMS I;
+
+begin :: Difference and symmetric difference
+
+theorem :: PBOOLE:52
+  X (\) Y = EmptyMS I iff X c= Y;
+
+theorem :: PBOOLE:53
+  X c= Y implies X (\) Z c= Y (\) Z;
+
+theorem :: PBOOLE:54
+  X c= Y implies Z (\) Y c= Z (\) X;
+
+theorem :: PBOOLE:55
+  X c= Y & Z c= V implies X (\) V c= Y (\) Z;
+
+theorem :: PBOOLE:56
+  X (\) Y c= X;
+
+theorem :: PBOOLE:57
+  X c= Y (\) X implies X = EmptyMS I;
+
+theorem :: PBOOLE:58
+  X (\) X = EmptyMS I;
+
+theorem :: PBOOLE:59
+  X (\) EmptyMS I = X;
+
+theorem :: PBOOLE:60
+  EmptyMS I (\) X = EmptyMS I;
+
+theorem :: PBOOLE:61
+  X (\) (X (\/) Y) = EmptyMS I;
+
+theorem :: PBOOLE:62
+  X (/\) (Y (\) Z) = (X (/\) Y) (\) Z;
+
+theorem :: PBOOLE:63
+  (X (\) Y) (/\) Y = EmptyMS I;
+
+theorem :: PBOOLE:64
+  X (\) (Y (\) Z) = (X (\) Y) (\/) X (/\) Z;
+
+theorem :: PBOOLE:65
+  (X (\) Y) (\/) X (/\) Y = X;
+
+theorem :: PBOOLE:66
+  X c= Y implies Y = X (\/) (Y (\) X);
+
+theorem :: PBOOLE:67
+  X (\/) (Y (\) X) = X (\/) Y;
+
+theorem :: PBOOLE:68
+  X (\) (X (\) Y) = X (/\) Y;
+
+theorem :: PBOOLE:69
+  X (\) (Y (/\) Z) = (X (\) Y) (\/) (X (\) Z);
+
+theorem :: PBOOLE:70
+  X (\) X (/\) Y = X (\) Y;
+
+theorem :: PBOOLE:71
+  X (/\) Y = EmptyMS I iff X (\) Y = X;
+
+theorem :: PBOOLE:72
+  (X (\/) Y) (\) Z = (X (\) Z) (\/) (Y (\) Z);
+
+theorem :: PBOOLE:73
+  (X (\) Y) (\) Z = X (\) (Y (\/) Z);
+
+theorem :: PBOOLE:74
+  (X (/\) Y) (\) Z = (X (\) Z) (/\) (Y (\) Z);
+
+theorem :: PBOOLE:75
+  (X (\/) Y) (\) Y = X (\) Y;
+
+theorem :: PBOOLE:76
+  X c= Y (\/) Z implies X (\) Y c= Z & X (\) Z c= Y;
+
+theorem :: PBOOLE:77
+  (X (\/) Y) (\) (X (/\) Y) = (X (\) Y) (\/) (Y (\) X);
+
+theorem :: PBOOLE:78
+  (X (\) Y) (\) Y = X (\) Y;
+
+theorem :: PBOOLE:79
+  X (\) (Y (\/) Z) = (X (\) Y) (/\) (X (\) Z);
+
+theorem :: PBOOLE:80
+  X (\) Y = Y (\) X implies X = Y;
+
+theorem :: PBOOLE:81
+  X (/\) (Y (\) Z) = X (/\) Y (\) X (/\) Z;
+
+theorem :: PBOOLE:82
+  X (\) Y c= Z implies X c= Y (\/) Z;
+
+theorem :: PBOOLE:83
+  X (\) Y c= X (\+\) Y;
+
+theorem :: PBOOLE:84
+  X (\+\) EmptyMS I = X;
+
+theorem :: PBOOLE:85
+  X (\+\) X = EmptyMS I;
+
+theorem :: PBOOLE:86
+  X (\/) Y = (X (\+\) Y) (\/) X (/\) Y;
+
+theorem :: PBOOLE:87
+  X (\+\) Y = (X (\/) Y) (\) X (/\) Y;
+
+theorem :: PBOOLE:88
+  (X (\+\) Y) (\) Z = (X (\) (Y (\/) Z)) (\/) (Y (\) (X (\/) Z));
+
+theorem :: PBOOLE:89
+  X (\) (Y (\+\) Z) = X (\) (Y (\/) Z) (\/) X (/\) Y (/\) Z;
+
+theorem :: PBOOLE:90
+  (X (\+\) Y) (\+\) Z = X (\+\) (Y (\+\) Z);
+
+theorem :: PBOOLE:91
+  X (\) Y c= Z & Y (\) X c= Z implies X (\+\) Y c= Z;
+
+theorem :: PBOOLE:92
+  X (\/) Y = X (\+\) (Y (\) X);
+
+theorem :: PBOOLE:93
+  X (/\) Y = X (\+\) (X (\) Y);
+
+theorem :: PBOOLE:94
+  X (\) Y = X (\+\) (X (/\) Y);
+
+theorem :: PBOOLE:95
+  Y (\) X = X (\+\) (X (\/) Y);
+
+theorem :: PBOOLE:96
+  X (\/) Y = X (\+\) Y (\+\) X (/\) Y;
+
+theorem :: PBOOLE:97
+  X (/\) Y = X (\+\) Y (\+\) (X (\/) Y);
+
+begin :: Meeting and overlap(p?)ing
+
+theorem :: PBOOLE:98
+  X overlaps Y or X overlaps Z implies X overlaps Y (\/) Z;
+
+theorem :: PBOOLE:99
+  X overlaps Y & Y c= Z implies X overlaps Z;
+
+theorem :: PBOOLE:100
+  X overlaps Y & X c= Z implies Z overlaps Y;
+
+theorem :: PBOOLE:101
+  X c= Y & Z c= V & X overlaps Z implies Y overlaps V;
+
+theorem :: PBOOLE:102
+  X overlaps Y (/\) Z implies X overlaps Y & X overlaps Z;
+
+theorem :: PBOOLE:103
+  X overlaps Z & X c= V implies X overlaps Z (/\) V;
+
+theorem :: PBOOLE:104
+  X overlaps Y (\) Z implies X overlaps Y;
+
+theorem :: PBOOLE:105
+  Y does not overlap Z implies X (/\) Y does not overlap X (/\) Z;
+
+theorem :: PBOOLE:106
+  X overlaps Y (\) Z implies Y overlaps X (\) Z;
+
+theorem :: PBOOLE:107
+  X meets Y & Y c= Z implies X meets Z;
+
+theorem :: PBOOLE:108
+  Y misses X (\) Y;
+
+theorem :: PBOOLE:109
+  X (/\) Y misses X (\) Y;
+
+theorem :: PBOOLE:110
+  X (/\) Y misses X (\+\) Y;
+
+theorem :: PBOOLE:111
+  X misses Y implies X (/\) Y = EmptyMS I;
+
+theorem :: PBOOLE:112
+  X <> EmptyMS I implies X meets X;
+
+theorem :: PBOOLE:113
+  X c= Y & X c= Z & Y misses Z implies X = EmptyMS I;
+
+theorem :: PBOOLE:114
+  Z (\/) V = X (\/) Y & X misses Z & Y misses V implies X = V & Y = Z;
+
+theorem :: PBOOLE:115
+  X misses Y implies X (\) Y = X;
+
+theorem :: PBOOLE:116
+  X misses Y implies (X (\/) Y) (\) Y = X;
+
+theorem :: PBOOLE:117
+  X (\) Y = X implies X misses Y;
+
+theorem :: PBOOLE:118
+  X (\) Y misses Y (\) X;
+
+begin :: Roughly speaking
+
+definition
+  let I,X,Y;
+  pred X [= Y means
+:: PBOOLE:def 11
+
+  for x st x in X holds x in Y;
+  reflexivity;
+end;
+
+theorem :: PBOOLE:119
+  X c= Y implies X [= Y;
+
+theorem :: PBOOLE:120
+  X [= Y & Y [= Z implies X [= Z;
+
+begin :: Non empty set of sorts
+
+theorem :: PBOOLE:121
+  EmptyMS {} in EmptyMS {};
+
+theorem :: PBOOLE:122
+  for X being ManySortedSet of {} holds X = {};
+
+reserve I for non empty set,
+  x,X,Y for ManySortedSet of I;
+
+theorem :: PBOOLE:123
+  X overlaps Y implies X meets Y;
+
+theorem :: PBOOLE:124
+  not ex x st x in EmptyMS I;
+
+theorem :: PBOOLE:125
+  x in X & x in Y implies X (/\) Y <> EmptyMS I;
+
+theorem :: PBOOLE:126
+  X does not overlap EmptyMS I;
+
+theorem :: PBOOLE:127
+  X (/\) Y = EmptyMS I implies X does not overlap Y;
+
+theorem :: PBOOLE:128
+  X overlaps X implies X <> EmptyMS I;
+
+begin :: Empty and non-empty ManySortedSets
+
+reserve I for set,
+  x,X,Y,Z for ManySortedSet of I;
+
+definition
+  let I be set;
+  let X be ManySortedSet of I;
+  redefine attr X is empty-yielding means
+:: PBOOLE:def 12
+
+  for i being object st i in I holds X.i is empty;
+  redefine attr X is non-empty means
+:: PBOOLE:def 13
+
+  for i being object st i in I holds X.i is non empty;
+end;
+
+registration
+  let I be set;
+  cluster empty-yielding for ManySortedSet of I;
+  cluster non-empty for ManySortedSet of I;
+end;
+
+registration
+  let I be non empty set;
+  cluster non-empty -> non empty-yielding for ManySortedSet of I;
+  cluster empty-yielding -> non non-empty for ManySortedSet of I;
+end;
+
+theorem :: PBOOLE:129
+  X is empty-yielding iff X = EmptyMS I;
+
+theorem :: PBOOLE:130
+  Y is empty-yielding & X c= Y implies X is empty-yielding;
+
+theorem :: PBOOLE:131
+  X is non-empty & X c= Y implies Y is non-empty;
+
+theorem :: PBOOLE:132
+  X is non-empty & X [= Y implies X c= Y;
+
+theorem :: PBOOLE:133
+  X is non-empty & X [= Y implies Y is non-empty;
+
+reserve X for non-empty ManySortedSet of I;
+
+theorem :: PBOOLE:134
+  ex x st x in X;
+
+theorem :: PBOOLE:135
+  (for x holds x in X iff x in Y) implies X = Y;
+
+theorem :: PBOOLE:136
+  (for x holds x in X iff x in Y & x in Z) implies X = Y (/\) Z;
+
+begin :: Addenda
+
+scheme :: PBOOLE:sch 3
+  MSSEx { I() -> set, P[object,object] }:
+  ex f being ManySortedSet of I() st
+   for i being object st i in I() holds P[i,f.i]
+provided
+ for i being object st i in I() ex j being object st P[i,j];
+
+scheme :: PBOOLE:sch 4
+  MSSLambda { I() -> set, F(object) -> object }:
+ex f being ManySortedSet of I() st
+  for i being object st i in I() holds f.i = F(i);
+
+registration
+  let I be set;
+  cluster Function-yielding for ManySortedSet of I;
+end;
+
+definition
+  let I be set;
+  mode ManySortedFunction of I is Function-yielding ManySortedSet of I;
+end;
+
+theorem :: PBOOLE:137
+  not ex M being non-empty ManySortedSet of I st {} in rng M;
+
+definition
+  let M be Function;
+  mode Component of M is Element of rng M;
+end;
+
+theorem :: PBOOLE:138
+  for I being non empty set for M being ManySortedSet of I, A being
+  Component of M ex i being object st i in I & A = M.i;
+
+theorem :: PBOOLE:139
+  for M being ManySortedSet of I, i st i in I holds M.i is Component of M;
+
+definition
+  let I;
+  let B be ManySortedSet of I;
+  mode Element of B -> ManySortedSet of I means
+:: PBOOLE:def 14
+    for i being object st i in I holds it.i is Element of B.i;
+end;
+
+begin :: Many Sorted Functions
+
+definition
+  let I;
+  let A be ManySortedSet of I, B be ManySortedSet of I;
+  mode ManySortedFunction of A,B -> ManySortedSet of I means
+:: PBOOLE:def 15
+ for i st i in I holds it.i is Function of A.i, B.i;
+end;
+
+registration
+  let I;
+  let A be ManySortedSet of I, B be ManySortedSet of I;
+  cluster ->Function-yielding for ManySortedFunction of A,B;
+end;
+
+registration
+  let I be set;
+  let J be non empty set;
+  let O be Function of I,J;
+  let F be ManySortedSet of J;
+  cluster F*O -> total for I-defined Function;
+end;
+
+reserve D for non empty set,
+  n for Nat;
+
+scheme :: PBOOLE:sch 5
+  LambdaDMS {D()->non empty set, F(object)->object}:
+  ex X be ManySortedSet of D() st
+  for d be Element of D() holds X.d = F(d);
+
+registration
+  let J be non empty set, B be non-empty ManySortedSet of J, j be Element of J;
+  cluster B.j -> non empty;
+end;
+
+reserve X,Y for ManySortedSet of I;
+
+definition
+  let I, X,Y;
+  func [|X,Y|] -> ManySortedSet of I means
+:: PBOOLE:def 16
+  for i being object st i in I holds it.i = [:X.i,Y.i:];
+end;
+
+definition
+  let I, X, Y;
+  func (Funcs) (X,Y) -> ManySortedSet of I means
+:: PBOOLE:def 17
+  for i being object st i in I holds it.i = Funcs(X.i,Y.i);
+end;
+
+definition
+  let I be set, M be ManySortedSet of I;
+  mode ManySortedSubset of M -> ManySortedSet of I means
+:: PBOOLE:def 18
+
+  it c= M;
+end;
+
+registration
+  let I be set, M be non-empty ManySortedSet of I;
+  cluster non-empty for ManySortedSubset of M;
+end;
+
+definition
+  let F,G be Function-yielding Function;
+  func G**F -> Function means
+:: PBOOLE:def 19
+
+  dom it = (dom F) /\ (dom G) &
+  for i be object st i in dom it holds it.i = (G.i)*(F.i);
+end;
+
+registration
+  let F,G be Function-yielding Function;
+  cluster G**F -> Function-yielding;
+end;
+
+definition
+  let I be set, A be ManySortedSet of I, F be ManySortedFunction of I;
+  func F.:.:A -> ManySortedSet of I means
+:: PBOOLE:def 20
+  for i be set st i in I holds it.i = (F.i).:(A.i);
+end;
+
+registration
+  let I;
+  cluster EmptyMS I -> empty-yielding;
+end;
+
+scheme :: PBOOLE:sch 6
+  MSSExD { I() -> non empty set, P[object,object] }:
+  ex f being ManySortedSet of I()
+  st for i being Element of I() holds P[i,f.i]
+provided
+ for i being Element of I() ex j being object st P[i,j];
+
+registration
+  let A be non empty set;
+  cluster non-empty -> non empty-yielding for ManySortedSet of A;
+end;
+
+registration
+  let X be non empty set;
+  cluster -> non empty for ManySortedSet of X;
+end;
+
+theorem :: PBOOLE:140
+  for F, G, H be Function-yielding Function holds
+  (H ** G) ** F = H ** (G ** F);
+
+registration
+ let I be set, f be non-empty ManySortedSet of I;
+ cluster total for I-defined f-compatible Function;
+end;
+
+theorem :: PBOOLE:141
+ for I being set, f being non-empty ManySortedSet of I
+ for p being f-compatible I-defined Function
+  ex s being f-compatible ManySortedSet of I st p c= s;
+
+theorem :: PBOOLE:142
+  for I,A be set
+  for s,ss being ManySortedSet of I
+  holds (ss +* s | A) | A = s | A;
+
+registration
+ let X be non empty set, Y be set;
+ cluster X-valued for ManySortedSet of Y;
+end;
+
+theorem :: PBOOLE:143
+  for I,Y being non empty set, M be Y-valued ManySortedSet of I,
+     x be Element of I
+  holds M.x = M/.x;
+
+theorem :: PBOOLE:144
+ for f being Function, M being ManySortedSet of I
+   holds (f+*M)|I = M;
+
+theorem :: PBOOLE:145
+ for I being set, Y being non empty set
+ for p being Y-valued I-defined Function
+  ex s being Y-valued ManySortedSet of I st p c= s;
+
+theorem :: PBOOLE:146
+ X c= Y & Y c= X implies X = Y;
+
+definition let I be non empty set, A,B be ManySortedSet of I;
+ redefine pred A = B means
+:: PBOOLE:def 21
+  for i being Element of I holds A.i = B.i;
+end;
+
+registration
+  let X be with_non-empty_elements set;
+  cluster id X -> non-empty;
+end;
+
+scheme :: PBOOLE:sch 7
+  MSSLambda { I() -> set, F(object) -> object }:
+  ex f being ManySortedSet of I() st
+  for i being set st i in I() holds f.i = F(i);
+

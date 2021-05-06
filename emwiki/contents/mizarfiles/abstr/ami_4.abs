@@ -1,0 +1,136 @@
+:: Euclid's Algorithm
+::  by Andrzej Trybulec and Yatsuka Nakamura
+::
+:: Received October 8, 1993
+:: Copyright (c) 1993-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, AMI_3, CARD_1, NAT_1, AMI_1, FUNCOP_1,
+      RELAT_1, GRAPHSP, FUNCT_4, FSM_1, FUNCT_1, XBOOLE_0, TARSKI, ARYTM_3,
+      INT_1, XXREAL_0, MSUALG_1, INT_2, COMPLEX1, PARTFUN1, TURING_1, STRUCT_0,
+      AMI_4, EXTPRO_1, FINSET_1, COMPOS_1, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, ENUMSET1, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1,
+      FUNCT_1, FINSET_1, XCMPLX_0, INT_1, NAT_1, FUNCOP_1, INT_2, FUNCT_4,
+      STRUCT_0, PARTFUN1, MEMSTR_0, COMPOS_1, EXTPRO_1, AMI_3, XXREAL_0;
+ constructors NAT_D, AMI_3, RELSET_1, PRE_POLY, DOMAIN_1;
+ registrations ORDINAL1, RELSET_1, XXREAL_0, XREAL_0, NAT_1, INT_1, STRUCT_0,
+      AMI_3, XBOOLE_0, FINSET_1, MEMSTR_0, FUNCT_4, FUNCOP_1, RELAT_1,
+      COMPOS_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve i,j,k for Nat;
+
+begin :: Euclid's algorithm
+
+definition
+  func Euclid-Algorithm -> NAT-defined
+   (the InstructionsF of SCM)-valued finite Function
+    equals
+:: AMI_4:def 1
+  (0 .--> (dl.2 := dl.1)) +* ((1 .--> Divide(dl.0,dl.1)) +*
+  ((2 .--> (dl.0 := dl.2)) +* ((3 .--> (dl.1 >0_goto 0)) +*
+  (4 .--> halt SCM))));
+end;
+
+
+
+theorem :: AMI_4:1
+  dom (Euclid-Algorithm qua Function) = 5;
+
+begin :: Natural semantics of the program
+
+theorem :: AMI_4:2
+  for s being State of SCM
+  for P being Instruction-Sequence of SCM
+   st Euclid-Algorithm c= P
+  for k st IC Comput(P,s,k) = 0 holds IC Comput(P,s,k+1) = 1 &
+  Comput(P,s,k+1).dl.0 = Comput(P,s,k).dl.0 &
+  Comput(P,s,k+1).dl.1 = Comput(P,s,k).dl.1 &
+  Comput(P,s,k+1).dl.2 = Comput(P,s,k).dl.1;
+
+theorem :: AMI_4:3
+  for s being State of SCM
+  for P being Instruction-Sequence of SCM
+   st Euclid-Algorithm c= P
+  for k st IC
+Comput(P,s,k) = 1 holds IC Comput(P,s,k+1) = 2 &
+Comput(P,s,k+1).dl.0
+  = Comput(P,s,k).dl.0 div Comput(P,s,k).dl.1 &
+Comput(P,s,k+1).dl.1 =
+  Comput(P,s,k).dl.0 mod Comput(P,s,k).dl.1 & Comput(P,s,k+1).dl.2 =
+  Comput(P,s,k).dl.2;
+
+theorem :: AMI_4:4
+  for s being State of SCM
+  for P being Instruction-Sequence of SCM
+   st Euclid-Algorithm c= P
+  for k st IC
+Comput(P,s,k) = 2 holds IC Comput(P,s,k+1) = 3 &
+Comput(P,s,k+1).dl.0
+  = Comput(P,s,k).dl.2 & Comput(P,s,k+1).dl.1 =
+Comput(P,s,k).dl.1 &
+  Comput(P,s,k+1).dl.2 = Comput(P,s,k).dl.2;
+
+theorem :: AMI_4:5
+ for s being State of SCM
+  for P being Instruction-Sequence of SCM
+   st Euclid-Algorithm c= P
+   for k st IC
+Comput(P,s,k) = 3 holds ( Comput(P,s,k).dl.1 > 0
+implies IC Comput(P,s,k+1) = 0) &
+( Comput(P,s,k).dl.1 <= 0 implies IC Comput(P,s,k+1) = 4) &
+  Comput(P,s,k+1).dl.0 = Comput(P,s,k).dl.0 & Comput(P,s,k+1).dl.1 =
+  Comput(P,s,k).dl.1;
+
+theorem :: AMI_4:6
+  for s being State of SCM
+  for P being Instruction-Sequence of SCM
+  st Euclid-Algorithm c= P
+  for k,i st IC
+  Comput(P,s,k) = 4 holds Comput(P,s,k+i) = Comput(P,s,k);
+
+theorem :: AMI_4:7
+  for s being 0-started State of SCM
+  for P being Instruction-Sequence of SCM
+   st Euclid-Algorithm c= P
+   for x, y being Integer st s.dl.0 = x & s.dl.1 = y & x > 0 & y > 0 holds (
+  Result(P,s)).dl.0 = x gcd y;
+
+definition
+  func Euclid-Function -> PartFunc of FinPartSt SCM, FinPartSt SCM means
+:: AMI_4:def 2
+  for p,q being FinPartState of SCM holds [p,q] in it iff ex x,y being
+Integer st x > 0 & y > 0 & p = (dl.0,dl.1) --> (x,y) & q = dl.0 .--> (x gcd y);
+end;
+
+theorem :: AMI_4:8
+  for p being set holds p in dom Euclid-Function iff ex x,y being
+  Integer st x > 0 & y > 0 & p = (dl.0,dl.1) --> (x,y);
+
+theorem :: AMI_4:9
+  for i,j being Integer st i > 0 & j > 0 holds Euclid-Function.((
+  dl.0,dl.1) --> (i,j)) = dl.0 .--> (i gcd j);
+
+registration
+ cluster Euclid-Algorithm -> (the InstructionsF of SCM)-valued;
+end;
+
+registration
+ cluster Euclid-Algorithm -> non halt-free;
+end;
+
+theorem :: AMI_4:10
+  Euclid-Algorithm, Start-At(0,SCM) computes Euclid-Function;
+

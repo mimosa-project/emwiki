@@ -1,0 +1,175 @@
+:: Boolean Properties of Sets - Definitions
+::  by Library Committee
+::
+:: Received April 6, 2002
+:: Copyright (c) 2002-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, MATROID0, AOFA_000;
+ notations TARSKI;
+ constructors TARSKI;
+
+
+begin
+
+reserve X, Y, Z for set, x, y, z for object;
+
+scheme :: XBOOLE_0:sch 1
+  Separation { A()-> set, P[object] } :
+  ex X being set st for x holds x in X iff x in A() & P[x];
+
+definition
+  let X be set;
+  attr X is empty means
+:: XBOOLE_0:def 1
+
+  not ex x st x in X;
+end;
+
+registration
+  cluster empty for set;
+end;
+
+definition
+  func {} -> set equals
+:: XBOOLE_0:def 2
+the empty set;
+  let X,Y be set;
+  func X \/ Y -> set means
+:: XBOOLE_0:def 3
+
+  for x holds x in it iff x in X or x in Y;
+  commutativity;
+  idempotence;
+  func X /\ Y -> set means
+:: XBOOLE_0:def 4
+
+  for x holds x in it iff x in X & x in Y;
+  commutativity;
+  idempotence;
+  func X \ Y -> set means
+:: XBOOLE_0:def 5
+
+  for x holds x in it iff x in X & not x in Y;
+end;
+
+definition
+  let X, Y be set;
+  func X \+\ Y -> set equals
+:: XBOOLE_0:def 6
+  (X \ Y) \/ (Y \ X);
+  commutativity;
+  pred X misses Y means
+:: XBOOLE_0:def 7
+
+  X /\ Y = {};
+  symmetry;
+  pred X c< Y means
+:: XBOOLE_0:def 8
+
+  X c= Y & X <> Y;
+  irreflexivity;
+  asymmetry;
+  pred X,Y are_c=-comparable means
+:: XBOOLE_0:def 9
+  X c= Y or Y c= X;
+  reflexivity;
+  symmetry;
+  redefine pred X = Y means
+:: XBOOLE_0:def 10
+  X c= Y & Y c= X;
+end;
+
+notation
+  let X, Y be set;
+  antonym X meets Y for X misses Y;
+end;
+
+theorem :: XBOOLE_0:1
+  x in X \+\ Y iff not (x in X iff x in Y);
+
+theorem :: XBOOLE_0:2
+  (for x holds not x in X iff (x in Y iff x in Z)) implies X = Y \+\ Z;
+
+registration
+  cluster {} -> empty;
+end;
+
+registration
+  let x;
+  cluster { x } -> non empty;
+  let y;
+  cluster { x, y } -> non empty;
+end;
+
+registration
+  cluster non empty for set;
+end;
+
+registration
+  let D be non empty set, X be set;
+  cluster D \/ X -> non empty;
+  cluster X \/ D -> non empty;
+end;
+
+theorem :: XBOOLE_0:3
+  X meets Y iff ex x st x in X & x in Y;
+
+theorem :: XBOOLE_0:4
+  X meets Y iff ex x st x in X /\ Y;
+
+theorem :: XBOOLE_0:5
+  X misses Y & x in X \/ Y implies x in X & not x in Y or x in Y & not x in X;
+
+scheme :: XBOOLE_0:sch 2
+  Extensionality { X,Y() -> set, P[object] } :
+  X() = Y()
+provided
+ for x holds x in X() iff P[x] and
+ for x holds x in Y() iff P[x];
+
+scheme :: XBOOLE_0:sch 3
+  SetEq { P[object] } :
+  for X1,X2 being set st
+    (for x holds x in X1 iff P[x]) &
+    (for x holds x in X2 iff P[x]) holds X1 = X2;
+
+begin :: Addenda
+:: from RLSUB_2, 2006.12.02, AT
+
+theorem :: XBOOLE_0:6
+  X c< Y implies ex x st x in Y & not x in X;
+
+:: 2008.08.07, A.T.
+
+theorem :: XBOOLE_0:7
+  X <> {} implies ex x st x in X;
+
+:: 2012.10.08, A.T.
+
+theorem :: XBOOLE_0:8
+ X c< Y implies ex x st x in Y & X c= Y \ {x};
+
+:: from MATROID0, 2013.01.18, A.T.
+
+notation
+  let x,y be set;
+  antonym x c/= y for x c= y;
+end;
+
+:: from AOFA_000, 2013.01.18, A.T.
+
+notation
+  let x be object,y be set;
+  antonym x nin y for x in y;
+end;
+

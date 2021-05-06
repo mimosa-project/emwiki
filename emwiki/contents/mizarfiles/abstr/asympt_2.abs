@@ -1,0 +1,297 @@
+:: Polynomially Bounded Sequences and Polynomial Sequences
+::  by Hiroyuki Okazaki and Yuichi Futa
+::
+:: Received June 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, REAL_1, SUBSET_1, SEQ_1, FDIFF_1, FUNCT_1, PARTFUN1,
+      PARTFUN3, ARYTM_1, VALUED_0, ORDINAL2, CARD_1, RELAT_1, ARYTM_3,
+      XXREAL_0, COMPLEX1, NAT_1, TARSKI, VALUED_1, FUNCT_2, SQUARE_1, XBOOLE_0,
+      ORDINAL4, LIMFUNC1, FUNCT_7, ASYMPT_1, POWER, ASYMPT_0, FINSET_1,
+      ORDINAL1, INT_1, CARD_3, AFINSQ_1, FINSEQ_1, TAYLOR_1, ASYMPT_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      PARTFUN1, FUNCT_2, FINSET_1, PARTFUN2, PARTFUN3, NUMBERS, XCMPLX_0,
+      XXREAL_0, XREAL_0, SQUARE_1, NAT_1, INT_1, VALUED_0, COMPLEX1, VALUED_1,
+      SEQ_1, RFUNCT_1, RVSUM_1, FDIFF_1, POWER, SERIES_1, LIMFUNC1, ASYMPT_0,
+      ASYMPT_1, AFINSQ_1, TAYLOR_1, AFINSQ_2;
+ constructors REAL_1, SQUARE_1, RCOMP_1, PARTFUN2, PARTFUN3, LIMFUNC1, FDIFF_1,
+      RELSET_1, RVSUM_1, NEWTON, PREPOWER, SERIES_1, ASYMPT_0, AFINSQ_2,
+      ASYMPT_1, TAYLOR_1, SIN_COS;
+ registrations ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, MEMBERED,
+      POWER, FCONT_3, VALUED_0, VALUED_1, SQUARE_1, AFINSQ_1, AFINSQ_2,
+      XBOOLE_0, RELAT_1, INT_1, ASYMPT_0, ASYMPT_1, FUNCT_1, PARTFUN3;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: ASYMPT_2:1
+  for m,k be Nat st 1 <= m holds 1 <= m to_power k;
+
+theorem :: ASYMPT_2:2
+  for m,n be Nat holds m <= m to_power (n+1);
+
+theorem :: ASYMPT_2:3
+  for m,n be Nat st 2 <= m holds n+1 <= m to_power n;
+
+theorem :: ASYMPT_2:4
+  for k be Nat holds 2*k <= 2 to_power k;
+
+theorem :: ASYMPT_2:5
+  for k,n be Nat st k <= n holds n+k <= 2 to_power n;
+
+theorem :: ASYMPT_2:6
+  for k,m be Nat st 2*k + 1 <= m holds
+    2 to_power k <= (2 to_power m) / m;
+
+theorem :: ASYMPT_2:7
+  for a,b,c be Real st 1 < a & 0 < b & b <= c holds
+    log(a,b) <= log(a,c);
+
+theorem :: ASYMPT_2:8
+  for n be Nat, a be Real st 1 < a holds
+    a to_power n < a to_power (n+1);
+
+theorem :: ASYMPT_2:9
+  for n be Nat, a be Real st 1 <= a holds
+    a to_power n <= a to_power (n+1);
+
+theorem :: ASYMPT_2:10
+  ex g be PartFunc of REAL,REAL st
+  dom(g)=right_open_halfline(0) &
+  (for x be Real st x in right_open_halfline(0) holds g.x=log(2,x))
+  &
+  g is_differentiable_on right_open_halfline(0) &
+  for x be Real st x in right_open_halfline(0)
+  holds g is_differentiable_in x
+  & diff(g,x)=(log(2,number_e))/x
+  & 0 < diff(g,x);
+
+theorem :: ASYMPT_2:11
+  ex f be PartFunc of REAL,REAL st
+  right_open_halfline (number_e) = dom f &
+  (for x be Real st x in dom f holds f.x = x/log(2,x) ) &
+  f is_differentiable_on right_open_halfline (number_e) &
+  (for x0 being Real st x0 in right_open_halfline (number_e) holds
+  0 <= diff (f,x0) )
+  & f is non-decreasing;
+
+theorem :: ASYMPT_2:12
+  for x,y be Real st number_e < x & x <= y holds
+    x/log(2,x) <= y/log(2,y);
+
+theorem :: ASYMPT_2:13
+  for k be Nat st number_e < k holds
+    ex N be Nat st for n be Nat st N<=n holds 2 to_power k <= n/log(2,n);
+
+theorem :: ASYMPT_2:14
+  for x be Nat st 1 < x holds
+    ex N be Nat st for n be Nat st N<=n holds 4 < n/log(x,n);
+
+theorem :: ASYMPT_2:15
+  for x be Nat st 1 < x holds
+  ex N,c be Nat st
+  for n be Nat st N <= n holds n to_power x <= c * (x to_power n);
+
+theorem :: ASYMPT_2:16
+  for x be Nat st 1 < x holds
+  not ex N,c be Nat st
+  for n be Nat st N <= n holds 2 to_power n <= c * (n to_power x);
+
+theorem :: ASYMPT_2:17
+  for a,b be Nat st a <= b holds
+    seq_n^ a in Big_Oh (seq_n^ b);
+
+theorem :: ASYMPT_2:18
+  for x be Nat st 1 < x holds
+  not ex N,c be Nat st
+  for n be Nat st N <= n holds x to_power n <= c * (n to_power x);
+
+theorem :: ASYMPT_2:19
+  for a be non negative Real, n be Nat st 1 <= n
+    holds 0 < (seq_n^(a)).n;
+
+begin :: Polynomially Bounded Sequences
+
+definition
+  let p be Real_Sequence;
+  attr p is polynomially-bounded means
+:: ASYMPT_2:def 1
+  ex k be Nat st p in Big_Oh(seq_n^(k));
+end;
+
+theorem :: ASYMPT_2:20
+  for f be Real_Sequence st f is non polynomially-bounded holds
+  for k be Nat holds not f in Big_Oh(seq_n^(k));
+
+theorem :: ASYMPT_2:21
+  for f be Real_Sequence st
+  for k be Nat holds not f in Big_Oh(seq_n^(k))
+  holds f is non polynomially-bounded;
+
+theorem :: ASYMPT_2:22
+  for a be positive Real holds seq_a^(a,1,0) is positive;
+
+theorem :: ASYMPT_2:23
+  for a be Real st 1 <= a holds seq_a^(a,1,0) is non-decreasing;
+
+theorem :: ASYMPT_2:24
+  for a be Real st 1 < a holds seq_a^(a,1,0) is increasing;
+
+theorem :: ASYMPT_2:25
+  for a be Nat st 1 < a holds
+    seq_a^(a,1,0) is non polynomially-bounded;
+
+begin :: Polynomial Sequences
+
+theorem :: ASYMPT_2:26
+  for x be XFinSequence of REAL,
+      y be Real_Sequence
+  holds x(#)y is finite Sequence of REAL
+  & dom (x(#)y) = dom x
+  & for i be object st i in dom x
+  holds (x(#)y).i = (x.i) * (y.i);
+
+definition
+  let x be XFinSequence of REAL,
+  y be Real_Sequence;
+  redefine func x(#)y -> XFinSequence of REAL;
+end;
+
+theorem :: ASYMPT_2:27
+  for d be XFinSequence of REAL
+  holds for x,i be Nat st i in dom d holds
+  (d (#) seq_a^(x,1,0)).i = (d.i) * x to_power (i);
+
+definition
+  let c be XFinSequence of REAL;
+  func seq_p(c) -> Real_Sequence means
+:: ASYMPT_2:def 2
+
+  for x be Nat holds it.x = Sum(c (#) seq_a^(x,1,0));
+end;
+
+theorem :: ASYMPT_2:28
+  for d be XFinSequence of REAL,k be Nat st len d = k+1 holds
+  ex a be Real,d1 be XFinSequence of REAL,
+  y be Real_Sequence st len d1 = k & d1= d | k & a = d.k & d =d1^<% a %> &
+  seq_p(d) = seq_p(d1) + y &
+  for i be Nat holds y.i = a* (i to_power k);
+
+theorem :: ASYMPT_2:29
+  for d be XFinSequence of REAL,k be Nat st len d = 1 holds
+  ex a be Real st a = d.0 &
+  for x be Nat holds (seq_p(d)).x = a;
+
+theorem :: ASYMPT_2:30
+  for d be XFinSequence of REAL,k be Nat
+  st len d = 1 & d is nonnegative-yielding holds
+  seq_p(d) in Big_Oh( seq_n^(k) );
+
+theorem :: ASYMPT_2:31
+  for k be Nat,a be Real,y be Real_Sequence
+  st 0<=a &
+  for i be Nat holds
+  y.i = a* (i to_power k) holds y in Big_Oh( seq_n^k );
+
+theorem :: ASYMPT_2:32
+  for k,n be Nat st k <= n
+    holds Big_Oh( seq_n^k ) c= Big_Oh( seq_n^(n) );
+
+theorem :: ASYMPT_2:33
+  for k be Nat,
+      c be nonnegative-yielding XFinSequence of REAL
+  st len c = k+1
+  holds seq_p(c) in Big_Oh( seq_n^(k) );
+
+theorem :: ASYMPT_2:34
+  for k be Nat,
+  c be XFinSequence of REAL holds
+  ex d be XFinSequence of REAL st len d = len c &
+  for i be Nat st i in dom d holds d.i = |. c.i .|;
+
+theorem :: ASYMPT_2:35
+  for c be XFinSequence of REAL,
+  d be XFinSequence of REAL
+  st len d = len c &
+  for i be Nat st i in dom d holds d.i = |. c.i .| holds
+  for n be Nat holds ( seq_p(c) ).n <= ( seq_p(d) ).n;
+
+theorem :: ASYMPT_2:36
+  for k be Nat,
+  c be XFinSequence of REAL
+  st len c = k+1 & seq_p(c) is eventually-nonnegative
+  holds seq_p(c) in Big_Oh( seq_n^(k) );
+
+theorem :: ASYMPT_2:37
+  for k,n be Nat st 0 < n holds
+    n*(seq_n^(k)).n = ((seq_n^(k+1)).n);
+
+theorem :: ASYMPT_2:38
+  for c be XFinSequence of REAL st len c = 0 holds
+  for x be Nat holds (seq_p(c)).x = 0;
+
+theorem :: ASYMPT_2:39
+  for f be eventually-nonnegative Real_Sequence,
+      k be Nat st
+  f in Big_Oh(seq_n^(k)) holds
+  ex N be Nat st
+  for n be Nat st N <= n holds f.n <= (seq_n^(k+1)).n;
+
+theorem :: ASYMPT_2:40
+  for c be XFinSequence of REAL holds
+  ex absc be XFinSequence of REAL st
+  absc = |. c .| &
+  for n be Nat holds (seq_p(c)).n <= (seq_p(absc)).n;
+
+theorem :: ASYMPT_2:41
+  for c,absc be XFinSequence of REAL st absc = |. c .|
+  holds for n be Nat holds |.(seq_p(c)).n .| <= (seq_p(absc)).n;
+
+theorem :: ASYMPT_2:42
+  for a be Real st 0 < a holds
+  for k be Nat, d be nonnegative-yielding XFinSequence of REAL
+  st len d = k holds
+  ex N be Nat st
+  for x be Nat st N <=x holds
+  for i be Nat st i in dom d
+  holds (d.i) * (x to_power i)*k <= a* (x to_power k);
+
+theorem :: ASYMPT_2:43
+  for k be Nat,
+  d be XFinSequence of REAL,
+  a be Real,
+  y be Real_Sequence
+  st 0 < a
+  & len d = k
+  & for x be Nat holds y.x = a * (x to_power k)
+  holds
+  ex N be Nat st
+  for x be Nat st N <= x holds |.(seq_p(d)).x .| <= y.x;
+
+theorem :: ASYMPT_2:44
+  for k be Nat, d be XFinSequence of REAL
+  st len d = k+1 & 0 < d.k holds
+  seq_p(d) is eventually-nonnegative;
+
+theorem :: ASYMPT_2:45
+  for k be Nat,
+  c be XFinSequence of REAL
+  st len c = k+1 & 0 < c.k
+  holds seq_p(c) in Big_Oh (seq_n^(k));
+
+theorem :: ASYMPT_2:46
+  for k be Nat,
+  c be XFinSequence of REAL
+  st len c = k+1 & 0 < c.k holds seq_p(c) is polynomially-bounded;
+

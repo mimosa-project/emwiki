@@ -1,0 +1,376 @@
+:: More on Divisibility Criteria for Selected Primes
+::  by Adam Naumowicz and Rados{\l}aw Piliszek
+::
+:: Received May 19, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, FUNCT_2,
+      FINSET_1, CARD_1, CARD_3, ARYTM_3, ARYTM_1, NUMBERS, XXREAL_0, NAT_1,
+      INT_1, MEMBERED, VALUED_0, INT_2, BINOP_2, ORDINAL4, FINSEQ_1, VALUED_1,
+      FINSOP_1, NEWTON, RFINSEQ, ABIAN, AFINSQ_1, AFINSQ_2, FIB_NUM2, JORDAN3,
+      NUMERAL1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      PARTFUN1, FUNCT_2, BINOP_1, FUNCOP_1, FINSET_1, CARD_1, SETWISEO,
+      NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, INT_1, NAT_1, RAT_1, MEMBERED,
+      VALUED_0, INT_2, NAT_D, BINOP_2, FINSEQ_1, RECDEF_1, VALUED_1, FINSOP_1,
+      NEWTON, ABIAN, SERIES_1, AFINSQ_1, PARTFUN3, AFINSQ_2, STIRL2_1,
+      FIB_NUM2, NUMERAL1;
+ constructors XTUPLE_0, FUNCT_1, RELSET_1, PARTFUN1, WELLORD2, FUNCT_2,
+      BINOP_1, FUNCOP_1, CARD_1, SETWISEO, XXREAL_0, REAL_1, SQUARE_1, NAT_1,
+      VALUED_0, ABSVALUE, NAT_D, BINOP_2, ORDINAL4, RECDEF_1, VALUED_1, SEQ_1,
+      FINSOP_1, NEWTON, PREPOWER, ABIAN, SERIES_1, AFINSQ_1, PARTFUN3,
+      AFINSQ_2, STIRL2_1, FIB_NUM2, ORDINAL6, BINOM, CARD_FIN, NUMERAL1,
+      ALGSTR_4;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1, FUNCT_2,
+      ORDINAL3, FINSET_1, CARD_1, NUMBERS, XXREAL_0, XREAL_0, NAT_1, INT_1,
+      MEMBERED, VALUED_0, BINOP_2, FINSEQ_1, VALUED_1, NEWTON, RFINSEQ, ABIAN,
+      POWER, AFINSQ_1, AFINSQ_2, ORDINAL6, ALGSTR_4, INT_2;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries on finite sequences
+
+reserve n,k,b for Nat, i for Integer;
+
+theorem :: NUMERAL2:1
+  for f being non empty XFinSequence holds f|1 = <% f.0 %>;
+
+theorem :: NUMERAL2:2
+  for f being non empty XFinSequence holds f=<%f.0%> ^ (f/^1);
+
+theorem :: NUMERAL2:3
+  for f being XFinSequence holds mid(f,2,len f)=f/^1;
+
+theorem :: NUMERAL2:4
+  for X,Y being finite natural-membered set st X misses Y
+  holds dom (Sgm0(X)^Sgm0(Y)) = dom Sgm0(X\/Y);
+
+theorem :: NUMERAL2:5
+  for X,Y being finite natural-membered set
+  holds rng (Sgm0(X)^Sgm0(Y)) = rng Sgm0(X\/Y);
+
+theorem :: NUMERAL2:6
+  for F being XFinSequence
+  for X being set
+  holds dom SubXFinS(F, X) = dom Sgm0(X /\ dom F);
+
+definition
+  redefine func EvenNAT equals
+:: NUMERAL2:def 1
+{n where n is Nat: n is even};
+end;
+
+definition
+  redefine func OddNAT equals
+:: NUMERAL2:def 2
+{n where n is Nat: n is odd};
+end;
+
+theorem :: NUMERAL2:7
+  EvenNAT misses OddNAT;
+
+theorem :: NUMERAL2:8
+  EvenNAT \/ OddNAT = NAT;
+
+registration
+  let F be Sequence;
+  let P be Permutation of dom F;
+  cluster F*P -> Sequence-like;
+end;
+
+theorem :: NUMERAL2:9
+  for F being XFinSequence
+  for X,Y being set st X misses Y
+  ex P being Permutation of dom SubXFinS(F,X\/Y) st
+  SubXFinS(F,X\/Y) * P = SubXFinS(F,X) ^ SubXFinS(F,Y);
+
+theorem :: NUMERAL2:10
+  for cF being complex-valued XFinSequence
+  for B1,B2 being set st
+  B1 misses B2 holds
+  Sum(SubXFinS(cF,B1\/B2))=Sum(SubXFinS(cF,B1))+Sum(SubXFinS(cF,B2));
+
+theorem :: NUMERAL2:11
+  for F being XFinSequence
+  holds F = SubXFinS(F,NAT);
+
+theorem :: NUMERAL2:12
+  for N,i being Nat
+  st i in dom Sgm0(N /\ EvenNAT)
+  holds (Sgm0(N /\ EvenNAT)).i = 2*i;
+
+theorem :: NUMERAL2:13
+  for N,i being Nat
+  st i in dom Sgm0(N /\ OddNAT)
+  holds (Sgm0(N /\ OddNAT)).i = 2*i+1;
+
+begin :: Lemmas on some divisibility properties
+
+theorem :: NUMERAL2:14
+  for i,j being Integer holds (i mod j) mod j = i mod j;
+
+theorem :: NUMERAL2:15
+  for i,j,k,l being Integer st i mod l = j mod l holds
+  (k + i) mod l = (k + j) mod l;
+
+theorem :: NUMERAL2:16
+  for d being XFinSequence of INT, n being Integer st for i being Nat
+  st i in dom d holds n divides d.i holds n divides Sum d;
+
+theorem :: NUMERAL2:17
+  for d,e being XFinSequence of INT, n being Integer st
+  dom d = dom e & for i being Nat st i in dom d holds e.i = d.i mod n
+  holds Sum d mod n = Sum e mod n;
+
+theorem :: NUMERAL2:18
+  for f,g being XFinSequence of NAT, i being Integer st dom f = dom g &
+  for n being object st n in dom f holds f.n=i*g.n holds Sum f = i * Sum g;
+
+theorem :: NUMERAL2:19
+  b>1 implies
+  n = b*value(mid(digits(n,b),2,len(digits(n,b))),b) + digits(n,b).0;
+
+theorem :: NUMERAL2:20
+  for n,k being Nat st k=10|^(2*n) - 1 holds 11 divides k;
+
+theorem :: NUMERAL2:21
+  for n,k being Nat st k=10|^(2*n+1) + 1 holds 11 divides k;
+
+theorem :: NUMERAL2:22
+  7,10 are_coprime;
+
+theorem :: NUMERAL2:23
+  29 is prime;
+
+theorem :: NUMERAL2:24
+  31 is prime;
+
+theorem :: NUMERAL2:25
+  41 is prime;
+
+theorem :: NUMERAL2:26
+  47 is prime;
+
+theorem :: NUMERAL2:27
+  53 is prime;
+
+theorem :: NUMERAL2:28
+  59 is prime;
+
+theorem :: NUMERAL2:29
+  61 is prime;
+
+theorem :: NUMERAL2:30
+  67 is prime;
+
+theorem :: NUMERAL2:31
+  71 is prime;
+
+theorem :: NUMERAL2:32
+  73 is prime;
+
+theorem :: NUMERAL2:33
+  79 is prime;
+
+theorem :: NUMERAL2:34
+  89 is prime;
+
+theorem :: NUMERAL2:35
+  97 is prime;
+
+theorem :: NUMERAL2:36
+  101 is prime;
+
+begin :: Divisibility criteria for primes up to 101
+
+theorem :: NUMERAL2:37
+  for p being prime Nat, n,f,b being Nat st
+  (ex k being Nat st b*f + 1 = p*k)
+  & b > 1 &  p,b are_coprime holds
+  p divides n iff p divides
+  value(mid(digits(n,b),2,len(digits(n,b))),b) - f*digits(n,b).0;
+
+theorem :: NUMERAL2:38
+  for p being prime Nat, n,f,b being Nat st
+  (ex k being Nat st b*f - 1 = p*k)
+  & b > 1 &  p,b are_coprime holds
+  p divides n iff p divides
+  value(mid(digits(n,b),2,len(digits(n,b))),b) + f*digits(n,b).0;
+
+::$N Divisibility rule#Divisibility by 7
+theorem :: NUMERAL2:39
+  7 divides n iff 7 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 2*digits(n,10).0;
+
+theorem :: NUMERAL2:40
+  7 divides n iff 7 divides value(digits(n,10)/^1,10) - 2*digits(n,10).0;
+
+theorem :: NUMERAL2:41
+  11 divides n iff 11 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - digits(n,10).0;
+
+theorem :: NUMERAL2:42
+  11 divides n iff 11 divides value(digits(n,10)/^1,10) - digits(n,10).0;
+
+::$N Divisibility rule#Divisibility by 11
+theorem :: NUMERAL2:43
+  11 divides n iff 11 divides
+  Sum SubXFinS(digits(n,10),EvenNAT) - Sum SubXFinS(digits(n,10),OddNAT);
+
+::$N Divisibility rule#Divisibility by 13
+theorem :: NUMERAL2:44
+  13 divides n iff 13 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 4*digits(n,10).0;
+
+theorem :: NUMERAL2:45
+  13 divides n iff 13 divides value(digits(n,10)/^1,10) + 4*digits(n,10).0;
+
+theorem :: NUMERAL2:46
+  17 divides n iff 17 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 5*digits(n,10).0;
+
+theorem :: NUMERAL2:47
+  17 divides n iff 17 divides value(digits(n,10)/^1,10) - 5*digits(n,10).0;
+
+theorem :: NUMERAL2:48
+  19 divides n iff 19 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 2*digits(n,10).0;
+
+theorem :: NUMERAL2:49
+  19 divides n iff 19 divides value(digits(n,10)/^1,10) + 2*digits(n,10).0;
+
+theorem :: NUMERAL2:50
+  23 divides n iff 23 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 7*digits(n,10).0;
+
+theorem :: NUMERAL2:51
+  23 divides n iff 23 divides value(digits(n,10)/^1,10) + 7*digits(n,10).0;
+
+theorem :: NUMERAL2:52
+  29 divides n iff 29 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 3*digits(n,10).0;
+
+theorem :: NUMERAL2:53
+  29 divides n iff 29 divides value(digits(n,10)/^1,10) + 3*digits(n,10).0;
+
+theorem :: NUMERAL2:54
+  31 divides n iff 31 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 3*digits(n,10).0;
+
+theorem :: NUMERAL2:55
+  31 divides n iff 31 divides value(digits(n,10)/^1,10) - 3*digits(n,10).0;
+
+theorem :: NUMERAL2:56
+  37 divides n iff 37 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 11*digits(n,10).0;
+
+theorem :: NUMERAL2:57
+  37 divides n iff 37 divides value(digits(n,10)/^1,10) - 11*digits(n,10).0;
+
+theorem :: NUMERAL2:58
+  41 divides n iff 41 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 4*digits(n,10).0;
+
+theorem :: NUMERAL2:59
+  41 divides n iff 41 divides value(digits(n,10)/^1,10) - 4*digits(n,10).0;
+
+theorem :: NUMERAL2:60
+  43 divides n iff 43 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 13*digits(n,10).0;
+
+theorem :: NUMERAL2:61
+  43 divides n iff 43 divides value(digits(n,10)/^1,10) + 13*digits(n,10).0;
+
+theorem :: NUMERAL2:62
+  47 divides n iff 47 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 14*digits(n,10).0;
+
+theorem :: NUMERAL2:63
+  47 divides n iff 47 divides value(digits(n,10)/^1,10) - 14*digits(n,10).0;
+
+theorem :: NUMERAL2:64
+  53 divides n iff 53 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 16*digits(n,10).0;
+
+theorem :: NUMERAL2:65
+  53 divides n iff 53 divides value(digits(n,10)/^1,10) + 16*digits(n,10).0;
+
+theorem :: NUMERAL2:66
+  59 divides n iff 59 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 6*digits(n,10).0;
+
+theorem :: NUMERAL2:67
+  59 divides n iff 59 divides value(digits(n,10)/^1,10) + 6*digits(n,10).0;
+
+theorem :: NUMERAL2:68
+  61 divides n iff 61 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 6*digits(n,10).0;
+
+theorem :: NUMERAL2:69
+  61 divides n iff 61 divides value(digits(n,10)/^1,10) - 6*digits(n,10).0;
+
+theorem :: NUMERAL2:70
+  67 divides n iff 67 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 20*digits(n,10).0;
+
+theorem :: NUMERAL2:71
+  67 divides n iff 67 divides value(digits(n,10)/^1,10) - 20*digits(n,10).0;
+
+theorem :: NUMERAL2:72
+  71 divides n iff 71 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 7*digits(n,10).0;
+
+theorem :: NUMERAL2:73
+  71 divides n iff 71 divides value(digits(n,10)/^1,10) - 7*digits(n,10).0;
+
+theorem :: NUMERAL2:74
+  73 divides n iff 73 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 22*digits(n,10).0;
+
+theorem :: NUMERAL2:75
+  73 divides n iff 73 divides value(digits(n,10)/^1,10) + 22*digits(n,10).0;
+
+theorem :: NUMERAL2:76
+  79 divides n iff 79 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 8*digits(n,10).0;
+
+theorem :: NUMERAL2:77
+  79 divides n iff 79 divides value(digits(n,10)/^1,10) + 8*digits(n,10).0;
+
+theorem :: NUMERAL2:78
+  83 divides n iff 83 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 25*digits(n,10).0;
+
+theorem :: NUMERAL2:79
+  83 divides n iff 83 divides value(digits(n,10)/^1,10) + 25*digits(n,10).0;
+
+theorem :: NUMERAL2:80
+  89 divides n iff 89 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) + 9*digits(n,10).0;
+
+theorem :: NUMERAL2:81
+  89 divides n iff 89 divides value(digits(n,10)/^1,10) + 9*digits(n,10).0;
+
+theorem :: NUMERAL2:82
+  97 divides n iff 97 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 29*digits(n,10).0;
+
+theorem :: NUMERAL2:83
+  97 divides n iff 97 divides value(digits(n,10)/^1,10) - 29*digits(n,10).0;
+
+theorem :: NUMERAL2:84
+  101 divides n iff 101 divides
+  value(mid(digits(n,10),2,len(digits(n,10))),10) - 10*digits(n,10).0;
+
+theorem :: NUMERAL2:85
+  101 divides n iff 101 divides value(digits(n,10)/^1,10) - 10*digits(n,10).0;

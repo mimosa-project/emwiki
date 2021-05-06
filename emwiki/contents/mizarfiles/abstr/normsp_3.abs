@@ -1,0 +1,752 @@
+:: Topological Properties of Real Normed Space
+::  by Kazuhisa Nakasho , Yuichi Futa and Yasunari Shidama
+:: 
+:: Received September 15, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies RLSUB_1, UNIALG_1, DUALSP01, NORMSP_3, CFCONT_1, MOD_4, RLVECT_1,
+      ARYTM_1, RELAT_1, FUNCT_1, RSSPACE, RSSPACE3, VECTSP_1, REAL_1, TARSKI,
+      MSSUBFAM, STRUCT_0, REALSET1, FUNCOP_1, FCONT_1, NORMSP_0, SEQ_2,
+      LOPBAN_1, ORDINAL2, ARYTM_3, ALGSTR_0, NORMSP_1, FUNCT_2, PRE_TOPC,
+      SUBSET_1, ZFMISC_1, ORDINAL1, NUMBERS, SEQ_4, XBOOLE_0, CARD_1, SUPINF_2,
+      COMPLEX1, XXREAL_0, XXREAL_2, NAT_1, REWRITE1, METRIC_1, RELAT_2,
+      PARTFUN1, RCOMP_1, TOPS_1, SETFAM_1, TOPGEN_1, CARD_3, NORMSP_2,
+      RLVECT_3, VECTSP10, GROUP_6;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FUNCT_1, CARD_1, ORDINAL1,
+      SETFAM_1, RELSET_1, PARTFUN1, FUNCT_2, DOMAIN_1, FUNCOP_1, REALSET1,
+      NUMBERS, CARD_3, XCMPLX_0, XXREAL_0, XREAL_0, MEMBERED, COMPLEX1,
+      XXREAL_2, SEQ_4, STRUCT_0, ALGSTR_0, PRE_TOPC, TOPS_1, RLVECT_1,
+      RLVECT_3, RLSUB_1, VECTSP_1, VECTSP_4, NORMSP_0, NORMSP_1, NORMSP_2,
+      HAHNBAN, RSSPACE, RSSPACE3, LOPBAN_1, NFCONT_1, VECTSP10, DUALSP01,
+      TOPGEN_1;
+ constructors REALSET1, RSSPACE3, BINOP_2, LOPBAN_2, NFCONT_1, DUALSP01,
+      RELSET_1, SEQ_4, NORMSP_2, CARD_3, PCOMPS_1, RLVECT_3, SETFAM_1, TOPS_1,
+      VECTSP10, TOPGEN_1;
+ registrations STRUCT_0, XREAL_0, NUMBERS, ORDINAL1, MEMBERED, RELAT_1,
+      XXREAL_0, VECTSP_1, FUNCT_2, SEQ_4, RELSET_1, TOPS_1, XCMPLX_0, NORMSP_0,
+      NAT_1, NORMSP_1, DUALSP01, XBOOLE_0, SUBSET_1, XXREAL_2, NORMSP_2,
+      RLSUB_1, REALSET1, LOPBAN_1;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin :: Open and Closed Subsets
+
+registration
+  let X be RealNormSpace;
+  cluster open closed for Subset of X;
+end;
+
+theorem :: NORMSP_3:1
+  for X be RealNormSpace, R be Subset of X
+  holds R is closed iff R` is open;
+
+registration
+  let X be RealNormSpace, R be closed Subset of X;
+  cluster R` -> open;
+end;
+
+theorem :: NORMSP_3:2
+  for X be RealNormSpace, R be Subset of X
+  holds R is open iff R` is closed;
+
+registration
+  let X be RealNormSpace, R be open Subset of X;
+  cluster R` -> closed;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster [#]X -> closed;
+  cluster {} X -> closed;
+  cluster [#]X -> open;
+  cluster {} X -> open;
+end;
+
+registration
+  let X be RealNormSpace;
+  let P,Q be closed Subset of X;
+  cluster P /\ Q -> closed for Subset of X;
+  cluster P \/ Q -> closed for Subset of X;
+end;
+
+registration
+  let X be RealNormSpace;
+  let P,Q be open Subset of X;
+  cluster P /\ Q -> open for Subset of X;
+  cluster P \/ Q -> open for Subset of X;
+end;
+
+definition
+  let X be RealNormSpace, Y be Subset of X;
+  func Cl Y -> Subset of X means
+:: NORMSP_3:def 1
+
+  ex Z be Subset of LinearTopSpaceNorm X st Z = Y & it = Cl Z;
+end;
+
+registration
+  let X be RealNormSpace, Y be Subset of X;
+  cluster Cl Y -> closed;
+end;
+
+theorem :: NORMSP_3:3
+  for X be RealNormSpace,
+      Y be Subset of X,
+      Z be Subset of LinearTopSpaceNorm X
+  st Y = Z
+  holds Cl Y = Cl Z;
+
+theorem :: NORMSP_3:4
+  for X be RealNormSpace, Z be Subset of X holds Z c= Cl(Z);
+
+theorem :: NORMSP_3:5
+  for X be RealNormSpace,
+      Y be Subset of X,
+      v be object
+  st v in the carrier of X
+  holds
+    v in Cl(Y)
+  iff
+    for G being Subset of X
+    st G is open & v in G
+    holds G meets Y;
+
+theorem :: NORMSP_3:6
+  for X be RealNormSpace,
+      Y be Subset of X,
+      v be object
+  holds
+    v in Cl(Y)
+  iff
+    ex seq be sequence of X st rng seq c= Y & seq is convergent & lim seq = v;
+
+theorem :: NORMSP_3:7
+  for X be RealNormSpace, A being Subset of X
+  ex F being Subset-Family of X
+  st (for C being Subset of X holds C in F iff C is closed & A c= C)
+   & Cl A = meet F;
+
+theorem :: NORMSP_3:8
+  for X be RealNormSpace, A,B being Subset of X
+  st A c= B holds Cl A c= Cl B;
+
+theorem :: NORMSP_3:9
+  for X be RealNormSpace, A,B being Subset of X
+  holds Cl(A \/ B) = Cl A \/ Cl B;
+
+theorem :: NORMSP_3:10
+  for X be RealNormSpace, A,B being Subset of X
+  holds Cl (A /\ B) c= (Cl A) /\ Cl B;
+
+theorem :: NORMSP_3:11
+  for X be RealNormSpace, A being Subset of X
+  holds A is closed iff Cl A = A;
+
+theorem :: NORMSP_3:12
+  for X be RealNormSpace, A being Subset of X
+  holds A is open iff Cl([#](X) \ A) = [#](X) \ A;
+
+theorem :: NORMSP_3:13
+  for X be RealNormSpace,
+      Y be Subspace of X,
+      CY be Subset of X
+  st CY = the carrier of Y
+  holds Cl(CY) is linearly-closed;
+
+begin :: Density
+
+definition
+  let X be RealNormSpace, A be Subset of X;
+  attr A is dense means
+:: NORMSP_3:def 2
+  Cl A = [#] X;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster [#]X -> dense;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster open closed dense for Subset of X;
+end;
+
+theorem :: NORMSP_3:14
+  for X be RealNormSpace, A be Subset of X
+  holds
+    A is dense
+  iff
+    for x be Point of X ex seq be sequence of X
+    st rng seq c= A & seq is convergent & lim seq = x;
+
+theorem :: NORMSP_3:15
+  for X be RealNormSpace,
+      Y be Subset of X,
+      Z be Subset of LinearTopSpaceNorm X
+  st Y = Z
+  holds Y is dense iff Z is dense;
+
+theorem :: NORMSP_3:16
+  for X be RealNormSpace, R,S being Subset of X
+  st R is dense & R c= S
+  holds S is dense;
+
+theorem :: NORMSP_3:17
+  for X be RealNormSpace, R be Subset of X
+  holds
+    R is dense
+  iff
+    for S be Subset of X st S <> {} & S is open holds R meets S;
+
+theorem :: NORMSP_3:18
+  for X be RealNormSpace, R,S be Subset of X
+  st R is dense & S is open
+  holds Cl S = Cl(S /\ R);
+
+theorem :: NORMSP_3:19
+  for X be RealNormSpace, R,S be Subset of X
+  st R is dense & S is dense open
+  holds R /\ S is dense;
+
+theorem :: NORMSP_3:20
+  for X be RealNormSpace, A be Subset of X
+  st A is dense holds A is non empty;
+
+begin :: Separability
+
+definition
+  let X be RealNormSpace;
+  attr X is separable means
+:: NORMSP_3:def 3
+  LinearTopSpaceNorm X is separable;
+end;
+
+theorem :: NORMSP_3:21
+  for X be RealNormSpace holds
+  X is separable iff ex seq be sequence of X st rng seq is dense;
+
+begin :: Sequence and Convergence
+
+theorem :: NORMSP_3:22
+  for x,y,z be Real st 0 <= y
+   & for e be Real st 0 < e holds x <= z + y*e
+  holds x <= z;
+
+theorem :: NORMSP_3:23
+  for X be RealNormSpace,
+      x be Point of X,
+      seq be sequence of X
+  st for n be Nat holds seq.n = x
+  holds seq is convergent & lim seq = x;
+
+theorem :: NORMSP_3:24
+  for X be RealNormSpace, x be Point of X holds {x} is closed;
+
+theorem :: NORMSP_3:25
+  for X be RealNormSpace,
+      Y be Subset of X,
+      v be VECTOR of X
+  st Y is closed
+   & for e be Real st 0 < e
+     holds ex w be VECTOR of X st w in Y & ||.v-w.|| <= e
+  holds v in Y;
+
+begin :: Subspace
+
+theorem :: NORMSP_3:26
+  for V be RealNormSpace,
+      W be SubRealNormSpace of V
+  st the carrier of W = the carrier of V
+  holds the NORMSTR of W = the NORMSTR of V;
+
+theorem :: NORMSP_3:27
+  for V be RealNormSpace,
+      W be SubRealNormSpace of V
+  holds W is Subspace of V;
+
+theorem :: NORMSP_3:28
+  for V be RealNormSpace,
+      V1 be SubRealNormSpace of V,
+      x,y being Point of V,
+      x1,y1 being Point of V1,
+      a be Real
+  st x = x1 & y = y1 holds
+    ||.x.|| = ||.x1.||
+  & x+y = x1+y1
+  & a*x = a*x1;
+
+theorem :: NORMSP_3:29
+  for V be RealNormSpace,
+      V1 be SubRealNormSpace of V,
+      S be Subset of V
+  st S = the carrier of V1
+  holds S is linearly-closed;
+
+definition
+  let X be RealNormSpace;
+  let X1 be set;
+  assume
+   X1 c= the carrier of X;
+  func Norm_(X1,X) -> Function of X1,REAL equals
+:: NORMSP_3:def 4
+
+  (the normF of X) | X1;
+end;
+
+definition
+  let V be RealNormSpace, V1 be Subset of V;
+  func NLin(V1) -> non empty NORMSTR equals
+:: NORMSP_3:def 5
+  NORMSTR(# the carrier of Lin(V1), 0.Lin(V1),
+            the addF of Lin(V1),
+            the Mult of Lin(V1),
+            Norm_(the carrier of Lin(V1),V) #);
+end;
+
+theorem :: NORMSP_3:30
+  for V be RealNormSpace, V1 be Subset of V
+  holds NLin(V1) is SubRealNormSpace of V;
+
+definition
+  let V be RealNormSpace, V1 be Subset of V;
+  redefine func NLin(V1) -> SubRealNormSpace of V;
+end;
+
+theorem :: NORMSP_3:31
+  for V be RealLinearSpace, V1 be Subset of V
+  st V1 <> {} & V1 is linearly-closed
+  holds the carrier of Lin(V1) = V1;
+
+theorem :: NORMSP_3:32
+  for V be RealNormSpace,
+      W be SubRealNormSpace of V,
+      V1 be Subset of V
+  st the carrier of W = V1
+  holds NLin(V1) = the NORMSTR of W;
+
+begin :: Linear Functions
+
+theorem :: NORMSP_3:33
+  for X,Y be RealLinearSpace,
+      f be Function of X, Y
+  st f is homogeneous
+  holds f"{0.Y} is non empty;
+
+registration
+  let X,Y be RealLinearSpace,
+  f be LinearOperator of X,Y;
+  cluster f"{0.Y} -> non empty;
+end;
+
+theorem :: NORMSP_3:34
+  for X,Y be RealLinearSpace,
+      f be Function of X, Y
+  st f is additive homogeneous
+  holds f"{0.Y} is linearly-closed;
+
+theorem :: NORMSP_3:35
+  for X,Y be RealLinearSpace,
+      f be Function of X, Y
+  st f is additive homogeneous
+  holds rng f is linearly-closed;
+
+definition
+  let X,Y be RealLinearSpace,
+      f be LinearOperator of X,Y;
+  func Ker(f) -> Subspace of X equals
+:: NORMSP_3:def 6
+  Lin(f"{0.Y});
+end;
+
+definition
+  let X,Y be RealNormSpace,
+      f be LinearOperator of X,Y;
+  func NKer(f) -> SubRealNormSpace of X equals
+:: NORMSP_3:def 7
+  NLin(f"{0.Y});
+end;
+
+definition
+  let X,Y be RealLinearSpace,
+      f be LinearOperator of X,Y;
+  func Im(f) -> Subspace of Y equals
+:: NORMSP_3:def 8
+  Lin(rng f);
+end;
+
+definition
+  let X,Y be RealNormSpace,
+      f be LinearOperator of X,Y;
+  func Im(f) -> SubRealNormSpace of Y equals
+:: NORMSP_3:def 9
+  NLin(rng f);
+end;
+
+definition
+  let X,Y be RealLinearSpace,
+      L be LinearOperator of X,Y;
+  attr L is isomorphism means
+:: NORMSP_3:def 10
+  L is one-to-one onto;
+end;
+
+registration
+  let X,Y be RealLinearSpace;
+  cluster isomorphism -> one-to-one onto for LinearOperator of X,Y;
+  cluster one-to-one onto -> isomorphism for LinearOperator of X,Y;
+end;
+
+theorem :: NORMSP_3:36
+  for X,Y be RealLinearSpace,
+      L be LinearOperator of X,Y
+  st L is isomorphism holds
+  ex K be LinearOperator of Y,X st K = L" & K is isomorphism;
+
+definition
+  let X,Y be RealNormSpace,
+      L be LinearOperator of X,Y;
+  attr L is isomorphism means
+:: NORMSP_3:def 11
+  L is one-to-one onto
+  & for x be Point of X holds ||.x.|| = ||.L.x.||;
+end;
+
+registration
+  let X,Y be RealNormSpace;
+  cluster isomorphism -> one-to-one onto for LinearOperator of X,Y;
+end;
+
+theorem :: NORMSP_3:37
+  for X,Y be RealNormSpace,
+      L be LinearOperator of X,Y
+  st L is isomorphism
+  holds
+  ex K be Lipschitzian LinearOperator of Y,X
+  st K = L" & K is isomorphism;
+
+theorem :: NORMSP_3:38
+  for X,Y be RealNormSpace,
+      L be Lipschitzian LinearOperator of X,Y,
+      seq be sequence of X holds
+  seq is convergent implies L * seq is convergent & lim(L * seq) = L.(lim seq);
+
+theorem :: NORMSP_3:39
+  for X,Y be RealNormSpace,
+      L be Function of X,Y,
+      w be Point of Y
+  st L is_continuous_on the carrier of X
+  holds L"{w} is closed;
+
+theorem :: NORMSP_3:40
+  for X,Y be RealNormSpace, L be Lipschitzian LinearOperator of X,Y holds
+  the carrier of Ker L = L"{0.Y} & L"{0.Y} is closed;
+
+theorem :: NORMSP_3:41
+  for X,Y be RealNormSpace,
+      L be Lipschitzian LinearOperator of X,Y,
+      seq be sequence of X
+  st L is isomorphism
+  holds seq is convergent iff L * seq is convergent;
+
+theorem :: NORMSP_3:42
+  for X,Y be RealNormSpace,
+      L be Lipschitzian LinearOperator of X,Y,
+      seq be sequence of X
+  st L is isomorphism
+  holds
+  seq is Cauchy_sequence_by_Norm implies L * seq is Cauchy_sequence_by_Norm;
+
+theorem :: NORMSP_3:43
+  for X,Y be RealNormSpace,
+      L be Lipschitzian LinearOperator of X,Y,
+      seq be sequence of X
+  st L is isomorphism
+  holds
+  seq is Cauchy_sequence_by_Norm iff L * seq is Cauchy_sequence_by_Norm;
+
+theorem :: NORMSP_3:44
+  for X,Y be RealNormSpace
+  st ex L be Lipschitzian LinearOperator of X,Y st L is isomorphism
+  holds X is complete iff Y is complete;
+
+theorem :: NORMSP_3:45
+  for X,Y be RealNormSpace,
+      L be Lipschitzian LinearOperator of X,Y,
+      V be Subset of X,
+      W be Subset of Y
+  st L is isomorphism & W = L.:V
+  holds V is closed iff W is closed;
+
+theorem :: NORMSP_3:46
+  for X,Y be RealNormSpace, L be LinearOperator of X,Y st L is onto
+  holds Im(L) = the NORMSTR of Y;
+
+begin :: Banach Space
+
+theorem :: NORMSP_3:47
+  for V be RealBanachSpace, V1 be SubRealNormSpace of V
+  st ex CV1 be Subset of V st CV1 = the carrier of V1 & CV1 is closed
+  holds V1 is RealBanachSpace;
+
+theorem :: NORMSP_3:48
+  for V be RealNormSpace,
+      V1 be SubRealNormSpace of V,
+      CV1 be Subset of V
+  st V1 is complete & CV1 = the carrier of V1
+  holds CV1 is closed;
+
+theorem :: NORMSP_3:49
+  for X be RealBanachSpace, M be non empty Subset of X
+  st M is linearly-closed & M is closed
+  holds NLin(M) is RealBanachSpace;
+
+begin :: Quotient Vector Space
+
+definition
+  let X be RealLinearSpace,
+      Y be Subspace of X;
+  redefine func RLSp2RVSp Y -> Subspace of RLSp2RVSp X;
+end;
+
+definition
+  let X be RealLinearSpace,
+      Y be Subspace of X;
+  func VectQuot(X,Y) -> RealLinearSpace equals
+:: NORMSP_3:def 12
+  RVSp2RLSp VectQuot(RLSp2RVSp X, RLSp2RVSp Y);
+end;
+
+theorem :: NORMSP_3:50
+  for X be RealLinearSpace,
+      v be Element of X,
+      a be Real,
+      v1 be Element of RLSp2RVSp X,
+      a1 be Element of F_Real
+  st v = v1 & a = a1
+  holds a * v = a1 * v1;
+
+theorem :: NORMSP_3:51
+  for X be VectSp of F_Real,
+      v be Element of X,
+      a be Element of F_Real,
+      v1 be Element of RVSp2RLSp X,
+      a1 be Real
+  st v = v1 & a = a1
+  holds a * v = a1 * v1;
+
+theorem :: NORMSP_3:52
+  for X be RealLinearSpace,
+      Y be Subspace of X,
+      v be Element of X,
+      v1 be Element of RLSp2RVSp X
+  st v = v1
+  holds v + Y = v1 + RLSp2RVSp Y;
+
+theorem :: NORMSP_3:53
+  for X be RealLinearSpace, Y be Subspace of X holds
+  for x be object holds x is Coset of Y iff x is Coset of RLSp2RVSp Y;
+
+definition
+  let X be RealLinearSpace, Y be Subspace of X;
+  func CosetSet(X,Y) -> non empty Subset-Family of X equals
+:: NORMSP_3:def 13
+  the set of all A where A is Coset of Y;
+end;
+
+definition
+  let V be RealLinearSpace, W be Subspace of V;
+  func zeroCoset(V,W) -> Element of CosetSet(V,W) equals
+:: NORMSP_3:def 14
+  the carrier of W;
+end;
+
+theorem :: NORMSP_3:54
+  for X be RealLinearSpace, Y be Subspace of X
+  holds CosetSet(X,Y) = CosetSet(RLSp2RVSp X,RLSp2RVSp Y);
+
+theorem :: NORMSP_3:55
+  for V be RealLinearSpace, W be Subspace of V
+  holds the carrier of VectQuot(V,W) = CosetSet(V,W);
+
+theorem :: NORMSP_3:56
+  for V be RealLinearSpace, W be Subspace of V holds
+  for x be object holds x is Point of VectQuot(V,W)
+    iff ex v be Point of V st x = v + W;
+
+theorem :: NORMSP_3:57
+  for V be RealLinearSpace, W be Subspace of V
+  holds 0. VectQuot(V,W) = zeroCoset(V,W);
+
+theorem :: NORMSP_3:58
+  for V be RealLinearSpace, W be Subspace of V holds
+  for A be VECTOR of VectQuot(V,W), v be VECTOR of V, a be Real st A = v + W
+  holds a * A = a * v + W;
+
+theorem :: NORMSP_3:59
+  for V be RealLinearSpace, W be Subspace of V holds
+  for A be VECTOR of VectQuot(V,W), v be VECTOR of V, a be Real st A = v + W
+  holds -A = -v + W;
+
+theorem :: NORMSP_3:60
+  for V be RealLinearSpace, W be Subspace of V holds
+  for A1,A2 be VECTOR of VectQuot(V,W),
+      v1,v2 be VECTOR of V
+  st A1 = v1 + W & A2 = v2 + W
+  holds A1 + A2 = v1 + v2 + W;
+
+theorem :: NORMSP_3:61
+  for V be RealLinearSpace, W be Subspace of V holds
+  for A1,A2 be VECTOR of VectQuot(V,W),
+      v1,v2 be VECTOR of V
+  st A1 = v1 + W & A2 = v2 + W
+  holds A1 - A2 = (v1 - v2) + W;
+
+theorem :: NORMSP_3:62
+  for V be RealLinearSpace, W be Subspace of V
+  holds 0.VectQuot(V,W) = the carrier of W & 0.VectQuot(V,W) = 0.V + W;
+
+theorem :: NORMSP_3:63
+  for V be RealLinearSpace, W be Subspace of V holds
+  ex QL be LinearOperator of V, VectQuot(V,W)
+  st QL is onto & for v be VECTOR of V holds QL.v = v + W;
+
+definition
+  let V be RealLinearSpace, W be Subspace of V;
+  func InducedSur(V,W) -> LinearOperator of V, VectQuot(V,W) means
+:: NORMSP_3:def 15
+
+  it is onto & for v being VECTOR of V holds it.v = v + W;
+end;
+
+theorem :: NORMSP_3:64
+  for V,W be RealLinearSpace, L be LinearOperator of V,W holds
+  ex QL be LinearOperator of VectQuot(V,Ker L), Im L
+  st QL is isomorphism
+   & for z be Point of VectQuot(V,Ker L), v be VECTOR of V
+     st z = v + Ker L holds QL.z = L.v;
+
+definition
+  let V,W be RealLinearSpace, L be LinearOperator of V,W;
+  func InducedBi (V,W,L) -> LinearOperator of VectQuot(V,Ker L),Im L means
+:: NORMSP_3:def 16
+
+    it is isomorphism
+  & for z be Point of VectQuot(V,Ker L), v be VECTOR of V
+    st z = v + Ker L holds it.z = L.v;
+end;
+
+theorem :: NORMSP_3:65
+  for V,W be RealLinearSpace, L be LinearOperator of V,W
+  holds L = InducedBi(V,W,L) * InducedSur(V,Ker L);
+
+definition
+  let V be RealNormSpace, W be Subspace of V, v be VECTOR of V;
+  func NormVSets(V,W,v) -> non empty Subset of REAL equals
+:: NORMSP_3:def 17
+  {||.x.|| where x is VECTOR of V : x in v + W};
+end;
+
+registration
+  let V be RealNormSpace, W be Subspace of V, v be VECTOR of V;
+  cluster NormVSets(V,W,v) -> non empty bounded_below;
+end;
+
+theorem :: NORMSP_3:66
+  for V be RealNormSpace, W be Subspace of V, v be VECTOR of V holds
+  0 <= lower_bound NormVSets(V,W,v) & lower_bound NormVSets(V,W,v) <= ||.v.||;
+
+definition
+  let V be RealNormSpace, W be Subspace of V;
+  func NormCoset(V,W) -> Function of CosetSet(V,W), REAL means
+:: NORMSP_3:def 18
+
+  for A be Element of CosetSet(V,W) for v be VECTOR of V st A = v + W holds
+  it.A = lower_bound NormVSets(V,W,v);
+end;
+
+definition
+  let X be RealNormSpace, Y be Subspace of X;
+  assume
+   ex CY be Subset of X st CY = the carrier of Y & CY is closed;
+  func NVectQuot (X,Y) -> strict RealNormSpace means
+:: NORMSP_3:def 19
+
+  the RLSStruct of it = VectQuot (X,Y) & the normF of it = NormCoset(X,Y);
+end;
+
+theorem :: NORMSP_3:67
+  for V,W be RealNormSpace,
+      L be Lipschitzian LinearOperator of V,W
+  holds
+  ex QL be Lipschitzian LinearOperator of NVectQuot(V,Ker L), Im L,
+     PQL be Point of R_NormSpace_of_BoundedLinearOperators(NVectQuot(V,Ker L),
+     Im L),
+     PL be Point of R_NormSpace_of_BoundedLinearOperators(V,W)
+  st QL is onto & QL is one-to-one
+   & L = PL & QL = PQL & ||.PL.|| = ||.PQL.||
+   & for z be Point of NVectQuot(V,Ker L), v be VECTOR of V
+     st z = v + Ker L holds QL.z = L.v;
+
+begin :: Closure
+
+definition
+  let X be RealNormSpace, Y be Subset of X;
+  func ClNLin(Y) -> non empty NORMSTR means
+:: NORMSP_3:def 20
+
+  ex Z be Subset of X
+  st Z = the carrier of Lin(Y)
+   & it = NORMSTR(# Cl(Z),
+                    Zero_(Cl(Z), X),
+                    Add_(Cl(Z), X),
+                    Mult_(Cl(Z), X),
+                    Norm_(Cl(Z),X) #);
+end;
+
+theorem :: NORMSP_3:68
+  for X be RealNormSpace, V1 be Subset of X, CL be Subset of X
+  st CL = the carrier of ClNLin(V1)
+  holds RLSStruct(# CL,Zero_(CL,X), Add_(CL,X),Mult_(CL,X) #) is Subspace of X;
+
+theorem :: NORMSP_3:69
+  for X be RealNormSpace, Y be Subset of X,
+  f,g be Point of ClNLin(Y), a be Real holds
+    (||.f.|| = 0 iff f = 0.ClNLin(Y))
+  & ||.a*f.|| = |.a.| * ||.f.||
+  & ||.f+g.|| <= ||.f.|| + ||.g.||;
+
+registration
+  let X be RealNormSpace, Y be Subset of X;
+  cluster ClNLin(Y) -> reflexive discerning RealNormSpace-like;
+end;
+
+theorem :: NORMSP_3:70
+  for V be RealNormSpace, V1 be Subset of V
+  holds ClNLin(V1) is RealNormSpace;
+
+registration
+  let X be RealNormSpace, Y be Subset of X;
+  cluster ClNLin(Y) -> reflexive discerning RealNormSpace-like
+   vector-distributive scalar-distributive scalar-associative scalar-unital
+   Abelian add-associative right_zeroed right_complementable;
+end;
+
+theorem :: NORMSP_3:71
+  for V be RealNormSpace, V1 be Subset of V
+  holds ClNLin(V1) is SubRealNormSpace of V;
+
+definition
+  let V be RealNormSpace, V1 be Subset of V;
+  redefine func ClNLin(V1) -> SubRealNormSpace of V;
+end;

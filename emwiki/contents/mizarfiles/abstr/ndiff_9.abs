@@ -1,0 +1,407 @@
+:: Implicit Function Theorem -- Part {II}
+::  by Kazuhisa Nakasho and Yasunari Shidama
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, REAL_1, ZFMISC_1, NORMSP_1, PRE_TOPC, PARTFUN1, FUNCT_1,
+      NAT_1, FDIFF_1, SUBSET_1, RELAT_1, LOPBAN_1, RCOMP_1, SQUARE_1, TARSKI,
+      ARYTM_3, VALUED_1, ALGSTR_0, PRALG_1, PREPOWER, FUNCT_2, ARYTM_1, SEQ_2,
+      ORDINAL2, SUPINF_2, FCONT_1, STRUCT_0, CARD_1, XXREAL_0, XBOOLE_0,
+      FINSEQ_1, RLVECT_1, CFCONT_1, NDIFF_7, MCART_1, CARD_3, METRIC_1,
+      LOPBAN_2, LOPBAN_3, SEQ_4, LOPBAN_8, LOPBAN13;
+ notations TARSKI, ZFMISC_1, SUBSET_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2,
+      BINOP_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, SQUARE_1, NAT_1, FINSEQ_1,
+      SEQ_4, STRUCT_0, PRE_TOPC, RLVECT_1, NORMSP_0, NORMSP_1, VFUNCT_1,
+      LOPBAN_1, LOPBAN_2, LOPBAN_3, LOPBAN_5, LOPBAN_8, NFCONT_1, PRVECT_2,
+      NDIFF_1, NDIFF_2, PRVECT_3, NDIFF_7, NDIFF_8, LOPBAN13;
+ constructors SQUARE_1, VFUNCT_1, NDIFF_1, RELSET_1, NAT_D, RSSPACE3, LOPBAN_3,
+      NDIFF_5, NDIFF_2, DOMAIN_1, LOPBAN_8, NDIFF_7, NDIFF_8, SEQ_4, LOPBAN_5,
+      LOPBAN13;
+ registrations RELSET_1, STRUCT_0, XREAL_0, MEMBERED, FUNCT_1, FUNCT_2,
+      XBOOLE_0, ORDINAL1, LOPBAN_1, LOPBAN_2, PRVECT_2, PRVECT_3, XXREAL_0,
+      XTUPLE_0, NDIFF_7, NDIFF_8, NORMSP_1, SQUARE_1, FINSEQ_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Properties of Lipschitz continuous linear operators
+
+ reserve S,T,W,Y for RealNormSpace;
+ reserve f,f1,f2 for PartFunc of S,T;
+ reserve Z for Subset of S;
+ reserve i,n for Nat;
+
+theorem :: NDIFF_9:1
+  for E,F be RealNormSpace,
+      f be PartFunc of E,F,
+      Z be Subset of E,
+      z be Point of E
+  st Z is open
+   & z in Z
+   & Z c= dom f
+   & f is_differentiable_in z
+  holds
+     f|Z is_differentiable_in z
+   & diff(f,z) = diff(f|Z,z);
+
+theorem :: NDIFF_9:2
+  for E,F,G be RealNormSpace,
+      f be PartFunc of [:E,F:],G,
+      Z be Subset of [:E,F:],
+      z be Point of [:E,F:]
+  st Z is open & z in Z & Z c= dom f
+  holds
+  ( f is_partial_differentiable_in`1 z
+    implies
+      ( f|Z is_partial_differentiable_in`1 z
+      & partdiff`1(f,z) = partdiff`1(f|Z,z) ) )
+  &
+  ( f is_partial_differentiable_in`2 z
+    implies
+      ( f|Z is_partial_differentiable_in`2 z
+      & partdiff`2(f,z) = partdiff`2(f|Z,z) ) );
+
+theorem :: NDIFF_9:3
+  for X,E,G,F be RealNormSpace,
+      BL be BilinearOperator of E,F,G,
+      f be PartFunc of X,E,
+      g be PartFunc of X,F,
+      S be Subset of X
+  st BL is_continuous_on the carrier of [:E,F:]
+   & S c= dom f & S c= dom g
+   & ( for s be Point of X st s in S holds f is_continuous_in s )
+   & ( for s be Point of X st s in S holds g is_continuous_in s )
+  holds
+    ex H be PartFunc of X,G
+    st dom H = S
+     & ( for s be Point of X st s in S holds H.s = BL. (f.s,g.s) )
+     & H is_continuous_on S;
+
+theorem :: NDIFF_9:4
+  for E,F be RealNormSpace,
+        g be PartFunc of E,F,
+        A be Subset of E
+  st g is_continuous_on A
+   & dom g = A
+  holds
+    ex xg be PartFunc of E,[:E,F:]
+    st dom xg = A
+     & ( for x be Point of E st x in A
+         holds xg.x = [x,g.x] )
+     & xg is_continuous_on A;
+
+theorem :: NDIFF_9:5
+  for S, T, V being RealNormSpace
+  for x0 being Point of V
+  for f1 being PartFunc of the carrier of V, the carrier of S
+  for f2 being PartFunc of the carrier of S, the carrier of T
+  st x0 in dom (f2 * f1)
+   & f1 is_continuous_in x0
+   & f2 is_continuous_in f1 /. x0
+  holds f2 * f1 is_continuous_in x0;
+
+theorem :: NDIFF_9:6
+  for E,F be RealNormSpace,
+      z be Point of [:E,F:],
+      x be Point of E,
+      y be Point of F
+  st z = [x,y]
+  holds ||.z.|| <= ||.x.|| + ||.y.||;
+
+theorem :: NDIFF_9:7
+  for E,F,G be RealNormSpace,
+      L be LinearOperator of [:E,F:],G
+  holds
+    ex L1 be LinearOperator of E,G,
+       L2 be LinearOperator of F,G
+    st ( for x be Point of E,
+             y be Point of F
+         holds L. [x,y] = L1.x + L2.y )
+     & ( for x be Point of E holds L1.x = L/. [x,0.F] )
+     & ( for y be Point of F holds L2.y = L/. [0.E,y] );
+
+theorem :: NDIFF_9:8
+  for E,F,G be RealNormSpace,
+      L be LinearOperator of [:E,F:],G,
+      L11 be LinearOperator of E,G,
+      L12 be LinearOperator of F,G,
+      L21 be LinearOperator of E,G,
+      L22 be LinearOperator of F,G
+  st ( for x be Point of E,
+           y be Point of F
+       holds L. [x,y] = L11.x + L12.y )
+   & ( for x be Point of E,
+           y be Point of F
+       holds L. [x,y] = L21.x + L22.y )
+  holds L11 = L21 & L12 = L22;
+
+theorem :: NDIFF_9:9
+  for E,F,G be RealNormSpace,
+      L1 be LinearOperator of E,G,
+      L2 be LinearOperator of F,G
+  holds
+    ex L be LinearOperator of [:E,F:],G
+    st ( for x be Point of E,
+             y be Point of F
+         holds L. [x,y] = L1.x + L2.y )
+     & ( for x be Point of E holds L1.x = L/. [x,0.F] )
+     & ( for y be Point of F holds L2.y = L/. [0.E,y] );
+
+theorem :: NDIFF_9:10
+  for E,F,G be RealNormSpace,
+      L be Lipschitzian LinearOperator of [:E,F:],G
+  holds
+    ex L1 be Lipschitzian LinearOperator of E,G,
+       L2 be Lipschitzian LinearOperator of F,G
+    st ( for x be Point of E,
+             y be Point of F
+         holds L. [x,y] = L1.x + L2.y )
+     & ( for x be Point of E holds L1.x = L/. [x,0.F] )
+     & ( for y be Point of F holds L2.y = L/. [0.E,y] );
+
+theorem :: NDIFF_9:11
+  for E,F,G be RealNormSpace,
+      L1 be Lipschitzian LinearOperator of E,G,
+      L2 be Lipschitzian LinearOperator of F,G
+  holds
+    ex L be Lipschitzian LinearOperator of [:E,F:],G
+    st ( for x be Point of E,
+             y be Point of F
+         holds L. [x,y] = L1.x + L2.y )
+     & ( for x be Point of E holds L1.x = L/. [x,0.F] )
+     & ( for y be Point of F holds L2.y = L/. [0.E,y] );
+
+theorem :: NDIFF_9:12
+  for E,F,G be RealNormSpace,
+      L be Point of R_NormSpace_of_BoundedLinearOperators([:E,F:],G)
+  holds
+    ex L1 be Point of R_NormSpace_of_BoundedLinearOperators(E,G),
+       L2 be Point of R_NormSpace_of_BoundedLinearOperators(F,G)
+    st ( for x be Point of E,
+             y be Point of F
+         holds L. [x,y] = L1.x + L2.y )
+     & ( for x be Point of E holds L1.x = L. [x,0.F] )
+     & ( for y be Point of F holds L2.y = L. [0.E,y] )
+      & ||.L.|| <= ||.L1.|| + ||.L2.||
+      & ||.L1.|| <= ||.L.|| & ||.L2.|| <= ||.L.||;
+
+theorem :: NDIFF_9:13
+  for E,F,G be RealNormSpace,
+      L be Point of R_NormSpace_of_BoundedLinearOperators([:E,F:],G),
+      L11,L12 be Point of R_NormSpace_of_BoundedLinearOperators(E,G),
+      L21,L22 be Point of R_NormSpace_of_BoundedLinearOperators(F,G)
+  st ( for x be Point of E,
+           y be Point of F
+       holds L. [x,y] = L11.x + L21.y )
+   & ( for x be Point of E,
+           y be Point of F
+       holds L. [x,y] = L12.x + L22.y )
+  holds L11 = L12 & L21 = L22;
+
+begin :: Differentiability of implicit function
+
+theorem :: NDIFF_9:14
+  for E,G,F be RealNormSpace,
+      Z be Subset of [:E,F:],
+      f be PartFunc of [:E,F:], G,
+      z be Point of [:E,F:]
+  st f is_differentiable_in z
+  holds
+    f is_partial_differentiable_in`1 z
+  & f is_partial_differentiable_in`2 z
+  & for dx be Point of E,dy be Point of F holds
+    diff(f,z) . [dx,dy] = partdiff`1(f,z).dx + partdiff`2(f,z).dy;
+
+theorem :: NDIFF_9:15
+  for E,G,F be RealNormSpace,
+      Z be Subset of [:E,F:],
+      f be PartFunc of [:E,F:], G,
+      a be Point of E,
+      b be Point of F,
+      c be Point of G,
+      z be Point of [:E,F:],
+      r1,r2 be Real,
+      g be PartFunc of E,F,
+      P be Lipschitzian LinearOperator of E,G,
+      Q be Lipschitzian LinearOperator of G,F
+  st Z is open & dom f = Z
+   & z = [a,b] & z in Z
+   & f.(a,b) = c
+   & f is_differentiable_in z
+   & 0 < r1 & 0 < r2
+   & dom g = Ball(a,r1) & rng g c= Ball(b,r2)
+   & g.a = b
+   & g is_continuous_in a
+   & ( for x be Point of E st x in Ball(a,r1) holds f.(x,g.x) = c )
+   & partdiff`2(f,z) is one-to-one
+   & Q = partdiff`2(f,z)"
+   & P = partdiff`1(f,z)
+  holds
+     g is_differentiable_in a
+   & diff(g,a) = - Q*P;
+
+ reserve X,Y,Z for non trivial RealBanachSpace;
+
+theorem :: NDIFF_9:16
+  for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st u is invertible
+  holds
+    ex K,s be Real
+    st 0 <= K & 0 < s
+     & for du be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+       st ||.du.|| < s
+       holds
+         u+du is invertible
+       & ||.Inv(u+du) - Inv u - (- (Inv u)*du*(Inv u) ) .||
+          <= K * (||.du.|| * ||.du.||);
+
+theorem :: NDIFF_9:17
+  for I be PartFunc of
+         R_NormSpace_of_BoundedLinearOperators(X,Y),
+         R_NormSpace_of_BoundedLinearOperators(Y,X)
+  st dom I = InvertibleOperators(X,Y)
+   & for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+      st u in InvertibleOperators(X,Y)
+     holds I.u = Inv u
+  holds
+    for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+     st u in InvertibleOperators(X,Y)
+    holds I is_differentiable_in u
+        & for du be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+          holds diff(I,u).du = - (Inv u) * du * (Inv u);
+
+theorem :: NDIFF_9:18
+  ex I be PartFunc of
+         R_NormSpace_of_BoundedLinearOperators(X,Y),
+         R_NormSpace_of_BoundedLinearOperators(Y,X)
+  st dom I = InvertibleOperators(X,Y)
+   & rng I = InvertibleOperators(Y,X)
+   & I is one-to-one
+   & I is_differentiable_on InvertibleOperators(X,Y)
+   & ( ex J be PartFunc of
+           R_NormSpace_of_BoundedLinearOperators(Y,X),
+           R_NormSpace_of_BoundedLinearOperators(X,Y)
+       st J = I"
+        & J is one-to-one
+        & dom J = InvertibleOperators(Y,X)
+        & rng J = InvertibleOperators(X,Y)
+        & J is_differentiable_on InvertibleOperators(Y,X))
+   & ( for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+       st u in InvertibleOperators(X,Y)
+       holds I.u = Inv u )
+   & for u,du be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+     st u in InvertibleOperators(X,Y)
+     holds diff(I,u).du =- (Inv u) * du * (Inv u);
+
+theorem :: NDIFF_9:19
+  for E,G,F be RealNormSpace,
+      Z be Subset of [:E,F:],
+      f be PartFunc of [:E,F:], G,
+      a be Point of E,
+      b be Point of F,
+      c be Point of G,
+      z be Point of [:E,F:],
+      A be Subset of E,
+      B be Subset of F,
+      g be PartFunc of E,F
+  st Z is open & dom f = Z
+   & A is open & B is open & [:A,B:] c= Z
+   & z = [a,b] & f.(a,b) = c
+   & f is_differentiable_in z
+   & dom g = A & rng g c= B & a in A
+   & g.a = b
+   & g is_continuous_in a
+   & ( for x be Point of E st x in A holds f.(x,g.x) = c )
+   & partdiff`2(f,z) is invertible
+  holds
+     g is_differentiable_in a
+   & diff(g,a) = - ( Inv partdiff`2(f,z)) * partdiff`1(f,z);
+
+theorem :: NDIFF_9:20
+  for E be RealNormSpace,
+      G,F be non trivial RealBanachSpace,
+      Z be Subset of [:E,F:],
+      f be PartFunc of [:E,F:], G,
+      c be Point of G,
+      A be Subset of E,
+      B be Subset of F,
+      g be PartFunc of E,F
+  st Z is open & dom f = Z
+   & A is open & B is open & [:A,B:] c= Z
+   & f is_differentiable_on Z
+   & f `| Z is_continuous_on Z
+   & dom g = A & rng g c= B
+   & g is_continuous_on A
+   & ( for x be Point of E st x in A holds f.(x,g.x) = c )
+   & ( for x be Point of E, z be Point of [:E,F:]
+        st x in A & z =[x,g.x]
+       holds partdiff`2(f,z) is invertible )
+  holds
+     g is_differentiable_on A
+   & g `| A is_continuous_on A
+   & for x be Point of E,
+         z be Point of [:E,F:]
+      st x in A & z =[x,g.x]
+     holds diff(g,x) = - (Inv partdiff`2(f,z)) * partdiff`1(f,z);
+
+theorem :: NDIFF_9:21
+  for E be RealNormSpace,
+      G,F be non trivial RealBanachSpace,
+      Z be Subset of [:E,F:],
+      f be PartFunc of [:E,F:], G,
+      a be Point of E,
+      b be Point of F,
+      c be Point of G,
+      z be Point of [:E,F:]
+  st Z is open & dom f = Z
+   & f is_differentiable_on Z
+   & f `| Z is_continuous_on Z
+   & [a,b] in Z & f.(a,b) = c
+   & z = [a,b]
+   & partdiff`2(f,z) is invertible
+  holds
+    ex r1,r2 be Real
+    st 0 < r1 & 0 < r2
+     & [:Ball(a,r1),cl_Ball(b,r2):] c= Z
+     & ( for x be Point of E st x in Ball(a,r1) holds
+         ex y be Point of F
+         st y in Ball(b,r2) & f.(x,y) = c )
+     & ( for x be Point of E st x in Ball(a,r1) holds
+         for y1,y2 be Point of F
+         st y1 in Ball(b,r2) & y2 in Ball(b,r2)
+          & f.(x,y1) =c & f.(x,y2)= c
+         holds y1=y2 )
+     & ( ex g be PartFunc of E,F
+         st dom g = Ball(a,r1) & rng g c= Ball(b,r2)
+          & g is_continuous_on Ball(a,r1)
+          & g.a = b
+          & ( for x be Point of E st x in Ball(a,r1)
+              holds f.(x,g.x) = c )
+          & g is_differentiable_on Ball(a,r1)
+          & g `| Ball(a,r1) is_continuous_on Ball(a,r1)
+          & ( for x be Point of E, z be Point of [:E,F:]
+              st x in Ball(a,r1) & z = [x,g.x]
+              holds diff(g,x) = - ( Inv partdiff`2(f,z)) * partdiff`1(f,z) )
+          & ( for x be Point of E, z be Point of [:E,F:]
+              st x in Ball(a,r1) & z =[x,g.x]
+              holds partdiff`2(f,z) is invertible ) )
+     & ( for g1,g2 be PartFunc of E,F
+         st dom g1 = Ball(a,r1)
+          & rng g1 c= Ball(b,r2)
+          & ( for x be Point of E st x in Ball(a,r1)
+              holds f.(x,g1.x) = c )
+          & dom g2 = Ball(a,r1)
+          & rng g2 c= Ball(b,r2)
+          & ( for x be Point of E st x in Ball(a,r1)
+              holds f.(x,g2.x) = c )
+         holds g1 = g2);

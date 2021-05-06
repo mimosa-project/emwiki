@@ -1,0 +1,520 @@
+:: Integral of Non Positive Functions
+::  by Noboru Endou
+::
+:: Received September 3, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_0, SUBSET_1, CARD_1, ARYTM_3, ARYTM_1, RELAT_1,
+      NAT_1, REAL_1, CARD_3, FUNCT_1, FINSEQ_1, XBOOLE_0, TARSKI, PROB_1,
+      FUNCOP_1, SUPINF_2, VALUED_0, FUNCT_2, PARTFUN1, MEASURE1, ORDINAL2,
+      SERIES_1, MESFUNC5, SEQ_2, SEQFUNC, PBOOLE, VALUED_1, MESFUNC1, MESFUNC8,
+      MESFUNC2, MESFUNC3, COMPLEX1, XCMPLX_0, RFUNCT_3, INT_1, MSSUBFAM;
+ notations TARSKI, XBOOLE_0, SUBSET_1, XXREAL_3, XXREAL_0, XREAL_0, ORDINAL1,
+      NUMBERS, FUNCT_1, RELSET_1, FUNCT_2, FUNCOP_1, PARTFUN1, PROB_1, PROB_3,
+      NAT_1, NAT_D, VALUED_0, FINSEQ_1, SUPINF_2, SEQFUNC, MEASURE1, MESFUNC1,
+      MESFUNC2, MESFUNC3, MESFUNC5, MESFUNC8, DBLSEQ_3, MESFUNC9, EXTREAL1;
+ constructors SEQFUNC, PROB_3, MESFUNC8, MESFUNC9, EXTREAL1, SUPINF_1,
+      MESFUNC2, DBLSEQ_3, MEASUR11, MESFUNC3, NAT_D;
+ registrations ORDINAL1, XBOOLE_0, RELAT_1, XXREAL_0, XREAL_0, NAT_1, FINSEQ_1,
+      NUMBERS, VALUED_0, MESFUNC9, RELSET_1, PARTFUN1, XXREAL_3, DBLSEQ_3,
+      MEASUR11, MESFUNC5;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+registration
+  let X be non empty set, f be nonnegative PartFunc of X,ExtREAL;
+  cluster -f -> nonpositive;
+end;
+
+registration
+  let X be non empty set, f be nonpositive PartFunc of X,ExtREAL;
+  cluster -f -> nonnegative;
+end;
+
+theorem :: MESFUN11:1
+  for X be non empty set, f be nonpositive PartFunc of X,ExtREAL, E be set
+    holds f|E is nonpositive;
+
+theorem :: MESFUN11:2
+  for X be non empty set, A be set, r be Real, f be PartFunc of X,ExtREAL
+    holds (r(#)f)|A = r(#)(f|A);
+
+theorem :: MESFUN11:3
+  for X be non empty set, A be set, f be PartFunc of X,ExtREAL
+     holds -(f|A) = (-f)|A;
+
+theorem :: MESFUN11:4
+  for X be non empty set, f be PartFunc of X,ExtREAL,c be Real st
+  f is nonpositive holds
+  (0 <= c implies c(#)f is nonpositive) &
+  (c <= 0 implies c(#)f is nonnegative);
+
+theorem :: MESFUN11:5
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+      f be PartFunc of X,ExtREAL holds
+  max+f is nonnegative & max-f is nonnegative &
+    |.f.| is nonnegative;
+
+theorem :: MESFUN11:6
+  for X be non empty set, f be PartFunc of X,ExtREAL, x be object holds
+    f.x <= (max+f).x & f.x >= -(max-f).x;
+
+theorem :: MESFUN11:7
+  for X be non empty set, f be PartFunc of X,ExtREAL,
+    r be positive Real holds less_dom(f,r) = less_dom(max+f,r);
+
+theorem :: MESFUN11:8
+  for X be non empty set, f be PartFunc of X,ExtREAL,
+    r be non positive Real holds less_dom(f,r) = great_dom(max-f,-r);
+
+theorem :: MESFUN11:9
+  for X be non empty set, f,g be PartFunc of X,ExtREAL,
+      a be ExtReal, r be Real
+    st r <> 0 & g = r(#)f holds eq_dom(f,a) = eq_dom(g,a*r);
+
+theorem :: MESFUN11:10
+  for X be non empty set, S be SigmaField of X, f be PartFunc of X,ExtREAL,
+      A be Element of S st A c= dom f holds
+    f is A-measurable iff
+      max+f is A-measurable & max-f is A-measurable;
+
+definition
+  let X be non empty set, f be Function of X,ExtREAL, r be Real;
+  redefine func r(#)f -> Function of X,ExtREAL;
+end;
+
+theorem :: MESFUN11:11
+  for X be non empty set, r be Real, f be without+infty Function of X,ExtREAL
+     st r >= 0 holds r(#)f is without+infty;
+
+registration
+  let X be non empty set;
+  let f be without+infty Function of X,ExtREAL;
+  let r be non negative Real;
+  cluster r(#)f -> without+infty for Function of X,ExtREAL;
+end;
+
+theorem :: MESFUN11:12
+  for X be non empty set, r be Real, f be without+infty Function of X,ExtREAL
+    st r <= 0 holds r(#)f is without-infty;
+
+registration
+  let X be non empty set;
+  let f be without+infty Function of X,ExtREAL;
+  let r be non positive Real;
+  cluster r(#)f -> without-infty;
+end;
+
+theorem :: MESFUN11:13
+  for X be non empty set, r be Real, f be without-infty Function of X,ExtREAL
+    st r >= 0 holds r(#)f is without-infty;
+
+registration
+  let X be non empty set;
+  let f be without-infty Function of X,ExtREAL;
+  let r be non negative Real;
+  cluster r(#)f -> without-infty;
+end;
+
+theorem :: MESFUN11:14
+  for X be non empty set, r be Real, f be without-infty Function of X,ExtREAL
+    st r <= 0 holds r(#)f is without+infty;
+
+registration
+  let X be non empty set;
+  let f be without-infty Function of X,ExtREAL;
+  let r be non positive Real;
+  cluster r(#)f -> without+infty;
+end;
+
+theorem :: MESFUN11:15
+  for X be non empty set, r be Real,
+      f be without-infty without+infty Function of X,ExtREAL holds
+    r(#)f is without-infty without+infty;
+
+registration
+  let X be non empty set;
+  let f be without-infty without+infty Function of X,ExtREAL;
+  let r be Real;
+  cluster r(#)f -> without-infty without+infty;
+end;
+
+theorem :: MESFUN11:16
+  for X be non empty set, r be positive Real, f be Function of X,ExtREAL
+    holds f is without+infty iff r(#)f is without+infty;
+
+theorem :: MESFUN11:17
+  for X be non empty set, r be negative Real, f be Function of X,ExtREAL
+    holds f is without+infty iff r(#)f is without-infty;
+
+theorem :: MESFUN11:18
+  for X be non empty set, r be positive Real, f be Function of X,ExtREAL
+    holds f is without-infty iff r(#)f is without-infty;
+
+theorem :: MESFUN11:19
+  for X be non empty set, r be negative Real, f be Function of X,ExtREAL
+    holds f is without-infty iff r(#)f is without+infty;
+
+theorem :: MESFUN11:20
+  for X be non empty set, r be non zero Real, f be Function of X,ExtREAL
+    holds f is without-infty without+infty iff
+      r(#)f is without-infty without+infty;
+
+theorem :: MESFUN11:21
+  for X,Y be non empty set, f be PartFunc of X,ExtREAL, r be Real
+    st f = Y --> r holds f is without-infty without+infty;
+
+theorem :: MESFUN11:22
+  for X be non empty set, f be Function of X,ExtREAL holds
+    0(#)f = X --> 0
+    & 0(#)f is without-infty without+infty;
+
+theorem :: MESFUN11:23
+for X be non empty set, f,g be PartFunc of X,ExtREAL st
+  f is without-infty without+infty holds
+    dom(f+g)=dom f /\ dom g & dom(f-g)=dom f /\ dom g
+  & dom(g-f)=dom f /\ dom g;
+
+theorem :: MESFUN11:24
+for X be non empty set, f1,f2 be Function of X,ExtREAL
+ st f2 is without-infty without+infty holds
+  f1+f2 is Function of X,ExtREAL
+& for x be Element of X holds (f1+f2).x = f1.x + f2.x;
+
+theorem :: MESFUN11:25
+for X be non empty set, f1,f2 be Function of X,ExtREAL
+ st f1 is without-infty without+infty holds
+  f1-f2 is Function of X,ExtREAL
+& for x be Element of X holds (f1-f2).x = f1.x - f2.x;
+
+theorem :: MESFUN11:26
+for X be non empty set, f1,f2 be Function of X,ExtREAL
+ st f2 is without-infty without+infty holds
+  f1-f2 is Function of X,ExtREAL
+& for x be Element of X holds (f1-f2).x = f1.x - f2.x;
+
+theorem :: MESFUN11:27
+for X,Y be non empty set, f1,f2 be PartFunc of X,ExtREAL st
+  dom f1 c= Y & f2 = Y --> 0 holds f1+f2 = f1 & f1-f2 = f1 & f2-f1 = -f1;
+
+theorem :: MESFUN11:28
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f,g be PartFunc of X,ExtREAL st f is_simple_func_in S &
+g is_simple_func_in S holds f+g is_simple_func_in S;
+
+theorem :: MESFUN11:29
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f,g be PartFunc of X,ExtREAL st f is_simple_func_in S &
+g is_simple_func_in S holds f-g is_simple_func_in S;
+
+theorem :: MESFUN11:30
+for X be non empty set, S be SigmaField of X, f be PartFunc of X,ExtREAL
+ st f is_simple_func_in S holds -f is_simple_func_in S;
+
+theorem :: MESFUN11:31
+for X be non empty set, f be nonnegative PartFunc of X,ExtREAL holds f = max+f;
+
+theorem :: MESFUN11:32
+for X be non empty set, f be nonpositive PartFunc of X,ExtREAL
+ holds f = -(max-f);
+
+theorem :: MESFUN11:33
+  for C being non empty set, f being PartFunc of C,ExtREAL, c be
+  Real st c <= 0 holds max+(c(#)f) = (-c)(#)max-f & max-(c(#)f) = (-c)(#)max+f;
+
+theorem :: MESFUN11:34
+for X be non empty set, f be PartFunc of X,ExtREAL holds
+ max+f = max-(-f);
+
+theorem :: MESFUN11:35
+for X be non empty set, f be PartFunc of X,ExtREAL, r1,r2 be Real
+ holds r1(#)(r2(#)f) = (r1*r2)(#)f;
+
+theorem :: MESFUN11:36
+for X be non empty set, f,g be PartFunc of X,ExtREAL st f = -g holds g = -f;
+
+definition
+  let X be non empty set;
+  let F be Functional_Sequence of X,ExtREAL;
+  let r be Real;
+  func r(#)F -> Functional_Sequence of X,ExtREAL means
+:: MESFUN11:def 1
+  for n being Nat holds it.n = r(#)(F.n);
+end;
+
+definition
+  let X be non empty set;
+  let F be Functional_Sequence of X,ExtREAL;
+  func -F -> Functional_Sequence of X,ExtREAL equals
+:: MESFUN11:def 2
+  (-1)(#)F;
+end;
+
+theorem :: MESFUN11:37
+for X be non empty set, F be Functional_Sequence of X,ExtREAL, n be Nat
+ holds (-F).n = -(F.n);
+
+theorem :: MESFUN11:38
+for X be non empty set, F be Functional_Sequence of X,ExtREAL,
+ x be Element of X holds (-F)#x = -(F#x);
+
+theorem :: MESFUN11:39
+for X be non empty set, F be Functional_Sequence of X,ExtREAL,
+ x be Element of X holds
+  (F#x is convergent_to_+infty iff (-F)#x is convergent_to_-infty) &
+  (F#x is convergent_to_-infty iff (-F)#x is convergent_to_+infty) &
+  (F#x is convergent_to_finite_number
+    iff (-F)#x is convergent_to_finite_number) &
+  (F#x is convergent iff (-F)#x is convergent) &
+  (F#x is convergent implies lim((-F)#x) = - lim(F#x));
+
+theorem :: MESFUN11:40
+  for X be non empty set, F be Functional_Sequence of X,ExtREAL
+    st F is with_the_same_dom holds -F is with_the_same_dom;
+
+theorem :: MESFUN11:41
+  for X be non empty set, F be Functional_Sequence of X,ExtREAL
+    st F is additive holds -F is additive;
+
+theorem :: MESFUN11:42
+for X be non empty set, F be Functional_Sequence of X,ExtREAL, n be Nat
+ holds (Partial_Sums(-F)).n = (-(Partial_Sums F)).n;
+
+theorem :: MESFUN11:43
+  for seq be ExtREAL_sequence, n be Nat holds
+    (Partial_Sums(-seq)).n = -((Partial_Sums seq).n);
+
+theorem :: MESFUN11:44
+  for seq be ExtREAL_sequence holds Partial_Sums(-seq) = -(Partial_Sums seq);
+
+theorem :: MESFUN11:45
+for seq be ExtREAL_sequence st seq is summable holds -seq is summable;
+
+theorem :: MESFUN11:46
+  for X be non empty set, F be Functional_Sequence of X,ExtREAL
+    st (for n be Nat holds F.n is without+infty) holds F is additive;
+
+theorem :: MESFUN11:47
+for X be non empty set, F be Functional_Sequence of X,ExtREAL
+ st (for n be Nat holds F.n is without-infty) holds F is additive;
+
+theorem :: MESFUN11:48
+for X be non empty set, F be Functional_Sequence of X,ExtREAL,
+  x be Element of X st F#x is summable holds
+    (-F)#x is summable & Sum((-F)#x) = -Sum(F#x);
+
+theorem :: MESFUN11:49
+for X be non empty set, S be SigmaField of X,
+ F be Functional_Sequence of X,ExtREAL st
+  F is additive & F is with_the_same_dom &
+  (for x be Element of X st x in dom(F.0) holds F#x is summable)
+  holds lim Partial_Sums (-F) = -(lim Partial_Sums F);
+
+theorem :: MESFUN11:50
+for X be non empty set, S be SigmaField of X,
+ F,G be Functional_Sequence of X,ExtREAL, E be Element of S
+ st E c= dom(F.0) & F is additive & F is with_the_same_dom
+  & (for n be Nat holds G.n = (F.n)|E)
+ holds lim(Partial_Sums G) = (lim(Partial_Sums F))|E;
+
+begin :: Integral of non positive measurable functions
+
+theorem :: MESFUN11:51
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be nonnegative PartFunc of X, ExtREAL
+ holds integral'(M,max-(-f)) = integral'(M,f);
+
+theorem :: MESFUN11:52
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be PartFunc of X,ExtREAL, A be Element of S
+   st A = dom f & f is A-measurable holds Integral(M,-f) = - Integral(M,f);
+
+theorem :: MESFUN11:53
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f be nonnegative PartFunc of X,ExtREAL, E be Element of S
+  st E = dom f & f is E-measurable
+  holds Integral(M,max-f) = 0 & integral+(M,max-f) = 0;
+
+theorem :: MESFUN11:54
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f be PartFunc of X,ExtREAL, E be Element of S
+ st E = dom f & f is E-measurable holds
+  Integral(M,f) = Integral(M,max+f) - Integral(M,max-f);
+
+theorem :: MESFUN11:55
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be PartFunc of X,ExtREAL, E be Element of S
+ st E c= dom f & f is E-measurable holds
+  Integral(M,(-f)|E) = - Integral(M,f|E);
+
+theorem :: MESFUN11:56
+ for X be non empty set, S be SigmaField of X, f be PartFunc of X,ExtREAL
+   st (ex A be Element of S st A = dom f & f is A-measurable)
+      & f qua ext-real-valued Function is nonpositive
+  ex F be Functional_Sequence of X,ExtREAL st (for n be Nat
+holds F.n is_simple_func_in S & dom(F.n) = dom f) & (for n be Nat holds F.n is
+nonpositive) & (for n,m be Nat st n <=m holds for x be Element of X st x in dom
+f holds (F.n).x >= (F.m).x ) & for x be Element of X st x in dom f holds (F#x)
+  is convergent & lim(F#x) = f.x;
+
+theorem :: MESFUN11:57
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, f be nonpositive PartFunc of X,ExtREAL
+  st (ex A be Element of S st A = dom f & f is A-measurable) holds
+ Integral(M,f) = - integral+(M,max- f) & Integral(M,f) = - integral+(M,-f)
+& Integral(M,f) = - Integral(M,-f);
+
+theorem :: MESFUN11:58
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be nonpositive PartFunc of X,ExtREAL st f is_simple_func_in S
+  holds Integral(M,f) = -integral'(M,-f) & Integral(M,f) = -integral'(M,max-f);
+
+theorem :: MESFUN11:59
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be PartFunc of X, ExtREAL, c be Real
+ st f is_simple_func_in S & f is nonnegative
+ holds Integral(M,c(#)f) = c * integral'(M,f);
+
+theorem :: MESFUN11:60
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f be PartFunc of X, ExtREAL, c be Real
+ st f is_simple_func_in S & f is nonpositive
+ holds Integral(M,c(#)f) = (-c) * integral'(M,-f)
+     & Integral(M,c(#)f) = -(c * integral'(M,-f));
+
+theorem :: MESFUN11:61
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+  f be PartFunc of X,ExtREAL st (ex A be Element of S st A = dom f & f
+  is A-measurable) & f is nonpositive holds 0 >= Integral(M,f);
+
+theorem :: MESFUN11:62
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f be PartFunc of X,ExtREAL, A,B,E be Element of S
+  st E = dom f & f is E-measurable & f is nonpositive & A misses B
+  holds Integral(M,f|(A\/B)) = Integral(M,f|A)+Integral(M,f|B);
+
+theorem :: MESFUN11:63
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+   f be PartFunc of X,ExtREAL, A,E be Element of S
+  st E = dom f & f is E-measurable & f is nonpositive
+  holds 0 >= Integral(M,f|A);
+
+theorem :: MESFUN11:64
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+f be PartFunc of X,ExtREAL, A,B,E be Element of S
+  st E = dom f & f is E-measurable & f is nonpositive & A c= B
+  holds Integral(M,f|A) >= Integral(M,f|B);
+
+begin :: Convergent theorems for non positive function's integration
+
+theorem :: MESFUN11:65
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+E be Element of S, f be PartFunc of X,ExtREAL st
+ E = dom f & f is E-measurable & f is nonpositive & M.(E /\
+ eq_dom(f,-infty)) <> 0 holds Integral(M,f) = -infty;
+
+theorem :: MESFUN11:66
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+E be Element of S, f,g be PartFunc of X,ExtREAL st
+ E c= dom f & E c= dom g & f is E-measurable & g
+is E-measurable & f is nonpositive & (for x be Element of X st x in E holds
+  g.x <= f.x ) holds Integral(M,g|E) <= Integral(M,f|E);
+
+theorem :: MESFUN11:67
+for X be non empty set, F be Functional_Sequence of X,ExtREAL,
+ S be SigmaField of X, E be Element of S, m be Nat st
+  F is with_the_same_dom & E = dom(F.0) &
+  (for n be Nat holds F.n is E-measurable & F.n is without+infty)
+  holds (Partial_Sums F).m is E-measurable;
+
+theorem :: MESFUN11:68
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S,
+ I be ExtREAL_sequence, m be Nat
+   st E = dom(F.0) & F is additive & F is with_the_same_dom
+    & (for n be Nat holds
+         F.n is E-measurable & F.n is nonpositive & I.n = Integral(M,F.n))
+   holds Integral(M,(Partial_Sums F).m) = (Partial_Sums I).m;
+
+theorem :: MESFUN11:69
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S,
+ f be PartFunc of X,ExtREAL
+ st E c= dom f & f is nonpositive & f is E-measurable &
+ (for n be Nat holds
+    F.n is_simple_func_in S & F.n is nonpositive & E c= dom(F.n)) &
+ (for x be Element of X st x in E holds F#x is summable & f.x = Sum(F#x))
+ holds ex I be ExtREAL_sequence st
+   (for n be Nat holds I.n = Integral(M,(F.n)|E)) & I is summable &
+   Integral(M,f|E) = Sum I;
+
+theorem :: MESFUN11:70
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, f be PartFunc of X,ExtREAL
+ st E c= dom f & f is nonpositive & f is E-measurable
+ holds
+  ex F be Functional_Sequence of X,ExtREAL st
+   F is additive
+ & (for n be Nat holds
+      F.n is_simple_func_in S & F.n is nonpositive & F.n is E-measurable)
+ & (for x be Element of X st x in E holds
+      F#x is summable & f.x = Sum(F#x))
+ & ex I be ExtREAL_sequence st
+     (for n be Nat holds I.n = Integral(M,(F.n)|E))
+   & I is summable
+   & Integral(M,f|E) = Sum I;
+
+theorem :: MESFUN11:71
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S st
+  E = dom(F.0) & F is with_the_same_dom & (for n be Nat holds F.n
+  is nonpositive & F.n is E-measurable )
+holds ex FF be sequence of
+Funcs(NAT,PFuncs(X,ExtREAL)) st for n be Nat holds (for m be Nat holds (FF.n).m
+is_simple_func_in S & dom((FF.n).m) = dom(F.n)) & (for m be Nat holds (FF.n).m
+is nonpositive) & (for j,k be Nat st j <= k holds for x be Element of X st x in
+  dom(F.n) holds ((FF.n).j).x >= ((FF.n).k).x) & for x be Element of X st x in
+  dom(F.n) holds (FF.n)#x is convergent & lim((FF.n)#x) = (F.n).x;
+
+theorem :: MESFUN11:72
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S
+  st E = dom(F.0) & F is additive & F is with_the_same_dom
+   & (for n be Nat holds F.n is E-measurable & F.n is nonpositive)
+ holds
+  ex I be ExtREAL_sequence st for n be Nat holds
+   I.n = Integral(M,F.n) & Integral(M,(Partial_Sums F).n) = (Partial_Sums I).n;
+
+theorem :: MESFUN11:73
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S
+ st E c= dom(F.0) & F is additive & F is with_the_same_dom
+  & (for n be Nat holds F.n is nonpositive & F.n is E-measurable)
+  & (for x be Element of X st x in E holds F#x is summable)
+ holds ex I be ExtREAL_sequence st
+   (for n be Nat holds I.n = Integral(M,(F.n)|E))
+ & I is summable & Integral(M,(lim(Partial_Sums F))|E) = Sum I;
+
+theorem :: MESFUN11:74
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ F be Functional_Sequence of X,ExtREAL, E be Element of S
+  st E = dom(F.0) & F.0 is nonpositive & F is with_the_same_dom
+   & (for n be Nat holds F.n is E-measurable)
+   & (for n,m be Nat st n <=m holds for x be Element of X st x in E
+        holds (F.n).x >= (F.m).x )
+   & (for x be Element of X st x in E holds F#x is convergent)
+ holds
+  ex I be ExtREAL_sequence st (for n be Nat holds I.n = Integral(M,F.n))
+    & I is convergent & Integral(M,lim F) = lim I;

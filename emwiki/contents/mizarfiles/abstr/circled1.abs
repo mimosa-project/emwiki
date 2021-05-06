@@ -1,0 +1,216 @@
+:: Circled Sets, Circled Hull, and Circled Family
+::  by Fahui Zhai , Jianbing Cao and Xiquan Liang
+::
+:: Received August 30, 2005
+:: Copyright (c) 2005-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, RLVECT_1, SUBSET_1, ARYTM_1, RLTOPSP1, REAL_1,
+      COMPLEX1, XXREAL_0, RELAT_1, TARSKI, ARYTM_3, RUSUB_4, RLSUB_1, STRUCT_0,
+      SUPINF_2, SETFAM_1, CARD_1, PRE_TOPC, RLVECT_2, FINSEQ_1, FUNCT_1,
+      CARD_3, NAT_1, FUNCT_2, VALUED_1, ORDINAL4, PARTFUN1, CIRCLED1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, CARD_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      COMPLEX1, XREAL_0, FUNCT_1, SETFAM_1, PARTFUN1, FUNCT_2, XXREAL_0,
+      REAL_1, DOMAIN_1, STRUCT_0, PRE_TOPC, RLVECT_1, RUSUB_4, CONVEX1,
+      FINSEQ_1, RLSUB_1, RLVECT_2, RVSUM_1, RLTOPSP1, RUSUB_5;
+ constructors SETFAM_1, DOMAIN_1, REAL_1, BINOP_2, COMPLEX1, FINSOP_1, RVSUM_1,
+      RUSUB_5, CONVEX1, RLTOPSP1, RELSET_1, NUMBERS;
+ registrations SUBSET_1, RELSET_1, NUMBERS, XXREAL_0, XREAL_0, STRUCT_0,
+      RLVECT_1, RLTOPSP1, VALUED_0, FINSEQ_1, CARD_1, ORDINAL1;
+ requirements BOOLE, REAL, NUMERALS, SUBSET, ARITHM;
+
+
+begin
+
+theorem :: CIRCLED1:1
+  for V being RealLinearSpace, A,B being circled Subset of V holds
+  A-B is circled;
+
+registration
+  let V be RealLinearSpace, M,N be circled Subset of V;
+  cluster M - N -> circled;
+end;
+
+definition
+  let V be non empty RLSStruct, M be Subset of V;
+  redefine attr M is circled means
+:: CIRCLED1:def 1
+
+  for u being VECTOR of V, r being Real st |.r.| <= 1 & u in M holds r*u in M;
+end;
+
+theorem :: CIRCLED1:2
+  for V be RealLinearSpace, M being Subset of V, r being Real st M
+  is circled holds r * M is circled;
+
+theorem :: CIRCLED1:3
+  for V be RealLinearSpace, M1,M2 being Subset of V, r1,r2 being
+  Real st M1 is circled & M2 is circled holds r1*M1 + r2*M2 is circled;
+
+theorem :: CIRCLED1:4
+  for V be RealLinearSpace, M1,M2,M3 being Subset of V, r1,r2,r3 being
+Real st M1 is circled & M2 is circled & M3 is circled holds r1*M1 + r2*M2 + r3*
+  M3 is circled;
+
+theorem :: CIRCLED1:5
+  for V being RealLinearSpace holds Up((0).V) is circled;
+
+theorem :: CIRCLED1:6
+  for V being RealLinearSpace holds Up((Omega).V) is circled;
+
+theorem :: CIRCLED1:7
+  for V being RealLinearSpace, M,N being circled Subset of V holds M /\
+  N is circled;
+
+theorem :: CIRCLED1:8
+  for V being RealLinearSpace, M,N being circled Subset of V holds M \/
+  N is circled;
+
+begin :: Circled Hull and Circled Family
+
+definition
+  let V be non empty RLSStruct, M be Subset of V;
+  func Circled-Family M -> Subset-Family of V means
+:: CIRCLED1:def 2
+
+  for N being Subset of V holds N in it iff N is circled & M c= N;
+end;
+
+definition
+  let V be RealLinearSpace, M be Subset of V;
+  func Cir M -> circled Subset of V equals
+:: CIRCLED1:def 3
+  meet Circled-Family M;
+end;
+
+registration
+  let V be RealLinearSpace, M be Subset of V;
+  cluster Circled-Family M -> non empty;
+end;
+
+theorem :: CIRCLED1:9
+  for V being RealLinearSpace, M1,M2 being Subset of V st M1 c= M2
+  holds Circled-Family M2 c= Circled-Family M1;
+
+theorem :: CIRCLED1:10
+  for V being RealLinearSpace, M1,M2 being Subset of V st M1 c= M2 holds
+  Cir M1 c= Cir M2;
+
+theorem :: CIRCLED1:11
+  for V being RealLinearSpace, M being Subset of V holds M c= Cir( M);
+
+theorem :: CIRCLED1:12
+  for V being RealLinearSpace, M being Subset of V, N being
+  circled Subset of V st M c= N holds Cir M c= N;
+
+theorem :: CIRCLED1:13
+  for V being RealLinearSpace, M being circled Subset of V holds Cir M = M;
+
+theorem :: CIRCLED1:14
+  for V being RealLinearSpace holds Cir ({}V) = {};
+
+theorem :: CIRCLED1:15
+  for V being RealLinearSpace, M being Subset of V, r being Real holds r
+  *Cir M = Cir(r*M);
+
+begin :: Basic properties of Combination
+
+definition
+  let V be RealLinearSpace, L be Linear_Combination of V;
+  attr L is circled means
+:: CIRCLED1:def 4
+
+  ex F being FinSequence of the carrier of V st
+F is one-to-one & rng F = Carrier L & ex f being FinSequence of REAL st len f =
+len F & Sum(f) = 1 & for n being Nat st n in dom f holds f.n = L.(F.n) & f.n >=
+  0;
+end;
+
+theorem :: CIRCLED1:16
+  for V being RealLinearSpace, L being Linear_Combination of V st
+  L is circled holds Carrier L <> {};
+
+theorem :: CIRCLED1:17
+  for V being RealLinearSpace, L being Linear_Combination of V, v
+  being VECTOR of V st L is circled & L.v <= 0 holds not v in Carrier(L);
+
+theorem :: CIRCLED1:18
+  for V being RealLinearSpace, L being Linear_Combination of V st L is
+  circled holds L <> ZeroLC(V);
+
+registration
+  let V be RealLinearSpace;
+  cluster circled for Linear_Combination of V;
+end;
+
+definition
+  let V be RealLinearSpace;
+  mode circled_Combination of V is circled Linear_Combination of V;
+end;
+
+registration
+  let V be RealLinearSpace, M be non empty Subset of V;
+  cluster circled for Linear_Combination of M;
+end;
+
+definition
+  let V be RealLinearSpace, M be non empty Subset of V;
+  mode circled_Combination of M is circled Linear_Combination of M;
+end;
+
+definition
+  let V be RealLinearSpace;
+  func circledComb V -> set means
+:: CIRCLED1:def 5
+  for L being object holds L in it iff L is circled_Combination of V;
+end;
+
+definition
+  let V be RealLinearSpace, M be non empty Subset of V;
+  func circledComb M -> set means
+:: CIRCLED1:def 6
+  for L being object holds L in it iff L is circled_Combination of M;
+end;
+
+theorem :: CIRCLED1:19
+  for V being RealLinearSpace, v being VECTOR of V holds ex L being
+circled_Combination of V st Sum L = v & for A being non empty Subset of V st v
+  in A holds L is circled_Combination of A;
+
+theorem :: CIRCLED1:20
+  for V being RealLinearSpace, v1,v2 being VECTOR of V st v1 <> v2 holds
+ex L being circled_Combination of V st for A being non empty Subset of V st {v1
+  ,v2} c= A holds L is circled_Combination of A;
+
+theorem :: CIRCLED1:21
+  for V being RealLinearSpace, L1, L2 being circled_Combination of V, a,
+  b being Real st a * b > 0 holds Carrier(a*L1 + b*L2) = Carrier(a * L1) \/
+  Carrier(b * L2);
+
+theorem :: CIRCLED1:22
+  for V being RealLinearSpace, v being VECTOR of V, L being
+Linear_Combination of V st L is circled & Carrier(L) = {v} holds L.v = 1 & Sum(
+  L) = L.v * v;
+
+theorem :: CIRCLED1:23
+  for V being RealLinearSpace, v1,v2 being VECTOR of V, L being
+Linear_Combination of V st L is circled & Carrier(L) = {v1,v2} & v1 <> v2 holds
+  L.v1 + L.v2 = 1 & L.v1 >= 0 & L.v2 >= 0 & Sum(L) = L.v1 * v1 + L.v2 * v2;
+
+theorem :: CIRCLED1:24
+  for V being RealLinearSpace, v being VECTOR of V, L being
+  Linear_Combination of {v} st L is circled holds L.v = 1 & Sum(L) = L.v * v;
+
+theorem :: CIRCLED1:25
+  for V being RealLinearSpace, v1,v2 being VECTOR of V, L being
+Linear_Combination of {v1,v2} st v1 <> v2 & L is circled holds L.v1 + L.v2 = 1
+  & L.v1 >= 0 & L.v2 >= 0 & Sum(L) = L.v1 * v1 + L.v2 * v2;

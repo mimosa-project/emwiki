@@ -1,0 +1,557 @@
+:: Topological Interpretation of Rough Sets
+::  by Adam Grabowski
+:: 
+:: Received March 31, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies SUBSET_1, PRE_TOPC, SETFAM_1, STRUCT_0, TARSKI, ZFMISC_1,
+      XBOOLE_0, FUNCT_1, RELAT_1, RCOMP_1, XXREAL_0, CARD_1, QC_LANG1,
+      ORDERS_2, WAYBEL_9, TOPS_1, FINSUB_1, ROUGHS_4, BINOP_1, WAYBEL_1,
+      COHSP_1, ROUGHS_1, ROUGHS_2, ISOMICHI, FRECHET2, FRECHET, KURATO_1,
+      ARYTM_1, TDLAT_3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, XXREAL_0,
+      SETFAM_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FINSUB_1, XXREAL_2,
+      XXREAL_3, CARD_1, ENUMSET1, BINOP_1, FUNCT_2, FUNCT_3, XCMPLX_0, XREAL_0,
+      NAT_1, RCOMP_1, FUNCOP_1, FINSEQ_1, STRUCT_0, PRE_TOPC, ORDERS_2,
+      EQREL_1, TOPMETR, COHSP_1, TOPS_1, TDLAT_2, WAYBEL_9, ROUGHS_1, ROUGHS_2,
+      ISOMICHI, FRECHET, FRECHET2, KURATO_1, TDLAT_3;
+ constructors SETFAM_1, PARTFUN1, FUNCT_3, XXREAL_0, XREAL_0, NAT_1, MEMBERED,
+      XXREAL_1, XXREAL_2, XXREAL_3, FINSEQ_1, CONNSP_1, RELSET_1, NUMBERS,
+      BINOP_1, COHSP_1, TDLAT_2, FUNCOP_1, ORDERS_2, FINSUB_1, EQREL_1,
+      PCOMPS_1, PCOMPS_2, ROUGHS_1, ROUGHS_2, WAYBEL_9, TDLAT_3, TOPS_1,
+      ISOMICHI, FRECHET, FRECHET2, KURATO_1, TOPMETR, RCOMP_1, MEASURE6;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, FUNCT_2, STRUCT_0, PRE_TOPC,
+      XREAL_0, FINSEQ_1, RELAT_1, FUNCT_1, ORDINAL1, NAT_1, TOPS_1, ORDERS_2,
+      ROUGHS_1, ROUGHS_2, WAYBEL_9, PROB_1, ISOMICHI, FRECHET, KURATO_1,
+      TDLAT_3, FINSET_1, YELLOW_3, TOPMETR, XXREAL_0;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: ROUGHS_4:1
+  for T being set, F being Subset-Family of T holds
+    F = { B where B is Subset of T : B in F };
+
+definition
+  let f be Function;
+  let A be set;
+  attr A is f-closed means
+:: ROUGHS_4:def 1
+    A = f.A;
+end;
+
+definition let X be set, F be Subset-Family of X;
+  redefine attr F is cap-closed means
+:: ROUGHS_4:def 2
+    for a,b being Subset of X st a in F & b in F holds a /\ b in F;
+end;
+
+definition let X be set;
+           let F be Subset-Family of X;
+  attr F is union-closed means
+:: ROUGHS_4:def 3
+    for a being Subset-Family of X st a c= F holds union a in F;
+end;
+
+definition let X be set;
+           let F be Subset-Family of X;
+  attr F is topology-like means
+:: ROUGHS_4:def 4
+    {} in F & X in F & F is union-closed cap-closed;
+end;
+
+registration let X be set;
+  cluster topology-like for Subset-Family of X;
+end;
+
+begin :: Maps
+
+definition let X be set;
+           let f be Function of bool X, bool X;
+  attr f is extensive means
+:: ROUGHS_4:def 5
+    for A being Subset of X holds A c= f.A;
+  attr f is intensive means
+:: ROUGHS_4:def 6
+    for A being Subset of X holds f.A c= A;
+  attr f is idempotent means
+:: ROUGHS_4:def 7
+    for A being Subset of X holds f.(f.A) = f.A;
+  attr f is c=-monotone means
+:: ROUGHS_4:def 8
+    for A,B being Subset of X st A c= B holds f.A c= f.B;
+  attr f is \/-preserving means
+:: ROUGHS_4:def 9
+    for A,B being Subset of X holds f.(A \/ B) = f.A \/ f.B;
+  attr f is /\-preserving means
+:: ROUGHS_4:def 10
+    for A,B being Subset of X holds f.(A /\ B) = f.A /\ f.B;
+end;
+
+definition let X be set,
+               O be Function of bool X, bool X;
+  attr O is preclosure means
+:: ROUGHS_4:def 11 :: Cech preclosure axioms
+    O is extensive \/-preserving empty-preserving;
+  attr O is closure means
+:: ROUGHS_4:def 12 :: Kuratowski closure axioms
+    O is extensive idempotent \/-preserving empty-preserving;
+  attr O is preinterior means
+:: ROUGHS_4:def 13 :: Kuratowski interior axioms
+    O is intensive /\-preserving universe-preserving;
+  attr O is interior means
+:: ROUGHS_4:def 14 :: Kuratowski interior axioms
+    O is intensive idempotent /\-preserving universe-preserving;
+end;
+
+registration let X be set;
+  cluster \/-preserving -> c=-monotone for Function of bool X, bool X;
+  cluster /\-preserving -> c=-monotone for Function of bool X, bool X;
+end;
+
+:: preclosure implies monotonicity
+:: Cl_Seq from FRECHET2 is important example of preclosure
+
+registration let X be set;
+  cluster id bool X -> closure for Function of bool X, bool X;
+  cluster id bool X -> interior for Function of bool X, bool X;
+end;
+
+registration let X be set;
+  cluster closure interior for Function of bool X, bool X;
+end;
+
+registration let X be set;
+  cluster closure -> preclosure for Function of bool X, bool X;
+end;
+
+begin :: Structural Part
+
+definition let T be 1-sorted;
+  mode map of T is Function of bool the carrier of T, bool the carrier of T;
+end;
+
+definition
+  struct (1-sorted) 1stOpStr
+    (# carrier -> set,
+       FirstOp -> Function of bool the carrier, bool the carrier #);
+end;
+
+definition
+  struct (1-sorted) 2ndOpStr
+    (# carrier -> set,
+      SecondOp -> Function of bool the carrier, bool the carrier #);
+end;
+
+definition
+  struct (1stOpStr, 2ndOpStr) TwoOpStruct
+    (# carrier -> set,
+       FirstOp, SecondOp ->
+          Function of bool the carrier, bool the carrier #);
+end;
+
+definition let X be 1stOpStr;
+  attr X is with_closure means
+:: ROUGHS_4:def 15
+    the FirstOp of X is closure;
+  attr X is with_preclosure means
+:: ROUGHS_4:def 16
+    the FirstOp of X is preclosure;
+end;
+
+registration let T be TopSpace;
+  cluster ClMap T -> closure;
+  cluster IntMap T -> interior;
+end;
+
+registration
+  cluster with_closure non empty for 1stOpStr;
+end;
+
+registration
+  cluster with_closure -> with_preclosure for 1stOpStr;
+end;
+
+definition let X be 1stOpStr;
+           let A be Subset of X;
+  attr A is op-closed means
+:: ROUGHS_4:def 17
+    A = (the FirstOp of X).A;
+end;
+
+definition let X be 1stOpStr;
+  attr X is with_op-closed_subsets means
+:: ROUGHS_4:def 18
+    ex A being Subset of X st A is op-closed;
+end;
+
+registration
+  cluster with_op-closed_subsets for 1stOpStr;
+end;
+
+registration let X be with_op-closed_subsets 1stOpStr;
+  cluster op-closed for Subset of X;
+end;
+
+definition let X be 2ndOpStr;
+           let A be Subset of X;
+  attr A is op-open means
+:: ROUGHS_4:def 19
+    A = (the SecondOp of X).A;
+end;
+
+definition let X be 2ndOpStr;
+  attr X is with_op-open_subsets means
+:: ROUGHS_4:def 20
+    ex A being Subset of X st A is op-open;
+end;
+
+registration
+  cluster with_op-open_subsets for 2ndOpStr;
+end;
+
+registration let X be with_op-open_subsets 2ndOpStr;
+  cluster op-open for Subset of X;
+end;
+
+definition let X be 2ndOpStr;
+  attr X is with_interior means
+:: ROUGHS_4:def 21
+    the SecondOp of X is interior;
+  attr X is with_preinterior means
+:: ROUGHS_4:def 22
+    the SecondOp of X is preinterior;
+end;
+
+registration
+  cluster with_closure with_interior for TwoOpStruct;
+end;
+
+begin :: Merging with Topologies
+
+definition
+  struct (1stOpStr,TopStruct) 1TopStruct
+    (# carrier -> set,
+       FirstOp -> Function of bool the carrier, bool the carrier,
+      topology -> Subset-Family of the carrier #);
+end;
+
+definition
+  struct (2ndOpStr,TopStruct) 2TopStruct
+    (# carrier -> set,
+      SecondOp -> Function of bool the carrier, bool the carrier,
+      topology -> Subset-Family of the carrier #);
+end;
+
+registration
+  cluster non empty strict for 1TopStruct;
+end;
+
+registration
+  cluster non empty strict for 2TopStruct;
+end;
+
+definition let T be 1TopStruct;
+  attr T is with_properly_defined_topology means
+:: ROUGHS_4:def 23
+    for x being object holds
+    x in the topology of T iff
+      ex S being Subset of T st S` = x & S is op-closed;
+end;
+
+definition let T be 2TopStruct;
+  attr T is with_properly_defined_Topology means
+:: ROUGHS_4:def 24
+    for x being object holds
+    x in the topology of T iff
+      ex S being Subset of T st S = x & S is op-open;
+end;
+
+registration
+  cluster with_closure with_properly_defined_topology for 1TopStruct;
+  cluster with_interior with_properly_defined_Topology for 2TopStruct;
+end;
+
+theorem :: ROUGHS_4:2
+  for T being with_properly_defined_topology 1TopStruct,
+      A being Subset of T holds
+    A is op-closed iff A is closed;
+
+registration
+  cluster with_preclosure -> TopSpace-like for
+    with_properly_defined_topology 1TopStruct;
+end;
+
+theorem :: ROUGHS_4:3
+  for T being with_properly_defined_Topology 2TopStruct,
+      A being Subset of T holds
+    A is op-open iff A is open;
+
+registration
+  cluster with_preinterior -> TopSpace-like for
+    with_properly_defined_Topology 2TopStruct;
+end;
+
+theorem :: ROUGHS_4:4
+  for T being with_closure with_properly_defined_topology 1TopStruct,
+      A being Subset of T holds
+    (the FirstOp of T).A = Cl A;
+
+begin :: Introducing Rough Sets
+
+registration let R be Tolerance_Space;
+  cluster LAp R -> preinterior;
+  cluster UAp R -> preclosure;
+end;
+
+registration let R be Approximation_Space;
+  cluster LAp R -> interior;
+  cluster UAp R -> closure;
+end;
+
+definition let X be set,
+               f be Function of bool X, bool X;
+  func GenTop f -> Subset-Family of X means
+:: ROUGHS_4:def 25
+    for x being object holds
+      x in it iff ex S being Subset of X st S = x & S is f-closed;
+end;
+
+theorem :: ROUGHS_4:5
+  for X being set,
+      f being Function of bool X, bool X st
+    f is preinterior holds
+    GenTop f is topology-like;
+
+registration let C be set,
+                 I be (Relation of C),
+                 f be topology-like Subset-Family of C;
+  cluster TopRelStr (#C,I,f#) -> TopSpace-like;
+end;
+
+registration
+  cluster TopSpace-like with_equivalence non empty for TopRelStr;
+end;
+
+begin :: On Sequential Closure and Frechet Spaces
+
+definition let T be non empty TopSpace;
+  func Cl_Seq T -> map of T means
+:: ROUGHS_4:def 26
+    for A being Subset of T holds
+      it.A = Cl_Seq A;
+end;
+
+registration let T be non empty TopSpace;
+  cluster Cl_Seq T -> preclosure;
+end;
+
+registration
+  cluster Frechet for non empty TopSpace;
+end;
+
+registration let T be Frechet non empty TopSpace;
+  cluster Cl_Seq T -> closure;
+end;
+
+begin :: Connections between Closures and Approximations
+
+definition let T be non empty TopRelStr;
+  attr T is Natural means
+:: ROUGHS_4:def 27
+    for x being Subset of T holds
+      x in the topology of T iff x is (LAp T)-closed;
+end;
+
+definition let T be non empty TopRelStr;
+  attr T is naturally_generated means
+:: ROUGHS_4:def 28
+    the topology of T = GenTop LAp T;
+end;
+
+theorem :: ROUGHS_4:6
+  for T being non empty TopRelStr st T is naturally_generated holds
+    for A being Subset of T holds
+      A is open iff LAp A = A;
+
+theorem :: ROUGHS_4:7
+  for T being non empty TopRelStr,
+      R being non empty RelStr st
+        the RelStr of T = the RelStr of R holds
+    LAp T = LAp R;
+
+theorem :: ROUGHS_4:8
+  for T being non empty TopRelStr,
+      R being non empty RelStr st
+        the RelStr of T = the RelStr of R holds
+    UAp T = UAp R;
+
+registration
+  cluster Natural TopSpace-like with_equivalence for non empty TopRelStr;
+end;
+
+registration
+  cluster naturally_generated -> TopSpace-like for with_equivalence
+    non empty TopRelStr;
+end;
+
+registration
+  cluster naturally_generated TopSpace-like with_equivalence for
+    non empty TopRelStr;
+end;
+
+registration
+  let T be naturally_generated non empty with_equivalence TopRelStr;
+  let A be Subset of T;
+  cluster LAp A -> open;
+end;
+
+theorem :: ROUGHS_4:9
+  for T being naturally_generated non empty with_equivalence TopRelStr,
+      A being Subset of T holds
+    LAp A = Int A;
+
+theorem :: ROUGHS_4:10
+  for T being naturally_generated non empty with_equivalence TopRelStr,
+      A being Subset of T holds
+    A is closed iff UAp A = A;
+
+registration
+  let T be naturally_generated non empty with_equivalence TopRelStr,
+      A be Subset of T;
+  cluster UAp A -> closed;
+end;
+
+theorem :: ROUGHS_4:11
+  for T being naturally_generated non empty with_equivalence TopRelStr,
+      A being Subset of T holds
+    UAp A = Cl A;
+
+theorem :: ROUGHS_4:12
+  for T being naturally_generated non empty with_equivalence TopRelStr,
+      A being Subset of T holds
+    BndAp A = Fr A;
+
+registration
+  let T be with_equivalence naturally_generated non empty TopRelStr;
+  let A be Subset of T;
+  identify Int A with LAp A;
+  identify Cl A with UAp A;
+  identify LAp A with Int A;
+  identify UAp A with Cl A;
+  identify BndAp A with Fr A;
+  identify Fr A with BndAp A;
+end;
+
+begin :: Isomichi Results Reuse
+
+theorem :: ROUGHS_4:13
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    A is 1st_class iff LAp UAp A c= UAp LAp A;
+
+theorem :: ROUGHS_4:14
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    A is 1st_class iff UAp A c= LAp A;
+
+theorem :: ROUGHS_4:15
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    A is 1st_class iff A is exact;
+
+registration
+  let T be with_equivalence naturally_generated non empty TopRelStr;
+  cluster 1st_class -> exact for Subset of T;
+  cluster exact -> 1st_class for Subset of T;
+end;
+
+theorem :: ROUGHS_4:16
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    A is 2nd_class iff LAp A c< UAp A;
+
+theorem :: ROUGHS_4:17
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    A is 2nd_class iff A is rough;
+
+registration
+  let T be with_equivalence naturally_generated non empty TopRelStr;
+  cluster 2nd_class -> rough for Subset of T;
+  cluster rough -> 2nd_class for Subset of T;
+end;
+
+theorem :: ROUGHS_4:18
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    Cl Int A, Cl A are_c=-comparable;
+
+theorem :: ROUGHS_4:19
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    not A is 3rd_class;
+
+notation let T be TopSpace;
+  antonym T is without_3rd_class_subsets for
+    T is with_3rd_class_subsets;
+end;
+
+registration
+  cluster -> without_3rd_class_subsets for
+    with_equivalence naturally_generated non empty TopRelStr;
+  cluster without_3rd_class_subsets for TopSpace;
+end;
+
+registration
+  let T be TopSpace,
+      A be 1st_class Subset of T;
+  cluster Border A -> empty;
+end;
+
+registration
+  let T be with_equivalence naturally_generated non empty TopRelStr,
+      A be Subset of T;
+  cluster Cl A -> open;
+  cluster Int A -> closed;
+end;
+
+registration
+  cluster -> extremally_disconnected for
+    with_equivalence naturally_generated non empty TopRelStr;
+end;
+
+begin :: Reexamination of Kuratowski 14 Sets for Approximation Spaces
+::$N Kuratowski's closure-complement problem
+
+theorem :: ROUGHS_4:20
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    Kurat7Set A = { A, Cl A, Int A };
+
+theorem :: ROUGHS_4:21
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    card Kurat7Set A <= 3;
+
+theorem :: ROUGHS_4:22
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    Kurat14Set A = { A, UAp A, (UAp A)`, A`, (LAp A)`, LAp A };
+
+theorem :: ROUGHS_4:23
+  for T being with_equivalence naturally_generated non empty TopRelStr,
+      A being Subset of T holds
+    card Kurat14Set A <= 6;
+

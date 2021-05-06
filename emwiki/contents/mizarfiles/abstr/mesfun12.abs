@@ -1,0 +1,727 @@
+:: Fubini's Theorem for Nonnegative or Nonpositive Functions
+::  by Noboru Endou
+::
+:: Received March 27, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_0, SUBSET_1, CARD_1, ARYTM_3, ARYTM_1, RELAT_1,
+      NAT_1, REAL_1, CARD_3, FUNCT_1, FINSEQ_1, XBOOLE_0, TARSKI, ZFMISC_1,
+      PROB_1, PROB_2, FUNCOP_1, SUPINF_2, VALUED_0, FUNCT_2, PARTFUN1,
+      MEASURE1, ORDINAL2, SERIES_1, MESFUNC5, SEQ_2, SEQFUNC, PBOOLE, MESFUNC9,
+      VALUED_1, MESFUNC1, MEASUR10, MESFUNC8, FUNCT_3, MEASUR11, MESFUNC2,
+      MESFUNC3, COMPLEX1, XCMPLX_0, MESFUN12, RFUNCT_3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XXREAL_3, XXREAL_0, XREAL_0,
+      ORDINAL1, NUMBERS, SETFAM_1, RELAT_1, FUNCT_1, RELSET_1, FUNCT_2,
+      FUNCOP_1, PARTFUN1, BINOP_1, PROB_1, PROB_3, NAT_1, FINSEQ_1, FINSEQ_4,
+      SUPINF_2, PROB_2, SEQFUNC, MEASURE1, MESFUNC1, MESFUNC2, MESFUNC3,
+      MESFUNC5, MESFUNC8, MESFUNC9, EXTREAL1, MEASUR10, MCART_1, MEASUR11,
+      MESFUN11, DBLSEQ_3;
+ constructors SEQFUNC, PROB_3, MESFUNC8, MESFUNC9, EXTREAL1, SUPINF_1,
+      MESFUNC2, DBLSEQ_3, MEASUR11, MESFUNC3, FINSEQ_4, MESFUN11;
+ registrations ORDINAL1, XBOOLE_0, RELAT_1, SUBSET_1, ROUGHS_1, XXREAL_0,
+      XREAL_0, NAT_1, INT_1, MEMBERED, FUNCT_1, FINSEQ_1, FUNCT_2, NUMBERS,
+      VALUED_0, MESFUNC9, RELSET_1, MEASURE1, PARTFUN1, XXREAL_3, CARD_1,
+      DBLSEQ_3, MEASURE9, MEASUR10, MEASUR11, MESFUNC5, MESFUN11;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Extended real valued characteristic function
+
+definition
+  let A,X be set, er be ExtReal;
+  func chi(er,A,X) -> Function of X,ExtREAL means
+:: MESFUN12:def 1
+  for x be object st x in X holds
+    (x in A implies it.x = er) & (not x in A implies it.x = 0);
+end;
+
+theorem :: MESFUN12:1
+for X be non empty set, A be set, r be Real holds r(#)chi(A,X) = chi(r,A,X);
+
+theorem :: MESFUN12:2
+for X be non empty set, A be set holds
+  chi(+infty,A,X) = Xchi(A,X) & chi(-infty,A,X) = -Xchi(A,X);
+
+theorem :: MESFUN12:3
+for X,A be set holds chi(A,X) is without+infty without-infty;
+
+theorem :: MESFUN12:4
+for X be non empty set, A be set, r be Real holds
+  rng chi(r,A,X) c= {0,r} & chi(r,A,X) is without+infty without-infty;
+
+theorem :: MESFUN12:5
+for X be non empty set, S be SigmaField of X,
+ f be non empty PartFunc of X,ExtREAL, M be sigma_Measure of S
+  st f is_simple_func_in S
+ ex E be non empty Finite_Sep_Sequence of S, a be FinSequence of ExtREAL,
+  r be FinSequence of REAL st
+  E,a are_Re-presentation_of f &
+  for n be Nat holds
+    a.n = r.n & f|(E.n) = (chi(r.n,E.n,X))|(E.n) & (E.n = {} implies r.n = 0);
+
+definition
+ let F be FinSequence-like Function;
+ redefine attr F is disjoint_valued means
+:: MESFUN12:def 2
+  for m,n be Nat st m in dom F & n in dom F & m <> n holds F.m misses F.n;
+end;
+
+theorem :: MESFUN12:6
+for X be non empty set, S be SigmaField of X, E1,E2 be Element of S
+ st E1 misses E2 holds <* E1, E2 *> is Finite_Sep_Sequence of S;
+
+theorem :: MESFUN12:7
+for X be non empty set, A1,A2 be Subset of X, r1,r2 be Real holds
+ <*chi(r1,A1,X),chi(r2,A2,X)*> is summable FinSequence of Funcs(X,ExtREAL);
+
+theorem :: MESFUN12:8
+for X be non empty set, F be summable FinSequence of Funcs(X,ExtREAL)
+ st len F >= 2 holds (Partial_Sums F)/.2 = F/.1 + F/.2;
+
+theorem :: MESFUN12:9
+for X be non empty set, f be Function of X,ExtREAL
+ holds f + (X --> 0.) = f;
+
+theorem :: MESFUN12:10
+for X be non empty set, F be summable FinSequence of Funcs(X,ExtREAL) holds
+   dom F = dom (Partial_Sums F)
+ & (for n be Nat st n in dom F holds (Partial_Sums F)/.n = (Partial_Sums F).n)
+ & (for n be Nat, x be Element of X st 1 <= n < len F holds
+     ((Partial_Sums F)/.(n+1)).x = ((Partial_Sums F)/.n).x + (F/.(n+1)).x);
+
+theorem :: MESFUN12:11
+for X be non empty set, S be SigmaField of X, f be Function of X,ExtREAL,
+ E be Finite_Sep_Sequence of S, F be summable FinSequence of Funcs(X,ExtREAL)
+ st dom E = dom F & dom f = union rng E
+  & (for n be Nat st n in dom F ex r be Real st F/.n = r(#)chi(E.n,X))
+  & f = (Partial_Sums F)/.(len F) holds
+  (for x be Element of X, m,n be Nat st
+     m in dom F & n in dom F & x in E.m & m <> n holds (F/.n).x = 0) &
+  (for x be Element of X, m,n be Nat st
+     m in dom F & n in dom F & x in E.m & n < m holds
+       ((Partial_Sums F)/.n).x = 0) &
+  (for x be Element of X, m,n be Nat st
+     m in dom F & n in dom F & x in E.m & n >= m holds
+       ((Partial_Sums F)/.n).x = f.x) &
+  (for x be Element of X, m be Nat st
+     m in dom F & x in E.m holds (F/.m).x = f.x) &
+  f is_simple_func_in S;
+
+theorem :: MESFUN12:12
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S holds chi(E,X) is_simple_func_in S;
+
+theorem :: MESFUN12:13
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ A,B be Element of S, er be ExtReal holds
+   chi(er,A,X) is B-measurable;
+
+theorem :: MESFUN12:14
+for X be set, A1,A2 be Subset of X, er be ExtReal holds
+ chi(er,A1,X)|A2 = chi(er,A1/\A2,X)|A2;
+
+theorem :: MESFUN12:15
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ A,B,C be Element of S, er be ExtReal st C c= B holds
+   chi(er,A,X)|B is C-measurable;
+
+theorem :: MESFUN12:16
+for X be set, A1,A2 be Subset of X, er be ExtReal, x be object st A1 misses A2
+ holds (chi(er,A1,X)|A2).x = 0;
+
+theorem :: MESFUN12:17
+for X be set, A be Subset of X, er be ExtReal holds
+  (er >= 0 implies chi(er,A,X) is nonnegative)
+& (er <= 0 implies chi(er,A,X) is nonpositive);
+
+theorem :: MESFUN12:18
+for A,X be set, B be Subset of X holds dom(chi(A,X)|B) = B;
+
+begin :: Some properties of integration
+
+theorem :: MESFUN12:19
+for X be non empty set, S be SigmaField of X, f be PartFunc of X,ExtREAL
+ st f is empty holds f is_simple_func_in S;
+
+theorem :: MESFUN12:20
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E1,E2 be Element of S holds Integral(M,(chi(E1,X))|E2) = M.(E1/\ E2);
+
+theorem :: MESFUN12:21
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E1,E2 be Element of S, f,g be PartFunc of X,ExtREAL st
+ E1 = dom f & f is nonnegative & f is E1-measurable &
+ E2 = dom g & g is nonnegative & g is E2-measurable
+ holds
+  Integral(M,f+g) = Integral(M,f|dom(f+g)) + Integral(M,g|dom(f+g));
+
+theorem :: MESFUN12:22
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E1,E2 be Element of S, f,g be PartFunc of X,ExtREAL st
+ E1 = dom f & f is nonpositive & f is E1-measurable &
+ E2 = dom g & g is nonpositive & g is E2-measurable
+ holds
+  Integral(M,f+g) = Integral(M,f|dom(f+g)) + Integral(M,g|dom(f+g));
+
+theorem :: MESFUN12:23
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E1,E2 be Element of S, f,g be PartFunc of X,ExtREAL st
+ E1 = dom f & f is nonnegative & f is E1-measurable &
+ E2 = dom g & g is nonpositive & g is E2-measurable
+ holds
+  Integral(M,f-g) = Integral(M,f|dom(f-g)) - Integral(M,g|dom(f-g))
+& Integral(M,g-f) = Integral(M,g|dom(g-f)) - Integral(M,f|dom(g-f));
+
+theorem :: MESFUN12:24
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, f be PartFunc of X,ExtREAL, r be Real st
+ E = dom f & (f is nonpositive or f is nonnegative) & f is E-measurable
+  holds Integral(M,r(#)f) = r * Integral(M,f);
+
+begin :: Sections of partial function
+
+theorem :: MESFUN12:25
+for X,Y be non empty set, A be Element of bool [:X,Y:], x,y be set
+ st x in X & y in Y holds
+  ([x,y] in A iff x in Y-section(A,y)) & ([x,y] in A iff y in X-section(A,x));
+
+definition
+  let X1,X2 be non empty set;
+  let Y be set;
+  let f be PartFunc of [:X1,X2:],Y;
+  let x be Element of X1;
+  func ProjPMap1(f,x) -> PartFunc of X2,Y means
+:: MESFUN12:def 3
+  dom it = X-section(dom f,x) &
+  for y be Element of X2 st [x,y] in dom f holds it.y = f.(x,y);
+end;
+
+definition
+  let X1,X2 be non empty set;
+  let Y be set;
+  let f be PartFunc of [:X1,X2:],Y;
+  let y be Element of X2;
+  func ProjPMap2(f,y) -> PartFunc of X1,Y means
+:: MESFUN12:def 4
+ dom it = Y-section(dom f,y) &
+ for x be Element of X1 st [x,y] in dom f holds it.x = f.(x,y);
+end;
+
+theorem :: MESFUN12:26
+for X1,X2 be non empty set, Y be set, f be PartFunc of [:X1,X2:],Y,
+ x be Element of X1, y be Element of X2 holds
+  ( x in dom ProjPMap2(f,y) implies ProjPMap2(f,y).x = f.(x,y) )
+& ( y in dom ProjPMap1(f,x) implies ProjPMap1(f,x).y = f.(x,y) );
+
+theorem :: MESFUN12:27
+for X1,X2,Y be non empty set, f be Function of [:X1,X2:],Y,
+  x be Element of X1, y be Element of X2
+  holds ProjPMap1(f,x) = ProjMap1(f,x) & ProjPMap2(f,y) = ProjMap2(f,y);
+
+theorem :: MESFUN12:28
+for X,Y,Z be non empty set, f be PartFunc of [:X,Y:],Z,
+ x be Element of X, y be Element of Y, A be set holds
+  X-section(f"A,x) = ProjPMap1(f,x)"A & Y-section(f"A,y) = ProjPMap2(f,y)"A;
+
+theorem :: MESFUN12:29
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+ r be Real, f be PartFunc of [:X1,X2:],ExtREAL holds
+  ProjPMap1(r(#)f,x) = r(#)ProjPMap1(f,x) &
+  ProjPMap2(r(#)f,y) = r(#)ProjPMap2(f,y);
+
+theorem :: MESFUN12:30
+for X1,X2 be non empty set, f be PartFunc of [:X1,X2:],ExtREAL,
+ x be Element of X1, y be Element of X2
+ st (for z be Element of [:X1,X2:] st z in dom f holds f.z = 0)
+ holds ProjPMap2(f,y).x = 0 & ProjPMap1(f,x).y = 0;
+
+theorem :: MESFUN12:31
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  x be Element of X1, y be Element of X2, f be PartFunc of [:X1,X2:],ExtREAL
+ st f is_simple_func_in sigma measurable_rectangles(S1,S2) holds
+  ProjPMap1(f,x) is_simple_func_in S2 & ProjPMap2(f,y) is_simple_func_in S1;
+
+theorem :: MESFUN12:32
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+  f be PartFunc of [:X1,X2:],ExtREAL
+ st f is nonnegative holds
+  ProjPMap1(f,x) is nonnegative & ProjPMap2(f,y) is nonnegative;
+
+theorem :: MESFUN12:33
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+  f be PartFunc of [:X1,X2:],ExtREAL
+ st f is nonpositive holds
+  ProjPMap1(f,x) is nonpositive & ProjPMap2(f,y) is nonpositive;
+
+theorem :: MESFUN12:34
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+ A be Subset of [:X1,X2:], f be PartFunc of [:X1,X2:],ExtREAL
+ holds ProjPMap1(f|A,x) = ProjPMap1(f,x)|X-section(A,x)
+     & ProjPMap2(f|A,y) = ProjPMap2(f,y)|Y-section(A,y);
+
+theorem :: MESFUN12:35
+for X1,X2 be non empty set, A be Subset of [:X1,X2:], x be Element of X1,
+  y be Element of X2 holds
+   ProjPMap1(Xchi(A,[:X1,X2:]),x) = Xchi(X-section(A,x),X2)
+ & ProjPMap2(Xchi(A,[:X1,X2:]),y) = Xchi(Y-section(A,y),X1);
+
+theorem :: MESFUN12:36
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ f,g be PartFunc of X,ExtREAL, E be Element of S
+  st f|E = g|E & E c= dom f & E c= dom g & f is E-measurable
+  holds g is E-measurable;
+
+theorem :: MESFUN12:37
+for X1,X2 be non empty set, A be Subset of [:X1,X2:],
+  f be PartFunc of [:X1,X2:],ExtREAL, x be Element of X1, y be Element of X2,
+  F be Functional_Sequence of [:X1,X2:],ExtREAL
+ st A c= dom f &
+   (for n be Nat holds dom(F.n) = A)
+ & (for z be Element of [:X1,X2:] st z in A holds
+      (F#z) is convergent & lim(F#z) = f.z)
+holds
+( ex FX be with_the_same_dom Functional_Sequence of X1,ExtREAL
+  st (for n be Nat holds FX.n = ProjPMap2(F.n,y))
+   & (for x be Element of X1 st x in Y-section(A,y) holds
+       FX#x is convergent & (ProjPMap2(f,y)).x = lim(FX#x)) ) &
+( ex FY be with_the_same_dom Functional_Sequence of X2,ExtREAL
+  st (for n be Nat holds FY.n = ProjPMap1(F.n,x))
+   & (for y be Element of X2 st y in X-section(A,x) holds
+       FY#y is convergent & (ProjPMap1(f,x)).y = lim(FY#y)) );
+
+theorem :: MESFUN12:38
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  E be Element of sigma measurable_rectangles(S1,S2),
+  M2 be sigma_Measure of S2,
+  A be Element of S1, B be Element of S2, x be Element of X1 holds
+  M2.(B /\ Measurable-X-section(E,x)) * chi(A,X1).x
+    = Integral(M2,ProjPMap1(chi([:A,B:],[:X1,X2:])|E,x));
+
+theorem :: MESFUN12:39
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  E be Element of sigma measurable_rectangles(S1,S2),
+  M1 be sigma_Measure of S1,
+  A be Element of S1, B be Element of S2, y be Element of X2 holds
+  M1.(A /\ Measurable-Y-section(E,y)) * chi(B,X2).y
+    = Integral(M1,ProjPMap2(chi([:A,B:],[:X1,X2:])|E,y));
+
+theorem :: MESFUN12:40
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+ f be PartFunc of [:X1,X2:],ExtREAL, er be ExtReal holds
+  ( [x,y] in dom f & f.(x,y) = er
+       iff y in dom(ProjPMap1(f,x)) & (ProjPMap1(f,x)).y = er ) &
+  ( [x,y] in dom f & f.(x,y) = er
+       iff x in dom(ProjPMap2(f,y)) & (ProjPMap2(f,y)).x = er );
+
+theorem :: MESFUN12:41
+for X1,X2 be non empty set, A,Z be set, f be PartFunc of [:X1,X2:],Z,
+ x be Element of X1 holds X-section(f"A,x) = ProjPMap1(f,x)"A;
+
+theorem :: MESFUN12:42
+for X1,X2 be non empty set, A,Z be set, f be PartFunc of [:X1,X2:],Z,
+ y be Element of X2 holds Y-section(f"A,y) = ProjPMap2(f,y)"A;
+
+theorem :: MESFUN12:43
+for X1,X2 be non empty set, A,B be Subset of [:X1,X2:], p be set holds
+  X-section(A \ B,p) = X-section(A,p) \ X-section(B,p)
+& Y-section(A \ B,p) = Y-section(A,p) \ Y-section(B,p);
+
+theorem :: MESFUN12:44
+for X1,X2 be non empty set, x be Element of X1, y be Element of X2,
+ f1,f2 be PartFunc of [:X1,X2:],ExtREAL holds
+   ProjPMap1(f1+f2,x) = ProjPMap1(f1,x) + ProjPMap1(f2,x)
+ & ProjPMap1(f1-f2,x) = ProjPMap1(f1,x) - ProjPMap1(f2,x)
+ & ProjPMap2(f1+f2,y) = ProjPMap2(f1,y) + ProjPMap2(f2,y)
+ & ProjPMap2(f1-f2,y) = ProjPMap2(f1,y) - ProjPMap2(f2,y);
+
+theorem :: MESFUN12:45
+for X1,X2 be non empty set, f be PartFunc of [:X1,X2:],ExtREAL,
+ x be Element of X1 holds
+  ProjPMap1(max+f,x) = max+(ProjPMap1(f,x))
+& ProjPMap1(max-f,x) = max-(ProjPMap1(f,x));
+
+theorem :: MESFUN12:46
+for X1,X2 be non empty set, f be PartFunc of [:X1,X2:],ExtREAL,
+ y be Element of X2 holds
+  ProjPMap2(max+f,y) = max+(ProjPMap2(f,y))
+& ProjPMap2(max-f,y) = max-(ProjPMap2(f,y));
+
+theorem :: MESFUN12:47
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  f be PartFunc of [:X1,X2:],ExtREAL, x be Element of X1, y be Element of X2,
+  E be Element of sigma measurable_rectangles(S1,S2)
+ st E c= dom f & f is E-measurable
+ holds ProjPMap1(f,x) is (Measurable-X-section(E,x))-measurable &
+       ProjPMap2(f,y) is (Measurable-Y-section(E,y))-measurable;
+
+definition
+  let X1,X2,Y be non empty set;
+  let F be Functional_Sequence of [:X1,X2:],Y;
+  let x be Element of X1;
+  func ProjPMap1(F,x) -> Functional_Sequence of X2,Y means
+:: MESFUN12:def 5
+ for n be Nat holds it.n = ProjPMap1(F.n,x);
+end;
+
+definition
+  let X1,X2,Y be non empty set;
+  let F be Functional_Sequence of [:X1,X2:],Y;
+  let y be Element of X2;
+  func ProjPMap2(F,y) -> Functional_Sequence of X1,Y means
+:: MESFUN12:def 6
+ for n be Nat holds it.n = ProjPMap2(F.n,y);
+end;
+
+theorem :: MESFUN12:48
+for X1,X2 be non empty set, E be Subset of [:X1,X2:],
+ x be Element of X1, y be Element of X2 holds
+   ProjPMap1(chi(E,[:X1,X2:]),x) = chi(X-section(E,x),X2) &
+   ProjPMap2(chi(E,[:X1,X2:]),y) = chi(Y-section(E,y),X1);
+
+theorem :: MESFUN12:49
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, er be ExtReal holds
+  Integral(M,chi(er,E,X)) = er * M.E;
+
+theorem :: MESFUN12:50
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, er be ExtReal holds
+  Integral(M,chi(er,E,X)|E) = er * M.E;
+
+theorem :: MESFUN12:51
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E1,E2 be Element of S, er be ExtReal holds
+  Integral(M,chi(er,E1,X)|E2) = er * M.(E1/\E2);
+
+theorem :: MESFUN12:52
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, x be Element of X1,
+  E be Element of sigma measurable_rectangles(S1,S2)
+ st M2 is sigma_finite
+ holds
+   Y-vol(E,M2).x = Integral(M2,ProjPMap1(chi(E,[:X1,X2:]),x)) &
+   Y-vol(E,M2).x = integral+(M2,ProjPMap1(chi(E,[:X1,X2:]),x)) &
+   Y-vol(E,M2).x = integral'(M2,ProjPMap1(chi(E,[:X1,X2:]),x));
+
+theorem :: MESFUN12:53
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, y be Element of X2,
+  E be Element of sigma measurable_rectangles(S1,S2)
+ st M1 is sigma_finite
+ holds
+   X-vol(E,M1).y = Integral(M1,ProjPMap2(chi(E,[:X1,X2:]),y)) &
+   X-vol(E,M1).y = integral+(M1,ProjPMap2(chi(E,[:X1,X2:]),y)) &
+   X-vol(E,M1).y = integral'(M1,ProjPMap2(chi(E,[:X1,X2:]),y));
+
+theorem :: MESFUN12:54
+for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+ E be Element of S, r be Real holds
+  Integral(M,r(#)chi(E,X)) = r * Integral(M,chi(E,X));
+
+theorem :: MESFUN12:55
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, y be Element of X2,
+  E be Element of sigma measurable_rectangles(S1,S2), r be Real
+st M1 is sigma_finite holds
+  (r(#)X-vol(E,M1)).y = Integral(M1,ProjPMap2(chi(r,E,[:X1,X2:]),y))
+ & (r >= 0 implies
+      (r(#)X-vol(E,M1)).y = integral+(M1,ProjPMap2(chi(r,E,[:X1,X2:]),y)));
+
+theorem :: MESFUN12:56
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, x be Element of X1,
+  E be Element of sigma measurable_rectangles(S1,S2), r be Real
+st M2 is sigma_finite holds
+  (r(#)Y-vol(E,M2)).x = Integral(M2,ProjPMap1(chi(r,E,[:X1,X2:]),x))
+ & (r >= 0 implies
+      (r(#)Y-vol(E,M2)).x = integral+(M2,ProjPMap1(chi(r,E,[:X1,X2:]),x)));
+
+theorem :: MESFUN12:57
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+  f be PartFunc of X,ExtREAL st dom f in S &
+   (for x be Element of X st x in dom f holds 0= f.x)
+  holds (for E be Element of S st E c= dom f holds f is E-measurable)
+   & Integral(M,f) = 0;
+
+theorem :: MESFUN12:58
+for X1,X2,Y be non empty set, F be Functional_Sequence of [:X1,X2:],Y,
+  x be Element of X1, y be Element of X2 st F is with_the_same_dom
+  holds ProjPMap1(F,x) is with_the_same_dom
+      & ProjPMap2(F,y) is with_the_same_dom;
+
+begin
+
+definition
+   let X1,X2 be non empty set, S1 be SigmaField of X1,
+   M1 be sigma_Measure of S1,
+   f be PartFunc of [:X1,X2:],ExtREAL;
+   func Integral1(M1,f) -> Function of X2,ExtREAL means
+:: MESFUN12:def 7
+   for y be Element of X2 holds it.y = Integral(M1,ProjPMap2(f,y));
+end;
+
+definition
+   let X1,X2 be non empty set, S2 be SigmaField of X2,
+   M2 be sigma_Measure of S2,
+   f be PartFunc of [:X1,X2:],ExtREAL;
+   func Integral2(M2,f) -> Function of X1,ExtREAL means
+:: MESFUN12:def 8
+   for x be Element of X1 holds it.x = Integral(M2,ProjPMap1(f,x));
+end;
+
+theorem :: MESFUN12:59
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, f be PartFunc of [:X1,X2:],ExtREAL,
+  E be Element of sigma measurable_rectangles(S1,S2), V be Element of S2
+ st M1 is sigma_finite & (f is nonnegative or f is nonpositive)
+  & E = dom f & f is E-measurable
+ holds
+  Integral1(M1,f) is V-measurable;
+
+theorem :: MESFUN12:60
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, f be PartFunc of [:X1,X2:],ExtREAL,
+  E be Element of sigma measurable_rectangles(S1,S2), U be Element of S1
+ st M2 is sigma_finite & (f is nonnegative or f is nonpositive)
+  & E = dom f & f is E-measurable
+ holds
+  Integral2(M2,f) is U-measurable;
+
+theorem :: MESFUN12:61
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, y be Element of X2,
+  E be Element of sigma measurable_rectangles(S1,S2)
+st M1 is sigma_finite holds
+   X-vol(E,M1).y = Integral(M1,chi(Measurable-Y-section(E,y),X1));
+
+theorem :: MESFUN12:62
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, x be Element of X1,
+  E be Element of sigma measurable_rectangles(S1,S2)
+ st M2 is sigma_finite holds
+   Y-vol(E,M2).x = Integral(M2,chi(Measurable-X-section(E,x),X2));
+
+theorem :: MESFUN12:63
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  E be Element of sigma measurable_rectangles(S1,S2),
+  x be Element of X1, y be Element of X2
+holds
+  ProjPMap1(chi(E,[:X1,X2:]),x) = chi(Measurable-X-section(E,x),X2)
+& ProjPMap2(chi(E,[:X1,X2:]),y) = chi(Measurable-Y-section(E,y),X1);
+
+theorem :: MESFUN12:64
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, E be Element of sigma measurable_rectangles(S1,S2)
+st M1 is sigma_finite holds X-vol(E,M1) = Integral1(M1,chi(E,[:X1,X2:]));
+
+theorem :: MESFUN12:65
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, E be Element of sigma measurable_rectangles(S1,S2)
+st M2 is sigma_finite holds Y-vol(E,M2) = Integral2(M2,chi(E,[:X1,X2:]));
+
+definition
+let X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+    M1 be sigma_Measure of S1, M2 be sigma_Measure of S2;
+ func Prod_Measure(M1,M2) ->
+   sigma_Measure of sigma measurable_rectangles(S1,S2) equals
+:: MESFUN12:def 9
+     product_sigma_Measure(M1,M2);
+end;
+
+theorem :: MESFUN12:66
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2)
+  st E1 = dom f & f is nonnegative & f is E1-measurable holds
+  Integral1(M1,f) is nonnegative & Integral1(M1,f|E2) is nonnegative
+& Integral2(M2,f) is nonnegative & Integral2(M2,f|E2) is nonnegative;
+
+theorem :: MESFUN12:67
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2)
+  st E1 = dom f & f is nonpositive & f is E1-measurable holds
+  Integral1(M1,f) is nonpositive & Integral1(M1,f|E2) is nonpositive
+& Integral2(M2,f) is nonpositive & Integral2(M2,f|E2) is nonpositive;
+
+theorem :: MESFUN12:68
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, f be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2), V be Element of S2
+ st M1 is sigma_finite
+  & (f is nonnegative or f is nonpositive) & E1 = dom f & f is E1-measurable
+ holds
+  Integral1(M1,f|E2) is V-measurable;
+
+theorem :: MESFUN12:69
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, f be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2), U be Element of S1
+ st M2 is sigma_finite
+  & (f is nonnegative or f is nonpositive) & E1 = dom f & f is E1-measurable
+ holds
+  Integral2(M2,f|E2) is U-measurable;
+
+theorem :: MESFUN12:70
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, f be PartFunc of [:X1,X2:],ExtREAL,
+  E be Element of sigma measurable_rectangles(S1,S2), y be Element of X2
+ st E = dom f & (f is nonnegative or f is nonpositive) & f is E-measurable &
+    (for x be Element of X1 st x in dom(ProjPMap2(f,y)) holds
+     ProjPMap2(f,y).x = 0)
+ holds Integral1(M1,f).y = 0;
+
+theorem :: MESFUN12:71
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M2 be sigma_Measure of S2, f be PartFunc of [:X1,X2:],ExtREAL,
+  E be Element of sigma measurable_rectangles(S1,S2), x be Element of X1
+ st E = dom f & (f is nonnegative or f is nonpositive) & f is E-measurable &
+    (for y be Element of X2 st y in dom(ProjPMap1(f,x)) holds
+     ProjPMap1(f,x).y = 0)
+ holds Integral2(M2,f).x = 0;
+
+theorem :: MESFUN12:72
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+ M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+ E,E1,E2 be Element of sigma measurable_rectangles(S1,S2),
+ f be PartFunc of [:X1,X2:],ExtREAL st
+  E = dom f & (f is nonnegative or f is nonpositive)
+& f is E-measurable & E1 misses E2
+holds
+  Integral1(M1,f|(E1\/E2)) = Integral1(M1,f|E1) + Integral1(M1,f|E2)
+& Integral2(M2,f|(E1\/E2)) = Integral2(M2,f|E1) + Integral2(M2,f|E2);
+
+theorem :: MESFUN12:73
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f be PartFunc of [:X1,X2:],ExtREAL,
+  E be Element of sigma measurable_rectangles(S1,S2)
+  st E = dom f & f is E-measurable
+  holds
+  Integral1(M1,-f) = -Integral1(M1,f) & Integral2(M2,-f) = -Integral2(M2,f);
+
+theorem :: MESFUN12:74
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f,g be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2)
+  st E1 = dom f & f is nonnegative & f is E1-measurable
+   & E2 = dom g & g is nonnegative & g is E2-measurable
+  holds
+  Integral1(M1,f+g) = Integral1(M1,f|dom(f+g)) + Integral1(M1,g|dom(f+g))
+& Integral2(M2,f+g) = Integral2(M2,f|dom(f+g)) + Integral2(M2,g|dom(f+g));
+
+theorem :: MESFUN12:75
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f,g be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2)
+  st E1 = dom f & f is nonpositive & f is E1-measurable &
+     E2 = dom g & g is nonpositive & g is E2-measurable holds
+  Integral1(M1,f+g) = Integral1(M1,f|dom(f+g)) + Integral1(M1,g|dom(f+g))
+& Integral2(M2,f+g) = Integral2(M2,f|dom(f+g)) + Integral2(M2,g|dom(f+g));
+
+theorem :: MESFUN12:76
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  f,g be PartFunc of [:X1,X2:],ExtREAL,
+  E1,E2 be Element of sigma measurable_rectangles(S1,S2)
+  st E1 = dom f & f is nonnegative & f is E1-measurable &
+     E2 = dom g & g is nonpositive & g is E2-measurable holds
+  Integral1(M1,f-g) = Integral1(M1,f|dom(f-g)) - Integral1(M1,g|dom(f-g))
+& Integral1(M1,g-f) = Integral1(M1,g|dom(g-f)) - Integral1(M1,f|dom(g-f))
+& Integral2(M2,f-g) = Integral2(M2,f|dom(f-g)) - Integral2(M2,g|dom(f-g))
+& Integral2(M2,g-f) = Integral2(M2,g|dom(g-f)) - Integral2(M2,f|dom(g-f));
+
+theorem :: MESFUN12:77
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2)
+st M1 is sigma_finite & M2 is sigma_finite
+holds Integral(M1,(Y-vol(E,M2)))
+        = Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:]))
+    & Integral(M2,(X-vol(E,M1)))
+        = Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:]));
+
+theorem :: MESFUN12:78
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+ M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+ E be Element of sigma measurable_rectangles(S1,S2),
+ f be PartFunc of [:X1,X2:],ExtREAL, r be Real st
+ E = dom f & (f is nonnegative or f is nonpositive) & f is E-measurable
+ holds
+  Integral1(M1,r(#)f) = r(#)Integral1(M1,f)
+& Integral2(M2,r(#)f) = r(#)Integral2(M2,f);
+
+theorem :: MESFUN12:79
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2) holds
+  Integral1(M1,chi(E,[:X1,X2:])|E) = Integral1(M1,chi(E,[:X1,X2:]))
+& Integral2(M2,chi(E,[:X1,X2:])|E) = Integral2(M2,chi(E,[:X1,X2:]));
+
+theorem :: MESFUN12:80
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2) holds
+  Integral1(M1,Xchi(E,[:X1,X2:])|E) = Integral1(M1,Xchi(E,[:X1,X2:]))
+& Integral2(M2,Xchi(E,[:X1,X2:])|E) = Integral2(M2,Xchi(E,[:X1,X2:]));
+
+theorem :: MESFUN12:81
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2), er be ExtReal holds
+  Integral1(M1,chi(er,E,[:X1,X2:])|E) = Integral1(M1,chi(er,E,[:X1,X2:]))
+& Integral2(M2,chi(er,E,[:X1,X2:])|E) = Integral2(M2,chi(er,E,[:X1,X2:]));
+
+theorem :: MESFUN12:82
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2)
+st M1 is sigma_finite & M2 is sigma_finite
+holds
+  Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:]))
+   = Integral(M2,Integral1(M1,chi(E,[:X1,X2:])))
+& Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:])|E)
+   = Integral(M2,Integral1(M1,chi(E,[:X1,X2:])|E))
+& Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:]))
+   = Integral(M1,Integral2(M2,chi(E,[:X1,X2:])))
+& Integral(Prod_Measure(M1,M2),chi(E,[:X1,X2:])|E)
+   = Integral(M1,Integral2(M2,chi(E,[:X1,X2:])|E));
+
+theorem :: MESFUN12:83
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+  M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+  E be Element of sigma measurable_rectangles(S1,S2), r be Real
+st M1 is sigma_finite & M2 is sigma_finite
+holds
+  Integral(Prod_Measure(M1,M2),chi(r,E,[:X1,X2:]))
+   = Integral(M2,Integral1(M1,chi(r,E,[:X1,X2:])))
+& Integral(Prod_Measure(M1,M2),chi(r,E,[:X1,X2:])|E)
+   = Integral(M2,Integral1(M1,chi(r,E,[:X1,X2:])|E))
+& Integral(Prod_Measure(M1,M2),chi(r,E,[:X1,X2:]))
+   = Integral(M1,Integral2(M2,chi(r,E,[:X1,X2:])))
+& Integral(Prod_Measure(M1,M2),chi(r,E,[:X1,X2:])|E)
+   = Integral(M1,Integral2(M2,chi(r,E,[:X1,X2:])|E));
+
+theorem :: MESFUN12:84 :: Fubini's theorem
+for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+ M1 be sigma_Measure of S1, M2 be sigma_Measure of S2,
+ A be Element of sigma measurable_rectangles(S1,S2),
+ f be PartFunc of [:X1,X2:],ExtREAL
+st M1 is sigma_finite & M2 is sigma_finite
+ & (f is nonnegative or f is nonpositive) & A = dom f & f is A-measurable
+ holds Integral(Prod_Measure(M1,M2),f) = Integral(M2,Integral1(M1,f))
+     & Integral(Prod_Measure(M1,M2),f) = Integral(M1,Integral2(M2,f));

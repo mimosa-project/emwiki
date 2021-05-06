@@ -1,0 +1,602 @@
+:: Chains on a Grating in Euclidean Space
+::  by Freek Wiedijk
+::
+:: Received January 27, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, XREAL_0, ARYTM_3, REAL_1, XXREAL_0, CARD_1,
+      XBOOLE_0, TARSKI, ZFMISC_1, SETFAM_1, XCMPLX_0, FINSEQ_1, FINSET_1,
+      ABIAN, FUNCT_1, FINSEQ_2, FUNCT_2, RELAT_1, CARD_3, GOBOARD5, MCART_1,
+      ARYTM_1, TREES_2, POLYNOM1, WAYBEL25, GRAPH_1, NAT_1, ORDERS_2, STRUCT_0,
+      VECTSP_1, SUPINF_2, BINOP_1, ALGSTR_0, RLVECT_1, GROUP_6, CHAIN_1,
+      MSSUBFAM;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, SETFAM_1, RELAT_1, ORDINAL1,
+      XCMPLX_0, XXREAL_0, XREAL_0, FUNCT_1, REAL_1, EUCLID, FUNCT_2, ABIAN,
+      CARD_1, DOMAIN_1, MOD_4, CARD_3, BINOP_1, VECTSP_1, NAT_1, NUMBERS,
+      FINSET_1, STRUCT_0, ALGSTR_0, FINSEQ_1, FINSEQ_2, RLVECT_1;
+ constructors REAL_1, CARD_3, REALSET1, ABIAN, EUCLID, RELSET_1, MOD_4,
+      BINOP_1;
+ registrations XBOOLE_0, SUBSET_1, FINSET_1, NUMBERS, XXREAL_0, XREAL_0, NAT_1,
+      MEMBERED, FINSEQ_1, ABIAN, STRUCT_0, VECTSP_1, CARD_1, VALUED_0, RELAT_1,
+      EUCLID, CARD_2, RELSET_1, ORDINAL1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: stuff I could not find in MML
+
+reserve X,x,y,z for set;
+reserve n,m,k,k9,d9 for Nat;
+
+theorem :: CHAIN_1:1
+  for x,y being Real st x < y
+ex z being Element of REAL st x < z & z < y;
+
+theorem :: CHAIN_1:2
+  for x,y being Real ex z being Element of REAL st x < z & y < z;
+
+scheme :: CHAIN_1:sch 1
+ FrSet12 { D()->non empty set, A()->non empty set, P[set,set],
+  F(set,set)->Element of D() } :
+  { F(x,y) where x,y is Element of A() : P[x,y] } c= D();
+
+:: Subset A -> Subset B
+
+definition
+  let B be set;
+  let A be Subset of B;
+  redefine func bool A -> Subset-Family of B;
+end;
+
+:: non-zero numbers
+
+definition
+  let d be real Element of NAT;
+  redefine attr d is zero means
+:: CHAIN_1:def 1
+  not d > 0;
+end;
+
+definition
+  let d be Nat;
+  redefine attr d is zero means
+:: CHAIN_1:def 2
+
+  not d >= 1;
+end;
+
+reserve d for non zero Nat;
+reserve i,i0,i1 for Element of Seg d;
+
+:: non trivial sets
+
+theorem :: CHAIN_1:3
+  for x,y being object holds {x,y} is trivial iff x = y;
+
+registration
+  cluster non trivial finite for set;
+end;
+
+registration
+  let X be non trivial set;
+  let Y be set;
+  cluster X \/ Y -> non trivial;
+  cluster Y \/ X -> non trivial;
+end;
+
+registration
+  let X be non trivial set;
+  cluster non trivial finite for Subset of X;
+end;
+
+theorem :: CHAIN_1:4
+  X is trivial & X \/ {y} is non trivial implies
+   ex x being object st X = {x};
+
+scheme :: CHAIN_1:sch 2
+ NonEmptyFinite
+  { X()->non empty set, A()->non empty finite Subset of X(), P[set] } : P[A()]
+provided
+ for x being Element of X() st x in A() holds P[{x}] and
+ for x being Element of X(), B being non empty finite Subset of X()
+st x in A() & B c= A() & not x in B & P[B] holds P[B \/ {x}];
+
+scheme :: CHAIN_1:sch 3
+ NonTrivialFinite
+  { X()->non trivial set, A()->non trivial finite Subset of X(), P[set] } :
+  P[A()]
+provided
+ for x,y being Element of X() st x in A() & y in A() & x <> y
+holds P[{x,y}] and
+ for x being Element of X(), B being non trivial finite Subset of X()
+st x in A() & B c= A() & not x in B & P[B] holds P[B \/ {x}];
+
+:: sets of cardinality 2
+
+theorem :: CHAIN_1:5
+  card X = 2 iff
+  ex x,y st x in X & y in X & x <> y & for z st z in X holds z = x or z = y;
+
+::$CT
+
+theorem :: CHAIN_1:7
+  for X,Y being finite set st X misses Y holds
+  (card X is even iff card Y is even) iff card(X \/ Y) is even;
+
+theorem :: CHAIN_1:8
+  for X,Y being finite set holds
+  (card X is even iff card Y is even) iff card(X \+\ Y) is even;
+
+:: elements of REAL d as functions to REAL
+
+definition
+  let n;
+  redefine func REAL n means
+:: CHAIN_1:def 3
+
+  for x being object holds x in it iff x is Function of Seg n,REAL;
+end;
+
+reserve l,r,l9,r9,l99,r99,x,x9,l1,r1,l2,r2 for Element of REAL d;
+reserve Gi for non trivial finite Subset of REAL;
+reserve li,ri,li9,ri9,xi,xi9 for Real;
+
+begin :: gratings, cells, chains, cycles
+:: gratings
+
+definition
+  let d;
+  mode Grating of d -> Function of Seg d,bool REAL means
+:: CHAIN_1:def 4
+
+    for i holds it.i is non trivial finite;
+end;
+
+reserve G for Grating of d;
+
+registration
+  let d;
+ cluster -> finite-yielding for Grating of d;
+end;
+
+definition
+  let d,G,i;
+  redefine func G.i -> non trivial finite Subset of REAL;
+end;
+
+theorem :: CHAIN_1:9
+  x in product G iff for i holds x.i in G.i;
+
+:: gaps
+
+::$CT
+
+theorem :: CHAIN_1:11
+  for X being non empty finite Subset of REAL holds
+  ex ri being Element of REAL st ri in X & for xi st xi in X holds ri >= xi;
+
+theorem :: CHAIN_1:12
+  for X being non empty finite Subset of REAL holds
+  ex li being Element of REAL st li in X & for xi st xi in X holds li <= xi;
+
+theorem :: CHAIN_1:13
+  ex li,ri st li in Gi & ri in Gi &
+  li < ri & for xi st xi in Gi holds not (li < xi & xi < ri);
+
+::$CT
+
+theorem :: CHAIN_1:15
+  ex li,ri st li in Gi & ri in Gi &
+  ri < li & for xi st xi in Gi holds not (xi < ri or li < xi);
+
+definition
+  let Gi;
+  mode Gap of Gi -> Element of [:REAL,REAL:] means
+:: CHAIN_1:def 5
+
+    ex li,ri st it = [li,ri] & li in Gi & ri in Gi &
+    ((li < ri & for xi st xi in Gi holds not (li < xi & xi < ri)) or
+    (ri < li & for xi st xi in Gi holds not (li < xi or xi < ri)));
+end;
+
+theorem :: CHAIN_1:16
+  [li,ri] is Gap of Gi iff li in Gi & ri in Gi &
+  ((li < ri & for xi st xi in Gi holds not (li < xi & xi < ri)) or
+  (ri < li & for xi st xi in Gi holds not (li < xi or xi < ri)));
+
+theorem :: CHAIN_1:17
+  Gi = {li,ri} implies
+  ([li9,ri9] is Gap of Gi iff li9 = li & ri9 = ri or li9 = ri & ri9 = li);
+
+theorem :: CHAIN_1:18
+  xi in Gi implies ex ri being Element of REAL st [xi,ri] is Gap of Gi;
+
+theorem :: CHAIN_1:19
+  xi in Gi implies ex li being Element of REAL st [li,xi] is Gap of Gi;
+
+theorem :: CHAIN_1:20
+  [li,ri] is Gap of Gi & [li,ri9] is Gap of Gi implies ri = ri9;
+
+theorem :: CHAIN_1:21
+  [li,ri] is Gap of Gi & [li9,ri] is Gap of Gi implies li = li9;
+
+theorem :: CHAIN_1:22
+  ri < li & [li,ri] is Gap of Gi & ri9 < li9 & [li9,ri9] is Gap of Gi implies
+  li = li9 & ri = ri9;
+
+:: cells, chains
+
+definition
+  let d,l,r;
+  func cell(l,r) -> non empty Subset of REAL d equals
+:: CHAIN_1:def 6
+  { x : (for i holds l.i <= x.i & x.i <= r.i) or
+  (ex i st r.i < l.i & (x.i <= r.i or l.i <= x.i)) };
+end;
+
+theorem :: CHAIN_1:23
+  x in cell(l,r) iff ((for i holds l.i <= x.i & x.i <= r.i) or
+  ex i st r.i < l.i & (x.i <= r.i or l.i <= x.i) );
+
+theorem :: CHAIN_1:24
+  (for i holds l.i <= r.i) implies
+  (x in cell(l,r) iff for i holds l.i <= x.i & x.i <= r.i);
+
+theorem :: CHAIN_1:25
+  (ex i st r.i < l.i) implies
+  (x in cell(l,r) iff ex i st r.i < l.i & (x.i <= r.i or l.i <= x.i));
+
+theorem :: CHAIN_1:26
+  l in cell(l,r) & r in cell(l,r);
+
+theorem :: CHAIN_1:27
+  cell(x,x) = {x};
+
+theorem :: CHAIN_1:28
+  (for i holds l9.i <= r9.i) implies (cell(l,r) c= cell(l9,r9) iff
+  for i holds l9.i <= l.i & l.i <= r.i & r.i <= r9.i);
+
+theorem :: CHAIN_1:29
+  (for i holds r.i < l.i) implies (cell(l,r) c= cell(l9,r9) iff
+  for i holds r.i <= r9.i & r9.i < l9.i & l9.i <= l.i);
+
+theorem :: CHAIN_1:30
+  (for i holds l.i <= r.i) & (for i holds r9.i < l9.i) implies
+  (cell(l,r) c= cell(l9,r9) iff ex i st r.i <= r9.i or l9.i <= l.i);
+
+theorem :: CHAIN_1:31
+  (for i holds l.i <= r.i) or (for i holds l.i > r.i) implies
+  (cell(l,r) = cell(l9,r9) iff l = l9 & r = r9);
+
+definition
+  let d,G,k;
+  assume
+ k <= d;
+  func cells(k,G) -> finite non empty Subset-Family of REAL d equals
+:: CHAIN_1:def 7
+
+  { cell(l,r) : ((ex X being Subset of Seg d st card X = k &
+  for i holds (i in X & l.i < r.i & [l.i,r.i] is Gap of G.i) or
+  (not i in X & l.i = r.i & l.i in G.i)) or
+  (k = d & for i holds r.i < l.i & [l.i,r.i] is Gap of G.i)) };
+end;
+
+theorem :: CHAIN_1:32
+  k <= d implies for A being Subset of REAL d holds A in cells(k,G) iff
+  ex l,r st A = cell(l,r) & ((ex X being Subset of Seg d st card X = k &
+  for i holds (i in X & l.i < r.i & [l.i,r.i] is Gap of G.i) or
+  (not i in X & l.i = r.i & l.i in G.i)) or
+  (k = d & for i holds r.i < l.i & [l.i,r.i] is Gap of G.i));
+
+theorem :: CHAIN_1:33
+  k <= d implies (cell(l,r) in cells(k,G) iff
+  ((ex X being Subset of Seg d st card X = k &
+  for i holds (i in X & l.i < r.i & [l.i,r.i] is Gap of G.i) or
+  (not i in X & l.i = r.i & l.i in G.i)) or
+  (k = d & for i holds r.i < l.i & [l.i,r.i] is Gap of G.i)));
+
+theorem :: CHAIN_1:34
+  k <= d & cell(l,r) in cells(k,G) implies
+  (for i holds (l.i < r.i & [l.i,r.i] is Gap of G.i) or
+  (l.i = r.i & l.i in G.i)) or
+  for i holds r.i < l.i & [l.i,r.i] is Gap of G.i;
+
+theorem :: CHAIN_1:35
+  k <= d & cell(l,r) in cells(k,G) implies for i holds l.i in G.i & r.i in G.i;
+
+theorem :: CHAIN_1:36
+  k <= d & cell(l,r) in cells(k,G) implies
+  (for i holds l.i <= r.i) or for i holds r.i < l.i;
+
+theorem :: CHAIN_1:37
+  for A being Subset of REAL d holds
+  A in cells(0,G) iff ex x st A = cell(x,x) & for i holds x.i in G.i;
+
+theorem :: CHAIN_1:38
+  cell(l,r) in cells(0,G) iff l = r & for i holds l.i in G.i;
+
+theorem :: CHAIN_1:39
+  for A being Subset of REAL d holds A in cells(d,G) iff
+  ex l,r st A = cell(l,r) & (for i holds [l.i,r.i] is Gap of G.i) &
+  ((for i holds l.i < r.i) or for i holds r.i < l.i );
+
+theorem :: CHAIN_1:40
+  cell(l,r) in cells(d,G) iff (for i holds [l.i,r.i] is Gap of G.i) &
+  ((for i holds l.i < r.i) or for i holds r.i < l.i );
+
+theorem :: CHAIN_1:41
+  d = d9 + 1 implies for A being Subset of REAL d holds A in cells(d9,G) iff
+  ex l,r,i0 st A = cell(l,r) & l.i0 = r.i0 & l.i0 in G.i0 &
+  for i st i <> i0 holds l.i < r.i & [l.i,r.i] is Gap of G.i;
+
+theorem :: CHAIN_1:42
+  d = d9 + 1 implies (cell(l,r) in cells(d9,G) iff
+  ex i0 st l.i0 = r.i0 & l.i0 in G.i0 &
+  for i st i <> i0 holds l.i < r.i & [l.i,r.i] is Gap of G.i);
+
+theorem :: CHAIN_1:43
+  for A being Subset of REAL d holds A in cells(1,G) iff
+  ex l,r,i0 st A = cell(l,r) &
+  (l.i0 < r.i0 or d = 1 & r.i0 < l.i0) & [l.i0,r.i0] is Gap of G.i0 &
+  for i st i <> i0 holds l.i = r.i & l.i in G.i;
+
+theorem :: CHAIN_1:44
+  cell(l,r) in cells(1,G) iff
+  ex i0 st (l.i0 < r.i0 or d = 1 & r.i0 < l.i0) & [l.i0,r.i0] is Gap of G.i0 &
+  for i st i <> i0 holds l.i = r.i & l.i in G.i;
+
+theorem :: CHAIN_1:45
+  k <= d & k9 <= d & cell(l,r) in cells(k,G) & cell(l9,r9) in cells(k9,G) &
+  cell(l,r) c= cell(l9,r9) implies for i holds l.i = l9.i & r.i = r9.i or
+  l.i = l9.i & r.i = l9.i or l.i = r9.i & r.i = r9.i or
+  l.i <= r.i & r9.i < l9.i & r9.i <= l.i & r.i <= l9.i;
+
+theorem :: CHAIN_1:46
+  k < k9 & k9 <= d & cell(l,r) in cells(k,G) & cell(l9,r9) in cells(k9,G) &
+  cell(l,r) c= cell(l9,r9) implies
+  ex i st l.i = l9.i & r.i = l9.i or l.i = r9.i & r.i = r9.i;
+
+theorem :: CHAIN_1:47
+  for X,X9 being Subset of Seg d st cell(l,r) c= cell(l9,r9) &
+  (for i holds (i in X & l.i < r.i & [l.i,r.i] is Gap of G.i) or
+  (not i in X & l.i = r.i & l.i in G.i)) &
+  (for i holds (i in X9 & l9.i < r9.i & [l9.i,r9.i] is Gap of G.i) or
+  (not i in X9 & l9.i = r9.i & l9.i in G.i)) holds X c= X9 &
+  (for i st i in X or not i in X9 holds l.i = l9.i & r.i = r9.i) &
+  for i st not i in X & i in X9 holds
+  l.i = l9.i & r.i = l9.i or l.i = r9.i & r.i = r9.i;
+
+definition
+  let d,G,k;
+  mode Cell of k,G is Element of cells(k,G);
+end;
+
+definition
+  let d,G,k;
+  mode Chain of k,G is Subset of cells(k,G);
+end;
+
+definition
+  let d,G,k;
+  func 0_(k,G) -> Chain of k,G equals
+:: CHAIN_1:def 8
+  {};
+end;
+
+definition
+  let d,G;
+  func Omega(G) -> Chain of d,G equals
+:: CHAIN_1:def 9
+  cells(d,G);
+end;
+
+notation
+  let d,G,k;
+  let C1,C2 be Chain of k,G;
+  synonym C1 + C2 for C1 \+\ C2;
+end;
+
+definition
+  let d,G,k;
+  let C1,C2 be Chain of k,G;
+  redefine func C1 + C2 -> Chain of k,G;
+end;
+
+definition
+  let d,G;
+  func infinite-cell(G) -> Cell of d,G means
+:: CHAIN_1:def 10
+
+  ex l,r st it = cell(l,r) & for i holds r.i < l.i & [l.i,r.i] is Gap of G.i;
+end;
+
+theorem :: CHAIN_1:48
+  cell(l,r) is Cell of d,G implies
+  (cell(l,r) = infinite-cell(G) iff for i holds r.i < l.i);
+
+theorem :: CHAIN_1:49
+  cell(l,r) = infinite-cell(G) iff
+  for i holds r.i < l.i & [l.i,r.i] is Gap of G.i;
+
+scheme :: CHAIN_1:sch 4
+ ChainInd { d()->non zero Nat, G()->Grating of d(),
+  k()->Nat, C()->Chain of k(),G(), P[set] } : P[C()]
+provided
+ P[0_(k(),G())] and
+ for A being Cell of k(),G() st A in C() holds P[{A}] and
+ for C1,C2 being Chain of k(),G() st C1 c= C() & C2 c= C() &
+P[C1] & P[C2] holds P[C1 + C2];
+
+:: the boundary operator
+
+definition
+  let d,G,k;
+  let A be Cell of k,G;
+  func star A -> Chain of (k + 1),G equals
+:: CHAIN_1:def 11
+  { B where B is Cell of (k + 1),G : A c= B };
+end;
+
+theorem :: CHAIN_1:50
+  for A being Cell of k,G, B being Cell of (k + 1),G holds
+  B in star A iff A c= B;
+
+definition
+  let d,G,k;
+  let C be Chain of (k + 1),G;
+  func del C -> Chain of k,G equals
+:: CHAIN_1:def 12
+  { A where A is Cell of k,G : k + 1 <= d & card(star A /\ C) is odd };
+end;
+
+notation
+  let d,G,k;
+  let C be Chain of (k + 1),G;
+  synonym .C for del C;
+end;
+
+definition
+  let d,G,k;
+  let C be Chain of (k + 1),G, C9 be Chain of k,G;
+  pred C9 bounds C means
+:: CHAIN_1:def 13
+  C9 = del C;
+end;
+
+theorem :: CHAIN_1:51
+  for A being Cell of k,G, C being Chain of (k + 1),G holds
+  A in del C iff k + 1 <= d & card(star A /\ C) is odd;
+
+theorem :: CHAIN_1:52
+  k + 1 > d implies for C being Chain of (k + 1),G holds del C = 0_(k,G);
+
+theorem :: CHAIN_1:53
+  k + 1 <= d implies for A being Cell of k,G, B being Cell of (k + 1),G holds
+  A in del {B} iff A c= B;
+
+:: lemmas
+
+theorem :: CHAIN_1:54
+  d = d9 + 1 implies for A being Cell of d9,G holds card(star A) = 2;
+
+theorem :: CHAIN_1:55
+  for G being Grating of d, B being Cell of (0 + 1),G holds card(del {B}) = 2;
+
+:: theorems
+
+theorem :: CHAIN_1:56
+  Omega(G) = 0_(d,G)` & 0_(d,G) = (Omega(G))`;
+
+theorem :: CHAIN_1:57
+  for C being Chain of k,G holds C + 0_(k,G) = C;
+
+theorem :: CHAIN_1:58
+  for C being Chain of d,G holds C` = C + Omega(G);
+
+theorem :: CHAIN_1:59
+  del 0_(k + 1,G) = 0_(k,G);
+
+theorem :: CHAIN_1:60
+  for G being Grating of d9 + 1 holds del Omega(G) = 0_(d9,G);
+
+theorem :: CHAIN_1:61
+  for C1,C2 being Chain of (k + 1),G holds del(C1 + C2) = del C1 + del C2;
+
+theorem :: CHAIN_1:62
+  for G being Grating of d9 + 1, C being Chain of (d9 + 1),G holds
+  del C` = del C;
+
+theorem :: CHAIN_1:63
+  for C being Chain of (k + 1 + 1),G holds del (del C) = 0_(k,G);
+
+:: cycles
+
+definition
+  let d,G,k;
+  mode Cycle of k,G -> Chain of k,G means
+:: CHAIN_1:def 14
+
+    k = 0 & card it is even or
+    ex k9 st k = k9 + 1 & ex C being Chain of (k9 + 1),G st C = it &
+    del C = 0_(k9,G);
+end;
+
+theorem :: CHAIN_1:64
+  for C being Chain of (k + 1),G holds
+  C is Cycle of (k + 1),G iff del C = 0_(k,G);
+
+theorem :: CHAIN_1:65
+  k > d implies for C being Chain of k,G holds C is Cycle of k,G;
+
+theorem :: CHAIN_1:66
+  for C being Chain of 0,G holds C is Cycle of 0,G iff card C is even;
+
+definition
+  let d,G,k;
+  let C be Cycle of (k + 1),G;
+  redefine func del C equals
+:: CHAIN_1:def 15
+  0_(k,G);
+end;
+
+definition
+  let d,G,k;
+  redefine func 0_(k,G) -> Cycle of k,G;
+end;
+
+definition
+  let d,G;
+  redefine func Omega(G) -> Cycle of d,G;
+end;
+
+definition
+  let d,G,k;
+  let C1,C2 be Cycle of k,G;
+  redefine func C1 + C2 -> Cycle of k,G;
+end;
+
+theorem :: CHAIN_1:67
+  for C being Cycle of d,G holds C` is Cycle of d,G;
+
+definition
+  let d,G,k;
+  let C be Chain of (k + 1),G;
+  redefine func del C -> Cycle of k,G;
+end;
+
+begin :: groups and homomorphisms
+
+definition
+  let d,G,k;
+  func Chains(k,G) -> strict AbGroup means
+:: CHAIN_1:def 16
+
+  the carrier of it = bool(cells(k,G)) & 0.it = 0_(k,G) &
+  for A,B being Element of it, A9,B9 being Chain of k,G
+  st A = A9 & B = B9 holds A + B = A9 + B9;
+end;
+
+definition
+  let d,G,k;
+  mode GrChain of k,G is Element of Chains(k,G);
+end;
+
+theorem :: CHAIN_1:68
+  for x being set holds x is Chain of k,G iff x is GrChain of k,G;
+
+definition
+  let d,G,k;
+  func del(k,G) -> Homomorphism of Chains(k + 1,G),Chains(k,G) means
+:: CHAIN_1:def 17
+  for A being Element of Chains(k + 1,G), A9 being Chain of (k + 1),G
+  st A = A9 holds it.A = del A9;
+end;

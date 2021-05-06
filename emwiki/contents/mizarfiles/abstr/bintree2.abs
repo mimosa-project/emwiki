@@ -1,0 +1,207 @@
+:: Full Trees
+::  by Robert Milewski
+::
+:: Received February 25, 1998
+:: Copyright (c) 1998-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, ORDINAL4, XBOOLE_0, SUBSET_1, RELAT_1,
+      BINTREE1, TREES_1, MARGREL1, TARSKI, ORDINAL1, CARD_1, ARYTM_3, PARTFUN1,
+      FUNCT_1, XBOOLEAN, TREES_2, FINSEQ_2, TREES_4, ZFMISC_1, FUNCOP_1,
+      MCART_1, FINSEQ_5, NAT_1, BINARITH, CAT_1, XXREAL_0, EUCLID, FINSET_1,
+      POWER, ARYTM_1, BINARI_3, INT_1, ABIAN, BINTREE2, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, CARD_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, XTUPLE_0, MCART_1, NAT_1, NAT_D, ABIAN, SERIES_1, RELAT_1,
+      MARGREL1, DOMAIN_1, FUNCT_1, PARTFUN1, FUNCT_2, BINOP_1, FINSET_1,
+      FUNCOP_1, FINSEQ_1, FINSEQ_2, FINSEQ_5, BINARITH, BINARI_3, TREES_1,
+      TREES_2, TREES_4, BINTREE1, EUCLID, XXREAL_0;
+ constructors WELLORD2, DOMAIN_1, NAT_D, FINSEQOP, SERIES_1, BINARITH,
+      FINSEQ_5, TREES_9, ABIAN, EUCLID, BINTREE1, BINARI_3, RELSET_1, XTUPLE_0,
+      BINOP_1, PRE_POLY;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, FINSET_1, XXREAL_0,
+      XREAL_0, NAT_1, FINSEQ_1, MARGREL1, TREES_2, TREES_9, BINTREE1, FINSEQ_2,
+      INT_1, XTUPLE_0, CARD_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+theorem :: BINTREE2:1
+  for D be set for p be FinSequence for n be Nat holds p
+  in D* implies p|Seg n in D*;
+
+theorem :: BINTREE2:2
+  for T be binary Tree for t be Element of T holds t is FinSequence of BOOLEAN;
+
+definition
+  let T be binary Tree;
+  redefine mode Element of T -> FinSequence of BOOLEAN;
+end;
+
+theorem :: BINTREE2:3
+  for T be Tree st T = {0,1}* holds T is binary;
+
+theorem :: BINTREE2:4
+  for T be Tree st T = {0,1}* holds Leaves T = {};
+
+theorem :: BINTREE2:5
+  for T be binary Tree for n be Nat for t be Element of T st
+  t in T-level n holds t is Element of n-tuples_on BOOLEAN;
+
+theorem :: BINTREE2:6
+  for T be Tree st for t be Element of T holds succ t = { t^<* 0 *>, t^
+  <* 1 *> } holds Leaves T = {};
+
+theorem :: BINTREE2:7
+  for T be Tree st for t be Element of T holds succ t = { t^<* 0 *>
+  , t^<* 1 *> } holds T is binary;
+
+theorem :: BINTREE2:8
+  for T be Tree holds T = {0,1}* iff for t be Element of T holds
+  succ t = { t^<* 0 *>, t^<* 1 *> };
+
+scheme :: BINTREE2:sch 1
+  DecoratedBinTreeEx {A() -> non empty set, a() -> Element of A(),
+    P[object,object,object]}:
+ex D be binary DecoratedTree of A() st dom D = {0,1}* & D.{} = a() & for
+  x be Node of D holds P[D.x,D.(x ^ <* 0 *>),D.(x ^ <*1*>)]
+provided
+ for a be Element of A() ex b,c be Element of A() st P[a,b,c];
+
+scheme :: BINTREE2:sch 2
+  DecoratedBinTreeEx1 {A() -> non empty set, a() -> Element of A(),
+    P,Q[object,object]}:
+  ex D be binary DecoratedTree of A() st dom D = {0,1}* & D.{} = a
+  () & for x be Node of D holds P[D.x,D.(x ^ <* 0 *>)] & Q[D.x,D.(x ^ <*1*>)]
+provided
+ for a be Element of A() ex b be Element of A() st P[a,b] and
+ for a be Element of A() ex b be Element of A() st Q[a,b];
+
+definition
+  let T be binary Tree;
+  let n be non zero Nat;
+  func NumberOnLevel(n,T) -> Function of T-level n,NAT means
+:: BINTREE2:def 1
+
+  for t be Element of T st t in T-level n
+   for F be Element of n-tuples_on BOOLEAN st F = Rev t holds
+  it.t = (Absval F) + 1;
+end;
+
+registration
+  let T be binary Tree;
+  let n be non zero Nat;
+  cluster NumberOnLevel(n,T) -> one-to-one;
+end;
+
+begin :: Full Trees
+
+definition
+  let T be Tree;
+  attr T is full means
+:: BINTREE2:def 2
+
+  T = {0,1}*;
+end;
+
+theorem :: BINTREE2:9
+  {0,1}* is Tree;
+
+theorem :: BINTREE2:10
+  for T be Tree st T = {0,1}* for n be Nat holds 0*n in T-level n;
+
+theorem :: BINTREE2:11
+  for T be Tree st T = {0,1}* for n be non zero Nat
+  for y be Element of n-tuples_on BOOLEAN holds y in T-level n;
+
+registration
+  let T be binary Tree;
+  let n be Nat;
+  cluster T-level n -> finite;
+end;
+
+registration
+  cluster full -> binary for Tree;
+end;
+
+registration
+  cluster full for Tree;
+end;
+
+theorem :: BINTREE2:12
+  for T be full Tree for n be non zero Nat holds Seg (2 to_power
+  n) c= rng NumberOnLevel(n,T);
+
+definition
+  let T be full Tree;
+  let n be non zero Nat;
+  func FinSeqLevel(n,T) -> FinSequence of T-level n equals
+:: BINTREE2:def 3
+  NumberOnLevel(n,T)";
+end;
+
+registration
+  let T be full Tree;
+  let n be non zero Nat;
+  cluster FinSeqLevel(n,T) -> one-to-one;
+end;
+
+theorem :: BINTREE2:13
+  for T be full Tree for n be non zero Nat holds
+  NumberOnLevel(n,T).(0*n) = 1;
+
+theorem :: BINTREE2:14
+  for T be full Tree for n be non zero Nat for y be
+  Element of n-tuples_on BOOLEAN st y = 0*n
+  holds NumberOnLevel(n,T).'not' y = 2 to_power n;
+
+theorem :: BINTREE2:15
+  for T be full Tree for n be non zero Nat holds
+  FinSeqLevel(n,T).1 = 0*n;
+
+theorem :: BINTREE2:16
+  for T be full Tree for n be non zero Nat for y be
+  Element of n-tuples_on BOOLEAN
+  st y = 0*n holds FinSeqLevel(n,T).(2 to_power n) = 'not' y;
+
+theorem :: BINTREE2:17
+  for T be full Tree for n be non zero Nat for i be
+  Nat st i in Seg (2 to_power n) holds FinSeqLevel(n,T).i = Rev (n
+  -BinarySequence (i-'1));
+
+theorem :: BINTREE2:18
+  for T be full Tree for n be Nat holds card (T-level n
+  ) = 2 to_power n;
+
+theorem :: BINTREE2:19
+  for T be full Tree for n be non zero Nat holds len
+  FinSeqLevel(n,T) = 2 to_power n;
+
+theorem :: BINTREE2:20
+  for T be full Tree for n be non zero Nat holds dom
+  FinSeqLevel(n,T) = Seg (2 to_power n);
+
+theorem :: BINTREE2:21
+  for T be full Tree for n be non zero Nat holds rng
+  FinSeqLevel(n,T) = T-level n;
+
+theorem :: BINTREE2:22
+  for T be full Tree holds FinSeqLevel(1,T).1 = <* 0 *>;
+
+theorem :: BINTREE2:23
+  for T be full Tree holds FinSeqLevel(1,T).2 = <* 1 *>;
+
+theorem :: BINTREE2:24
+  for T be full Tree for n,i be non zero Nat st i <= 2
+to_power (n+1) for F be Element of n-tuples_on BOOLEAN
+st F = FinSeqLevel(n,T).((i+1) div 2
+  ) holds FinSeqLevel(n+1,T).i = F^<*(i+1) mod 2*>;

@@ -1,0 +1,98 @@
+:: Mostowski's Fundamental Operations - Part II
+::  by Grzegorz Bancerek and Andrzej Kondracki
+::
+:: Received February 15, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ZF_LANG, XBOOLE_0, SUBSET_1, FUNCT_1, ARYTM_3, CARD_1,
+      ZF_MODEL, TARSKI, ORDINAL1, BVFUNC_2, XBOOLEAN, ZFMISC_1, CLASSES2,
+      ZF_REFLE, CARD_3, RELAT_1, ORDINAL2, ZF_LANG1, ZFMODEL1, XXREAL_0,
+      REALSET1, ZF_FUND1, FUNCT_2, ORDINAL4, NAT_1, ZF_FUND2;
+ notations TARSKI, XBOOLE_0, ENUMSET1, ZFMISC_1, SUBSET_1, CARD_1, ORDINAL1,
+      XCMPLX_0, NAT_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, ZF_LANG,
+      ZF_MODEL, ZFMODEL1, ORDINAL2, NUMBERS, CARD_3, ZF_LANG1, CLASSES2,
+      ORDINAL4, ZF_REFLE, ZF_FUND1, XXREAL_0;
+ constructors PARTFUN1, WELLORD2, DOMAIN_1, XXREAL_0, XREAL_0, NAT_1, CLASSES1,
+      ZFMODEL1, ZF_LANG1, ZF_REFLE, ZF_FUND1, ORDINAL4, RELSET_1, ZF_MODEL,
+      NUMBERS;
+ registrations ORDINAL1, RELSET_1, FINSET_1, XREAL_0, CARD_1, CLASSES2,
+      ZF_LANG, ORDINAL4, FUNCT_1, ZF_FUND1, ZF_LANG1;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve H for ZF-formula,
+  M,E for non empty set,
+  e for Element of E,
+  m,m0,m3, m4 for Element of M,
+  v,v1,v2 for Function of VAR,M,
+  f,f1 for Function of VAR,E,
+  g for Function,
+  u,u1,u2 for set,
+  x,y for Variable,
+  i,n for Element of NAT,
+  X for set;
+
+definition
+  let H,M,v;
+  func Section(H,v) -> Subset of M equals
+:: ZF_FUND2:def 1
+
+  { m : M,v/(x.0,m) |= H } if
+  x.0 in Free H otherwise {};
+end;
+
+definition
+  let M;
+  attr M is predicatively_closed means
+:: ZF_FUND2:def 2
+
+  for H, E, f st E in M holds Section(H,f) in M;
+end;
+
+theorem :: ZF_FUND2:1
+  E is epsilon-transitive implies Section(All(x.2,x.2 'in' x.0 =>
+  x.2 'in' x.1),f/(x.1,e)) = E /\ bool e;
+
+reserve W for Universe,
+  w for Element of W,
+  Y for Subclass of W,
+  a,a1,b,c for Ordinal of W,
+  L for DOMAIN-Sequence of W;
+
+theorem :: ZF_FUND2:2
+  (for a,b st a in b holds L.a c= L.b) & (for a holds L.a in Union
+L & L.a is epsilon-transitive) & Union L is predicatively_closed implies Union
+  L |= the_axiom_of_power_sets;
+
+theorem :: ZF_FUND2:3
+  omega in W & (for a,b st a in b holds L.a c= L.b) & (for a st a
+<> {} & a is limit_ordinal holds L.a = Union (L|a)) & (for a holds L.a in Union
+L & L.a is epsilon-transitive) & Union L is predicatively_closed implies for H
+st {x.0,x.1,x.2} misses Free H holds Union L |= the_axiom_of_substitution_for H
+;
+
+theorem :: ZF_FUND2:4
+  Section(H,v)= {m : {[{},m]} \/ (v*decode)|((code Free H)\{{}}) in
+  Diagram(H,M)};
+
+theorem :: ZF_FUND2:5
+  Y is closed_wrt_A1-A7 & Y is epsilon-transitive implies Y is
+  predicatively_closed;
+
+theorem :: ZF_FUND2:6
+  omega in W & (for a,b st a in b holds L.a c= L.b) & (for a st a <> {}
+& a is limit_ordinal holds L.a = Union (L|a)) & (for a holds L.a in Union L & L
+  .a is epsilon-transitive) & Union L is closed_wrt_A1-A7 implies Union L is
+  being_a_model_of_ZF;

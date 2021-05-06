@@ -1,0 +1,378 @@
+:: On algebras of algorithms and specifications over uninterpreted data
+::  by Ievgen Ivanov , Artur Korni{\l}owicz and Mykola Nikitchenko
+:: 
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies SUBSET_1, XBOOLE_0, RELAT_1, FUNCT_1, XXREAL_0, NAT_1, ARYTM_3,
+      PARTFUN1, MARGREL1, XBOOLEAN, TARSKI, ZFMISC_1, ARYTM_1, FUNCT_7,
+      SETFAM_1, PARTPR_1, PARTPR_2, FUNCOP_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, MARGREL1, SETFAM_1,
+      RELAT_1, RELSET_1, FUNCT_1, XTUPLE_0, PARTFUN1, PARTFUN2, FUNCT_2,
+      FUNCOP_1, BINOP_1, XXREAL_0, XCMPLX_0, RFUNCT_3, FUNCT_7, MULTOP_1,
+      PARTPR_1;
+ constructors DOMAIN_1, RFUNCT_3, MIDSP_3, RELSET_1, MULTOP_1, PARTPR_1,
+      SETFAM_1, PARTFUN2;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, PARTFUN1, FUNCOP_1, XREAL_0,
+      FUNCT_7, RELSET_1, INT_1, PARTPR_1;
+ requirements NUMERALS, BOOLE, SUBSET;
+
+
+begin :: Preliminaries
+
+reserve x for object;
+reserve n for Nat;
+
+registration
+  let X,Y be set;
+  cluster -> X-defined for Element of PFuncs(X,Y);
+  cluster -> Y-valued for Element of PFuncs(X,Y);
+end;
+
+theorem :: PARTPR_2:1
+  for X,Y,Z,T being set
+  for x,y,z being object
+  for f being Function of [:X,Y,Z:],T st x in X & y in Y & z in Z & T <> {}
+  holds f.(x,y,z) in T;
+
+registration
+  cluster non empty non with_non-empty_elements for set;
+end;
+
+definition
+  let A,B,C be set;
+  func PFcompos(A,B,C) -> Function of [:PFuncs(A,B),PFuncs(B,C):],PFuncs(A,C)
+    means
+:: PARTPR_2:def 1
+  for f being PartFunc of A,B
+   for g being PartFunc of B,C holds it.(f,g) = g*f;
+end;
+
+reserve D for non empty set;
+reserve p,q for PartialPredicate of D;
+
+theorem :: PARTPR_2:2
+  q is total implies dom p c= dom PP_or(p,q);
+
+theorem :: PARTPR_2:3
+  q is total implies dom p c= dom PP_and(p,q);
+
+theorem :: PARTPR_2:4
+  q is total implies dom p c= dom PP_imp(p,q);
+
+begin :: Operations in algebras of algorithms and specifications over uninterpreted data
+
+reserve D for set;
+
+definition
+  let D;
+  func FPrg(D) -> set equals
+:: PARTPR_2:def 2
+  PFuncs(D,D);
+end;
+
+registration
+  let D;
+  cluster FPrg(D) -> non empty functional;
+end;
+
+definition
+  let D;
+  mode BinominativeFunction of D is PartFunc of D,D;
+end;
+
+theorem :: PARTPR_2:5
+  for D being non empty set, f being BinominativeFunction of D holds
+  id field f is BinominativeFunction of D;
+
+reserve p,q for PartialPredicate of D;
+reserve f,g for BinominativeFunction of D;
+
+registration
+  let D,p;
+  let F be Function of Pr(D),Pr(D);
+  cluster F.p -> Function-like Relation-like;
+end;
+
+registration
+  let D;
+  let F be Function of Pr(D),Pr(D);
+  let p be Element of Pr(D);
+  cluster F.p -> Function-like Relation-like;
+end;
+
+registration
+  let D,p,q;
+  let F be Function of [:Pr(D),Pr(D):],Pr(D);
+  cluster F.(p,q) -> Function-like Relation-like;
+end;
+
+registration
+  let D;
+  let F be Function of [:Pr(D),Pr(D):],Pr(D);
+  let p,q be Element of Pr(D);
+  cluster F.(p,q) -> Function-like Relation-like;
+end;
+
+registration
+  let D;
+  let F be Function of [:Pr(D),Pr(D):],Pr(D);
+  let x be Element of [:Pr(D),Pr(D):];
+  cluster F.x -> Function-like Relation-like;
+end;
+
+registration
+  let D,f;
+  let F be Function of FPrg(D),FPrg(D);
+  cluster F.f -> Function-like Relation-like;
+end;
+
+registration
+  let D,p,f,g;
+  let F be Function of [:Pr(D),FPrg(D),FPrg(D):],FPrg(D);
+  cluster F.(p,f,g) -> Function-like Relation-like;
+  cluster F.[p,f,g] -> Function-like Relation-like;
+end;
+
+registration
+  let D,p,q,f;
+  let F be Function of [:Pr(D),FPrg(D),Pr(D):],Pr(D);
+  cluster F.(p,f,q) -> Function-like Relation-like;
+  cluster F.[p,f,q] -> Function-like Relation-like;
+end;
+
+::$N Identity composition
+notation
+  let D be set;
+  synonym PPid(D) for id D;
+end;
+
+definition
+  let D be set;
+  redefine func PPid(D) -> BinominativeFunction of D;
+end;
+
+::$N Identity composition
+definition
+  let D be non empty set, d be Element of D;
+  func PP_id(d) -> Element of D equals
+:: PARTPR_2:def 3
+  PPid(D).d;
+end;
+
+::$N Sequential composition
+definition
+  let D;
+  func PPcomposition(D) -> Function of [:FPrg(D),FPrg(D):],FPrg(D)
+   equals
+:: PARTPR_2:def 4
+  PFcompos(D,D,D);
+end;
+
+::$N Sequential composition
+definition
+  let D,f,g;
+  func PP_composition(f,g) -> BinominativeFunction of D equals
+:: PARTPR_2:def 5
+  PPcomposition(D).(f,g);
+end;
+
+::$N Prediction composition
+definition
+  let D;
+  func PPprediction(D) -> Function of [:FPrg(D),Pr(D):],Pr(D) equals
+:: PARTPR_2:def 6
+  PFcompos(D,D,BOOLEAN);
+end;
+
+::$N Prediction composition
+definition
+  let D,f,p;
+  func PP_prediction(f,p) -> PartialPredicate of D equals
+:: PARTPR_2:def 7
+  PPprediction(D).(f,p);
+end;
+
+registration
+  let D;
+  let F be Function of [:Pr(D),FPrg(D),FPrg(D):],FPrg(D);
+  let p be PartialPredicate of D;
+  let f,g be BinominativeFunction of D;
+  cluster F.(p,f,g) -> Function-like Relation-like;
+end;
+
+theorem :: PARTPR_2:6
+  x in dom(PP_prediction(f,p)) implies
+   x in dom(p*f) & ((p*f).x = TRUE or (p*f).x = FALSE);
+
+scheme :: PARTPR_2:sch 1
+  PredToNomPredEx { D() -> set, Dom() -> set, P[object] }:
+  ex p being PartialPredicate of D() st
+   dom p = Dom() &
+    (for d being object st d in dom p holds
+    (P[d] implies p.d = TRUE) & (not P[d] implies p.d = FALSE))
+  provided
+ Dom() c= D();
+
+scheme :: PARTPR_2:sch 2
+ PredToNomPredUnique { D() -> set, Dom() -> set, P[object] }:
+  for p,q being PartialPredicate of D() st
+    (dom p = Dom() & (for d being object st d in dom p holds
+    (P[d] implies p.d = TRUE) & (not P[d] implies p.d = FALSE))) &
+    (dom q = Dom() & (for d being object st d in dom q holds
+    (P[d] implies q.d = TRUE) & (not P[d] implies q.d = FALSE)))
+  holds p = q;
+
+::$N Emptiness checking predicate
+definition
+  let D;
+  func PPisEmpty(D) -> PartialPredicate of D means
+:: PARTPR_2:def 8
+  dom it = D &
+  for d being object st d in dom it holds
+   (d = {} implies it.d = TRUE) & (d <> {} implies it.d = FALSE);
+end;
+
+::$N Empty constant function
+definition
+  let D be non with_non-empty_elements set;
+  func PPEmpty(D) -> BinominativeFunction of D equals
+:: PARTPR_2:def 9
+  D --> {};
+end;
+
+::$N Empty function
+definition
+  let D;
+  func PPBottomFunc(D) -> BinominativeFunction of D equals
+:: PARTPR_2:def 10
+  {};
+end;
+
+reserve D for non empty set;
+reserve p,q for PartialPredicate of D;
+reserve f,g,h for BinominativeFunction of D;
+
+::$N Branching composition
+definition
+  let D;
+  func PPIF(D)
+    -> Function of [:Pr(D),FPrg(D),FPrg(D):],FPrg(D)
+   means
+:: PARTPR_2:def 11
+  for p being PartialPredicate of D
+  for f,g being BinominativeFunction of D holds
+   dom(it.(p,f,g)) = {d where d is Element of D:
+                      d in dom p & p.d = TRUE & d in dom f
+                   or d in dom p & p.d = FALSE & d in dom g} &
+  for d being object holds
+   (d in dom p & p.d = TRUE & d in dom f implies it.(p,f,g).d = f.d) &
+   (d in dom p & p.d = FALSE & d in dom g implies it.(p,f,g).d = g.d);
+end;
+
+::$N Branching composition
+definition
+  let D,p,f,g;
+  func PP_IF(p,f,g) -> BinominativeFunction of D equals
+:: PARTPR_2:def 12
+  PPIF(D).(p,f,g);
+end;
+
+theorem :: PARTPR_2:7
+  x in dom(PP_IF(p,f,g)) implies
+   x in dom p & p.x = TRUE & x in dom f or
+   x in dom p & p.x = FALSE & x in dom g;
+
+::$N Monotone Floyd-Hoare composition
+definition
+  let D;
+  func PPFH(D) -> Function of [:Pr(D),FPrg(D),Pr(D):],Pr(D)
+   means
+:: PARTPR_2:def 13
+  for p,q being PartialPredicate of D
+  for f being BinominativeFunction of D holds
+   dom(it.(p,f,q)) = {d where d is Element of D:
+                 d in dom p & p.d = FALSE or d in dom(q*f) & (q*f).d = TRUE
+              or d in dom p & p.d = TRUE & d in dom(q*f) & (q*f).d = FALSE} &
+  for d being object holds
+   (d in dom p & p.d = FALSE or d in dom(q*f) & (q*f).d = TRUE
+     implies it.(p,f,q).d = TRUE) &
+   (d in dom p & p.d = TRUE & d in dom(q*f) & (q*f).d = FALSE
+     implies it.(p,f,q).d = FALSE);
+end;
+
+::$N Monotone Floyd-Hoare composition
+definition
+  let D,p,q,f;
+  func PP_FH(p,f,q) -> PartialPredicate of D equals
+:: PARTPR_2:def 14
+  PPFH(D).(p,f,q);
+end;
+
+theorem :: PARTPR_2:8
+  x in dom(PP_FH(p,f,q)) implies
+   x in dom p & p.x = FALSE or x in dom(q*f) & (q*f).x = TRUE
+   or x in dom p & p.x = TRUE & x in dom(q*f) & (q*f).x = FALSE;
+
+::$N Cycle composition
+definition
+  let D;
+  func PPwhile(D) -> Function of [:Pr(D),FPrg(D):],FPrg(D)
+   means
+:: PARTPR_2:def 15
+  for p being PartialPredicate of D
+   for f being BinominativeFunction of D holds
+    dom(it.(p,f)) = {d where d is Element of D:
+     ex n being Nat st
+      (for i being Nat st i <= n-1 holds
+       d in dom(p*iter(f,i)) & (p*iter(f,i)).d = TRUE)
+      & d in dom(p*iter(f,n)) & (p*iter(f,n)).d = FALSE} &
+    for d being object st d in dom(it.(p,f))
+     ex n being Nat st
+      (for i being Nat st i <= n-1 holds
+       d in dom(p*iter(f,i)) & (p*iter(f,i)).d = TRUE)
+      & d in dom(p*iter(f,n)) & (p*iter(f,n)).d = FALSE &
+     it.(p,f).d = iter(f,n).d;
+end;
+
+::$N Cycle composition
+definition
+  let D,p,f;
+  func PP_while(p,f) -> BinominativeFunction of D equals
+:: PARTPR_2:def 16
+  PPwhile(D).(p,f);
+end;
+
+definition
+  let D;
+  func PPinversion(D) -> Function of Pr(D),Pr(D) means
+:: PARTPR_2:def 17
+  for p being PartialPredicate of D holds
+   dom(it.p) = {d where d is Element of D: not d in dom p} &
+   for d being Element of D holds not d in dom p implies it.p.d = TRUE;
+end;
+
+definition
+  let D be non empty set;
+  let p be PartialPredicate of D;
+  func PP_inversion(p) -> PartialPredicate of D equals
+:: PARTPR_2:def 18
+  PPinversion(D).p;
+end;
+
+theorem :: PARTPR_2:9
+  for d being Element of D holds
+  d in dom p iff not d in dom(PP_inversion(p));
+
+theorem :: PARTPR_2:10
+  p is total implies dom PP_inversion(p) = {};

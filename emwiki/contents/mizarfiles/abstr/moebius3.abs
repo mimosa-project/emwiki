@@ -1,0 +1,496 @@
+:: Sequences of Prime Reciprocals -- Preliminaries
+::  by Adam Grabowski
+:: 
+:: Received March 27, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ORDINAL2, FINSEQ_1, ARYTM_3, ARYTM_1, RELAT_1, FUNCT_1, INT_1,
+      SQUARE_1, SEQ_1, MEASURE5, FACIRC_1, FUNCT_4, ABIAN, VALUED_1, REALSET1,
+      SERIES_1, POWER, FUNCT_7, FINSET_1, CARD_1, MCART_1, MOEBIUS1, RCOMP_1,
+      SIN_COS, TAYLOR_2, INTEGRA5, PYTHTRIP, BASEL_1, LIMFUNC1, PRE_POLY,
+      XXREAL_2, PARTFUN1, NEWTON, XXREAL_0, ORDINAL4, XBOOLE_0, REAL_1, INT_2,
+      TARSKI, PARTFUN3, NAT_1, TAYLOR_1, SEQ_4, XXREAL_1, FDIFF_1, PBOOLE,
+      NAT_3, CARD_3, VALUED_0, UPROOTS, INT_7, SERIES_3, XCMPLX_0, SUBSET_1,
+      ZFMISC_1, NUMBERS, MOEBIUS2, MOEBIUS3, INTEGRA1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, CARD_1, XTUPLE_0,
+      XXREAL_0, XCMPLX_0, VALUED_0, ZFMISC_1, FINSET_1, SQUARE_1, ABIAN, INT_1,
+      INT_2, NAT_1, XREAL_0, RELAT_1, FUNCT_1, FUNCT_2, VALUED_1, FUNCT_4,
+      FINSEQ_1, PARTFUN3, PRE_POLY, RCOMP_1, FCONT_1, MEASURE5, RFUNCT_1,
+      SEQ_4, PBOOLE, NAT_D, SEQ_1, SEQ_2, RVSUM_1, SERIES_1, PYTHTRIP, UPROOTS,
+      BINOP_1, NEWTON, POWER, TAYLOR_1, INT_7, SERIES_3, NAT_3, PEPIN,
+      MOEBIUS1, MOEBIUS2, PARTFUN1, SIN_COS, RELSET_1, PARTFUN2, FDIFF_1,
+      LIMFUNC1, INTEGRA5, TAYLOR_2, BASEL_1;
+ constructors SIN_COS, UPROOTS, INT_7, SERIES_3, COMSEQ_2, INTEGRA1, FCONT_1,
+      TAYLOR_2, ABIAN, MOEBIUS1, FINSOP_1, RVSUM_1, BAGORDER, SERIES_1, REAL_1,
+      PARTFUN3, PEPIN, NAT_3, RELSET_1, RECDEF_1, MOEBIUS2, TAYLOR_1, PYTHTRIP,
+      INTEGRA5, SEQ_4, PARTFUN2, BASEL_1, FDIFF_1, LIMFUNC1;
+ registrations RELSET_1, INT_1, XREAL_0, NAT_1, MEMBERED, FINSEQ_1, FINSET_1,
+      XXREAL_0, FUNCT_1, NEWTON, XCMPLX_0, NUMBERS, ORDINAL1, PRE_POLY, NAT_3,
+      MOEBIUS2, RCOMP_1, COMSEQ_3, INT_7, SEQ_4, XBOOLE_0, VALUED_0, XXREAL_2,
+      FUNCT_2, MEASURE5, ABIAN, INTEGRA1, RELAT_1, NEWTON03, XTUPLE_0,
+      SUBSET_1, VALUED_1, FCONT_3, POWER, NEWTON04;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+ reserve n,i,k,m for Nat;
+ reserve p for Prime;
+
+registration
+  cluster non zero square non trivial for Nat;
+end;
+
+registration let Z be Subset of REAL;
+             let f be PartFunc of Z, REAL;
+             let A be Subset of REAL;
+  cluster f | A -> A-defined for PartFunc of Z, REAL;
+end;
+
+theorem :: MOEBIUS3:1
+  for Z being Subset of REAL st 0 in Z holds
+    (id Z)"{0} = {0};
+
+theorem :: MOEBIUS3:2
+  for Z being Subset of REAL st not 0 in Z holds
+    (id Z)"{0} = {};
+
+theorem :: MOEBIUS3:3
+  for Z being open Subset of REAL,
+      A being non empty closed_interval Subset of REAL st
+      not 0 in Z & A c= Z holds
+    ((id Z)^) | A is continuous;
+
+theorem :: MOEBIUS3:4
+  for Z being open Subset of REAL,
+      A being non empty closed_interval Subset of REAL
+    st Z = right_open_halfline 0 & A = [.1,n+1.] holds
+  integral ((id Z)^,A) = ln.(n + 1);
+
+theorem :: MOEBIUS3:5
+  for Z being open Subset of REAL,
+      A being non empty closed_interval Subset of REAL
+    st Z = right_open_halfline 0 & 0 < n & A = [.n, n+1.] holds
+  integral ((id Z)^,A) = ln.((n + 1) / n);
+
+theorem :: MOEBIUS3:6
+  for x,r being Real st x > 0 & r > 0 holds
+    Maclaurin(exp_R,].-r,r.[,x) is positive-yielding;
+
+theorem :: MOEBIUS3:7
+  for f be summable Real_Sequence, n be Nat st
+    f is positive-yielding holds
+      Sum (f ^\ (n+1)) > 0;
+
+begin :: Harmonic Numbers
+
+:: n-th harmonic number
+
+definition let n be Nat;
+  func Harmonic n -> Real equals
+:: MOEBIUS3:def 1
+    (Partial_Sums invNAT).n;
+end;
+
+theorem :: MOEBIUS3:8
+  Harmonic 0 = 0;
+
+theorem :: MOEBIUS3:9
+  Harmonic (n + 1) = Harmonic n + 1 / (n + 1);
+
+theorem :: MOEBIUS3:10
+  Harmonic 1 = 1;
+
+theorem :: MOEBIUS3:11
+  Harmonic 2 = 3 / 2;
+
+begin :: On Exponents and Logarithms
+
+theorem :: MOEBIUS3:12
+  ln.1 = 0;
+
+theorem :: MOEBIUS3:13
+  for x being Real st x > 0 holds
+    exp_R.x > x + 1;
+
+theorem :: MOEBIUS3:14
+  for x being Real st x > 0 holds
+    ln.(x + 1) < x;
+
+theorem :: MOEBIUS3:15
+  for n being Nat st n > 0 holds
+    ln.((n + 1) / n) < 1 / n;
+
+theorem :: MOEBIUS3:16
+  for x being Real holds
+    ln.(exp_R.x) = x;
+
+theorem :: MOEBIUS3:17
+  for x,y being Real st 0 < x < y holds
+    ln.x < ln.y;
+
+theorem :: MOEBIUS3:18
+  for n being non zero Nat holds
+    ln.(n+1) > 0;
+
+theorem :: MOEBIUS3:19
+  for x,y being Real st 0 < x & 0 < y holds
+    ln.(x * y) = ln.x + ln.y;
+
+theorem :: MOEBIUS3:20
+  for x being Real holds
+    ex y being non zero Nat st x < ln.(ln.(y + 1));
+
+theorem :: MOEBIUS3:21
+  for A being non empty closed_interval Subset of REAL,
+      Z being open Subset of REAL,
+      n being non zero Nat st
+    Z = right_open_halfline 0 & A = [.n, n+1.] holds
+      integral ((id Z)^,A) < 1 / n;
+
+theorem :: MOEBIUS3:22
+  for n being non zero Nat holds
+    ln.(n + 1) < Harmonic n;
+
+theorem :: MOEBIUS3:23
+  for n1, n2 being Nat st n1 ^2 = n2 ^2 holds
+    n1 = n2;
+
+registration let n be non trivial Nat;
+  cluster n ^2 -> non trivial;
+end;
+
+::$N Telescoping series
+
+theorem :: MOEBIUS3:24
+  for a,b,s being Real_Sequence st
+  (for n being Nat holds s.n = a.n + b.n) &
+  (for k being Nat holds b.k = -(a.(k+1))) holds
+    for n being Nat holds (Partial_Sums s).n = (a.0) + (b.n);
+
+theorem :: MOEBIUS3:25
+  for f1, f2 being Real_Sequence,
+      n being non trivial Nat st
+    (for k being non trivial Nat st k <= n holds f1.k < f2.k) holds
+      Sum (f1, n, 1) < Sum (f2, n, 1);
+
+begin :: Some Special Sequences
+
+definition
+  func Reci-seq1 -> Real_Sequence means
+:: MOEBIUS3:def 2
+    for n being Nat holds
+      it.n = 1 / (n ^2 - 1 / 4);
+end;
+
+theorem :: MOEBIUS3:26
+  for n being Nat holds
+    Reci-seq1.n = 1 / (n - 1 / 2) - 1 / (n + 1 / 2);
+
+theorem :: MOEBIUS3:27
+  Reci-seq1 = (rseq (0,1,1, -1/2)) + (- rseq (0,1,1, 1 / 2));
+
+theorem :: MOEBIUS3:28
+  for n being Nat holds
+    (Partial_Sums Reci-seq1).n < -2;
+
+theorem :: MOEBIUS3:29
+  for n being Nat holds
+    Sum (Reci-seq1, n, 1) < 2 / 3;
+
+registration
+  cluster Basel-seq -> summable;
+end;
+
+theorem :: MOEBIUS3:30
+  for n being Nat holds
+    (Partial_Sums Reci-seq1).n = -2 + - 1 / (n + 1 / 2);
+
+theorem :: MOEBIUS3:31
+  for n being non trivial Nat holds
+    Sum (Basel-seq, n, 1) < Sum (Reci-seq1, n, 1);
+
+theorem :: MOEBIUS3:32
+  for n being non trivial Nat holds
+    Sum (Basel-seq, n) < 5 / 3;
+
+theorem :: MOEBIUS3:33 ::: Similar bound in BASEL series, counted independently
+  (Partial_Sums Basel-seq).n < 5 / 3;
+
+definition
+  func Reci-seq2 -> Real_Sequence means
+:: MOEBIUS3:def 3
+    for n being Nat holds
+      it.n = 1 + 1 / primenumber n;
+end; :: similar functor is in MOEBIUS2
+
+theorem :: MOEBIUS3:34
+  Sum Sgm {1} = 1;
+
+definition let n be Nat;
+  func SetPrimes n -> Subset of NAT equals
+:: MOEBIUS3:def 4
+    SetPrimes /\ Seg n;
+end;
+
+registration let n be Nat;
+  cluster SetPrimes n -> finite;
+end;
+
+theorem :: MOEBIUS3:35
+  for m, n being Nat st m <= n holds
+    SetPrimes m c= SetPrimes n;
+
+theorem :: MOEBIUS3:36
+  n+1 is not Prime implies SetPrimes (n+1) = SetPrimes n;
+
+theorem :: MOEBIUS3:37
+  SetPrimes 0 = {} & SetPrimes 1 = {};
+
+theorem :: MOEBIUS3:38
+  n+1 is Prime implies SetPrimes (n+1) = SetPrimes n \/ {n+1};
+
+theorem :: MOEBIUS3:39
+  for p being Prime st p > 2 holds
+    p+1 is not Prime;
+
+theorem :: MOEBIUS3:40
+  SetPrimes 2 = {2};
+
+theorem :: MOEBIUS3:41
+  not n+1 in SetPrimes n;
+
+definition let n be Nat;
+:: just to get an index for appropriate sequence of primes
+  func indexp n -> Nat equals
+:: MOEBIUS3:def 5
+    card SetPrimes n;
+end;
+
+theorem :: MOEBIUS3:42
+  for n being Nat holds
+    indexp n <= n;
+
+begin :: Squarefree and Square-containing Parts of a Natural Number
+
+theorem :: MOEBIUS3:43
+  for n being non zero Nat holds
+    n = (TSqF n) * (n div TSqF n);
+
+theorem :: MOEBIUS3:44  ::: MOEBIUS2:45 strenghtened
+  for n being non zero Nat holds (SqF n) |^ 2 divides n;
+
+theorem :: MOEBIUS3:45
+  for m being finite-support natural-valued ManySortedSet of SetPrimes,
+      p being Prime st support m = {p} holds
+    Product m = m.p;
+
+theorem :: MOEBIUS3:46
+  for n being non zero Nat holds (SqF n) |^ 2 = TSqF n;
+
+registration
+  let n be non zero Nat;
+  cluster n div ((SqF n) |^ 2) -> square-free for Nat;
+end;
+
+::: TSqF n should be revised to allow zero for an argument
+
+definition let n be non zero Nat;
+  func SquarefreePart n -> non zero Nat equals
+:: MOEBIUS3:def 6
+    n div TSqF n;
+end;
+
+registration let n be non zero Nat;
+  cluster SquarefreePart n -> square-free;
+end;
+
+theorem :: MOEBIUS3:47  ::: squarefree-decompose
+  for n being non zero Nat holds
+    n = (SquarefreePart n) * (SqF n) ^2;
+
+theorem :: MOEBIUS3:48
+  for n being non zero Nat holds
+    support pfexp n c= Seg n;
+
+theorem :: MOEBIUS3:49 ::: a kind of generalized MOEBIUS1:14
+  for n being non zero Nat holds
+    support ppf n c= Seg n;
+
+theorem :: MOEBIUS3:50
+  for n being non zero Nat holds
+    Seg SquarefreePart n c= Seg n;
+
+theorem :: MOEBIUS3:51
+  for k,n being non zero Nat holds
+    k^2 divides SquarefreePart n iff k = 1;
+
+theorem :: MOEBIUS3:52
+  for m,n being non zero Nat st
+    SquarefreePart n = SquarefreePart m &
+      TSqF m = TSqF n holds
+        m = n;
+
+begin :: Generating Bags from Subsets of Prime Numbers
+
+definition let A be finite Subset of SetPrimes;
+  func A-bag -> bag of SetPrimes equals
+:: MOEBIUS3:def 7
+    (EmptyBag SetPrimes) +* (id A);
+end;
+
+theorem :: MOEBIUS3:53
+  for A being finite Subset of SetPrimes holds
+    support (A-bag) = A;
+
+theorem :: MOEBIUS3:54
+  for A being finite Subset of SetPrimes st A = {} holds
+    A-bag = EmptyBag SetPrimes;
+
+theorem :: MOEBIUS3:55
+  for A being finite Subset of SetPrimes
+  for i being object st i in support (A-bag) holds
+    (A-bag).i = i;
+
+theorem :: MOEBIUS3:56
+  for A,B be finite Subset of SetPrimes st
+    A-bag = B-bag holds
+      A = B;
+
+registration let A be finite Subset of SetPrimes;
+  cluster A-bag -> prime-factorization-like;
+end;
+
+registration let A be finite Subset of SetPrimes;
+  cluster Product (A-bag) -> square-free for Nat;
+end;
+
+theorem :: MOEBIUS3:57
+  for n being non zero Nat
+  for x being object st x in bool SetPrimes n holds
+    x is finite Subset of SetPrimes;
+
+theorem :: MOEBIUS3:58
+  for n being non zero Nat
+  for x being object st x in [:bool SetPrimes n, Seg n:] holds
+    x`1 is finite Subset of SetPrimes;
+
+:: Later we should show the connection between sum and products of
+:: sequences with exponential function, respectively.
+
+theorem :: MOEBIUS3:59
+  rseq(0,1,1,0) = invNAT;
+
+theorem :: MOEBIUS3:60
+  indexp 0 = 0;
+
+theorem :: MOEBIUS3:61
+  for n being Nat holds
+    (Partial_Product Reci-seq2).n > 0;
+
+theorem :: MOEBIUS3:62
+  for n being Nat holds
+    ln.((Partial_Product Reci-seq2).n) <= (Partial_Sums ReciPrime).n;
+
+theorem :: MOEBIUS3:63
+  for n being Nat holds
+    ln.((Partial_Product Reci-seq2).(indexp n)) <= (Partial_Sums ReciPrime).n;
+
+definition
+  func Reci-Sqf-> Real_Sequence means
+:: MOEBIUS3:def 8
+    it.0 = 0 &
+    for i being non zero Nat holds it.i = 1 / SquarefreePart i;
+  func Reci-TSq -> Real_Sequence means
+:: MOEBIUS3:def 9
+    it.0 = 0 &
+    for i being non zero Nat holds it.i = 1 / TSqF i;
+end;
+
+theorem :: MOEBIUS3:64
+  rseq (0,1,1,0) = Reci-Sqf (#) Reci-TSq;
+
+ reserve s, s1, s2 for Real_Sequence;
+
+theorem :: MOEBIUS3:65
+  for n being Nat holds Reci-Sqf.n >= 0;
+
+theorem :: MOEBIUS3:66
+  for n being Nat holds Reci-TSq.n >= 0;
+
+theorem :: MOEBIUS3:67
+  for n being Nat holds Basel-seq.n >= 0;
+
+theorem :: MOEBIUS3:68 :::Seqs5:
+  for n being Nat holds
+    (Partial_Sums rseq (0,1,1,0)).n <=
+      (Partial_Sums Reci-Sqf).n * (Partial_Sums Reci-TSq).n;
+
+definition let n be non zero Nat;
+  func Compose n -> Function of [:bool SetPrimes n, Seg n:], NAT means
+:: MOEBIUS3:def 10
+    for x being Element of [:bool SetPrimes n, Seg n:],
+        A being finite Subset of SetPrimes,
+        k being Nat st x = [A, k] holds
+    it.x = (Product ((A,1)-bag)) * k ^2;
+end;
+
+theorem :: MOEBIUS3:69
+  (Partial_Sums Basel-seq).n >= 0;
+
+begin :: On Reciprocals of Products of Prime Numbers
+
+definition let n be Nat;
+  func ReciProducts n -> Subset of REAL equals
+:: MOEBIUS3:def 11
+    the set of all 1 / Product Sgm X where X is Subset of SetPrimes n;
+end;
+
+registration let n be Nat;
+  cluster ReciProducts n -> finite;
+end;
+
+theorem :: MOEBIUS3:70
+  ReciProducts 0 = { 1 };
+
+theorem :: MOEBIUS3:71
+  for p being Prime st p > 2 holds
+    ReciProducts (p+1) = ReciProducts p;
+
+theorem :: MOEBIUS3:72
+  for p being Nat st p+1 is not Prime holds
+    ReciProducts (p+1) = ReciProducts p;
+
+theorem :: MOEBIUS3:73
+  ReciProducts 1 = { 1 };
+
+theorem :: MOEBIUS3:74
+  ReciProducts 2 = { 1 / 2, 1 };
+
+theorem :: MOEBIUS3:75
+  for n be Nat holds
+    ReciProducts n c= ReciProducts (n+1);
+
+theorem :: MOEBIUS3:76
+  for n be Nat st n+1 is Prime holds
+    ReciProducts (n+1) = ReciProducts n \/
+      {1 / Product Sgm X where X is Subset of SetPrimes (n+1) : n+1 in X};
+
+theorem :: MOEBIUS3:77
+  for n be Nat st n+1 is Prime holds
+    ReciProducts (n+1) =
+    {1 / Product Sgm X where X is Subset of SetPrimes n :
+       not n+1 in X}
+    \/ {1 / Product Sgm X where X is Subset of SetPrimes (n+1) :
+       n+1 in X};
+

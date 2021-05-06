@@ -1,0 +1,258 @@
+:: Brouwer Invariance of Domain Theorem
+::  by Karol P\kak
+::
+:: Received February 11, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_1, ARYTM_3, BROUWER, CARD_1, COMPLEX1, CONVEX1, EUCLID,
+      FUNCOP_1, FUNCT_1, FUNCT_4, JGRAPH_4, MEMBERED, METRIC_1, NAT_1, NUMBERS,
+      ORDINAL2, PCOMPS_1, PRE_TOPC, RCOMP_1, REAL_1, RELAT_1, STRUCT_0,
+      SUBSET_1, SUPINF_2, TARSKI, TOPMETR, TOPS_1, TOPS_2, VALUED_1, XBOOLE_0,
+      XXREAL_0, FUNCT_2, EUCLID_9, TOPREALC, FINSEQ_1, FINSEQ_2, CARD_3,
+      PARTFUN3, SQUARE_1, XCMPLX_0, PARTFUN1, FINSET_1, VALUED_0, ORDINAL4,
+      PRE_POLY, PSCOMP_1, RVSUM_1, VALUED_2, T_0TOPSP, WAYBEL23, TOPDIM_1,
+      MATRTOP3, TOPREALB, RLTOPSP1, FUNCT_3, RLAFFIN1, RLVECT_5, MEASURE5,
+      BORSUK_1, UNIALG_1, MSSUBFAM, MATRLIN, MESFUNC1, VECTSP_1;
+ notations TARSKI, XBOOLE_0, FINSET_1, VALUED_0, SUBSET_1, RELAT_1, FUNCT_1,
+      RELSET_1, PARTFUN1, FUNCT_2, COMPLEX1, ORDINAL1, NUMBERS, XXREAL_0,
+      XREAL_0, RVSUM_1, VALUED_1, VALUED_2, XXREAL_3, XCMPLX_0, NAT_1, CARD_1,
+      MEMBERED, FUNCOP_1, FINSEQ_1, FINSEQ_2, STRUCT_0, PRE_TOPC, TOPS_1,
+      PSCOMP_1, METRIC_1, PCOMPS_1, TOPMETR, FUNCT_7, RLVECT_1, RLTOPSP1,
+      EUCLID, TOPREAL9, PARTFUN3, TOPS_2, COMPTS_1, TBSP_1, JGRAPH_4, TMAP_1,
+      BROUWER, EUCLID_9, CARD_3, SQUARE_1, PRE_POLY, JORDAN2B, WAYBEL23,
+      T_0TOPSP, METRIZTS, RLAFFIN1, TOPREALB, FUNCT_4, DOMAIN_1, CONVEX1,
+      TIETZE_2, RLVECT_5, BORSUK_1, VECTSP_1, TOPREALC, MATRTOP3, MATRIX_1,
+      TOPDIM_1;
+ constructors TBSP_1, MONOID_0, CONVEX1, TOPS_1, COMPTS_1, FUNCSDOM, PARTFUN3,
+      JGRAPH_4, TMAP_1, TOPREALC, BROUWER, EUCLID_9, SQUARE_1, JORDAN2B,
+      PSCOMP_1, WAYBEL23, TOPDIM_1, METRIZTS, SIMPLEX0, RLAFFIN1, BORSUK_3,
+      RLVECT_5, MATRTOP3, TIETZE_2, LAPLACE;
+ registrations BORSUK_1, BROUWER, EUCLID, EUCLID_9, FUNCOP_1, FINSEQ_1,
+      FUNCT_1, FUNCT_2, JGRAPH_4, MEMBERED, NAT_1, PCOMPS_1, PRE_TOPC, RELAT_1,
+      PARTFUN3, RVSUM_1, SIMPLEX2, STRUCT_0, SUBSET_1, TMAP_1, TOPGRP_1,
+      TOPMETR, TOPS_1, VALUED_0, VALUED_2, XBOOLE_0, XREAL_0, XXREAL_0,
+      RELSET_1, FINSET_1, MONOID_0, SQUARE_1, FUNCT_7, NUMBERS, JORDAN2B,
+      FINSEQ_2, TOPREALC, PARTFUN4, COMPTS_1, TOPREALB, CARD_1, INT_1,
+      TOPREAL1, TOPREAL9, METRIZTS, RLTOPSP1, RLAFFIN1, RLAFFIN3, XXREAL_3,
+      TOPDIM_1, TOPDIM_2, REVROT_1, WAYBEL_2, XCMPLX_0, ZFMISC_1, VECTSP_1,
+      PRE_POLY, VALUED_1, MATRTOP3;
+ requirements ARITHM, BOOLE, NUMERALS, SUBSET, REAL;
+
+
+begin :: Preliminaries
+
+ reserve x,X for set,
+         n, m, i for Nat,
+         p, q for Point of TOP-REAL n,
+         A, B for Subset of TOP-REAL n,
+         r, s for Real;
+
+registration
+  let X;
+  let n;
+  cluster -> FinSequence-yielding for Function of X,TOP-REAL n;
+end;
+
+ definition
+   let X,n,m;
+   let f be Function of X,TOP-REAL n;
+   let g be Function of X,TOP-REAL m;
+   redefine func f^^g -> Function of X,TOP-REAL (n+m);
+end;
+
+registration
+  let T be TopSpace;
+  let n,m;
+  let f be continuous Function of T,TOP-REAL n;
+  let g be continuous Function of T,TOP-REAL m;
+  cluster f^^g -> continuous for Function of T,TOP-REAL (n+m);
+end;
+
+definition
+  let f be real-valued Function;
+  func |[ f ]| -> Function means
+:: BROUWER3:def 1
+    dom it = dom f & for x be object st x in dom it holds it.x = |[ f.x ]|;
+end;
+
+registration
+  let f be real-valued Function;
+  cluster |[ f ]| -> (the carrier of TOP-REAL 1)-valued;
+end;
+
+definition
+  let X;
+  let Y be non empty real-membered set;
+  let f be Function of X,Y;
+  redefine func |[ f ]| -> Function of X,TOP-REAL 1;
+end;
+
+registration
+  let T be non empty TopSpace;
+  let f be continuous Function of T,R^1;
+  cluster |[ f ]| -> continuous for Function of T,TOP-REAL 1;
+end;
+
+registration
+  let T be non empty TopSpace;
+  let f be continuous RealMap of T;
+  cluster |[ f ]| -> continuous for Function of T,TOP-REAL 1;
+end;
+
+begin :: A Distribution of Sphere
+
+reserve N for non zero Nat,
+        u,t for Point of TOP-REAL(N+1);
+
+theorem :: BROUWER3:1
+  for F be Element of N-tuples_on
+      Funcs(the carrier of TOP-REAL(N+1),the carrier of R^1)
+    st for i st i in dom F holds F.i = PROJ(N+1,i)
+  holds
+    (for t holds <:F:>.t = t|N) &
+    for Sp,Sn be Subset of TOP-REAL(N+1) st
+        Sp = {u: u.(N+1)>=0 & |.u.|=1} &
+        Sn = {t: t.(N+1)<=0 & |.t.|=1}
+      holds
+        <:F:>.:Sp = cl_Ball(0.TOP-REAL N,1) &
+        <:F:>.:Sn = cl_Ball(0.TOP-REAL N,1) &
+        <:F:>.:(Sp/\Sn) = Sphere(0.TOP-REAL N,1) &
+        (for H be Function of (TOP-REAL(N+1)) |Sp,Tdisk(0.TOP-REAL N,1) st
+           H= <:F:>|Sp holds H is being_homeomorphism) &
+        for H be Function of (TOP-REAL(N+1)) |Sn,Tdisk(0.TOP-REAL N,1) st
+           H= <:F:>|Sn holds H is being_homeomorphism;
+
+theorem :: BROUWER3:2
+  for Sp,Sn be Subset of TOP-REAL n st
+      Sp = {s where s is Point of TOP-REAL n: s.n >= 0 & |.s.| = 1} &
+      Sn = {t where t is Point of TOP-REAL n: t.n <= 0 & |.t.| = 1}
+    holds Sp is closed & Sn is closed;
+
+theorem :: BROUWER3:3
+   for TM be metrizable TopSpace st TM is finite-ind second-countable
+     for F be closed Subset of TM st ind (F`) <= n
+     for f be continuous Function of TM|F,Tunit_circle(n+1)
+   ex g being continuous Function of TM,Tunit_circle(n+1) st g|F=f;
+
+theorem :: BROUWER3:4
+   not p in A & r>0 implies
+     ex h be Function of (TOP-REAL n) |A,(TOP-REAL n) |Sphere(p,r) st
+       h is continuous & h|Sphere(p,r) = id (A/\Sphere(p,r));
+
+theorem :: BROUWER3:5
+  r + |.p-q.| <= s implies Ball(p,r) c= Ball(q,s);
+
+theorem :: BROUWER3:6
+  A is non boundary implies ind A = n;
+
+::$N The Small Inductive Dimension of the Sphere
+
+theorem :: BROUWER3:7
+  r>0 implies ind Sphere(p,r) = n-1;
+
+begin :: A Characterization of Open Sets in Euclidean Space
+      :: in Terms of Continuous Transformations
+
+theorem :: BROUWER3:8
+  for p st n>0 & p in A & for r st r>0
+           ex U be open Subset of (TOP-REAL n) |A st
+             p in U & U c= Ball(p,r) &
+             for f be Function of (TOP-REAL n) | (A\U),Tunit_circle(n) st
+                 f is continuous
+               ex h be Function of (TOP-REAL n) |A,Tunit_circle(n) st
+                 h is continuous & h| (A\U) = f
+  holds p in Fr A;
+
+theorem :: BROUWER3:9
+  for p st p in Fr A & A is closed
+    for r st r>0
+    ex U be open Subset of (TOP-REAL n) |A st
+        p in U & U c= Ball(p,r) &
+        for f be Function of (TOP-REAL n) | (A\U),Tunit_circle(n) st
+          f is continuous
+        ex h be Function of (TOP-REAL n) |A,Tunit_circle(n) st
+          h is continuous & h| (A\U) = f;
+
+
+begin :: Brouwer Invariance of Domain Theorem - Special case
+
+theorem :: BROUWER3:10
+  A is closed & p in Fr A implies
+    for h be Function of (TOP-REAL n) |A,(TOP-REAL n) |B st
+        h is being_homeomorphism
+    holds h.p in Fr B;
+
+theorem :: BROUWER3:11
+  B is closed & p in Int A implies
+   for h be Function of (TOP-REAL n) |A,(TOP-REAL n) |B st
+     h is being_homeomorphism holds h.p in Int B;
+
+theorem :: BROUWER3:12
+  A is closed & B is closed implies
+    for h be Function of (TOP-REAL n) |A,(TOP-REAL n) |B st
+      h is being_homeomorphism
+    holds h.:Int A = Int B & h.:Fr A = Fr B;
+
+begin :: Topological Invariance of Dimension - An Introduction to Manifolds
+
+theorem :: BROUWER3:13
+  for r st r>0
+    for U be Subset of Tdisk(p,r) st U is open non empty
+    for A be Subset of TOP-REAL n st A = U holds Int A is non empty;
+
+theorem :: BROUWER3:14
+  for T be non empty TopSpace
+    for A,B be Subset of T
+    for r,s st r>0 & s>0
+    for pA be Point of TOP-REAL n,pB be Point of TOP-REAL m st
+        T|A,Tdisk(pA,r) are_homeomorphic &
+        T|B,Tdisk(pB,s) are_homeomorphic &
+        Int A meets Int B
+      holds n = m;
+
+theorem :: BROUWER3:15
+  for T be non empty TopSpace
+    for A,B be Subset of T
+    for r,s st r>0 & s>0
+    for pA be Point of TOP-REAL n, pB be Point of TOP-REAL m st
+        T|A,(TOP-REAL n) |Ball(pA,r) are_homeomorphic &
+        T|B,Tdisk(pB,s) are_homeomorphic &
+        Int A meets Int B
+      holds n = m;
+
+theorem :: BROUWER3:16
+  transl(p,TOP-REAL n).: Ball(q,r)    = Ball(q+p,r) &
+  transl(p,TOP-REAL n).: cl_Ball(q,r) = cl_Ball(q+p,r) &
+  transl(p,TOP-REAL n).: Sphere(q,r)  = Sphere(q+p,r);
+
+theorem :: BROUWER3:17
+  for s st s > 0 holds
+     mlt(s,TOP-REAL n).: Ball(p,r)    = Ball(s*p,r*s) &
+     mlt(s,TOP-REAL n).: cl_Ball(p,r) = cl_Ball(s*p,r*s) &
+     mlt(s,TOP-REAL n).: Sphere(p,r)  = Sphere(s*p,r*s);
+
+theorem :: BROUWER3:18
+  for f be rotation homogeneous additive Function of
+        TOP-REAL n,TOP-REAL n st f is onto
+    holds  f.: Ball(p,r)    = Ball(f.p,r) &
+           f.: cl_Ball(p,r) = cl_Ball(f.p,r) &
+           f.: Sphere(p,r)  = Sphere(f.p,r);
+
+theorem :: BROUWER3:19
+  for p,q be Point of TOP-REAL (n+1)
+    for r,s st s <= r & r <= |.p-q.| & s < |.p-q.| &
+                              |.p-q.|< s+ r
+    ex h be Function of (TOP-REAL (n+1)) | (Sphere(p,r)/\ cl_Ball(q,s)),
+                        Tdisk(0.TOP-REAL n,1)
+      st h is being_homeomorphism &
+         h.:(Sphere(p,r) /\ Sphere(q,s)) = Sphere(0.TOP-REAL n,1);

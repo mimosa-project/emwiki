@@ -1,0 +1,546 @@
+:: The Ordinal Numbers. Transfinite Induction and Defining by
+:: Transfinite Induction
+::  by Grzegorz Bancerek
+::
+:: Received March 20, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, RELAT_1, ZFMISC_1, ORDINAL1,
+      CARD_1, XCMPLX_0, NAT_1, VALUED_0, QUANTAL1, FREEALG, SETFAM_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, ENUMSET1, XTUPLE_0, SUBSET_1, SETFAM_1,
+      RELAT_1, FUNCT_1;
+ constructors TARSKI, ENUMSET1, SUBSET_1, FUNCT_1, XTUPLE_0, SETFAM_1;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ZFMISC_1;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+reserve X,Y,Z,X1,X2,X3,X4,X5,X6 for set, x,y for object;
+
+::$CT 4
+
+theorem :: ORDINAL1:5
+  Y in X implies not X c= Y;
+
+definition
+  let X;
+  func succ X -> set equals
+:: ORDINAL1:def 1
+  X \/ { X };
+end;
+
+registration
+  let X;
+  cluster succ X -> non empty;
+end;
+
+theorem :: ORDINAL1:6
+  X in succ X;
+
+theorem :: ORDINAL1:7
+  succ X = succ Y implies X = Y;
+
+theorem :: ORDINAL1:8
+  x in succ X iff x in X or x = X;
+
+theorem :: ORDINAL1:9
+  X <> succ X;
+
+::
+:: 3. epsilon-transitivity & epsilon-connectedness
+::
+
+reserve a,b,c for object, X,Y,Z,x,y,z for set;
+
+definition
+  let X;
+  attr X is epsilon-transitive means
+:: ORDINAL1:def 2
+
+  for x st x in X holds x c= X;
+  attr X is epsilon-connected means
+:: ORDINAL1:def 3
+
+  for x,y st x in X & y in X holds x in y or x = y or y in x;
+end;
+
+::
+:: 4. Definition of ordinal numbers - Ordinal
+::
+
+registration
+ cluster epsilon-transitive epsilon-connected for set;
+end;
+
+definition
+  let IT be object;
+  attr IT is ordinal means
+:: ORDINAL1:def 4
+  IT is epsilon-transitive epsilon-connected set;
+end;
+
+registration
+  cluster ordinal -> epsilon-transitive epsilon-connected for set;
+  cluster epsilon-transitive epsilon-connected -> ordinal for set;
+end;
+
+notation
+  synonym Number for object;
+  synonym number for set;
+end;
+
+registration
+  cluster ordinal for number;
+end;
+
+registration
+  cluster ordinal for Number;
+end;
+
+definition
+  mode Ordinal is ordinal number;
+end;
+
+reserve A,B,C,D for Ordinal;
+
+theorem :: ORDINAL1:10
+  for A,B being set, C being epsilon-transitive set st A in B & B in C
+   holds A in C;
+
+theorem :: ORDINAL1:11
+  for x being epsilon-transitive set, A being Ordinal st x c< A holds x in A;
+
+theorem :: ORDINAL1:12
+  for A being epsilon-transitive set, B, C being Ordinal st A c= B & B
+  in C holds A in C;
+
+theorem :: ORDINAL1:13
+  a in A implies a is Ordinal;
+
+theorem :: ORDINAL1:14
+  A in B or A = B or B in A;
+
+definition
+  let A,B;
+  redefine pred A c= B means
+:: ORDINAL1:def 5
+  for C st C in A holds C in B;
+  connectedness;
+end;
+
+theorem :: ORDINAL1:15
+  A,B are_c=-comparable;
+
+theorem :: ORDINAL1:16
+  A c= B or B in A;
+
+registration
+  cluster empty -> ordinal for number;
+end;
+
+theorem :: ORDINAL1:17
+  x is Ordinal implies succ x is Ordinal;
+
+theorem :: ORDINAL1:18
+  x is ordinal implies union x is epsilon-transitive epsilon-connected;
+
+registration
+  cluster non empty for Ordinal;
+end;
+
+registration
+  let A;
+  cluster succ A -> non empty ordinal;
+  cluster union A -> ordinal;
+end;
+
+theorem :: ORDINAL1:19
+  (for x st x in X holds x is Ordinal & x c= X) implies
+   X is epsilon-transitive epsilon-connected;
+
+theorem :: ORDINAL1:20
+  X c= A & X <> {} implies ex C st C in X & for B st B in X holds C c= B;
+
+theorem :: ORDINAL1:21
+  A in B iff succ A c= B;
+
+theorem :: ORDINAL1:22
+  A in succ C iff A c= C;
+
+::
+:: 6. Transfinite induction and principle of minimum of ordinals
+::
+
+scheme :: ORDINAL1:sch 1
+  OrdinalMin { P[Ordinal] } : ex A st P[A] & for B st P[B] holds A c= B
+provided
+ ex A st P[A];
+
+::$N Transfinite induction
+scheme :: ORDINAL1:sch 2
+  TransfiniteInd { P[Ordinal] } : for A holds P[A]
+provided
+ for A st for C st C in A holds P[C] holds P[A];
+
+::
+:: 7. Properties of sets of ordinals
+::
+
+theorem :: ORDINAL1:23
+  for X st for a st a in X holds a is Ordinal
+   holds union X is epsilon-transitive epsilon-connected;
+
+theorem :: ORDINAL1:24
+  for X st for a st a in X holds a is Ordinal ex A st X c= A;
+
+theorem :: ORDINAL1:25
+  not ex X st for x holds x in X iff x is Ordinal;
+
+theorem :: ORDINAL1:26
+  not ex X st for A holds A in X;
+
+theorem :: ORDINAL1:27
+  for X ex A st not A in X & for B st not B in X holds A c= B;
+
+::
+::  8. Limit ordinals
+::
+
+definition
+  let A be set;
+  attr A is limit_ordinal means
+:: ORDINAL1:def 6
+
+  A = union A;
+end;
+
+theorem :: ORDINAL1:28
+  for A holds A is limit_ordinal iff for C st C in A holds succ C in A;
+
+theorem :: ORDINAL1:29
+  not A is limit_ordinal iff ex B st A = succ B;
+
+reserve F,G for Function;
+
+::
+::  9. Transfinite sequences
+::
+
+definition
+  let IT be set;
+  attr IT is Sequence-like means
+:: ORDINAL1:def 7
+
+  proj1 IT is epsilon-transitive epsilon-connected;
+end;
+
+registration
+  cluster empty -> Sequence-like for set;
+end;
+
+definition
+  mode Sequence is Sequence-like Function;
+end;
+
+registration
+  let Z;
+  cluster Z-valued for Sequence;
+end;
+
+definition
+  let Z;
+  mode Sequence of Z is Z-valued Sequence;
+end;
+
+theorem :: ORDINAL1:30
+  {} is Sequence of Z;
+
+reserve L,L1 for Sequence;
+
+theorem :: ORDINAL1:31
+  dom F is Ordinal implies F is Sequence of rng F;
+
+registration
+  let L;
+  cluster dom L -> ordinal;
+end;
+
+theorem :: ORDINAL1:32
+  X c= Y implies for L being Sequence of X holds L is Sequence of Y;
+
+registration
+  let L,A;
+  cluster L|A -> rng L-valued Sequence-like;
+end;
+
+theorem :: ORDINAL1:33
+  for L being Sequence of X for A holds L|A is Sequence of X;
+
+definition
+
+  let IT be set;
+  attr IT is c=-linear means
+:: ORDINAL1:def 8
+
+  for x,y being set st x in IT & y in IT holds x,y are_c=-comparable;
+end;
+
+theorem :: ORDINAL1:34
+  (for a st a in X holds a is Sequence) & X is c=-linear implies
+  union X is Sequence;
+
+::
+:: 10. Schemes of definability by transfinite induction
+::
+
+scheme :: ORDINAL1:sch 3
+  TSUniq { A()->Ordinal, H(Sequence)->set, L1, L2() -> Sequence } : L1() =
+  L2()
+provided
+ dom L1() = A() & for B,L st B in A() & L = L1()|B holds L1().B = H(L ) and
+ dom L2() = A() & for B,L st B in A() & L = L2()|B holds L2().B = H(L );
+
+scheme :: ORDINAL1:sch 4
+  TSExist { A()->Ordinal,H(Sequence)->set } : ex L st dom L = A() & for B,L1
+  st B in A() & L1 = L|B holds L.B = H(L1);
+
+scheme :: ORDINAL1:sch 5
+  FuncTS { L() -> Sequence, F(Ordinal)->set, H(Sequence)->set } :
+  for B st  B in dom L() holds L().B = H(L()|B)
+provided
+ for A,a holds a = F(A) iff ex L st a = H(L) & dom L = A & for B st B
+in A holds L.B = H(L|B) and
+ for A st A in dom L() holds L().A = F(A);
+
+theorem :: ORDINAL1:35
+  A c< B or A = B or B c< A;
+
+begin :: Addenda
+:: moved from ORDINAL2, 2006.06.22, A.T.
+
+definition
+  let X;
+  func On X -> set means
+:: ORDINAL1:def 9
+
+  for x being object holds x in it iff x in X & x is Ordinal;
+  func Lim X -> set means
+:: ORDINAL1:def 10
+  for x being object holds x in it iff
+    x in X & ex A st x = A & A is limit_ordinal;
+end;
+
+::$N Generalized Axiom of Infinity
+theorem :: ORDINAL1:36
+  for D ex A st D in A & A is limit_ordinal;
+
+definition
+  func omega -> set means
+:: ORDINAL1:def 11
+
+  {} in it & it is limit_ordinal & it is
+  ordinal & for A st {} in A & A is limit_ordinal holds it c= A;
+end;
+
+registration
+  cluster omega -> non empty ordinal;
+end;
+
+definition
+  let A be object;
+  attr A is natural means
+:: ORDINAL1:def 12
+
+  A in omega;
+end;
+
+registration
+  cluster natural for Number;
+  cluster natural for set;
+end;
+
+definition
+  mode Nat is natural set;
+end;
+
+registration
+ sethood of Nat;
+end;
+
+:: from ARYTM_3, 2006.05.26
+
+registration
+  let A be Ordinal;
+  cluster -> ordinal for Element of A;
+end;
+
+:: missing, 2006.06.25, A.T.
+
+registration
+  cluster natural -> ordinal for number;
+end;
+
+:: from ZF_REFLE, 2007,03.13, A.T.
+
+scheme :: ORDINAL1:sch 6
+  ALFA { D() -> non empty set, P[object,object] }:
+  ex F st dom F = D() & for d being
+  Element of D() ex A st A = F.d & P[d,A] & for B st P[d,B] holds A c= B
+provided
+ for d being Element of D() ex A st P[d,A];
+
+:: from CARD_4, 2007.08.06, A.T.
+
+theorem :: ORDINAL1:37
+  succ X \ {X} = X;
+
+:: from ARYTM_3, 2007.09.16, A.T.
+
+registration
+  cluster empty -> natural for number;
+  cluster -> natural for Element of omega;
+end;
+
+registration
+  cluster non empty natural for number;
+end;
+
+:: from ARYTM_3, 2007.10.23, A.T.
+
+registration
+  let a be natural Ordinal;
+  cluster succ a -> natural;
+end;
+
+:: from DILWORTH, 2011.07.31,A.T.
+
+registration
+ cluster empty -> c=-linear for set;
+end;
+
+registration let X be c=-linear set;
+ cluster -> c=-linear for Subset of X;
+end;
+
+::$CT
+
+definition
+ func 0 -> number equals
+:: ORDINAL1:def 13
+{};
+end;
+
+registration
+ cluster 0 -> natural;
+end;
+
+definition
+  let x be Number;
+  attr x is zero means
+:: ORDINAL1:def 14
+  x = 0;
+end;
+
+registration
+  cluster 0 -> zero;
+  cluster zero for Number;
+  cluster zero for set;
+end;
+
+registration
+ cluster zero -> natural for Number;
+end;
+
+registration
+ cluster non zero for Number;
+end;
+
+registration
+ cluster zero -> trivial for set;
+ cluster non trivial -> non zero for set;
+end;
+
+definition let R be Relation;
+ attr R is non-zero means
+:: ORDINAL1:def 15
+  not 0 in rng R;
+end;
+
+definition let X be set;
+ attr X is with_zero means
+:: ORDINAL1:def 16
+  0 in X;
+end;
+
+notation let X be set;
+ antonym X is without_zero for X is with_zero;
+end;
+
+registration
+ cluster empty -> without_zero for set;
+end;
+
+registration
+ cluster empty -> non-zero for Relation;
+end;
+
+registration
+ cluster without_zero non empty for set;
+end;
+
+registration let X be without_zero non empty set;
+ cluster -> non zero for Element of X;
+end;
+
+registration
+ cluster non-zero for Relation;
+ cluster non non-zero for Relation;
+end;
+
+registration let R be non-zero Relation;
+ cluster rng R -> without_zero;
+end;
+
+registration let R be non non-zero Relation;
+ cluster rng R -> with_zero;
+end;
+
+registration let R be non-zero Relation, S be Relation;
+ cluster S*R -> non-zero;
+end;
+
+:: to be removed
+
+registration
+ cluster without_zero -> with_non-empty_elements for set;
+ cluster with_zero -> non with_non-empty_elements for set;
+ cluster with_non-empty_elements -> without_zero for set;
+ cluster non with_non-empty_elements -> with_zero for set;
+end;
+
+definition let o be object;
+ func Segm o -> set equals
+:: ORDINAL1:def 17
+o;
+end;
+
+registration let n be Ordinal;
+ cluster Segm n -> ordinal;
+end;
+
+registration let n be zero Ordinal;
+ cluster Segm n -> empty;
+end;
+
+

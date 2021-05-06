@@ -1,0 +1,46 @@
+:: Strong arithmetic of real numbers
+::  by Andrzej Trybulec
+::
+:: Received January 1, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_2, SUBSET_1, ARYTM_3, ZFMISC_1, CARD_1, XXREAL_0, NUMBERS,
+      ARYTM_0, FUNCOP_1, XBOOLE_0, TARSKI, NAT_1, REAL_1, ORDINAL1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, FUNCT_4, ARYTM_2,
+      NUMBERS, ARYTM_0, XCMPLX_0, XREAL_0, XXREAL_0;
+ constructors FUNCT_4, ARYTM_1, ARYTM_0, XCMPLX_0, XXREAL_0, XREAL_0;
+ registrations ORDINAL1, ARYTM_2, XREAL_0;
+ requirements SUBSET, BOOLE, NUMERALS, ARITHM;
+
+
+begin
+
+reserve r,s for Real;
+
+reserve x,y,z for Real;
+
+reserve r,r1,r2 for Element of REAL+;
+
+theorem :: AXIOMS:1
+  for X,Y being Subset of REAL st for x,y st x in X & y in Y holds x <= y
+  ex z st for x,y st x in X & y in Y holds x <= z & z <= y;
+
+theorem :: AXIOMS:2
+  x in NAT & y in NAT implies x + y in NAT;
+
+theorem :: AXIOMS:3
+  for A being Subset of REAL st 0 in A & for x st x in A holds x + 1 in A
+  holds NAT c= A;
+
+theorem :: AXIOMS:4
+  for k being natural Number holds k = { i where i is Nat: i < k };

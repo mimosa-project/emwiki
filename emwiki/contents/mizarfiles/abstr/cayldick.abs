@@ -1,0 +1,750 @@
+:: Cayley-Dickson Construction
+::  by Artur Korni{\l}owicz
+::
+:: Received August 6, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, ALGSTR_0, STRUCT_0, CARD_1, ZFMISC_1, SUBSET_1,
+      ARYTM_3, RLVECT_1, SUPINF_2, ARYTM_1, RELAT_1, MESFUNC1, FUNCT_1,
+      VECTSP_1, NORMSP_0, AFINSQ_1, NUMBERS, BINOP_2, NORMSP_1, CARD_3,
+      FINSEQ_1, ORDINAL4, SQUARE_1, LOPBAN_2, BINOP_1, EUCLID, MEMBERED,
+      FUNCOP_1, XCMPLX_0, COMPLEX1, LATTICES, FUNCSDOM, XXREAL_0, RELAT_2,
+      METRIC_1, VALUED_0, ALGSTR_1, CAYLDICK, FUNCT_7, REAL_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1,
+      FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, FUNCOP_1, CARD_3,
+      XCMPLX_0, XXREAL_0, XREAL_0, SQUARE_1, BINOP_2, MEMBERED, COMPLEX1,
+      AFINSQ_1, STRUCT_0, ALGSTR_0, ALGSTR_1, TOPMETR, RLVECT_1, GROUP_1,
+      VECTSP_1, FUNCSDOM, NORMSP_0, NORMSP_1, EUCLID, LOPBAN_2;
+ constructors BINARITH, NAT_D, AFINSQ_1, SQUARE_1, BINOP_2, EUCLID, LOPBAN_2,
+      TOPMETR, ALGSTR_1;
+ registrations RELSET_1, NUMBERS, XREAL_0, STRUCT_0, ALGSTR_0, MEMBERED,
+      VECTSP_1, NORMSP_0, AFINSQ_1, CARD_3, XXREAL_0, LOPBAN_2, ZFMISC_1,
+      FUNCT_2, XBOOLE_0, TOPMETR, BINOP_2, RELAT_1, FUNCT_1, SQUARE_1,
+      NORMSP_1, COMPLEX1, TOPREALC, RLVECT_1, ALGSTR_1, GROEB_2, ORDINAL1;
+ requirements NUMERALS, SUBSET, ARITHM, BOOLE, REAL;
+
+
+begin :: Preliminaries
+
+reserve u,v,x,y,z,X,Y for set;
+reserve r,s for Real;
+
+theorem :: CAYLDICK:1
+  for a,b,c,d being Real holds
+  (a+b)^2+(c+d)^2 <= (sqrt(a^2+c^2)+sqrt(b^2+d^2))^2;
+
+registration
+  let X be non trivial RealNormSpace;
+  let x be non zero Element of X;
+  cluster ||.x.|| -> positive;
+end;
+
+registration
+  let c be non zero Complex;
+  cluster c^2 -> non zero;
+end;
+
+registration
+  let x be non empty set;
+  cluster <% x %> -> non-empty;
+end;
+
+registration
+  cluster non-empty for XFinSequence;
+end;
+
+registration
+  let f,g be non-empty XFinSequence;
+  cluster f^g -> non-empty;
+end;
+
+registration
+  let x,y be non empty set;
+  cluster <% x,y %> -> non-empty;
+end;
+
+theorem :: CAYLDICK:2
+  <%u%> = <%x%> implies u = x;
+
+theorem :: CAYLDICK:3
+  <%u,v%> = <%x,y%> implies u = x & v = y;
+
+theorem :: CAYLDICK:4
+  x in X implies <%x%> in product <%X%>;
+
+theorem :: CAYLDICK:5
+  z in product <%X%> implies ex x st x in X & z = <%x%>;
+
+theorem :: CAYLDICK:6
+  x in X & y in Y implies <%x,y%> in product <%X,Y%>;
+
+theorem :: CAYLDICK:7
+  z in product <%X,Y%> implies ex x,y st x in X & y in Y & z = <%x,y%>;
+
+definition
+  let D be set;
+  func binop(D) -> BinOp of D equals
+:: CAYLDICK:def 1
+  [:D,D:] --> the Element of D;
+end;
+
+registration
+  let D be set;
+  cluster binop(D) -> associative commutative;
+end;
+
+registration
+  let D be set;
+  cluster associative commutative for BinOp of D;
+end;
+
+begin :: Conjunctive normed spaces
+
+definition
+  struct (Normed_AlgebraStr) ConjNormAlgStr
+  (# carrier -> set,
+     multF,addF -> BinOp of the carrier,
+     Mult -> Function of [:REAL,the carrier:],the carrier,
+     OneF,ZeroF -> Element of the carrier,
+     normF -> Function of the carrier,REAL,
+     conjugateF -> Function of the carrier,the carrier #);
+end;
+
+registration
+  cluster non trivial strict for ConjNormAlgStr;
+end;
+
+reserve N for non empty ConjNormAlgStr;
+reserve a,a1,a2,b,b1,b2 for Element of N;
+
+definition
+  let N be non empty ConjNormAlgStr;
+  let a be Element of N;
+  func a *' -> Element of N equals
+:: CAYLDICK:def 2
+  (the conjugateF of N).a;
+end;
+
+definition
+  let N be non empty ConjNormAlgStr, a be Element of N;
+  attr a is well-conjugated means
+:: CAYLDICK:def 3
+  a*' * a = ||.a.||^2 * 1.N if a is non zero
+  otherwise a*' is zero;
+end;
+
+definition
+  let N be non empty ConjNormAlgStr;
+  attr N is well-conjugated means
+:: CAYLDICK:def 4
+  for a being Element of N holds a is well-conjugated;
+  attr N is add-conjugative means
+:: CAYLDICK:def 5
+  for a,b being Element of N holds (a+b)*' = a*'+b*';
+  attr N is norm-conjugative means
+:: CAYLDICK:def 6
+  for a being Element of N holds ||.a*'.|| = ||.a.||;
+  attr N is scalar-conjugative means
+:: CAYLDICK:def 7
+  for r being Real, a being Element of N holds r*(a*') = (r*a)*';
+end;
+
+registration
+  let D be real-membered set;
+  let a,m be BinOp of D;
+  let M be Function of [:REAL,D:],D;
+  let O,Z be Element of D;
+  let n be Function of D,REAL;
+  let c be Function of D,D;
+  cluster ConjNormAlgStr (# D,m,a,M,O,Z,n,c #) -> real-membered;
+end;
+
+registration
+  let D be set;
+  let a be associative BinOp of D;
+  let m be BinOp of D;
+  let M be Function of [:REAL,D:],D;
+  let O,Z be Element of D;
+  let n be Function of D,REAL;
+  let c be Function of D,D;
+  cluster ConjNormAlgStr (# D,m,a,M,O,Z,n,c #) -> add-associative;
+end;
+
+registration
+  let D be set;
+  let a be commutative BinOp of D;
+  let m be BinOp of D;
+  let M be Function of [:REAL,D:],D;
+  let O,Z be Element of D;
+  let n be Function of D,REAL;
+  let c be Function of D,D;
+  cluster ConjNormAlgStr (# D,m,a,M,O,Z,n,c #) -> Abelian;
+end;
+
+registration
+  let D be set;
+  let a be BinOp of D;
+  let m be associative BinOp of D;
+  let M be Function of [:REAL,D:],D;
+  let O,Z be Element of D;
+  let n be Function of D,REAL;
+  let c be Function of D,D;
+  cluster ConjNormAlgStr (# D,m,a,M,O,Z,n,c #) -> associative;
+end;
+
+registration
+  let D be set;
+  let a be BinOp of D;
+  let m be commutative BinOp of D;
+  let M be Function of [:REAL,D:],D;
+  let O,Z be Element of D;
+  let n be Function of D,REAL;
+  let c be Function of D,D;
+  cluster ConjNormAlgStr (# D,m,a,M,O,Z,n,c #) -> commutative;
+end;
+
+definition
+  func N_Real -> strict ConjNormAlgStr equals
+:: CAYLDICK:def 8
+  ConjNormAlgStr (# REAL,multreal,addreal,multreal,In(1,REAL),
+    In(0,REAL),absreal,id REAL #);
+end;
+
+registration
+  cluster N_Real -> non degenerated real-membered add-associative Abelian
+  associative commutative;
+end;
+
+registration
+  let a,b be Element of N_Real;
+  let r,s be Real;
+  identify a+b with r+s when a = r, b = s;
+  identify a*b with r*s when a = r, b = s;
+end;
+
+registration
+  cluster right_add-cancelable -> left_add-cancelable
+  for Abelian non empty addMagma;
+  cluster left_add-cancelable -> right_add-cancelable
+  for Abelian non empty addMagma;
+  cluster left_complementable -> right_complementable
+  for Abelian non empty addLoopStr;
+  cluster left-distributive -> right-distributive
+  for Abelian commutative non empty doubleLoopStr;
+  cluster right-distributive -> left-distributive
+  for Abelian commutative non empty doubleLoopStr;
+  cluster almost_left_invertible -> almost_right_invertible
+  for commutative non empty multLoopStr_0;
+  cluster almost_right_invertible -> almost_left_invertible
+  for commutative non empty multLoopStr_0;
+  cluster almost_right_cancelable -> almost_left_cancelable
+  for commutative non empty multLoopStr_0;
+  cluster almost_left_cancelable -> almost_right_cancelable
+  for commutative non empty multLoopStr_0;
+  cluster right_mult-cancelable -> left_mult-cancelable
+  for commutative non empty multMagma;
+  cluster left_mult-cancelable -> right_mult-cancelable
+  for commutative non empty multMagma;
+end;
+
+registration
+  cluster N_Real -> right_complementable right_add-cancelable;
+end;
+
+registration
+  let a be Element of N_Real;
+  let r be Real;
+  identify -a with -r when a = r;
+end;
+
+registration
+  let a,b be Element of N_Real;
+  let r,s be Real;
+  identify a-b with r-s when a = r, b = s;
+end;
+
+registration
+  let a be Element of N_Real;
+  let r,s be Real;
+  identify r*a with r*s when a = s;
+end;
+
+registration
+  let a be Element of N_Real;
+  identify ||.a.|| with |.a.|;
+end;
+
+theorem :: CAYLDICK:8
+  for a being Element of N_Real holds a*a = ||.a.||^2;
+
+registration
+  let a be Element of N_Real;
+  reduce a*' to a;
+end;
+
+registration
+  cluster N_Real -> reflexive discerning well-unital RealNormSpace-like
+  right_zeroed right-distributive
+  vector-associative
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Banach_Algebra-like_1 Banach_Algebra-like_2 Banach_Algebra-like_3
+  almost_left_invertible almost_left_cancelable
+  well-conjugated add-conjugative norm-conjugative scalar-conjugative;
+end;
+
+registration
+  cluster strict non degenerated real-membered reflexive discerning
+  zeroed complementable add-associative Abelian
+  associative commutative distributive well-unital add-cancelable
+  vector-associative
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Banach_Algebra-like_1 Banach_Algebra-like_2 Banach_Algebra-like_3
+  well-conjugated add-conjugative norm-conjugative scalar-conjugative
+  almost_left_invertible almost_left_cancelable RealNormSpace-like
+  for non empty ConjNormAlgStr;
+end;
+
+registration
+  cluster 0.N_Real -> non left_invertible non right_invertible;
+end;
+
+registration
+  let a be non zero Element of N_Real;
+  let r be Real;
+  identify a" with r" when a = r;
+end;
+
+registration
+  let X be discerning non trivial ConjNormAlgStr;
+  let x be non zero Element of X;
+  cluster ||.x.|| -> non zero;
+end;
+
+registration
+  cluster -> non empty for non zero Element of N_Real;
+end;
+
+registration
+  cluster -> mult-cancelable for non zero Element of N_Real;
+end;
+
+registration
+  let N be well-conjugated non empty ConjNormAlgStr;
+  cluster -> well-conjugated for Element of N;
+end;
+
+registration
+  let N be well-conjugated non empty ConjNormAlgStr;
+  let a be zero Element of N;
+  cluster a*' -> zero;
+end;
+
+registration
+  let N be well-conjugated non empty ConjNormAlgStr;
+  reduce 0.N *' to 0.N;
+end;
+
+registration
+  let N be well-conjugated discerning
+  add-associative right_zeroed right_complementable left-distributive
+  scalar-distributive scalar-associative scalar-unital vector-distributive
+  non degenerated ConjNormAlgStr;
+  let a be non zero Element of N;
+  cluster a*' -> non zero;
+end;
+
+theorem :: CAYLDICK:9
+  N is add-associative right_zeroed right_complementable well-conjugated
+  reflexive scalar-distributive scalar-unital vector-distributive
+  left-distributive
+  implies for a holds a*' * a = ||.a.||^2 * 1.N;
+
+registration
+  let N be well-conjugated reflexive discerning
+  add-associative right_zeroed right_complementable almost_right_cancelable
+  associative commutative well-unital almost_left_invertible distributive
+  scalar-distributive scalar-associative scalar-unital vector-distributive
+  norm-conjugative non degenerated ConjNormAlgStr;
+  let a be Element of N;
+  reduce a*'*' to a;
+end;
+
+registration
+  let N be left_unital Banach_Algebra-like_2 almost_right_cancelable
+  well-conjugated scalar-unital non empty ConjNormAlgStr;
+  reduce (1.N)*' to 1.N;
+end;
+
+registration
+  let N be right_unital Banach_Algebra-like_2 almost_right_cancelable
+  well-conjugated scalar-unital non empty ConjNormAlgStr;
+  reduce (1.N)*' to 1.N;
+end;
+
+theorem :: CAYLDICK:10
+  N is well-conjugated reflexive discerning RealNormSpace-like
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Abelian add-associative right_zeroed right_complementable associative
+  distributive well-unital non degenerated almost_left_invertible
+  implies (-a)*' = -(a*');
+
+theorem :: CAYLDICK:11
+  N is well-conjugated reflexive discerning RealNormSpace-like
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Abelian add-associative right_zeroed right_complementable associative
+  distributive well-unital non degenerated almost_left_invertible
+  add-conjugative
+  implies (a-b)*' = a*' - b*';
+
+begin :: Cayley-Dickson construction
+
+definition
+  let N be non empty ConjNormAlgStr;
+  func Cayley-Dickson(N) -> strict ConjNormAlgStr means
+:: CAYLDICK:def 9
+
+  the carrier of it = product <% the carrier of N,the carrier of N %> &
+  the ZeroF of it = <% 0.N,0.N %> &
+  the OneF of it = <% 1.N,0.N %> &
+
+  (for a1,a2,b1,b2 being Element of N holds
+  (the addF of it).(<%a1,b1%>,<%a2,b2%>) = <%a1+a2,b1+b2%> &
+  (the multF of it).(<%a1,b1%>,<%a2,b2%>) = <%a1*a2-b2*'*b1,b2*a1+b1*a2*'%>)
+  &
+  (for r being Real, a,b being Element of N holds
+  (the Mult of it).(r,<%a,b%>) = <%r*a,r*b%>)
+  &
+  for a,b being Element of N holds
+  (the normF of it).<%a,b%> = sqrt (||.a.||^2 + ||.b.||^2)
+  &
+  (the conjugateF of it).<%a,b%> = <%a*',-b%>;
+end;
+
+reserve c,c1,c2 for Element of Cayley-Dickson(N);
+
+registration
+  let N be non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> non empty;
+end;
+
+theorem :: CAYLDICK:12
+  ex a,b being Element of N st c = <%a,b%>;
+
+theorem :: CAYLDICK:13
+  for c being Element of Cayley-Dickson(Cayley-Dickson(N))
+  ex a1,b1,a2,b2 st c = <%<%a1,b1%>,<%a2,b2%>%>;
+
+definition
+  let N,a,b;
+  redefine func <% a,b %> -> Element of Cayley-Dickson(N);
+end;
+
+registration
+  let N;
+  let a,b be zero Element of N;
+  cluster <% a,b %> -> zero for Element of Cayley-Dickson(N);
+end;
+
+registration
+  let N be non degenerated non empty ConjNormAlgStr;
+  let a be non zero Element of N;
+  let b be Element of N;
+  cluster <% a,b %> -> non zero for Element of Cayley-Dickson(N);
+end;
+
+registration
+  let N be reflexive non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> reflexive;
+end;
+
+registration
+  let N be discerning non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> discerning;
+end;
+
+theorem :: CAYLDICK:14
+  a is left_complementable & b is left_complementable implies
+  <%a,b%> is left_complementable;
+
+theorem :: CAYLDICK:15
+  <%a,b%> is left_complementable implies
+  a is left_complementable & b is left_complementable;
+
+theorem :: CAYLDICK:16
+  a is right_complementable & b is right_complementable implies
+  <%a,b%> is right_complementable;
+
+theorem :: CAYLDICK:17
+  <%a,b%> is right_complementable implies
+  a is right_complementable & b is right_complementable;
+
+theorem :: CAYLDICK:18
+  a is complementable & b is complementable implies <%a,b%> is complementable;
+
+theorem :: CAYLDICK:19
+  <%a,b%> is complementable implies a is complementable & b is complementable;
+
+theorem :: CAYLDICK:20
+  a is left_add-cancelable & b is left_add-cancelable implies
+  <%a,b%> is left_add-cancelable;
+
+theorem :: CAYLDICK:21
+  <%a,b%> is left_add-cancelable implies
+  a is left_add-cancelable & b is left_add-cancelable;
+
+theorem :: CAYLDICK:22
+  a is right_add-cancelable & b is right_add-cancelable implies
+  <%a,b%> is right_add-cancelable;
+
+theorem :: CAYLDICK:23
+  <%a,b%> is right_add-cancelable implies
+  a is right_add-cancelable & b is right_add-cancelable;
+
+theorem :: CAYLDICK:24
+  a is add-cancelable & b is add-cancelable implies <%a,b%> is add-cancelable;
+
+theorem :: CAYLDICK:25
+  <%a,b%> is add-cancelable implies a is add-cancelable & b is add-cancelable;
+
+theorem :: CAYLDICK:26
+  <% a,b %> is left_complementable right_add-cancelable implies
+  - <% a,b %> = <% -a,-b %>;
+
+registration
+  let N be add-associative non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> add-associative;
+end;
+
+registration
+  let N be right_zeroed non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> right_zeroed;
+end;
+
+registration
+  let N be left_zeroed non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> left_zeroed;
+end;
+
+registration
+  let N be right_complementable non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> right_complementable;
+end;
+
+registration
+  let N be left_complementable non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> left_complementable;
+end;
+
+registration
+  let N be Abelian non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> Abelian;
+end;
+
+theorem :: CAYLDICK:27
+  N is add-associative right_zeroed right_complementable implies
+  - <% a,b %> = <% -a,-b %>;
+
+theorem :: CAYLDICK:28
+  N is add-associative right_zeroed right_complementable implies
+  <% a1,b1 %> - <% a2,b2 %> = <% a1-a2,b1-b2 %>;
+
+registration
+  let N be well-unital add-associative right_zeroed right_complementable
+  distributive Banach_Algebra-like_2 well-conjugated scalar-unital
+  almost_right_cancelable non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> well-unital;
+end;
+
+registration
+  let N be non degenerated non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> non degenerated;
+end;
+
+registration
+  let N be add-conjugative add-associative right_zeroed right_complementable
+      Abelian non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> add-conjugative;
+end;
+
+registration
+  let N be norm-conjugative reflexive discerning RealNormSpace-like
+      vector-distributive scalar-distributive scalar-associative scalar-unital
+      Abelian add-associative right_zeroed right_complementable
+      non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> norm-conjugative;
+end;
+
+registration
+  let N be scalar-conjugative
+      add-associative right_zeroed right_complementable Abelian
+      scalar-distributive scalar-associative scalar-unital vector-distributive
+      non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> scalar-conjugative;
+end;
+
+registration
+  let N be distributive add-associative right_zeroed right_complementable
+      Abelian non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> left-distributive;
+end;
+
+registration
+  let N be distributive add-associative right_zeroed right_complementable
+      add-conjugative Abelian non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> right-distributive;
+end;
+
+registration
+  let N be reflexive discerning RealNormSpace-like
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Abelian add-associative right_zeroed right_complementable
+  non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> RealNormSpace-like;
+end;
+
+registration
+  let N be vector-distributive non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> vector-distributive;
+end;
+
+registration
+  let N be vector-associative Banach_Algebra-like_3
+     add-associative right_zeroed right_complementable Abelian
+     scalar-distributive scalar-associative scalar-unital vector-distributive
+     non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> vector-associative;
+end;
+
+registration
+  let N be scalar-distributive non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> scalar-distributive;
+end;
+
+registration
+  let N be scalar-associative non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> scalar-associative;
+end;
+
+registration
+  let N be scalar-unital non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> scalar-unital;
+end;
+
+registration
+  let N be reflexive Banach_Algebra-like_2 non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> Banach_Algebra-like_2;
+end;
+
+registration
+  let N be Banach_Algebra-like_3
+  add-associative right_zeroed right_complementable Abelian
+  scalar-distributive scalar-associative scalar-unital vector-distributive
+  vector-associative scalar-conjugative non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> Banach_Algebra-like_3;
+end;
+
+theorem :: CAYLDICK:29
+  for N being almost_left_invertible associative add-associative
+      right_zeroed right_complementable well-unital distributive Abelian
+      scalar-distributive scalar-associative scalar-unital vector-distributive
+      vector-associative reflexive discerning RealNormSpace-like
+      almost_right_cancelable
+      well-conjugated add-conjugative Banach_Algebra-like_2
+      Banach_Algebra-like_3 non degenerated ConjNormAlgStr
+  for a,b being Element of N st (a is non zero or b is non zero) &
+  <%a,b%> is right_mult-cancelable left_invertible holds
+  /<%a,b%> = <%1/(||.a.||^2+||.b.||^2) * a*' , 1/(||.a.||^2+||.b.||^2) * -b%>;
+
+registration
+  let N be add-associative right_zeroed right_complementable distributive
+  scalar-distributive scalar-unital vector-distributive
+  discerning reflexive well-conjugated non empty ConjNormAlgStr;
+  cluster Cayley-Dickson(N) -> well-conjugated;
+end;
+
+registration
+  cluster Cayley-Dickson(N_Real) -> associative commutative;
+end;
+
+::i*j = k in quaternions
+theorem :: CAYLDICK:30
+  <% <%0.N_Real,1.N_Real%> , <%0.N_Real,0.N_Real%> %> *
+  <% <%0.N_Real,0.N_Real%> , <%1.N_Real,0.N_Real%> %>
+  = <% <%0.N_Real,0.N_Real%> , <%0.N_Real,1.N_Real%> %>;
+
+::j*i = -k in quaternions
+theorem :: CAYLDICK:31
+  <% <%0.N_Real,0.N_Real%> , <%1.N_Real,0.N_Real%> %> *
+  <% <%0.N_Real,1.N_Real%> , <%0.N_Real,0.N_Real%> %>
+  = <% <%0.N_Real,0.N_Real%> , <%0.N_Real,-1.N_Real%> %>;
+
+registration
+  cluster Cayley-Dickson(Cayley-Dickson(N_Real)) ->
+          associative non commutative;
+end;
+
+::e1*e2 = e3 in octonions
+theorem :: CAYLDICK:32
+  <%<%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+  <%<%<%0.N_Real,0.N_Real%>,<%1.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  =
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,1.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>;
+
+::e2*e1 = -e3 in octonions
+theorem :: CAYLDICK:33
+  <%<%<%0.N_Real,0.N_Real%>,<%1.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+  <%<%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  =
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,-1.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>;
+
+::(e1*e2)*e5 = -e6 in octonions
+theorem :: CAYLDICK:34
+  <%<%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+  <%<%<%0.N_Real,0.N_Real%>,<%1.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  =
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%-1.N_Real,0.N_Real%>%>%>;
+
+::e1*(e2*e5) = e6 in octonions
+theorem :: CAYLDICK:35
+  <%<%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+( <%<%<%0.N_Real,0.N_Real%>,<%1.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>%>
+  *
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,1.N_Real%>,<%0.N_Real,0.N_Real%>%>%> )
+  =
+  <%<%<%0.N_Real,0.N_Real%>,<%0.N_Real,0.N_Real%>%>,
+  <%<%0.N_Real,0.N_Real%>,<%1.N_Real,0.N_Real%>%>%>;
+
+registration
+  cluster Cayley-Dickson(Cayley-Dickson(Cayley-Dickson(N_Real)))
+    -> non associative non commutative;
+end;
+

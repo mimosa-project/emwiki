@@ -1,0 +1,189 @@
+:: Some Topological Properties of Cells in $R^2$
+::  by Yatsuka Nakamura and Andrzej Trybulec
+::
+:: Received July 22, 1996
+:: Copyright (c) 1996-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, REAL_1, XBOOLE_0, PRE_TOPC, SQUARE_1,
+      XXREAL_0, CARD_1, RELAT_2, TARSKI, CONNSP_1, SETFAM_1, RCOMP_1, CONNSP_3,
+      ZFMISC_1, STRUCT_0, FUNCT_1, GOBOARD5, RELAT_1, MATRIX_1, EUCLID,
+      TOPREAL1, RLTOPSP1, ARYTM_3, GOBOARD2, TREES_1, ARYTM_1, FINSEQ_1,
+      MCART_1, GOBOARD1, TOPS_1, PCOMPS_1, METRIC_1, NAT_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, SEQM_3, TOPREAL1, GOBOARD1,
+      ORDINAL1, XXREAL_0, NUMBERS, BINOP_1, XCMPLX_0, XREAL_0, REAL_1, NAT_1,
+      NAT_D, SQUARE_1, MATRIX_0, STRUCT_0, PRE_TOPC, FINSEQ_1, MATRIX_1,
+      METRIC_1, TOPS_1, CONNSP_1, PCOMPS_1, RLVECT_1, RLTOPSP1, EUCLID,
+      GOBOARD2, GOBOARD5, CONNSP_3;
+ constructors SETFAM_1, REAL_1, SQUARE_1, TOPS_1, CONNSP_1, PCOMPS_1, GOBOARD2,
+      GOBOARD5, CONNSP_3, GOBOARD1, NAT_D, FUNCSDOM, CONVEX1;
+ registrations SUBSET_1, RELSET_1, XXREAL_0, XREAL_0, STRUCT_0, PRE_TOPC,
+      EUCLID, GOBOARD1, GOBOARD2, GOBOARD5, RLTOPSP1, SQUARE_1, ORDINAL1,
+      NAT_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve i,j,k for Nat,
+  r,s,r1,r2,s1,s2,sb,tb for Real,
+  x for set,
+  GX for non empty TopSpace;
+
+theorem :: GOBRD11:1
+  for A being Subset of GX, p being Point of GX st p in A & A is
+  connected holds A c= Component_of p;
+
+theorem :: GOBRD11:2
+  for A,B,C being Subset of GX st C is a_component & A c= C & B is
+  connected & Cl A meets Cl B holds B c= C;
+
+reserve GZ for non empty TopSpace;
+
+theorem :: GOBRD11:3
+  for A,B being Subset of GZ st A is a_component & B
+  is a_component holds A \/ B is a_union_of_components of GZ;
+
+theorem :: GOBRD11:4
+  for B1,B2,V being Subset of GX holds Down(B1 \/ B2,V)=Down(B1,V) \/
+  Down(B2,V);
+
+theorem :: GOBRD11:5
+  for B1,B2,V being Subset of GX holds Down(B1 /\ B2,V)=Down(B1,V) /\
+  Down(B2,V);
+
+reserve f for non constant standard special_circular_sequence,
+  G for non empty-yielding Matrix of TOP-REAL 2;
+
+theorem :: GOBRD11:6
+  (L~f)` <> {};
+
+registration
+  let f;
+  cluster (L~f)` -> non empty;
+end;
+
+theorem :: GOBRD11:7
+  for f holds the carrier of TOP-REAL 2 = union {cell(GoB f,i,j):i<=len
+  GoB f & j<=width GoB f};
+
+theorem :: GOBRD11:8
+  for P1,P2 being Subset of TOP-REAL 2 st P1={ |[r,s]| : s <= s1 }
+  & P2={ |[r2,s2]| : s2 > s1 } holds P1=P2`;
+
+theorem :: GOBRD11:9
+  for P1,P2 being Subset of TOP-REAL 2 st P1={ |[r,s]| : s >= s1 }
+  & P2={ |[r2,s2]| : s2 < s1 } holds P1=P2`;
+
+theorem :: GOBRD11:10
+  for P1,P2 being Subset of TOP-REAL 2 st
+  P1={ |[s,r]| where s,r is Real: s >= s1 }
+  & P2={ |[s2,r2]| where s2,r2 is Real: s2 < s1 } holds P1=P2`;
+
+theorem :: GOBRD11:11
+  for P1,P2 being Subset of TOP-REAL 2 st
+  P1={ |[s,r]| where s,r is Real: s <= s1 }
+  & P2={ |[s2,r2]| where s2,r2 is Real: s2 > s1 } holds P1=P2`;
+
+theorem :: GOBRD11:12
+  for P being Subset of TOP-REAL 2, s1 st P= { |[r,s]| : s <= s1 }
+  holds P is closed;
+
+theorem :: GOBRD11:13
+  for P being Subset of TOP-REAL 2,s1 st P={ |[r,s]| : s1 <= s }
+  holds P is closed;
+
+theorem :: GOBRD11:14
+  for P being Subset of TOP-REAL 2, s1 st
+  P= { |[s,r]| where s,r is Real: s <= s1 }
+  holds P is closed;
+
+theorem :: GOBRD11:15
+  for P being Subset of TOP-REAL 2,s1 st
+  P={ |[s,r]| where s,r is Real: s1 <= s }
+  holds P is closed;
+
+theorem :: GOBRD11:16
+  for G being Matrix of TOP-REAL 2 holds h_strip(G,j) is closed;
+
+theorem :: GOBRD11:17
+  for G being Matrix of TOP-REAL 2 holds v_strip(G,j) is closed;
+
+theorem :: GOBRD11:18
+  G is X_equal-in-line implies v_strip(G,0) = { |[r,s]| : r <= G*( 1,1)`1 };
+
+theorem :: GOBRD11:19
+  G is X_equal-in-line implies v_strip(G,len G) = { |[r,s]| : G*(
+  len G,1)`1 <= r };
+
+theorem :: GOBRD11:20
+  G is X_equal-in-line & 1 <= i & i < len G implies v_strip(G,i) =
+  { |[r,s]| : G*(i,1)`1 <= r & r <= G*(i+1,1)`1 };
+
+theorem :: GOBRD11:21
+  G is Y_equal-in-column implies h_strip(G,0) = { |[r,s]| : s <= G *(1,1)`2 };
+
+theorem :: GOBRD11:22
+  G is Y_equal-in-column implies h_strip(G,width G) = { |[r,s]| :
+  G*(1,width G)`2 <= s };
+
+theorem :: GOBRD11:23
+  G is Y_equal-in-column & 1 <= j & j < width G implies h_strip(G,
+  j) = { |[r,s]| : G*(1,j)`2 <= s & s <= G*(1,j+1)`2 };
+
+reserve G for non empty-yielding X_equal-in-line Y_equal-in-column Matrix of
+  TOP-REAL 2;
+
+theorem :: GOBRD11:24
+  cell(G,0,0) = { |[r,s]| : r <= G*(1,1)`1 & s <= G*(1,1)`2 };
+
+theorem :: GOBRD11:25
+  cell(G,0,width G) = { |[r,s]| : r <= G*(1,1)`1 & G*(1,width G)`2 <= s };
+
+theorem :: GOBRD11:26
+  1 <= j & j < width G implies cell(G,0,j) = { |[r,s]| : r <= G*(1
+  ,1)`1 & G*(1,j)`2 <= s & s <= G*(1,j+1)`2 };
+
+theorem :: GOBRD11:27
+  cell(G,len G,0) = { |[r,s]| : G*(len G,1)`1 <= r & s <= G*(1,1) `2 };
+
+theorem :: GOBRD11:28
+  cell(G,len G,width G) = { |[r,s]| : G*(len G,1)`1 <= r & G*(1,
+  width G)`2 <= s };
+
+theorem :: GOBRD11:29
+  1 <= j & j < width G implies cell(G,len G,j) = { |[r,s]| : G*(
+  len G,1)`1 <= r & G*(1,j)`2 <= s & s <= G*(1,j+1)`2 };
+
+theorem :: GOBRD11:30
+  1 <= i & i < len G implies cell(G,i,0) = { |[r,s]|: G*(i,1)`1 <=
+  r & r <= G*(i+1,1)`1 & s <= G* (1,1)`2 };
+
+theorem :: GOBRD11:31
+  1 <= i & i < len G implies cell(G,i,width G) = { |[r,s]|: G*(i,1
+  )`1 <= r & r <= G*(i+1,1)`1 & G*(1,width G)`2 <= s };
+
+theorem :: GOBRD11:32
+  1 <= i & i < len G & 1 <= j & j < width G implies cell(G,i,j) =
+{ |[r,s]| : G*(i,1)`1 <= r & r <= G*(i+1,1)`1 & G*(1,j)`2 <= s & s <= G*(1,j+1)
+  `2 };
+
+theorem :: GOBRD11:33
+  for G being Matrix of TOP-REAL 2 holds cell(G,i,j) is closed;
+
+theorem :: GOBRD11:34
+  for G being non empty-yielding Matrix of TOP-REAL 2 holds 1<=len
+  G & 1<=width G;
+
+theorem :: GOBRD11:35
+  for G being Go-board holds i<=len G & j<=width G implies cell(G,i,j)=
+  Cl Int cell(G,i,j);

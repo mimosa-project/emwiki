@@ -1,0 +1,56 @@
+:: Relocability for { \bf SCM_FSA }
+::  by Andrzej Trybulec and Yatsuka Nakamura
+::
+:: Received February 22, 1996
+:: Copyright (c) 1996-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, AMI_1, SCMFSA_2, AMISTD_2, ARYTM_3, FUNCT_4, XBOOLE_0,
+      FUNCT_1, RELAT_1, TARSKI, FSM_1, CIRCUIT2, CARD_1, XXREAL_0, EXTPRO_1,
+      GRAPHSP, AMI_3, ARYTM_1, INT_1, COMPLEX1, PARTFUN1, FINSEQ_1, FINSEQ_2,
+      NAT_1, RELOC, AMISTD_5, COMPOS_1, FINSET_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FINSET_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      INT_2, INT_1, NAT_1, PARTFUN1, RELAT_1, FUNCT_1, FINSEQ_1, FINSEQ_2,
+      FUNCT_4, FUNCT_7, MEMSTR_0, COMPOS_0, COMPOS_1, EXTPRO_1, SCMFSA_2,
+      XXREAL_0, AMISTD_5;
+ constructors DOMAIN_1, NAT_D, RELSET_1, FUNCT_7, PRE_POLY, AMISTD_2, SCMFSA_3,
+      AMISTD_5, AMI_3, SCMFSA_1;
+ registrations FUNCT_1, XREAL_0, INT_1, SCMFSA_2, ORDINAL1, RELAT_1, AMISTD_2,
+      SCMFSA10, COMPOS_1, EXTPRO_1, SCMFSA_4, SCMFSA_3, FUNCT_4, FINSEQ_1,
+      AMI_3, COMPOS_0, NAT_1, MEMSTR_0;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin  :: Relocability
+
+reserve j, k, m for Nat;
+
+begin :: Main theorems of relocatability
+
+theorem :: SCMFSA_5:1
+  for k being Nat
+   for q being non halt-free finite
+      (the InstructionsF of SCM+FSA)-valued NAT-defined Function,
+   p being q-autonomic non empty FinPartState of
+  SCM+FSA, s1, s2 being State of SCM+FSA st p c= s1 & IncIC( p,k) c= s2
+for P1,P2 being Instruction-Sequence of SCM+FSA
+  st q c= P1 & Reloc(q,k) c= P2
+ for i being Nat holds
+  IC Comput(P1,s1,i) + k = IC Comput(P2,s2,i) &
+  IncAddr(CurInstr(P1,Comput(P1,s1,i)), k) = CurInstr(P2,Comput(P2,s2,i)) &
+  Comput(P1,s1,i)|dom DataPart p = Comput(P2,s2,i)|dom DataPart p &
+  DataPart Comput(P1,s1 +* DataPart s2,i) = DataPart Comput(P2,s2,i);
+
+registration
+ cluster SCM+FSA -> relocable1 relocable2;
+end;
+

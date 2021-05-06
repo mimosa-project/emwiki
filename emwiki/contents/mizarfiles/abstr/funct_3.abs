@@ -1,0 +1,483 @@
+:: Basic Functions and Operations on Functions
+::  by Czes{\l}aw Byli\'nski
+::
+:: Received May 9, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, TARSKI, RELAT_1, FUNCT_1, ZFMISC_1, SUBSET_1, MCART_1,
+      PARTFUN1, FUNCT_2, FUNCT_3, BINOP_1, CARD_1, ORDINAL1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, RELAT_1, ORDINAL1, SUBSET_1, MCART_1,
+      RELSET_1, FUNCT_1, FUNCT_2, BINOP_1;
+ constructors BINOP_1, RELSET_1, ORDINAL1;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin
+
+reserve p,q,x,x1,x2,y,y1,y2,z,z1,z2 for set;
+reserve A,B,V,X,X1,X2,Y,Y1,Y2,Z for set;
+reserve C,C1,C2,D,D1,D2 for non empty set;
+
+:: Additional propositions about functions
+
+theorem :: FUNCT_3:1
+  A c= Y implies id A = (id Y)|A;
+
+theorem :: FUNCT_3:2
+  for f,g being Function st X c= dom(g*f) holds f.:X c= dom g;
+
+theorem :: FUNCT_3:3
+  for f,g being Function st X c= dom f & f.:X c= dom g holds X c= dom(g*f);
+
+theorem :: FUNCT_3:4
+  for f,g being Function st Y c= rng(g*f) & g is one-to-one holds g "Y c= rng f
+;
+
+theorem :: FUNCT_3:5
+  for f,g being Function st Y c= rng g & g"Y c= rng f holds Y c= rng(g*f);
+
+scheme :: FUNCT_3:sch 1
+  FuncEx3{A()->set,B()-> set,P[object,object,object]}:
+ ex f being Function st dom f = [:A(),B():] &
+ for x,y being object st x in A() & y in B() holds P[x,y,f.(x,y)]
+provided
+ for x,y,z1,z2 being object
+   st x in A() & y in B() & P[x,y,z1] & P[x,y,z2] holds z1 = z2 and
+ for x,y being object st x in A() & y in B()
+   ex z being object st P[x,y,z];
+
+scheme :: FUNCT_3:sch 2
+  Lambda3{A()->set,B()->set,F(object,object)->object}:
+ ex f being Function st dom f = [:A(),B():] &
+  for x,y being object st x in A() & y in B() holds f.(x,y) = F(x,y);
+
+theorem :: FUNCT_3:6
+  for f,g being Function st dom f = [:X,Y:] & dom g = [:X,Y:] &
+  for x,y being object st x in X & y in Y holds f.(x,y) = g.(x,y)
+    holds f = g;
+
+:: Function indicated by the image under a function
+
+definition
+  let f be Function;
+  func .:f -> Function means
+:: FUNCT_3:def 1
+
+  dom it = bool dom f & for X st X c= dom f holds it.X = f.:X;
+end;
+
+theorem :: FUNCT_3:7
+  for f being Function st X in dom(.:f) holds (.:f).X = f.:X;
+
+theorem :: FUNCT_3:8
+  for f being Function holds (.:f).{} = {};
+
+theorem :: FUNCT_3:9
+  for f being Function holds rng(.:f) c= bool rng f;
+
+theorem :: FUNCT_3:10
+  for f being Function holds (.:f).:A c= bool rng f;
+
+theorem :: FUNCT_3:11
+  for f being Function holds (.:f)"B c= bool dom f;
+
+theorem :: FUNCT_3:12
+  for f being Function of X,D holds (.:f)"B c= bool X;
+
+theorem :: FUNCT_3:13
+  for f being Function holds union((.:f).:A) c= f.:(union A);
+
+theorem :: FUNCT_3:14
+  for f being Function st A c= bool dom f holds f.:(union A) = union((.:f).:A);
+
+theorem :: FUNCT_3:15
+  for f being Function of X,D st A c= bool X holds f.:(union A) = union(
+  (.:f).:A);
+
+theorem :: FUNCT_3:16
+  for f being Function holds union((.:f)"B) c= f"(union B);
+
+theorem :: FUNCT_3:17
+  for f being Function st B c= bool rng f holds f"(union B) = union((.:f
+  ) " B );
+
+theorem :: FUNCT_3:18
+  for f,g being Function holds .:(g*f) = .:g*.:f;
+
+theorem :: FUNCT_3:19
+  for f being Function holds .:f is Function of bool dom f, bool rng f;
+
+theorem :: FUNCT_3:20
+  for f being Function of X,Y st Y = {} implies X = {} holds .:f
+  is Function of bool X, bool Y;
+
+definition
+  let X,D;
+  let f be Function of X,D;
+  redefine func .:f -> Function of bool X, bool D;
+end;
+
+:: Function indicated by the inverse image under a function
+
+definition
+  let f be Function;
+  func "f -> Function means
+:: FUNCT_3:def 2
+
+  dom it = bool rng f & for Y st Y c= rng f holds it.Y = f"Y;
+end;
+
+theorem :: FUNCT_3:21
+  for f being Function st Y in dom("f) holds ("f).Y = f"Y;
+
+theorem :: FUNCT_3:22
+  for f being Function holds rng("f) c= bool dom f;
+
+theorem :: FUNCT_3:23
+  for f being Function holds ("f).:B c= bool dom f;
+
+theorem :: FUNCT_3:24
+  for f being Function holds ("f)"A c= bool rng f;
+
+theorem :: FUNCT_3:25
+  for f being Function holds union(("f).:B) c= f"(union B);
+
+theorem :: FUNCT_3:26
+  for f being Function st B c= bool rng f holds union(("f).:B) = f"( union B );
+
+theorem :: FUNCT_3:27
+  for f being Function holds union(("f)"A) c= f.:(union A);
+
+theorem :: FUNCT_3:28
+  for f being Function st A c= bool dom f & f is one-to-one holds union(
+  ("f)"A) = f.:(union A);
+
+theorem :: FUNCT_3:29
+  for f being Function holds ("f).:B c= (.:f)"B;
+
+theorem :: FUNCT_3:30
+  for f being Function st f is one-to-one holds ("f).:B = (.:f)"B;
+
+theorem :: FUNCT_3:31
+  for f being Function,A be set st A c= bool dom f holds ("f)"A c= (.:f).:A;
+
+theorem :: FUNCT_3:32
+  for f being Function,A be set st f is one-to-one holds (.:f).:A c= ("f)"A;
+
+theorem :: FUNCT_3:33
+  for f being Function,A be set st f is one-to-one & A c= bool dom f
+  holds ("f)"A = (.:f).:A;
+
+theorem :: FUNCT_3:34
+  for f,g being Function st g is one-to-one holds "(g*f) = "f*"g;
+
+theorem :: FUNCT_3:35
+  for f being Function holds "f is Function of bool rng f, bool dom f;
+
+:: Characteristic function
+
+definition
+  let A,X;
+  func chi(A,X) -> Function means
+:: FUNCT_3:def 3
+
+  dom it = X & for x being object st x in X holds
+  (x in A implies it.x = 1) & (not x in A implies it.x = 0);
+end;
+
+theorem :: FUNCT_3:36
+ for x being object holds chi(A,X).x = 1 implies x in A;
+
+theorem :: FUNCT_3:37
+  x in X \ A implies chi(A,X).x = 0;
+
+theorem :: FUNCT_3:38
+  A c= X & B c= X & chi(A,X) = chi(B,X) implies A = B;
+
+theorem :: FUNCT_3:39
+  rng chi(A,X) c= {0,1};
+
+theorem :: FUNCT_3:40
+  for f being Function of X,{0,1} holds f = chi(f"{1},X);
+
+definition
+  let A,X;
+  redefine func chi(A,X) -> Function of X,{0,1};
+end;
+
+notation
+  let Y;
+  let A be Subset of Y;
+  synonym incl A for id A;
+end;
+
+definition
+  let Y;
+  let A be Subset of Y;
+  redefine func incl A -> Function of A,Y;
+end;
+
+theorem :: FUNCT_3:41
+  for A being Subset of Y holds incl A = (id Y)|A;
+
+theorem :: FUNCT_3:42
+  for A being Subset of Y st x in A holds incl(A).x in Y;
+
+:: Projections
+
+definition
+  let X,Y;
+  func pr1(X,Y) -> Function means
+:: FUNCT_3:def 4
+ dom it = [:X,Y:] &
+   for x,y being object st x in X & y in Y holds it.(x,y) = x;
+  func pr2(X,Y) -> Function means
+:: FUNCT_3:def 5
+ dom it = [:X,Y:] &
+   for x,y being object st x in X & y in Y holds it.(x,y) = y;
+end;
+
+theorem :: FUNCT_3:43
+  rng pr1(X,Y) c= X;
+
+theorem :: FUNCT_3:44
+  Y <> {} implies rng pr1(X,Y) = X;
+
+theorem :: FUNCT_3:45
+  rng pr2(X,Y) c= Y;
+
+theorem :: FUNCT_3:46
+  X <> {} implies rng pr2(X,Y) = Y;
+
+definition
+  let X,Y;
+  redefine func pr1(X,Y) -> Function of [:X,Y:],X;
+  redefine func pr2(X,Y) -> Function of [:X,Y:],Y;
+end;
+
+definition
+  let X;
+  func delta(X) -> Function means
+:: FUNCT_3:def 6
+
+  dom it = X & for x being object st x in X holds it .x = [x,x];
+end;
+
+theorem :: FUNCT_3:47
+  rng delta X c= [:X,X:];
+
+definition
+  let X;
+  redefine func delta(X) -> Function of X,[:X,X:];
+end;
+
+:: Complex functions
+
+definition
+  let f,g be Function;
+  func <:f,g:> -> Function means
+:: FUNCT_3:def 7
+
+  dom it = dom f /\ dom g &
+  for x being object st x in dom it holds it.x = [f.x,g.x];
+end;
+
+registration
+  let f be empty Function, g be Function;
+  cluster <:f,g:> -> empty;
+  cluster <:g,f:> -> empty;
+end;
+
+theorem :: FUNCT_3:48
+  for f,g being Function st x in dom f /\ dom g holds <:f,g:>.x = [f.x,g.x];
+
+theorem :: FUNCT_3:49
+  for f,g being Function st dom f = X & dom g = X & x in X holds
+  <:f,g:>.x = [f.x,g.x];
+
+theorem :: FUNCT_3:50
+  for f,g being Function st dom f = X & dom g = X holds dom <:f,g :> = X;
+
+theorem :: FUNCT_3:51
+  for f,g being Function holds rng <:f,g:> c= [:rng f,rng g:];
+
+theorem :: FUNCT_3:52
+  for f,g being Function st dom f = dom g & rng f c= Y & rng g c=
+  Z holds pr1(Y,Z)*<:f,g:> = f & pr2(Y,Z)*<:f,g:> = g;
+
+theorem :: FUNCT_3:53
+  <:pr1(X,Y),pr2(X,Y):> = id [:X,Y:];
+
+theorem :: FUNCT_3:54
+  for f,g,h,k being Function st dom f = dom g & dom k = dom h & <:
+  f,g:> = <:k,h:> holds f = k & g = h;
+
+theorem :: FUNCT_3:55
+  for f,g,h being Function holds <:f*h,g*h:> = <:f,g:>*h;
+
+theorem :: FUNCT_3:56
+  for f,g being Function holds <:f,g:>.:A c= [:f.:A,g.:A:];
+
+theorem :: FUNCT_3:57
+  for f,g being Function holds <:f,g:>"[:B,C:] = f"B /\ g"C;
+
+theorem :: FUNCT_3:58
+  for f being Function of X,Y for g being Function of X,Z st (Y =
+{} implies X = {}) & (Z = {} implies X = {}) holds <:f,g:> is Function of X,[:Y
+  ,Z:];
+
+definition
+  let X,D1,D2;
+  let f1 be Function of X,D1;
+  let f2 be Function of X,D2;
+  redefine func <:f1,f2:> -> Function of X,[:D1,D2:];
+end;
+
+theorem :: FUNCT_3:59
+  for f1 being Function of C,D1 for f2 being Function of C,D2 for c
+  being Element of C holds <:f1,f2:>.c = [f1.c,f2.c];
+
+theorem :: FUNCT_3:60
+  for f being Function of X,Y for g being Function of X,Z holds rng <:f,
+  g:> c= [:Y,Z:];
+
+theorem :: FUNCT_3:61
+  for f being Function of X,Y for g being Function of X,Z st (Y =
+{} implies X = {}) & (Z = {} implies X = {}) holds pr1(Y,Z)*<:f,g:> = f & pr2(Y
+  ,Z)*<:f,g:> = g;
+
+theorem :: FUNCT_3:62
+  for f being Function of X,D1 for g being Function of X,D2 holds pr1(D1
+  ,D2)*<:f,g:> = f & pr2(D1,D2)*<:f,g:> = g;
+
+theorem :: FUNCT_3:63
+  for f1,f2 being Function of X,Y for g1,g2 being Function of X,Z st (Y
+= {} implies X = {}) & (Z = {} implies X = {}) & <:f1,g1:> = <:f2,g2:> holds f1
+  = f2 & g1 = g2;
+
+theorem :: FUNCT_3:64
+  for f1,f2 being Function of X,D1 for g1,g2 being Function of X,D2 st
+  <:f1,g1:> = <:f2,g2:> holds f1 = f2 & g1 = g2;
+
+:: Product-functions
+
+definition
+  let f,g be Function;
+  func [:f,g:] -> Function means
+:: FUNCT_3:def 8
+
+  dom it = [:dom f, dom g:] & for x,y being object st
+  x in dom f & y in dom g holds it.(x,y) = [f.x,g.y];
+end;
+
+theorem :: FUNCT_3:65
+  for f,g being Function, x,y being object st [x,y] in [:dom f,dom g:]
+  holds [:f,g:].(x,y) = [f.x,g.y];
+
+theorem :: FUNCT_3:66
+  for f,g being Function holds [:f,g:] = <:f*pr1(dom f,dom g),g*
+  pr2(dom f,dom g):>;
+
+theorem :: FUNCT_3:67
+  for f,g being Function holds rng [:f,g:] = [:rng f,rng g:];
+
+theorem :: FUNCT_3:68
+  for f,g being Function st dom f = X & dom g = X holds <:f,g:> =
+  [:f,g:]*(delta X);
+
+theorem :: FUNCT_3:69
+  [:id X, id Y:] = id [:X,Y:];
+
+theorem :: FUNCT_3:70
+  for f,g,h,k being Function holds [:f,h:]*<:g,k:> = <:f*g,h*k:>;
+
+theorem :: FUNCT_3:71
+  for f,g,h,k being Function holds [:f,h:]*[:g,k:] = [:f*g,h*k:];
+
+theorem :: FUNCT_3:72
+  for f,g being Function holds [:f,g:].:[:B,A:] = [:f.:B,g.:A:];
+
+theorem :: FUNCT_3:73
+  for f,g being Function holds [:f,g:]"[:B,A:] = [:f"B,g"A:];
+
+theorem :: FUNCT_3:74
+  for f being Function of X,Y for g being Function of V,Z holds [:
+  f,g:] is Function of [:X,V:],[:Y,Z:];
+
+definition
+  let X1,X2,Y1,Y2;
+  let f1 be Function of X1,Y1;
+  let f2 be Function of X2,Y2;
+  redefine func [:f1,f2:] -> Function of [:X1,X2:],[:Y1,Y2:];
+end;
+
+theorem :: FUNCT_3:75
+  for f1 being Function of C1,D1 for f2 being Function of C2,D2 for c1
+being Element of C1 for c2 being Element of C2 holds [:f1,f2:].(c1,c2) = [f1.c1
+  ,f2.c2];
+
+theorem :: FUNCT_3:76
+  for f1 being Function of X1,Y1 for f2 being Function of X2,Y2 st (Y1 =
+{} implies X1 = {}) & (Y2 = {} implies X2 = {}) holds [:f1,f2:] = <:f1*pr1(X1,
+  X2),f2*pr2(X1,X2):>;
+
+theorem :: FUNCT_3:77
+  for f1 being Function of X1,D1 for f2 being Function of X2,D2 holds [:
+  f1,f2:] = <:f1*pr1(X1,X2),f2*pr2(X1,X2):>;
+
+theorem :: FUNCT_3:78
+  for f1 being Function of X,Y1 for f2 being Function of X,Y2 holds <:f1
+  ,f2:> = [:f1,f2:]*(delta X);
+
+begin :: Addenda
+:: from AMI_1
+
+theorem :: FUNCT_3:79
+  for f being Function holds pr1(dom f,rng f).:f = dom f;
+
+theorem :: FUNCT_3:80
+  for A,B,C being non empty set, f,g being Function of A,[:B,C:] st
+  pr1(B,C)*f = pr1(B,C)*g & pr2(B,C)*f = pr2(B,C)*g holds f = g;
+
+registration
+  let F,G be one-to-one Function;
+  cluster [:F,G:] -> one-to-one;
+end;
+
+registration let A be set;
+ cluster idempotent for BinOp of A;
+end;
+
+registration let A be set, b be idempotent BinOp of A;
+ let a be Element of A;
+ reduce b.(a,a) to a;
+end;
+
+reserve A1,A2,B1,B2 for non empty set,
+  f for Function of A1,B1,
+  g for Function of A2,B2,
+  Y1 for non empty Subset of A1,
+  Y2 for non empty Subset of A2;
+
+definition
+  let A1 be set, B1 be non empty set, f be Function of A1, B1, Y1 be Subset of
+  A1;
+  redefine func f|Y1 -> Function of Y1,B1;
+end;
+
+theorem :: FUNCT_3:81
+  [:f,g:]|([:Y1,Y2:] qua Subset of [:A1,A2:])
+qua Function of [:Y1,Y2:],[:B1,B2:]
+= [:f|Y1,g|Y2:] qua Function of [:Y1,Y2:],[:B1,B2:];
+

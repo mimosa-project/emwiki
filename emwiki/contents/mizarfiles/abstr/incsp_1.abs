@@ -1,0 +1,452 @@
+:: Axioms of Incidence
+::  by Wojciech A. Trybulec
+::
+:: Received April 14, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, RELAT_1, SUBSET_1, FDIFF_1, TARSKI, CARD_1, ZFMISC_1,
+      INCSP_1;
+ notations TARSKI, XBOOLE_0, ENUMSET1, ZFMISC_1, SUBSET_1, DOMAIN_1, RELSET_1,
+      ORDINAL1;
+ constructors RELSET_1, DOMAIN_1, ORDINAL1;
+ registrations XBOOLE_0, SUBSET_1;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin
+
+definition
+  struct IncProjStr (# Points, Lines -> non empty set, Inc -> Relation of the
+    Points, the Lines #);
+end;
+
+definition
+  struct (IncProjStr) IncStruct (# Points, Lines, Planes -> non empty set, Inc
+-> Relation of the Points,the Lines, Inc2 -> Relation of the Points,the Planes,
+    Inc3 -> Relation of the Lines,the Planes #);
+end;
+
+definition
+  let S be IncProjStr;
+  mode POINT of S is Element of the Points of S;
+  mode LINE of S is Element of the Lines of S;
+end;
+
+definition
+  let S be IncStruct;
+  mode PLANE of S is Element of the Planes of S;
+end;
+
+reserve S for IncStruct;
+reserve A,B,C,D for POINT of S;
+reserve L for LINE of S;
+reserve P for PLANE of S;
+reserve F,G for Subset of the Points of S;
+
+:: Definitions of predicates 'on' and attributes 'linear', 'planar'
+
+definition
+  let S be IncProjStr;
+  let A be POINT of S, L be LINE of S;
+  pred A on L means
+:: INCSP_1:def 1
+
+  [A,L] in the Inc of S;
+end;
+
+definition
+  let S;
+  let A be POINT of S, P be PLANE of S;
+  pred A on P means
+:: INCSP_1:def 2
+
+  [A,P] in the Inc2 of S;
+end;
+
+definition
+  let S;
+  let L be LINE of S, P be PLANE of S;
+  pred L on P means
+:: INCSP_1:def 3
+
+  [L,P] in the Inc3 of S;
+end;
+
+definition
+  let S be IncProjStr;
+  let F be Subset of the Points of S, L be LINE of S;
+  pred F on L means
+:: INCSP_1:def 4
+
+  for A being POINT of S st A in F holds A on L;
+end;
+
+definition
+  let S;
+  let F be Subset of the Points of S, P be PLANE of S;
+  pred F on P means
+:: INCSP_1:def 5
+
+  for A st A in F holds A on P;
+end;
+
+definition
+  let S be IncProjStr;
+  let F be Subset of the Points of S;
+  attr F is linear means
+:: INCSP_1:def 6
+
+  ex L being LINE of S st F on L;
+end;
+
+definition
+  let S be IncStruct;
+  let F be Subset of the Points of S;
+  attr F is planar means
+:: INCSP_1:def 7
+
+  ex P be PLANE of S st F on P;
+end;
+
+theorem :: INCSP_1:1
+  for S being IncProjStr, L being LINE of S, A, B being POINT of S
+  holds {A,B} on L iff A on L & B on L;
+
+theorem :: INCSP_1:2
+  for S being IncProjStr, L being LINE of S, A, B, C being POINT
+  of S holds {A,B,C} on L iff A on L & B on L & C on L;
+
+theorem :: INCSP_1:3
+  {A,B} on P iff A on P & B on P;
+
+theorem :: INCSP_1:4
+  {A,B,C} on P iff A on P & B on P & C on P;
+
+theorem :: INCSP_1:5
+  {A,B,C,D} on P iff A on P & B on P & C on P & D on P;
+
+theorem :: INCSP_1:6
+  G c= F & F on L implies G on L;
+
+theorem :: INCSP_1:7
+  G c= F & F on P implies G on P;
+
+theorem :: INCSP_1:8
+  F on L & A on L iff F \/ {A} on L;
+
+theorem :: INCSP_1:9
+  F on P & A on P iff F \/ {A} on P;
+
+theorem :: INCSP_1:10
+  F \/ G on L iff F on L & G on L;
+
+theorem :: INCSP_1:11
+  F \/ G on P iff F on P & G on P;
+
+theorem :: INCSP_1:12
+  G c= F & F is linear implies G is linear;
+
+theorem :: INCSP_1:13
+  G c= F & F is planar implies G is planar;
+
+:: Introduction of mode IncSpace
+
+definition
+  let S be IncProjStr;
+  attr S is with_non-trivial_lines means
+:: INCSP_1:def 8
+
+  for L being LINE of S ex A,B being POINT of S st A <> B & {A,B} on L;
+  attr S is linear means
+:: INCSP_1:def 9
+
+  for A,B being POINT of S ex L being LINE of S st {A,B} on L;
+  attr S is up-2-rank means
+:: INCSP_1:def 10
+
+  for A,B being POINT of S, K,L being LINE
+  of S st A <> B & {A,B} on K & {A,B} on L holds K = L;
+end;
+
+definition
+  let S be IncStruct;
+  attr S is with_non-empty_planes means
+:: INCSP_1:def 11
+
+  for P being PLANE of S ex A being POINT of S st A on P;
+  attr S is planar means
+:: INCSP_1:def 12
+
+  for A,B,C being POINT of S ex P being PLANE of S st {A,B,C} on P;
+  attr S is with_<=1_plane_per_3_pts means
+:: INCSP_1:def 13
+
+  for A,B,C being POINT of S,
+  P,Q being PLANE of S st not {A,B,C} is linear & {A,B,C} on P & {A,B,C} on Q
+  holds P = Q;
+  attr S is with_lines_inside_planes means
+:: INCSP_1:def 14
+
+  for L being LINE of S, P
+being PLANE of S st ex A,B being POINT of S st A <> B & {A,B} on L & {A,B} on P
+  holds L on P;
+  attr S is with_planes_intersecting_in_2_pts means
+:: INCSP_1:def 15
+
+  for A being POINT
+of S, P,Q being PLANE of S st A on P & A on Q ex B being POINT of S st A <> B &
+  B on P & B on Q;
+  attr S is up-3-dimensional means
+:: INCSP_1:def 16
+
+  ex A,B,C,D being POINT of S st not {A,B,C,D} is planar;
+  attr S is inc-compatible means
+:: INCSP_1:def 17
+
+  for A being POINT of S, L being LINE
+  of S, P being PLANE of S st A on L & L on P holds A on P;
+end;
+
+definition
+  let IT be IncStruct;
+  attr IT is IncSpace-like means
+:: INCSP_1:def 18
+
+  IT is with_non-trivial_lines linear
+  up-2-rank with_non-empty_planes planar with_<=1_plane_per_3_pts
+  with_lines_inside_planes with_planes_intersecting_in_2_pts up-3-dimensional
+  inc-compatible;
+end;
+
+reserve a,b,c for Element of {0,1,2,3};
+
+registration
+  cluster IncSpace-like -> with_non-trivial_lines linear up-2-rank
+with_non-empty_planes planar with_<=1_plane_per_3_pts with_lines_inside_planes
+with_planes_intersecting_in_2_pts up-3-dimensional inc-compatible for
+IncStruct;
+end;
+
+registration
+  cluster strict IncSpace-like for IncStruct;
+end;
+
+definition
+  mode IncSpace is IncSpace-like IncStruct;
+end;
+
+reserve S for IncSpace;
+reserve A,B,C,D,E for POINT of S;
+reserve K,L,L1,L2 for LINE of S;
+reserve P,P1,P2,Q for PLANE of S;
+reserve F for Subset of the Points of S;
+
+::                Axioms of Incidence
+
+theorem :: INCSP_1:14
+  F on L & L on P implies F on P;
+
+:: Collinearity of points & coplanarity of points & lines
+
+theorem :: INCSP_1:15
+  {A,A,B} is linear;
+
+theorem :: INCSP_1:16
+  {A,A,B,C} is planar;
+
+theorem :: INCSP_1:17
+  {A,B,C} is linear implies {A,B,C,D} is planar;
+
+theorem :: INCSP_1:18
+  A <> B & {A,B} on L & not C on L implies not {A,B,C} is linear;
+
+theorem :: INCSP_1:19
+  not {A,B,C} is linear & {A,B,C} on P & not D on P implies not {A
+  ,B,C,D} is planar;
+
+theorem :: INCSP_1:20
+  not(ex P st K on P & L on P) implies K <> L;
+
+theorem :: INCSP_1:21
+  not(ex P st L on P & L1 on P & L2 on P) & (ex A st A on L & A on L1 &
+  A on L2) implies L <> L1;
+
+theorem :: INCSP_1:22
+  L1 on P & L2 on P & not L on P & L1 <> L2 implies not(ex Q st L on Q &
+  L1 on Q & L2 on Q);
+
+::     Lines & planes
+
+theorem :: INCSP_1:23
+  (ex A st A on K & A on L) implies ex P st K on P & L on P;
+
+theorem :: INCSP_1:24
+  A <> B implies ex L st for K holds {A,B} on K iff K = L;
+
+theorem :: INCSP_1:25
+  not {A,B,C} is linear implies ex P st for Q holds {A,B,C} on Q iff P = Q;
+
+theorem :: INCSP_1:26
+  not A on L implies ex P st for Q holds A on Q & L on Q iff P = Q;
+
+theorem :: INCSP_1:27
+  K <>L & (ex A st A on K & A on L) implies ex P st for Q holds K
+  on Q & L on Q iff P = Q;
+
+::    Definitions of functions: Line, Plane
+
+definition
+  let S;
+  let A,B;
+  assume
+ A <> B;
+  func Line(A,B) -> LINE of S means
+:: INCSP_1:def 19
+
+  {A,B} on it;
+end;
+
+definition
+  let S;
+  let A,B,C;
+  assume
+ not {A,B,C} is linear;
+  func Plane(A,B,C) -> PLANE of S means
+:: INCSP_1:def 20
+
+  {A,B,C} on it;
+end;
+
+definition
+  let S;
+  let A,L;
+  assume
+ not A on L;
+  func Plane(A,L) -> PLANE of S means
+:: INCSP_1:def 21
+
+  A on it & L on it;
+end;
+
+definition
+  let S;
+  let K,L;
+  assume that
+ K <> L and
+ ex A st A on K & A on L;
+  func Plane(K,L) -> PLANE of S means
+:: INCSP_1:def 22
+
+  K on it & L on it;
+end;
+
+:: Definitional theorems of functions: Line, Plane
+
+theorem :: INCSP_1:28
+  A <> B implies Line(A,B) = Line(B,A);
+
+theorem :: INCSP_1:29
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(A,C,B);
+
+theorem :: INCSP_1:30
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(B,A,C);
+
+theorem :: INCSP_1:31
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(B,C,A);
+
+theorem :: INCSP_1:32
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(C,A,B);
+
+theorem :: INCSP_1:33
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(C,B,A);
+
+theorem :: INCSP_1:34
+  K <> L & (ex A st A on K & A on L) implies Plane(K,L) = Plane(L,K);
+
+theorem :: INCSP_1:35
+  A <> B & C on Line(A,B) implies {A,B,C} is linear;
+
+theorem :: INCSP_1:36
+  A <> B & A <> C & {A,B,C} is linear implies Line(A,B) = Line(A,C);
+
+theorem :: INCSP_1:37
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(C,Line(A,B));
+
+theorem :: INCSP_1:38
+  not {A,B,C} is linear & D on Plane(A,B,C) implies {A,B,C,D} is planar;
+
+theorem :: INCSP_1:39
+  not C on L & {A,B} on L & A <> B implies Plane(C,L) = Plane(A,B,C);
+
+theorem :: INCSP_1:40
+  not {A,B,C} is linear implies Plane(A,B,C) = Plane(Line(A,B),Line(A,C) );
+
+::   The fourth axiom of incidence
+
+theorem :: INCSP_1:41
+  ex A,B,C st {A,B,C} on P & not {A,B,C} is linear;
+
+::    Fundamental existence theorems
+
+theorem :: INCSP_1:42
+  ex A,B,C,D st A on P & not {A,B,C,D} is planar;
+
+theorem :: INCSP_1:43
+  ex B st A <> B & B on L;
+
+theorem :: INCSP_1:44
+  A <> B implies ex C st C on P & not {A,B,C} is linear;
+
+theorem :: INCSP_1:45
+  not {A,B,C} is linear implies ex D st not {A,B,C,D} is planar;
+
+theorem :: INCSP_1:46
+  ex B,C st {B,C} on P & not {A,B,C} is linear;
+
+theorem :: INCSP_1:47
+  A <> B implies ex C,D st not {A,B,C,D} is planar;
+
+theorem :: INCSP_1:48
+  ex B,C,D st not {A,B,C,D} is planar;
+
+theorem :: INCSP_1:49
+  ex L st not A on L & L on P;
+
+theorem :: INCSP_1:50
+  A on P implies ex L,L1,L2 st L1 <> L2 & L1 on P & L2 on P & not
+  L on P & A on L & A on L1 & A on L2;
+
+theorem :: INCSP_1:51
+  ex L,L1,L2 st A on L & A on L1 & A on L2 & not(ex P st L on P & L1 on
+  P & L2 on P);
+
+theorem :: INCSP_1:52
+  ex P st A on P & not L on P;
+
+theorem :: INCSP_1:53
+  ex A st A on P & not A on L;
+
+theorem :: INCSP_1:54
+  ex K st not(ex P st L on P & K on P);
+
+theorem :: INCSP_1:55
+  ex P,Q st P <> Q & L on P & L on Q;
+
+::  Intersection of lines and planes
+
+theorem :: INCSP_1:56
+  not L on P & {A,B} on L & {A,B} on P implies A = B;
+
+theorem :: INCSP_1:57
+  P <> Q implies not(ex A st A on P & A on Q) or ex L st for B holds B
+  on P & B on Q iff B on L;

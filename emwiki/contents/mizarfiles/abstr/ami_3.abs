@@ -1,0 +1,273 @@
+:: Some Remarks on Simple Concrete Model of Computer
+::  by Andrzej Trybulec and Yatsuka Nakamura
+::
+:: Received October 8, 1993
+:: Copyright (c) 1993-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, STRUCT_0, AMI_1, AMI_2, FUNCT_7, XBOOLE_0,
+      RELAT_1, TARSKI, CAT_1, FSM_1, FUNCT_1, INT_1, NAT_1, GRAPHSP, FINSEQ_1,
+      CARD_1, ARYTM_3, ARYTM_1, FUNCOP_1, XXREAL_0, GLIB_000, FUNCT_4, AMI_3,
+      RECDEF_2, QUANTAL1, XCMPLX_0, MEMSTR_0, GOBRD13;
+ notations TARSKI, XBOOLE_0, ENUMSET1, XTUPLE_0, SUBSET_1, ORDINAL1, XCMPLX_0,
+      RELAT_1, FUNCT_1, XXREAL_0, INT_1, FUNCOP_1, CARD_1, FUNCT_4, FUNCT_7,
+      FINSEQ_1, RECDEF_2, NUMBERS, MEASURE6, STRUCT_0, MEMSTR_0, COMPOS_0,
+      COMPOS_1, EXTPRO_1, SCM_INST, AMI_2;
+ constructors DOMAIN_1, FINSEQ_4, CAT_2, AMI_2, RELSET_1, EXTPRO_1, FUNCT_7,
+      MEASURE6, XTUPLE_0, FUNCT_4;
+ registrations XBOOLE_0, SETFAM_1, ORDINAL1, FUNCOP_1, XREAL_0, INT_1, CARD_3,
+      AMI_2, XXREAL_0, FUNCT_1, FINSEQ_1, EXTPRO_1, FUNCT_4, MEMSTR_0, RELAT_1,
+      COMPOS_0, SCM_INST, XTUPLE_0, ORDINAL2, NAT_1, CARD_1, FACIRC_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: A small concrete machine
+
+reserve i,j,k for Nat;
+
+:: registration
+::  cluster -> with_zero for non zero Nat;
+::  coherence
+::   proof let n be non zero Nat;
+::     {} in n by ORDINAL3:8;
+::    hence thesis;
+::   end;
+:: end;
+
+reserve I,J,K for Element of Segm 9,
+  a,a1,a2 for Nat,
+  b,b1,b2,c,c1 for Element of SCM-Data-Loc;
+
+reserve T for InsType of SCM-Instr,
+        I for Element of SCM-Instr;
+
+registration let n be non zero Nat;
+ cluster Segm n -> with_zero;
+end;
+
+definition
+  func SCM -> strict AMI-Struct over Segm 2 equals
+:: AMI_3:def 1
+  AMI-Struct(#
+    SCM-Memory,In(NAT,SCM-Memory),SCM-Instr,SCM-OK,SCM-VAL,
+     SCM-Exec#);
+end;
+
+registration
+  cluster SCM -> non empty;
+end;
+
+registration
+  cluster SCM -> with_non-empty_values;
+end;
+
+registration
+  cluster SCM -> IC-Ins-separated;
+end;
+
+registration
+ cluster Int-like for Object of SCM;
+end;
+
+definition
+  mode Data-Location is Int-like Object of SCM;
+end;
+
+registration
+  let s be State of SCM, d be Data-Location;
+  cluster s.d -> integer;
+end;
+
+reserve a,b,c for Data-Location,
+  loc for Nat,
+  I for Instruction of SCM;
+
+definition
+::$CD
+  let a,b;
+  func a := b -> Instruction of SCM equals
+:: AMI_3:def 3
+  [ 1, {}, <*a, b*>];
+  func AddTo(a,b) -> Instruction of SCM equals
+:: AMI_3:def 4
+  [ 2, {}, <*a, b*>];
+  func SubFrom(a,b) -> Instruction of SCM equals
+:: AMI_3:def 5
+  [ 3, {}, <*a, b*>];
+  func MultBy(a,b) -> Instruction of SCM equals
+:: AMI_3:def 6
+  [ 4, {}, <*a, b*>];
+  func Divide(a,b) -> Instruction of SCM equals
+:: AMI_3:def 7
+  [ 5, {}, <*a, b*>];
+end;
+
+definition
+  let loc;
+  func SCM-goto loc -> Instruction of SCM equals
+:: AMI_3:def 8
+  [ 6, <*loc*>, {} ];
+  let a;
+  func a=0_goto loc -> Instruction of SCM equals
+:: AMI_3:def 9
+  [ 7, <*loc*>, <*a*>];
+  func a>0_goto loc -> Instruction of SCM equals
+:: AMI_3:def 10
+  [ 8, <*loc*>, <*a*>];
+end;
+
+reserve s for State of SCM;
+
+theorem :: AMI_3:1
+  IC SCM = NAT;
+
+begin :: Users guide
+
+theorem :: AMI_3:2
+  Exec(a:=b, s).IC SCM = IC s + 1 & Exec(a:=b, s).a = s.b & for c
+  st c <> a holds Exec(a:=b, s).c = s.c;
+
+theorem :: AMI_3:3
+  Exec(AddTo(a,b), s).IC SCM = IC s + 1 & Exec(AddTo(a,b), s).a =
+  s.a + s.b & for c st c <> a holds Exec(AddTo(a,b), s).c = s.c;
+
+theorem :: AMI_3:4
+  Exec(SubFrom(a,b), s).IC SCM = IC s + 1 & Exec(SubFrom(a,b), s)
+  .a = s.a - s.b & for c st c <> a holds Exec(SubFrom(a,b), s).c = s.c;
+
+theorem :: AMI_3:5
+  Exec(MultBy(a,b), s).IC SCM = IC s + 1 & Exec(MultBy(a,b), s).a
+  = s.a * s.b & for c st c <> a holds Exec(MultBy(a,b), s).c = s.c;
+
+theorem :: AMI_3:6
+  Exec(Divide(a,b), s).IC SCM = IC s + 1 & (a <> b implies Exec(
+Divide(a,b), s).a = s.a div s.b) & Exec(Divide(a,b), s).b = s.a mod s.b & for c
+  st c <> a & c <> b holds Exec(Divide(a,b), s).c = s.c;
+
+theorem :: AMI_3:7
+  Exec(SCM-goto loc, s).IC SCM = loc & Exec(SCM-goto loc, s).c = s.c;
+
+theorem :: AMI_3:8
+  (s.a = 0 implies Exec(a =0_goto loc, s).IC SCM = loc) & (s.a <>
+0 implies Exec(a=0_goto loc, s).IC SCM = IC s + 1) & Exec(a=0_goto loc, s).c =
+  s.c;
+
+theorem :: AMI_3:9
+  (s.a > 0 implies Exec(a >0_goto loc, s).IC SCM = loc) & (s.a <=
+0 implies Exec(a>0_goto loc, s).IC SCM = IC s + 1) & Exec(a>0_goto loc, s).c =
+  s.c;
+
+reserve Y,K,T for Element of Segm 9,
+  a1,a2,a3 for Nat,
+  b1,b2,c1,c2,
+  c3 for Element of SCM-Data-Loc;
+
+registration
+  cluster SCM -> halting;
+end;
+
+begin :: Small concrete model
+
+definition
+  let k be Nat;
+
+  func dl.k -> Data-Location equals
+:: AMI_3:def 11
+  [1,k];
+
+end;
+
+reserve i,j,k for Nat;
+
+theorem :: AMI_3:10
+  i <> j implies dl.i <> dl.j;
+
+theorem :: AMI_3:11
+  for l being Data-Location holds Values l = INT;
+
+definition
+  let la be Data-Location;
+  let a be Integer;
+  redefine func la .--> a -> PartState of SCM;
+end;
+
+definition
+  let la,lb be Data-Location;
+  let a, b be Integer;
+  redefine func (la,lb) --> (a,b) -> PartState of SCM;
+end;
+
+theorem :: AMI_3:12
+  dl.i <> j;
+
+theorem :: AMI_3:13
+  IC SCM <> dl.i & IC SCM <> i;
+
+begin  :: Halt Instruction
+
+theorem :: AMI_3:14
+  for I being Instruction of SCM st ex s st Exec(I,s).IC SCM = IC s + 1
+  holds I is non halting;
+
+theorem :: AMI_3:15
+  for I being Instruction of SCM st I = [0,{},{}] holds I is halting;
+
+theorem :: AMI_3:16
+  a := b is non halting;
+
+theorem :: AMI_3:17
+  AddTo(a,b) is non halting;
+
+theorem :: AMI_3:18
+  SubFrom(a,b) is non halting;
+
+theorem :: AMI_3:19
+  MultBy(a,b) is non halting;
+
+theorem :: AMI_3:20
+  Divide(a,b) is non halting;
+
+theorem :: AMI_3:21
+  SCM-goto loc is non halting;
+
+theorem :: AMI_3:22
+  a=0_goto loc is non halting;
+
+theorem :: AMI_3:23
+  a>0_goto loc is non halting;
+
+
+
+theorem :: AMI_3:24
+  for I being set holds I is Instruction of SCM iff I = [0,{},{}] or (ex a,
+b st I = a:=b) or (ex a,b st I = AddTo(a,b)) or (ex a,b st I = SubFrom(a,b)) or
+  (ex a,b st I = MultBy(a,b)) or (ex a,b st I = Divide(a,b)) or (ex loc st I =
+SCM-goto loc) or (ex a,loc st I = a=0_goto loc) or
+ ex a,loc st I = a>0_goto loc;
+
+theorem :: AMI_3:25
+  for I being Instruction of SCM st I is halting holds I = halt SCM;
+
+theorem :: AMI_3:26
+  halt SCM = [0,{},{}];
+
+theorem :: AMI_3:27
+  Data-Locations SCM = SCM-Data-Loc;
+
+theorem :: AMI_3:28
+ for d being Data-Location holds d in Data-Locations SCM;
+
+theorem :: AMI_3:29
+ for s being SCM-State holds s is State of SCM;
+
+theorem :: AMI_3:30
+  for l being Element of SCM-Instr holds InsCode l <= 8;

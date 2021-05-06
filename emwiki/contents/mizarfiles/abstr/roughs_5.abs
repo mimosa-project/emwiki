@@ -1,0 +1,345 @@
+:: Formalizing Two Generalized Approximation Operators
+::  by Adam Grabowski and Micha{\l} Sielwiesiuk
+:: 
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, ORDERS_2, RELAT_1, TARSKI, ZFMISC_1, RELAT_2, XBOOLE_0,
+      PARTFUN1, SUBSET_1, FUNCT_1, EQREL_1, ROUGHS_1, ROUGHS_2, ROUGHS_5,
+      ALTCAT_2, FIB_NUM, FUNCT_7, COHSP_1, ROUGHS_4, SETWISEO;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, RELAT_2, FUNCT_1,
+      RELSET_1, PARTFUN1, FUNCT_2, DOMAIN_1, STRUCT_0, ORDERS_2, SETWISEO,
+      EQREL_1, PRE_TOPC, ROUGHS_1, YELLOW_3, ROUGHS_2, ALTCAT_2, ROUGHS_4;
+ constructors EQREL_1, REALSET2, RELSET_1, ROUGHS_1, YELLOW_3, TOPS_1,
+      ROUGHS_2, ALTCAT_2, COHSP_1, ROUGHS_3, ROUGHS_4, RELAT_2, SETWISEO,
+      PARTIT1, BVFUNC_1;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FINSET_1, NAT_1, STRUCT_0,
+      ORDERS_2, RELSET_1, FUNCT_1, FUNCT_2, YELLOW_3, TOPS_1, PRE_TOPC,
+      ROUGHS_2, PARTFUN1, ROUGHS_1;
+ requirements BOOLE, SUBSET, NUMERALS;
+
+
+begin :: Definitions of the mappings defined in the paper by Gomolinska
+
+definition :: property (1) p. 105
+  let R be non empty set;
+  let I be Function of R, bool R;
+  attr I is map-reflexive means
+:: ROUGHS_5:def 1
+    for u being Element of R holds u in I.u;
+end;
+
+definition :: stolen from SETWISEO
+  let R be non empty set;
+  func singleton R -> Function of R, bool R means
+:: ROUGHS_5:def 2
+  for x being Element of R holds it.x = {x};
+end;
+
+registration let R be non empty set;
+  cluster singleton R -> map-reflexive;
+end;
+
+theorem :: ROUGHS_5:1 :: property (2)
+  for R being non empty RelStr,
+      I being Function of the carrier of R, bool the carrier of R
+  st I is map-reflexive holds
+    the carrier of R = union (I.:[#]R);
+
+ reserve f,g for Function;
+ reserve R for non empty reflexive RelStr;
+
+theorem :: ROUGHS_5:2  :: Theorem 4.1 b)
+  LAp R cc= id bool the carrier of R;
+
+theorem :: ROUGHS_5:3 :: 4.1 b)
+  id bool the carrier of R cc= UAp R;
+
+ reserve R for non empty RelStr;
+
+theorem :: ROUGHS_5:4 :: Proposition 1.1 a)
+  for f being map of R,
+      x,y being Subset of R holds
+    Flip (Flip f) = f;
+
+:::  $f^d$
+
+theorem :: ROUGHS_5:5
+  for f,g being map of R holds
+    Flip (f * g) = Flip f * Flip g;
+
+theorem :: ROUGHS_5:6 :: c)
+  for f being map of R holds
+    f.{} = {} iff (Flip f).(the carrier of R) = the carrier of R;
+
+begin :: Formalization of I and tau mappings
+
+definition
+  let R be non empty RelStr;
+  func UncertaintyMap R -> Function of the carrier of R,
+    bool the carrier of R means
+:: ROUGHS_5:def 3
+  for x being Element of R holds
+    it.x = Coim(the InternalRel of R,x);
+end;
+
+theorem :: ROUGHS_5:7  :: property (3)
+  for w,u being Element of R holds
+    [w,u] in the InternalRel of R iff w in (UncertaintyMap R).u;
+
+definition let R be non empty RelStr;
+  func tau R -> Function of the carrier of R, bool the carrier of R means
+:: ROUGHS_5:def 4
+
+    for u being Element of R holds
+      it.u = Im(the InternalRel of R,u);
+end;
+
+theorem :: ROUGHS_5:8
+  for u,w being Element of R holds
+    u in Im (the InternalRel of R,w) iff
+      w in Coim (the InternalRel of R,u);
+
+theorem :: ROUGHS_5:9  :: formula (3)
+  for w,u being Element of R holds
+    [w,u] in the InternalRel of R iff u in (tau R).w;
+
+:: General version of the induced mapping
+
+definition let R be non empty RelStr;
+  let f be Function of the carrier of R, bool the carrier of R;
+  func ff_0 f -> map of R means
+:: ROUGHS_5:def 5
+    for x being Subset of R holds
+      it.x = { u where u is Element of R : f.u meets x };
+end;
+
+definition
+  let R be non empty RelStr;
+  func f_0 R -> map of R equals
+:: ROUGHS_5:def 6
+  ff_0 tau R;
+  func f_1 R -> map of R equals
+:: ROUGHS_5:def 7
+  ff_0 UncertaintyMap R;
+end;
+
+theorem :: ROUGHS_5:10
+  the InternalRel of R is symmetric implies
+    UncertaintyMap R = tau R;
+
+theorem :: ROUGHS_5:11 :: Proposition 4.2
+  the InternalRel of R is symmetric implies
+    f_0 R = f_1 R;
+
+theorem :: ROUGHS_5:12 :: (6)
+  the InternalRel of R is symmetric iff
+    for u,v being Element of R holds
+      u in (tau R).v implies v in (tau R).u;
+
+theorem :: ROUGHS_5:13
+  f_0 R = UAp R;
+
+theorem :: ROUGHS_5:14
+  Flip f_0 R = LAp R;
+
+theorem :: ROUGHS_5:15 :: Theorem 4.1 c)
+  for R being Approximation_Space
+  for x being Subset of R holds
+    (f_0 R).x is exact;
+
+theorem :: ROUGHS_5:16 :: 4.1 a)
+  the InternalRel of R is total reflexive implies
+    id bool the carrier of R cc= f_0 R;
+
+theorem :: ROUGHS_5:17 :: 4.1 a)
+  R is reflexive implies
+    Flip (f_0 R) cc= id bool the carrier of R;
+
+theorem :: ROUGHS_5:18 :: 4.1 b)
+  the InternalRel of R is total reflexive implies
+    id bool the carrier of R cc= f_1 R;
+
+ reserve f for Function of the carrier of R, bool the carrier of R;
+
+theorem :: ROUGHS_5:19  :: 4.1 h)
+  (ff_0 f).{} = {};
+
+registration let R;
+             let f;
+  cluster ff_0 f -> empty-preserving;
+end;
+
+theorem :: ROUGHS_5:20 :: 4.1 h)
+  (f_0 R).{} = {};
+
+theorem :: ROUGHS_5:21 :: 4.1 h)
+  (f_1 R).{} = {};
+
+registration let R be non empty reflexive RelStr;
+  cluster the InternalRel of R -> total reflexive;
+end;
+
+theorem :: ROUGHS_5:22 :: 4.1 h)
+  f is map-reflexive implies
+    (ff_0 f).the carrier of R = the carrier of R;
+
+theorem :: ROUGHS_5:23 :: 4.1 h)
+  the InternalRel of R is reflexive total implies
+    (f_0 R).the carrier of R = the carrier of R;
+
+theorem :: ROUGHS_5:24 :: 4.1 h)
+  the InternalRel of R is reflexive total implies
+    (f_1 R).the carrier of R = the carrier of R;
+
+theorem :: ROUGHS_5:25 :: 4.1 f) g) general version
+  for u,w being Element of R,
+      x being Subset of R st
+    f.u = f.w holds u in (ff_0 f).x iff w in (ff_0 f).x;
+
+theorem :: ROUGHS_5:26 :: 4.1 g)
+  for u,w being Element of R,
+      x being Subset of R st
+  (UncertaintyMap R).u = (UncertaintyMap R).w holds
+    u in (f_1 R).x iff w in (f_1 R).x;
+
+theorem :: ROUGHS_5:27 :: 4.1 f)
+  for u,w being Element of R,
+      x being Subset of R st
+  (tau R).u = (tau R).w holds
+    u in (f_0 R).x iff w in (f_0 R).x;
+
+theorem :: ROUGHS_5:28
+  for f being Function of the carrier of R, bool the carrier of R
+  for x being Subset of R holds
+    (Flip ff_0 f).x = { w where w is Element of R : f.w c= x };
+
+theorem :: ROUGHS_5:29
+  for x being Subset of R holds
+    (Flip f_0 R).x = { w where w is Element of R : (tau R).w c= x };
+
+theorem :: ROUGHS_5:30
+  for x being Subset of R holds
+    (Flip f_1 R).x = { w where w is Element of R :
+       (UncertaintyMap R).w c= x };
+
+theorem :: ROUGHS_5:31 :: 4.1 f) Flip
+  for u,w being Element of R,
+      x being Subset of R st
+  f.u = f.w holds
+    u in (Flip ff_0 f).x iff w in (Flip ff_0 f).x;
+
+theorem :: ROUGHS_5:32 :: 4.1 f) Flip
+  for u,w being Element of R,
+      x being Subset of R st
+  (tau R).u = (tau R).w holds
+    u in (Flip f_0 R).x iff w in (Flip f_0 R).x;
+
+theorem :: ROUGHS_5:33 :: 4.1 g) Flip
+  for u,w being Element of R,
+      x being Subset of R st
+  (UncertaintyMap R).u = (UncertaintyMap R).w holds
+    u in (Flip f_1 R).x iff w in (Flip f_1 R).x;
+
+theorem :: ROUGHS_5:34
+  R is reflexive implies
+    for w being Element of R holds w in (UncertaintyMap R).w;
+
+theorem :: ROUGHS_5:35
+  R is reflexive implies
+    for w being Element of R holds w in (tau R).w;
+
+registration let R be reflexive non empty RelStr;
+  cluster UncertaintyMap R -> map-reflexive;
+  cluster tau R -> map-reflexive;
+end;
+
+theorem :: ROUGHS_5:36 :: 4.1 b)
+  R is reflexive implies
+    Flip f_1 R cc= id bool the carrier of R;
+
+theorem :: ROUGHS_5:37 :: Theorem 4.2 (a) <=> (b)
+  (f_0 R) * (f_0 R) = f_0 R
+    iff
+  Flip (f_0 R) * Flip (f_0 R) = Flip (f_0 R);
+
+theorem :: ROUGHS_5:38
+  R is reflexive implies
+    union ((UncertaintyMap R).:[#]R) = the carrier of R;
+
+registration let R be non empty RelStr; :: i)
+  cluster f_0 R -> c=-monotone;
+  cluster f_1 R -> c=-monotone;
+end;
+
+theorem :: ROUGHS_5:39
+  for f being map of R st f is c=-monotone holds
+    Flip f is c=-monotone;
+
+theorem :: ROUGHS_5:40 :: i)
+  Flip f_0 R is c=-monotone;
+
+theorem :: ROUGHS_5:41 :: i)
+  Flip f_1 R is c=-monotone;
+
+theorem :: ROUGHS_5:42  :: j)
+  for f being Function of the carrier of R, bool the carrier of R
+  for x,y being Subset of R holds
+    (ff_0 f).(x \/ y) = (ff_0 f).x \/ (ff_0 f).y;
+
+theorem :: ROUGHS_5:43 :: j) version
+  for x,y being Subset of R holds
+    (f_0 R).(x \/ y) = (f_0 R).x \/ (f_0 R).y;
+
+theorem :: ROUGHS_5:44 :: j) version
+  for x,y being Subset of R holds
+    (f_1 R).(x \/ y) = (f_1 R).x \/ (f_1 R).y;
+
+theorem :: ROUGHS_5:45  :: k)
+  for f being Function of the carrier of R, bool the carrier of R
+  for x,y being Subset of R holds
+    (Flip ff_0 f).x \/ (Flip ff_0 f).y c= (Flip ff_0 f).(x \/ y);
+
+theorem :: ROUGHS_5:46 :: k)
+  for x,y being Subset of R holds
+    ((Flip f_0 R).x \/ (Flip f_0 R).y) c= (Flip f_0 R).(x \/ y);
+
+theorem :: ROUGHS_5:47 :: k)
+  for x,y being Subset of R holds
+    ((Flip f_1 R).x \/ (Flip f_1 R).y) c= (Flip f_1 R).(x \/ y);
+
+theorem :: ROUGHS_5:48  :: l)
+  for f being Function of the carrier of R, bool the carrier of R
+  for x,y being Subset of R holds
+    (ff_0 f).(x /\ y) c= (ff_0 f).x /\ (ff_0 f).y;
+
+theorem :: ROUGHS_5:49 :: l)
+  for x,y being Subset of R holds
+    (f_0 R).(x /\ y) c= (f_0 R).x /\ (f_0 R).y;
+
+theorem :: ROUGHS_5:50 :: l)
+  for x,y being Subset of R holds
+    (f_1 R).(x /\ y) c= (f_1 R).x /\ (f_1 R).y;
+
+theorem :: ROUGHS_5:51  :: m)
+  for f being Function of the carrier of R, bool the carrier of R
+  for x,y being Subset of R holds
+    (Flip ff_0 f).x /\ (Flip ff_0 f).y = (Flip ff_0 f).(x /\ y);
+
+theorem :: ROUGHS_5:52 :: m)
+  for x,y being Subset of R holds
+    (Flip f_0 R).x /\ (Flip f_0 R).y = (Flip f_0 R).(x /\ y);
+
+theorem :: ROUGHS_5:53 :: m)
+  for x,y being Subset of R holds
+    (Flip f_1 R).x /\ (Flip f_1 R).y = (Flip f_1 R).(x /\ y);

@@ -1,0 +1,190 @@
+:: On Two Alternative Axiomatizations of Lattices by McKenzie and Sholander
+::  by Adam Grabowski and Damian Sawicki
+:: 
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies LATTICES, EQREL_1, ROBBINS5, XBOOLE_0, SUBSET_1;
+ notations TARSKI, STRUCT_0, LATTICES, BINOP_1, FUNCT_2;
+ constructors BINOP_1, LATTICES;
+ registrations RELSET_1, STRUCT_0, LATTICES, LATTICE2;
+ requirements SUBSET, NUMERALS;
+
+
+begin :: Preliminaries: Sholander axiomatization
+
+ reserve L for non empty LattStr;
+ reserve v64,v65,v66,v67,v103,v3,v102,v101,v100,v2,v1,v0 for Element of L;
+
+definition let L;
+  attr L is satisfying_Sholander_1 means
+:: ROBBINS5:def 1
+  for v0,v1,v2 holds v0 "/\" (v1 "\/" v2) = (v2 "/\" v0) "\/" (v1 "/\" v0);
+end;
+
+theorem :: ROBBINS5:1
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0 holds (v0"/\"v0)=v0;
+
+theorem :: ROBBINS5:2
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0 holds v0"\/"v0 = v0;
+
+:: Proofs
+
+theorem :: ROBBINS5:3  :: meet-commutative
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0,v1 holds v0"/\"v1 = v1"/\"v0;
+
+:: Join-commutativity
+
+theorem :: ROBBINS5:4
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0,v1 holds v0"\/"v1=v1"\/"v0;
+
+:: Meet-associativity
+
+theorem :: ROBBINS5:5
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0,v1,v2 holds ((v0"/\"v1)"/\"v2)=(v0"/\"(v1"/\"v2));
+
+:: Third
+
+theorem :: ROBBINS5:6 ::: trivial
+(for v1,v0 holds (v0"/\"(v0"\/"v1))=v0)
+implies for v0,v1 holds v0"/\"(v0"\/"v1)=v0;
+
+:: Sixth
+
+theorem :: ROBBINS5:7
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v1,v0 holds (v0"\/"(v0"/\"v1))=v0;
+
+:: Join-associativity
+
+theorem :: ROBBINS5:8
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0,v1,v2 holds (v0"\/"v1)"\/"v2=v0"\/"(v1"\/"v2);
+
+:: Seventh file
+
+theorem :: ROBBINS5:9
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0)))
+implies for v0,v1,v2 holds v0"/\"(v1"\/"v2)=(v0"/\"v1)"\/"(v0"/\"v2);
+
+:: Eighth File
+
+theorem :: ROBBINS5:10
+L is join-absorbing &
+(for v0,v2,v1 holds (v0"/\"(v1"\/"v2))=((v2"/\"v0)"\/"(v1"/\"v0))) implies
+for v0,v1,v2 holds (v0"\/"(v1"/\"v2))=((v0"\/"v1)"/\"(v0"\/"v2));
+
+:: Ordinary Eight Axioms for Distributive Lattices Imply Sholander
+
+ reserve L for distributive join-commutative meet-commutative
+   non empty LattStr;
+ reserve v0,v1,v2 for Element of L;
+
+theorem :: ROBBINS5:11
+  for v0,v1,v2 holds v0 "/\" (v1 "\/" v2) = (v2 "/\" v0) "\/" (v1 "/\" v0);
+
+theorem :: ROBBINS5:12
+  for L being non empty LattStr holds
+    L is distributive Lattice iff
+      L is join-absorbing satisfying_Sholander_1;
+
+registration
+  cluster join-absorbing satisfying_Sholander_1 -> distributive Lattice-like
+      for non empty LattStr;
+  cluster distributive join-commutative meet-commutative ->
+    satisfying_Sholander_1 for non empty LattStr;
+end;
+
+begin :: McKenzie axiomatization of lattices
+
+ reserve L for non empty LattStr;
+ reserve v103,v3,v102,v101,v100,v2,v1,v0 for Element of L;
+
+definition let L;
+  attr L is satisfying_McKenzie_1 means
+:: ROBBINS5:def 2
+  for v1,v2,v0 holds v0 "\/" (v1 "/\" (v0 "/\" v2)) = v0;
+  attr L is satisfying_McKenzie_2 means
+:: ROBBINS5:def 3
+  for v1,v2,v0 holds v0 "/\" (v1 "\/" (v0 "\/" v2)) = v0;
+  attr L is satisfying_McKenzie_3 means
+:: ROBBINS5:def 4
+  for v2,v1,v0 holds ((v0 "/\" v1) "\/" (v1 "/\" v2)) "\/" v1 = v1;
+  attr L is satisfying_McKenzie_4 means
+:: ROBBINS5:def 5
+  for v2,v1,v0 holds ((v0 "\/" v1) "/\" (v1 "\/" v2)) "/\" v1 = v1;
+end;
+
+theorem :: ROBBINS5:13
+(L is satisfying_McKenzie_1 satisfying_McKenzie_2 &
+(for v2,v1,v0 holds ((v0"/\"v1)"\/"(v1"/\"v2))"\/"v1 = v1) &
+(for v2,v1,v0 holds ((v0"\/"v1)"/\"(v1"\/"v2))"/\"v1 = v1))
+implies
+((for v1,v0 holds (v0"/\"(v0"\/"v1))=v0) &
+(for v1,v0 holds (v0"\/"(v0"/\"v1))=v0) &
+L is join-commutative meet-commutative meet-associative join-associative);
+
+theorem :: ROBBINS5:14
+L is join-commutative join-associative meet-commutative meet-associative &
+(for v1,v0 holds (v0"/\"(v0"\/"v1))=v0) &
+(for v1,v0 holds (v0"\/"(v0"/\"v1))=v0)
+implies
+(for v1,v2,v0 holds (v0"\/"(v1"/\"(v0"/\"v2)))=v0) &
+(for v1,v2,v0 holds (v0"/\"(v1"\/"(v0"\/"v2)))=v0) &
+(for v2,v1,v0 holds (((v0"/\"v1)"\/"(v1"/\"v2))"\/"v1)=v1) &
+(for v2,v1,v0 holds (((v0"\/"v1)"/\"(v1"\/"v2))"/\"v1)=v1);
+
+definition let L be non empty LattStr;
+  attr L is satisfying_4_McKenzie_axioms means
+:: ROBBINS5:def 6
+    L is satisfying_McKenzie_1 &
+    L is satisfying_McKenzie_2 &
+    L is satisfying_McKenzie_3 &
+    L is satisfying_McKenzie_4;
+end;
+
+registration
+  cluster satisfying_4_McKenzie_axioms ->
+    satisfying_McKenzie_1 satisfying_McKenzie_2 satisfying_McKenzie_3
+      satisfying_McKenzie_4 for non empty LattStr;
+  cluster satisfying_McKenzie_1 satisfying_McKenzie_2 satisfying_McKenzie_3
+      satisfying_McKenzie_4 -> satisfying_4_McKenzie_axioms
+         for non empty LattStr;
+end;
+
+ reserve L for non empty LattStr;
+
+theorem :: ROBBINS5:15
+  L is Lattice iff
+    L is satisfying_4_McKenzie_axioms;
+
+registration
+  cluster Lattice-like -> satisfying_4_McKenzie_axioms
+    for non empty LattStr;
+  cluster satisfying_4_McKenzie_axioms -> Lattice-like
+    for non empty LattStr;
+end;
+

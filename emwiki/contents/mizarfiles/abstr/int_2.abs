@@ -1,0 +1,208 @@
+:: The Divisibility of Integers and Integer Relatively Primes
+::  by Rafa{\l} Kwiatek and Grzegorz Zwara
+::
+:: Received July 10, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, INT_1, ORDINAL1, COMPLEX1, SUBSET_1, XXREAL_0, CARD_1,
+      ARYTM_3, ARYTM_1, RELAT_1, NAT_1, XCMPLX_0, INT_2;
+ notations SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, INT_1, NAT_1, COMPLEX1,
+      XXREAL_0;
+ constructors XXREAL_0, REAL_1, NAT_1, COMPLEX1, INT_1, CARD_1;
+ registrations XREAL_0, NAT_1, INT_1, ORDINAL1, CARD_1;
+ requirements REAL, NUMERALS, SUBSET, ARITHM, BOOLE;
+
+
+begin
+
+definition
+  let a be Integer;
+  redefine func |.a.| -> Element of NAT;
+end;
+
+reserve a,b,c for Integer;
+
+theorem :: INT_2:1
+  a divides b & a divides b + c implies a divides c;
+
+theorem :: INT_2:2  :: NAT_D:9
+  a divides b implies a divides b * c;
+
+theorem :: INT_2:3
+  0 divides a iff a = 0;
+
+reserve i,j,k,l for Nat;
+
+definition
+  let a,b be Integer;
+  func a lcm b -> Nat means
+:: INT_2:def 1
+
+  a divides it & b divides it & for m being
+  Integer st a divides m & b divides m holds it divides m;
+  commutativity;
+end;
+
+theorem :: INT_2:4
+  a = 0 or b = 0 iff a lcm b = 0;
+
+definition
+  let a,b be Integer;
+  func a gcd b -> Nat means
+:: INT_2:def 2
+
+  it divides a & it divides b &
+  for m being Integer st m divides a & m divides b holds m divides it;
+  commutativity;
+end;
+
+theorem :: INT_2:5
+  a = 0 & b = 0 iff a gcd b = 0;
+
+reserve n for Nat;
+reserve a,b,c,d,a1,b1,a2,b2,k,l for Integer;
+
+theorem :: INT_2:6
+  -n is Element of NAT iff n = 0;
+
+registration
+  let n be non zero Nat;
+  cluster -n -> non natural;
+end;
+
+theorem :: INT_2:7
+  not -1 is Element of NAT;
+
+theorem :: INT_2:8
+  a divides -a & -a divides a;
+
+theorem :: INT_2:9
+  a divides b & b divides c implies a divides c;
+
+theorem :: INT_2:10
+  (a divides b iff a divides -b) & (a divides b iff -a divides b) &
+  (a divides b iff -a divides -b) & (a divides -b iff -a divides b);
+
+theorem :: INT_2:11
+  a divides b & b divides a implies a = b or a = -b;
+
+theorem :: INT_2:12
+  a divides 0 & 1 divides a & -1 divides a;
+
+theorem :: INT_2:13
+  a divides 1 or a divides -1 implies a = 1 or a = -1;
+
+theorem :: INT_2:14
+  a = 1 or a = -1 implies a divides 1 & a divides -1;
+
+theorem :: INT_2:15
+  a,b are_congruent_mod c iff c divides (a-b);
+
+theorem :: INT_2:16
+  a divides b iff (|.a.|) divides (|.b.|);
+
+theorem :: INT_2:17
+  a lcm b is Element of NAT;
+
+theorem :: INT_2:18
+  a divides a lcm b;
+
+theorem :: INT_2:19
+  for c st a divides c & b divides c holds a lcm b divides c;
+
+theorem :: INT_2:20
+  a gcd b is Element of NAT;
+
+theorem :: INT_2:21
+  a gcd b divides a;
+
+theorem :: INT_2:22
+  for c st c divides a & c divides b holds c divides (a gcd b);
+
+:: Relative Prime Numbers
+
+definition
+  let a,b be Integer;
+  pred a,b are_coprime means
+:: INT_2:def 3
+  a gcd b = 1;
+  symmetry;
+end;
+
+theorem :: INT_2:23
+  a<>0 or b<>0 implies ex a1,b1 st a = (a gcd b)*a1 & b = (a gcd b)*b1 &
+  a1,b1 are_coprime;
+
+theorem :: INT_2:24
+  a,b are_coprime implies (c*a gcd c*b) = |.c.| & c*a gcd
+  b*c = |.c.| & a*c gcd c*b = |.c.| & a*c gcd b*c = |.c.|;
+
+theorem :: INT_2:25
+  c divides a*b & a,c are_coprime implies c divides b;
+
+theorem :: INT_2:26
+  a,c are_coprime & b,c are_coprime implies
+  a*b,c are_coprime;
+
+::***************************************************************************::
+::                           PRIME NUMBERS                                   ::
+::***************************************************************************::
+
+reserve p,p1,q,l for Nat;
+
+definition
+  let p be integer Number;
+  attr p is prime means
+:: INT_2:def 4
+  p > 1 & for n being Nat st n divides p holds n = 1 or n = p;
+end;
+
+registration
+  cluster prime -> natural for integer Number;
+end;
+
+theorem :: INT_2:27
+  0 < b & a divides b implies a <= b;
+
+theorem :: INT_2:28
+  2 is prime;
+
+theorem :: INT_2:29
+  not 4 is prime;
+
+registration
+  cluster prime for Nat;
+  cluster non zero non prime for Nat;
+end;
+
+theorem :: INT_2:30
+  p is prime & q is prime implies p,q are_coprime or p = q;
+
+theorem :: INT_2:31
+  l>=2 implies ex p being Element of NAT st p is prime & p divides l;
+
+begin :: Addenda
+:: from AMI_4, 2007.06.14, A.T.
+
+theorem :: INT_2:32
+  for i,j being Integer st i >= 0 & j >= 0 holds
+  |.i.| mod |.j.| = i mod j & |.i.| div |.j.| = i div j;
+
+:: old definitions, 2007.11.07, A.T
+
+theorem :: INT_2:33
+  a lcm b = |.a.| lcm |.b.|;
+
+theorem :: INT_2:34
+  a gcd b = |.a.| gcd |.b.|;
+

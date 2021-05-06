@@ -1,0 +1,681 @@
+:: Grzegorczyk's Logics, Part 1
+::  by Taneli Huuskonen
+:: 
+:: Received April 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, XBOOLE_0, FINSEQ_1, XXREAL_0, TARSKI, ARYTM_3,
+      CARD_1, ORDINAL4, FUNCT_1, XBOOLEAN, RELAT_1, NAT_1, ZF_LANG, GRZLOG_1,
+      POLNOT_1, ZFMISC_1, FOMODEL2, FINSET_1, CQC_THE1, EQREL_1, SETFAM_1,
+      BINOP_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, NAT_1, NUMBERS, FINSEQ_1,
+      ENUMSET1, ZFMISC_1, POLNOT_1, FUNCT_2, BINOP_1, RELSET_1, XXREAL_0,
+      XCMPLX_0, FINSET_1, EQREL_1, SETFAM_1;
+ constructors NAT_1, NUMBERS, ENUMSET1, FINSEQ_1, POLNOT_1, RELSET_1, XREAL_0,
+      EQREL_1;
+ registrations ORDINAL1, RELSET_1, FINSEQ_1, XBOOLE_0, FUNCT_1, NAT_1, XREAL_0,
+      FINSET_1, EQREL_1, POLNOT_1;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin
+
+reserve k,m,n for Element of NAT,
+  i, j for Nat,
+  a, b, c for object,
+  X, Y, Z for set,
+  D, D1, D2 for non empty set;
+reserve p, q, r, s for FinSequence;
+
+::
+::       The Construction of Grzegorczyk's LD Language
+::
+
+definition
+  func VAR -> FinSequence-membered set equals
+:: GRZLOG_1:def 1
+  the set of all <*0,k*> where k is Element of NAT;
+end;
+
+registration
+  cluster VAR -> non empty antichain-like;
+end;
+
+definition
+  mode Variable is Element of VAR;
+end;
+
+definition
+  func 'not' -> FinSequence equals
+:: GRZLOG_1:def 2
+<*1*>;
+
+  func '&' -> FinSequence equals
+:: GRZLOG_1:def 3
+<*2*>;
+
+  func '=' -> FinSequence equals
+:: GRZLOG_1:def 4
+<*3*>;
+end;
+
+definition
+  func GRZ-ops -> non empty FinSequence-membered set equals
+:: GRZLOG_1:def 5
+  { 'not', '&', '=' };
+end;
+
+definition
+  redefine func GRZ-ops -> Polish-language;
+end;
+
+definition
+  func GRZ-symbols -> non empty FinSequence-membered set equals
+:: GRZLOG_1:def 6
+  VAR \/ GRZ-ops;
+end;
+
+definition
+  redefine func 'not' -> Element of GRZ-symbols;
+
+  redefine func '&' -> Element of GRZ-symbols;
+
+  redefine func '=' -> Element of GRZ-symbols;
+end;
+
+theorem :: GRZLOG_1:1
+  'not' <> '&' & 'not' <> '=' & '&' <> '=';
+
+registration
+  cluster GRZ-symbols -> non trivial antichain-like;
+end;
+
+definition
+  func GRZ-op-arity -> Function of GRZ-ops, NAT means
+:: GRZLOG_1:def 7
+
+    it.'not' = 1 & it.'&' = 2 & it.'=' = 2;
+end;
+
+definition
+  func GRZ-arity -> Polish-arity-function of GRZ-symbols means
+:: GRZLOG_1:def 8
+
+  for a st a in GRZ-symbols holds
+    ((a in GRZ-ops implies it.a = GRZ-op-arity.a)
+      & (not a in GRZ-ops implies it.a = 0));
+end;
+
+theorem :: GRZLOG_1:2
+  GRZ-arity.'not' = 1 & GRZ-arity.'&' = 2 & GRZ-arity.'=' = 2;
+
+theorem :: GRZLOG_1:3
+  Polish-atoms(GRZ-symbols, GRZ-arity) = VAR;
+
+definition
+  func GRZ-formula-set -> Polish-language of GRZ-symbols equals
+:: GRZLOG_1:def 9
+      Polish-WFF-set(GRZ-symbols, GRZ-arity);
+
+  mode GRZ-formula is Polish-WFF of GRZ-symbols, GRZ-arity;
+end;
+
+registration
+  cluster non empty for Subset of GRZ-formula-set;
+end;
+
+definition
+  let n;
+  func x.n -> GRZ-formula equals
+:: GRZLOG_1:def 10
+  <*0, n*>;
+end;
+
+reserve t, u, v, w for GRZ-formula;
+
+definition
+  let t;
+  func 'not' t -> GRZ-formula equals
+:: GRZLOG_1:def 11
+    Polish-unOp(GRZ-symbols, GRZ-arity, 'not').t;
+
+  let u;
+
+  func t '&' u -> GRZ-formula equals
+:: GRZLOG_1:def 12
+    Polish-binOp(GRZ-symbols, GRZ-arity, '&').(t, u);
+
+  func t '=' u -> GRZ-formula equals
+:: GRZLOG_1:def 13
+    Polish-binOp(GRZ-symbols, GRZ-arity, '=').(t, u);
+end;
+
+definition
+  let t, u;
+  func t 'or' u -> GRZ-formula equals
+:: GRZLOG_1:def 14
+  'not' (('not' t) '&' ('not' u));
+
+  func t => u -> GRZ-formula equals
+:: GRZLOG_1:def 15
+  t '=' (t '&' u);
+end;
+
+definition
+  let t, u;
+  func t <=> u -> GRZ-formula equals
+:: GRZLOG_1:def 16
+  (t => u) '&' (u => t);
+end;
+
+definition
+  let t;
+  attr t is atomic means
+:: GRZLOG_1:def 17
+    t in Polish-atoms(GRZ-symbols, GRZ-arity);
+
+  attr t is negative means
+:: GRZLOG_1:def 18
+    Polish-WFF-head t = 'not';
+
+  attr t is conjunctive means
+:: GRZLOG_1:def 19
+    Polish-WFF-head t = '&';
+
+  attr t is being_equality means
+:: GRZLOG_1:def 20
+    Polish-WFF-head t = '=';
+end;
+
+theorem :: GRZLOG_1:4
+  for t holds t is atomic iff t in VAR;
+
+theorem :: GRZLOG_1:5
+  for t holds t is negative iff ex u st t = 'not' u;
+
+theorem :: GRZLOG_1:6
+  for t holds t is conjunctive iff ex u, v st t = u '&' v;
+
+theorem :: GRZLOG_1:7
+  for t holds t is being_equality iff ex u, v st t = u '=' v;
+
+theorem :: GRZLOG_1:8
+  for t holds
+    t is atomic or t is negative or t is conjunctive or t is being_equality;
+
+registration
+  cluster atomic -> non negative for GRZ-formula;
+
+  cluster atomic -> non conjunctive for GRZ-formula;
+
+  cluster atomic -> non being_equality for GRZ-formula;
+
+  cluster negative -> non conjunctive for GRZ-formula;
+
+  cluster negative -> non being_equality for GRZ-formula;
+
+  cluster conjunctive -> non being_equality for GRZ-formula;
+end;
+
+begin
+
+definition
+  func GRZ-axioms -> non empty Subset of GRZ-formula-set means
+:: GRZLOG_1:def 21
+
+  for a holds a in it iff ex t, u, v st
+      a = 'not'(t '&' 'not' t) or
+      a = ('not' 'not' t) '=' t or
+      a = t '=' (t '&' t) or
+      a = (t '&' u) '=' (u '&' t) or
+      a = (t '&' (u '&' v)) '=' ((t '&' u) '&' v) or
+      a = (t '&' (u 'or' v)) '=' ((t '&' u) 'or' (t '&' v)) or
+      a = ('not' (t '&' u)) '=' (('not' t) 'or' ('not' u)) or
+      a = (t '=' u) '=' (u '=' t) or
+      a = (t '=' u) '=' (('not' t) '=' ('not' u));
+
+  func LD-specific-axioms -> non empty Subset of GRZ-formula-set means
+:: GRZLOG_1:def 22
+
+  for a holds a in it iff ex t, u, v st
+    a = (t '=' u) => ((t '&' v) '=' (u '&' v)) or
+    a = (t '=' u) => ((t 'or' v) '=' (u 'or' v)) or
+    a = (t '=' u) => ((t '=' v) '=' (u '=' v));
+end;
+
+definition
+  func LD-axioms -> non empty Subset of GRZ-formula-set equals
+:: GRZLOG_1:def 23
+    GRZ-axioms \/ LD-specific-axioms;
+end;
+
+definition
+  mode GRZ-rule is Relation of (bool GRZ-formula-set), GRZ-formula-set;
+end;
+
+reserve R, R1, R2 for GRZ-rule;
+
+definition
+  let R1, R2;
+  redefine func R1 \/ R2 -> GRZ-rule;
+end;
+
+definition
+  func GRZ-MP -> GRZ-rule equals
+:: GRZLOG_1:def 24
+    the set of all [{t,t '=' u}, u] where t is GRZ-formula, u is GRZ-formula;
+
+  func GRZ-ConjIntro -> GRZ-rule equals
+:: GRZLOG_1:def 25
+  the set of all [{t,u}, t '&' u] where t is GRZ-formula, u is GRZ-formula;
+
+  func GRZ-ConjElimL -> GRZ-rule equals
+:: GRZLOG_1:def 26
+  the set of all [{t '&' u}, t] where t is GRZ-formula, u is GRZ-formula;
+
+  func GRZ-ConjElimR -> GRZ-rule equals
+:: GRZLOG_1:def 27
+  the set of all [{t '&' u}, u] where t is GRZ-formula, u is GRZ-formula;
+end;
+
+definition
+  func GRZ-rules -> GRZ-rule means
+:: GRZLOG_1:def 28
+
+  for a holds a in it iff a in GRZ-MP or a in GRZ-ConjIntro
+      or a in GRZ-ConjElimL or a in GRZ-ConjElimR;
+end;
+
+definition
+  mode GRZ-formula-sequence is FinSequence of GRZ-formula-set;
+  mode GRZ-formula-finset is finite Subset of GRZ-formula-set;
+end;
+
+reserve A, A1, A2 for non empty Subset of GRZ-formula-set;
+reserve B, B1, B2 for Subset of GRZ-formula-set;
+reserve P, P1, P2 for GRZ-formula-sequence;
+reserve S, S1, S2 for GRZ-formula-finset;
+
+definition
+  let S1, S2;
+  redefine func S1 \/ S2 -> GRZ-formula-finset;
+end;
+
+definition
+  let A, R, P, n;
+  pred P, n is_a_correct_step_wrt A, R means
+:: GRZLOG_1:def 29
+    (P.n in A or ex Q being GRZ-formula-finset st
+      ([Q, P.n] in R & for q st q in Q ex k st k in dom P & k < n & P.k = q));
+end;
+
+definition
+  let A, R, P;
+  attr P is (A, R)-correct means
+:: GRZLOG_1:def 30
+    for k st k in dom P holds P, k is_a_correct_step_wrt A, R;
+end;
+
+definition
+  let A;
+  let a be Element of A;
+  redefine func <*a*> -> GRZ-formula-sequence;
+end;
+
+theorem :: GRZLOG_1:9
+  for A, R for a being Element of A holds <*a*> is (A, R)-correct;
+
+registration
+  let A, R;
+  cluster non empty (A, R)-correct for GRZ-formula-sequence;
+end;
+
+definition
+  let A, R, S;
+  attr S is (A, R)-correct means
+:: GRZLOG_1:def 31
+    ex P st S = rng P & P is (A, R)-correct;
+end;
+
+theorem :: GRZLOG_1:10
+  for A, R, P, P1, P2 st P is (A, R)-correct & P = P1^P2 holds
+      P1 is (A, R)-correct;
+
+theorem :: GRZLOG_1:11
+  for A, R, P1, P2 st P1 is (A, R)-correct & P2 is (A, R)-correct holds
+      P1^P2 is (A, R)-correct;
+
+theorem :: GRZLOG_1:12
+  for A, R, S1, S2 st S1 is (A, R)-correct & S2 is (A, R)-correct holds
+      S1 \/ S2 is (A, R)-correct;
+
+theorem :: GRZLOG_1:13
+  for A, A1, R, R1, P st A c= A1 & R c= R1 & P is (A, R)-correct holds
+      P is (A1, R1)-correct;
+
+definition
+  let A, R, t;
+  pred A, R |- t means
+:: GRZLOG_1:def 32
+  ex P st t in rng P & P is (A, R)-correct;
+end;
+
+definition
+  let A, R, B;
+  pred A, R |- B means
+:: GRZLOG_1:def 33
+  for t st t in B holds A, R |- t;
+end;
+
+theorem :: GRZLOG_1:14
+  for A, R, t holds A, R |- t iff ex S st t in S & S is (A, R)-correct;
+
+theorem :: GRZLOG_1:15
+  for A, R, t st t in A holds A, R |- t;
+
+theorem :: GRZLOG_1:16
+  for A, R, S st A, R |- S ex S1 st S c= S1 & S1 is (A, R)-correct;
+
+theorem :: GRZLOG_1:17
+  for A, R, t, S st A, R |- S & [S, t] in R holds A, R |- t;
+
+theorem :: GRZLOG_1:18
+  for A, R, t st A, R |- t holds t in A or ex S st [S, t] in R & A, R |- S;
+
+theorem :: GRZLOG_1:19
+  for A, A1, R, R1, t st A c= A1 & R c= R1 & A, R |- t holds A1, R1 |- t;
+
+theorem :: GRZLOG_1:20
+  for A, t, u holds
+    A, GRZ-rules |- t '&' u iff A, GRZ-rules |- t & A, GRZ-rules |- u;
+
+theorem :: GRZLOG_1:21
+  for A, t, u st A, GRZ-rules |- t & A, GRZ-rules |- t '=' u holds
+      A, GRZ-rules |- u;
+
+theorem :: GRZLOG_1:22
+  for A, t, u st A, GRZ-rules |- t & A, GRZ-rules |- t => u holds
+      A, GRZ-rules |- u;
+
+theorem :: GRZLOG_1:23
+  for A, t, u st A, GRZ-rules |- t '&' u holds A, GRZ-rules |- u '&' t;
+
+definition
+  let t;
+  attr t is GRZ-axiomatic means
+:: GRZLOG_1:def 34
+  t in GRZ-axioms;
+
+  attr t is GRZ-provable means
+:: GRZLOG_1:def 35
+  GRZ-axioms, GRZ-rules |- t;
+
+  attr t is LD-axiomatic means
+:: GRZLOG_1:def 36
+  t in LD-axioms;
+
+  attr t is LD-provable means
+:: GRZLOG_1:def 37
+  LD-axioms, GRZ-rules |- t;
+end;
+
+registration
+  let t;
+  cluster 'not' (t '&' 'not' t) -> GRZ-axiomatic;
+
+  cluster ('not' 'not' t) '=' t -> GRZ-axiomatic;
+
+  cluster t '=' (t '&' t) -> GRZ-axiomatic;
+
+  let u;
+
+  cluster (t '&' u) '=' (u '&' t) -> GRZ-axiomatic;
+
+  cluster ('not' (t '&' u)) '=' (('not' t) 'or' ('not' u)) -> GRZ-axiomatic;
+
+  cluster (t '=' u) '=' (u '=' t) -> GRZ-axiomatic;
+
+  cluster (t '=' u) '=' (('not' t) '=' ('not' u)) -> GRZ-axiomatic;
+
+  let v;
+  cluster (t '&' (u '&' v)) '=' ((t '&' u) '&' v) -> GRZ-axiomatic;
+
+  cluster (t '&' (u 'or' v)) '=' ((t '&' u) 'or' (t '&' v)) -> GRZ-axiomatic;
+
+  cluster (t '=' u) => ((t '&' v) '=' (u '&' v)) -> LD-axiomatic;
+
+  cluster (t '=' u) => ((t 'or' v) '=' (u 'or' v)) -> LD-axiomatic;
+
+  cluster (t '=' u) => ((t '=' v) '=' (u '=' v)) -> LD-axiomatic;
+end;
+
+registration
+  cluster GRZ-axiomatic -> LD-axiomatic for GRZ-formula;
+
+  cluster GRZ-axiomatic -> GRZ-provable for GRZ-formula;
+
+  cluster LD-axiomatic -> LD-provable for GRZ-formula;
+
+  cluster GRZ-provable -> LD-provable for GRZ-formula;
+end;
+
+registration
+  cluster GRZ-axiomatic GRZ-provable LD-axiomatic LD-provable for GRZ-formula;
+end;
+
+theorem :: GRZLOG_1:24
+  for A, t, u st GRZ-axioms c= A & A, GRZ-rules |- t '=' u holds
+      A, GRZ-rules |- u '=' t;
+
+begin :: Provability
+
+theorem :: GRZLOG_1:25
+  for t, u st t '=' u is GRZ-provable holds u '=' t is GRZ-provable;
+
+theorem :: GRZLOG_1:26
+  for t, u st t '=' u is LD-provable holds u '=' t is LD-provable;
+
+theorem :: GRZLOG_1:27
+  for t, u, v st t '=' u is LD-provable & u '=' v is LD-provable holds
+      t '=' v is LD-provable;
+
+theorem :: GRZLOG_1:28
+  for t holds t '=' t is LD-provable;
+
+definition
+  let t, u;
+  pred t LD-= u means
+:: GRZLOG_1:def 38
+
+  t '=' u is LD-provable;
+  reflexivity;
+  symmetry;
+end;
+
+theorem :: GRZLOG_1:29
+  for t, u st t LD-= u holds 'not' t LD-= 'not' u;
+
+scheme :: GRZLOG_1:sch 1
+    BinReplace { X() -> non empty set,
+          F(Element of X(), Element of X()) -> Element of X(),
+          R[ Element of X(), Element of X() ] }:
+    for a, b, c, d being Element of X() st R[a, b] & R[c, d] holds
+      R[F(a, c), F(b, d)]
+provided
+   for a, b, c being Element of X() st R[a, b] & R[b, c] holds R[a, c] and
+   for a, b being Element of X() holds R[F(a,b), F(b,a)] and
+   for a, b, c being Element of X() st R[a, b] holds R[F(a,c), F(b,c)];
+
+theorem :: GRZLOG_1:30
+  for t, u, v, w st t LD-= u & v LD-= w holds t '&' v LD-= u '&' w;
+
+theorem :: GRZLOG_1:31
+  for t, u, v, w st t LD-= u & v LD-= w holds t '=' v LD-= u '=' w;
+
+definition
+  func LD-EqR -> Equivalence_Relation of GRZ-formula-set means
+:: GRZLOG_1:def 39
+
+  for t, u holds [t,u] in it iff t LD-= u;
+end;
+
+registration
+  cluster non empty for Subset-Family of GRZ-formula-set;
+end;
+
+definition
+  func LD-EqClasses -> non empty Subset-Family of GRZ-formula-set equals
+:: GRZLOG_1:def 40
+  Class LD-EqR;
+end;
+
+definition
+  mode LD-EqClass is Element of LD-EqClasses;
+end;
+
+definition
+  let t;
+  func LD-EqClassOf t -> LD-EqClass equals
+:: GRZLOG_1:def 41
+  Class(LD-EqR, t);
+end;
+
+theorem :: GRZLOG_1:32
+  for t, u holds t LD-= u iff LD-EqClassOf t = LD-EqClassOf u;
+
+scheme :: GRZLOG_1:sch 2
+  UnOpCongr { X() -> non empty set, F(Element of X()) -> Element of X(),
+        E() -> Equivalence_Relation of X()}:
+  ex f being UnOp of Class E() st for x being Element of X() holds
+      f.(Class(E(), x)) = Class(E(), F(x))
+provided
+   for x, y being Element of X() st [x,y] in E() holds [F(x),F(y)] in E();
+
+scheme :: GRZLOG_1:sch 3
+  BinOpCongr { X() -> non empty set,
+        F(Element of X(), Element of X()) -> Element of X(),
+        E() -> Equivalence_Relation of X()}:
+  ex f being BinOp of Class E() st for x, y being Element of X() holds
+      f.(Class(E(), x), Class(E(), y)) = Class(E(), F(x, y))
+provided
+   for x1, x2, y1, y2 being Element of X()
+      st [x1,x2] in E() & [y1,y2] in E() holds [F(x1, y1),F(x2, y2)] in E();
+
+reserve x, y, z for LD-EqClass;
+
+theorem :: GRZLOG_1:33
+  for x ex t st x = LD-EqClassOf t;
+
+definition
+  let x;
+  attr x is LD-provable means
+:: GRZLOG_1:def 42
+  ex t st x = LD-EqClassOf t & t is LD-provable;
+
+  func 'not' x -> LD-EqClass means
+:: GRZLOG_1:def 43
+
+  ex t st x = LD-EqClassOf t & it = LD-EqClassOf 'not' t;
+  involutiveness;
+
+  let y;
+  func x '&' y -> LD-EqClass means
+:: GRZLOG_1:def 44
+
+  ex t, u st x = LD-EqClassOf t & y = LD-EqClassOf u
+      & it = LD-EqClassOf t '&' u;
+  commutativity;
+  idempotence;
+
+  func x '=' y -> LD-EqClass means
+:: GRZLOG_1:def 45
+
+  ex t, u st x = LD-EqClassOf t & y = LD-EqClassOf u
+      & it = LD-EqClassOf t '=' u;
+  commutativity;
+end;
+
+definition
+  let x, y;
+  func x 'or' y -> LD-EqClass equals
+:: GRZLOG_1:def 46
+  'not' (('not' x) '&' ('not' y));
+  commutativity;
+  idempotence;
+
+  func x => y -> LD-EqClass equals
+:: GRZLOG_1:def 47
+  x '=' (x '&' y);
+end;
+
+registration
+  let t be LD-provable GRZ-formula;
+  cluster LD-EqClassOf t -> LD-provable;
+end;
+
+theorem :: GRZLOG_1:34
+  for t st LD-EqClassOf t is LD-provable holds t is LD-provable;
+
+theorem :: GRZLOG_1:35
+  for x, y holds x '&' y is LD-provable iff x is LD-provable & y is LD-provable
+;
+
+theorem :: GRZLOG_1:36
+  for x, y holds x '=' y is LD-provable iff x = y;
+
+theorem :: GRZLOG_1:37
+  for t holds LD-EqClassOf 'not' t = 'not' LD-EqClassOf t;
+
+theorem :: GRZLOG_1:38
+  for t, u holds LD-EqClassOf (t '&' u) = (LD-EqClassOf t) '&' (LD-EqClassOf u)
+;
+
+theorem :: GRZLOG_1:39
+  for t, u holds LD-EqClassOf (t '=' u) = (LD-EqClassOf t) '=' (LD-EqClassOf u)
+;
+
+theorem :: GRZLOG_1:40
+  for t, u holds LD-EqClassOf (t 'or' u)
+      = (LD-EqClassOf t) 'or' (LD-EqClassOf u);
+
+theorem :: GRZLOG_1:41
+  for t, u holds LD-EqClassOf (t => u) = (LD-EqClassOf t) => (LD-EqClassOf u);
+
+theorem :: GRZLOG_1:42
+  for x, y, z holds (x '&' y) '&' z = x '&' (y '&' z);
+
+theorem :: GRZLOG_1:43
+  for x, y holds x => y is LD-provable iff x = x '&' y;
+
+theorem :: GRZLOG_1:44
+  for x, y, z st x => y is LD-provable & y => z is LD-provable holds
+      x => z is LD-provable;
+
+theorem :: GRZLOG_1:45
+  for t, u, v st t => u is LD-provable & u => v is LD-provable holds
+      t => v is LD-provable;
+
+theorem :: GRZLOG_1:46
+  for x, y, z holds x 'or' (y 'or' z) = (x 'or' y) 'or' z;
+
+theorem :: GRZLOG_1:47
+  for x, y, z holds x '&' (y 'or' z) = ((x '&' y) 'or' (x '&' z));
+
+theorem :: GRZLOG_1:48
+  for x, y, z holds x 'or' (y '&' z) = ((x 'or' y) '&' (x 'or' z));
+
+theorem :: GRZLOG_1:49
+  for x, y holds (x => y is LD-provable & y => x is LD-provable) iff x = y;
+
+theorem :: GRZLOG_1:50
+  for x, y st x is LD-provable holds x 'or' y is LD-provable;

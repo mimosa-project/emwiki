@@ -1,0 +1,280 @@
+:: Bidual Spaces and Reflexivity of Real Normed Spaces
+::  by Keiko Narita , Noboru Endou and Yasunari Shidama
+:: 
+:: Received November 29, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies RLSUB_1, HAHNBAN, UNIALG_1, DUALSP01, DUALSP02, RLVECT_1,
+      ARYTM_1, RELAT_1, FUNCT_1, RSSPACE, RSSPACE3, REAL_1, TARSKI, MSSUBFAM,
+      STRUCT_0, FUNCOP_1, FCONT_1, NORMSP_0, SEQ_2, LOPBAN_1, ORDINAL2,
+      ARYTM_3, ALGSTR_0, NORMSP_1, FUNCT_2, PRE_TOPC, SUBSET_1, ZFMISC_1,
+      NUMBERS, SEQ_4, XBOOLE_0, CARD_1, SUPINF_2, COMPLEX1, XXREAL_0, XXREAL_2,
+      NAT_1, REWRITE1, METRIC_1, RELAT_2, FUNCT_7, RCOMP_1, NORMSP_2, RLVECT_3,
+      BINOP_2, NORMSP_3, EUCLID, MOD_4, MEMBERED;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      PARTFUN1, EUCLID, FUNCT_2, BINOP_1, BINOP_2, DOMAIN_1, FUNCOP_1, NUMBERS,
+      MEMBERED, XCMPLX_0, XXREAL_0, XREAL_0, REAL_1, COMPLEX1, XXREAL_2, SEQ_4,
+      STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, RLVECT_3, RLSUB_1, VECTSP_1,
+      NORMSP_0, NORMSP_1, NORMSP_2, HAHNBAN, RSSPACE, RSSPACE3, LOPBAN_1,
+      NFCONT_1, DUALSP01, NORMSP_3;
+ constructors REAL_1, EUCLID, REALSET1, RSSPACE3, BINOP_2, RELSET_1, SEQ_4,
+      HAHNBAN1, NORMSP_2, PCOMPS_1, RLVECT_3, NORMSP_3, NFCONT_1, MEMBERED;
+ registrations STRUCT_0, XREAL_0, NUMBERS, ORDINAL1, MEMBERED, XXREAL_0,
+      VALUED_0, RLVECT_1, FUNCT_2, SEQ_4, RELSET_1, FUNCT_1, NORMSP_3,
+      NORMSP_0, NORMSP_1, DUALSP01, XBOOLE_0, LOPBAN_1;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin :: The application of Hahn-Banach's Theorem
+
+theorem :: DUALSP02:1
+for V be RealNormSpace, X be SubRealNormSpace of V,
+    x0 be Point of V, d be Real st
+    ex Z be non empty Subset of REAL
+      st Z = {||.x-x0.|| where x is Point of V : x in X} &
+         d = lower_bound Z > 0 holds
+   not x0 in X &
+   ex G be Point of DualSp V st
+   ( for x be Point of V st x in X
+       holds (Bound2Lipschitz(G,V)).x = 0 )
+  & (Bound2Lipschitz(G,V)).x0 = 1 & ||.G.|| = 1/d;
+
+theorem :: DUALSP02:2
+for V be RealNormSpace, Y be non empty Subset of V,
+    x0 be Point of V
+  st Y is linearly-closed & Y is closed & not x0 in Y holds
+   ex G be Point of DualSp V st
+    (for x be Point of V st x in Y holds (Bound2Lipschitz(G,V)).x = 0 )
+  & (Bound2Lipschitz(G,V)).x0 = 1;
+
+theorem :: DUALSP02:3
+for V be RealNormSpace, x0 be Point of V st x0 <> 0.V holds
+  ex G be Point of DualSp V
+    st (Bound2Lipschitz(G,V)).x0 = 1 & ||.G.|| = 1/||.x0.||;
+
+theorem :: DUALSP02:4
+for V be RealNormSpace, x0 be Point of V st x0 <> 0.V holds
+  ex F be Point of DualSp V
+     st ||.F.|| = 1 & (Bound2Lipschitz(F,V)).x0 =||.x0.||;
+
+theorem :: DUALSP02:5
+for V be RealNormSpace st V is non trivial holds
+  ex F be Point of DualSp V st ||.F.|| = 1;
+
+theorem :: DUALSP02:6
+for V be RealNormSpace st V is non trivial holds
+  DualSp V is non trivial;
+
+begin :: Bidual Spaces of Real Normed Spaces
+
+theorem :: DUALSP02:7
+for V be RealNormSpace, x be Point of V st V is non trivial holds
+  ( ex X be non empty Subset of REAL st
+    X = {|.(Bound2Lipschitz(F,V)).x.|
+          where F is Point of DualSp V :||.F.|| = 1 }
+    & ||.x.|| = upper_bound X ) &
+  ( ex Y be non empty Subset of REAL st
+    Y = {|.(Bound2Lipschitz(F,V)).x.|
+          where F is Point of DualSp V :||.F.|| <= 1 }
+    & ||.x.|| = upper_bound Y );
+
+theorem :: DUALSP02:8
+for V be RealNormSpace, x be Point of V st
+ for f be Lipschitzian linear-Functional of V holds f.x = 0
+  holds x = 0.V;
+
+definition
+  let X be RealNormSpace;
+  let x be Point of X;
+  func BiDual x -> Point of DualSp DualSp X means
+:: DUALSP02:def 1
+  for f be Point of DualSp X holds it.f = f.x;
+end;
+
+definition
+  let X be RealNormSpace;
+  func BidualFunc X -> Function of X, DualSp DualSp X means
+:: DUALSP02:def 2
+  for x be Point of X holds it.x = BiDual x;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster BidualFunc X -> additive homogeneous;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster BidualFunc X -> one-to-one;
+end;
+
+theorem :: DUALSP02:9
+for X be RealNormSpace
+  st X is non trivial holds
+    BidualFunc X is LinearOperator of X, DualSp DualSp X &
+  for x be Point of X
+     holds ||.x.|| = ||. (BidualFunc X).x .||;
+
+theorem :: DUALSP02:10
+for X be RealNormSpace st X is non trivial holds
+  ex DuX be SubRealNormSpace of DualSp DualSp X,
+     L be Lipschitzian LinearOperator of X, DuX
+ st L is bijective
+  & DuX = Im(BidualFunc X)
+  & (for x be Point of X holds L.x = BiDual x)
+  & for x be Point of X holds ||.x.|| = ||. L.x .||;
+
+begin :: Uniform Boundedness Theorem for Linear Functionals
+
+definition
+  func RNS_Real -> RealNormSpace equals
+:: DUALSP02:def 3
+    NORMSTR (# REAL, In(0,REAL), addreal, multreal, absreal #);
+end;
+
+theorem :: DUALSP02:11
+for X be RealNormSpace, x be Element of REAL, v be Point of RNS_Real
+  st x=v holds -x = -v;
+
+theorem :: DUALSP02:12
+for X be RealNormSpace, x be object holds
+   x is additive homogeneous Function of X,REAL
+ iff
+   x is additive homogeneous Function of X,RNS_Real;
+
+theorem :: DUALSP02:13
+for X be RealNormSpace, x be object holds
+   x is Lipschitzian additive homogeneous Function of X,REAL
+ iff
+   x is Lipschitzian additive homogeneous Function of X,RNS_Real;
+
+theorem :: DUALSP02:14
+for X be RealNormSpace holds
+  the carrier of DualSp X
+    = the carrier of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real);
+
+theorem :: DUALSP02:15
+for X be RealNormSpace,
+    x,y be Point of DualSp X,
+    v,w be Point of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real)
+  st x=v & y=w holds x + y = v + w;
+
+theorem :: DUALSP02:16
+for X be RealNormSpace,
+    a be Element of REAL, x be Point of DualSp X,
+    v be Point of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real)
+  st x=v holds a*x = a*v;
+
+theorem :: DUALSP02:17
+for X be RealNormSpace,
+    x be Point of DualSp X,
+    v be Point of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real)
+  st x=v holds -x = -v;
+
+theorem :: DUALSP02:18
+for X be RealNormSpace,
+    x be Point of DualSp X,
+    v be Point of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real)
+  st x=v holds ||.x.|| = ||.v.||;
+
+theorem :: DUALSP02:19
+for X be RealNormSpace, L be Subset of X
+  st X is non trivial
+   & (for f be Point of DualSp X holds
+        ex Kf be Real st
+          0 <= Kf
+        & for x be Point of X st x in L holds |. f.x .| <= Kf)
+holds
+  ex M be Real st 0 <= M
+  & for x be Point of X st x in L holds ||.x.|| <= M;
+
+theorem :: DUALSP02:20
+for X be RealNormSpace, L be non empty Subset of X st
+  X is non trivial &
+  ( for f be Point of DualSp X holds
+      ex Y1 be Subset of REAL st
+        Y1 = {|. f.x .| where x is Point of X : x in L}
+      & sup Y1 < +infty ) holds
+  ex Y be Subset of REAL st
+    Y = {||.x.|| where x is Point of X : x in L}
+  & sup Y < +infty;
+
+begin :: Reflexivity of Real Normed Spaces
+
+definition
+  let X be RealNormSpace;
+  attr X is Reflexive means
+:: DUALSP02:def 4
+  BidualFunc X is onto;
+end;
+
+theorem :: DUALSP02:21
+  for X be RealNormSpace holds X is Reflexive
+ iff
+   for f be Point of DualSp DualSp X
+    ex x be Point of X st
+      for g be Point of DualSp X holds f.g = g.x;
+
+theorem :: DUALSP02:22
+  for X be RealNormSpace holds
+   X is Reflexive iff Im (BidualFunc X) = DualSp DualSp X;
+
+theorem :: DUALSP02:23
+  for X be RealNormSpace st X is non trivial Reflexive holds
+    X is RealBanachSpace;
+
+theorem :: DUALSP02:24
+  for X be RealBanachSpace, M be non empty Subset of X st
+    X is Reflexive & M is linearly-closed closed holds
+    NLin(M) is Reflexive;
+
+theorem :: DUALSP02:25
+for X,Y be RealNormSpace,
+    L be Lipschitzian LinearOperator of X,Y,
+    y be Lipschitzian linear-Functional of Y
+ holds y*L is Lipschitzian linear-Functional of X;
+
+theorem :: DUALSP02:26
+for X,Y be RealNormSpace,
+    L be Lipschitzian LinearOperator of X,Y
+ st L is isomorphism holds
+ ex T be Lipschitzian LinearOperator of DualSp X,DualSp Y st
+    T is isomorphism
+  & for x be Point of DualSp X holds T.x = x*(L");
+
+theorem :: DUALSP02:27
+for X,Y be RealNormSpace,
+    L be Lipschitzian LinearOperator of X,Y,
+    T be Lipschitzian LinearOperator of DualSp X, DualSp Y st
+    L is isomorphism & T is isomorphism
+  & for x be Point of DualSp X holds T.x = x*(L") holds
+  ex S be Lipschitzian LinearOperator of DualSp Y, DualSp X
+    st S is isomorphism
+    & S = T"
+    & for y be Point of DualSp Y holds S.y = y*L;
+
+theorem :: DUALSP02:28
+for X,Y be RealNormSpace
+ st ex L be Lipschitzian LinearOperator of X,Y
+      st L is isomorphism holds
+  (X is Reflexive iff Y is Reflexive);
+
+theorem :: DUALSP02:29
+for X be RealNormSpace st X is non trivial holds
+  ex L be Lipschitzian LinearOperator of X, Im(BidualFunc X)
+   st L is isomorphism;
+
+theorem :: DUALSP02:30
+  for X be RealBanachSpace st X is non trivial holds
+    X is Reflexive iff DualSp X is Reflexive;
+

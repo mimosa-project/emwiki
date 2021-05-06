@@ -1,0 +1,273 @@
+:: Introduction to Meet-Continuous Topological Lattices
+::  by Artur Korni{\l}owicz
+::
+:: Received November 3, 1998
+:: Copyright (c) 1998-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, XBOOLE_0, ZFMISC_1, ORDERS_2, WAYBEL_9, PRE_TOPC,
+      FINSET_1, SUBSET_1, RCOMP_1, TARSKI, NATTRA_1, CARD_5, RELAT_2, FUNCT_1,
+      WAYBEL_0, RELAT_1, SEQM_3, XXREAL_0, YELLOW_2, YELLOW_1, CARD_FIL,
+      ORDINAL2, WELLORD1, WAYBEL_1, FUNCT_2, REWRITE1, LATTICES, YELLOW_0,
+      LATTICE3, TDLAT_3, RLVECT_3, SETFAM_1, YELLOW_8, TOPS_1, CONNSP_2,
+      PRELAMB, CANTOR_1, WAYBEL_2, YELLOW13, CARD_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, TOPS_2, FUNCT_1, RELSET_1,
+      BINOP_1, FUNCT_2, FINSET_1, SETFAM_1, DOMAIN_1, STRUCT_0, ORDERS_2,
+      PRE_TOPC, TOPS_1, COMPTS_1, TDLAT_2, TDLAT_3, LATTICE3, CANTOR_1,
+      CONNSP_2, BORSUK_1, YELLOW_0, WAYBEL_0, YELLOW_1, ORDERS_3, WAYBEL_1,
+      YELLOW_2, YELLOW_3, WAYBEL_2, YELLOW_8, WAYBEL_9;
+ constructors SETFAM_1, TOPS_1, BORSUK_1, URYSOHN1, LATTICE3, TDLAT_2, TDLAT_3,
+      T_0TOPSP, CANTOR_1, ORDERS_3, WAYBEL_1, WAYBEL_9, YELLOW_8, COMPTS_1,
+      TOPS_2, WAYBEL_2;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, FINSET_1, STRUCT_0, PRE_TOPC,
+      TOPS_1, BORSUK_1, LATTICE3, YELLOW_0, TDLAT_3, TEX_1, WAYBEL_0, YELLOW_1,
+      YELLOW_2, WAYBEL_1, WAYBEL_3, YELLOW_9, YELLOW11, YELLOW12, RELAT_1;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin  :: Preliminaries
+
+theorem :: YELLOW13:1
+  for T being T_1 non empty TopSpace, A being finite Subset of T
+  holds A is closed;
+
+registration
+  let T be T_1 non empty TopSpace;
+  cluster finite -> closed for Subset of T;
+end;
+
+registration
+  let T be compact TopStruct;
+  cluster [#]T -> compact;
+end;
+
+registration
+  cluster finite T_1 -> discrete for non empty TopSpace;
+end;
+
+registration
+  cluster finite -> compact for TopSpace;
+end;
+
+theorem :: YELLOW13:2
+  for T being discrete non empty TopSpace holds T is normal;
+
+theorem :: YELLOW13:3
+  for T being discrete non empty TopSpace holds T is regular;
+
+theorem :: YELLOW13:4
+  for T being discrete non empty TopSpace holds T is T_2;
+
+theorem :: YELLOW13:5
+  for T being discrete non empty TopSpace holds T is T_1;
+
+registration
+  cluster discrete non empty -> normal regular T_2 T_1 for TopSpace;
+end;
+
+registration
+  cluster T_4 -> regular for non empty TopSpace;
+end;
+
+registration
+  cluster T_3 -> T_2 for TopSpace;
+end;
+
+theorem :: YELLOW13:6
+  for S being reflexive RelStr, T being reflexive transitive RelStr
+  , f being Function of S, T, X being Subset of S holds downarrow (f.:X) c=
+  downarrow (f.:downarrow X);
+
+theorem :: YELLOW13:7
+  for S being reflexive RelStr, T being reflexive transitive RelStr, f
+being Function of S, T, X being Subset of S st f is monotone holds downarrow (f
+  .:X) = downarrow (f.:downarrow X);
+
+theorem :: YELLOW13:8
+  for N being non empty Poset holds IdsMap N is one-to-one;
+
+registration
+  let N be non empty Poset;
+  cluster IdsMap N -> one-to-one;
+end;
+
+theorem :: YELLOW13:9
+  for N being finite LATTICE holds SupMap N is one-to-one;
+
+registration
+  let N be finite LATTICE;
+  cluster SupMap N -> one-to-one;
+end;
+
+theorem :: YELLOW13:10
+  for N being finite LATTICE holds N, InclPoset Ids N are_isomorphic;
+
+theorem :: YELLOW13:11
+  for N being complete non empty Poset, x being Element of N, X
+  being non empty Subset of N holds x"/\" preserves_inf_of X;
+
+theorem :: YELLOW13:12
+  for N being complete non empty Poset, x being Element of N
+  holds x"/\" is meet-preserving;
+
+registration
+  let N be complete non empty Poset, x be Element of N;
+  cluster x"/\" -> meet-preserving;
+end;
+
+begin  :: On the basis of topological spaces
+
+theorem :: YELLOW13:13
+  for T being anti-discrete non empty TopStruct, p being Point of T
+  holds {the carrier of T} is Basis of p;
+
+theorem :: YELLOW13:14
+  for T being anti-discrete non empty TopStruct, p being Point of T, D
+  being Basis of p holds D = {the carrier of T};
+
+theorem :: YELLOW13:15
+  for T being non empty TopSpace, P being Basis of T, p being Point of T
+  holds {A where A is Subset of T: A in P & p in A} is Basis of p;
+
+theorem :: YELLOW13:16
+  for T being non empty TopStruct, A being Subset of T, p being Point of
+  T holds p in Cl A iff for K being Basis of p, Q being Subset of T st Q in K
+  holds A meets Q;
+
+theorem :: YELLOW13:17
+  for T being non empty TopStruct, A being Subset of T, p being Point of
+T holds p in Cl A iff ex K being Basis of p st for Q being Subset of T st Q in
+  K holds A meets Q;
+
+definition
+  let T be TopStruct, p be Point of T;
+  mode basis of p -> Subset-Family of T means
+:: YELLOW13:def 1
+
+    for A being Subset of T
+    st p in Int A ex P being Subset of T st P in it & p in Int P & P c= A;
+end;
+
+definition
+  let T be non empty TopSpace, p be Point of T;
+  redefine mode basis of p means
+:: YELLOW13:def 2
+    for A being a_neighborhood of p ex P being
+    a_neighborhood of p st P in it & P c= A;
+end;
+
+theorem :: YELLOW13:18
+  for T being TopStruct, p being Point of T holds bool the carrier
+  of T is basis of p;
+
+theorem :: YELLOW13:19
+  for T being non empty TopSpace, p being Point of T, P being
+  basis of p holds P is non empty;
+
+registration
+  let T be non empty TopSpace, p be Point of T;
+  cluster -> non empty for basis of p;
+end;
+
+registration
+  let T be TopStruct, p be Point of T;
+  cluster non empty for basis of p;
+end;
+
+definition
+  let T be TopStruct, p be Point of T, P be basis of p;
+  attr P is correct means
+:: YELLOW13:def 3
+
+  for A being Subset of T holds A in P iff p in Int A;
+end;
+
+registration
+  let T be TopStruct, p be Point of T;
+  cluster correct for basis of p;
+end;
+
+theorem :: YELLOW13:20
+  for T being TopStruct, p being Point of T holds {A where A is Subset
+  of T: p in Int A} is correct basis of p;
+
+registration
+  let T be non empty TopSpace, p be Point of T;
+  cluster non empty correct for basis of p;
+end;
+
+theorem :: YELLOW13:21
+  for T being anti-discrete non empty TopStruct, p being Point of T
+  holds {the carrier of T} is correct basis of p;
+
+theorem :: YELLOW13:22
+  for T being anti-discrete non empty TopStruct, p being Point of T, D
+  being correct basis of p holds D = {the carrier of T};
+
+theorem :: YELLOW13:23
+  for T being non empty TopSpace, p being Point of T, P being Basis of p
+  holds P is basis of p;
+
+definition
+  let T be TopStruct;
+  mode basis of T -> Subset-Family of T means
+:: YELLOW13:def 4
+
+    for p being Point of T holds it is basis of p;
+end;
+
+theorem :: YELLOW13:24
+  for T being TopStruct holds bool the carrier of T is basis of T;
+
+theorem :: YELLOW13:25
+  for T being non empty TopSpace, P being basis of T holds P is non empty;
+
+registration
+  let T be non empty TopSpace;
+  cluster -> non empty for basis of T;
+end;
+
+registration
+  let T be TopStruct;
+  cluster non empty for basis of T;
+end;
+
+theorem :: YELLOW13:26
+  for T being non empty TopSpace, P being basis of T holds the topology
+  of T c= UniCl Int P;
+
+theorem :: YELLOW13:27
+  for T being TopSpace, P being Basis of T holds P is basis of T;
+
+definition
+  let T be non empty TopSpace-like TopRelStr;
+  attr T is topological_semilattice means
+:: YELLOW13:def 5
+
+  for f being Function of [:T,T qua TopSpace:], T st f = inf_op T
+   holds f is continuous;
+end;
+
+registration
+  cluster reflexive -> topological_semilattice
+    for 1-element TopSpace-like TopRelStr;
+end;
+
+theorem :: YELLOW13:28
+  for T being topological_semilattice non empty TopSpace-like
+  TopRelStr, x being Element of T holds x"/\" is continuous;
+
+registration
+  let T be topological_semilatticenon empty TopSpace-like TopRelStr, x be
+  Element of T;
+  cluster x"/\" -> continuous;
+end;

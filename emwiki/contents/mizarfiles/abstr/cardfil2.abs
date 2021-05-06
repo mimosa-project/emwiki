@@ -1,0 +1,834 @@
+:: Convergent Filter Bases
+::  by Roland Coghetto
+:: 
+:: Received June 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSET_1, CARD_1, XBOOLE_0, SUBSET_1, SETFAM_1, TARSKI, ZFMISC_1,
+      ORDINAL1, FUNCT_1, RELAT_1, CARD_FIL, LATTICES, PBOOLE, STRUCT_0,
+      ORDERS_2, XXREAL_0, LATTICE3, WAYBEL_0, YELLOW_1, NUMBERS, FINSEQ_1,
+      NAT_1, YELLOW13, ARYTM_3, PRE_TOPC, RCOMP_1, CANTOR_1, FILTER_0, DICKSON,
+      RELAT_2, MEMBERED, XXREAL_1, FUNCT_3, FINSUB_1, WAYBEL_7, YELLOW19,
+      COMPTS_1, CARD_3, CARDFIL2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, SETFAM_1, FINSET_1,
+      ORDINAL1, CARD_1, RELSET_1, CARD_FIL, DOMAIN_1, NAT_1, STRUCT_0,
+      LATTICES, FILTER_0, NUMBERS, LATTICE3, YELLOW_0, ORDERS_2, YELLOW_1,
+      XXREAL_0, FINSEQ_1, CANTOR_1, NAT_LAT, DICKSON, WAYBEL_0, MEMBERED,
+      FUNCT_3, FUNCT_2, FINSUB_1, PBOOLE, ZFMISC_1, PRE_TOPC, WAYBEL_7,
+      COMPTS_1, YELLOW19, YELLOW_6, MCART_1, CARD_3;
+ constructors CARD_FIL, WAYBEL_7, CANTOR_1, NAT_LAT, DICKSON, FINSUB_1, PROB_1,
+      NAT_1, COMPTS_1, YELLOW19, BORSUK_1, ORDERS_3, WAYBEL11, XXREAL_2,
+      SIMPLEX0;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, FINSET_1, CARD_1,
+      STRUCT_0, LATTICE3, WAYBEL_0, YELLOW_1, WAYBEL_7, RELAT_1, XREAL_0,
+      NAT_1, DICKSON, MEMBERED, FUNCT_2, CANTOR_1, PBOOLE, PROB_1, SETFAM_1,
+      YELLOW19, WAYBEL_3, CARD_3;
+ requirements NUMERALS, SUBSET, BOOLE, REAL;
+
+
+begin :: Filters -- Set-theoretical Approach
+
+reserve
+  X for non empty set,
+  FX for Filter of X,
+  SFX for Subset-Family of X;
+
+definition
+  let X be set, SFX be Subset-Family of X;
+  attr SFX is upper means
+:: CARDFIL2:def 1
+  for Y1,Y2 being Subset of X st Y1 in SFX & Y1 c= Y2 holds Y2 in SFX;
+end;
+
+registration
+  let X be set;
+  cluster non empty for cap-closed Subset-Family of X;
+end;
+
+registration
+  let X be set;
+  cluster upper for non empty cap-closed Subset-Family of X;
+end;
+
+registration
+  let X be non empty set;
+  cluster with_non-empty_elements for non empty upper cap-closed
+    Subset-Family of X;
+end;
+
+theorem :: CARDFIL2:1
+  SFX is non empty with_non-empty_elements upper cap-closed
+  Subset-Family of X iff SFX is Filter of X;
+
+theorem :: CARDFIL2:2
+  for X1,X2 being non empty set,F1 being Filter of X1,F2 being Filter of X2
+  holds
+  the set of all [:f1,f2:] where f1 is Element of F1,f2 is Element of F2 is
+  non empty Subset-Family of [:X1,X2:];
+
+definition
+  let X be non empty set;
+  attr X is cap-finite-closed means
+:: CARDFIL2:def 2
+  for SX be finite non empty Subset of X holds meet SX in X;
+end;
+
+registration
+  cluster cap-finite-closed for non empty set;
+end;
+
+theorem :: CARDFIL2:3
+  for X being non empty set st X is cap-finite-closed holds
+  X is cap-closed;
+
+registration
+  cluster cap-finite-closed -> cap-closed for non empty set;
+end;
+
+theorem :: CARDFIL2:4
+  for X be set,SFX be Subset-Family of X holds SFX is cap-closed & X in SFX iff
+  FinMeetCl SFX c= SFX;
+
+theorem :: CARDFIL2:5
+  for X be non empty set, A be non empty Subset of X holds
+  {B where B is Subset of X: A c= B} is Filter of X;
+
+registration
+  let X be non empty set;
+  cluster -> cap-closed for Filter of X;
+end;
+
+theorem :: CARDFIL2:6
+  for X be set, B be Subset-Family of X st B={X} holds
+  B is upper;
+
+theorem :: CARDFIL2:7
+  for X be non empty set, F be Filter of X holds F <> bool X;
+
+definition
+  let X be non empty set;
+  func Filt X -> non empty set equals
+:: CARDFIL2:def 3
+  the set of all F where F is Filter of X;
+end;
+
+definition
+  let X be non empty set,I be non empty set,
+      M be (Filt X)-valued ManySortedSet of I;
+  func Filter_Intersection M -> Filter of X equals
+:: CARDFIL2:def 4
+  meet rng M;
+end;
+
+definition
+  let X be non empty set, F1,F2 be Filter of X;
+  pred F1 is_filter-coarser_than F2 means
+:: CARDFIL2:def 5
+  F1 c= F2;
+  reflexivity;
+
+  pred F1 is_filter-finer_than F2 means
+:: CARDFIL2:def 6
+  F2 c= F1;
+  reflexivity;
+end;
+
+theorem :: CARDFIL2:8
+  for X be non empty set,F be Filter of X,FX be Filter of X st FX={X} holds
+  FX is_coarser_than F;
+
+theorem :: CARDFIL2:9
+  for X be non empty set,I be non empty set,
+  M be (Filt X)-valued ManySortedSet of I holds
+  for i be Element of I,F be Filter of X st F=M.i holds
+  Filter_Intersection M is_filter-coarser_than F;
+
+theorem :: CARDFIL2:10
+  for X be set,S be Subset-Family of X st
+  FinMeetCl S is with_non-empty_elements holds
+  S is with_non-empty_elements;
+
+theorem :: CARDFIL2:11
+  for X be non empty set, G be Subset-Family of X ,F be Filter of X st
+  G c= F holds FinMeetCl G c= F & FinMeetCl G is with_non-empty_elements;
+
+definition
+  let X be non empty set;
+  let F be Filter of X;
+  let B be non empty Subset of F;
+  attr B is filter_basis means
+:: CARDFIL2:def 7
+
+  for f be Element of F holds ex b be Element of B st b c=f;
+end;
+
+theorem :: CARDFIL2:12
+  for X be non empty set,F be Filter of X,B be non empty Subset of F holds
+  F is_coarser_than B iff B is filter_basis;
+
+registration
+  let X be non empty set;
+  let F be Filter of X;
+  cluster filter_basis for non empty Subset of F;
+end;
+
+definition
+  let X be non empty set;
+  let F be Filter of X;
+  mode basis of F is filter_basis non empty Subset of F;
+end;
+
+theorem :: CARDFIL2:13
+  for X be non empty set,F be Filter of X holds F is basis of F;
+
+definition
+  let X be set, B be Subset-Family of X;
+  func <.B.] -> Subset-Family of X means
+:: CARDFIL2:def 8
+
+  for x being Subset of X holds x in it iff ex b be Element of B st b c=x;
+end;
+
+theorem :: CARDFIL2:14
+  for X be set, S be Subset-Family of X holds
+  <.S.]={x where x is Subset of X: ex b be Element of S st b c= x};
+
+theorem :: CARDFIL2:15
+  for X be set,B be empty Subset-Family of X holds <.B.]=bool X;
+
+theorem :: CARDFIL2:16
+  for X be set,B be Subset-Family of X st {} in B holds <.B.]=bool X;
+
+begin :: Filters -- Lattice-theoretical Approach
+
+theorem :: CARDFIL2:17
+  for X be set, B be non empty Subset-Family of X,
+  L be Subset of BoolePoset X st B=L holds <.B.]=uparrow L;
+
+theorem :: CARDFIL2:18
+  for X be set, B be Subset-Family of X holds B c= <.B.];
+
+definition
+  let X be set;
+  let B1,B2 be Subset-Family of X;
+  pred B1,B2 are_equivalent_generators means
+:: CARDFIL2:def 9
+  (for b1 be Element of B1 holds ex b2 be Element of B2 st b2 c= b1) &
+  (for b2 be Element of B2 holds ex b1 be Element of B1 st b1 c= b2);
+  reflexivity;
+  symmetry;
+end;
+
+theorem :: CARDFIL2:19
+  for X be set,B1,B2 be Subset-Family of X st B1,B2 are_equivalent_generators
+  holds <.B1.] c= <.B2.];
+
+theorem :: CARDFIL2:20
+  for X be set,B1,B2 be Subset-Family of X st
+  B1,B2 are_equivalent_generators holds <.B1.]=<.B2.];
+
+definition
+  let X be non empty set;
+  let F be Filter of X;
+  let B be non empty Subset of F;
+  func #B -> non empty Subset-Family of X equals
+:: CARDFIL2:def 10
+  B;
+end;
+
+theorem :: CARDFIL2:21
+  for X be non empty set,F be Filter of X,B be basis of F holds F=<.#B.];
+
+theorem :: CARDFIL2:22
+  for X be non empty set,F be Filter of X,
+  B be Subset-Family of X st F=<.B.] holds B is basis of F;
+
+theorem :: CARDFIL2:23
+  for X be non empty set,F be Filter of X,B be basis of F,
+  S be Subset-Family of X, S1 be Subset of F
+  st S=S1 & #B,S are_equivalent_generators holds S1 is basis of F;
+
+theorem :: CARDFIL2:24
+  for X be non empty set,F be Filter of X,B1,B2 be basis of F holds
+  #B1, #B2 are_equivalent_generators;
+
+definition
+  let X be set;
+  let B be Subset-Family of X;
+  attr B is quasi_basis means
+:: CARDFIL2:def 11
+
+  for b1,b2 be Element of B ex b be Element of B st b c= b1/\b2;
+end;
+
+registration
+  let X be non empty set;
+  cluster quasi_basis for non empty Subset-Family of X;
+end;
+
+registration
+  let X be non empty set;
+  cluster with_non-empty_elements for non empty quasi_basis Subset-Family of X;
+end;
+
+definition
+  let X be non empty set;
+  mode filter_base of X is with_non-empty_elements non empty
+  quasi_basis Subset-Family of X;
+end;
+
+theorem :: CARDFIL2:25
+  for X be non empty set,B be filter_base of X holds <.B.] is Filter of X;
+
+definition
+  let X be non empty set,B be filter_base of X;
+  func <.B.) -> Filter of X equals
+:: CARDFIL2:def 12
+  <.B.];
+end;
+
+theorem :: CARDFIL2:26
+  for X be non empty set,B1,B2 be filter_base of X st <.B1.)=<.B2.) holds
+  B1,B2 are_equivalent_generators;
+
+theorem :: CARDFIL2:27
+  for X be non empty set, FB be filter_base of X,F be Filter of X st
+  FB c= F holds <.FB.) is_coarser_than F;
+
+theorem :: CARDFIL2:28
+  for X be non empty set, G be Subset-Family of X st
+  FinMeetCl G is with_non-empty_elements holds
+  FinMeetCl G is filter_base of X &
+  ex F be Filter of X st FinMeetCl G c= F;
+
+theorem :: CARDFIL2:29
+  for X be non empty set, F be Filter of X, B be basis of F holds
+  B is filter_base of X;
+
+theorem :: CARDFIL2:30
+  for X be non empty set, B be filter_base of X holds B is basis of <.B.);
+
+theorem :: CARDFIL2:31
+  for X be non empty set, F be Filter of X,B be basis of F,
+  L be Subset of BoolePoset X st L=#B holds F=uparrow L;
+
+theorem :: CARDFIL2:32
+  for X be non empty set, B be filter_base of X,L be Subset of BoolePoset X
+  st L=B holds <.B.)=uparrow L;
+
+theorem :: CARDFIL2:33
+  for X be non empty set, F1,F2 be Filter of X,
+  B1 be basis of F1,B2 be basis of F2 holds
+  F1 is_filter-coarser_than F2 iff B1 is_coarser_than B2;
+
+theorem :: CARDFIL2:34
+  for X,Y be non empty set,f be Function of X,Y,
+  F be Filter of X, B be basis of F holds
+  f.:( #B ) is filter_base of Y &
+  <.(f.:( #B )).] is Filter of Y &
+  <.(f.:( #B )).] = { M where M is Subset of Y: f"(M) in F};
+
+definition
+  let X,Y be non empty set,f be Function of X,Y,
+  F be Filter of X;
+  func filter_image(f,F) -> Filter of Y equals
+:: CARDFIL2:def 13
+  {M where M is Subset of Y : f"(M) in F};
+end;
+
+theorem :: CARDFIL2:35
+  for X,Y be non empty set,f be Function of X,Y,
+  F be Filter of X holds f.:F is filter_base of Y &
+  <.f.:F.]=filter_image(f,F);
+
+theorem :: CARDFIL2:36
+  for X be non empty set, B be filter_base of X st B=<.B.) holds
+  B is Filter of X;
+
+theorem :: CARDFIL2:37
+  for X,Y be non empty set, f be Function of X,Y,
+  F be Filter of X, B be basis of F holds
+  f.:#B is basis of filter_image(f,F) &
+  <.f.:( #B ).] = filter_image(f,F);
+
+theorem :: CARDFIL2:38
+  for X,Y be non empty set, f be Function of X,Y,
+  B1,B2 be filter_base of X st B1 is_coarser_than B2
+  holds <.B1.) is_filter-coarser_than <.B2.);
+
+theorem :: CARDFIL2:39
+  for X,Y be non empty set, f be Function of X,Y,
+  F be Filter of X holds f.:F is Filter of Y iff Y = rng f;
+
+theorem :: CARDFIL2:40
+  for X be non empty set, A be non empty Subset of X holds for
+  F be Filter of A, B be basis of F holds
+  (incl A).:( #B ) is filter_base of X &
+  <.((incl A).:( #B )).] is Filter of X &
+  <.((incl A).:( #B )).]= { M where M is Subset of X: (incl A)"(M) in F};
+
+definition
+  let L be non empty RelStr;
+  func Tails L -> non empty Subset-Family of L equals
+:: CARDFIL2:def 14
+  the set of all uparrow i where i is Element of L;
+end;
+
+theorem :: CARDFIL2:41
+  for L be non empty transitive reflexive RelStr st [#]L is directed
+  holds <.Tails L.] is Filter of [#]L;
+
+definition
+  let L be non empty transitive reflexive RelStr;
+  assume
+[#]L is directed;
+  func Tails_Filter(L) -> Filter of [#]L equals
+:: CARDFIL2:def 15
+
+  <.Tails L.];
+end;
+
+theorem :: CARDFIL2:42
+  for L be non empty transitive reflexive RelStr
+  st [#]L is directed holds
+  Tails L is basis of Tails_Filter(L);
+
+definition
+  let L be RelStr;
+  let x be Subset-Family of L;
+  func #x -> Subset-Family of [#]L equals
+:: CARDFIL2:def 16
+  x;
+end;
+
+theorem :: CARDFIL2:43
+  for X be non empty set,
+  L be non empty transitive reflexive RelStr,
+  f be Function of [#]L,X st [#]L is directed
+  holds
+  f.:#(Tails L) is basis of filter_image(f,Tails_Filter(L));
+
+theorem :: CARDFIL2:44
+  for X be non empty set, L be non empty transitive reflexive RelStr,
+  f be Function of [#]L,X, x be Subset of X st [#]L is directed
+  & x in f.:#(Tails L) holds
+  ex j be Element of L st for i be Element of L st i >= j holds f.i in x;
+
+theorem :: CARDFIL2:45
+  for X be non empty set, L be non empty transitive reflexive RelStr,
+  f be Function of [#]L,X, x be Subset of X st [#]L is directed
+  & (ex j be Element of L st for i be Element of L st i >= j holds f.i in x)
+  holds ex b be Element of Tails L st f.:b c= x;
+
+theorem :: CARDFIL2:46
+  for X be non empty set,
+  L be non empty transitive reflexive RelStr,
+  f be Function of [#]L,X,
+  F be Filter of X, B be basis of F st [#]L is directed holds
+  F is_filter-coarser_than filter_image(f,Tails_Filter(L)) iff
+  B is_coarser_than f.:#(Tails L);
+
+theorem :: CARDFIL2:47
+  for X be non empty set,
+  L be non empty transitive reflexive RelStr,
+  f be Function of [#]L,X,
+  B be filter_base of X st [#]L is directed holds
+  B is_coarser_than f.:#(Tails L) iff
+  for b be Element of B ex i be Element of L st
+  for j be Element of L st i <=j holds f.j in b;
+
+definition
+  let X be non empty set,
+  s be sequence of X;
+  func elementary_filter(s) -> Filter of X equals
+:: CARDFIL2:def 17
+  filter_image(s,Frechet_Filter(NAT));
+end;
+
+theorem :: CARDFIL2:48
+  ex F be sequence of bool NAT st
+  for x be Element of NAT holds F.x = {y where y is Element of NAT:x <= y};
+
+theorem :: CARDFIL2:49
+  for n be natural number holds
+  NAT\{t where t is Element of NAT:n <= t} is finite;
+
+theorem :: CARDFIL2:50
+  for p be Element of OrderedNAT holds
+  {x where x is Element of NAT:ex p0 be Element of NAT st
+  p=p0 & p0 <= x}=uparrow p;
+
+registration
+  cluster [#]OrderedNAT -> directed;
+  cluster OrderedNAT -> reflexive;
+end;
+
+theorem :: CARDFIL2:51
+  for X be denumerable set holds
+  Frechet_Filter (X) = the set of all X\A where A is finite Subset of X;
+
+theorem :: CARDFIL2:52
+  for F be sequence of bool NAT st
+  for x be Element of NAT holds F.x = {y where y is Element of NAT:x <= y}
+  holds rng F is basis of Frechet_Filter(NAT);
+
+theorem :: CARDFIL2:53
+  for F be sequence of bool NAT st
+  for x be Element of NAT holds F.x={y where y is Element of NAT:x <= y} holds
+  #(Tails OrderedNAT)=rng F;
+
+theorem :: CARDFIL2:54
+  #(Tails OrderedNAT) is basis of Frechet_Filter(NAT) &
+  Tails_Filter(OrderedNAT)=Frechet_Filter(NAT);
+
+definition
+  func base_of_frechet_filter -> filter_base of NAT equals
+:: CARDFIL2:def 18
+  #(Tails OrderedNAT);
+end;
+
+theorem :: CARDFIL2:55
+  NAT in base_of_frechet_filter;
+
+theorem :: CARDFIL2:56
+  base_of_frechet_filter is basis of Frechet_Filter(NAT);
+
+theorem :: CARDFIL2:57
+  for X be non empty set,F1,F2 be Filter of X, F be Filter of X st
+  F is_filter-finer_than F1 & F is_filter-finer_than F2 holds
+  for M1 be Element of F1,M2 be Element of F2 holds M1/\M2 is non empty;
+
+theorem :: CARDFIL2:58
+  for X be non empty set,F1,F2 be Filter of X st
+  for M1 be Element of F1,M2 be Element of F2 holds M1/\M2 is non empty
+  holds
+  ex F be Filter of X st F is_filter-finer_than F1 & F is_filter-finer_than F2;
+
+definition
+  let X be set;
+  let x be Subset of X;
+  func PLO2bis(x) -> Element of BoolePoset X equals
+:: CARDFIL2:def 19
+  x;
+end;
+
+theorem :: CARDFIL2:59
+  for X being infinite set holds
+    X in the set of all X\A where A is finite Subset of X;
+
+theorem :: CARDFIL2:60
+  for X be set, A be Subset of X holds
+  {B where B is Element of BoolePoset X: A c= B} =
+  {B where B is Subset of X: A c= B};
+
+theorem :: CARDFIL2:61
+  for X be set,a be Element of BoolePoset X holds
+  uparrow a = {Y where Y is Subset of X : a c=Y};
+
+theorem :: CARDFIL2:62
+  for X be set, A be Subset of X holds
+  {B where B is Element of BoolePoset X: A c= B} =
+  uparrow PLO2bis A;
+
+theorem :: CARDFIL2:63
+  for X be non empty set, F be Filter of X holds
+  union F = X;
+
+theorem :: CARDFIL2:64
+  for X be infinite set holds
+  the set of all X\A where A is finite Subset of X is Filter of X;
+
+theorem :: CARDFIL2:65
+  for X being set holds bool X is Filter of BoolePoset X;
+
+theorem :: CARDFIL2:66
+  for X being set holds {X} is Filter of BoolePoset X;
+
+theorem :: CARDFIL2:67
+  for X being non empty set holds {X} is Filter of X;
+
+theorem :: CARDFIL2:68
+  for A be Element of BoolePoset X holds
+  {Y where Y is Subset of X : A c= Y} is Filter of BoolePoset X;
+
+theorem :: CARDFIL2:69
+  for A be Element of BoolePoset X holds
+  {B where B is Element of BoolePoset X:A c= B} is Filter of BoolePoset X;
+
+theorem :: CARDFIL2:70
+  for X be non empty set, B be non empty Subset of BoolePoset X holds
+  (for x,y be Element of B ex z be Element of B st z c= x/\y)
+  iff B is filtered;
+
+theorem :: CARDFIL2:71
+  for X be non empty set, F being non empty Subset of BooleLatt X holds
+  F is Filter of BooleLatt X iff
+  (for p,q being Element of F holds p/\q in F) &
+  (for p being Element of F, q be Element of BooleLatt X st
+  p c= q holds q in F);
+
+theorem :: CARDFIL2:72
+  for X be non empty set,F be non empty Subset of BooleLatt X holds
+  F is Filter of BooleLatt X iff
+  for Y1,Y2 be Subset of X holds
+  (Y1 in F & Y2 in F implies Y1/\Y2 in F) &
+  (Y1 in F & Y1 c= Y2 implies Y2 in F);
+
+theorem :: CARDFIL2:73
+  for X be non empty set, FF be non empty Subset-Family of X st
+    FF is Filter of BooleLatt X holds
+    FF is Filter of BoolePoset X;
+
+theorem :: CARDFIL2:74
+  for X be non empty set,F be Filter of BoolePoset X holds
+    F is Filter of BooleLatt X;
+
+theorem :: CARDFIL2:75
+  for X be non empty set,F be non empty Subset of BooleLatt X holds
+  F is with_non-empty_elements & F is Filter of BooleLatt X iff
+  F is Filter of X;
+
+theorem :: CARDFIL2:76
+  for X be non empty set, F be proper Filter of BoolePoset X holds
+  F is Filter of X;
+
+theorem :: CARDFIL2:77
+  for T being non empty TopSpace,
+  x being Point of T holds
+  NeighborhoodSystem x is Filter of the carrier of T;
+
+definition
+  let T be non empty TopSpace, F be proper Filter of BoolePoset [#]T;
+  func BOOL2F F -> Filter of the carrier of T equals
+:: CARDFIL2:def 20
+  F;
+end;
+
+definition
+  let T be non empty TopSpace, F1 be Filter of the carrier of T,
+  F2 be proper Filter of BoolePoset [#]T;
+  pred F1 is_filter-finer_than F2 means
+:: CARDFIL2:def 21
+  BOOL2F F2 c= F1;
+end;
+
+begin :: Limit of a Filter
+
+definition
+  let T be non empty TopSpace,
+      F be Filter of the carrier of T;
+  func lim_filter F -> Subset of T equals
+:: CARDFIL2:def 22
+  {x where x is Point of T:F is_filter-finer_than NeighborhoodSystem x};
+end;
+
+definition
+  let T being non empty TopSpace,
+      B be filter_base of the carrier of T;
+  func Lim B ->Subset of T equals
+:: CARDFIL2:def 23
+  lim_filter <.B.);
+end;
+
+theorem :: CARDFIL2:78
+  for T being non empty TopSpace,
+  F be Filter of the carrier of T
+  ex F1 be proper Filter of BoolePoset the carrier of T st
+  F=F1;
+
+definition
+  let T be non empty TopSpace,F be Filter of the carrier of T;
+  func F2BOOL(F,T) -> proper Filter of BoolePoset [#]T equals
+:: CARDFIL2:def 24
+  F;
+end;
+
+theorem :: CARDFIL2:79
+  for T being non empty TopSpace,x being Point of T,
+  F be Filter of the carrier of T holds x is_a_convergence_point_of F,T iff
+  x is_a_convergence_point_of F2BOOL(F,T),T;
+
+theorem :: CARDFIL2:80
+  for T being non empty TopSpace,x being Point of T,
+  F be Filter of the carrier of T holds x is_a_convergence_point_of F,T iff
+  x in lim_filter F;
+
+definition
+  let T be non empty TopSpace,
+      F be Filter of BoolePoset [#]T;
+  func lim_filterb F -> Subset of T equals
+:: CARDFIL2:def 25
+  {x where x is Point of T: NeighborhoodSystem x c= F};
+end;
+
+theorem :: CARDFIL2:81
+  for T being non empty TopSpace,
+  F be Filter of the carrier of T holds
+  lim_filter F = lim_filterb F2BOOL(F,T);
+
+theorem :: CARDFIL2:82
+  for T being non empty TopSpace, F being Filter of the carrier of T holds
+  Lim a_net F2BOOL(F,T)=lim_filter F;
+
+theorem :: CARDFIL2:83
+  for T being Hausdorff non empty TopSpace,
+      F being Filter of the carrier of T,p,q being Point of T st
+  p in lim_filter F & q in lim_filter F holds p=q;
+
+registration
+  let T be Hausdorff non empty TopSpace,
+  F be Filter of the carrier of T;
+  cluster lim_filter F -> trivial;
+end;
+
+definition
+  let X be non empty set,T be non empty TopSpace,
+  f be Function of X,the carrier of T,
+  F be Filter of X;
+  func lim_filter(f,F) -> Subset of [#]T equals
+:: CARDFIL2:def 26
+  lim_filter filter_image(f,F);
+end;
+
+definition
+  let T be non empty TopSpace,
+      L be non empty transitive reflexive RelStr,
+      f be Function of [#]L,the carrier of T;
+  func lim_f f -> Subset of [#]T equals
+:: CARDFIL2:def 27
+  lim_filter filter_image(f,Tails_Filter L);
+end;
+
+theorem :: CARDFIL2:84
+  for T being non empty TopSpace,
+      L being non empty transitive reflexive RelStr,
+  f being Function of [#]L,the carrier of T, x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x st
+  [#]L is directed holds
+  x in lim_f f iff
+  for b be Element of B ex i be Element of L st
+  for j be Element of L st i <=j holds f.j in b;
+
+definition
+  let T be non empty TopSpace, s be sequence of T;
+  func lim_f s -> Subset of T equals
+:: CARDFIL2:def 28
+  lim_filter elementary_filter(s);
+end;
+
+theorem :: CARDFIL2:85
+  for T be non empty TopSpace, s be sequence of T holds
+  lim_filter(s,Frechet_Filter(NAT))=lim_f s;
+
+theorem :: CARDFIL2:86
+  for T being non empty TopSpace,x being Point of T holds
+  NeighborhoodSystem x is filter_base of [#]T;
+
+theorem :: CARDFIL2:87
+  for T being non empty TopSpace,x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  B is filter_base of [#]T;
+
+theorem :: CARDFIL2:88
+  for X be non empty set, s be sequence of X,
+  B be filter_base of X holds
+  B is_coarser_than s.:base_of_frechet_filter iff
+  for b be Element of B ex i be Element of OrderedNAT st
+  for j be Element of OrderedNAT st i <=j holds s.j in b;
+
+theorem :: CARDFIL2:89
+  for T being non empty TopSpace,s being sequence of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,Frechet_Filter(NAT)) iff
+  B is_coarser_than s.:base_of_frechet_filter;
+
+theorem :: CARDFIL2:90
+  for T being non empty TopSpace,s being sequence of [#]T, x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  B is_coarser_than s.:base_of_frechet_filter iff
+  for b be Element of B ex i be Element of OrderedNAT st
+  for j be Element of OrderedNAT st i <=j holds s.j in b;
+
+theorem :: CARDFIL2:91
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,Frechet_Filter(NAT)) iff
+  for b be Element of B ex i be Element of OrderedNAT st
+  for j be Element of OrderedNAT st i <=j holds s.j in b;
+
+theorem :: CARDFIL2:92
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f s iff
+  for b be Element of B ex i be Element of OrderedNAT st
+  for j be Element of OrderedNAT st i <=j holds s.j in b;
+
+begin :: Nets
+
+definition
+  let L be 1-sorted,
+      s be sequence of the carrier of L;
+  func sequence_to_net(s) -> non empty strict NetStr over L equals
+:: CARDFIL2:def 29
+  NetStr(# NAT, NATOrd, s #);
+end;
+
+registration
+  let L be non empty 1-sorted,
+  s be sequence of the carrier of L;
+  cluster sequence_to_net(s) -> non empty;
+end;
+
+theorem :: CARDFIL2:93
+  for L being non empty 1-sorted, B being set,
+  s being sequence of the carrier of L holds
+  sequence_to_net(s) is_eventually_in B iff
+  ex i being Element of sequence_to_net(s) st for j being Element of
+  sequence_to_net(s) st i <= j holds (sequence_to_net(s)).j in B;
+
+theorem :: CARDFIL2:94
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  (for b be Element of B ex i be Element of OrderedNAT st
+  for j be Element of OrderedNAT st i <=j holds s.j in b)
+  iff
+  (for b be Element of B
+  ex i be Element of sequence_to_net(s) st
+  for j be Element of sequence_to_net(s) st
+  i <=j holds (sequence_to_net(s)).j in b);
+
+theorem :: CARDFIL2:95
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f s iff for b be Element of B holds
+  sequence_to_net(s) is_eventually_in b;
+
+theorem :: CARDFIL2:96
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T,
+  B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f s iff
+  for b be Element of B ex i be Element of NAT st
+  for j be Element of NAT st i <=j holds s.j in b;
+
+theorem :: CARDFIL2:97
+  for T being non empty TopSpace,s being sequence of the carrier of T,
+  x being Point of T, B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f s iff
+  for b be Element of B ex i be Nat st
+  for j be Nat st i <= j holds s.j in b;

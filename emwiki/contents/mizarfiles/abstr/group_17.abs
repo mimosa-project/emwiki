@@ -1,0 +1,382 @@
+:: Isomorphisms of Direct Products of Finite Commutative Groups
+::  by Hiroyuki Okazaki , Hiroshi Yamazaki and Yasunari Shidama
+::
+:: Received January 31, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSEQ_1, FUNCT_1, RELAT_1, RLVECT_2, CARD_3, TARSKI, BINOP_1,
+      GROUP_1, XXREAL_0, GROUP_2, CARD_1, FUNCT_4, GROUP_6, GROUP_7, FUNCOP_1,
+      ALGSTR_0, PARTFUN1, FUNCT_2, SUBSET_1, XBOOLE_0, STRUCT_0, NAT_1,
+      ORDINAL4, PRE_TOPC, ARYTM_1, ARYTM_3, FINSET_1, INT_2, ZFMISC_1, PBOOLE,
+      NEWTON, INT_1, NAT_3, REAL_1, PRE_POLY, XCMPLX_0, UPROOTS, INT_7;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, DOMAIN_1, FUNCOP_1, FUNCT_4, FINSET_1,
+      CARD_1, PBOOLE, CARD_3, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1,
+      INT_1, INT_2, BINOP_1, FINSEQ_1, NEWTON, PRE_POLY, NAT_3, STRUCT_0,
+      ALGSTR_0, GROUP_1, GROUP_2, GROUP_3, GROUP_4, GROUP_6, PRALG_1, GROUP_7,
+      INT_7;
+ constructors BINOP_1, REALSET1, GROUP_6, MONOID_0, PRALG_1, GROUP_4, CARD_2,
+      GROUP_7, RELSET_1, WELLORD2, NAT_D, INT_7, RECDEF_1, NAT_3, FINSOP_1;
+ registrations XBOOLE_0, XREAL_0, STRUCT_0, GROUP_2, MONOID_0, FUNCT_2, CARD_1,
+      CARD_3, GROUP_7, GROUP_3, RELSET_1, FINSEQ_1, INT_1, AOFA_000, GR_CY_1,
+      FINSET_1, NAT_3, RELAT_1, FUNCT_1, MEMBERED, FUNCOP_1, NEWTON, VALUED_0,
+      PRE_POLY, PBOOLE, INT_7, GROUP_6, ORDINAL1;
+ requirements NUMERALS, SUBSET, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+theorem :: GROUP_17:1
+  for A,B,A1,B1 be set st A misses B
+  & A1 c= A & B1 c= B & A1 \/ B1 = A \/ B holds
+  A1 = A & B1 = B;
+
+theorem :: GROUP_17:2
+  for H,K be non empty finite set holds
+  card product (<* H, K *>) = card(H)*card(K);
+
+theorem :: GROUP_17:3
+  for ps,pt,f be bag of SetPrimes,
+  q being Nat
+  st (support ps) misses (support pt) & f = ps + pt & q in (support ps) holds
+  ps.q = f.q;
+
+theorem :: GROUP_17:4
+  for ps,pt,f be bag of SetPrimes,
+  q being Nat
+  st (support ps) misses (support pt) & f = ps + pt & q in (support pt) holds
+  pt.q = f.q;
+
+theorem :: GROUP_17:5
+  for h be non zero Nat, q being Prime
+  st not q,h are_coprime holds
+  q divides h;
+
+theorem :: GROUP_17:6
+  for h,s be non zero Nat
+  st for q being Prime st q in support (prime_factorization s)
+  holds not q,h are_coprime holds
+  support (prime_factorization s) c= support (prime_factorization h);
+
+theorem :: GROUP_17:7
+  for h,k,s,t be non zero Nat
+  st h,k are_coprime & s * t = h * k
+  & (for q being Prime st q in support prime_factorization s
+  holds not q,h are_coprime)
+  & (for q being Prime st q in support prime_factorization t
+  holds not q,k are_coprime)
+  holds
+  s = h & t = k;
+
+definition
+  let G be non empty multMagma,
+  I be finite set,
+  b be (the carrier of G)-valued total I -defined Function;
+  func Product b -> Element of G means
+:: GROUP_17:def 1
+  ex f being FinSequence of G st it = Product f & f = b*canFS(I);
+end;
+
+theorem :: GROUP_17:8
+  for G being commutative Group,
+  A,B being non empty finite set,
+  FA be (the carrier of G)-valued total A -defined Function,
+  FB be (the carrier of G)-valued total B -defined Function,
+  FAB be (the carrier of G)-valued total A \/ B -defined Function
+  st A misses B & FAB = FA +* FB holds
+  Product (FAB) = (Product FA) * (Product FB);
+
+theorem :: GROUP_17:9
+  for G being non empty multMagma,
+  q be set,
+  z be Element of G,
+  f be (the carrier of G)-valued total {q}-defined Function
+  st f = q .--> z
+  holds Product f = z;
+
+begin :: Direct Product of Finite Commutative Groups
+
+theorem :: GROUP_17:10
+  for X,Y being non empty multMagma holds
+  the carrier of product <*X,Y*>
+  = product <* the carrier of X,the carrier of Y *>;
+
+theorem :: GROUP_17:11
+  for G being Group, A,B being normal Subgroup of G st
+  (the carrier of A) /\ (the carrier of B) = {1_G} holds
+  for a,b be Element of G st a in A & b in B holds a*b = b*a;
+
+theorem :: GROUP_17:12
+  for G being Group, A,B being normal Subgroup of G st
+  (for x be Element of G holds
+  ex a,b be Element of G st a in A & b in B & x = a*b)
+  & (the carrier of A) /\ (the carrier of B) = {1_G} holds
+  ex h being Homomorphism of product <*A,B*>,G st h is bijective
+  & for a,b be Element of G st a in A & b in B
+  holds h.(<*a,b*>) = a*b;
+
+theorem :: GROUP_17:13
+  for G being finite commutative Group,
+  m be Nat,
+  A be Subset of G
+  st A ={x where x is Element of G: x|^m = 1_G}
+  holds
+  A <> {}
+  &
+  (for g1,g2 be Element of G
+  st g1 in A & g2 in A holds g1 * g2 in A) &
+  for g be Element of G st g in A holds g" in A;
+
+theorem :: GROUP_17:14
+  for G being finite commutative Group,
+  m be Nat,
+  A be Subset of G
+  st A ={x where x is Element of G: x|^m = 1_G} holds
+  ex H being strict finite Subgroup of G
+  st the carrier of H = A & H is commutative normal;
+
+theorem :: GROUP_17:15
+  for G being finite commutative Group,
+  m be Nat,
+  H being finite Subgroup of G
+  st the carrier of H = {x where x is Element of G: x|^m = 1_G} holds
+  for q being Prime st q in support prime_factorization card H
+  holds not q,m are_coprime;
+
+theorem :: GROUP_17:16
+  for G being finite commutative Group,
+  h,k be Nat
+  st card G = h*k & h,k are_coprime holds
+  ex H,K being strict finite Subgroup of G st
+  the carrier of H = {x where x is Element of G: x|^h = 1_G} &
+  the carrier of K = {x where x is Element of G: x|^k = 1_G} &
+  H is normal & K is normal
+  &
+  (for x be Element of G holds
+  ex a,b be Element of G st a in H & b in K & x = a*b)
+  &
+  (the carrier of H) /\ (the carrier of K) = {1_G};
+
+theorem :: GROUP_17:17
+  for H,K be finite Group holds
+  card product (<* H, K *>) = card(H)*card(K);
+
+theorem :: GROUP_17:18
+  for G being finite commutative Group,
+  h,k be non zero Nat
+  st card G = h*k & h,k are_coprime
+  ex H,K being strict finite Subgroup of G st
+  card H = h & card K = k &
+  (the carrier of H) /\ (the carrier of K) = {1_G} &
+  ex F being Homomorphism of product <*H,K*>,G
+  st F is bijective
+  & for a,b be Element of G st a in H & b in K
+  holds F.(<*a,b*>) = a*b;
+
+begin :: Finite Direct Products of Finite Commutative Groups
+
+theorem :: GROUP_17:19
+  for G be Group,
+  q be set,
+  F be associative Group-like multMagma-Family of {q},
+  f being Function of G,product F st F = q .--> G &
+  for x being Element of G holds f . x = q .--> x holds
+  f is Homomorphism of G,(product F);
+
+theorem :: GROUP_17:20
+  for G be Group,
+  q be set,
+  F be associative Group-like multMagma-Family of {q},
+  f being Function of G,product F st F = q .--> G &
+  for x being Element of G holds f . x = q .--> x holds
+  f is bijective;
+
+theorem :: GROUP_17:21
+  for q be set,
+  F be associative Group-like multMagma-Family of {q},
+  G be Group st F = q .--> G holds
+  ex I be Homomorphism of G,product F st
+  I is bijective &
+  for x being Element of G holds I . x = q .--> x;
+
+theorem :: GROUP_17:22
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  H,K be Group,
+  q be Element of I,
+  k be Element of K,
+  g be Function st
+  g in the carrier of product F0 &
+  not q in I0 & I = I0 \/ {q} & F = F0 +* (q .--> K) holds
+  g +* (q .--> k) in the carrier of product F;
+
+theorem :: GROUP_17:23
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  H,K be Group,
+  q be Element of I,
+  G0 be Function of H,product F0 st
+  G0 is Homomorphism of H,product F0
+  & G0 is bijective & not q in I0 & I = I0 \/ {q} & F = F0 +* (q .--> K) holds
+  for G be Function of product <*H,K*>,(product F) st
+  for h be Element of H,k be Element of K
+  holds ex g be Function
+  st g=G0.h & G.(<*h,k*>) = g +* (q .--> k) holds
+  G is Homomorphism of product <*H,K*>,product F;
+
+theorem :: GROUP_17:24
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  H,K be Group,
+  q be Element of I,
+  G0 be Function of H, product F0 st
+  G0 is Homomorphism of H, product F0
+  & G0 is bijective
+  & not q in I0 & I = I0 \/ {q} & F = F0 +* (q .--> K) holds
+  for G be Function of product <*H,K*>, product F st
+  for h be Element of H,k be Element of K
+  holds ex g be Function
+  st g=G0.h & G.(<*h,k*>) = g +* (q .--> k)
+  holds G is bijective;
+
+theorem :: GROUP_17:25
+  for q be set,
+  F be multMagma-Family of {q},
+  G be non empty multMagma st
+  F = q .--> G holds
+  for y be (the carrier of G)-valued total {q} -defined Function holds
+  y in the carrier of product F & y.q in the carrier of G &
+  y= q .--> y.q;
+
+theorem :: GROUP_17:26
+  for q be set,
+  F be associative Group-like multMagma-Family of {q},
+  G be Group st F = q .--> G holds
+  ex HFG be Homomorphism of product F,G st
+  HFG is bijective &
+  for x be (the carrier of G)-valued total {q} -defined Function
+  holds HFG.x = Product x;
+
+theorem :: GROUP_17:27
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  H,K be Group,
+  q be Element of I,
+  G0 be Homomorphism of H,(product F0) st
+  not q in I0 & I = I0 \/ {q} & F = F0 +* (q .--> K) & G0 is bijective
+  ex G be Homomorphism of product <*H,K*>,(product F) st
+  G is bijective &
+  for h be Element of H,k be Element of K
+  ex g be Function st g=G0.h & G.(<*h,k*>) = g +* (q .--> k);
+
+theorem :: GROUP_17:28
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  H,K be Group,
+  q be Element of I,
+  G0 be Homomorphism of product F0, H st not q in I0 &
+  I = I0 \/ {q} & F = F0 +* (q .--> K) & G0 is bijective holds
+  ex G be Homomorphism of product F, product <*H,K*> st G is bijective &
+  for x0 be Function,
+  k be Element of K,
+  h be Element of H
+  st h = G0.x0 & x0 in product F0 holds
+  G.(x0 +* (q .-->k)) = <* h, k *>;
+
+theorem :: GROUP_17:29
+  for I be non empty finite set,
+  F be associative Group-like multMagma-Family of I,
+  x be total I -defined Function
+  st for p be Element of I holds x.p in F.p
+  holds x in the carrier of product F;
+
+theorem :: GROUP_17:30
+  for I0,I be non empty finite set,
+  F0 be associative Group-like multMagma-Family of I0,
+  F be associative Group-like multMagma-Family of I,
+  K be Group,
+  q be Element of I,
+  x be Element of product F st
+  not q in I0 & I = I0 \/ {q} & F = F0 +* (q .--> K) holds
+  ex x0 be total I0 -defined Function,
+  k be Element of K st x0 in product F0
+  & x = x0 +* (q .--> k) & for p be Element of I0 holds x0.p in F0.p;
+
+theorem :: GROUP_17:31
+  for G be Group,
+  H be Subgroup of G,
+  f being FinSequence of G,
+  g being FinSequence of H
+  st f=g
+  holds Product f = Product g;
+
+theorem :: GROUP_17:32
+  for I be non empty finite set,
+  G be Group,
+  H be Subgroup of G,
+  x be (the carrier of G)-valued total I -defined Function,
+  x0 be (the carrier of H)-valued total I -defined Function
+  st x=x0
+  holds Product x = Product x0;
+
+theorem :: GROUP_17:33
+  for G being commutative Group,
+  I0,I be non empty finite set,
+  q be Element of I,
+  x be (the carrier of G)-valued total I -defined Function,
+  x0 be (the carrier of G)-valued total I0 -defined Function,
+  k be Element of G st
+  not q in I0 & I = I0 \/ {q} & x = x0 +* (q .--> k)
+  holds
+  Product x = (Product x0)*k;
+
+theorem :: GROUP_17:34
+  for G being strict finite commutative Group
+  st card G > 1 holds
+  ex I be non empty finite set,
+  F be associative Group-like commutative multMagma-Family of I,
+  HFG be Homomorphism of product F,G st
+  I = support (prime_factorization card G)
+  & (for p be Element of I holds F.p is strict Subgroup of G &
+  card (F.p) = (prime_factorization card G).p) &
+  (for p,q be Element of I st p <> q holds
+  (the carrier of (F.p)) /\ (the carrier of (F.q)) = {1_G}) &
+  HFG is bijective &
+  for x be (the carrier of G)-valued total I -defined Function
+  st for p be Element of I holds x.p in F.p
+  holds x in product F & HFG.x = Product x;
+
+theorem :: GROUP_17:35
+  for G being strict finite commutative Group st card G > 1 holds
+  ex I be non empty finite set,
+  F be associative Group-like commutative multMagma-Family of I st
+  I = support (prime_factorization card G)
+  & (for p be Element of I holds F.p is strict Subgroup of G &
+  card (F.p) = (prime_factorization card G).p) &
+  (for p,q be Element of I st p <> q holds
+  (the carrier of (F.p)) /\ (the carrier of (F.q)) = {1_G})
+  &
+  (for y be Element of G
+    ex x be (the carrier of G)-valued total I -defined Function
+  st (for p be Element of I holds x.p in F.p) & y = Product x)
+  &
+  for x1,x2 be (the carrier of G)-valued total I -defined Function st
+  (for p be Element of I holds x1.p in F.p) &
+  (for p be Element of I holds x2.p in F.p) &
+  Product x1 = Product x2 holds x1=x2;
+

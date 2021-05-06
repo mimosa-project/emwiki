@@ -1,0 +1,306 @@
+:: Pseudo-canonical Formulae are Classical
+::  by Marco B. Caminati and Artur Korni{\l}owicz
+:: 
+:: Received May 25, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, NUMBERS, NAT_1, RELAT_1,
+      FUNCT_1, XCMPLX_0, PARTFUN1, PBOOLE, FUNCT_4, OPOSET_1, FUNCOP_1,
+      FOMODEL0, MCART_1, ABIAN, HILBERT1, HILBERT2, HILBERT3, XBOOLEAN,
+      QC_LANG1, FUNCT_2, CARD_1, RELAT_2, HILBERT4;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ZFMISC_1, ORDINAL1, NUMBERS, RELAT_1,
+      FUNCT_1, RELSET_1, PARTFUN1, XXREAL_0, PBOOLE, FUNCT_4, PARTIT_2,
+      XTUPLE_0, HILBERT1, HILBERT2, FUNCT_2, ABIAN, HILBERT3, FUNCT_3,
+      DOMAIN_1, RELAT_2, XCMPLX_0, FUNCOP_1, BINOP_1, FOMODEL0;
+ constructors SETFAM_1, FUNCT_4, PARTIT_2, BORSUK_7, ABIAN, HILBERT1, HILBERT2,
+      FUNCT_2, MSUALG_3, RELAT_2, HILBERT3, FOMODEL0, NAT_D, FUNCT_3, RELSET_1,
+      BINOP_1;
+ registrations FOMODEL0, HILBERT3, FUNCT_1, FUNCT_2, FUNCT_4, ORDINAL1,
+      RELAT_1, RELAT_2, RELSET_1, SUBSET_1, XBOOLE_0, XTUPLE_0, ZFMISC_1,
+      FUNCOP_1, XREAL_0, PARTIT_2, FUNCTOR1, CARD_1;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin
+
+reserve
+   a,b,c,x,y,z,A,B,C,X,Y for set,
+   f,g for Function,
+   V for SetValuation,
+   P for Permutation of V,
+   p,q,r,s for Element of HP-WFF,
+   n for Element of NAT;
+
+registration
+  let X,Y;
+  let f be Relation of X,Y;
+  reduce (id X) * f to f;
+  reduce f * (id Y) to f;
+end;
+
+theorem :: HILBERT4:1
+  for f,g being one-to-one Function st f" = g" holds f = g;
+
+registration
+  cluster involutive for Function;
+  let A;
+  cluster involutive for Permutation of A;
+end;
+
+theorem :: HILBERT4:2
+  for f being involutive Function st rng f c= dom f holds
+  f*f = id dom f;
+
+theorem :: HILBERT4:3
+  for f being Function st f*f = id dom f holds f is involutive;
+
+theorem :: HILBERT4:4
+  for f being involutive Function of A,A holds f*f = id A;
+
+theorem :: HILBERT4:5
+  for f being Function of A,A st f*f = id A holds f is involutive;
+
+registration
+  cluster involutive -> one-to-one for Function;
+end;
+
+registration
+  let A;
+  let f be involutive Permutation of A;
+  cluster f" -> involutive;
+end;
+
+registration
+  let n be non zero Nat;
+  cluster (0,n) --> (n,0) -> without_fixpoints;
+end;
+
+registration
+  let n be non zero Nat, z be zero Nat;
+  cluster fixpoints ((z,n) --> (n,z)) -> empty;
+end;
+
+registration
+  let X be non empty set;
+  cluster non empty involutive for Permutation of X;
+end;
+
+registration
+  let A,B;
+  let f be involutive Function of A,A;
+  let g be involutive Function of B,B;
+  cluster [:f,g:] -> involutive;
+end;
+
+registration
+  let A,B be non empty set;
+  let f be involutive Permutation of A, g be involutive Permutation of B;
+  cluster f => g -> involutive;
+end;
+
+begin ::# Facts about Perm's fixed points
+
+theorem :: HILBERT4:6
+  x is_a_fixpoint_of Perm(P,q) implies
+  SetVal(V,p) --> x is_a_fixpoint_of Perm(P,p=>q);
+
+theorem :: HILBERT4:7
+  Perm(P,q) is with_fixpoint implies Perm(P,p=>q) is with_fixpoint;
+
+theorem :: HILBERT4:8
+  Perm(P,p) is with_fixpoint & Perm(P,q) is without_fixpoints implies
+  Perm(P,p=>q) is without_fixpoints;
+
+begin
+::# Axiom of choice in functional form via Fr\{ae}nkel operator
+::# It is used to arbitrarily partition the field of a function f
+::# into three parts, one of which is made of the fixpoints.
+::# We will use this construction in Lm100 for the case of f
+::# being a permutation, hence some elementary properties are shown
+::# for that case.
+
+definition
+  let X be set;
+  func ChoiceOn X -> set equals
+:: HILBERT4:def 1
+  {[x, the Element of x] where x is Element of X\{{}}: x in X\{{}}};
+end;
+
+registration
+  let X be set;
+  cluster ChoiceOn X -> Relation-like Function-like;
+end;
+
+definition
+::# When f is a permutation, call each {x, f.x} a switchpair.
+::# In that case, FieldCover
+::# covers the permuted set with the set of (unordered) switchpairs.
+  let f;
+  func FieldCover f -> set equals
+:: HILBERT4:def 2
+  {{x,f.x} where x is Element of dom f: x in dom f};
+end;
+
+definition
+::# When f is a permutation, we arbitrarily choose one element of the
+::# switchpair.
+::# Except that we are avoiding fixpoints:
+::# switchpairs become singletons
+::# exactly in the case of fixpoints,
+::# hence the latter never belong to SomePoints.
+  let f;
+  func SomePoints f -> set equals
+:: HILBERT4:def 3
+  (field f) \ rng ChoiceOn FieldCover f;
+end;
+
+definition
+::# Again, we restrict our comments to the case of f being a permutation.
+::# Then, by construction, we are splitting its domain into three subsets:
+::# that of fixpoints, and two arbitrary "halves"
+::# (called SomePoints and OtherPoints) of the remaining points.
+  let f;
+  func OtherPoints f -> set equals
+:: HILBERT4:def 4
+  ((field f) \ (fixpoints f)) \ (SomePoints f);
+end;
+
+registration
+let g;
+cluster (OtherPoints g) /\ SomePoints g -> empty;
+end;
+
+begin
+::# Building the needed SetValuation (tohilbval), and the
+::# needed permutation of it, called tohilbperm.
+::# They are specifically built so to enjoy the right fixpoints properties
+::# in order to prove the main theorem (Lm100).
+
+definition
+  let x;
+  ::# Constructive definition of the object uniquely described by Lm17 & Lm18
+  func x tohilb -> set equals
+:: HILBERT4:def 5
+  (id 1) +*
+  ([:1, Funcs(x,{}):] * [:Funcs(x,{}),{1}:]) +*
+  ([:{1}, Funcs(x,{}):] * [:Funcs(x,{}),{0}:]);
+end;
+
+registration
+let x;
+cluster x tohilb -> Function-like Relation-like;
+end;
+
+theorem :: HILBERT4:9
+x<>{} implies x tohilb=id 1;
+
+theorem :: HILBERT4:10
+{} tohilb = (0,1) --> (1,0);
+
+definition
+  let v be Function;
+  func v tohilbperm -> set equals
+:: HILBERT4:def 6
+  the set of all [n, v.n tohilb] where n is Element of NAT;
+end;
+
+definition
+  let v be Function;
+  func v tohilbval -> set equals
+:: HILBERT4:def 7
+  the set of all [n, dom (v.n tohilb)] where n is Element of NAT;
+end;
+
+registration let v be Function;
+  cluster v tohilbval -> Function-like Relation-like;
+  cluster v tohilbperm -> Function-like Relation-like;
+  cluster v tohilbval -> NAT-defined;
+  cluster v tohilbval -> total;
+  cluster v tohilbperm -> NAT-defined;
+  cluster v tohilbperm -> total;
+end;
+
+registration
+  let v be Function;
+  cluster v tohilbval -> non-empty;
+end;
+
+registration let x;
+  cluster x tohilb -> symmetric;
+end;
+
+definition
+let v be Function;
+redefine func v tohilbperm -> Permutation of v tohilbval;
+end;
+
+definition
+  mode SetValuation0 is ManySortedSet of NAT;
+end;
+
+reserve v for SetValuation0;
+
+registration
+let p,v;
+cluster Perm (v tohilbperm,p) -> involutive;
+end;
+
+begin
+::# Classical semantics via SetVal0, an extension of SetVal.
+::# Thus, we can state and prove the main result:
+::# pseudo-canonical implies classical.
+
+definition
+  let V be SetValuation0;
+  func SetVal0 V -> ManySortedSet of HP-WFF means
+:: HILBERT4:def 8
+
+  it.VERUM = 1 & (for n holds it.prop n = V.n) &
+  for p,q holds
+    it.(p '&' q) = [:it.p, it.q:] & it.(p =>q) = Funcs(it.p,it.q);
+end;
+
+definition
+  let v,p;
+  func SetVal0(v,p) -> set equals
+:: HILBERT4:def 9
+  (SetVal0 v).p;
+end;
+
+definition
+  let p;
+  attr p is classical means
+:: HILBERT4:def 10
+  SetVal0 (v,p) <> {};
+::# The idea is that the three set-theoretical entities
+::# {}, [:,:], Funcs
+::# behave respectively like
+::# 0, AND, =>
+::# of classical logic.
+::# For example Funcs(x,y)={} iff (x<>{}, y={}). And so on...
+::# To enforce this scheme, a slight modification of SetValuation into
+::# the ancestor mode SetValuation0, allowing empty truth values, was needed.
+::# Initially, the immaterial restriction of 2-valuedness was considered
+::# to ease the work; however, upon rethinking tohilb definition, it
+::# was no longer needed.
+end;
+
+registration
+  cluster pseudo-canonical -> classical for Element of HP-WFF;
+end;
+
+registration
+  let v;
+  let p be classical Element of HP-WFF;
+  cluster SetVal0 (v,p) -> non empty;
+end;

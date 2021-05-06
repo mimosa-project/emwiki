@@ -1,0 +1,929 @@
+:: Chebyshev Distance
+::  by Roland Coghetto
+::
+:: Received December 31, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies RLVECT_1, RVSUM_1, ALGSTR_0, METRIC_1, SQUARE_1, VALUED_0,
+      PRE_TOPC, EQREL_1, PROB_1, MEASURE5, SUPINF_1, XREAL_0, MCART_1,
+      XBOOLE_0, ORDINAL1, FINSEQ_2, EUCLID_9, ARYTM_3, XCMPLX_0, EUCLID,
+      RCOMP_1, PCOMPS_1, SUBSET_1, TARSKI, NAT_1, NUMBERS, CARD_1, CARD_3,
+      TOPS_1, REAL_1, TOPMETR, RELAT_1, FUNCT_1, FINSEQ_1, XXREAL_0, ARYTM_1,
+      XXREAL_1, QC_LANG1, FUNCT_2, FINSET_1, CANTOR_1, RLVECT_3, SETFAM_1,
+      ZFMISC_1, STRUCT_0, FUNCOP_1, SRINGS_3, SRINGS_4, SRINGS_1, FINSUB_1,
+      SIMPLEX0, PARTFUN1, COMPLEX1, TIETZE_2, ORDINAL2, XXREAL_2, FUNCT_7,
+      MEMBERED, RLTOPSP1, FUNCSDOM, SRINGS_5;
+ notations SQUARE_1, ALGSTR_0, RLVECT_1, XXREAL_3, EXTREAL1, VALUED_1, RVSUM_1,
+      EQREL_1, MEASURE5, SUPINF_1, ZFMISC_1, FINSUB_1, SIMPLEX0, SUBSET_1,
+      NUMBERS, XXREAL_0, SETFAM_1, XREAL_0, RCOMP_1, TARSKI, ORDINAL1,
+      XCMPLX_0, PCOMPS_1, EUCLID_9, PRE_TOPC, FINSEQ_2, CARD_1, XBOOLE_0,
+      CARD_3, TOPS_1, TOPMETR, FUNCT_1, FINSEQ_1, TOPS_2, CANTOR_1, RELAT_1,
+      FINSET_1, FUNCT_2, FUNCOP_1, RELSET_1, NAT_1, STRUCT_0, TIETZE_2,
+      SRINGS_1, SRINGS_3, SRINGS_4, PARTFUN1, XTUPLE_0, PROB_1, COMPLEX1,
+      VALUED_0, XXREAL_2, MEMBERED, BINOP_1, METRIC_1, EUCLID, RLTOPSP1,
+      FUNCSDOM;
+ constructors SQUARE_1, SUPINF_2, EXTREAL1, EUCLID_9, TOPS_1, FUNCSDOM,
+      MONOID_0, TOPGEN_2, TIETZE_2, SRINGS_1, SRINGS_3, SRINGS_4, TOPGEN_3,
+      COMPLEX1, INTEGRA1, WAYBEL23;
+ registrations METRIC_1, XXREAL_1, FINSEQ_1, SUBSET_1, XREAL_0, NAT_1,
+      ORDINAL1, NUMBERS, FINSEQ_2, TOPGEN_4, CARD_1, EUCLID_9, TOPS_1,
+      XXREAL_0, EUCLID, VALUED_0, MONOID_0, RCOMP_1, CARD_3, FINSET_1,
+      RELSET_1, SRINGS_1, SRINGS_3, SRINGS_4, XCMPLX_0, XTUPLE_0, FUNCT_1,
+      FUNCT_2, SETFAM_1, MEMBERED, STRUCT_0, XXREAL_2, SQUARE_1, RLTOPSP1,
+      XBOOLE_0, MFOLD_0;
+ requirements SUBSET, NUMERALS, BOOLE, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve n   for Nat,
+        r,s for Real,
+        x,y for Element of REAL n,
+        p,q for Point of TOP-REAL n,
+        e   for Point of Euclid n;
+
+theorem :: SRINGS_5:1
+  abs (x-y) = abs (y-x);
+
+theorem :: SRINGS_5:2
+  for i being Nat st i in Seg n holds abs x.i in REAL;
+
+theorem :: SRINGS_5:3
+  for x,y being Element of REAL,xe,ye being ExtReal st x <= xe & y <= ye holds
+  x + y <= xe + ye;
+
+theorem :: SRINGS_5:4
+  for a,c being Real, b being R_eal st a < b & [.a,b.[ c= [.a,c.[ holds
+  b is Real;
+
+theorem :: SRINGS_5:5
+  for D being non empty set, D1 being non empty Subset of D holds
+  n-tuples_on D1 c= n-tuples_on D;
+
+theorem :: SRINGS_5:6
+  for X being non empty set,f being Function st f = Seg n --> X holds
+  f is non-empty n-element FinSequence;
+
+definition
+  let n be Nat;
+  func ProductREAL(n) -> non-empty n-element FinSequence equals
+:: SRINGS_5:def 1
+  Seg n --> REAL;
+end;
+
+theorem :: SRINGS_5:7
+  ProductREAL(n) = Seg n --> the carrier of R^1;
+
+theorem :: SRINGS_5:8
+  product (Seg n --> REAL) = REAL n;
+
+theorem :: SRINGS_5:9
+  product ProductREAL(n) = REAL n;
+
+theorem :: SRINGS_5:10
+  for X being set holds product(Seg n --> X) = n-tuples_on X;
+
+theorem :: SRINGS_5:11
+  for D being non empty set, x being Tuple of n, D holds x in Funcs(Seg n,D);
+
+theorem :: SRINGS_5:12
+  for O1 being Subset of TOP-REAL n, O2 being Subset of TopSpaceMetr Euclid n
+  st O1 = O2 holds O1 is open iff O2 is open;
+
+theorem :: SRINGS_5:13
+  e = p implies
+  the set of all OpenHypercube(e,1/m) where m is non zero Element of NAT =
+  the set of all OpenHypercube(p,1/m) where m is non zero Element of NAT;
+
+theorem :: SRINGS_5:14
+  q in OpenHypercube(p,r) implies p in OpenHypercube(q,r);
+
+theorem :: SRINGS_5:15
+  q in OpenHypercube(p,r/2) implies OpenHypercube(q,r/2) c= OpenHypercube(p,r);
+
+definition
+  let x be Element of [:REAL,REAL:];
+  redefine func x`1 -> Element of REAL;
+  redefine func x`2 -> Element of REAL;
+end;
+
+definition
+  let n be Nat, x be Element of [:REAL n,REAL n:];
+  redefine func x`1 -> Element of REAL n;
+  redefine func x`2 -> Element of REAL n;
+end;
+
+theorem :: SRINGS_5:16
+  for f being n-element FinSequence of [:REAL,REAL:] holds
+  ex x being Element of [:REAL n,REAL n:] st for i being Nat st
+  i in Seg n holds (x`1).i = (f/.i)`1 & (x`2).i = (f/.i)`2;
+
+begin :: The set of n-tuples of rational numbers
+
+definition
+  let n;
+  func RAT n -> FinSequenceSet of RAT equals
+:: SRINGS_5:def 2
+n-tuples_on RAT;
+end;
+
+theorem :: SRINGS_5:17
+  RAT 0 = {0};
+
+registration
+  cluster RAT 0 -> trivial;
+end;
+
+registration
+  let n;
+  cluster RAT n -> non empty;
+end;
+
+registration
+  let n;
+  cluster -> n-element for Element of RAT n;
+end;
+
+registration
+  let n;
+  cluster RAT n -> countable;
+end;
+
+registration
+  let n be positive Nat;
+  cluster RAT n -> infinite;
+end;
+
+registration
+  let n be positive Nat;
+  cluster RAT n -> denumerable;
+end;
+
+theorem :: SRINGS_5:18
+  RAT n is dense Subset of TOP-REAL n;
+
+registration
+  let n;
+  cluster RAT n -> countable dense for Subset of TOP-REAL n;
+end;
+
+begin :: A countable base of an n-dimensional Euclidean space (Version 1: MFOLD_1)
+
+registration
+  let n be Nat;
+  cluster countable for Basis of TOP-REAL n;
+end;
+
+begin :: A countable base of an n-dimensional Euclidean space (Version 2)
+
+registration
+  let n,e;
+  cluster OpenHypercubes(e) -> countable;
+end;
+
+definition
+  let n;
+  func OpenHypercubesRAT(n) -> non empty set equals
+:: SRINGS_5:def 3
+  {OpenHypercubes(q) where q is Point of Euclid n : q in RAT n};
+end;
+
+definition
+  let n;
+  let q be Element of RAT n;
+  func @q -> Point of Euclid n equals
+:: SRINGS_5:def 4
+q;
+end;
+
+definition
+  let n;
+  let q be object such that
+ q in RAT n;
+  func object2RAT(q,n) -> Element of RAT n equals
+:: SRINGS_5:def 5
+  q;
+end;
+
+registration let n;
+  cluster OpenHypercubesRAT(n) -> countable;
+end;
+
+registration let n;
+  cluster union OpenHypercubesRAT(n) -> countable;
+end;
+
+theorem :: SRINGS_5:19
+  union OpenHypercubesRAT(n) is open Subset-Family of TOP-REAL n;
+
+theorem :: SRINGS_5:20
+  for O being non empty open Subset of TOP-REAL n holds
+  ex p being Element of RAT n st p in O;
+
+theorem :: SRINGS_5:21
+  for cB being Subset-Family of TOP-REAL n st
+  cB = union OpenHypercubesRAT(n) holds cB is quasi_basis;
+
+registration let n;
+  cluster union OpenHypercubesRAT(n) -> non empty;
+end;
+
+definition
+  let n;
+  func dense_countable_OpenHypercubes(n) -> countable open
+    Subset-Family of TOP-REAL n equals
+:: SRINGS_5:def 6
+union OpenHypercubesRAT(n);
+end;
+
+theorem :: SRINGS_5:22
+  dense_countable_OpenHypercubes(n) =
+   {OpenHypercube(q,1/m) where q is Point of Euclid n,
+                               m is positive Nat:q in RAT n};
+
+registration :: Second version
+  let n be Nat;
+  cluster countable for Basis of TOP-REAL n;
+end;
+
+theorem :: SRINGS_5:23
+  dense_countable_OpenHypercubes(n) is countable Basis of TOP-REAL n;
+
+theorem :: SRINGS_5:24
+  for O being open Subset of TOP-REAL n holds
+  ex Y being Subset of dense_countable_OpenHypercubes(n) st Y is countable &
+    O = union Y;
+
+theorem :: SRINGS_5:25
+  for O being open non empty Subset of TOP-REAL n holds
+  ex Y being Subset of dense_countable_OpenHypercubes(n) st Y is non empty &
+    O = union Y &
+  ex g being Function of NAT,Y st
+  for x being object holds x in O iff ex y being object st y in NAT & x in g.y;
+
+theorem :: SRINGS_5:26
+  for O being open non empty Subset of TOP-REAL n holds
+  ex s being sequence of dense_countable_OpenHypercubes(n) st
+    for x being object holds x in O iff
+    ex y being object st y in NAT & x in s.y;
+
+theorem :: SRINGS_5:27
+  for O being open non empty Subset of TOP-REAL n holds
+  ex s being sequence of dense_countable_OpenHypercubes(n) st O = Union s;
+
+begin :: The set of all left open real bounded intervals
+
+definition
+  func the_set_of_all_left_open_real_bounded_intervals
+         -> Subset-Family of REAL equals
+:: SRINGS_5:def 7
+       the set of all ].a,b.] where a,b is Real;
+end;
+
+registration
+  cluster the_set_of_all_left_open_real_bounded_intervals -> non empty;
+end;
+
+theorem :: SRINGS_5:28
+  the_set_of_all_left_open_real_bounded_intervals c=
+    { I where I is Subset of REAL: I is left_open_interval};
+
+theorem :: SRINGS_5:29
+  the_set_of_all_left_open_real_bounded_intervals is
+     cap-closed diff-finite-partition-closed with_empty_element
+     with_countable_Cover;
+
+theorem :: SRINGS_5:30
+  the_set_of_all_left_open_real_bounded_intervals is Semiring of REAL;
+
+begin :: The set of all right open real bounded intervals
+
+definition
+  func the_set_of_all_right_open_real_bounded_intervals
+         -> Subset-Family of REAL equals
+:: SRINGS_5:def 8
+  the set of all [.a,b.[ where a,b is Real;
+end;
+
+registration
+  cluster the_set_of_all_right_open_real_bounded_intervals ->
+            non empty;
+end;
+
+theorem :: SRINGS_5:31
+  the_set_of_all_right_open_real_bounded_intervals c=
+    { I where I is Subset of REAL: I is right_open_interval};
+
+registration
+  cluster the_set_of_all_right_open_real_bounded_intervals -> cap-closed
+    diff-finite-partition-closed with_empty_element with_countable_Cover;
+end;
+
+theorem :: SRINGS_5:32
+  the_set_of_all_right_open_real_bounded_intervals is Semiring of REAL;
+
+begin :: Finite Product of Left_Open_Intervals
+
+reserve n for non zero Nat;
+
+definition
+  let n be non zero Nat;
+  func ProductLeftOpenIntervals(n) -> ClassicalSemiringFamily of
+    ProductREAL(n) equals
+:: SRINGS_5:def 9
+  Seg n --> the_set_of_all_left_open_real_bounded_intervals;
+end;
+
+theorem :: SRINGS_5:33
+  ProductLeftOpenIntervals(n) = Seg n --> the set of all ].a,b.] where
+    a,b is Real;
+
+theorem :: SRINGS_5:34
+  MeasurableRectangle(ProductLeftOpenIntervals(n)) is Semiring of REAL n;
+
+theorem :: SRINGS_5:35
+  for x being object st x in MeasurableRectangle(ProductLeftOpenIntervals(n))
+  holds ex y being Subset of REAL n st
+           x = y &
+           for i being Nat st i in Seg n holds
+              ex a,b being Real st
+                for t being Element of REAL n st t in y holds t.i in ].a,b.];
+
+theorem :: SRINGS_5:36
+  for x being object st x in MeasurableRectangle(ProductLeftOpenIntervals(n))
+  holds ex y being Subset of REAL n,
+           f being n-element FinSequence of [:REAL,REAL:]
+        st x = y &
+        (for t being Element of REAL n holds t in y
+              iff
+         for i being Nat st i in Seg n holds t.i in ].(f/.i)`1,(f/.i)`2.]);
+
+theorem :: SRINGS_5:37
+  for x being object st x in MeasurableRectangle(ProductLeftOpenIntervals(n))
+  holds ex y being Subset of REAL n, a, b being Element of REAL n st
+        x = y &
+        for s being object holds
+          s in y
+            iff
+          (ex t being Element of REAL n st s = t & for i being Nat st
+             i in Seg n holds t.i in ]. a.i, b.i .]);
+
+theorem :: SRINGS_5:38
+  for x being set st x in MeasurableRectangle(ProductLeftOpenIntervals(n))
+  holds ex a, b being Element of REAL n st
+        for t being Element of REAL n holds
+          t in x
+            iff
+          (for i being Nat st i in Seg n holds t.i in ]. a.i, b.i .]);
+
+begin :: Finite Product of Right_Open_Intervals
+
+definition
+  let n be non zero Nat;
+  func ProductRightOpenIntervals(n) -> ClassicalSemiringFamily of
+    ProductREAL(n) equals
+:: SRINGS_5:def 10
+  Seg n --> the_set_of_all_right_open_real_bounded_intervals;
+end;
+
+reserve n for non zero Nat;
+
+theorem :: SRINGS_5:39
+  ProductRightOpenIntervals(n) = Seg n --> the set of all [.a,b.[ where
+    a,b is Real;
+
+theorem :: SRINGS_5:40
+  MeasurableRectangle(ProductRightOpenIntervals(n)) is Semiring of REAL n;
+
+theorem :: SRINGS_5:41
+  for x being object st x in MeasurableRectangle(ProductRightOpenIntervals(n))
+  holds ex y being Subset of REAL n st
+           x = y &
+           for i being Nat st i in Seg n holds
+               ex a,b being Real st
+                  for t being Element of REAL n st t in y holds t.i in [.a,b.[;
+
+theorem :: SRINGS_5:42
+  for x being object st x in MeasurableRectangle(ProductRightOpenIntervals(n))
+  holds ex y being Subset of REAL n,
+           f being n-element FinSequence of [:REAL,REAL:]
+        st x = y &
+        (for t being Element of REAL n holds t in y
+              iff
+         for i being Nat st i in Seg n holds t.i in [.(f/.i)`1,(f/.i)`2.[);
+
+theorem :: SRINGS_5:43
+  for x being object st x in MeasurableRectangle(ProductRightOpenIntervals(n))
+  holds ex y being Subset of REAL n, a, b being Element of REAL n st
+        x = y &
+        for s being object holds
+          s in y
+            iff
+          (ex t being Element of REAL n st s = t & for i being Nat st
+             i in Seg n holds t.i in [. a.i, b.i .[);
+
+theorem :: SRINGS_5:44
+  for x being set st x in MeasurableRectangle(ProductRightOpenIntervals(n))
+  holds ex a, b being Element of REAL n st
+        for t being Element of REAL n holds
+          t in x
+            iff
+          (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .[);
+
+begin :: n-dimensional product of Subset-Family
+
+reserve n for Nat,
+        X for set,
+        S for Subset-Family of X;
+
+definition let n,X;
+  func Product(n,X) -> set means
+:: SRINGS_5:def 11
+  for f being object holds f in it iff
+  ex g being Function st f = product g & g in product (Seg n --> X);
+end;
+
+theorem :: SRINGS_5:45
+  Product(n,X) c= bool Funcs(dom (Seg n --> X), union Union (Seg n --> X));
+
+theorem :: SRINGS_5:46
+  Product(n,S) is Subset-Family of product (Seg n --> X);
+
+theorem :: SRINGS_5:47
+  for S being non empty Subset-Family of X holds
+  Product(n,S) = the set of all product f where f is Tuple of n,S;
+
+theorem :: SRINGS_5:48
+  for n being non zero Nat holds
+    Product(n,X) c= bool Funcs(Seg n, union X);
+
+theorem :: SRINGS_5:49
+  for n being non zero Nat, X being non empty set,
+  S being non empty Subset-Family of X st S <> {{}} holds
+  Product(n,S) c= bool Funcs(Seg n,X);
+
+theorem :: SRINGS_5:50
+  for n being non zero Nat,X being non empty set,
+  S being non empty Subset-Family of X st S <> {{}} holds
+  union Product(n,S) c= Funcs(Seg n,X);
+
+registration
+  let n be Nat, X be non empty set;
+  cluster Product(n,X) -> non empty;
+end;
+
+theorem :: SRINGS_5:51
+  for X being non empty set,
+      S being non empty Subset-Family of X,
+      x being Subset of Funcs(Seg n,X)
+  holds
+      x is Element of Product(n,S)
+    iff
+      (ex s being Tuple of n,S st for t being Element of Funcs(Seg n,X) holds
+      (for i being Nat st i in Seg n holds t.i in s.i) iff t in x);
+
+begin :: the set of all closed real bounded intervals
+
+definition
+  func the_set_of_all_closed_real_bounded_intervals ->
+    Subset-Family of REAL equals
+:: SRINGS_5:def 12
+the set of all [.a,b.] where a,b is Real;
+end;
+
+theorem :: SRINGS_5:52
+  the_set_of_all_closed_real_bounded_intervals =
+    {I where I is Subset of REAL : I is closed_interval};
+
+registration
+  cluster the_set_of_all_closed_real_bounded_intervals -> non empty;
+end;
+
+registration
+  cluster the_set_of_all_closed_real_bounded_intervals ->
+    cap-closed with_empty_element with_countable_Cover;
+end;
+
+theorem :: SRINGS_5:53
+  for n being Nat holds Seg n -->
+    the_set_of_all_closed_real_bounded_intervals is n-element FinSequence;
+
+begin :: The set of all open real bounded intervals
+
+definition
+  func the_set_of_all_open_real_bounded_intervals ->
+    Subset-Family of REAL equals
+:: SRINGS_5:def 13
+the set of all ].a,b.[ where a,b is Real;
+end;
+
+theorem :: SRINGS_5:54
+  the_set_of_all_open_real_bounded_intervals c=
+    {I where I is Subset of REAL : I is open_interval};
+
+registration
+  cluster the_set_of_all_open_real_bounded_intervals -> non empty;
+end;
+
+registration
+  cluster the_set_of_all_open_real_bounded_intervals -> cap-closed
+    with_empty_element with_countable_Cover;
+end;
+
+theorem :: SRINGS_5:55
+  for n being Nat holds Seg n --> the_set_of_all_open_real_bounded_intervals is
+    n-element FinSequence;
+
+begin :: n-dimensional Subset-Family of REAL
+
+reserve n for Nat,
+        S for Subset-Family of REAL;
+
+theorem :: SRINGS_5:56
+  Product(n,S) is Subset-Family of REAL n;
+
+definition
+  let n,S;
+  redefine func Product(n,S) -> Subset-Family of REAL n;
+end;
+
+theorem :: SRINGS_5:57
+  for S being non empty Subset-Family of REAL, x being Subset of REAL n holds
+    x is Element of Product(n,S)
+      iff
+    ex s being Tuple of n,S st
+      for t being Element of REAL n holds
+         (for i being Nat st i in Seg n holds t.i in s.i) iff t in x;
+
+theorem :: SRINGS_5:58
+  for n being non zero Nat,
+      s being Tuple of n,the_set_of_all_closed_real_bounded_intervals holds
+    ex a,b being Element of REAL n st
+    for i being Nat st i in Seg n holds s.i = [.a.i,b.i.];
+
+theorem :: SRINGS_5:59
+  for n being non zero Nat,
+    x being Element of Product(n,the_set_of_all_closed_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .])));
+
+theorem :: SRINGS_5:60
+  for n being non zero Nat, x being Subset of REAL n,
+      a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff
+     (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .]))
+  holds
+  x is Element of Product(n,the_set_of_all_closed_real_bounded_intervals);
+
+theorem :: SRINGS_5:61
+  for n being non zero Nat, x being Subset of REAL n,
+      a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff
+     (for i being Nat st i in Seg n holds t.i in ]. a.i, b.i .]))
+  holds
+  x is Element of Product(n,the_set_of_all_left_open_real_bounded_intervals);
+
+theorem :: SRINGS_5:62
+  for n being non zero Nat, x being Subset of REAL n,
+  a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff
+     (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .[))
+  holds
+  x is Element of Product(n,the_set_of_all_right_open_real_bounded_intervals);
+
+theorem :: SRINGS_5:63
+  for n being non zero Nat,
+      s being Tuple of n,the_set_of_all_left_open_real_bounded_intervals holds
+    ex a,b being Element of REAL n st
+    for i being Nat st i in Seg n holds s.i = ].a.i,b.i.];
+
+theorem :: SRINGS_5:64
+  for n being non zero Nat,
+    x being Element of
+              Product(n,the_set_of_all_left_open_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff (for i being Nat st i in Seg n holds t.i in ]. a.i, b.i .])));
+
+theorem :: SRINGS_5:65
+  for n being non zero Nat,
+      s being Tuple of n,the_set_of_all_right_open_real_bounded_intervals holds
+    ex a,b being Element of REAL n st
+    for i being Nat st i in Seg n holds s.i = [.a.i,b.i.[;
+
+theorem :: SRINGS_5:66
+  for n being non zero Nat,
+    x being Element of
+              Product(n,the_set_of_all_right_open_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .[)));
+
+begin :: Closed/Open/LeftOpen/RightOpen - HyperInterval
+
+reserve n       for Nat,
+        a,b,c,d for Element of REAL n;
+
+definition
+  let n,a,b;
+  func ClosedHyperInterval(a,b) -> Subset of REAL n means
+:: SRINGS_5:def 14
+
+  for x being object holds x in it iff ex y being Element of REAL n st
+  x = y & (for i being Nat st i in Seg n holds y.i in [.a.i,b.i.]);
+end;
+
+definition
+  let n,a,b;
+  func OpenHyperInterval(a,b) -> Subset of REAL n means
+:: SRINGS_5:def 15
+
+  for x being object holds x in it iff ex y being Element of REAL n st
+  x = y & (for i being Nat st i in Seg n holds y.i in ].a.i,b.i.[);
+end;
+
+definition
+  let n,a,b;
+  func LeftOpenHyperInterval(a,b) -> Subset of REAL n means
+:: SRINGS_5:def 16
+
+  for x being object holds x in it iff ex y being Element of REAL n st
+  x = y & (for i being Nat st i in Seg n holds y.i in ].a.i,b.i.]);
+end;
+
+definition
+  let n,a,b;
+  func RightOpenHyperInterval(a,b) -> Subset of REAL n means
+:: SRINGS_5:def 17
+
+  for x being object holds x in it iff ex y being Element of REAL n st
+  x = y & (for i being Nat st i in Seg n holds y.i in [.a.i,b.i.[);
+end;
+
+theorem :: SRINGS_5:67
+  ClosedHyperInterval(a,a) = {a};
+
+registration
+  let n,a;
+  cluster ClosedHyperInterval(a,a) -> trivial;
+end;
+
+theorem :: SRINGS_5:68
+  OpenHyperInterval(a,b) c= LeftOpenHyperInterval(a,b) &
+  OpenHyperInterval(a,b) c= RightOpenHyperInterval(a,b) &
+  LeftOpenHyperInterval(a,b) c= ClosedHyperInterval(a,b) &
+  RightOpenHyperInterval(a,b) c= ClosedHyperInterval(a,b);
+
+definition
+  let n,a,b;
+  pred a <= b means
+:: SRINGS_5:def 18
+for i being Nat st i in Seg n holds a.i <= b.i;
+  reflexivity;
+end;
+
+theorem :: SRINGS_5:69
+  a <= b & b <= c implies a <= c;
+
+theorem :: SRINGS_5:70
+  a <= c & d <= b implies ClosedHyperInterval(c,d) c= ClosedHyperInterval(a,b);
+
+theorem :: SRINGS_5:71
+  a <= b implies ClosedHyperInterval(a,b) is non empty;
+
+definition
+  let n,a,b;
+  pred a < b means
+:: SRINGS_5:def 19
+for i being Nat st i in Seg n holds a.i < b.i;
+end;
+
+theorem :: SRINGS_5:72
+  a < b & b < c implies a < c;
+
+theorem :: SRINGS_5:73
+  b < a & n is non zero implies ClosedHyperInterval(a,b) is empty;
+
+theorem :: SRINGS_5:74
+  n|-> r is Element of REAL n;
+
+definition
+  let n,r;
+  redefine func n |-> r -> Element of REAL n;
+end;
+
+definition
+  let r;
+  redefine func <*r*> -> Element of REAL 1;
+end;
+
+theorem :: SRINGS_5:75
+  for n being non zero Nat,e being Point of Euclid n
+  holds ex a being Element of REAL n st a = e &
+  OpenHypercube(e,r) = OpenHyperInterval(a - (n|-> r),a + (n|-> r));
+
+theorem :: SRINGS_5:76
+  for p being Point of TOP-REAL n ex a being Element of REAL n st a = p &
+  ClosedHypercube(p,b) = ClosedHyperInterval(a - b,a + b);
+
+begin :: Correspondance between Interval and 1-dimensional HyperInterval
+
+theorem :: SRINGS_5:77
+  for x being Real holds x in [.r,s.] iff
+    1 |-> x in ClosedHyperInterval(<*r*>,<*s*>);
+
+theorem :: SRINGS_5:78
+  for x being Real holds x in ].r,s.[ iff
+    1 |-> x in OpenHyperInterval(<*r*>,<*s*>);
+
+theorem :: SRINGS_5:79
+  for x being Real holds x in ].r,s.] iff
+    1 |-> x in LeftOpenHyperInterval(<*r*>,<*s*>);
+
+theorem :: SRINGS_5:80
+  for x being Real holds x in [.r,s.[ iff
+    1 |-> x in RightOpenHyperInterval(<*r*>,<*s*>);
+
+begin :: Correspondence between MeasurableRectangle and Product
+
+reserve n for non zero Nat;
+
+theorem :: SRINGS_5:81
+  for s being Tuple of n,the_set_of_all_open_real_bounded_intervals holds
+    ex a,b being Element of REAL n st for i being Nat st i in Seg n holds
+    s.i = ].a.i,b.i.[;
+
+theorem :: SRINGS_5:82
+  for x being Element of Product(n,the_set_of_all_open_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st
+    for t being Element of REAL n holds
+    (t in x iff (for i being Nat st i in Seg n holds t.i in ]. a.i, b.i .[)));
+
+theorem :: SRINGS_5:83
+  for s being Tuple of n,the_set_of_all_left_open_real_bounded_intervals holds
+    ex a,b being Element of REAL n st for i being Nat st i in Seg n holds
+    s.i = ].a.i,b.i.];
+
+theorem :: SRINGS_5:84
+  for x being Element of
+    Product(n,the_set_of_all_left_open_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st for t being Element of REAL n holds
+    (t in x iff (for i being Nat st i in Seg n holds t.i in ]. a.i, b.i .])));
+
+theorem :: SRINGS_5:85
+  for s being Tuple of n,the_set_of_all_right_open_real_bounded_intervals holds
+    ex a,b being Element of REAL n st for i being Nat st i in Seg n holds
+    s.i = [.a.i,b.i.[;
+
+theorem :: SRINGS_5:86
+  for x being Element of
+    Product(n,the_set_of_all_right_open_real_bounded_intervals)
+  holds (ex a,b being Element of REAL n st
+    for t being Element of REAL n holds (t in x iff
+    (for i being Nat st i in Seg n holds t.i in [. a.i, b.i .[)));
+
+theorem :: SRINGS_5:87
+  MeasurableRectangle(ProductLeftOpenIntervals(n)) =
+    Product(n,the_set_of_all_left_open_real_bounded_intervals);
+
+theorem :: SRINGS_5:88
+  MeasurableRectangle(ProductRightOpenIntervals(n)) =
+    Product(n,the_set_of_all_right_open_real_bounded_intervals);
+
+begin :: Chebyshev distance
+
+reserve n     for non zero Nat,
+        x,y,z for Element of REAL n;
+
+definition
+  let n;
+  func Infty_dist n -> Function of [:REAL n,REAL n:],REAL means
+:: SRINGS_5:def 20
+
+  for x,y being Element of REAL n holds it.(x,y) = sup rng abs(x-y);
+end;
+
+theorem :: SRINGS_5:89
+  (the set of all |. x.i - y.i .| where
+                                  i is Element of Seg n) is real-membered &
+  (the set of all |. x.i - y.i .| where i is Element of Seg n) = rng abs(x-y);
+
+theorem :: SRINGS_5:90
+  ex S being ext-real-membered set st S = the set of all |. x.i - y.i .| where
+    i is Element of Seg n & (Infty_dist n).(x,y) = sup S;
+
+theorem :: SRINGS_5:91
+  (Infty_dist n).(x,y) = abs (x-y).max_diff_index(x,y);
+
+theorem :: SRINGS_5:92
+  (Infty_dist n).(x,y) = 0 iff x = y;
+
+theorem :: SRINGS_5:93
+  (Infty_dist n).(x,y) = (Infty_dist n).(y,x);
+
+theorem :: SRINGS_5:94
+  (Infty_dist n).(x,y) <= (Infty_dist n).(x,z) + (Infty_dist n).(z,y);
+
+theorem :: SRINGS_5:95
+  Infty_dist n is_metric_of REAL n;
+
+theorem :: SRINGS_5:96
+  (Pitag_dist 2).(|[0,0]|,|[1,1]|) = sqrt 2;
+
+theorem :: SRINGS_5:97
+  (Infty_dist 2).(|[0,0]|,|[1,1]|) = 1;
+
+theorem :: SRINGS_5:98
+  for x,y being Element of REAL 1 holds (Infty_dist 1).(x,y) = |.x.1-y.1.|;
+
+theorem :: SRINGS_5:99
+  for x,y being Element of REAL 1 holds (Pitag_dist 1).(x,y) = |.x.1-y.1.|;
+
+theorem :: SRINGS_5:100
+  Pitag_dist 1 = Infty_dist 1;
+
+theorem :: SRINGS_5:101
+  Pitag_dist 2 <> Infty_dist 2;
+
+definition
+  let n being non zero Nat;
+  func EMINFTY n -> strict MetrSpace equals
+:: SRINGS_5:def 21
+MetrStruct(#REAL n,Infty_dist n#);
+end;
+
+registration
+  let n being non zero Nat;
+  cluster EMINFTY n -> non empty;
+end;
+
+definition
+  let n being non zero Nat;
+  func TOP-REAL-INFTY n -> strict RLTopStruct means
+:: SRINGS_5:def 22
+
+  the TopStruct of it = TopSpaceMetr EMINFTY n &
+  the RLSStruct of it = RealVectSpace Seg n;
+end;
+
+theorem :: SRINGS_5:102
+  the RLSStruct of TOP-REAL n = the RLSStruct of TOP-REAL-INFTY n;
+
+registration
+  let n being non zero Nat;
+  cluster TOP-REAL-INFTY n -> non empty;
+end;
+
+theorem :: SRINGS_5:103
+  for x being Element of REAL 0 holds Intervals(x,r) is empty &
+  product Intervals(x,r) = {{}};
+
+theorem :: SRINGS_5:104
+  r <= 0 implies product Intervals(x,r) is empty;
+
+reserve p for Element of EMINFTY n;
+
+definition
+  let n being non zero Nat,
+      p being Element of EMINFTY n;
+  func @p -> Element of REAL n equals
+:: SRINGS_5:def 23
+p;
+end;
+
+theorem :: SRINGS_5:105
+  Ball(p,r) = product Intervals(@p,r);
+
+theorem :: SRINGS_5:106
+  for e being Point of Euclid n st e = p holds Ball(p,r) = OpenHypercube(e,r);
+
+registration
+  let n be non zero Nat,
+      p be Element of EMINFTY n,
+      r be negative Real;
+  cluster cl_Ball(p,r) -> empty;
+end;
+
+theorem :: SRINGS_5:107
+  for t being object holds t in cl_Ball(p,r) iff
+  ex f being Function st t = f & dom f = Seg n &
+  for i being Nat st i in Seg n holds f.i in [.(@p).i-r,(@p).i+r.];
+
+theorem :: SRINGS_5:108
+  for p being Point of TOP-REAL n, q being Element of EMINFTY n st
+  q = p holds cl_Ball(q,r) = ClosedHypercube(p,n |-> r);
+
+theorem :: SRINGS_5:109
+  Ball(p,r) = OpenHyperInterval(@p - (n|-> r), @p + (n|-> r));
+
+theorem :: SRINGS_5:110
+  cl_Ball(p,r) = ClosedHyperInterval(@p - (n|-> r), @p + (n|-> r));
+

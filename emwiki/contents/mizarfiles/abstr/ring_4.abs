@@ -1,0 +1,855 @@
+:: Some Algebraic Properties of Polynomial Rings
+::  by Christoph Schwarzweller , Artur Korni{\l}owicz and Agnieszka Rowinska-Schwarzweller
+:: 
+:: Received June 30, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, POLYNOM1, ARYTM_1, FUNCT_1, TARSKI, POLYNOM3, RELAT_1,
+      RLVECT_1, FINSEQ_1, GCD_1, ALGSEQ_1, REALSET1, FINSET_1, CARD_3, FDIFF_1,
+      FUNCT_4, ALGSTR_0, INT_1, WELLORD1, YELLOW_8, HURWITZ, ZFMISC_1,
+      XBOOLE_0, FUNCT_2, LATTICES, VECTSP10, XCMPLX_0, VECTSP_1, VECTSP_2,
+      MSALIMIT, STRUCT_0, SUBSET_1, SUPINF_2, NAT_1, NUMBERS, CARD_1, MESFUNC1,
+      XXREAL_0, RATFUNC1, FUNCSDOM, GROUP_1, INT_2, INT_3, CAT_1, PARTFUN1,
+      POLYNOM2, POLYNOM5, QUOFIELD, BINOP_1, MSSUBFAM, MOD_4, IDEAL_1, RING_2,
+      WAYBEL_6, RING_3, RING_4;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FUNCT_1, RELSET_1, PARTFUN1,
+      ORDINAL1, FUNCT_2, QUOFIELD, BINOP_1, FINSEQ_1, REALSET1, FINSET_1,
+      VFUNCT_1, FUNCT_7, NORMSP_1, ALGSEQ_1, XCMPLX_0, XXREAL_0, NAT_D, INT_1,
+      INT_3, NUMBERS, STRUCT_0, MOD_4, GCD_1, ALGSTR_0, GROUP_1, GROUP_6,
+      RLVECT_1, VECTSP_1, VECTSP_2, VECTSP10, POLYNOM1, POLYNOM3, POLYNOM4,
+      POLYNOM5, HURWITZ, RATFUNC1, IDEAL_1, RINGCAT1, RING_1, RING_2, RING_3;
+ constructors POLYNOM4, POLYNOM5, HURWITZ, FUNCT_4, RELSET_1, RINGCAT1,
+      FUNCT_7, NAT_D, VFUNCT_1, RATFUNC1, GCD_1, REALSET1, FVSUM_1, RING_3,
+      ALGSEQ_1, BINOP_2;
+ registrations XBOOLE_0, ORDINAL1, RELSET_1, XCMPLX_0, XXREAL_0, XREAL_0,
+      NAT_1, INT_1, MEMBERED, STRUCT_0, VECTSP_1, ALGSTR_1, POLYNOM3, POLYNOM4,
+      POLYNOM5, FUNCT_2, ALGSTR_0, NAT_2, RLVECT_1, INT_3, CARD_1, RING_3,
+      VFUNCT_1, FINSET_1, RATFUNC1, RING_2, RING_1, REALSET1, MOD_4;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+definition
+let R be non empty doubleLoopStr,
+    a be Element of R;
+redefine func {a} -> Subset of R;
+end;
+
+registration
+cluster almost_left_invertible commutative -> almost_right_invertible for Ring;
+cluster almost_right_invertible commutative -> almost_left_invertible for Ring;
+cluster almost_left_cancelable commutative -> almost_right_cancelable for Ring;
+cluster almost_right_cancelable commutative -> almost_left_cancelable for Ring;
+end;
+
+definition
+let L be non empty ZeroStr;
+let X be set;
+attr X is L-polynomial-membered means
+:: RING_4:def 1
+  for p being object st p in X holds p is Polynomial of L;
+end;
+
+definition
+let L be non empty ZeroStr;
+let X be 1-sorted;
+attr X is L-polynomial-membered means
+:: RING_4:def 2
+  the carrier of X is L-polynomial-membered;
+end;
+
+registration
+let L be non empty ZeroStr;
+cluster non empty L-polynomial-membered for set;
+end;
+
+registration
+let L be non empty ZeroStr;
+cluster non empty L-polynomial-membered for 1-sorted;
+end;
+
+registration
+let L be non empty ZeroStr;
+let X be non empty L-polynomial-membered 1-sorted;
+cluster the carrier of X -> L-polynomial-membered;
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable distributive
+         non empty doubleLoopStr;
+cluster Polynom-Ring L -> L-polynomial-membered;
+end;
+
+definition
+let L be non empty ZeroStr;
+let X be non empty L-polynomial-membered set;
+redefine mode Element of X -> Polynomial of L;
+end;
+
+registration
+let R be Ring;
+cluster zero for Element of the carrier of Polynom-Ring R;
+cluster zero for Element of Polynom-Ring R;
+cluster zero for Polynomial of R;
+end;
+
+registration
+let R be non degenerated Ring;
+cluster non zero for Element of the carrier of Polynom-Ring R;
+cluster non zero for Element of Polynom-Ring R;
+end;
+
+definition
+let L be add-associative right_zeroed right_complementable distributive
+         non empty doubleLoopStr;
+let p,q be Polynomial of L;
+pred p divides q means
+:: RING_4:def 3
+  ex a,b being Element of Polynom-Ring L st a = p & b = q & a divides b;
+end;
+
+theorem :: RING_4:1
+for L being add-associative right_zeroed right_complementable distributive
+            non empty doubleLoopStr
+for p,q be Polynomial of L
+holds p divides q iff ex r being Polynomial of L st p *' r = q;
+
+theorem :: RING_4:2
+for F being Field,
+    p,q being Polynomial of F st deg p < deg q holds p mod q = p;
+
+theorem :: RING_4:3
+for F being Field,
+    p,q being Polynomial of F holds p mod q = 0_.(F) iff q divides p;
+
+theorem :: RING_4:4
+for F being Field,
+    p,q being Polynomial of F holds p = (p div q) *' q + (p mod q);
+
+theorem :: RING_4:5
+for F being Field,
+    p,r being Polynomial of F
+for q being non zero Polynomial of F
+holds (p + r) div q = (p div q) + (r div q) &
+      (p + r) mod q = (p mod q) + (r mod q);
+
+theorem :: RING_4:6
+for F being Field,
+    p,r being Polynomial of F
+for q being non zero Polynomial of F
+holds (p *' r) mod q = ((p mod q) *' (r mod q)) mod q;
+
+theorem :: RING_4:7
+for F being Field,
+    r,q,u being Polynomial of F
+for p being non zero Polynomial of F
+holds (((r *' q) mod p) *' u) mod p = (r *' q *' u) mod p;
+
+theorem :: RING_4:8
+for L being add-associative right_zeroed right_complementable
+            left-distributive non empty doubleLoopStr,
+    p being sequence of L
+holds 0.L * p = 0_.(L);
+
+theorem :: RING_4:9
+for L being left_unital non empty doubleLoopStr,
+    p being sequence of L
+holds 1.L * p = p;
+
+theorem :: RING_4:10
+for L being add-associative right_zeroed right_complementable right_unital
+            distributive associative commutative non empty doubleLoopStr,
+    p,q being sequence of L,
+    a being Element of L holds a * (p *' q) = p *' (a * q);
+
+theorem :: RING_4:11
+for L being associative non empty multMagma,
+    p being sequence of L,
+    a,b being Element of L holds (a * b) * p = a * (b * p);
+
+theorem :: RING_4:12
+for L being add-associative right_zeroed right_complementable
+            left-distributive left_unital non empty doubleLoopStr
+for p being sequence of L holds (1_.(L)) *' p = p;
+
+registration
+let L be add-associative right_zeroed right_complementable well-unital
+         distributive non empty doubleLoopStr;
+cluster Polynom-Ring L -> well-unital;
+end;
+
+begin :: Constant Polynomials
+
+definition
+let R be add-associative right_zeroed right_complementable
+         distributive non empty doubleLoopStr;
+let x be Element of the carrier of Polynom-Ring R;
+attr x is constant means
+:: RING_4:def 4
+  deg x <= 0;
+end;
+
+registration
+let R be non degenerated Ring;
+cluster non zero constant for Element of Polynom-Ring R;
+cluster non zero constant for Element of the carrier of Polynom-Ring R;
+end;
+
+registration
+let R be domRing;
+cluster non constant for Element of Polynom-Ring R;
+cluster non constant for Element of the carrier of Polynom-Ring R;
+end;
+
+definition
+let L be non empty ZeroStr;
+let a be Element of L;
+func a|L -> sequence of L equals
+:: RING_4:def 5
+  0_.(L)+*(0,a);
+end;
+
+registration
+let L be non empty ZeroStr;
+let a be Element of L;
+cluster a|L -> finite-Support;
+end;
+
+registration
+let L be non empty ZeroStr;
+let a be Element of L;
+cluster a|L -> constant;
+end;
+
+registration
+let L be non trivial ZeroStr;
+let a be non zero Element of L;
+cluster a|L -> non zero;
+end;
+
+registration
+let L be non trivial ZeroStr;
+cluster non zero constant for Polynomial of L;
+end;
+
+theorem :: RING_4:13
+for L being non empty ZeroStr holds (0.L)|L = 0_.L;
+
+theorem :: RING_4:14
+for L being non empty multLoopStr_0 holds (1.L)|L = 1_.(L);
+
+registration
+let L be non empty ZeroStr;
+cluster (0.L)|L -> zero;
+end;
+
+registration
+let L be non degenerated multLoopStr_0;
+cluster (1.L)|L -> non zero;
+end;
+
+theorem :: RING_4:15
+for L being add-associative right_zeroed right_complementable
+            distributive non empty doubleLoopStr,
+    p being Element of the carrier of Polynom-Ring L
+holds p is non zero constant iff deg p = 0;
+
+theorem :: RING_4:16
+for L being add-associative right_zeroed right_complementable
+            right-distributive right_unital non empty doubleLoopStr,
+    a being Element of L holds a|L = a * 1_.(L);
+
+theorem :: RING_4:17
+for R being Ring
+for a,b being Element of R holds a|R + b|R = (a + b)|R;
+
+theorem :: RING_4:18
+for R being Ring
+for a,b being Element of R holds (a|R) *' (b|R) = (a * b)|R;
+
+theorem :: RING_4:19
+for R being Ring
+for a,b being Element of R holds a|R = b|R iff a = b;
+
+theorem :: RING_4:20
+for R being Ring
+for p being Element of the carrier of Polynom-Ring R
+holds p is constant iff ex a being Element of R st p = a|R;
+
+theorem :: RING_4:21
+for R being Ring,
+    a being Element of R holds deg(a|R) = 0 iff a <> 0.R;
+
+begin :: Monic Polynomials
+
+notation
+let L be non empty doubleLoopStr;
+let p be Polynomial of L;
+synonym p is monic for p is normalized;
+end;
+
+registration
+let L be non degenerated doubleLoopStr;
+cluster 1_.(L) -> monic;
+cluster 0_.(L) -> non monic;
+end;
+
+registration
+let L be non degenerated doubleLoopStr;
+cluster monic for Polynomial of L;
+cluster non monic for Polynomial of L;
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable distributive
+         non degenerated doubleLoopStr;
+cluster monic for Element of the carrier of Polynom-Ring L;
+cluster non monic for Element of the carrier of Polynom-Ring L;
+end;
+
+registration
+let L be well-unital non degenerated doubleLoopStr;
+let x be Element of L;
+cluster rpoly(1,x) -> monic;
+end;
+
+definition
+let L be Field;
+let p be Element of the carrier of Polynom-Ring L;
+redefine func NormPolynomial p -> Element of the carrier of Polynom-Ring L;
+end;
+
+registration
+let F be Field;
+let p be non zero Polynomial of F;
+cluster NormPolynomial p -> monic;
+end;
+
+registration
+let L be Field;
+let p be non zero Element of the carrier of Polynom-Ring L;
+cluster NormPolynomial p -> monic;
+end;
+
+theorem :: RING_4:22
+for F being Field holds NormPolynomial(0_.(F)) = 0_.(F);
+
+theorem :: RING_4:23
+for F being Field,
+    p being non zero Element of the carrier of Polynom-Ring F
+holds NormPolynomial p = (LC p)" * p;
+
+theorem :: RING_4:24
+for F being Field,
+    p being non zero Element of the carrier of Polynom-Ring F
+holds p is monic iff NormPolynomial p = p;
+
+theorem :: RING_4:25
+for F being Field,
+    p,q being Element of the carrier of Polynom-Ring F
+holds q divides p iff NormPolynomial(q) divides p;
+
+theorem :: RING_4:26
+for F being Field,
+    p,q being Element of the carrier of Polynom-Ring F
+holds q divides p iff q divides NormPolynomial(p);
+
+theorem :: RING_4:27
+for F being Field,
+    p being Element of the carrier of Polynom-Ring F
+holds NormPolynomial(p) is_associated_to p;
+
+theorem :: RING_4:28
+for F being Field,
+    p being Element of the carrier of Polynom-Ring F
+holds NormPolynomial(p) is irreducible iff p is irreducible;
+
+theorem :: RING_4:29
+for R being domRing,
+    p,q being Element of the carrier of Polynom-Ring R
+holds p is_associated_to q implies deg p = deg q;
+
+theorem :: RING_4:30
+for R being domRing,
+    p,q being monic Element of the carrier of Polynom-Ring R
+holds p is_associated_to q iff p = q;
+
+begin :: Canonical Homomorphism from R into R[X]
+
+definition
+let R be Ring;
+func canHom R -> Function of R, Polynom-Ring R means
+:: RING_4:def 6
+  for x being Element of R holds it.x = x|R;
+end;
+
+registration
+let R be Ring;
+cluster canHom R -> additive multiplicative unity-preserving;
+end;
+
+registration
+let R be Ring;
+cluster canHom R -> monomorphism;
+end;
+
+registration
+let R be Ring;
+cluster Polynom-Ring R -> R-homomorphic R-monomorphic;
+end;
+
+theorem :: RING_4:31
+for R being Ring holds Char(Polynom-Ring R) = Char R;
+
+registration
+let R be non degenerated Ring;
+cluster Polynom-Ring R -> infinite;
+end;
+
+registration
+cluster -> infinite for 0-characteristic Ring;
+end;
+
+theorem :: RING_4:32
+for R being Ring st Char R = 0 holds R is infinite;
+
+registration
+let n be non trivial Nat;
+cluster Polynom-Ring(Z/n) -> infinite;
+end;
+
+theorem :: RING_4:33
+for n being non trivial Nat holds Char Polynom-Ring(Z/n) <> 0;
+
+registration
+let n be non trivial Nat;
+cluster n-characteristic infinite for Ring;
+end;
+
+begin
+
+registration
+cluster non almost_left_invertible for domRing;
+end;
+
+registration
+let R be non almost_left_invertible domRing;
+cluster non zero for NonUnit of R;
+end;
+
+registration
+cluster INT.Ring -> non almost_left_invertible;
+end;
+
+registration
+let R be domRing;
+cluster Polynom-Ring R -> non almost_left_invertible;
+end;
+
+theorem :: RING_4:34
+for R being domRing holds
+R is Field iff for a being NonUnit of R holds a = 0.R;
+
+theorem :: RING_4:35
+for R being domRing,
+    a being Element of R
+holds a|R is Unit of Polynom-Ring R iff a is Unit of R;
+
+theorem :: RING_4:36
+for F being domRing, p being Element of the carrier of Polynom-Ring F
+holds p is Unit of Polynom-Ring F implies deg p = 0;
+
+theorem :: RING_4:37
+for F being Field, p being Element of the carrier of Polynom-Ring F
+holds p is Unit of Polynom-Ring F iff deg p = 0;
+
+theorem :: RING_4:38
+for R being domRing,
+    p being Element of the carrier of Polynom-Ring R
+holds p is Unit of Polynom-Ring R implies p is non zero constant;
+
+theorem :: RING_4:39
+for F being Field,
+    p being Element of the carrier of Polynom-Ring F
+holds p is Unit of Polynom-Ring F iff p is non zero constant;
+
+registration
+let R be domRing;
+cluster non constant -> non zero non unital for Element of Polynom-Ring R;
+end;
+
+registration
+let F be domRing;
+cluster non constant -> non zero non unital
+                             for Element of the carrier of Polynom-Ring F;
+end;
+
+registration
+let F be Field;
+cluster non zero constant -> unital for Element of Polynom-Ring F;
+cluster unital -> non zero constant for Element of Polynom-Ring F;
+end;
+
+registration
+let F be Field;
+cluster non zero constant -> unital
+                          for Element of the carrier of Polynom-Ring F;
+cluster unital -> non zero constant
+                          for Element of the carrier of Polynom-Ring F;
+end;
+
+theorem :: RING_4:40
+for R being domRing
+for p being Element of the carrier of Polynom-Ring R
+holds (ex q being Element of the carrier of Polynom-Ring R
+                                 st q divides p & 1 <= deg q & deg q < deg p)
+implies p is reducible;
+
+theorem :: RING_4:41
+for F being Field
+for p being Element of the carrier of Polynom-Ring F
+holds p is reducible iff
+      (p = 0_.(F) or p is Unit of Polynom-Ring F or
+       ex q being Element of the carrier of Polynom-Ring F
+                                 st q divides p & 1 <= deg q & deg q < deg p);
+
+theorem :: RING_4:42
+for R being domRing,
+    p being monic Element of the carrier of Polynom-Ring R
+st deg p = 1 holds p is irreducible;
+
+theorem :: RING_4:43
+ex p being non monic Element of the carrier of Polynom-Ring(INT.Ring)
+st deg p = 1 & p is reducible;
+
+theorem :: RING_4:44
+for F being Field,
+    p being Element of the carrier of Polynom-Ring F
+st deg p = 1 holds p is irreducible;
+
+theorem :: RING_4:45
+for F being algebraic-closed Field,
+    p being Element of the carrier of Polynom-Ring F
+holds p is irreducible iff deg p = 1;
+
+theorem :: RING_4:46
+for F being Field holds
+F is algebraic-closed iff
+      for p being monic Element of the carrier of Polynom-Ring F
+      holds p is irreducible iff deg p = 1;
+
+registration
+let R be domRing;
+cluster irreducible for Element of Polynom-Ring R;
+end;
+
+registration
+let R be domRing;
+cluster irreducible for Element of the carrier of Polynom-Ring R;
+end;
+
+registration
+let R be Ring;
+cluster reducible for Element of Polynom-Ring R;
+end;
+
+registration
+let R be Ring;
+cluster reducible for Element of the carrier of Polynom-Ring R;
+end;
+
+registration
+let R be domRing;
+cluster IRR(Polynom-Ring R) -> non empty;
+end;
+
+registration
+let F be Field;
+cluster constant -> reducible for Element of Polynom-Ring F;
+end;
+
+registration
+let F be Field;
+cluster constant -> reducible for Element of the carrier of Polynom-Ring F;
+end;
+
+registration
+let F be Field;
+cluster irreducible -> non constant for Element of Polynom-Ring F;
+end;
+
+registration
+let F be Field;
+cluster irreducible
+               -> non constant for Element of the carrier of Polynom-Ring F;
+end;
+
+begin :: The Field F[X]/<p>
+
+registration
+let F be Field,
+    p be Element of the carrier of Polynom-Ring F;
+cluster (Polynom-Ring F)/({p}-Ideal) ->
+    Abelian add-associative right_zeroed right_complementable
+    commutative associative well-unital distributive;
+end;
+
+registration
+let F be Field,
+    p be irreducible Element of the carrier of Polynom-Ring F;
+cluster (Polynom-Ring F)/({p}-Ideal) -> non degenerated almost_left_invertible;
+end;
+
+definition
+let F be Field,
+    p be Polynomial of F;
+func poly_mult_mod p -> BinOp of Polynom-Ring F means
+:: RING_4:def 7
+  for r,q being Polynomial of F holds it.(r,q) = (r *' q) mod p;
+end;
+
+definition
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+func Polynom-Ring(p) -> strict doubleLoopStr means
+:: RING_4:def 8
+  the carrier of it = {q where q is Polynomial of F : deg q < deg p} &
+  the addF of it = (the addF of Polynom-Ring F)||(the carrier of it) &
+  the multF of it = (poly_mult_mod p)||(the carrier of it) &
+  the OneF of it = 1_.(F) &
+  the ZeroF of it = 0_.(F);
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> non degenerated;
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> Abelian
+                             add-associative right_zeroed right_complementable;
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> associative well-unital distributive;
+end;
+
+definition
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+func poly_mod p -> Function of Polynom-Ring F, Polynom-Ring(p) means
+:: RING_4:def 9
+  for q being Polynomial of F holds it.q = q mod p;
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster poly_mod p -> additive multiplicative unity-preserving;
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> (Polynom-Ring F)-homomorphic;
+end;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster poly_mod p -> onto;
+end;
+
+theorem :: RING_4:47
+for F being Field,
+    p being non constant Element of the carrier of Polynom-Ring F
+holds ker(poly_mod p) = {p}-Ideal;
+
+theorem :: RING_4:48
+for F being Field,
+    p being non constant Element of the carrier of Polynom-Ring F
+holds (Polynom-Ring F)/({p}-Ideal), Polynom-Ring(p) are_isomorphic;
+
+registration
+let F be Field,
+    p be non constant Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> commutative;
+end;
+
+registration
+let F be Field,
+    p be irreducible Element of the carrier of Polynom-Ring F;
+cluster Polynom-Ring(p) -> almost_left_invertible;
+end;
+
+begin :: Polynomial GCDs
+
+definition
+let L be non empty multMagma;
+let x,y be Element of L;
+let z be Element of L;
+attr z is x,y-gcd means
+:: RING_4:def 10
+  z divides x & z divides y &
+  for r being Element of L st r divides x & r divides y holds r divides z;
+end;
+
+registration
+let L be gcdDomain;
+let x,y be Element of L;
+cluster x,y-gcd for Element of L;
+end;
+
+definition
+let L be gcdDomain;
+let x,y be Element of L;
+mode a_gcd of x,y is x,y-gcd Element of L;
+end;
+
+theorem :: RING_4:49
+for L being gcdDomain
+for x,y being Element of L
+for u,v being a_gcd of x,y holds u is_associated_to v;
+
+registration
+let L be gcdDomain;
+let x,y be Element of L;
+cluster x,y-gcd -> y,x-gcd for Element of L;
+end;
+
+definition
+let F be Field;
+let p,q be Element of the carrier of Polynom-Ring F;
+func p gcd q -> Element of the carrier of Polynom-Ring F means
+:: RING_4:def 11
+  it = 0_.(F) if p = 0_.(F) & q = 0_.(F)
+  otherwise it is a_gcd of p,q & it is monic;
+end;
+
+definition
+let F be Field;
+let p,q be Element of the carrier of Polynom-Ring F;
+redefine func p gcd q;
+commutativity;
+end;
+
+definition
+let F be Field;
+let p,q be Element of Polynom-Ring F;
+redefine func p gcd q;
+commutativity;
+end;
+
+registration
+let F be Field;
+let p,q be Element of the carrier of Polynom-Ring F;
+cluster p gcd q -> p,q-gcd;
+end;
+
+registration
+let F be Field;
+let p,q be Element of Polynom-Ring F;
+cluster p gcd q -> p,q-gcd;
+end;
+
+registration
+let F be Field;
+let p be Element of the carrier of Polynom-Ring F;
+let q be non zero Element of the carrier of Polynom-Ring F;
+cluster p gcd q -> non zero monic;
+end;
+
+registration
+let F be Field;
+let p be Element of Polynom-Ring F;
+let q be non zero Element of Polynom-Ring F;
+cluster p gcd q -> non zero monic;
+end;
+
+registration
+let F be Field;
+let p,q be zero Element of the carrier of Polynom-Ring F;
+cluster p gcd q -> zero;
+end;
+
+registration
+let F be Field;
+let p,q be zero Element of Polynom-Ring F;
+cluster p gcd q -> zero;
+end;
+
+theorem :: RING_4:50
+for F being Field,
+    p,q being Element of the carrier of Polynom-Ring F
+holds (p gcd q) divides p & (p gcd q) divides q &
+      for r being Element of the carrier of Polynom-Ring F
+      st r divides p & r divides q holds r divides (p gcd q);
+
+theorem :: RING_4:51
+for F being Field,
+    p,q being Element of Polynom-Ring F
+holds (p gcd q) divides p & (p gcd q) divides q &
+      for r being Element of Polynom-Ring F
+      st r divides p & r divides q holds r divides (p gcd q);
+
+definition
+let F be Field;
+let p,q be Polynomial of F;
+func p gcd q -> Polynomial of F means
+:: RING_4:def 12
+  ex a,b being Element of Polynom-Ring F st a = p & b = q & it = a gcd b;
+end;
+
+definition
+let F be Field;
+let p,q be Polynomial of F;
+redefine func p gcd q;
+commutativity;
+end;
+
+registration
+let F be Field;
+let p be Polynomial of F;
+let q be non zero Polynomial of F;
+cluster p gcd q -> non zero monic;
+end;
+
+registration
+let F be Field;
+let p,q be zero Polynomial of F;
+cluster p gcd q -> zero;
+end;
+
+theorem :: RING_4:52
+for F being Field,
+    p,q being Polynomial of F
+holds (p gcd q) divides p & (p gcd q) divides q &
+      for r being Polynomial of F
+      st r divides p & r divides q holds r divides (p gcd q);
+
+theorem :: RING_4:53
+for F being Field
+for p being Polynomial of F
+for q being non zero Polynomial of F
+for s being monic Polynomial of F
+holds s = p gcd q iff
+      (s divides p & s divides q &
+       for r being Polynomial of F st r divides p & r divides q
+       holds r divides s);
+

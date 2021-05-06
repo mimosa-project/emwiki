@@ -1,0 +1,237 @@
+:: All Liouville Numbers are Transcendental
+::  by Artur Korni{\l}owicz , Adam Naumowicz and Adam Grabowski
+:: 
+:: Received February 23, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, CARD_1, ARYTM_1, TARSKI, ARYTM_3, REAL_1,
+      NAT_1, INT_1, XCMPLX_0, LIOUVIL1, COMPLEX1, NEWTON, IRRAT_1, FUNCT_7,
+      FINSET_1, FUNCT_1, CARD_3, ALGNUM_1, COMPLFLD, XBOOLE_0, POLYNOM1,
+      RELAT_1, VECTSP_1, POLYNOM5, XXREAL_0, FINSEQ_1, GAUSSINT, RATFUNC1,
+      MESFUNC1, SUPINF_2, POLYNOM2, C0SP1, FUNCSDOM, STRUCT_0, POLYNOM3,
+      VALUED_0, INT_3, ALGSEQ_1, GROUP_1, PARTFUN1, CAT_1, ALGSTR_0, MSAFREE2,
+      XXREAL_1, ORDINAL2, XXREAL_2, FDIFF_1, MEASURE5, ORDINAL4, FINSEQ_2,
+      BINOP_2, SETWISEO, WAYBEL_8;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FINSET_1, RELAT_1, FUNCT_1, RELSET_1,
+      PARTFUN1, FINSEQ_1, NUMBERS, XCMPLX_0, COMPLEX1, XREAL_0, NAT_1, NAT_D,
+      FINSEQ_2, BINOP_2, SETWOP_2, XXREAL_0, XXREAL_2, RCOMP_1, VALUED_0,
+      VALUED_1, INT_1, NEWTON, RAT_1, COMSEQ_2, MEASURE5, IRRAT_1, FCONT_1,
+      FDIFF_1, RVSUM_1, STRUCT_0, ALGSTR_0, GROUP_1, GROUP_4, VECTSP_1, C0SP1,
+      INT_3, COMPLFLD, GAUSSINT, ALGSEQ_1, POLYNOM3, POLYNOM4, POLYNOM5,
+      UPROOTS, RATFUNC1, RING_4, ALGNUM_1, POLYDIFF, FVSUM_1, LIOUVIL1;
+ constructors NEWTON, ALGNUM_1, ALGSEQ_1, C0SP1, POLYNOM4, FUNCT_7, TOPMETR,
+      EC_PF_1, BINOP_2, NAT_D, RATFUNC1, RCOMP_1, UPROOTS, GR_CY_1, FVSUM_1,
+      GAUSSINT, REALSET1, POLYDIFF, XXREAL_2, FCONT_1, MEASURE5, COMSEQ_2,
+      GROUP_4, FINSOP_1, ALGSTR_1, LIOUVIL1;
+ registrations XREAL_0, RELAT_1, ORDINAL1, RAT_1, INT_1, XXREAL_0, INT_6,
+      VECTSP_1, POLYNOM3, STRUCT_0, MEMBERED, RELSET_1, POLYNOM5, RING_4,
+      XCMPLX_0, NUMBERS, XBOOLE_0, NAT_1, VALUED_0, RATFUNC1, FINSEQ_1, NEWTON,
+      FINSEQ_2, WSIERP_1, ABSVALUE, NIVEN, COMPLFLD, ALGSTR_1, POLYNOM4,
+      GAUSSINT, INT_3, SUBSET_1, NEWTON04, UPROOTS, POLYDIFF, XXREAL_1,
+      XXREAL_2, FINSET_1, FCONT_1, COMPLEX1, RCOMP_1, IDEAL_1, RFUNCT_1,
+      PREPOWER, LIOUVIL1, ALGNUM_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve m,n for Nat;
+reserve r for Real;
+reserve c for Element of F_Complex;
+
+registration
+  let f be non empty complex-valued Function;
+  cluster |. f .| -> non empty;
+end;
+
+theorem :: LIOUVIL2:1
+  2 <= m implies for A being Real
+  ex n being positive Nat st A <= m|^n;
+
+theorem :: LIOUVIL2:2
+  for A being positive Real
+  ex n being positive Nat st 1/(2|^n) <= A;
+
+registration
+  let r,n;
+  cluster [.r-n,r+n.] -> right_end;
+end;
+
+registration
+  let a,b be Real;
+  cluster [.a,b.] -> closed_interval for Subset of REAL;
+end;
+
+registration
+  cluster irrational for Element of F_Real;
+end;
+
+theorem :: LIOUVIL2:3
+  F_Real is Subring of F_Complex;
+
+theorem :: LIOUVIL2:4
+  F_Rat is Subring of F_Real;
+
+theorem :: LIOUVIL2:5
+  INT.Ring is Subring of F_Real;
+
+theorem :: LIOUVIL2:6
+  for R being Ring, S being Subring of R
+  for x being Element of S holds x is Element of R;
+
+theorem :: LIOUVIL2:7
+  for R being Ring, S being Subring of R
+  for f being Polynomial of S holds
+  f is Polynomial of R;
+
+theorem :: LIOUVIL2:8
+  for R being Ring, S being Subring of R
+  for f being Polynomial of S
+  for g being Polynomial of R st f = g
+  holds len f = len g;
+
+theorem :: LIOUVIL2:9
+  for R being Ring, S being Subring of R
+  for f being Polynomial of S
+  for g being Polynomial of R st f = g holds
+  LC f = LC g;
+
+theorem :: LIOUVIL2:10
+  for R being non degenerated Ring, S being Subring of R
+  for f being Polynomial of S
+  for g being monic Polynomial of R st f = g holds
+  f is monic;
+
+registration
+  let R be non degenerated Ring;
+  cluster -> non degenerated for Subring of R;
+  cluster non degenerated for Subring of R;
+end;
+
+theorem :: LIOUVIL2:11
+  for R being non degenerated Ring, S being non degenerated Subring of R
+  for f being monic Polynomial of S
+  for g being Polynomial of R st f = g holds
+  g is monic;
+
+theorem :: LIOUVIL2:12
+  for R being non degenerated Ring, S being Subring of R
+  for f being Polynomial of S
+  for g being non-zero Polynomial of R st f = g holds
+  f is non-zero;
+
+theorem :: LIOUVIL2:13
+  for R being non degenerated Ring, S being Subring of R
+  for f being non-zero Polynomial of S
+  for g being Polynomial of R st f = g holds
+  g is non-zero;
+
+theorem :: LIOUVIL2:14
+  for R,T being Ring, S being Subring of R
+  for f being Polynomial of S
+  for g being Polynomial of R st f = g
+  for a being Element of R
+  holds Ext_eval(f,In(a,T)) = Ext_eval(g,In(a,T));
+
+theorem :: LIOUVIL2:15
+  for R being Ring, S being Subring of R
+  for f being Polynomial of S
+  for r being Element of R, s being Element of S st r = s
+  holds Ext_eval(f,r) = Ext_eval(f,s);
+
+theorem :: LIOUVIL2:16
+  for R being Ring, S being Subring of R
+  for r being Element of R, s being Element of S
+  st r = s & s is_integral_over S holds r is_integral_over R;
+
+theorem :: LIOUVIL2:17
+  for R being Ring, S being Subring of R
+  for r being Element of R, s being Element of S
+  for f being Polynomial of R, g being Polynomial of S
+  st r = s & f = g & r is_a_root_of f holds s is_a_root_of g;
+
+theorem :: LIOUVIL2:18
+  for R being Ring holds R is Subring of R;
+
+registration
+  cluster 0_.F_Complex -> INT -valued;
+  cluster 1_.F_Complex -> INT -valued;
+end;
+
+registration
+  let L be non degenerated non empty doubleLoopStr;
+  cluster monic -> non-zero for Polynomial of L;
+end;
+
+registration
+  cluster monic INT -valued for Polynomial of F_Complex;
+  cluster monic RAT-valued for Polynomial of F_Complex;
+  cluster monic REAL-valued for Polynomial of F_Complex;
+end;
+
+theorem :: LIOUVIL2:19
+  for f being INT -valued Polynomial of F_Complex holds
+  f is Polynomial of INT.Ring;
+
+theorem :: LIOUVIL2:20
+  for f being RAT-valued Polynomial of F_Complex holds
+  f is Polynomial of F_Rat;
+
+theorem :: LIOUVIL2:21
+  for f being REAL-valued Polynomial of F_Complex holds
+  f is Polynomial of F_Real;
+
+registration
+  let L be non empty ZeroStr;
+  cluster non-zero -> non zero for Polynomial of L;
+  cluster zero -> non non-zero for Polynomial of L;
+end;
+
+theorem :: LIOUVIL2:22
+  for i being Integer
+  for f being INT -valued FinSequence st i in rng f holds i divides Product f;
+
+theorem :: LIOUVIL2:23
+  (ex f being non-zero INT -valued Polynomial of F_Complex st c is_a_root_of f)
+  iff
+  (ex f being monic RAT-valued Polynomial of F_Complex st c is_a_root_of f);
+
+theorem :: LIOUVIL2:24
+  c is algebraic iff
+  ex f being monic RAT-valued Polynomial of F_Complex st c is_a_root_of f;
+
+theorem :: LIOUVIL2:25
+  c is algebraic iff
+  ex f being non-zero INT -valued Polynomial of F_Complex st c is_a_root_of f;
+
+theorem :: LIOUVIL2:26
+  c is algebraic_integer iff
+  ex f being monic INT -valued Polynomial of F_Complex st c is_a_root_of f;
+
+registration
+  cluster algebraic_integer -> algebraic for Complex;
+  cluster transcendental -> non algebraic_integer for Complex;
+end;
+
+::$N Liouville's theorem on diophantine approximation
+theorem :: LIOUVIL2:27
+  for f being non-zero INT -valued Polynomial of F_Real
+  for a being irrational Element of F_Real st a is_a_root_of f
+  ex A being positive Real st
+  for p being Integer, q being positive Nat holds
+  |. a-p/q .| > A/(q|^len f);
+
+::$N All Liouville numbers are transcendental
+registration
+  cluster -> transcendental for Liouville;
+end;

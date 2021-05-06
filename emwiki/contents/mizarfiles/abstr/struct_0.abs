@@ -1,0 +1,556 @@
+:: Preliminaries to Structures
+::  by Library Committee
+::
+:: Received January 6, 1995
+:: Copyright (c) 1995-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, SUBSET_1, SETFAM_1, FUNCT_1, FINSEQ_1, PBOOLE, RELAT_1,
+      NAT_1, PARTFUN1, SUPINF_2, MESFUNC1, ZFMISC_1, CARD_1, FINSET_1,
+      XCMPLX_0, FUNCT_7, FUNCOP_1, VALUED_0, BINOP_1, STRUCT_0, ORDINAL1,
+      MSUALG_6;
+ notations TARSKI, XBOOLE_0, SUBSET_1, DOMAIN_1, SETFAM_1, FINSET_1, ORDINAL1,
+      CARD_1, RELAT_1, XCMPLX_0, RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, NAT_1,
+      FINSEQ_1, FUNCOP_1, ZFMISC_1, PBOOLE, FUNCT_7;
+ constructors PARTFUN1, PBOOLE, ZFMISC_1, FUNCT_7, SETFAM_1, RELSET_1,
+      XCMPLX_0, DOMAIN_1;
+ registrations XBOOLE_0, FUNCT_1, FUNCT_2, ZFMISC_1, ORDINAL1, CARD_1,
+      FINSET_1, RELSET_1;
+ requirements BOOLE, SUBSET, NUMERALS;
+
+
+begin
+
+definition
+  struct 1-sorted(# carrier -> set #);
+end;
+
+definition
+  let S be 1-sorted;
+  attr S is empty means
+:: STRUCT_0:def 1
+
+  the carrier of S is empty;
+end;
+
+registration
+  cluster strict empty for 1-sorted;
+end;
+
+registration
+  cluster strict non empty for 1-sorted;
+end;
+
+registration
+  let S be empty 1-sorted;
+  cluster the carrier of S -> empty;
+end;
+
+registration
+  let S be non empty 1-sorted;
+  cluster the carrier of S -> non empty;
+end;
+
+definition
+  let S be 1-sorted;
+  mode Element of S is Element of the carrier of S;
+  mode Subset of S is Subset of the carrier of S;
+  mode Subset-Family of S is Subset-Family of the carrier of S;
+end;
+
+:: Added by AK on 2005.09.22
+:: Moved from ALG_1, GROUP_6, PRE_TOPC, POLYNOM1
+
+definition
+  let S be 1-sorted, X be set;
+  mode Function of S,X is Function of the carrier of S, X;
+  mode Function of X,S is Function of X, the carrier of S;
+end;
+
+definition
+  let S, T be 1-sorted;
+  mode Function of S,T is Function of the carrier of S, the carrier of T;
+end;
+
+:: from PRE_TOPC, 2006.12.02, AT
+
+definition
+  let T be 1-sorted;
+  func {}T -> Subset of T equals
+:: STRUCT_0:def 2
+  {};
+  func [#]T -> Subset of T equals
+:: STRUCT_0:def 3
+  the carrier of T;
+end;
+
+registration
+  let T be 1-sorted;
+  cluster {}T -> empty;
+end;
+
+registration
+  let T be empty 1-sorted;
+  cluster [#]T -> empty;
+end;
+
+registration
+  let T be non empty 1-sorted;
+  cluster [#]T -> non empty;
+end;
+
+registration
+  let S be non empty 1-sorted;
+  cluster non empty for Subset of S;
+end;
+
+::Moved from TOPREAL1 on 2005.09.22
+
+definition
+  let S be 1-sorted;
+  mode FinSequence of S is FinSequence of the carrier of S;
+end;
+
+::Moved from YELLOW18, AK, 21.02.2006
+
+definition
+  let S be 1-sorted;
+  mode ManySortedSet of S is ManySortedSet of the carrier of S;
+end;
+
+::Moved from GRCAT_1, AK, 16.01.2007
+
+definition
+  let S be 1-sorted;
+  func id S -> Function of S,S equals
+:: STRUCT_0:def 4
+  id the carrier of S;
+end;
+
+::Moved from NORMSP_1, AK, 14.02.2007
+
+definition
+  let S be 1-sorted;
+  mode sequence of S is sequence of the carrier of S;
+end;
+
+::Moved from NFCONT_1, AK, 14.02.2007
+
+definition
+  let S be 1-sorted, X be set;
+  mode PartFunc of S,X is PartFunc of the carrier of S, X;
+  mode PartFunc of X,S is PartFunc of X, the carrier of S;
+end;
+
+definition
+  let S,T be 1-sorted;
+  mode PartFunc of S,T is PartFunc of the carrier of S,the carrier of T;
+end;
+
+::Moved from RLVECT_1, 2007.02.19, A.T.
+
+definition
+  let S be 1-sorted;
+  let x be object;
+  pred x in S means
+:: STRUCT_0:def 5
+  x in the carrier of S;
+end;
+
+:: Pointed structures
+
+definition
+  struct (1-sorted) ZeroStr
+  (# carrier -> set, ZeroF -> Element of the carrier #);
+end;
+
+registration
+  cluster strict non empty for ZeroStr;
+end;
+
+definition
+  struct (1-sorted) OneStr(# carrier -> set, OneF -> Element of the carrier #);
+end;
+
+definition
+  struct (ZeroStr,OneStr) ZeroOneStr(# carrier -> set, ZeroF -> Element of the
+    carrier, OneF -> Element of the carrier #);
+end;
+
+definition
+  let S be ZeroStr;
+  func 0.S -> Element of S equals
+:: STRUCT_0:def 6
+  the ZeroF of S;
+end;
+
+definition
+  let S be OneStr;
+  func 1.S -> Element of S equals
+:: STRUCT_0:def 7
+  the OneF of S;
+end;
+
+definition
+  let S be ZeroOneStr;
+  attr S is degenerated means
+:: STRUCT_0:def 8
+
+  0.S = 1.S;
+end;
+
+definition
+  let IT be 1-sorted;
+  attr IT is trivial means
+:: STRUCT_0:def 9
+
+  the carrier of IT is trivial;
+end;
+
+registration
+  cluster empty -> trivial for 1-sorted;
+  cluster non trivial -> non empty for 1-sorted;
+end;
+
+definition
+  let S be 1-sorted;
+  redefine attr S is trivial means
+:: STRUCT_0:def 10
+
+  for x,y being Element of S holds x = y;
+end;
+
+registration
+  cluster non degenerated -> non trivial for ZeroOneStr;
+end;
+
+registration
+  cluster trivial non empty strict for 1-sorted;
+  cluster non trivial strict for 1-sorted;
+end;
+
+registration
+  let S be non trivial 1-sorted;
+  cluster the carrier of S -> non trivial;
+end;
+
+registration
+  let S be trivial 1-sorted;
+  cluster the carrier of S -> trivial;
+end;
+
+begin :: Finite 1-sorted Structures
+
+definition
+  let S be 1-sorted;
+  attr S is finite means
+:: STRUCT_0:def 11
+
+  the carrier of S is finite;
+end;
+
+registration
+  cluster strict finite non empty for 1-sorted;
+end;
+
+registration
+  let S be finite 1-sorted;
+  cluster the carrier of S -> finite;
+end;
+
+registration
+  cluster -> finite for empty 1-sorted;
+end;
+
+notation
+  let S be 1-sorted;
+  antonym S is infinite for S is finite;
+end;
+
+registration
+  cluster strict infinite for 1-sorted;
+end;
+
+registration
+  let S be infinite 1-sorted;
+  cluster the carrier of S -> infinite;
+end;
+
+registration
+  cluster -> non empty for infinite 1-sorted;
+end;
+
+:: from YELLOW_13, 2007.04.12, A.T.
+
+registration
+  cluster trivial -> finite for 1-sorted;
+end;
+
+registration
+  cluster infinite -> non trivial for 1-sorted;
+end;
+
+definition
+  let S be ZeroStr, x be Element of S;
+  attr x is zero means
+:: STRUCT_0:def 12
+  x = 0.S;
+end;
+
+registration
+  let S be ZeroStr;
+  cluster 0.S -> zero;
+end;
+
+registration
+  cluster strict non degenerated for ZeroOneStr;
+end;
+
+registration
+  let S be non degenerated ZeroOneStr;
+  cluster 1.S -> non zero;
+end;
+
+definition
+  let S be 1-sorted;
+  mode Cover of S is Cover of the carrier of S;
+end;
+
+:: from RING_1, 2008.06.19, A.T. (needed in TEX_2)
+
+registration
+  let S be 1-sorted;
+  cluster [#]S -> non proper;
+end;
+
+begin :: 2-sorted structures, 2008.07.02, A.T.
+
+definition
+  struct(1-sorted) 2-sorted(#carrier,carrier' -> set#);
+end;
+
+definition
+  let S be 2-sorted;
+  attr S is void means
+:: STRUCT_0:def 13
+
+  the carrier' of S is empty;
+end;
+
+registration
+  cluster strict empty void for 2-sorted;
+end;
+
+registration
+  let S be void 2-sorted;
+  cluster the carrier' of S -> empty;
+end;
+
+registration
+  cluster strict non empty non void for 2-sorted;
+end;
+
+registration
+  let S be non void 2-sorted;
+  cluster the carrier' of S -> non empty;
+end;
+
+:: from BORSUK_1, 2008.07.07, A.T.
+
+definition
+  let X be 1-sorted, Y be non empty 1-sorted, y be Element of Y;
+  func X --> y -> Function of X,Y equals
+:: STRUCT_0:def 14
+  (the carrier of X) --> y;
+end;
+
+registration
+  let S be ZeroStr;
+  cluster zero for Element of S;
+end;
+
+registration
+  cluster strict non trivial for ZeroStr;
+end;
+
+registration
+  let S be non trivial ZeroStr;
+  cluster non zero for Element of S;
+end;
+
+:: comp. NDIFF_1, 2008.08.29, A.T.
+
+definition
+
+  let X be set, S be ZeroStr, R be Relation of X, the carrier of S;
+  attr R is non-zero means
+:: STRUCT_0:def 15
+  not 0.S in rng R;
+end;
+
+:: 2008.10.12, A.T.
+
+definition
+  let S be 1-sorted;
+  func card S -> Cardinal equals
+:: STRUCT_0:def 16
+  card the carrier of S;
+end;
+
+:: 2009.01.11, A.K.
+
+definition
+  let S be 1-sorted;
+  mode UnOp of S is UnOp of the carrier of S;
+  mode BinOp of S is BinOp of the carrier of S;
+end;
+
+:: 2009.01.24, A.T.
+
+definition
+  let S be ZeroStr;
+  func NonZero S -> Subset of S equals
+:: STRUCT_0:def 17
+  [#]S \ {0.S};
+end;
+
+theorem :: STRUCT_0:1
+  for S being non empty ZeroStr for u being Element of S holds u in
+  NonZero S iff u is not zero;
+
+definition
+  let V be non empty ZeroStr;
+  redefine attr V is trivial means
+:: STRUCT_0:def 18
+
+  for u being Element of V holds u = 0.V;
+end;
+
+registration
+  let V be non trivial ZeroStr;
+  cluster NonZero V -> non empty;
+end;
+
+registration
+ cluster trivial non empty for ZeroStr;
+end;
+
+registration
+  let S be trivial non empty ZeroStr;
+  cluster NonZero S -> empty;
+end;
+
+registration
+  let S be non empty 1-sorted;
+  cluster non empty trivial for Subset of S;
+end;
+
+theorem :: STRUCT_0:2
+  for F being non degenerated ZeroOneStr holds 1.F in NonZero F;
+
+:: 2011.03.01, A.T.
+
+registration
+ let S be finite 1-sorted;
+ cluster card S -> natural;
+end;
+
+registration
+ let S be finite non empty 1-sorted;
+ cluster card S -> non zero for Nat;
+end;
+
+registration
+  let T be non trivial 1-sorted;
+  cluster non trivial for Subset of T;
+end;
+
+:: 2011.04.05, A.T.
+
+theorem :: STRUCT_0:3 :: COMPOS_1:56
+ for S being ZeroStr holds not 0.S in NonZero S;
+
+theorem :: STRUCT_0:4 :: COMPOS_1:160
+ for S being non empty ZeroStr
+  holds the carrier of S = {0.S} \/ NonZero S;
+
+:: 2011.05.02, A.T.
+
+definition let C be set, X be 1-sorted;
+ attr X is C-element means
+:: STRUCT_0:def 19
+ the carrier of X is C-element;
+end;
+
+registration let C be Cardinal;
+ cluster C-element for 1-sorted;
+end;
+
+registration let C be Cardinal, X be C-element 1-sorted;
+ cluster the carrier of X -> C-element;
+end;
+
+registration
+ cluster empty -> 0-element for 1-sorted;
+ cluster 0-element -> empty for 1-sorted;
+ cluster non empty trivial -> 1-element for 1-sorted;
+ cluster 1-element -> non empty trivial for 1-sorted;
+end;
+
+:: Feasibility, 2011.11.15, A.T.
+
+definition let S be 2-sorted;
+ attr S is feasible means
+:: STRUCT_0:def 20
+  the carrier of S is empty implies the carrier' of S is empty;
+end;
+
+registration
+ cluster non empty -> feasible for 2-sorted;
+ cluster void -> feasible for 2-sorted;
+ cluster empty feasible -> void for 2-sorted;
+ cluster non void feasible -> non empty for 2-sorted;
+end;
+
+definition let S be 2-sorted;
+ attr S is trivial' means
+:: STRUCT_0:def 21
+ the carrier' of S is trivial;
+end;
+
+registration
+  cluster strict non empty non void trivial trivial' for 2-sorted;
+end;
+
+registration let S be trivial' 2-sorted;
+ cluster the carrier' of S ->trivial;
+end;
+
+registration
+ cluster non trivial' for 2-sorted;
+end;
+
+registration let S be non trivial' 2-sorted;
+ cluster the carrier' of S -> non trivial;
+end;
+
+registration
+ cluster void -> trivial' for 2-sorted;
+  cluster non trivial -> non empty for 1-sorted;
+end;
+
+definition
+  let x be object, S be 1-sorted;
+  func In(x,S) -> Element of S equals
+:: STRUCT_0:def 22
+  In(x,the carrier of S);
+end;

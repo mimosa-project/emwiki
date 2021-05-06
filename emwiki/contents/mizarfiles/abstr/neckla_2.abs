@@ -1,0 +1,132 @@
+:: The Class of Series-Parallel Graphs, {II}
+::  by Krzysztof Retel
+::
+:: Received May 29, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, CLASSES2, RELAT_1, ZFMISC_1, ORDERS_2, NECKLACE, CARD_1,
+      ARYTM_3, SUBSET_1, XBOOLE_0, TARSKI, XXREAL_0, ORDINAL1, FINSET_1,
+      CLASSES1, STRUCT_0, FUNCT_1, SETFAM_1, NAT_1, CARD_3, NECKLA_2;
+ notations TARSKI, XBOOLE_0, ENUMSET1, SUBSET_1, ZFMISC_1, RELSET_1, PARTIT_2,
+      FINSET_1, CARD_1, ORDINAL1, NUMBERS, CLASSES2, SETFAM_1, CLASSES1,
+      CARD_3, XCMPLX_0, XXREAL_0, NAT_1, RELAT_1, FUNCT_1, FUNCT_2, STRUCT_0,
+      ORDERS_2, NECKLACE;
+ constructors NAT_1, CLASSES2, REALSET2, COH_SP, NECKLACE, RELSET_1, PARTIT_2;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, FINSET_1, XREAL_0,
+      CLASSES2, STRUCT_0, ORDERS_2, CARD_1, CLASSES1, NAT_1;
+ requirements BOOLE, SUBSET, REAL, NUMERALS, ARITHM;
+
+
+begin
+
+reserve U for Universe;
+
+theorem :: NECKLA_2:1
+  for X,Y being set st X in U & Y in U for R being Relation of X,Y holds R in U
+;
+
+theorem :: NECKLA_2:2
+  the InternalRel of Necklace 4 = {[0,1],[1,0],[1,2],[2,1],[2,3],[3 ,2]};
+
+registration
+  let n be Nat;
+  cluster -> finite for Element of Rank n;
+end;
+
+theorem :: NECKLA_2:3
+  for x be set st x in FinSETS holds x is finite;
+
+registration
+  cluster -> finite for Element of FinSETS;
+end;
+
+definition
+  let G be non empty RelStr;
+  attr G is N-free means
+:: NECKLA_2:def 1
+
+  not G embeds Necklace 4;
+end;
+
+registration
+  cluster strict finite N-free for non empty RelStr;
+end;
+
+definition
+  let R,S be RelStr;
+  func union_of(R,S) -> strict RelStr means
+:: NECKLA_2:def 2
+
+  the carrier of it = (the
+carrier of R) \/ (the carrier of S) & the InternalRel of it = (the InternalRel
+  of R) \/ (the InternalRel of S);
+end;
+
+definition
+  let R, S be RelStr;
+  func sum_of(R,S) -> strict RelStr means
+:: NECKLA_2:def 3
+
+  the carrier of it = (the
+carrier of R) \/ (the carrier of S) & the InternalRel of it = (the InternalRel
+of R) \/ (the InternalRel of S) \/ [:the carrier of R, the carrier of S:] \/ [:
+  the carrier of S, the carrier of R:];
+end;
+
+definition
+  func fin_RelStr -> set means
+:: NECKLA_2:def 4
+
+  for X being object holds X in it iff ex R being
+  strict RelStr st X = R & the carrier of R in FinSETS;
+end;
+
+registration
+  cluster fin_RelStr -> non empty;
+end;
+
+definition
+  func fin_RelStr_sp -> Subset of fin_RelStr means
+:: NECKLA_2:def 5
+
+  (for R be strict
+  RelStr st the carrier of R is 1-element & the carrier of R in FinSETS
+holds R in it) & (for H1,H2 be strict RelStr st (the carrier of H1) misses (the
+carrier of H2) & H1 in it & H2 in it holds union_of(H1,H2) in it & sum_of(H1,H2
+  ) in it) & for M be Subset of fin_RelStr st ( (for R be strict RelStr st the
+carrier of R is 1-element & the carrier of R in FinSETS holds R in M) &
+for H1,H2 be strict RelStr st (the carrier of H1) misses (the carrier of H2) &
+H1 in M & H2 in M holds union_of(H1,H2) in M & sum_of(H1,H2) in M ) holds it c=
+  M;
+end;
+
+registration
+  cluster fin_RelStr_sp -> non empty;
+end;
+
+theorem :: NECKLA_2:4
+  for X being set st X in fin_RelStr_sp holds X is finite strict
+  non empty RelStr;
+
+theorem :: NECKLA_2:5
+  for R being RelStr st R in fin_RelStr_sp holds (the carrier of R) in FinSETS;
+
+theorem :: NECKLA_2:6
+  for X being set st X in fin_RelStr_sp
+   holds X is strict 1-element RelStr or
+  ex H1,H2 being strict RelStr st the carrier of H1 misses
+the carrier of H2 & H1 in fin_RelStr_sp & H2 in fin_RelStr_sp & (X = union_of(
+  H1,H2) or X = sum_of(H1,H2) );
+
+theorem :: NECKLA_2:7
+  for R being strict non empty RelStr st R in fin_RelStr_sp holds R is N-free;

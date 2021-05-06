@@ -1,0 +1,1157 @@
+:: Analysis of Algorithms: An Example of a Sort Algorithm
+::  by Grzegorz Bancerek
+::
+:: Received November 9, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies INT_1, AOFA_A00, XBOOLE_0, STRUCT_0, RELAT_1, PBOOLE, MSAFREE4,
+      NAT_1, SUBSET_1, ORDINAL1, MSUALG_1, AOFA_000, ZF_MODEL, FUNCT_1,
+      INCPROJ, FUNCT_2, CARD_1, GRAPHSP, AOFA_I00, QC_LANG1, MSAFREE, AOFA_A01,
+      ARYTM_3, NEWTON, ABCMIZ_1, ZFMISC_1, XREAL_0, MSUALG_3, GROUP_6, REAL_1,
+      MSUALG_2, TARSKI, MARGREL1, XBOOLEAN, PARTFUN1, FINSEQ_1, XXREAL_0,
+      CARD_3, NUMBERS, FUNCT_7, ARYTM_1, PRELAMB, REALSET1, TREES_4, POWER,
+      PROB_2, FUNCT_6, PZFMISC1, ALGSTR_4, ORDINAL4, MEMBERED, FINSET_1,
+      XXREAL_2, AFINSQ_1, EXCHSORT, FUNCT_4, FUNCOP_1, FINSEQ_4, MODELC_3,
+      UNIALG_1, WELLORD1, ORDERS_2, LFUZZY_0, REARRAN1, SETLIM_2, MCART_1,
+      EQUATION, FOMODEL2, TREES_2;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FINSET_1, WELLORD2, MCART_1,
+      RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, MARGREL1, XTUPLE_0, FUNCT_4,
+      FUNCT_6, FUNCT_7, FUNCOP_1, FINSEQ_1, FINSEQ_2, FINSEQ_4, AFINSQ_1,
+      CARD_1, CARD_3, POWER, MEMBERED, STRUCT_0, ORDINAL1, NAT_1, BINOP_1,
+      PBOOLE, TREES_3, TREES_4, PZFMISC1, TREES_2, NUMBERS, XCMPLX_0, XXREAL_0,
+      XREAL_0, XXREAL_2, INT_1, NAT_D, NEWTON, TREES_1, PROB_2, ORDERS_2,
+      WAYBEL_0, LFUZZY_0, UNIALG_1, FREEALG, COMPUT_1, PUA2MSS1, MSUALG_1,
+      MSUALG_2, MSUALG_3, MSAFREE, MSAFREE1, MSUALG_6, MSAFREE3, MSATERM,
+      AOFA_000, EXCHSORT, MSAFREE4, AOFA_A00;
+ constructors XBOOLE_0, AOFA_000, AOFA_A00, SUBSET_1, BINOP_1, ORDINAL1, NAT_1,
+      INSTALG1, MSAFREE3, ZFMISC_1, NEWTON, XCMPLX_0, MSAFREE4, CATALG_1,
+      AUTALG_1, POWER, PUA2MSS1, MSUALG_3, FINSEQ_4, NUMBERS, RELSET_1, REAL_1,
+      MSAFREE1, PZFMISC1, PRALG_2, SQUARE_1, NAT_D, XXREAL_0, XXREAL_2,
+      EXCHSORT, AFINSQ_1, WELLORD2, FUNCT_4, PARTFUN1, COMPUT_1, LFUZZY_0,
+      MEMBERED, WAYBEL_0, MCART_1, MSATERM, TREES_9, TREES_2;
+ registrations AOFA_000, AOFA_A00, ORDINAL1, NUMBERS, PBOOLE, MSUALG_1,
+      INSTALG1, MSAFREE4, FUNCOP_1, RELSET_1, STRUCT_0, INT_1, XREAL_0,
+      MSUALG_2, FUNCT_1, FINSEQ_1, XBOOLEAN, MARGREL1, XBOOLE_0, NAT_1,
+      RELAT_1, MSUALG_9, POWER, MEMBERED, XXREAL_2, EXCHSORT, FINSET_1,
+      AFINSQ_1, CARD_1, UNIALG_1, LFUZZY_0, TREES_3, TREES_2, VALUED_0,
+      XTUPLE_0;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Exponentiation by squaring revisited
+
+theorem :: AOFA_A01:1
+  1 mod 2 = 1 & 2 mod 2 = 0;
+
+theorem :: AOFA_A01:2
+  for S being non empty non void ManySortedSign
+  for A being MSAlgebra over S
+  for B being MSSubAlgebra of A
+  for s being SortSymbol of S
+  for a being set st a in (the Sorts of B).s
+  holds a in (the Sorts of A).s;
+
+theorem :: AOFA_A01:3
+  for I being non empty set, a,b,c being set, i being Element of I
+  holds c in (i-singleton a).b iff b = i & c = a;
+
+theorem :: AOFA_A01:4
+  for I being non empty set, a,b,c,d being set, i,j being Element of I
+  holds c in ((i-singleton a)(\/)(j-singleton d)).b iff
+  b = i & c = a or b = j & c = d;
+
+definition
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let A be non-empty MSAlgebra over S;
+  attr A is integer means
+:: AOFA_A01:def 1
+  ex C being image of A st C is (4,1) integer bool-correct MSAlgebra over S;
+end;
+
+theorem :: AOFA_A01:5
+  for S being non empty non void ManySortedSign
+  for A being non-empty MSAlgebra over S
+  holds Image id the Sorts of A = the MSAlgebra of A;
+
+theorem :: AOFA_A01:6
+  for S being non empty non void ManySortedSign
+  for A being non-empty MSAlgebra over S
+  holds A is image of A;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  cluster integer for non-empty MSAlgebra over S;
+end;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let A be integer non-empty MSAlgebra over S;
+  cluster bool-correct for image of A;
+end;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let A be integer non-empty MSAlgebra over S;
+  cluster (4,1) integer for bool-correct image of A;
+end;
+
+theorem :: AOFA_A01:7
+  for S being non empty non void ManySortedSign
+  for A being non-empty MSAlgebra over S
+  for o being OperSymbol of S, a being set, r being SortSymbol of S
+  st o is_of_type a,r
+  holds Den(o,A) is Function of (the Sorts of A)#.a, (the Sorts of A).r &
+  Args(o,A) = (the Sorts of A)#.a & Result(o,A) = (the Sorts of A).r;
+
+registration
+  let S be bool-correct non empty non void BoolSignature;
+  let A be bool-correct non-empty MSAlgebra over S;
+  cluster -> bool-correct for non-empty MSSubAlgebra of A;
+end;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let A be (4,1) integer bool-correct non-empty MSAlgebra over S;
+  cluster -> (4,1) integer for non-empty MSSubAlgebra of A;
+end;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let X be non-empty ManySortedSet of the carrier of S;
+  cluster Free(S,X) -> integer for non-empty MSAlgebra over S;
+end;
+
+theorem :: AOFA_A01:8
+  for S being non empty non void ManySortedSign
+  for A1,A2,B1 being MSAlgebra over S, B2 being non-empty MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2 &
+  the MSAlgebra of B1 = the MSAlgebra of B2
+  for h1 being ManySortedFunction of A1,B1
+  for h2 being ManySortedFunction of A2,B2 st h1 = h2 &
+  h1 is_epimorphism A1,B1 holds h2 is_epimorphism A2,B2;
+
+registration
+  let S be (4,1) integer bool-correct non empty non void BoolSignature;
+  let X be non-empty ManySortedSet of the carrier of S;
+  cluster vf-free integer for all_vars_including inheriting_operations
+  free_in_itself (X,S)-terms non-empty VarMSAlgebra over S;
+end;
+
+definition
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S;
+  func FreeGen T -> non-empty GeneratorSet of T equals
+:: AOFA_A01:def 2
+FreeGen X;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X0 be countable non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations free_in_itself
+  (X0,S)-terms MSAlgebra over S;
+  cluster FreeGen T -> (Equations(S, T))-free non-empty;
+end;
+
+definition
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S;
+  let G be GeneratorSet of T;
+  attr G is basic means
+:: AOFA_A01:def 3
+FreeGen T c= G;
+  let s be SortSymbol of S;
+  let x be Element of G.s;
+  attr x is pure means
+:: AOFA_A01:def 4
+x in (FreeGen T).s;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S;
+  cluster FreeGen T -> basic;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S;
+  cluster basic for non-empty GeneratorSet of T;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S;
+  let G be basic GeneratorSet of T;
+  let s be SortSymbol of S;
+  cluster pure for Element of G.s;
+end;
+
+theorem :: AOFA_A01:9
+  for S being non empty non void ManySortedSign
+  for X being non-empty ManySortedSet of the carrier of S
+  for T being all_vars_including inheriting_operations (X,S)-terms
+  MSAlgebra over S
+  for G being basic GeneratorSet of T
+  for s being SortSymbol of S
+  for a being set holds a is pure Element of G.s iff a in (FreeGen T).s;
+
+definition
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations free_in_itself (X,S)-terms
+  MSAlgebra over S;
+  let G be GeneratorSystem over S,X,T;
+  attr G is basic means
+:: AOFA_A01:def 5
+the generators of G is basic;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations free_in_itself (X,S)-terms
+  MSAlgebra over S;
+  cluster basic for GeneratorSystem over S,X,T;
+end;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations free_in_itself (X,S)-terms
+  MSAlgebra over S;
+  let G be basic GeneratorSystem over S,X,T;
+  cluster the generators of G -> basic;
+end;
+
+reserve
+  S for (4,1) integer bool-correct non empty non void BoolSignature,
+  X for non-empty ManySortedSet of the carrier of S,
+  T for vf-free integer all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms VarMSAlgebra over S,
+  C for (4,1) integer bool-correct non-empty image of T,
+  G for basic GeneratorSystem over S,X,T,
+  A for IfWhileAlgebra of the generators of G,
+  I for integer SortSymbol of S,
+  x,y,z,m for pure (Element of (the generators of G).I),
+  b for pure (Element of (the generators of G).the bool-sort of S),
+  t,t1,t2 for Element of T,I,
+  P for Algorithm of A,
+  s,s1,s2 for Element of C-States(the generators of G);
+
+definition
+  let S be bool-correct non empty non void BoolSignature;
+  let A be non-empty MSAlgebra over S;
+  func \falseA -> Element of A, the bool-sort of S equals
+:: AOFA_A01:def 6
+\not\trueA;
+end;
+
+reserve
+  f for ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G, b);
+
+theorem :: AOFA_A01:10
+  \falseC = FALSE;
+
+definition
+  let S be bool-correct non empty non void BoolSignature;
+  let X be non-empty ManySortedSet of the carrier of S;
+  let T be all_vars_including inheriting_operations free_in_itself (X,S)-terms
+  MSAlgebra over S;
+  let G be GeneratorSystem over S,X,T;
+  let b be Element of (the generators of G).the bool-sort of S;
+  let C be image of T;
+  let A be preIfWhileAlgebra;
+  let f be ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G, b);
+  let s be Element of C-States(the generators of G);
+  let P be Algorithm of A;
+  redefine func f.(s,P) -> Element of C-States(the generators of G);
+end;
+
+definition
+  let S be non empty non void ManySortedSign;
+  let T be non-empty MSAlgebra over S;
+  let G be non-empty GeneratorSet of T;
+  let s be SortSymbol of S;
+  let x be Element of G.s;
+  func @x -> Element of T,s equals
+:: AOFA_A01:def 7
+x;
+end;
+
+definition
+  let S,X,T,G,A,b,I,t1,t2;
+  func b leq(t1, t2, A) -> Algorithm of A equals
+:: AOFA_A01:def 8
+b:=(leq(t1,t2),A);
+  func b gt(t1, t2, A) -> Algorithm of A equals
+:: AOFA_A01:def 9
+b:=(\not(leq(t1,t2)),A);
+end;
+
+definition
+  let S,X,T,I;
+  func \2(T,I) -> Element of T,I equals
+:: AOFA_A01:def 10
+\1(T,I)+\1(T,I);
+end;
+
+definition
+  let S,X,T,G,A,b,I,t;
+  func t is_odd(b,A) -> Algorithm of A equals
+:: AOFA_A01:def 11
+b gt(t mod \2(T,I),\0(T,I),A);
+  func t is_even(b,A) -> Algorithm of A equals
+:: AOFA_A01:def 12
+b leq(t mod \2(T,I),\0(T,I),A);
+end;
+
+registration
+  let S,X,T,G,C,I,s;
+  let x be Element of (the generators of G).I;
+  cluster s.I.x -> integer;
+end;
+
+registration
+  let S,X,T,G,C,I,s,t;
+  cluster t value_at(C,s) -> integer;
+end;
+
+reserve u for ManySortedFunction of FreeGen T, the Sorts of C;
+
+registration
+  let S,X,T,C,I,u,t;
+  cluster t value_at(C,u) -> integer;
+end;
+
+registration
+  let S,X,T,G,C,s;
+  let t be Element of T, the bool-sort of S;
+  cluster t value_at(C,s) -> boolean;
+end;
+
+registration
+  let S,X,T,C,u;
+  let t be Element of T, the bool-sort of S;
+  cluster t value_at(C,u) -> boolean;
+end;
+
+theorem :: AOFA_A01:11
+  for o being OperSymbol of S st
+  o = In((the connectives of S).1, the carrier' of S)
+  holds o = (the connectives of S).1 &
+  the_arity_of o = {} & the_result_sort_of o = the bool-sort of S;
+
+theorem :: AOFA_A01:12
+  for o being OperSymbol of S st
+  o = In((the connectives of S).2, the carrier' of S)
+  holds o = (the connectives of S).2 &
+  the_arity_of o = <*the bool-sort of S*> &
+  the_result_sort_of o = the bool-sort of S;
+
+theorem :: AOFA_A01:13
+  for o being OperSymbol of S st
+  o = In((the connectives of S).3, the carrier' of S)
+  holds o = (the connectives of S).3 &
+  the_arity_of o = <*the bool-sort of S, the bool-sort of S*> &
+  the_result_sort_of o = the bool-sort of S;
+
+theorem :: AOFA_A01:14
+  for o being OperSymbol of S st
+  o = In((the connectives of S).4, the carrier' of S)
+  holds the_arity_of o = {} & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:15
+  for o being OperSymbol of S st
+  o = In((the connectives of S).5, the carrier' of S)
+  holds the_arity_of o = {} & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:16
+  for o being OperSymbol of S st
+  o = In((the connectives of S).6, the carrier' of S)
+  holds the_arity_of o = <*I*> & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:17
+  for o being OperSymbol of S st
+  o = In((the connectives of S).7, the carrier' of S)
+  holds the_arity_of o = <*I,I*> & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:18
+  for o being OperSymbol of S st
+  o = In((the connectives of S).8, the carrier' of S)
+  holds the_arity_of o = <*I,I*> & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:19
+  for o being OperSymbol of S st
+  o = In((the connectives of S).9, the carrier' of S)
+  holds the_arity_of o = <*I,I*> & the_result_sort_of o = I;
+
+theorem :: AOFA_A01:20
+  for o being OperSymbol of S st
+  o = In((the connectives of S).10, the carrier' of S)
+  holds the_arity_of o = <*I,I*> & the_result_sort_of o = the bool-sort of S;
+
+theorem :: AOFA_A01:21
+  for S being non empty non void ManySortedSign
+  for o being OperSymbol of S st the_arity_of o = {}
+  for A being MSAlgebra over S holds Args(o,A) = {{}};
+
+theorem :: AOFA_A01:22
+  for S being non empty non void ManySortedSign
+  for a being SortSymbol of S
+  for o being OperSymbol of S st the_arity_of o = <*a*>
+  for A being MSAlgebra over S holds
+  Args(o,A) = product <*(the Sorts of A).a*>;
+
+theorem :: AOFA_A01:23
+  for S being non empty non void ManySortedSign
+  for a,b being SortSymbol of S
+  for o being OperSymbol of S st the_arity_of o = <*a,b*>
+  for A being MSAlgebra over S holds
+  Args(o,A) = product <*(the Sorts of A).a, (the Sorts of A).b*>;
+
+theorem :: AOFA_A01:24
+  for S being non empty non void ManySortedSign
+  for a,b,c being SortSymbol of S
+  for o being OperSymbol of S st the_arity_of o = <*a,b,c*>
+  for A being MSAlgebra over S holds
+  Args(o,A) = product <*(the Sorts of A).a, (the Sorts of A).b,
+  (the Sorts of A).c*>;
+
+theorem :: AOFA_A01:25
+  for S being non empty non void ManySortedSign
+  for A,B being non-empty MSAlgebra over S
+  for s being SortSymbol of S
+  for a being Element of A,s
+  for h being ManySortedFunction of A,B
+  for o being OperSymbol of S st the_arity_of o = <*s*>
+  for p being Element of Args(o,A)
+  st p = <*a*> holds h#p = <*h.s.a*>;
+
+theorem :: AOFA_A01:26
+  for S being non empty non void ManySortedSign
+  for A,B being non-empty MSAlgebra over S
+  for s1,s2 being SortSymbol of S
+  for a being Element of A,s1, b being Element of A,s2
+  for h being ManySortedFunction of A,B
+  for o being OperSymbol of S st the_arity_of o = <*s1,s2*>
+  for p being Element of Args(o,A)
+  st p = <*a,b*> holds h#p = <*h.s1.a, h.s2.b*>;
+
+theorem :: AOFA_A01:27
+  for S being non empty non void ManySortedSign
+  for A,B being non-empty MSAlgebra over S
+  for s1,s2,s3 being SortSymbol of S
+  for a being Element of A,s1, b being Element of A,s2, c being Element of A,s3
+  for h being ManySortedFunction of A,B
+  for o being OperSymbol of S st the_arity_of o = <*s1,s2,s3*>
+  for p being Element of Args(o,A)
+  st p = <*a,b,c*> holds h#p = <*h.s1.a,h.s2.b,h.s3.c*>;
+
+theorem :: AOFA_A01:28
+  for h being ManySortedFunction of T,C st h is_homomorphism T,C
+  for a being SortSymbol of S
+  for t being Element of T,a
+  holds t value_at(C,h||FreeGen T) = h.a.t;
+
+theorem :: AOFA_A01:29
+  for h being ManySortedFunction of T,C
+  st h is_homomorphism T,C & s = h||the generators of G
+  for a being SortSymbol of S
+  for t being Element of T,a
+  holds t value_at(C,s) = h.a.t;
+
+theorem :: AOFA_A01:30
+  \trueT value_at(C,s) = TRUE;
+
+theorem :: AOFA_A01:31
+  for t being Element of T, the bool-sort of S holds
+  \nott value_at(C,s) = \not(t value_at(C,s));
+
+theorem :: AOFA_A01:32
+  for a being boolean object
+  for t being Element of T, the bool-sort of S holds
+  \nott value_at(C,s) = 'not' a iff t value_at(C,s) = a;
+
+theorem :: AOFA_A01:33
+  for a being Element of C, the bool-sort of S
+  for x being boolean object holds
+  \nota = 'not' x iff a = x;
+
+theorem :: AOFA_A01:34
+  (\falseT) value_at(C,s) = FALSE;
+
+theorem :: AOFA_A01:35
+  for t1,t2 being Element of T, the bool-sort of S holds
+  t1\andt2 value_at(C,s) = (t1 value_at(C,s))\and(t2 value_at(C,s));
+
+theorem :: AOFA_A01:36
+  \0(T,I) value_at(C,s) = 0;
+
+theorem :: AOFA_A01:37
+  \1(T,I) value_at(C,s) = 1;
+
+theorem :: AOFA_A01:38
+  (-t) value_at(C,s) = -(t value_at(C,s));
+
+theorem :: AOFA_A01:39
+  (t1+t2) value_at(C,s) = (t1 value_at(C,s))+(t2 value_at(C,s));
+
+theorem :: AOFA_A01:40
+  \2(T,I) value_at (C,s) = 2;
+
+theorem :: AOFA_A01:41
+  (t1-t2) value_at(C,s) = (t1 value_at(C,s))-(t2 value_at(C,s));
+
+theorem :: AOFA_A01:42
+  (t1*t2) value_at(C,s) = (t1 value_at(C,s))*(t2 value_at(C,s));
+
+theorem :: AOFA_A01:43
+  (t1 div t2) value_at(C,s) = (t1 value_at(C,s))div(t2 value_at(C,s));
+
+theorem :: AOFA_A01:44
+  (t1 mod t2) value_at(C,s) = (t1 value_at(C,s)) mod (t2 value_at(C,s));
+
+theorem :: AOFA_A01:45
+  leq(t1,t2) value_at(C,s) = leq(t1 value_at(C,s), t2 value_at(C,s));
+
+theorem :: AOFA_A01:46
+  \trueT value_at(C,u) = TRUE;
+
+theorem :: AOFA_A01:47
+  for t being Element of T, the bool-sort of S holds
+  \nott value_at(C,u) = \not(t value_at(C,u));
+
+theorem :: AOFA_A01:48
+  for a being boolean object
+  for t being Element of T, the bool-sort of S holds
+  \nott value_at(C,u) = 'not' a iff t value_at(C,u) = a;
+
+theorem :: AOFA_A01:49
+  (\falseT) value_at(C,u) = FALSE;
+
+theorem :: AOFA_A01:50
+  for t1,t2 being Element of T, the bool-sort of S holds
+  t1\andt2 value_at(C,u) = (t1 value_at(C,u))\and(t2 value_at(C,u));
+
+theorem :: AOFA_A01:51
+  \0(T,I) value_at(C,u) = 0;
+
+theorem :: AOFA_A01:52
+  \1(T,I) value_at(C,u) = 1;
+
+theorem :: AOFA_A01:53
+  (-t) value_at(C,u) = -(t value_at(C,u));
+
+theorem :: AOFA_A01:54
+  (t1+t2) value_at(C,u) = (t1 value_at(C,u))+(t2 value_at(C,u));
+
+theorem :: AOFA_A01:55
+  \2(T,I) value_at (C,u) = 2;
+
+theorem :: AOFA_A01:56
+  (t1-t2) value_at(C,u) = (t1 value_at(C,u))-(t2 value_at(C,u));
+
+theorem :: AOFA_A01:57
+  (t1*t2) value_at(C,u) = (t1 value_at(C,u))*(t2 value_at(C,u));
+
+theorem :: AOFA_A01:58
+  (t1 div t2) value_at(C,u) = (t1 value_at(C,u))div(t2 value_at(C,u));
+
+theorem :: AOFA_A01:59
+  (t1 mod t2) value_at(C,u) = (t1 value_at(C,u)) mod (t2 value_at(C,u));
+
+theorem :: AOFA_A01:60
+  leq(t1,t2) value_at(C,u) = leq(t1 value_at(C,u), t2 value_at(C,u));
+
+theorem :: AOFA_A01:61
+  for a being SortSymbol of S
+  for x being Element of (the generators of G).a holds
+  @x value_at(C,s) = s.a.x;
+
+theorem :: AOFA_A01:62
+  for a being SortSymbol of S
+  for x being pure Element of (the generators of G).a
+  for u being ManySortedFunction of FreeGen T, the Sorts of C holds
+  @x value_at(C,u) = u.a.x;
+
+theorem :: AOFA_A01:63
+  for i,j being Integer, a,b being Element of C,I st a = i & b = j
+  holds a-b = i-j;
+
+theorem :: AOFA_A01:64
+  for i,j being Integer, a,b being Element of C,I st a = i & b = j & j <> 0
+  holds a mod b = i mod j;
+
+theorem :: AOFA_A01:65
+  G is C-supported & f in C-Execution(A,b,\falseC) implies
+  for a being SortSymbol of S, x being pure Element of (the generators of G).a
+  for t being Element of T,a
+  holds
+  f.(s,x:=(t,A)).a.x = t value_at(C,s) &
+  (for z being pure Element of (the generators of G).a st z <> x
+  holds f.(s, x:=(t,A)).a.z = s.a.z) &
+  for b being SortSymbol of S st a <> b holds
+  (for z being pure Element of (the generators of G).b holds
+  f.(s, x:=(t,A)).b.z = s.b.z);
+
+theorem :: AOFA_A01:66
+  G is C-supported & f in C-Execution(A,b,\falseC) implies
+  (t1 value_at(C,s) < t2 value_at(C,s) iff
+  f.(s, b gt(t2,t1,A)) in (\falseC)-States(the generators of G,b)) &
+  (t1 value_at(C,s) <= t2 value_at(C,s) iff
+  f.(s, b leq(t1,t2,A)) in (\falseC)-States(the generators of G,b)) &
+  (for x holds f.(s, b gt(t1,t2,A)).I.x = s.I.x &
+  f.(s, b leq(t1,t2,A)).I.x = s.I.x) &
+  for c being pure Element of (the generators of G).the bool-sort of S
+  st c <> b holds
+  f.(s, b gt(t1,t2,A)).(the bool-sort of S).c = s.(the bool-sort of S).c &
+  f.(s, b leq(t1,t2,A)).(the bool-sort of S).c = s.(the bool-sort of S).c;
+
+registration
+  let i,j be Real;
+  let a,b be boolean object;
+  cluster IFGT(i,j,a,b) -> boolean;
+end;
+
+theorem :: AOFA_A01:67
+  G is C-supported & f in C-Execution(A,b,\falseC) implies
+  f.(s, t is_odd(b,A)).(the bool-sort of S).b = (t value_at(C,s)) mod 2 &
+  f.(s, t is_even(b,A)).(the bool-sort of S).b = ((t value_at(C,s))+1) mod 2 &
+  for z holds f.(s, t is_odd(b,A)).I.z = s.I.z &
+  f.(s, t is_even(b,A)).I.z = s.I.z;
+
+definition
+  let S,X,T,G,A;
+  attr A is elementary means
+:: AOFA_A01:def 13
+  rng the assignments of A c= ElementaryInstructions A;
+end;
+
+theorem :: AOFA_A01:68
+  A is elementary implies
+  for a being SortSymbol of S
+  for x being Element of (the generators of G).a
+  for t being Element of T,a holds
+  x:=(t,A) in ElementaryInstructions A;
+
+registration
+  let S,X,T,G;
+  cluster elementary for strict IfWhileAlgebra of the generators of G;
+end;
+
+registration
+  let S,X,T,G;
+  let A be elementary IfWhileAlgebra of the generators of G;
+  let a be SortSymbol of S;
+  let x be Element of (the generators of G).a;
+  let t be Element of T,a;
+  cluster x:=(t,A) -> absolutely-terminating;
+end;
+
+theorem :: AOFA_A01:69
+  for A being elementary IfWhileAlgebra of the generators of G
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G,b) holds
+  G is C-supported & f in C-Execution(A,b,\falseC) &
+  (ex d being Function st d.x = 1 & d.y = 2 & d.m = 3) implies
+         y:=(\1(T,I),A)\;
+         while(b gt(@m, \0(T,I), A),
+           if-then(@m is_odd(b,A), y:=(@y*@x,A))\;
+           m:=(@m div \2(T,I),A)\; x:=(@x*@x,A))
+  is_terminating_wrt f, {s: s.I.m >= 0};
+
+theorem :: AOFA_A01:70
+  G is C-supported &
+  (ex d being Function st d.b = 0 & d.x = 1 & d.y = 2 & d.m = 3) implies
+  for s being Element of C-States(the generators of G)
+  for n being Nat st n = s.I.m holds
+   f in C-Execution(A,b,\falseC) implies
+   f.(s, y:=(\1(T,I),A)\;
+         while(b gt(@m, \0(T,I), A),
+           if-then(@m is_odd(b,A), y:=(@y*@x,A))\;
+           m:=(@m div \2(T,I),A)\; x:=(@x*@x,A)) ).I.y
+   = (s.I.x)|^n;
+
+begin :: Calculation of maximum
+
+registration
+  let X be non empty set;
+  let f be FinSequence of X^omega;
+  let x be Nat;
+  cluster f.x -> Sequence-like finite Function-like Relation-like;
+end;
+
+registration
+  let X be non empty set;
+  cluster -> Function-yielding for FinSequence of X^omega;
+end;
+
+registration
+  let i be Nat;
+  let f be i-based finite array;
+  let a,x be set;
+  cluster f+*(a,x) -> i-based finite segmental;
+end;
+
+registration
+  let X be non empty set;
+  let f be X-valued Function;
+  let a be set;
+  let x be Element of X;
+  cluster f+*(a,x) -> X-valued;
+end;
+
+scheme :: AOFA_A01:sch 1
+ Sch1{X()->non empty set,
+            j()->Nat,
+            B()->set,
+            F(set,set,set)->set,
+            A(set)->set}:
+  ex f being FinSequence of X()^omega st
+  len f = j() & (f.1 = B() or j() = 0) &
+  for i being Nat st 1 <= i & i < j() holds f.(i+1) = F(f.i,i,A(i))
+  provided
+ for a being 0-based finite array of X()
+  for i being Nat st 1 <= i & i < j()
+  for x being Element of X() holds
+  F(a,i,x) is 0-based finite array of X()
+  and
+ B() is 0-based finite array of X()
+  and
+ for i being Nat st i < j() holds A(i) in X();
+
+theorem :: AOFA_A01:71
+  for S being (11,1,1)-array non empty non void BoolSignature
+  for J,L being set, K being SortSymbol of S
+  st (the connectives of S).11 is_of_type <*J,L*>, K
+  holds J = the_array_sort_of S &
+  for I being integer SortSymbol of S holds the_array_sort_of S <> I;
+
+theorem :: AOFA_A01:72
+  for S being 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature
+  for I being integer SortSymbol of S
+  for A being (4,1) integer (11,1,1)-array bool-correct non-empty
+  MSAlgebra over S
+  for a,b being Element of A,I st a = 0
+  holds init.array(a,b) = {};
+
+theorem :: AOFA_A01:73
+  for S being (11,1,1)-array 11 array-correct bool-correct non empty non void
+  BoolSignature
+  for I being integer SortSymbol of S holds
+  the_array_sort_of S <> I &
+  (the connectives of S).11 is_of_type <*the_array_sort_of S,I*>, I &
+  (the connectives of S).(11+1) is_of_type <*the_array_sort_of S,I,I*>,
+  the_array_sort_of S &
+  (the connectives of S).(11+2) is_of_type <*the_array_sort_of S*>, I &
+  (the connectives of S).(11+3) is_of_type <*I,I*>, the_array_sort_of S;
+
+theorem :: AOFA_A01:74
+  for S being 1-1-connectives (11,1,1)-array 11 array-correct (4,1) integer
+  bool-correct non empty non void BoolSignature
+  for I being integer SortSymbol of S
+  for A being (11,1,1)-array (4,1) integer bool-correct non-empty
+  MSAlgebra over S
+  holds (the Sorts of A).the_array_sort_of S = INT^omega &
+  (for i,j being Element of A,I st i is non negative Integer
+  holds init.array(i,j) = Segm(i)-->j) &
+  for a being Element of (the Sorts of A).the_array_sort_of S
+  holds length(a,I) = card a &
+  for i being Element of A,I
+  for f being Function st f = a & i in dom f
+  holds a.(i) = f.i &
+  for x being Element of A,I holds (a,i)<-x = f+*(i,x);
+
+registration
+  let a be 0-based finite array;
+  cluster len-a -> finite;
+end;
+
+registration
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  let A be (11,1,1)-array (4,1) integer bool-correct non-empty
+  MSAlgebra over S;
+  cluster -> (11,1,1)-array for non-empty MSSubAlgebra of A;
+end;
+
+definition
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  let A be non-empty MSAlgebra over S;
+  attr A is integer-array means
+:: AOFA_A01:def 14
+  ex C being image of A st
+  C is (4,1) integer (11,1,1)-array bool-correct MSAlgebra over S;
+end;
+
+registration
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  let X be non-empty ManySortedSet of the carrier of S;
+  cluster Free(S,X) -> integer-array for non-empty MSAlgebra over S;
+end;
+
+registration
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  cluster integer-array -> integer for non-empty MSAlgebra over S;
+  let X be non-empty ManySortedSet of the carrier of S;
+  cluster vf-free integer-array for all_vars_including inheriting_operations
+  free_in_itself (X,S)-terms non-empty strict
+  VarMSAlgebra over S;
+end;
+
+registration
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  cluster integer-array for non-empty MSAlgebra over S;
+end;
+
+registration
+  let S be 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature;
+  let A be integer-array non-empty MSAlgebra over S;
+  cluster (4,1) integer (11,1,1)-array for bool-correct image of A;
+end;
+
+reserve
+  S for 1-1-connectives (4,1) integer (11,1,1)-array 11 array-correct
+  bool-correct non empty non void BoolSignature,
+  X for non-empty ManySortedSet of the carrier of S,
+  T for vf-free all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms integer-array non-empty VarMSAlgebra over S,
+  C for (11,1,1)-array (4,1) integer bool-correct non-empty image of T,
+  G for basic GeneratorSystem over S,X,T,
+  A for IfWhileAlgebra of the generators of G,
+  I for integer SortSymbol of S,
+  x,y,m,i for pure (Element of (the generators of G).I),
+  M,N for pure (Element of (the generators of G).the_array_sort_of S),
+  b for pure (Element of (the generators of G).the bool-sort of S),
+  s,s1 for (Element of C-States(the generators of G));
+
+registration
+  let S;
+  let A be (11,1,1)-array bool-correct non-empty MSAlgebra over S;
+  cluster -> Relation-like Function-like
+  for Element of (the Sorts of A).the_array_sort_of S;
+end;
+
+registration
+  let S;
+  let A be (11,1,1)-array bool-correct non-empty MSAlgebra over S;
+  cluster -> finite Sequence-like
+  for Element of (the Sorts of A).the_array_sort_of S;
+end;
+
+theorem :: AOFA_A01:75
+  for o being OperSymbol of S st
+  o = In((the connectives of S).11, the carrier' of S)
+  holds the_arity_of o = <*the_array_sort_of S,I*> &
+  the_result_sort_of o = I;
+
+theorem :: AOFA_A01:76
+  for o being OperSymbol of S st
+  o = In((the connectives of S).12, the carrier' of S)
+  holds the_arity_of o = <*the_array_sort_of S,I,I*> &
+  the_result_sort_of o = the_array_sort_of S;
+
+theorem :: AOFA_A01:77
+  for o being OperSymbol of S st
+  o = In((the connectives of S).13, the carrier' of S)
+  holds the_arity_of o = <*the_array_sort_of S*> &
+  the_result_sort_of o = I;
+
+theorem :: AOFA_A01:78
+  for o being OperSymbol of S st
+  o = In((the connectives of S).14, the carrier' of S)
+  holds the_arity_of o = <*I,I*> &
+  the_result_sort_of o = the_array_sort_of S;
+
+theorem :: AOFA_A01:79
+  for t being Element of T, the_array_sort_of S holds
+  for t1 being Element of T, I holds
+  t.(t1) value_at(C,s) = (t value_at(C,s)).(t1 value_at(C,s));
+
+theorem :: AOFA_A01:80
+  for t being Element of T, the_array_sort_of S holds
+  for t1,t2 being Element of T, I holds
+  (t,t1)<-t2 value_at(C,s) =
+  (t value_at(C,s), t1 value_at(C,s))<-(t2 value_at(C,s));
+
+theorem :: AOFA_A01:81
+  for t being Element of T, the_array_sort_of S holds
+  length(t,I) value_at(C,s) = length(t value_at(C,s), I);
+
+theorem :: AOFA_A01:82
+  for t1,t2 being Element of T, I holds
+  init.array(t1,t2) value_at(C,s) =
+  init.array(t1 value_at(C,s), t2 value_at(C,s));
+
+reserve u for ManySortedFunction of FreeGen T, the Sorts of C;
+
+theorem :: AOFA_A01:83
+  for t being Element of T, the_array_sort_of S holds
+  for t1 being Element of T, I holds
+  t.(t1) value_at(C,u) = (t value_at(C,u)).(t1 value_at(C,u));
+
+theorem :: AOFA_A01:84
+  for t being Element of T, the_array_sort_of S holds
+  for t1,t2 being Element of T, I holds
+  (t,t1)<-t2 value_at(C,u) =
+  (t value_at(C,u), t1 value_at(C,u))<-(t2 value_at(C,u));
+
+theorem :: AOFA_A01:85
+  for t being Element of T, the_array_sort_of S holds
+  length(t,I) value_at(C,u) = length(t value_at(C,u), I);
+
+theorem :: AOFA_A01:86
+  for t1,t2 being Element of T, I holds
+  init.array(t1,t2) value_at(C,u) =
+  init.array(t1 value_at(C,u), t2 value_at(C,u));
+
+definition
+  let S,X,T,I;
+  let i be Integer;
+  func ^(i,T,I) -> Element of T,I means
+:: AOFA_A01:def 15
+  ex f being Function of INT, (the Sorts of T).I st
+  it = f.i & f.0 = \0(T,I) &
+  for j being Nat, t being Element of T,I st f.j = t
+  holds f.(j+1) = t+\1(T,I) & f.(-(j+1)) = -(t+\1(T,I));
+end;
+
+theorem :: AOFA_A01:87
+  ^(0,T,I) = \0(T,I);
+
+theorem :: AOFA_A01:88
+  for n being Nat holds ^(n+1,T,I) = ^(n,T,I)+\1(T,I) &
+  ^(-(n+1),T,I) = - ^(n+1,T,I);
+
+theorem :: AOFA_A01:89
+  ^(1,T,I) = \0(T,I)+\1(T,I);
+
+theorem :: AOFA_A01:90
+  for i being Integer holds ^(i,T,I) value_at(C,s) = i;
+
+definition
+  let S,X,T,G,I,M;
+  let i be Integer;
+  func M.(i,I) -> Element of T,I equals
+:: AOFA_A01:def 16
+@M.(^(i,T,I));
+end;
+
+registration
+  let S,X,T,G,C,s,M;
+  cluster s.(the_array_sort_of S).M -> Function-like Relation-like;
+end;
+
+registration
+  let S,X,T,G,C,s,M;
+  cluster s.(the_array_sort_of S).M -> finite Sequence-like INT-valued;
+end;
+
+registration
+  let S,X,T,G,C,s,M;
+  cluster rng (s.(the_array_sort_of S).M) -> finite integer-membered;
+end;
+
+theorem :: AOFA_A01:91
+  for j being Integer st j in dom (s.(the_array_sort_of S).M) &
+  M.(j,I) in (the generators of G).I
+  holds s.(the_array_sort_of S).M.j = s.I.(M.(j,I));
+
+theorem :: AOFA_A01:92
+  for j being Integer st j in dom (s.(the_array_sort_of S).M) &
+  @M.(@i) in (the generators of G).I & j = @i value_at(C,s) holds
+  s.(the_array_sort_of S).M.(@i value_at(C,s)) = s.I.(@M.(@i));
+
+registration
+  let X be non empty set;
+  cluster X^omega -> infinite;
+end;
+
+theorem :: AOFA_A01:93
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G, b) st
+  f in C-Execution(A,b,\falseC) & G is C-supported & i <> m &
+  s.(the_array_sort_of S).M <> {} holds
+  for n being Nat st
+  f.(s, m:=(\0(T,I),A)\;
+        for-do(i:=(\1(T,I),A), b gt(length(@M,I),@i,A), i:=(@i+\1(T,I),A),
+               if-then(b gt(@M.(@i), @M.(@m), A), m:=(@i,A)))).I.m = n
+  for X being non empty finite integer-membered set
+  st X = rng (s.(the_array_sort_of S).M)
+  holds (M.(n,I)) value_at(C,s) = max X;
+
+theorem :: AOFA_A01:94
+  for A being elementary IfWhileAlgebra of the generators of G
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G,b) st
+  f in C-Execution(A,b,\falseC) & G is C-supported
+  for t0,t1 being Element of T,I for J being Algorithm of A
+  for P being set st
+  P is_invariant_wrt i:=(t0,A),f &
+  P is_invariant_wrt b gt(t1,@i,A),f &
+  P is_invariant_wrt i:=(@i+\1(T,I),A),f &
+  P is_invariant_wrt J,f & J is_terminating_wrt f,P &
+  for s holds f.(s,J).I.i = s.I.i & f.(s,b gt(t1,@i,A)).I.i = s.I.i &
+  t1 value_at(C,f.(s, b gt(t1,@i,A))) = t1 value_at(C,s) &
+  t1 value_at(C,f.(s, J\;i:=(@i+\1(T,I),A))) =
+  t1 value_at(C,s)
+  holds
+  for-do(i:=(t0,A),b gt(t1,@i,A),i:=(@i+\1(T,I),A), J) is_terminating_wrt f, P;
+
+theorem :: AOFA_A01:95
+  for A being elementary IfWhileAlgebra of the generators of G
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G,b) holds
+  f in C-Execution(A,b,\falseC) & G is C-supported & i <> m implies
+  m:=(\0(T,I),A)\;
+  for-do(i:=(\1(T,I),A), b gt(length(@M,I),@i,A), i:=(@i+\1(T,I),A),
+         if-then(b gt(@M.(@i), @M.(@m), A), m:=(@i,A)))
+  is_terminating_wrt f, {s: s.(the_array_sort_of S).M <> {}};
+
+begin :: Sorting by exchanging
+
+reserve i1,i2 for pure Element of (the generators of G).I;
+
+definition
+  let S,X,T,G;
+  attr G is integer-array means
+:: AOFA_A01:def 17
+  for I holds
+  the set of all @M.t where t is Element of T,I
+  c= (the generators of G).I &
+  for M for t being Element of T,I
+  for g being Element of G,I st g = @M.t
+  ex x st x nin (vf t).I & supp-var g = x &
+  (supp-term g).(the_array_sort_of S).M = (@M,t)<-@x &
+  for s being SortSymbol of S
+  for y st y in (vf g).s & (s = the_array_sort_of S implies y <> M)
+  holds (supp-term g).s.y = y;
+end;
+
+theorem :: AOFA_A01:96
+  G is integer-array implies
+  for t being Element of T,I holds @M.t in (the generators of G).I;
+
+definition
+  func (#INT,<=#) -> strict real non empty Poset equals
+:: AOFA_A01:def 18
+RealPoset INT;
+end;
+
+definition
+  let S,X,T,G;
+  let A be elementary IfWhileAlgebra of the generators of G;
+  let a be SortSymbol of S;
+  let t1,t2 be Element of T,a such that
+ t1 in (the generators of G).a;
+  func t1:=(t2,A) -> absolutely-terminating Algorithm of A equals
+:: AOFA_A01:def 19
+  (the assignments of A).[t1,t2];
+end;
+
+theorem :: AOFA_A01:97
+  for X being countable non-empty ManySortedSet of the carrier of S
+  for T being vf-free all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms integer-array non-empty VarMSAlgebra over S
+  for G being basic GeneratorSystem over S,X,T
+  for M being pure Element of (the generators of G).the_array_sort_of S
+  for i,x being pure Element of (the generators of G).I holds
+  @M.@i <> x;
+
+registration
+  let S be non empty non void ManySortedSign;
+  let A be disjoint_valued MSAlgebra over S;
+  cluster the Sorts of A -> disjoint_valued;
+end;
+
+definition
+  let S,X;
+  let T be all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms MSAlgebra over S;
+  attr T is array-degenerated means
+:: AOFA_A01:def 20
+  ex I st
+  ex M being Element of (FreeGen T).the_array_sort_of S st
+  ex t being Element of T,I st
+  @M.t <> Sym(In((the connectives of S).11, the carrier' of S),X)-tree<*M,t*>;
+end;
+
+registration
+  let S,X;
+  cluster Free(S,X) -> non array-degenerated;
+end;
+
+registration
+  let S,X;
+  cluster non array-degenerated for all_vars_including inheriting_operations
+  free_in_itself (X,S)-terms MSAlgebra over S;
+end;
+
+theorem :: AOFA_A01:98
+  T is non array-degenerated implies
+  vf (@M.@i) = (I-singleton i) (\/) ((the_array_sort_of S)-singleton M);
+
+theorem :: AOFA_A01:99
+  for A being elementary IfWhileAlgebra of the generators of G
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G, b) st
+  G is integer-array C-supported & f in C-Execution(A,b,\falseC) &
+  X is countable & T is non array-degenerated
+  for t being Element of T,I holds
+  f.(s,@M.@i:=(t,A)) = f.(s,M:=((@M,@i)<-t,A));
+
+registration
+  let S,X,T,G,C,s,b;
+  cluster s.(the bool-sort of S).b -> boolean;
+end;
+
+theorem :: AOFA_A01:100
+  for A being elementary IfWhileAlgebra of the generators of G
+  for f being ExecutionFunction of A, C-States(the generators of G),
+  (\falseC)-States(the generators of G, b) st
+  G is integer-array C-supported & f in C-Execution(A,b,\falseC) &
+  T is non array-degenerated & X is countable
+  for J being Algorithm of A st
+    for s holds f.(s,J).(the_array_sort_of S).M = s.(the_array_sort_of S).M &
+    for D being array of (#INT,<=#) st D = s.(the_array_sort_of S).M holds
+    (D <> {} implies f.(s,J).I.i1 in dom D & f.(s,J).I.i2 in dom D) &
+    (inversions D <> {} implies [f.(s,J).I.i1,f.(s,J).I.i2] in inversions D) &
+    (f.(s,J).(the bool-sort of S).b = TRUE iff inversions D <> {})
+  for D being 0-based finite array of (#INT,<=#)
+  st D = s.(the_array_sort_of S).M & y <> i1 & y <> i2
+  holds
+    f.(s,while(J, y:=(@M.@i1,A)\;@M.@i1:=(@M.@i2,A)\;@M.@i2:=(@y,A))).
+    (the_array_sort_of S).M is ascending permutation of D &
+    (J is absolutely-terminating implies
+    while(J, y:=(@M.@i1,A)\;@M.@i1:=(@M.@i2,A)\;@M.@i2:=(@y,A))
+    is_terminating_wrt f, {s1: s1.(the_array_sort_of S).M <> {}});
+

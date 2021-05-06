@@ -1,0 +1,61 @@
+:: Introducing Spans
+::  by Andrzej Trybulec
+::
+:: Received May 27, 2002
+:: Copyright (c) 2002-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, SPPOL_1, XBOOLE_0, TOPREAL2, EUCLID, JORDAN1H,
+      SPRECT_2, GOBOARD5, FUNCT_1, GOBOARD1, JORDAN8, PARTFUN1, RELAT_1,
+      JORDAN11, ARYTM_1, XXREAL_0, ARYTM_3, FINSEQ_1, GOBRD13, NEWTON, CARD_1,
+      ORDINAL4, PRE_TOPC, PCOMPS_1, MATRIX_1, TREES_1, STRUCT_0, TARSKI,
+      COMPLEX1, NAT_1, TOPREAL1, RLTOPSP1, RFINSEQ, CONNSP_1, TOPS_1, RELAT_2,
+      GOBOARD9, RCOMP_1, METRIC_1, REAL_1, FINSEQ_5, JORDAN2C, JORDAN13,
+      CONVEX1, XXREAL_2;
+ notations TARSKI, GOBOARD5, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS,
+      XCMPLX_0, XXREAL_0, XREAL_0, REAL_1, NAT_1, NAT_D, RELAT_1, FUNCT_1,
+      PARTFUN1, FUNCT_2, COMPLEX1, NEWTON, FINSEQ_1, FINSEQ_2, FINSEQ_4,
+      STRUCT_0, RFINSEQ, MATRIX_0, METRIC_1, PRE_TOPC, TOPS_1, CONNSP_1,
+      PCOMPS_1, RLTOPSP1, EUCLID, TOPREAL1, TOPREAL2, GOBOARD1, SPPOL_1,
+      SPRECT_2, GOBOARD9, JORDAN8, GOBRD13, JORDAN2C, JORDAN1H, JORDAN11;
+ constructors REAL_1, FINSEQ_4, NEWTON, RFINSEQ, NAT_D, TOPS_1, CONNSP_1,
+      TOPREAL4, PSCOMP_1, GOBOARD9, SPRECT_2, JORDAN2C, JORDAN8, JORDAN1H,
+      JORDAN11, RELSET_1, PCOMPS_1, FUNCSDOM, CONVEX1, GOBRD13, JORDAN9,
+      DOMAIN_1;
+ registrations RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, NAT_1, FINSEQ_1, STRUCT_0,
+      EUCLID, TOPREAL2, SPPOL_2, GOBOARD9, SPRECT_2, SPRECT_3, TOPREAL6,
+      JORDAN8, MATRIX_0, JORDAN1A, FINSET_1, SPPOL_1, JORDAN1, JORDAN2C,
+      NEWTON;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Spans
+
+reserve i, j, k, l, m, n, i1, i2, j1, j2 for Nat;
+
+definition
+  let C be non vertical non horizontal non empty being_simple_closed_curve
+  Subset of TOP-REAL 2, n be Nat;
+  assume
+ n is_sufficiently_large_for C;
+  func Span(C,n) -> clockwise_oriented standard non constant
+  special_circular_sequence means
+:: JORDAN13:def 1
+  it is_sequence_on Gauge(C,n) & it/.1 = Gauge(C
+,n)*(X-SpanStart(C,n),Y-SpanStart(C,n)) & it/.2 = Gauge(C,n)*(X-SpanStart(C,n)
+  -'1,Y-SpanStart(C,n)) & for k being Nat st 1 <= k & k+2 <= len it
+holds (front_right_cell(it,k,Gauge(C,n)) misses C & front_left_cell(it,k,Gauge(
+  C,n)) misses C implies it turns_left k,Gauge(C,n)) & (front_right_cell(it,k,
+  Gauge(C,n)) misses C & front_left_cell(it,k,Gauge(C,n)) meets C implies it
+  goes_straight k,Gauge(C,n)) & (front_right_cell(it,k,Gauge(C,n)) meets C
+  implies it turns_right k,Gauge(C,n));
+end;

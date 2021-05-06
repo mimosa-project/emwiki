@@ -1,0 +1,549 @@
+:: Flexary Operations
+::  by Karol P\kak
+::
+:: Received March 26, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ORDINAL1, REAL_1, SUBSET_1, CARD_1, ARYTM_3, TARSKI,
+      RELAT_1, XXREAL_0, XCMPLX_0, ARYTM_1, XBOOLE_0, FINSET_1, FUNCT_1, NAT_1,
+      FUNCOP_1, PARTFUN1, FINSEQ_1, VALUED_0, CARD_3, MEMBERED, RFINSEQ2,
+      AFINSQ_1, NEWTON, PRE_POLY, FOMODEL0, ORDINAL4, ORDINAL2, VALUED_2,
+      GOBRD13, UPROOTS, FUNCT_6, FUNCT_2, FINSEQ_2, XREAL_0, SETWISEO,
+      CLASSES1, FUNCT_4, BINOP_1, BINOP_2, FINSOP_1, POWER, NUMERAL1, ALGSTR_0,
+      MONOID_0, FLEXARY1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS, XCMPLX_0,
+      XREAL_0, MEMBERED, RELAT_1, FUNCT_1, RELSET_1, MONOID_0, PARTFUN1,
+      FUNCT_2, BINOP_1, XXREAL_0, NAT_1, CARD_3, FUNCOP_1, SETWISEO, FINSEQ_2,
+      FINSEQ_1, FINSEQOP, VALUED_0, VALUED_2, SETWOP_2, FINSET_1, RVSUM_1,
+      CLASSES1, XXREAL_2, PRE_POLY, RFINSEQ2, FUNCT_6, NAT_D, MATRIX_0,
+      FUNCT_7, FOMODEL2, WSIERP_1, BINOP_2, NEWTON, POWER, FINSOP_1, AFINSQ_1,
+      AFINSQ_2, NUMERAL1, STRUCT_0, ALGSTR_0;
+ constructors XXREAL_2, PRE_POLY, ABIAN, RFINSEQ2, CLASSES1, MONOID_0, NAT_D,
+      VALUED_2, FOMODEL2, RELSET_1, WSIERP_1, SETWISEO, BINOP_2, FINSEQOP,
+      FINSOP_1, NEWTON, POWER, RECDEF_1, AFINSQ_2, NUMERAL1, JORDAN1H;
+ registrations ORDINAL1, XREAL_0, FUNCT_1, FINSEQ_1, FINSEQ_2, VALUED_0,
+      FUNCT_7, PRE_POLY, NAT_1, INT_6, RVSUM_1, XCMPLX_0, MEMBERED, VALUED_2,
+      FOMODEL0, XBOOLE_0, RELAT_1, FUNCT_2, FUNCOP_1, CARD_1, XXREAL_2,
+      EUCLID_9, FINSET_1, XXREAL_0, NUMBERS, BINOP_2, INT_1, NEWTON, POWER,
+      AFINSQ_1, AFINSQ_2;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin :: Auxiliary Facts about Finite Sequences Concatenation
+
+reserve x,y for object,
+        D,D1,D2 for non empty set,
+        i,j,k,m,n for Nat,
+        f,g for FinSequence of D*,
+        f1 for FinSequence of D1*,
+        f2 for FinSequence of D2*;
+
+theorem :: FLEXARY1:1
+  for F be Function-yielding Function, a be object holds
+     a in Values F
+  iff
+     ex x,y st x in dom F & y in dom (F.x) & a = F.x.y;
+
+theorem :: FLEXARY1:2
+  for D be set, f,g be FinSequence of D* holds
+  Values (f^g) =Values f \/ Values g;
+
+theorem :: FLEXARY1:3
+  D-concatenation "**" (f^g) =
+       (D-concatenation "**" f) ^ (D-concatenation "**" g);
+
+theorem :: FLEXARY1:4
+  rng (D-concatenation "**" f) = Values f;
+
+theorem :: FLEXARY1:5
+  f1 = f2 implies D1-concatenation "**" f1 = D2-concatenation "**" f2;
+
+theorem :: FLEXARY1:6
+  i in dom (D-concatenation "**" f)
+    iff
+  ex n,k st n+1 in dom f & k in dom (f.(n+1)) &
+            i = k + len (D-concatenation "**" (f|n));
+
+theorem :: FLEXARY1:7
+   i in dom (D-concatenation "**" f)
+     implies
+  (D-concatenation "**" f).i = (D-concatenation "**" (f^g)).i &
+  (D-concatenation "**" f).i =
+        (D-concatenation "**" (g^f)).(i+len (D-concatenation "**" g));
+
+theorem :: FLEXARY1:8
+  k in dom (f.(n+1))
+    implies
+  f.(n+1).k = (D-concatenation "**" f).(k + len (D-concatenation "**" (f|n)));
+
+begin :: Flexary Plus
+
+reserve f for complex-valued Function,
+        g,h for complex-valued FinSequence;
+
+definition
+  let k,n;
+  let f,g be complex-valued Function;
+  func (f,k) +...+ (g,n) -> complex number means
+:: FLEXARY1:def 1
+    h.(0+1) = f.(0+k) & ... & h.(n-'k+1) = f.(n-'k+k)
+      implies
+    it = Sum (h | (n-'k+1)) if f = g & k <= n
+                            otherwise it = 0;
+end;
+
+theorem :: FLEXARY1:9
+   k <= n implies ex h st
+       (f,k) +...+ (f,n) = Sum h & len h = n-'k+1 &
+       (h.(0+1) = f.(0+k) & ... & h.(n-'k+1) = f.(n-'k+k));
+
+theorem :: FLEXARY1:10
+  (f,k) +...+ (f,n) <> 0 implies
+     ex i st k <= i & i <=n & i in dom f;
+
+theorem :: FLEXARY1:11
+  (f,k) +...+ (f,k) = f.k;
+
+theorem :: FLEXARY1:12
+  k <= n+1 implies (f,k) +...+ (f,n+1) = (f,k) +...+ (f,n) + f.(n+1);
+
+theorem :: FLEXARY1:13
+  k <= n implies
+   (f,k) +...+ (f,n) = f.k + (f,k+1) +...+ (f,n);
+
+theorem :: FLEXARY1:14
+  k <= m & m <= n implies
+  (f,k) +...+ (f,m) + (f,m+1) +...+ (f,n) = (f,k) +...+ (f,n);
+
+theorem :: FLEXARY1:15
+  k > len h implies (h,k) +...+ (h,n) = 0;
+
+theorem :: FLEXARY1:16
+  n >= len h implies
+     (h,k) +...+ (h,n) = (h,k) +...+ (h,len h);
+
+theorem :: FLEXARY1:17
+  (h,0) +...+ (h,k) = (h,1) +...+ (h,k);
+
+theorem :: FLEXARY1:18
+  (h,1) +...+ (h,len h) = Sum h;
+
+theorem :: FLEXARY1:19
+  (g^h,k)+...+(g^h,n) =
+    (g,k) +...+ (g,n)+ (h,k-'len g)+...+(h,n-'len g);
+
+registration
+  let n,k;
+  let f be real-valued FinSequence;
+  cluster (f,k) +...+ (f,n) -> real;
+end;
+
+registration
+  let n,k;
+  let f be natural-valued FinSequence;
+  cluster (f,k) +...+ (f,n) -> natural;
+end;
+
+definition
+  let n;
+  let f be complex-valued Function;
+  assume  dom f /\ NAT is finite;
+  func (f,n)+... -> complex number means
+:: FLEXARY1:def 2
+    for k st for i st i in dom f holds i <= k holds
+      it = (f,n) +...+ (f,k);
+end;
+
+definition
+  let n,h;
+  redefine func (h,n)+... -> complex number equals
+:: FLEXARY1:def 3
+    (h,n)+...+(h,len h);
+end;
+
+registration
+  let n be Nat;
+  let h be natural-valued FinSequence;
+  cluster (h,n)+... -> natural;
+end;
+
+theorem :: FLEXARY1:20
+  for f be finite complex-valued Function holds
+    f.n + (f,n+1) +... = (f,n) +...;
+
+theorem :: FLEXARY1:21
+  Sum h = (h,1) +...;
+
+theorem :: FLEXARY1:22
+  Sum h = h.1 + (h,2) +...;
+
+scheme :: FLEXARY1:sch 1
+ TT{f,g()->complex-valued FinSequence,
+          a,b()->Nat,
+          n,k()->non zero Nat}:
+  (f(),a())+... = (g(),b())+...
+provided
+ for j holds (f(),a()+j*n())+...+(f(),a()+j*n()+(n()-'1)) =
+                (g(),b()+j*k())+...+(g(),b()+j*k()+(k()-'1));
+
+begin :: Power Function
+
+definition
+  let r be Real;
+  let f be real-valued Function;
+  func r |^ f -> real-valued Function means
+:: FLEXARY1:def 4
+    dom it = dom f & for x st x in dom f holds it.x = r to_power (f.x);
+end;
+
+registration
+  let n be Nat;
+  let f be natural-valued Function;
+  cluster n |^ f -> natural-valued;
+end;
+
+registration
+  let r be Real;
+  let f be real-valued FinSequence;
+  cluster r |^ f -> FinSequence-like;
+  cluster r |^ f -> (len f) -element;
+end;
+
+registration
+  let n be Nat;
+  let f be one-to-one natural-valued Function;
+  cluster (2+n) |^ f -> one-to-one;
+end;
+
+theorem :: FLEXARY1:23
+  for r,s be Real holds
+    r |^ <*s*> = <* r to_power s *>;
+
+theorem :: FLEXARY1:24
+  for r be Real,
+    f,g be real-valued FinSequence holds
+     r |^ (f^g) = (r |^ f) ^ (r |^ g);
+
+theorem :: FLEXARY1:25
+  for f be real-valued Function, g be Function holds
+    (2|^f) * g = 2|^(f * g);
+
+theorem :: FLEXARY1:26
+  for f be increasing natural-valued FinSequence st n > 1 holds
+     (n|^f).1 + (n|^f,2) +... < 2 * n |^ (f.len f);
+
+theorem :: FLEXARY1:27
+  for f1,f2 be increasing natural-valued FinSequence st
+    n > 1 & (n|^f1).1 + (n|^f1,2) +... = (n|^f2).1 + (n|^f2,2) +...
+     holds f1 = f2;
+
+theorem :: FLEXARY1:28
+  for f be natural-valued Function st n>1 holds
+    Coim(n|^f,n|^k) = Coim(f,k);
+
+theorem :: FLEXARY1:29
+  for f1,f2 be natural-valued Function st n>1 holds
+    f1,f2 are_fiberwise_equipotent
+  iff
+    n|^f1,n|^f2 are_fiberwise_equipotent;
+
+theorem :: FLEXARY1:30
+  for f1,f2 be one-to-one natural-valued FinSequence st
+    n > 1 & (n|^f1).1 + (n|^f1,2)+... = (n|^f2).1 + (n|^f2,2)+...
+  holds rng f1 = rng f2;
+
+theorem :: FLEXARY1:31
+  ex f be increasing natural-valued FinSequence st
+   n = (2|^f).1 + (2|^f,2) +...;
+
+begin :: Value-based Function (Re)Organization
+
+definition
+  let o be Function-yielding Function;
+  let x,y be object;
+  func o_(x,y) -> set
+    equals
+:: FLEXARY1:def 5
+o.x.y;
+end;
+
+definition
+  let F be Function-yielding Function;
+  attr F is double-one-to-one means
+:: FLEXARY1:def 6
+    for x1,x2,y1,y2 be object st
+         x1 in dom F & y1 in dom (F.x1) &
+         x2 in dom F & y2 in dom (F.x2) & F_(x1,y1)=F_(x2,y2)
+    holds x1=x2 & y1=y2;
+end;
+
+registration
+  let D be set;
+  cluster empty -> double-one-to-one for FinSequence of D*;
+end;
+
+registration
+  cluster double-one-to-one for Function-yielding Function;
+  let D be set;
+  cluster double-one-to-one for FinSequence of D*;
+end;
+
+registration
+  let F be double-one-to-one Function-yielding Function;
+  let x be object;
+  cluster F.x -> one-to-one;
+end;
+
+registration
+  let F be one-to-one Function;
+  cluster <*F*> -> double-one-to-one;
+end;
+
+theorem :: FLEXARY1:32
+   for f be Function-yielding Function holds
+     f is double-one-to-one iff
+       (for x holds f.x is one-to-one)
+         &
+        for x,y st x<>y holds rng (f.x) misses rng (f.y);
+
+theorem :: FLEXARY1:33
+  for D be set
+    for f1,f2 be double-one-to-one FinSequence of D* st
+      Values f1 misses Values f2
+    holds
+      f1^f2 is double-one-to-one;
+
+definition
+  let D be finite set;
+  mode DoubleReorganization of D -> double-one-to-one FinSequence of D*
+     means
+:: FLEXARY1:def 7
+  Values it = D;
+end;
+
+theorem :: FLEXARY1:34
+  {} is DoubleReorganization of {} & <* {} *> is DoubleReorganization of {};
+
+theorem :: FLEXARY1:35
+  for D be finite set, F be one-to-one onto FinSequence of D holds
+    <*F*> is DoubleReorganization of D;
+
+theorem :: FLEXARY1:36
+  for D1,D2 be finite set st D1 misses D2
+    for o1 be DoubleReorganization of D1,
+        o2 be DoubleReorganization of D2 holds
+    o1^o2 is DoubleReorganization  of D1\/D2;
+
+
+theorem :: FLEXARY1:37
+  for D be finite set,
+      o be DoubleReorganization of D,
+      F be one-to-one FinSequence st
+    i in dom o & rng F /\ D c= rng (o.i)
+  holds
+   o+*(i,F) is DoubleReorganization of rng F \/ (D\rng (o.i));
+
+registration
+  let D be finite set;
+  let n be non zero Nat;
+  cluster n-element for DoubleReorganization of D;
+end;
+
+registration
+  let D be finite natural-membered set;
+  let o be DoubleReorganization of D;
+  let x be object;
+  cluster o.x -> natural-valued;
+end;
+
+theorem :: FLEXARY1:38
+  for F be non empty FinSequence,
+      G be finite Function st rng G c= rng F
+  ex o be len F-element DoubleReorganization of dom G st
+    for n holds
+    (F.n = G.o_(n,1) &...& F.n = G.o_(n,len (o.n)) );
+
+theorem :: FLEXARY1:39
+  for F be non empty FinSequence,
+      G be FinSequence st rng G c= rng F
+  ex o be len F-element DoubleReorganization of dom G st
+    for n holds o.n is increasing &
+    (F.n = G.o_(n,1) &...& F.n = G.o_(n,len (o.n)) );
+
+registration
+  let f be finite Function;
+  let o be DoubleReorganization of dom f;
+  let x be object;
+  cluster f*(o.x) -> FinSequence-like;
+end;
+
+registration
+  cluster complex-functions-valued FinSequence-yielding for FinSequence;
+end;
+
+notation
+  let f be Function-yielding Function, g be Function;
+  synonym g*.f for ^^^ g, f __;
+end;
+
+registration
+  let f be Function-yielding Function,g be Function;
+  cluster g*.f -> Function-yielding;
+end;
+
+registration
+  let g be Function;
+  let f be (dom g)*-valued FinSequence;
+  cluster g*.f -> FinSequence-yielding;
+  let x be object;
+  cluster g*.f.x -> len (f.x) -element;
+end;
+
+registration
+  let f be Function-yielding FinSequence,g be Function;
+  cluster g*.f -> FinSequence-like;
+  cluster g*.f -> len f -element;
+end;
+
+registration
+  let f be Function-yielding Function, g be complex-valued Function;
+  cluster g*.f -> complex-functions-valued;
+end;
+
+registration
+  let f be Function-yielding Function, g be natural-valued Function;
+  cluster g*.f -> natural-functions-valued;
+end;
+
+theorem :: FLEXARY1:40
+   for f be Function-yielding Function, g be Function
+    holds Values(g*.f) =g.:Values f;
+
+theorem :: FLEXARY1:41
+  for f be Function-yielding Function, g be Function holds
+    (g*.f).x = g*(f.x);
+
+theorem :: FLEXARY1:42
+ for f be Function-yielding Function,g be FinSequence, x,y be object
+   holds (g*.f)_(x,y) = g.f_(x,y);
+
+definition
+  let f be complex-functions-valued FinSequence-yielding Function;
+  func Sum f ->  complex-valued Function means
+:: FLEXARY1:def 8
+    dom it = dom f & for x be set holds it.x = Sum (f.x);
+end;
+
+registration
+  let f be complex-functions-valued FinSequence-yielding FinSequence;
+  cluster Sum f -> FinSequence-like;
+  cluster Sum f -> (len f) -element;
+end;
+
+registration
+  let f be natural-functions-valued FinSequence-yielding Function;
+  cluster Sum f -> natural-valued;
+end;
+
+registration
+  let f,g be complex-functions-valued FinSequence;
+  cluster f^g -> complex-functions-valued;
+end;
+
+registration
+  let f,g be ext-real-valued FinSequence;
+  cluster f^g -> ext-real-valued;
+end;
+
+registration
+  let f be complex-functions-valued Function;
+  let X be set;
+  cluster f|X -> complex-functions-valued;
+end;
+
+registration
+  let f be FinSequence-yielding Function;
+  let X be set;
+  cluster f|X -> FinSequence-yielding;
+end;
+
+registration
+  let F be complex-valued Function;
+  cluster <*F*> -> complex-functions-valued;
+end;
+
+theorem :: FLEXARY1:43
+  for f,g be FinSequence st f^g is FinSequence-yielding
+    holds f is FinSequence-yielding & g is FinSequence-yielding;
+
+theorem :: FLEXARY1:44
+  for f,g be FinSequence st f^g is complex-functions-valued holds
+       f is complex-functions-valued
+     & g is complex-functions-valued;
+
+theorem :: FLEXARY1:45
+  for f be complex-valued FinSequence holds
+    Sum <*f*> = <*Sum f*>;
+
+theorem :: FLEXARY1:46
+  for f,g be complex-functions-valued FinSequence-yielding FinSequence holds
+    Sum (f^g) = (Sum f) ^ (Sum g);
+
+theorem :: FLEXARY1:47
+  for f be complex-valued FinSequence,
+      o be DoubleReorganization of dom f holds
+    Sum f = Sum Sum (f*.o);
+
+registration
+  cluster NAT* -> natural-functions-membered;
+  cluster COMPLEX* -> complex-functions-membered;
+end;
+
+theorem :: FLEXARY1:48
+  for f be FinSequence of COMPLEX* holds
+    Sum (COMPLEX-concatenation "**" f) = Sum Sum f;
+
+definition
+  let f be finite Function;
+  mode valued_reorganization of f -> DoubleReorganization of dom f means
+:: FLEXARY1:def 9
+
+  (for n ex x st
+     x = f.it_(n,1) & ... & x = f.it_(n,len (it.n))) &
+  for n1,n2,i1,i2 be Nat st
+    i1 in dom (it.n1) & i2 in dom (it.n2) &
+    f.it_(n1,i1) = f.it_(n2,i2)
+   holds n1 = n2;
+end;
+
+theorem :: FLEXARY1:49
+  for f be finite Function
+    for o be valued_reorganization of f holds
+      rng (f*.o.n) = {} or (rng (f*.o.n) = {f.o_(n,1)} & 1 in dom (o.n));
+
+theorem :: FLEXARY1:50
+   for f be FinSequence
+     for o1,o2 be valued_reorganization of f st
+       rng (f*.o1.i) = rng (f*.o2.i)
+   holds
+     rng (o1.i) = rng (o2.i);
+
+theorem :: FLEXARY1:51
+  for f be FinSequence,
+      g be complex-valued FinSequence
+    for o1,o2 be DoubleReorganization of dom g st
+        o1 is valued_reorganization of f &
+        o2 is valued_reorganization of f & rng (f*.o1.i) = rng (f*.o2.i)
+      holds
+        Sum (g*.o1).i =Sum (g*.o2).i;
+

@@ -1,0 +1,433 @@
+:: Finite Sets
+::  by Agata Darmochwa\l
+::
+:: Received April 6, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FUNCT_1, RELAT_1, ORDINAL1, XBOOLE_0, FUNCOP_1, ORDINAL3,
+      ORDINAL2, TARSKI, SUBSET_1, SETFAM_1, ZFMISC_1, MCART_1, FUNCT_4,
+      FINSET_1, MATROID0, CARD_1;
+ notations TARSKI, XBOOLE_0, ENUMSET1, ZFMISC_1, XTUPLE_0, RELAT_1, FUNCT_1,
+      FUNCOP_1, MCART_1, SETFAM_1, ORDINAL1, ORDINAL2, ORDINAL3, SUBSET_1,
+      DOMAIN_1, RELSET_1, FUNCT_2, FUNCT_3, FUNCT_4;
+ constructors DOMAIN_1, FUNCT_3, FUNCOP_1, ORDINAL3, FUNCT_4, SETFAM_1,
+      RELSET_1, XTUPLE_0;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, ORDINAL2,
+      RELSET_1, FUNCOP_1, XTUPLE_0;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin
+
+definition
+  let IT be set;
+  attr IT is finite means
+:: FINSET_1:def 1
+
+  ex p being Function st rng p = IT & dom p in omega;
+end;
+
+notation
+  let IT be set;
+  antonym IT is infinite for IT is finite;
+end;
+
+reserve A, B, X, Y, Z, x, y for set;
+reserve f for Function;
+
+registration
+  cluster non empty finite for set;
+end;
+
+registration
+  cluster empty -> finite for set;
+end;
+
+scheme :: FINSET_1:sch 1
+ OLambdaC{A()->set,C[object],F,G(object)->object}:
+  ex f being Function st dom f = A() & for x being Ordinal st x in A() holds
+  (C[x] implies f.x = F(x)) & (not C[x] implies f.x = G(x));
+
+registration
+  let x be object;
+  cluster {x} -> finite;
+end;
+
+registration
+  let x,y be object;
+  cluster {x,y} -> finite;
+end;
+
+registration
+  let x,y,z be object;
+  cluster {x,y,z} -> finite;
+end;
+
+registration
+  let x1,x2,x3,x4 be object;
+  cluster {x1,x2,x3,x4} -> finite;
+end;
+
+registration
+  let x1,x2,x3,x4,x5 be object;
+  cluster {x1,x2,x3,x4,x5} -> finite;
+end;
+
+registration
+  let x1,x2,x3,x4,x5,x6 be object;
+  cluster {x1,x2,x3,x4,x5,x6} -> finite;
+end;
+
+registration
+  let x1,x2,x3,x4,x5,x6,x7 be object;
+  cluster {x1,x2,x3,x4,x5,x6,x7} -> finite;
+end;
+
+registration
+  let x1,x2,x3,x4,x5,x6,x7,x8 be object;
+  cluster {x1,x2,x3,x4,x5,x6,x7,x8} -> finite;
+end;
+
+registration
+  let B be finite set;
+  cluster -> finite for Subset of B;
+end;
+
+registration
+  let X,Y be finite set;
+  cluster X \/ Y -> finite;
+end;
+
+theorem :: FINSET_1:1
+  A c= B & B is finite implies A is finite;
+
+theorem :: FINSET_1:2
+  A is finite & B is finite implies A \/ B is finite;
+
+registration
+  let A be set, B be finite set;
+  cluster A /\ B -> finite;
+end;
+
+registration
+  let A be finite set, B be set;
+  cluster A /\ B -> finite;
+  cluster A \ B -> finite;
+end;
+
+theorem :: FINSET_1:3
+  A is finite implies A /\ B is finite;
+
+theorem :: FINSET_1:4
+  A is finite implies A \ B is finite;
+
+registration
+  let f be Function, A be finite set;
+  cluster f.:A -> finite;
+end;
+
+theorem :: FINSET_1:5
+  A is finite implies f.:A is finite;
+
+reserve O for Ordinal;
+
+theorem :: FINSET_1:6
+  A is finite implies for X being Subset-Family of A st X <> {}
+  ex x being set st x in X &
+    for B being set st B in X holds x c= B implies B = x;
+
+scheme :: FINSET_1:sch 2
+ Finite{A()->set,P[set]} : P[A()]
+provided
+ A() is finite and
+ P[{}] and
+ for x,B being set st x in A() & B c= A() & P[B] holds P[B \/ {x}];
+
+registration
+  let A,B be finite set;
+  cluster [:A,B:] -> finite;
+end;
+
+registration
+  let A,B,C be finite set;
+  cluster [:A,B,C:] -> finite;
+end;
+
+registration
+  let A,B,C,D be finite set;
+  cluster [:A,B,C,D:] -> finite;
+end;
+
+registration
+  let A be finite set;
+  cluster bool A -> finite;
+end;
+
+theorem :: FINSET_1:7
+  A is finite & (for X st X in A holds X is finite) iff union A is finite;
+
+theorem :: FINSET_1:8
+  dom f is finite implies rng f is finite;
+
+theorem :: FINSET_1:9
+  Y c= rng f & f"Y is finite implies Y is finite;
+
+registration
+  let X, Y be finite set;
+  cluster X \+\ Y -> finite;
+end;
+
+registration
+  let X be non empty set;
+  cluster finite non empty for Subset of X;
+end;
+
+begin :: Addenda
+:: from AMI_1
+
+theorem :: FINSET_1:10
+  for f being Function holds dom f is finite iff f is finite;
+
+:: from ALI2
+
+theorem :: FINSET_1:11
+  for F being set st F is finite & F <> {} & F is c=-linear
+  ex m being set st m in F & for C being set st C in F holds m c= C;
+
+:: from FIN_TOPO
+
+theorem :: FINSET_1:12
+  for F being set st F is finite & F <> {} & F is c=-linear
+  ex m being set st m in F & for C being set st C in F holds C c= m;
+
+:: 2006.08.25, A.T.
+
+definition
+  let R be Relation;
+  attr R is finite-yielding means
+:: FINSET_1:def 2
+
+  for x being set st x in rng R holds x is finite;
+end;
+
+:: from CQC_THE1, 2007.03.15, A.T.
+
+reserve a for set;
+
+theorem :: FINSET_1:13
+  X is finite & X c= [:Y,Z:] implies
+  ex A,B being set st A is finite & A c= Y & B is finite & B c= Z &
+  X c= [:A,B:];
+
+theorem :: FINSET_1:14
+  X is finite & X c= [:Y,Z:] implies
+  ex A being set st A is finite & A c= Y & X c= [:A,Z:];
+
+:: restored, 2007.07.22, A.T.
+
+registration
+  cluster finite non empty for Function;
+end;
+
+registration
+  let R be finite Relation;
+  cluster dom R -> finite;
+end;
+
+:: from SCMFSA_4, 2007.07.22, A.T.
+
+registration
+  let f be Function, g be finite Function;
+  cluster f*g -> finite;
+end;
+
+:: from SF_MASTR, 2007.07.25, A.T.
+
+registration
+  let A be finite set, B be set;
+  cluster -> finite for Function of A, B;
+end;
+
+:: from GLIB_000, 2007.10.24, A.T.
+
+registration
+  let x,y be object;
+  cluster x .--> y -> finite;
+end;
+
+:: from FINSEQ_1, 2008.02.19, A.T.
+
+registration
+  let R be finite Relation;
+  cluster rng R -> finite;
+end;
+
+:: from FINSEQ_1, 2008.05.06, A.T.
+
+registration
+  let f be finite Function, x be set;
+  cluster f"x -> finite;
+end;
+
+registration
+  let f, g be finite Function;
+  cluster f +* g -> finite;
+end;
+
+:: from COMPTS_1, 2008.07.16, A.T
+
+definition
+  let F be set;
+  attr F is centered means
+:: FINSET_1:def 3
+  F <> {} &
+  for G being set st G <> {} & G c= F & G is finite holds meet G <> {};
+end;
+
+definition
+ let f be Function;
+  redefine attr f is finite-yielding means
+:: FINSET_1:def 4
+ for i being object st i in dom f holds f.i is finite;
+end;
+
+:: from PRE_CIRC, 2009.03.04, A.T.
+
+definition
+  let I be set;
+  let IT be I-defined Function;
+  redefine attr IT is finite-yielding means
+:: FINSET_1:def 5
+  for i being object st i in I holds IT.i is finite;
+end;
+
+:: new, 2009.08.26, A.T
+
+theorem :: FINSET_1:15
+  B is infinite implies not B in [:A,B:];
+
+:: new, 2009.09.30, A.T.
+
+registration
+ let I be set, f be I-defined Function;
+ cluster finite I-defined f-compatible for Function;
+end;
+
+registration
+ let X,Y be set;
+ cluster finite X-defined Y-valued for Function;
+end;
+
+registration
+ let X,Y be non empty set;
+ cluster X-defined Y-valued non empty finite for Function;
+end;
+
+registration
+  let A be set, F be finite Relation;
+  cluster A|`F -> finite;
+end;
+
+registration
+  let A be set, F be finite Relation;
+  cluster F|A -> finite;
+end;
+
+registration
+  let A be finite set, F be Function;
+  cluster F|A -> finite;
+end;
+
+registration
+  let R be finite Relation;
+  cluster field R -> finite;
+end;
+
+registration
+  cluster trivial -> finite for set;
+end;
+
+registration
+  cluster infinite -> non trivial for set;
+end;
+
+registration
+  let X be non trivial set;
+  cluster finite non trivial for Subset of X;
+end;
+
+:: 2011.04.07, A.T,
+
+registration
+  let x,y,a,b be object;
+  cluster (x,y) --> (a,b) -> finite;
+end;
+
+:: from MATROID0, 2011.07.25, A.T.
+
+definition
+  let A be set;
+  attr A is finite-membered means
+:: FINSET_1:def 6
+ for B being set st B in A holds B is finite;
+end;
+
+registration
+ cluster empty -> finite-membered for set;
+end;
+
+registration
+  let A be finite-membered set;
+  cluster -> finite for Element of A;
+end;
+
+registration
+  cluster non empty finite finite-membered for set;
+end;
+
+:: from SIMPLEX0, 2011.07.25, A.T.
+
+registration
+  let X be finite set;
+  cluster {X} -> finite-membered;
+  cluster bool X -> finite-membered;
+  let Y be finite set;
+  cluster {X,Y} -> finite-membered;
+end;
+
+registration
+  let X be finite-membered set;
+  cluster -> finite-membered for Subset of X;
+  let Y be finite-membered set;
+  cluster X \/ Y -> finite-membered;
+end;
+
+registration
+  let X be finite finite-membered set;
+  cluster union X -> finite;
+end;
+
+registration
+  cluster non empty finite-yielding for Function;
+  cluster empty -> finite-yielding for Relation;
+end;
+
+registration
+  let F be finite-yielding Function, x be object;
+  cluster F.x -> finite;
+end;
+
+registration let F be finite-yielding Relation;
+ cluster rng F -> finite-membered;
+end;
+

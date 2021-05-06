@@ -1,0 +1,396 @@
+:: Basic Formal Properties of Triangular Norms and Conorms
+::  by Adam Grabowski
+:: 
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_1, REAL_1, XXREAL_0, SUBSET_1, CARD_1, ARYTM_1,
+      ARYTM_3, FUNCT_1, XBOOLE_0, RELAT_1, XREAL_0, FUNCT_7, FUZNORM1,
+      ZFMISC_1, BINOP_1, MSAFREE2, MEMBERED;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0,
+      MEMBERED, ZFMISC_1, BINOP_1, VALUED_0, RELAT_1, XXREAL_2, XREAL_0,
+      COMPLEX1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, REAL_1, SEQ_4, RCOMP_1,
+      PRE_TOPC, TOPS_2, METRIC_1, DOMAIN_1, STRUCT_0, TOPMETR, TSEP_1, TMAP_1,
+      FUZZY_1, BORSUK_1, MEASURE5;
+ constructors REAL_1, SQUARE_1, COMPLEX1, SEQ_4, RCOMP_1, CONNSP_1, TOPS_2,
+      TMAP_1, TOPMETR, XXREAL_2, BINOP_2, RVSUM_1, PCOMPS_1, BINOP_1, FUZZY_1,
+      XREAL_0, INTEGRA1, MESFUNC5, EXTREAL1;
+ registrations XBOOLE_0, RELSET_1, FUNCT_2, NUMBERS, XXREAL_0, XREAL_0,
+      MEMBERED, STRUCT_0, PRE_TOPC, METRIC_1, BORSUK_1, TOPMETR, CONNSP_1,
+      ORDINAL1, INTEGRA1, INTEGRA2, MEASURE5, EXTREAL1, SUPINF_1, SUPINF_2;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+registration
+  cluster [.0,1.] -> non empty;
+end;
+
+theorem :: FUZNORM1:1
+  for a,b being Element of [.0,1.] holds
+    min (a,b) in [.0,1.];
+
+theorem :: FUZNORM1:2
+  for a,b being Element of [.0,1.] holds
+    max (a,b) in [.0,1.];
+
+theorem :: FUZNORM1:3
+  for a,b being Element of [.0,1.] holds
+    a * b in [.0,1.];
+
+theorem :: FUZNORM1:4
+  for a,b being Element of [.0,1.] holds
+    max (0, a + b - 1) in [.0,1.];
+
+theorem :: FUZNORM1:5
+  for a,b being Element of [.0,1.] holds
+    min (a + b, 1) in [.0,1.];
+
+theorem :: FUZNORM1:6
+  for a,b,c being Element of [.0,1.] holds
+    max (0,max(0,a+b-1)+c-1) = max (0,a+max(0,b+c-1)-1);
+
+theorem :: FUZNORM1:7
+  for a being Element of [.0,1.] holds
+    1 - a in [.0,1.];
+
+theorem :: FUZNORM1:8
+  for a, b being Element of [.0,1.] holds
+    a + b - a * b in [.0,1.];
+
+theorem :: FUZNORM1:9
+  for a, b being Element of [.0,1.] holds
+    (a * b) / (a + b - a * b) in [.0,1.];
+
+theorem :: FUZNORM1:10
+  for a,b being Element of [.0,1.] st max (a,b) <> 1 holds
+    a <> 1 & b <> 1;
+
+theorem :: FUZNORM1:11
+  for x, y being Element of [.0,1.] holds
+    x * y = x + y implies x = 0;
+
+theorem :: FUZNORM1:12
+  for a,b being Element of [.0,1.] holds
+    max (a,b) = 1 - min (1-a,1-b);
+
+theorem :: FUZNORM1:13
+  for a,b being Element of [.0,1.] holds
+    min (a+b,1) = 1 - max (0,1-a+(1-b)-1);
+
+theorem :: FUZNORM1:14
+  for a,b being Element of [.0,1.] holds
+    (a + b - 2 * a * b) / (1 - a * b) in [.0,1.];
+
+registration let f be BinOp of [.0,1.];
+             let a, b be Real;
+  cluster f.(a,b) -> real;
+end;
+
+theorem :: FUZNORM1:15
+  for a,b being Real,
+      t being BinOp of [.0,1.] holds
+   t.(a,b) in [.0,1.];
+
+theorem :: FUZNORM1:16
+  for f being BinOp of [.0,1.],
+      a, b being Real holds
+   1 - f.(1 - a, 1 - b) in [.0,1.];
+
+theorem :: FUZNORM1:17  ::: move theorems from MESFUNC5 to XXREAL_0
+  for x,y,k being Real st k <= 0 holds
+    k*min(x,y) = max(k*x,k*y) & k*max(x,y) = min(k*x,k*y);
+
+begin :: Basic Example of a Triangular Norm and Conorm: min and max
+
+definition let A be real-membered set;
+           let f be BinOp of A;
+  attr f is monotonic means
+:: FUZNORM1:def 1
+    for a,b,c,d being Element of A st
+      a <= c & b <= d holds f.(a,b) <= f.(c,d);
+  attr f is with-1-identity means
+:: FUZNORM1:def 2
+    for a being Element of A holds f.(a,1) = a;
+  attr f is with-1-annihilating means
+:: FUZNORM1:def 3
+    for a being Element of A holds f.(a,1) = 1;
+  attr f is with-0-identity means
+:: FUZNORM1:def 4
+    for a being Element of A holds f.(a,0) = a;
+  attr f is with-0-annihilating means
+:: FUZNORM1:def 5
+    for a being Element of A holds f.(a,0) = 0;
+end;
+
+scheme :: FUZNORM1:sch 1
+ ExBinOp { A() -> non empty real-membered set, F(Real, Real) -> set } :
+  ex f being BinOp of A() st
+    for a,b being Element of A() holds f.(a,b) = F(a,b)
+  provided
+  for a,b being Element of A() holds F(a,b) in A();
+
+definition
+  func minnorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 6
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = min (a,b);
+end;
+
+registration
+  cluster minnorm -> commutative associative monotonic with-1-identity;
+end;
+
+registration
+  cluster commutative associative monotonic with-1-identity
+    for BinOp of [.0,1.];
+end;
+
+definition
+  mode t-norm is
+    commutative associative monotonic with-1-identity BinOp of [.0,1.];
+end;
+
+definition
+  func maxnorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 7
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = max (a,b);
+end;
+
+registration
+  cluster maxnorm -> commutative associative monotonic with-0-identity;
+end;
+
+registration
+  cluster commutative associative monotonic with-0-identity
+    for BinOp of [.0,1.];
+end;
+
+definition
+  mode t-conorm is
+    commutative associative monotonic with-0-identity BinOp of [.0,1.];
+end;
+
+theorem :: FUZNORM1:18
+  for t being commutative monotonic with-1-identity BinOp of [.0,1.] holds
+    for a being Element of [.0,1.] holds
+      t.(a,0) = 0;
+
+theorem :: FUZNORM1:19
+  for t being commutative monotonic with-0-identity BinOp of [.0,1.] holds
+    for a being Element of [.0,1.] holds
+      t.(a,1) = 1;
+
+registration
+  cluster -> with-0-annihilating
+    for commutative monotonic with-1-identity BinOp of [.0,1.];
+  cluster -> with-1-annihilating
+    for commutative monotonic with-0-identity BinOp of [.0,1.];
+end;
+
+begin :: Further Examples of Triangular Norms
+
+definition
+  func prodnorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 8
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = a * b;
+end;
+
+registration
+  cluster prodnorm -> commutative associative monotonic with-1-identity;
+end;
+
+definition
+  func probsum_conorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 9
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = a + b - a * b;
+end;
+
+definition
+  func Lukasiewicz_norm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 10
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = max (0, a + b - 1);
+end;
+
+registration
+  cluster Lukasiewicz_norm -> commutative associative monotonic
+    with-1-identity;
+end;
+
+definition
+  func drastic_norm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 11
+    for a,b being Element of [.0,1.] holds
+      (max (a,b) = 1 implies it.(a,b) = min (a,b)) &
+      (max (a,b) <> 1 implies it.(a,b) = 0);
+end;
+
+theorem :: FUZNORM1:20
+  for a,b being Element of [.0,1.] holds
+    (a = 1 implies drastic_norm.(a,b) = b) &
+    (b = 1 implies drastic_norm.(a,b) = a) &
+    (a <> 1 & b <> 1 implies drastic_norm.(a,b) = 0);
+
+registration
+  cluster drastic_norm -> commutative associative with-1-identity
+    monotonic;
+end;
+
+definition
+  func nilmin_norm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 12
+    for a,b being Element of [.0,1.] holds
+      (a + b > 1 implies it.(a,b) = min (a,b)) &
+      (a + b <= 1 implies it.(a,b) = 0);
+end;
+
+registration
+  cluster nilmin_norm -> commutative associative with-1-identity
+    monotonic;
+end;
+
+definition
+  func Hamacher_norm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 13
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = (a * b) / (a + b - a * b);
+end;
+
+registration
+  cluster Hamacher_norm -> commutative associative with-1-identity
+    monotonic;
+end;
+
+begin :: Basic Triangular Conorms
+
+definition
+  func drastic_conorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 14
+    for a,b being Element of [.0,1.] holds
+      (min (a,b) = 0 implies it.(a,b) = max (a,b)) &
+      (min (a,b) <> 0 implies it.(a,b) = 1);
+end;
+
+begin :: Translating between Triangular Norms and Conorms
+
+definition
+  let t be BinOp of [.0,1.];
+  func conorm t -> BinOp of [.0,1.] means
+:: FUZNORM1:def 15
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = 1 - t.(1 - a,1 - b);
+end;
+
+registration let t be t-norm;
+  cluster conorm t -> monotonic commutative associative with-0-identity;
+end;
+
+theorem :: FUZNORM1:21
+  maxnorm = conorm minnorm;
+
+theorem :: FUZNORM1:22
+  for t being BinOp of [.0,1.] holds
+    conorm conorm t = t;
+
+:::theorem ::: obvious
+:::  for t being t-norm holds conorm t is t-conorm;
+
+begin :: The Ordering of Triangular Norms (and Conorms)
+
+definition let f1, f2 be BinOp of [.0,1.];
+  pred f1 <= f2 means
+:: FUZNORM1:def 16
+    for a,b being Element of [.0,1.] holds
+      f1.(a,b) <= f2.(a,b);
+end;
+
+theorem :: FUZNORM1:23
+  for t being t-norm holds
+    drastic_norm <= t;
+
+theorem :: FUZNORM1:24
+  for t being t-norm holds
+    t <= minnorm;
+
+theorem :: FUZNORM1:25
+  for t1, t2 being t-norm st t1 <= t2 holds
+    conorm t2 <= conorm t1;
+
+begin :: The Rest of Triangular Conorms
+
+definition
+  func Hamacher_conorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 17
+    for a,b being Element of [.0,1.] holds
+      (a = b = 1 implies it.(a,b) = 1) &
+      (a <> 1 or b <> 1 implies it.(a,b) = (a + b - 2 * a * b) / (1 - a * b));
+end;
+
+theorem :: FUZNORM1:26
+  conorm Hamacher_norm = Hamacher_conorm;
+
+registration
+  cluster Hamacher_conorm -> commutative associative with-0-identity
+    monotonic;
+end;
+
+theorem :: FUZNORM1:27
+  conorm drastic_norm = drastic_conorm;
+
+theorem :: FUZNORM1:28
+  conorm prodnorm = probsum_conorm;
+
+registration
+  cluster probsum_conorm -> commutative associative with-0-identity monotonic;
+end;
+
+definition
+  func nilmax_conorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 18
+    for a,b being Element of [.0,1.] holds
+      (a + b < 1 implies it.(a,b) = max (a,b)) &
+      (a + b >= 1 implies it.(a,b) = 1);
+end;
+
+theorem :: FUZNORM1:29
+  conorm nilmin_norm = nilmax_conorm;
+
+registration
+  cluster nilmax_conorm -> commutative associative with-0-identity monotonic;
+end;
+
+definition
+  func BoundedSum_conorm -> BinOp of [.0,1.] means
+:: FUZNORM1:def 19
+    for a,b being Element of [.0,1.] holds
+      it.(a,b) = min (a + b,1);
+end;
+
+theorem :: FUZNORM1:30
+  conorm Lukasiewicz_norm = BoundedSum_conorm;
+
+registration
+  cluster BoundedSum_conorm -> commutative associative with-0-identity
+    monotonic;
+end;
+
+theorem :: FUZNORM1:31
+  for t being t-conorm holds maxnorm <= t;
+
+theorem :: FUZNORM1:32
+  for t being t-conorm holds t <= drastic_conorm;

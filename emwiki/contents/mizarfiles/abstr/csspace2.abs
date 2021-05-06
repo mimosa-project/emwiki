@@ -1,0 +1,130 @@
+:: Hilbert Space of Complex Sequences
+::  by Noboru Endou
+::
+:: Received February 24, 2004
+:: Copyright (c) 2004-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, COMSEQ_1, ARYTM_3, FUNCT_1, SUBSET_1, COMPLEX1, ARYTM_1,
+      RELAT_1, XCMPLX_0, SERIES_1, CARD_1, REAL_1, XXREAL_0, SQUARE_1, CARD_3,
+      ORDINAL2, SEQ_2, VALUED_1, CSSPACE, RSSPACE, SUPINF_2, RLVECT_1,
+      ALGSTR_0, ZFMISC_1, STRUCT_0, REALSET1, PROB_2, BHSP_1, SEQ_1, PRE_TOPC,
+      FUNCOP_1, NAT_1, BHSP_3, NORMSP_1, XXREAL_2, REWRITE1, CSSPACE2;
+ notations SUBSET_1, ZFMISC_1, ORDINAL1, XCMPLX_0, XXREAL_0, NUMBERS, COMPLEX1,
+      XREAL_0, NAT_1, STRUCT_0, ALGSTR_0, RELAT_1, DOMAIN_1, PARTFUN1, FUNCT_1,
+      FUNCT_2, BINOP_1, FUNCOP_1, REALSET1, PRE_TOPC, SQUARE_1, VALUED_1,
+      SEQ_1, SEQ_2, SERIES_1, COMSEQ_1, COMSEQ_2, COMSEQ_3, NORMSP_0, CLVECT_1,
+      CLVECT_2, CSSPACE;
+ constructors BINOP_1, FUNCOP_1, REAL_1, SQUARE_1, COMSEQ_2, COMSEQ_3,
+      REALSET1, CLVECT_2, SEQ_2, RELSET_1, CFUNCDOM;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, FUNCT_2, NUMBERS,
+      XCMPLX_0, XXREAL_0, MEMBERED, COMSEQ_2, COMSEQ_3, REALSET1, STRUCT_0,
+      CSSPACE, VALUED_1, VALUED_0, SEQ_2, XREAL_0, SQUARE_1, NAT_1, INT_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin
+
+theorem :: CSSPACE2:1
+  the carrier of Complex_l2_Space = the_set_of_l2ComplexSequences & (for
+x be set holds x is Element of Complex_l2_Space iff x is Complex_Sequence & |.
+seq_id(x).|(#)|.seq_id(x).| is summable) & (for x be set holds x is Element of
+  Complex_l2_Space iff x is Complex_Sequence & seq_id(x)(#)(seq_id(x))*' is
+  absolutely_summable ) & 0.Complex_l2_Space = CZeroseq & (for u be VECTOR of
+  Complex_l2_Space holds u =seq_id(u)) & (for u,v be VECTOR of Complex_l2_Space
+  holds u+v =seq_id(u)+seq_id(v)) & (for r be Complex for u be VECTOR of
+  Complex_l2_Space holds r*u =r(#)seq_id(u)) & (for u be VECTOR of
+  Complex_l2_Space holds -u =-seq_id(u) & seq_id(-u)=-seq_id(u)) & (for u,v be
+VECTOR of Complex_l2_Space holds u-v =seq_id(u)-seq_id(v)) & for v,w be VECTOR
+  of Complex_l2_Space holds |.seq_id(v).|(#)|.seq_id(w).| is summable & for v,w
+  be VECTOR of Complex_l2_Space holds v.|.w = Sum(seq_id(v)(#)(seq_id(w))*');
+
+theorem :: CSSPACE2:2
+  for x,y,z being Point of Complex_l2_Space for a be Complex holds
+  ( x.|.x = 0 iff x = 0.Complex_l2_Space ) & Re(x.|.x) >= 0 & Im(x.|.x) = 0 & x
+  .|.y = (y.|.x)*' & (x+y).|.z = x.|.z + y.|.z & (a*x).|.y = a*(x.|.y);
+
+registration
+  cluster Complex_l2_Space -> ComplexUnitarySpace-like;
+end;
+
+registration
+  cluster Complex_l2_Space -> complete;
+end;
+
+registration
+ cluster complete for ComplexUnitarySpace;
+end;
+
+definition
+  mode ComplexHilbertSpace is complete ComplexUnitarySpace;
+end;
+
+begin  :: Some corollaries of complex sequences
+
+theorem :: CSSPACE2:3
+  for z1, z2 be Complex st (Re z1)*(Im z2) = (Re z2)*(Im z1) & (Re z1)*(
+  Re z2)+(Im z1)*(Im z2) >= 0 holds |.z1 + z2.| = |.z1.| + |.z2.|;
+
+theorem :: CSSPACE2:4
+  for x,y be Complex holds 2*|.x*y.| <= |.x.|^2 + |.y.|^2;
+
+theorem :: CSSPACE2:5
+  for x,y be Complex holds |.x+y.|*|.x+y.| <= 2*|.x.|*|.x.| + 2*|.y.|*|.
+  y.| & |.x.|*|.x.| <= 2*|.x-y.|*|.x-y.| + 2*|.y.|*|.y.|;
+
+::$CT
+
+theorem :: CSSPACE2:7
+  for seq be Complex_Sequence holds Partial_Sums (seq*') = (Partial_Sums
+  seq) *';
+
+theorem :: CSSPACE2:8
+  for seq be Complex_Sequence, n be Nat st
+  (for i be Nat holds (Re seq).i >= 0 & (Im seq).i = 0)
+  holds (|.Partial_Sums seq.|).n = (Partial_Sums |.seq.|).n;
+
+theorem :: CSSPACE2:9
+  for seq be Complex_Sequence st seq is summable holds Sum (seq*') = (
+  Sum seq)*';
+
+theorem :: CSSPACE2:10
+  for seq be Complex_Sequence st seq is absolutely_summable holds |. Sum
+  seq .| <= Sum |.seq.|;
+
+theorem :: CSSPACE2:11
+  for seq be Complex_Sequence st seq is summable &
+   (for n be Nat holds (Re seq).n >= 0 & (Im seq).n = 0)
+   holds |. Sum seq .| = Sum |.seq.|;
+
+theorem :: CSSPACE2:12
+  for seq be Complex_Sequence, n be Nat holds (Re (seq(#)seq
+  *')).n >= 0 & (Im (seq(#)seq*')).n = 0;
+
+theorem :: CSSPACE2:13
+  for seq be Complex_Sequence st seq is absolutely_summable & Sum |.seq
+  .|=0 holds for n be Nat holds seq.n =0c;
+
+theorem :: CSSPACE2:14
+  for seq being Complex_Sequence holds |.seq.| = |.seq*'.|;
+
+theorem :: CSSPACE2:15
+  for c be Complex, seq be Complex_Sequence st seq is convergent for
+rseq be Real_Sequence st (for m be Nat holds rseq .m = |.seq.m-c.|*
+|.seq.m-c.|) holds rseq is convergent & lim rseq = |.lim seq-c.|*|.lim seq-c.|;
+
+theorem :: CSSPACE2:16
+  for c be Complex, seq1 be Real_Sequence, seq be Complex_Sequence st
+  seq is convergent & seq1 is convergent for rseq be Real_Sequence st (for i be
+  Nat holds rseq.i = |.seq.i-c.|*|.seq.i-c.|+seq1.i) holds rseq is
+  convergent & lim rseq = |.lim seq-c.|*|.lim seq-c.|+lim seq1;
+

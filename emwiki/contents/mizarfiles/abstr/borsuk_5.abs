@@ -1,0 +1,440 @@
+:: On the Subcontinua of a Real Line
+::  by Adam Grabowski
+::
+:: Received June 12, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, TARSKI, XBOOLE_0, ZFMISC_1, CARD_1, ARYTM_3, TOPMETR,
+      BORSUK_2, PRE_TOPC, XXREAL_0, XXREAL_1, SUBSET_1, RELAT_1, STRUCT_0,
+      TREAL_1, VALUED_1, FUNCT_1, BORSUK_1, ORDINAL2, GRAPH_1, ARYTM_1,
+      RELAT_2, XREAL_0, CONNSP_1, REAL_1, LIMFUNC1, METRIC_1, COMPLEX1, RAT_1,
+      POWER, IRRAT_1, INT_1, XCMPLX_0, RCOMP_1, PCOMPS_1, XXREAL_2, SEQ_4,
+      SETFAM_1, BORSUK_5, MEASURE5;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, CARD_1, NUMBERS,
+      XCMPLX_0, XREAL_0, ENUMSET1, FUNCT_1, FUNCT_2, XXREAL_2, MEASURE6,
+      STRUCT_0, INT_1, COMPLEX1, PRE_TOPC, TOPS_2, COMPTS_1, RCOMP_1, SEQ_4,
+      TREAL_1, CONNSP_1, BORSUK_2, TOPMETR, LIMFUNC1, IRRAT_1, RAT_1, MEASURE5,
+      METRIC_1, PCOMPS_1, XXREAL_0;
+ constructors COMPLEX1, PROB_1, LIMFUNC1, POWER, CONNSP_1, TOPS_2, COMPTS_1,
+      TREAL_1, MEASURE6, BORSUK_2, INTEGRA1, SEQ_4, BINOP_2, PCOMPS_1;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, FINSET_1, XXREAL_0, XREAL_0,
+      INT_1, RAT_1, MEMBERED, STRUCT_0, PRE_TOPC, TOPS_1, METRIC_1, TOPMETR,
+      BORSUK_2, TOPREAL6, FCONT_3, RCOMP_1, MEASURE5, ORDINAL1;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+::$CT
+
+theorem :: BORSUK_5:2
+  for x1, x2, x3, x4, x5, x6 being set holds { x1, x2, x3, x4, x5, x6 }
+  = { x1, x3, x6 } \/ { x2, x4, x5 };
+
+reserve x1, x2, x3, x4, x5, x6, x7 for set;
+
+theorem :: BORSUK_5:3
+  for x1, x2, x3, x4, x5, x6 being set st x1, x2, x3, x4, x5, x6
+  are_mutually_distinct holds card {x1, x2, x3, x4, x5, x6} = 6;
+
+theorem :: BORSUK_5:4
+  for x1, x2, x3, x4, x5, x6, x7 being set st x1, x2, x3, x4, x5, x6, x7
+  are_mutually_distinct holds card {x1, x2, x3, x4, x5, x6, x7} = 7;
+
+theorem :: BORSUK_5:5
+  { x1, x2, x3 } misses { x4, x5, x6 } implies x1 <> x4 & x1 <> x5
+  & x1 <> x6 & x2 <> x4 & x2 <> x5 & x2 <> x6 & x3 <> x4 & x3 <> x5 & x3 <> x6;
+
+theorem :: BORSUK_5:6
+  x1, x2, x3 are_mutually_distinct & x4, x5, x6 are_mutually_distinct
+  & { x1, x2, x3 } misses { x4, x5, x6 } implies x1, x2, x3, x4, x5, x6
+  are_mutually_distinct;
+
+theorem :: BORSUK_5:7
+  x1, x2, x3, x4, x5, x6 are_mutually_distinct & { x1, x2, x3, x4, x5,
+  x6 } misses { x7 } implies x1, x2, x3, x4, x5, x6, x7 are_mutually_distinct;
+
+theorem :: BORSUK_5:8
+  x1, x2, x3, x4, x5, x6, x7 are_mutually_distinct implies x7, x1, x2,
+  x3, x4, x5, x6 are_mutually_distinct;
+
+theorem :: BORSUK_5:9
+  x1, x2, x3, x4, x5, x6, x7 are_mutually_distinct implies x1, x2, x5,
+  x3, x6, x7, x4 are_mutually_distinct;
+
+registration
+  cluster R^1 -> pathwise_connected;
+end;
+
+registration
+  cluster connected non empty for TopSpace;
+end;
+
+begin :: Intervals
+
+theorem :: BORSUK_5:10
+  for A, B being Subset of R^1, a, b, c, d being Real st a < b &
+  b <= c & c < d & A = [. a, b .[ & B = ]. c, d .] holds A, B are_separated;
+
+theorem :: BORSUK_5:11
+  for a, b, c being Real st a <= c & c <= b holds [.a,b.]
+  \/ [.c,+infty .[ = [.a,+infty .[;
+
+theorem :: BORSUK_5:12
+  for a, b, c being Real st a <= c & c <= b holds ]. -infty
+  , c .] \/ [. a, b .] = ]. -infty, b .];
+
+registration
+  cluster -> real for Element of RAT;
+end;
+
+theorem :: BORSUK_5:13
+  for A being Subset of R^1, p being Point of RealSpace holds p in Cl A
+iff for r being Real st r > 0 holds Ball (p, r) meets A;
+
+theorem :: BORSUK_5:14
+  for p, q being Element of RealSpace st q >= p holds dist (p, q) = q - p;
+
+theorem :: BORSUK_5:15
+  for A being Subset of R^1 st A = RAT holds Cl A = the carrier of R^1;
+
+theorem :: BORSUK_5:16
+  for A being Subset of R^1, a, b being Real st A = ]. a, b
+  .[ & a <> b holds Cl A = [. a, b .];
+
+begin :: Rational and Irrational Numbers
+
+registration
+  cluster number_e -> irrational;
+end;
+
+definition
+  func IRRAT -> Subset of REAL equals
+:: BORSUK_5:def 1
+  REAL \ RAT;
+end;
+
+definition
+  let a, b be Real;
+  func RAT (a, b) -> Subset of REAL equals
+:: BORSUK_5:def 2
+  RAT /\ ]. a, b .[;
+  func IRRAT (a, b) -> Subset of REAL equals
+:: BORSUK_5:def 3
+  IRRAT /\ ]. a, b .[;
+end;
+
+theorem :: BORSUK_5:17
+  for x being Real holds x is irrational iff x in IRRAT;
+
+registration
+  cluster irrational for Real;
+end;
+
+registration
+  cluster IRRAT -> non empty;
+end;
+
+registration
+  let a be Rational, b be irrational Real;
+  cluster a + b -> irrational;
+  cluster b + a -> irrational;
+end;
+
+theorem :: BORSUK_5:18
+  for a being Rational, b being irrational Real
+  holds a + b is irrational;
+
+registration
+  let a be irrational Real;
+  cluster -a -> irrational;
+end;
+
+theorem :: BORSUK_5:19
+  for a being irrational Real holds -a is irrational;
+
+registration
+  let a be Rational, b be irrational Real;
+  cluster a - b -> irrational;
+  cluster b - a -> irrational;
+end;
+
+theorem :: BORSUK_5:20
+  for a being Rational, b being irrational Real
+  holds a - b is irrational;
+
+theorem :: BORSUK_5:21
+  for a being Rational, b being irrational Real
+  holds b - a is irrational;
+
+theorem :: BORSUK_5:22
+  for a being Rational, b being irrational Real st
+  a <> 0 holds a * b is irrational;
+
+theorem :: BORSUK_5:23
+  for a being Rational, b being irrational Real st
+  a <> 0 holds b / a is irrational;
+
+registration
+  cluster irrational -> non zero for Real;
+end;
+
+theorem :: BORSUK_5:24
+  for a being Rational, b being irrational Real st
+  a <> 0 holds a / b is irrational;
+
+registration
+  let r be irrational Real;
+  cluster frac r -> irrational;
+end;
+
+theorem :: BORSUK_5:25
+  for r being irrational Real holds frac r is irrational;
+
+registration
+  cluster non zero for Rational;
+end;
+
+registration
+  let a be non zero Rational, b be irrational Real;
+  cluster a * b -> irrational;
+  cluster b * a -> irrational;
+  cluster a / b -> irrational;
+  cluster b / a -> irrational;
+end;
+
+theorem :: BORSUK_5:26
+  for a, b being Real st a < b ex p1, p2 being Rational
+ st a < p1 & p1 < p2 & p2 < b;
+
+theorem :: BORSUK_5:27
+  for a, b being Real st a < b ex p being irrational Real st a < p & p < b;
+
+theorem :: BORSUK_5:28
+  for A being Subset of R^1 st A = IRRAT holds Cl A = the carrier of R^1;
+
+theorem :: BORSUK_5:29
+  for a, b, c being Real holds c in RAT (a,b) iff c is
+  rational & a < c & c < b;
+
+theorem :: BORSUK_5:30
+  for a, b, c being Real holds c in IRRAT (a,b) iff c is
+  irrational & a < c & c < b;
+
+theorem :: BORSUK_5:31
+  for A being Subset of R^1, a, b being Real st a < b & A =
+  RAT (a, b) holds Cl A = [. a, b .];
+
+theorem :: BORSUK_5:32
+  for A being Subset of R^1, a, b being Real st a < b & A =
+  IRRAT (a, b) holds Cl A = [. a, b .];
+
+theorem :: BORSUK_5:33
+  for T being connected TopSpace, A being closed open Subset of T
+  holds A = {} or A = [#]T;
+
+theorem :: BORSUK_5:34
+  for A being Subset of R^1 st A is closed open holds A = {} or A = REAL;
+
+begin :: Topological Properties of Intervals
+
+theorem :: BORSUK_5:35
+  for A being Subset of R^1, a, b being Real st A = [. a, b
+  .[ & a <> b holds Cl A = [. a, b .];
+
+theorem :: BORSUK_5:36
+  for A being Subset of R^1, a, b being Real st A = ]. a, b
+  .] & a <> b holds Cl A = [. a, b .];
+
+theorem :: BORSUK_5:37
+  for A being Subset of R^1, a, b, c being Real st A = [. a, b .[
+  \/ ]. b, c .] & a < b & b < c holds Cl A = [. a, c .];
+
+theorem :: BORSUK_5:38
+  for A being Subset of R^1, a being Real st A = {a} holds Cl A = {a};
+
+theorem :: BORSUK_5:39
+  for A being Subset of REAL, B being Subset of R^1 st A = B holds
+  A is open iff B is open;
+
+registration
+  let A, B be open Subset of REAL;
+  cluster A /\ B -> open for Subset of REAL;
+  cluster A \/ B -> open for Subset of REAL;
+end;
+
+theorem :: BORSUK_5:40
+  for A being Subset of R^1, a,b being ExtReal st A = ]. a
+  ,b .[ holds A is open;
+
+theorem :: BORSUK_5:41
+  for A being Subset of R^1, a being Real st A = ]. -infty,
+  a.] holds A is closed;
+
+theorem :: BORSUK_5:42
+  for A being Subset of R^1, a being Real st A = [. a,
+  +infty .[ holds A is closed;
+
+theorem :: BORSUK_5:43
+  for a being Real holds [. a,+infty .[ = {a} \/ ]. a, +infty .[;
+
+theorem :: BORSUK_5:44
+  for a being Real holds ]. -infty,a.] = {a} \/ ]. -infty,a .[;
+
+registration
+  let a be Real;
+  cluster ]. a,+infty .[ -> non empty;
+  cluster ]. -infty,a .] -> non empty;
+  cluster ]. -infty,a .[ -> non empty;
+  cluster [. a,+infty .[ -> non empty;
+end;
+
+theorem :: BORSUK_5:45
+  for a being Real holds ]. a,+infty .[ <> REAL;
+
+theorem :: BORSUK_5:46
+  for a being Real holds [. a,+infty .[ <> REAL;
+
+theorem :: BORSUK_5:47
+  for a being Real holds ]. -infty, a .] <> REAL;
+
+theorem :: BORSUK_5:48
+  for a being Real holds ]. -infty, a .[ <> REAL;
+
+theorem :: BORSUK_5:49
+  for A being Subset of R^1, a being Real st A = ]. a,
+  +infty .[ holds Cl A = [. a,+infty .[;
+
+theorem :: BORSUK_5:50
+  for a being Real holds Cl ]. a,+infty .[ = [. a,+infty .[;
+
+theorem :: BORSUK_5:51
+  for A being Subset of R^1, a being Real st A = ]. -infty,
+  a .[ holds Cl A = ]. -infty, a .];
+
+theorem :: BORSUK_5:52
+  for a being Real holds Cl ]. -infty, a .[ = ]. -infty, a .];
+
+theorem :: BORSUK_5:53
+  for A, B being Subset of R^1, b being Real st A = ].
+  -infty, b .[ & B = ]. b,+infty .[ holds A, B are_separated;
+
+theorem :: BORSUK_5:54
+  for A being Subset of R^1, a, b being Real st a < b & A = [. a,
+  b .[ \/ ]. b,+infty .[ holds Cl A = [. a,+infty .[;
+
+theorem :: BORSUK_5:55
+  for A being Subset of R^1, a, b being Real st a < b & A =
+  ]. a, b .[ \/ ]. b,+infty .[ holds Cl A = [. a,+infty .[;
+
+theorem :: BORSUK_5:56
+  for A being Subset of R^1, a, b, c being Real st a < b & b < c
+  & A = RAT (a,b) \/ ]. b, c .[ \/ ]. c,+infty .[ holds Cl A = [. a,+infty .[;
+
+theorem :: BORSUK_5:57
+  for a, b being Real holds IRRAT (a, b) misses RAT (a, b);
+
+theorem :: BORSUK_5:58
+  for a, b being Real holds REAL \ RAT (a, b) = ]. -infty,a
+  .] \/ IRRAT (a, b) \/ [.b,+infty .[;
+
+theorem :: BORSUK_5:59
+  for a, b being Real st a < b holds [.a,+infty .[ \ (]. a,
+  b .[ \/ ]. b,+infty .[) = {a} \/ {b};
+
+theorem :: BORSUK_5:60
+  for A being Subset of R^1 st A = RAT (2,4) \/ ]. 4, 5 .[ \/ ]. 5,
+  +infty .[ holds A` = ]. -infty,2 .] \/ IRRAT(2,4) \/ {4} \/ {5};
+
+theorem :: BORSUK_5:61
+  for A being Subset of R^1, a being Real st A = {a} holds A` =
+  ]. -infty, a .[ \/ ]. a,+infty .[;
+
+theorem :: BORSUK_5:62
+  (]. -infty, 1 .[ \/ ]. 1,+infty .[) /\ (]. -infty, 2 .] \/ IRRAT(2,4)
+  \/ {4} \/ {5}) = ]. -infty, 1 .[ \/ ]. 1, 2 .] \/ IRRAT(2,4) \/ {4} \/ {5};
+
+theorem :: BORSUK_5:63
+  for A being Subset of R^1, a, b being Real st a <= b & A = {a}
+  \/ [. b,+infty .[ holds A` = ]. -infty, a .[ \/ ]. a, b .[;
+
+theorem :: BORSUK_5:64
+  for A being Subset of R^1, a, b being Real st a < b & A = ].
+  -infty, a .[ \/ ]. a, b .[ holds Cl A = ]. -infty, b .];
+
+theorem :: BORSUK_5:65
+  for A being Subset of R^1, a, b being Real st a < b & A =
+  ]. -infty, a .[ \/ ]. a, b .] holds Cl A = ]. -infty, b .];
+
+theorem :: BORSUK_5:66
+  for A being Subset of R^1, a, b, c being Real st a < b &
+b < c & A = ]. -infty, a .[ \/ ]. a, b .] \/ IRRAT(b,c) \/ {c} holds Cl A = ].
+  -infty, c .];
+
+theorem :: BORSUK_5:67
+  for A being Subset of R^1, a, b, c, d being Real st a < b & b <
+c & A = ]. -infty, a .[ \/ ]. a, b .] \/ IRRAT(b,c) \/ {c} \/ {d} holds Cl A =
+  ]. -infty, c .] \/ {d};
+
+theorem :: BORSUK_5:68
+  for A being Subset of R^1, a, b being Real st a <= b & A = ].
+  -infty, a .] \/ {b} holds A` = ]. a, b .[ \/ ]. b,+infty .[;
+
+theorem :: BORSUK_5:69
+  for a, b being Real holds [. a,+infty .[ \/ {b} <> REAL;
+
+theorem :: BORSUK_5:70
+  for a, b being Real holds ]. -infty, a .] \/ {b} <> REAL;
+
+theorem :: BORSUK_5:71
+  for TS being TopStruct, A, B being Subset of TS st A <> B holds A` <> B`;
+
+theorem :: BORSUK_5:72
+  for A being Subset of R^1 st REAL = A` holds A = {};
+
+begin :: Subcontinua of a real line
+
+theorem :: BORSUK_5:73
+  for X being compact Subset of R^1, X9 being Subset of REAL st
+  X9 = X holds X9 is bounded_above bounded_below;
+
+theorem :: BORSUK_5:74
+  for X being compact Subset of R^1, X9 being Subset of REAL, x
+  being Real st x in X9 & X9 = X holds lower_bound X9 <= x &
+   x <= upper_bound X9;
+
+theorem :: BORSUK_5:75
+  for C being non empty compact connected Subset of R^1, C9 being
+  Subset of REAL st C = C9 & [. lower_bound C9, upper_bound C9 .] c= C9
+   holds [. lower_bound C9, upper_bound C9.] = C9;
+
+theorem :: BORSUK_5:76
+  for A being connected Subset of R^1, a, b, c being Real
+  st a <= b & b <= c & a in A & c in A holds b in A;
+
+theorem :: BORSUK_5:77
+  for A being connected Subset of R^1, a, b being Real st
+  a in A & b in A holds [.a,b.] c= A;
+
+theorem :: BORSUK_5:78
+  for X being non empty compact connected Subset of R^1 holds X
+  is non empty non empty closed_interval Subset of REAL;
+
+theorem :: BORSUK_5:79
+  for A being non empty compact connected Subset of R^1 holds ex a, b
+  being Real st a <= b & A = [. a, b .];
+
+registration
+  let T be TopSpace;
+  cluster open closed non empty for Subset-Family of T;
+end;

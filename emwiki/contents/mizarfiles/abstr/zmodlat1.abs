@@ -1,0 +1,1397 @@
+:: Lattice of $\mathbb Z$-module
+::  by Yuichi Futa and Yasunari Shidama
+::
+:: Received December 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies GAUSSINT, NUMBERS, FINSEQ_1, SUBSET_1, RLVECT_1, STRUCT_0,
+      FUNCT_1, RAT_1, XBOOLE_0, ALGSTR_0, RELAT_1, PARTFUN1, ARYTM_3, CARD_3,
+      ORDINAL4, PRELAMB, XXREAL_0, TARSKI, CARD_1, SUPINF_2, MSSUBFAM, ARYTM_1,
+      NAT_1, FINSET_1, FUNCOP_1, RLSUB_1, QC_LANG1, BINOP_1, ZFMISC_1, INT_1,
+      ZMODUL01, ZMODUL03, FINSEQ_4, RLVECT_3, RMOD_2, RANKNULL, UNIALG_1,
+      FUNCT_7, GROUP_1, INT_3, COMPLEX1, VECTSP_1, MESFUNC1, XCMPLX_0,
+      REALSET1, MATRLIN, ZMODUL02, RLVECT_5, ZMODUL06, NORMSP_1, BHSP_1, ABIAN,
+      RVSUM_1, MATRIX_1, MATRIX_3, MOD_3, ZMATRLIN, FUNCT_5, ZMODLAT1, TREES_1,
+      MFOLD_2, BILINEAR, HAHNBAN, FVSUM_1, INCSP_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCOP_1, REALSET1,
+      FINSET_1, CARD_1, FUNCT_5, XCMPLX_0, XXREAL_0, INT_1, RAT_1, COMPLEX1,
+      FINSEQ_1, ABIAN, MATRIX_0, STRUCT_0, ALGSTR_0, RLVECT_1, GROUP_1,
+      VECTSP_1, VECTSP_4, VECTSP_7, MATRIX_1, FVSUM_1, MATRIX_3, HAHNBAN1,
+      INT_3, BILINEAR, ZMODUL01, ZMODUL03, GAUSSINT, ZMODUL04, ZMODUL06,
+      ZMATRLIN;
+ constructors BINOP_2, UPROOTS, ZMODUL01, REALSET1, EUCLID, FVSUM_1, FUNCT_3,
+      ALGSTR_1, EC_PF_1, MATRIX_3, ZMODUL04, ZMODUL06, ABIAN, ZMATRLIN,
+      ZMODUL07, RELSET_1;
+ registrations SUBSET_1, FUNCT_1, RELSET_1, FUNCT_2, FINSET_1, NUMBERS,
+      XREAL_0, STRUCT_0, RLVECT_1, VALUED_0, MEMBERED, FINSEQ_1, CARD_1, INT_1,
+      ZMODUL01, XBOOLE_0, BINOP_2, ORDINAL1, XXREAL_0, NAT_1, ALGSTR_0, INT_3,
+      REALSET1, RELAT_1, VECTSP_1, VECTSP_2, GAUSSINT, FUNCT_3, RAT_1,
+      XCMPLX_0, ZMODUL03, ZMODUL04, ZMODUL05, ZMODUL06, ABIAN, MATRIX_0,
+      ZMATRLIN;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: 1. Definition of lattices of $\mathbb Z$-module
+
+theorem :: ZMODLAT1:1
+  for D, E being non empty set, n, m being Nat, M being Matrix of n,m,D
+  st for i, j being Nat st [i, j] in Indices M
+  holds M*(i,j) in E
+  holds M is Matrix of n,m,E;
+
+definition
+  let F be 1-sorted;
+  struct (ModuleStr over F) LatticeStr over F
+  (# carrier -> set,
+    addF -> BinOp of the carrier,
+   ZeroF -> Element of the carrier,
+   lmult -> Function of [: the carrier of F, the carrier :], the carrier,
+  scalar -> Function of [: the carrier, the carrier :],
+            the carrier of F_Real #);
+end;
+
+registration
+  let F be 1-sorted;
+  cluster strict non empty for LatticeStr over F;
+end;
+
+registration
+  let F be 1-sorted;
+  let D be non empty set, Z be Element of D, a be BinOp of D,m be Function of
+  [:the carrier of F, D:], D, s be Function of [: D,D:],the carrier of F_Real;
+  cluster LatticeStr(#D,a,Z,m,s#) -> non empty;
+end;
+
+definition
+  let X be non empty LatticeStr over INT.Ring;
+  let x, y be Vector of X;
+  func <; x, y ;> -> Element of F_Real equals
+:: ZMODLAT1:def 1
+  (the scalar of X).[x, y];
+end;
+
+definition
+  let X be non empty LatticeStr over INT.Ring;
+  let x be Vector of X;
+  func ||. x .|| -> Element of F_Real equals
+:: ZMODLAT1:def 2
+  <; x, x ;>;
+end;
+
+definition
+  let IT be non empty LatticeStr over INT.Ring;
+  attr IT is Z_Lattice-like means
+:: ZMODLAT1:def 3
+
+  (for x being Vector of IT
+  st for y being Vector of IT holds <; x, y ;> = 0 holds x = 0.IT) &
+  (for x, y being Vector of IT holds <; x, y ;> = <; y, x ;>) &
+  (for x, y, z being Vector of IT, a being Element of INT.Ring
+  holds <; x+y, z ;> = <; x, z ;> + <; y, z ;>
+  & <; a*x, y ;> = a * <; x, y ;>);
+end;
+
+definition
+  let V be Z_Module,
+      sc be Function of [: the carrier of V, the carrier of V :],
+        the carrier of F_Real;
+  func GenLat (V, sc) -> non empty LatticeStr over INT.Ring equals
+:: ZMODLAT1:def 4
+  LatticeStr (# the carrier of V, the addF of V, 0.V, the lmult of V, sc #);
+end;
+
+registration
+  cluster vector-distributive scalar-distributive scalar-associative
+  scalar-unital Abelian add-associative right_zeroed right_complementable
+  strict for non empty LatticeStr over INT.Ring;
+end;
+
+registration
+  let V be Z_Module;
+  let sc be Function of [: the carrier of V, the carrier of V :],
+  the carrier of F_Real;
+  cluster GenLat (V, sc) -> Abelian add-associative right_zeroed
+  right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital;
+end;
+
+theorem :: ZMODLAT1:2
+  for V being Z_Module,
+  sc being Function of [: the carrier of V, the carrier of V :],
+  the carrier of F_Real holds
+  GenLat (V,sc) is Submodule of V;
+
+theorem :: ZMODLAT1:3
+  for V being Z_Module,
+  sc being Function of [: the carrier of V, the carrier of V :],
+  the carrier of F_Real holds
+  V is Submodule of GenLat (V,sc);
+
+registration
+  cluster free for Abelian add-associative right_zeroed
+  right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital non empty LatticeStr over INT.Ring;
+end;
+
+registration
+  let V be free Z_Module;
+  let sc be Function of [: the carrier of V, the carrier of V :],
+  the carrier of F_Real;
+  cluster GenLat (V,sc) -> free;
+end;
+
+registration
+  cluster torsion-free for Abelian add-associative right_zeroed
+  right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital non empty LatticeStr over INT.Ring;
+end;
+
+theorem :: ZMODLAT1:4
+  for V being finite-rank free Z_Module,
+      sc being Function of [: the carrier of V, the carrier of V :],
+         the carrier of F_Real holds
+    GenLat (V,sc) is finite-rank;
+
+registration
+  cluster finite-rank for free Abelian add-associative right_zeroed
+  right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital
+  non empty LatticeStr over INT.Ring;
+end;
+
+registration
+  let V be finite-rank free Z_Module;
+  let sc be Function of [: the carrier of V, the carrier of V :],
+  the carrier of F_Real;
+  cluster GenLat (V,sc) -> finite-rank;
+end;
+
+theorem :: ZMODLAT1:5
+  for V being finite-rank free Z_Module, f being Function of
+  [:the carrier of (0).V, the carrier of (0).V:], the carrier of F_Real
+  st f = [:the carrier of (0).V, the carrier of (0).V:] --> 0.F_Real holds
+  GenLat ((0).V,f) is Z_Lattice-like;
+
+registration
+  cluster Z_Lattice-like for non empty LatticeStr over INT.Ring;
+end;
+
+registration
+  cluster Z_Lattice-like for finite-rank free Abelian add-associative
+  right_zeroed right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital non empty LatticeStr over INT.Ring;
+end;
+
+registration
+  cluster strict for finite-rank free
+  Z_Lattice-like Abelian add-associative right_zeroed
+  right_complementable scalar-distributive vector-distributive
+  scalar-associative scalar-unital non empty LatticeStr over INT.Ring;
+end;
+
+definition
+  mode Z_Lattice is finite-rank free
+    Z_Lattice-like Abelian add-associative right_zeroed
+    right_complementable scalar-distributive vector-distributive
+    scalar-associative scalar-unital non empty LatticeStr over INT.Ring;
+end;
+
+theorem :: ZMODLAT1:6
+  for V being non trivial torsion-free Z_Module,
+  Z being Submodule of V, v being non zero Vector of V,
+  f being Function of
+  [:the carrier of Z, the carrier of Z:], the carrier of F_Real
+  st Z = Lin{v} &
+  (for v1, v2 being Vector of Z, a, b being Element of INT.Ring
+  st v1 = a*v & v2 = b*v holds f.(v1, v2) = a*b) holds
+  GenLat (Z,f) is Z_Lattice-like;
+
+registration
+  cluster non trivial for Z_Lattice;
+end;
+
+registration
+  let V be torsion-free Z_Module;
+  cluster Z_MQ_VectSp(V) -> scalar-distributive vector-distributive
+  scalar-associative scalar-unital add-associative right_zeroed
+  right_complementable Abelian for non empty ModuleStr over F_Rat;
+end;
+
+theorem :: ZMODLAT1:7
+  for L being Z_Lattice, v, u being Vector of L holds
+  <; v, -u ;> = - <; v, u ;> & <; -v, u ;> = - <; v, u ;>;
+
+theorem :: ZMODLAT1:8
+  for L being Z_Lattice, v, u, w being Vector of L holds
+  <; v, u + w ;> = <; v, u ;> + <; v, w ;>;
+
+theorem :: ZMODLAT1:9
+  for L being Z_Lattice, v, u being Vector of L, a being Element of INT.Ring
+  holds <; v, a*u ;> = a * <; v, u ;>;
+
+theorem :: ZMODLAT1:10
+  for L being Z_Lattice, v, u, w being Vector of L,
+  a, b being Element of INT.Ring
+  holds <; a*v + b*u, w ;> = a * <; v, w ;> + b * <; u, w ;> &
+  <; v, a*u + b*w ;> = a * <; v, u ;> + b * <; v, w ;>;
+
+theorem :: ZMODLAT1:11
+  for L being Z_Lattice, v, u, w being Vector of L holds
+  <; v-u, w ;> = <; v, w ;> - <; u, w ;> &
+  <; v, u-w ;> = <; v, u ;> - <; v, w ;>;
+
+theorem :: ZMODLAT1:12
+  for L being Z_Lattice, v being Vector of L holds
+  <; v, 0.L ;> = 0 & <; 0.L, v ;> = 0;
+
+:: Integral Lattice
+
+definition
+  let IT be Z_Lattice;
+  attr IT is INTegral means
+:: ZMODLAT1:def 5
+
+  for v, u being Vector of IT holds <; v, u ;> in INT;
+end;
+
+registration
+  cluster INTegral for Z_Lattice;
+end;
+
+registration
+  let L be INTegral Z_Lattice;
+  let v, u be Vector of L;
+  cluster <; v, u ;> -> integer;
+end;
+
+registration
+  let L be INTegral Z_Lattice;
+  let v be Vector of L;
+  cluster ||. v .|| -> integer;
+end;
+
+theorem :: ZMODLAT1:13
+  for L being Z_Lattice, I being finite Subset of L, u being Vector of L
+  st for v being Vector of L st v in I holds <; v, u ;> in INT holds
+  for v being Vector of L st v in Lin(I) holds <; v, u ;> in INT;
+
+theorem :: ZMODLAT1:14
+  for L being Z_Lattice, I being Basis of L
+  st for v, u being Vector of L st v in I & u in I holds <; v, u ;> in INT
+  holds for v, u being Vector of L holds <; v, u ;> in INT;
+
+theorem :: ZMODLAT1:15
+  for L being Z_Lattice, I being Basis of L
+  st for v, u being Vector of L st v in I & u in I holds
+  <; v, u ;> in INT
+  holds L is INTegral;
+
+definition
+  let IT be Z_Lattice;
+  attr IT is positive-definite means
+:: ZMODLAT1:def 6
+
+  for v being Vector of IT st v <> 0.IT holds ||. v .|| > 0;
+end;
+
+registration
+  cluster non trivial INTegral positive-definite for Z_Lattice;
+end;
+
+theorem :: ZMODLAT1:16
+  for L being positive-definite Z_Lattice, v being Vector of L holds
+  ||. v .|| = 0 iff v = 0.L;
+
+theorem :: ZMODLAT1:17
+  for L being positive-definite Z_Lattice, v being Vector of L holds
+  ||. v .|| >= 0;
+
+definition
+  let IT be INTegral Z_Lattice;
+  attr IT is even means
+:: ZMODLAT1:def 7
+  for v being Vector of IT holds ||. v .|| is even;
+end;
+
+registration
+  cluster even for INTegral Z_Lattice;
+end;
+
+notation
+  let L be Z_Lattice;
+  synonym dim(L) for rank(L);
+end;
+
+definition
+  let L be Z_Lattice;
+  let v, u be Vector of L;
+  pred v, u are_orthogonal means
+:: ZMODLAT1:def 8
+  <; v, u ;> = 0;
+  symmetry;
+end;
+
+theorem :: ZMODLAT1:18
+  for L being Z_Lattice, v, u being Vector of L holds
+  v, u are_orthogonal implies v, -u are_orthogonal & -v, u are_orthogonal &
+  -v, -u are_orthogonal;
+
+theorem :: ZMODLAT1:19
+  for L being Z_Lattice, v, u being Vector of L holds
+  v, u are_orthogonal implies ||. v + u .|| = ||. v .|| + ||. u .||;
+
+theorem :: ZMODLAT1:20
+  for L being Z_Lattice, v, u being Vector of L holds
+  v, u are_orthogonal implies ||. v - u .|| = ||. v .|| + ||. u .||;
+
+:: Sublattice
+definition
+  let L be Z_Lattice;
+  mode Z_Sublattice of L -> Z_Lattice means
+:: ZMODLAT1:def 9
+
+  the carrier of it c= the carrier of L & 0.it = 0.L
+  & the addF of it = (the addF of L) || the carrier of it
+  & the lmult of it = (the lmult of L) |
+  [:the carrier of INT.Ring, the carrier of it:]
+  & the scalar of it = (the scalar of L) || the carrier of it;
+end;
+
+theorem :: ZMODLAT1:21
+  for L being Z_Lattice, L1 being Z_Sublattice of L holds
+  L1 is Submodule of L;
+
+theorem :: ZMODLAT1:22
+  for x being object, L being Z_Lattice, L1, L2 being Z_Sublattice of L holds
+  x in L1 & L1 is Z_Sublattice of L2 implies x in L2;
+
+theorem :: ZMODLAT1:23
+  for x being object, L being Z_Lattice, L1 being Z_Sublattice of L holds
+  x in L1 implies x in L;
+
+theorem :: ZMODLAT1:24
+  for L being Z_Lattice, L1 being Z_Sublattice of L, w being Vector of L1 holds
+  w is Vector of L;
+
+theorem :: ZMODLAT1:25
+  for L being Z_Lattice, L1, L2 being Z_Sublattice of L holds
+  0.L1 = 0.L2;
+
+theorem :: ZMODLAT1:26
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v1, v2 being Vector of L, w1, w2 being Vector of L1 holds
+  w1 = v1 & w2 = v2 implies w1 + w2 = v1 + v2;
+
+theorem :: ZMODLAT1:27
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v being Vector of L, w being Vector of L1, a being Element of INT.Ring holds
+  w = v implies a * w = a * v;
+
+theorem :: ZMODLAT1:28
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v being Vector of L, w being Vector of L1 holds
+  w = v implies -w = -v;
+
+theorem :: ZMODLAT1:29
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v1, v2 being Vector of L, w1, w2 being Vector of L1 holds
+  w1 = v1 & w2 = v2 implies w1 - w2 = v1 - v2;
+
+theorem :: ZMODLAT1:30
+  for L being Z_Lattice, L1 being Z_Sublattice of L holds
+  0.L in L1;
+
+theorem :: ZMODLAT1:31
+  for L being Z_Lattice, L1, L2 being Z_Sublattice of L holds
+  0.L1 in L2;
+
+theorem :: ZMODLAT1:32
+  for L being Z_Lattice, L1 being Z_Sublattice of L holds
+  0.L1 in L;
+
+theorem :: ZMODLAT1:33
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v1, v2 being Vector of L holds
+  v1 in L1 & v2 in L1 implies v1 + v2 in L1;
+
+theorem :: ZMODLAT1:34
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v being Vector of L, a being Element of INT.Ring holds
+  v in L1 implies a * v in L1;
+
+theorem :: ZMODLAT1:35
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v being Vector of L holds
+  v in L1 implies -v in L1;
+
+theorem :: ZMODLAT1:36
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  v1, v2 being Vector of L holds
+  v1 in L1 & v2 in L1 implies v1 - v2 in L1;
+
+theorem :: ZMODLAT1:37
+  for L being positive-definite Z_Lattice, A being non empty set,
+  ze being Element of A,
+  ad being BinOp of A, mu being Function of [:the carrier of INT.Ring, A:],A,
+  sc being Function of [:A, A:],the carrier of F_Real
+  st A is linearly-closed Subset of L & ze = 0.L &
+  ad = (the addF of L) || A & mu = (the lmult of L) |
+  [:the carrier of INT.Ring, A:] &
+  sc = (the scalar of L) || A holds
+  LatticeStr (# A, ad, ze, mu, sc #) is Z_Sublattice of L;
+
+theorem :: ZMODLAT1:38
+  for L being Z_Lattice, L1 being Z_Sublattice of L,
+  w1, w2 being Vector of L1, v1, v2 being Vector of L
+  st w1 = v1 & w2 = v2 holds <; w1, w2 ;> = <; v1, v2 ;>;
+
+registration
+  let L be INTegral Z_Lattice;
+  cluster -> INTegral for Z_Sublattice of L;
+end;
+
+registration
+  let L be positive-definite Z_Lattice;
+  cluster -> positive-definite for Z_Sublattice of L;
+end;
+
+definition
+  let V,W be ModuleStr over INT.Ring;
+  mode FrForm of V,W is Function of [:the carrier of V,the carrier of W:], the
+  carrier of F_Real;
+end;
+
+definition
+  let V, W be ModuleStr over INT.Ring;
+  func NulFrForm(V,W) -> FrForm of V,W equals
+:: ZMODLAT1:def 10
+  [:the carrier of V,the carrier of W:] --> 0.F_Real;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be FrForm of V,W;
+  func f+g -> FrForm of V,W means
+:: ZMODLAT1:def 11
+
+  for v being Vector of V, w being Vector of W holds
+  it.(v,w) = f.(v,w)+g.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W;
+  let a be Element of F_Real;
+  func a*f -> FrForm of V,W means
+:: ZMODLAT1:def 12
+
+  for v being Vector of V, w being Vector of W holds it.(v,w) = a*f.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W;
+  func -f -> FrForm of V,W means
+:: ZMODLAT1:def 13
+
+  for v being Vector of V, w being Vector of W holds it.(v,w) = -f.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W;
+  redefine func -f equals
+:: ZMODLAT1:def 14
+  (- 1.F_Real) *f;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be FrForm of V,W;
+  func f-g -> FrForm of V,W equals
+:: ZMODLAT1:def 15
+  f + -g;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be FrForm of V,W;
+  redefine func f - g means
+:: ZMODLAT1:def 16
+
+  for v being Vector of V, w being Vector of W holds
+  it.(v,w) = f.(v,w) - g.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be FrForm of V,W;
+  redefine func f+g;
+  commutativity;
+end;
+
+theorem :: ZMODLAT1:39
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W
+  holds f + NulFrForm(V,W) = f;
+
+theorem :: ZMODLAT1:40
+  for V, W being non empty ModuleStr over INT.Ring, f, g, h being FrForm of V,W
+  holds f+g+h = f+(g+h);
+
+theorem :: ZMODLAT1:41
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W
+  holds f - f = NulFrForm(V,W);
+
+theorem :: ZMODLAT1:42
+  for V, W being non empty ModuleStr over INT.Ring, a being Element of F_Real,
+  f, g being FrForm of V,W holds
+  a*(f+g) = a*f+a*g;
+
+theorem :: ZMODLAT1:43
+  for V, W being non empty ModuleStr over INT.Ring,
+  a, b being Element of F_Real, f being FrForm of V,W holds
+  (a+b)*f = a*f+b*f;
+
+theorem :: ZMODLAT1:44
+  for V, W being non empty ModuleStr over INT.Ring,
+  a, b being Element of F_Real, f being FrForm of V,W holds
+  (a*b)*f = a*(b*f);
+
+theorem :: ZMODLAT1:45
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W
+  holds (1.F_Real)*f = f;
+
+definition
+  let V be ModuleStr over INT.Ring;
+  mode FrFunctional of V is
+  Function of the carrier of V, the carrier of F_Real;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let f, g be FrFunctional of V;
+
+  func f+g -> FrFunctional of V means
+:: ZMODLAT1:def 17
+
+  for x being Element of V holds it.x = f.x + g.x;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let f be FrFunctional of V;
+  func -f -> FrFunctional of V means
+:: ZMODLAT1:def 18
+
+  for x being Element of V holds it.x = - (f.x);
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let f, g be FrFunctional of V;
+  func f-g -> FrFunctional of V equals
+:: ZMODLAT1:def 19
+  f+-g;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let v be Element of F_Real;
+  let f be FrFunctional of V;
+  func v*f -> FrFunctional of V means
+:: ZMODLAT1:def 20
+
+  for x being Element of V holds it.x = v*(f.x);
+end;
+
+definition
+  let V be ModuleStr over INT.Ring;
+  func 0FrFunctional(V) -> FrFunctional of V equals
+:: ZMODLAT1:def 21
+  [#]V --> 0.F_Real;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let F be FrFunctional of V;
+
+  attr F is homogeneous means
+:: ZMODLAT1:def 22
+
+  for x being Vector of V, r being Scalar of V holds F.(r*x) = r*F.x;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let F be FrFunctional of V;
+  attr F is 0-preserving means
+:: ZMODLAT1:def 23
+  F.(0.V) = 0.F_Real;
+end;
+
+registration
+  let V be Z_Module;
+  cluster homogeneous -> 0-preserving for FrFunctional of V;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster 0FrFunctional(V) -> additive;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster 0FrFunctional(V) -> homogeneous;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster 0FrFunctional(V) -> 0-preserving;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster additive homogeneous
+  0-preserving for FrFunctional of V;
+end;
+
+theorem :: ZMODLAT1:46
+  for V be non empty ModuleStr over INT.Ring, f, g be FrFunctional of V holds
+  f+g = g+f;
+
+theorem :: ZMODLAT1:47
+  for V being non empty ModuleStr over INT.Ring,
+  f, g, h being FrFunctional of V holds f+g+h = f+(g+h);
+
+theorem :: ZMODLAT1:48
+  for V being non empty ModuleStr over INT.Ring,
+  x being Element of V holds (0FrFunctional(V)).x = 0.F_Real;
+
+theorem :: ZMODLAT1:49
+  for V being non empty ModuleStr over INT.Ring, f being FrFunctional of V
+  holds f + 0FrFunctional(V) = f;
+
+theorem :: ZMODLAT1:50
+  for V being non empty ModuleStr over INT.Ring, f being FrFunctional of V
+  holds f-f = 0FrFunctional(V);
+
+theorem :: ZMODLAT1:51
+  for V being non empty ModuleStr over INT.Ring, r being Element of F_Real,
+  f, g being FrFunctional of V holds r*(f+g) = r*f+r*g;
+
+theorem :: ZMODLAT1:52
+  for V being non empty ModuleStr over INT.Ring, r, s being Element of F_Real,
+  f being FrFunctional of V holds (r+s)*f = r*f+s*f;
+
+theorem :: ZMODLAT1:53
+  for V being non empty ModuleStr over INT.Ring, r, s being Element of F_Real,
+  f being FrFunctional of V holds (r*s)*f = r*(s*f);
+
+theorem :: ZMODLAT1:54
+  for V being non empty ModuleStr over INT.Ring, f being FrFunctional of V
+  holds (1.F_Real)*f = f;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let f,g be additive FrFunctional of V;
+  cluster f+g -> additive;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let f be additive FrFunctional of V;
+  cluster -f -> additive;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let v be Element of F_Real;
+  let f be additive FrFunctional of V;
+  cluster v*f -> additive;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneous FrFunctional of V;
+  cluster f+g -> homogeneous;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let f be homogeneous FrFunctional of V;
+  cluster -f -> homogeneous;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  let v be Element of F_Real;
+  let f be homogeneous FrFunctional of V;
+  cluster v*f -> homogeneous;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W, v be Vector of V;
+  func FrFunctionalFAF(f,v) -> FrFunctional of W equals
+:: ZMODLAT1:def 24
+  (curry f).v;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W, w be Vector of W;
+  func FrFunctionalSAF(f,w) -> FrFunctional of V equals
+:: ZMODLAT1:def 25
+  (curry' f).w;
+end;
+
+theorem :: ZMODLAT1:55
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  v being Vector of V
+  holds dom (FrFunctionalFAF(f,v)) = the
+  carrier of W & rng (FrFunctionalFAF(f,v)) c= the carrier of F_Real
+  & for w being Vector of W holds (FrFunctionalFAF(f,v)).w = f.(v,w);
+
+theorem :: ZMODLAT1:56
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  w being Vector of W holds dom (FrFunctionalSAF(f,w)) = the
+  carrier of V & rng (FrFunctionalSAF(f,w)) c= the carrier of F_Real &
+  for v being Vector of V holds (FrFunctionalSAF(f,w)).v = f.(v,w);
+
+theorem :: ZMODLAT1:57
+  for V being non empty ModuleStr over INT.Ring, x being Element of V
+  holds (0FrFunctional(V)).x = 0.F_Real;
+
+theorem :: ZMODLAT1:58
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V holds
+  FrFunctionalFAF(NulFrForm(V,W),v) = 0FrFunctional(W);
+
+theorem :: ZMODLAT1:59
+  for V, W being non empty ModuleStr over INT.Ring, w being Vector of W holds
+  FrFunctionalSAF(NulFrForm(V,W),w) = 0FrFunctional(V);
+
+theorem :: ZMODLAT1:60
+  for V, W being non empty ModuleStr over INT.Ring, f, g being FrForm of V,W,
+  w being Vector of W holds
+  FrFunctionalSAF(f+g,w) = FrFunctionalSAF(f,w) + FrFunctionalSAF(g,w);
+
+theorem :: ZMODLAT1:61
+  for V, W being non empty ModuleStr over INT.Ring, f, g being FrForm of V,W,
+  v being Vector of V holds
+  FrFunctionalFAF(f+g,v) = FrFunctionalFAF(f,v) + FrFunctionalFAF(g,v);
+
+theorem :: ZMODLAT1:62
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  a being Element of F_Real, w being Vector of W holds
+  FrFunctionalSAF(a*f,w) = a*FrFunctionalSAF(f,w);
+
+theorem :: ZMODLAT1:63
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  a being Element of F_Real, v being Vector of V holds
+  FrFunctionalFAF(a*f,v) = a*FrFunctionalFAF(f,v);
+
+theorem :: ZMODLAT1:64
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  w being Vector of W holds
+  FrFunctionalSAF(-f,w) = -FrFunctionalSAF(f,w);
+
+theorem :: ZMODLAT1:65
+  for V, W being non empty ModuleStr over INT.Ring, f being FrForm of V,W,
+  v being Vector of V holds
+  FrFunctionalFAF(-f,v) = -FrFunctionalFAF(f,v);
+
+theorem :: ZMODLAT1:66
+  for V, W being non empty ModuleStr over INT.Ring, f, g being FrForm of V,W,
+  w being Vector of W holds
+  FrFunctionalSAF(f-g,w) = FrFunctionalSAF(f,w) - FrFunctionalSAF(g,w);
+
+theorem :: ZMODLAT1:67
+  for V, W being non empty ModuleStr over INT.Ring, f, g being FrForm of V,W,
+  v being Vector of V holds
+  FrFunctionalFAF(f-g,v) = FrFunctionalFAF(f,v) - FrFunctionalFAF(g,v);
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrFunctional of V;
+  let g be FrFunctional of W;
+  func FrFormFunctional(f,g) -> FrForm of V,W means
+:: ZMODLAT1:def 26
+
+  for v being Vector of V, w being Vector of W holds it.(v,w)= f.v * g.w;
+end;
+
+theorem :: ZMODLAT1:68
+  for V, W being non empty ModuleStr over INT.Ring, f being FrFunctional of V,
+  v being Vector of V, w being Vector of W holds
+  FrFormFunctional(f,0FrFunctional(W)).(v,w) = 0.INT.Ring;
+
+theorem :: ZMODLAT1:69
+  for V, W being non empty ModuleStr over INT.Ring, g being FrFunctional of W,
+  v being Vector of V, w being Vector of W holds
+  FrFormFunctional(0FrFunctional(V),g).(v,w) = 0.INT.Ring;
+
+theorem :: ZMODLAT1:70
+  for V, W being non empty ModuleStr over INT.Ring, f being FrFunctional of V
+  holds FrFormFunctional(f,0FrFunctional(W)) = NulFrForm(V,W);
+
+theorem :: ZMODLAT1:71
+  for V, W being non empty ModuleStr over INT.Ring, g being FrFunctional of W
+  holds FrFormFunctional(0FrFunctional(V),g) = NulFrForm(V,W);
+
+theorem :: ZMODLAT1:72
+  for V, W being non empty ModuleStr over INT.Ring, f being FrFunctional of V,
+  g being FrFunctional of W, v being Vector of V holds
+  FrFunctionalFAF(FrFormFunctional(f,g),v) = f.v * g;
+
+theorem :: ZMODLAT1:73
+  for V, W being non empty ModuleStr over INT.Ring, f being FrFunctional of V,
+  g being FrFunctional of W, w being Vector of W holds
+  FrFunctionalSAF(FrFormFunctional(f,g),w) = g.w * f;
+
+begin :: 2. Bilinear forms over real number field $\mathbb R$, and their properties
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W;
+  attr f is additiveFAF means
+:: ZMODLAT1:def 27
+
+  for v being Vector of V holds FrFunctionalFAF (f,v) is additive;
+  attr f is additiveSAF means
+:: ZMODLAT1:def 28
+
+  for w being Vector of W holds FrFunctionalSAF (f,w) is additive;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrForm of V,W;
+  attr f is homogeneousFAF means
+:: ZMODLAT1:def 29
+
+  for v being Vector of V holds FrFunctionalFAF(f,v) is homogeneous;
+  attr f is homogeneousSAF means
+:: ZMODLAT1:def 30
+
+  for w being Vector of W holds FrFunctionalSAF(f,w) is homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster NulFrForm(V,W) -> additiveFAF;
+  cluster NulFrForm(V,W) -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster additiveFAF additiveSAF for FrForm of V,W;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster NulFrForm(V,W) -> homogeneousFAF;
+  cluster NulFrForm(V,W) -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster additiveFAF homogeneousFAF additiveSAF homogeneousSAF
+  for FrForm of V,W;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  mode bilinear-FrForm of V,W is additiveSAF homogeneousSAF additiveFAF
+  homogeneousFAF FrForm of V,W;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF FrForm of V,W, v be Vector of V;
+  cluster FrFunctionalFAF(f,v) -> additive;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF FrForm of V,W, w be Vector of W;
+  cluster FrFunctionalSAF(f,w) -> additive;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF FrForm of V,W, v be Vector of V;
+  cluster FrFunctionalFAF(f,v) -> homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF FrForm of V,W, w be Vector of W;
+  cluster FrFunctionalSAF(f,w) -> homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrFunctional of V, g be additive FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additive FrFunctional of V, g be FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be FrFunctional of V, g be homogeneous FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneous FrFunctional of V, g be FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> homogeneousSAF;
+end;
+
+registration
+  let V be non trivial ModuleStr over INT.Ring, W be non empty ModuleStr
+  over INT.Ring;
+  let f be FrFunctional of V, g be FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> non trivial;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring,
+  W be non trivial ModuleStr over INT.Ring;
+  let f be FrFunctional of V, g be FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> non trivial;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  let F be FrFunctional of V;
+  attr F is 0-preserving means
+:: ZMODLAT1:def 31
+
+  F.(0.V) = 0.F_Real;
+end;
+
+registration
+  let V be Z_Module;
+  cluster homogeneous -> 0-preserving for FrFunctional of V;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster 0FrFunctional(V) -> 0-preserving;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster additive homogeneous 0-preserving for FrFunctional of V;
+end;
+
+registration
+  let V be non trivial free Z_Module;
+  cluster additive homogeneous non constant non trivial
+  for FrFunctional of V;
+end;
+
+theorem :: ZMODLAT1:74
+  for V being non trivial free Z_Module,
+  f being non constant 0-preserving FrFunctional of V
+  ex v being Vector of V st v <> 0.V & f.v <> 0.F_Real;
+
+registration
+  let V, W be non trivial free Z_Module;
+  let f be non constant 0-preserving FrFunctional of V,
+  g be non constant 0-preserving FrFunctional of W;
+  cluster FrFormFunctional(f,g) -> non constant;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  mode linear-FrFunctional of V is additive homogeneous FrFunctional of V;
+end;
+
+registration
+  let V, W be non trivial free Z_Module;
+  cluster non trivial non constant additiveFAF homogeneousFAF additiveSAF
+  homogeneousSAF for FrForm of V,W;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveSAF FrForm of V,W;
+  cluster f+g -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveFAF FrForm of V,W;
+  cluster f+g -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF FrForm of V,W;
+  let a be Element of F_Real;
+  cluster a*f -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF FrForm of V,W;
+  let a be Element of F_Real;
+  cluster a*f -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF FrForm of V,W;
+  cluster -f -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF FrForm of V,W;
+  cluster -f -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveSAF FrForm of V,W;
+  cluster f-g -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveFAF FrForm of V,W;
+  cluster f-g -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousSAF FrForm of V,W;
+  cluster f+g -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousFAF FrForm of V,W;
+  cluster f+g -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF FrForm of V,W;
+  let a be Element of F_Real;
+  cluster a*f -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF FrForm of V,W;
+  let a be Element of F_Real;
+  cluster a*f -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF FrForm of V,W;
+  cluster -f -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF FrForm of V,W;
+  cluster -f -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousSAF FrForm of V,W;
+  cluster f-g -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousFAF FrForm of V,W;
+  cluster f-g -> homogeneousFAF;
+end;
+
+theorem :: ZMODLAT1:75
+  for V, W being non empty ModuleStr over INT.Ring, v, u being Vector of V,
+  w being Vector of W, f being FrForm of V,W st f is additiveSAF
+  holds f.(v+u,w) = f.(v,w) + f.(u,w);
+
+theorem :: ZMODLAT1:76
+  for V,W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  u, w being Vector of W, f being FrForm of V,W st f is additiveFAF
+  holds f.(v,u+w) = f.(v,u) + f.(v,w);
+
+theorem :: ZMODLAT1:77
+  for V,W being non empty ModuleStr over INT.Ring, v, u being Vector of V,
+  w, t being Vector of W, f being additiveSAF additiveFAF FrForm of V,W
+  holds f.(v+u,w+t) = f.(v,w) + f.(v,t) + (f.(u,w) + f.(u,t));
+
+theorem :: ZMODLAT1:78
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+  f being additiveFAF FrForm of V,W, v being Vector of V holds
+  f.(v,0.W) = 0.INT.Ring;
+
+theorem :: ZMODLAT1:79
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+  f being additiveSAF FrForm of V,W, w being Vector of W holds
+  f.(0.V,w) = 0.INT.Ring;
+
+theorem :: ZMODLAT1:80
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  w being Vector of W, a being Element of INT.Ring, f being FrForm of V,W
+  st f is homogeneousSAF holds f.(a*v,w) = a*f.(v,w);
+
+theorem :: ZMODLAT1:81
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  w being Vector of W, a being Element of INT.Ring, f being FrForm of V,W
+  st f is homogeneousFAF holds f.(v,a*w) = a*f.(v,w);
+
+theorem :: ZMODLAT1:82
+  for V, W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, f being homogeneousSAF FrForm of V,W,
+  w being Vector of W holds f.(0.V,w) = 0.F_Real;
+
+theorem :: ZMODLAT1:83
+  for V, W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, f being homogeneousFAF FrForm of V,W,
+  v being Vector of V holds f.(v,0.W) = 0.F_Real;
+
+theorem :: ZMODLAT1:84
+  for V, W being Z_Module, v, u being Vector of V, w being Vector of W,
+  f being additiveSAF homogeneousSAF FrForm of V,W holds
+  f.(v-u,w) = f.(v,w) - f.(u,w);
+
+theorem :: ZMODLAT1:85
+  for V, W being Z_Module, v being Vector of V, w, t being Vector of W,
+  f being additiveFAF homogeneousFAF FrForm of V,W holds
+  f.(v,w-t) = f.(v,w) - f.(v,t);
+
+theorem :: ZMODLAT1:86
+  for V, W being Z_Module, v, u being Vector of V, w, t being Vector of W,
+  f being bilinear-FrForm of V,W holds
+  f.(v-u,w-t) = f.(v,w) - f.(v,t) -(f.(u,w) - f.(u,t));
+
+theorem :: ZMODLAT1:87
+  for V,W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, v, u being Vector of V,
+  w, t being Vector of W, a, b being Element of INT.Ring,
+  f being bilinear-FrForm of V,W holds
+  f.(v+a*u,w+b*t) = f.(v,w) + b*f.(v,t) + (a*f.(u,w) + a*(b*f.(u,t)));
+
+theorem :: ZMODLAT1:88
+  for V, W being Z_Module, v, u being Vector of V, w, t being Vector of W,
+  a, b being Element of INT.Ring, f being bilinear-FrForm of V,W
+  holds f.(v-a*u,w-b*t) = f.(v,w) - b*f.(v,t) - (a*f.(u,w) - a*(b*f.(u,t)));
+
+theorem :: ZMODLAT1:89
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+  f being FrForm of V,W st f is additiveFAF or f is additiveSAF
+  holds f is constant iff
+  for v being Vector of V, w being Vector of W holds f.(v,w) = 0.INT.Ring;
+
+begin :: 3. Matrices of bilinear form over real number field $\mathbb R$
+
+definition
+  let V1, V2 be finite-rank free Z_Module;
+  let b1 be OrdBasis of V1, b2 be OrdBasis of V2;
+  let f be bilinear-FrForm of V1,V2;
+  func BilinearM(f, b1, b2) -> Matrix of len b1, len b2, F_Real means
+:: ZMODLAT1:def 32
+
+  for i, j being Nat st i in dom b1 & j in dom b2
+  holds it*(i,j) = f.(b1/.i, b2/.j);
+end;
+
+theorem :: ZMODLAT1:90
+  for V being finite-rank free Z_Module,
+  F being linear-FrFunctional of V,
+  y being FinSequence of V,
+  x being FinSequence of INT.Ring,
+  X, Y being FinSequence of F_Real
+  st X = x & len y = len x & len X = len Y &
+  (for k being Nat st k in Seg len x holds Y.k = F.(y/.k))
+  holds X "*" Y = F.(Sum lmlt (x,y));
+
+theorem :: ZMODLAT1:91
+  for V1, V2 being finite-rank free Z_Module,
+  b2 being OrdBasis of V2, b3 being OrdBasis of V2,
+  f being bilinear-FrForm of V1, V2,
+  v1 being Vector of V1,
+  v2 being Vector of V2,
+  X, Y being FinSequence of F_Real
+  st len X = len b2 & len Y = len b2 &
+  ( for k being Nat st k in Seg len b2 holds Y.k = f.(v1, b2/.k)) &
+  X = (v2|-- b2)
+  holds Y "*" X = f.(v1, v2);
+
+theorem :: ZMODLAT1:92
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1,
+  f being bilinear-FrForm of V1, V2,
+  v1 being Vector of V1,
+  v2 being Vector of V2,
+  X,Y being FinSequence of F_Real
+  st len X = len b1 & len Y = len b1 &
+  ( for k being Nat st k in Seg len b1 holds Y.k = f.(b1/.k, v2) ) &
+  X = (v1 |-- b1)
+  holds X "*" Y = f.(v1, v2);
+
+theorem :: ZMODLAT1:93
+  for M being Matrix of INT.Ring
+  holds M is Matrix of F_Real;
+
+definition
+  let M be Matrix of INT.Ring;
+  func inttorealM(M) -> Matrix of F_Real equals
+:: ZMODLAT1:def 33
+  M;
+end;
+
+definition
+  let n, m be Nat;
+  let M be Matrix of n,m,INT.Ring;
+  redefine func inttorealM(M) -> Matrix of n,m,F_Real;
+end;
+
+definition
+  let n be Nat;
+  let M be Matrix of n,INT.Ring;
+  redefine func inttorealM(M) -> Matrix of n,F_Real;
+end;
+
+theorem :: ZMODLAT1:94
+  for m, l, n being Nat
+  for S being Matrix of l,m,INT.Ring,
+  T being Matrix of m,n,INT.Ring,
+  S1 being Matrix of l,m,F_Real,
+  T1 being Matrix of m,n,F_Real
+  st S = S1 & T = T1 & 0 < l & 0 < m
+  holds S*T = S1*T1;
+
+theorem :: ZMODLAT1:95
+  for n being Nat holds 1.(INT.Ring,n) = 1.(F_Real,n);
+
+theorem :: ZMODLAT1:96
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1, b2 being OrdBasis of V2, b3 being OrdBasis of V2,
+  f being bilinear-FrForm of V1, V2 st 0 < rank V1 holds
+  BilinearM(f, b1, b3) =
+  BilinearM(f, b1, b2) * ( (inttorealM(AutMt(id(V2), b3, b2))) @);
+
+theorem :: ZMODLAT1:97
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1, b2 being OrdBasis of V2, b3 being OrdBasis of V1,
+  f being bilinear-FrForm of V1, V2 st 0 < rank V1 holds
+  BilinearM(f, b3, b2) =
+  inttorealM(AutMt(id(V1), b3, b1)) * BilinearM(f, b1, b2);
+
+theorem :: ZMODLAT1:98
+  for V being finite-rank free Z_Module,
+  b1, b2 being OrdBasis of V, f being bilinear-FrForm of V,V
+  st 0 < rank V holds
+  BilinearM(f, b2, b2)
+  = inttorealM( AutMt(id(V), b2, b1))  * BilinearM(f, b1, b1)
+  * ((inttorealM( AutMt(id(V), b2, b1)))@);
+
+theorem :: ZMODLAT1:99
+  for V being finite-rank free Z_Module, b1, b2 being OrdBasis of V,
+      M being Matrix of rank(V),F_Real st M = AutMt(id(V), b1, b2)
+  holds ( Det M = 1 & Det M@ = 1) or ( Det M = -1 & Det M@ = -1);
+
+theorem :: ZMODLAT1:100
+  for V being finite-rank free Z_Module, b1, b2 being OrdBasis of V,
+      M being Matrix of rank(V),F_Real st M = AutMt(id(V), b1, b2)
+  holds |. Det M .| = 1;
+
+theorem :: ZMODLAT1:101
+  for V being finite-rank free Z_Module,
+      b1, b2 being OrdBasis of V, f being bilinear-FrForm of V, V
+    holds Det BilinearM(f, b2, b2) = Det BilinearM(f, b1, b1);
+
+theorem :: ZMODLAT1:102
+  for V being finite-rank free Z_Module,
+  b1, b2 being OrdBasis of V, f being bilinear-FrForm of V, V
+  holds |. Det BilinearM(f, b2, b2) .| = |. Det BilinearM(f, b1, b1) .|;
+
+definition
+  let V be finite-rank free Z_Module;
+  let f be bilinear-FrForm of V, V;
+  let b be OrdBasis of V;
+  func GramMatrix(f, b) -> Matrix of rank(V),F_Real equals
+:: ZMODLAT1:def 34
+  BilinearM(f, b, b);
+end;
+
+definition
+  let V be finite-rank free Z_Module;
+  let f be bilinear-FrForm of V, V;
+  func GramDet(f) -> Element of F_Real means
+:: ZMODLAT1:def 35
+
+  for b being OrdBasis of V holds
+  it = Det GramMatrix(f, b);
+end;
+
+definition
+  let L be Z_Lattice;
+  func InnerProduct(L) -> FrForm of L,L equals
+:: ZMODLAT1:def 36
+  the scalar of L;
+end;
+
+registration
+  let L be Z_Lattice;
+  cluster InnerProduct(L) -> additiveSAF homogeneousSAF additiveFAF
+  homogeneousFAF;
+end;
+
+definition
+  let L be Z_Lattice;
+  let b be OrdBasis of L;
+  func GramMatrix(b) -> Matrix of dim(L),F_Real equals
+:: ZMODLAT1:def 37
+  GramMatrix(InnerProduct(L),b);
+end;
+
+definition
+  let L be Z_Lattice;
+  func GramDet(L) -> Element of F_Real equals
+:: ZMODLAT1:def 38
+  GramDet(InnerProduct(L));
+end;
+
+theorem :: ZMODLAT1:103
+  for L being INTegral Z_Lattice holds
+  InnerProduct(L) is bilinear-Form of L,L;
+
+theorem :: ZMODLAT1:104
+  for L being INTegral Z_Lattice, b being OrdBasis of L holds
+  GramMatrix(b) is Matrix of dim(L),INT.Ring;
+
+registration
+  let L be INTegral Z_Lattice;
+  cluster GramDet(L) -> integer;
+end;

@@ -1,0 +1,256 @@
+:: Correctness of the High Speed Array Multiplier Circuits
+::  by Hiroshi Yamazaki and Katsumi Wasaki
+::
+:: Received August 28, 2000
+:: Copyright (c) 2000-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies GATE_1, XBOOLE_0, GATE_5;
+ notations XBOOLE_0, GATE_1;
+ constructors XBOOLE_0, GATE_1;
+ registrations XBOOLE_0, GATE_1;
+
+
+begin
+
+::The following 4 definitions are for normal 2-by-2 bit multiplier.
+
+definition
+  let x0,x1,y0,y1 be set;
+  func MULT210(x1,y1,x0,y0) -> set equals
+:: GATE_5:def 1
+  AND2(x0,y0);
+  func MULT211(x1,y1,x0,y0) -> set equals
+:: GATE_5:def 2
+  ADD1(AND2(x1,y0),AND2(x0,y1),{});
+  func MULT212(x1,y1,x0,y0) -> set equals
+:: GATE_5:def 3
+  ADD2({},AND2(x1,y1),AND2(x1,y0),AND2
+  (x0,y1),{});
+  func MULT213(x1,y1,x0,y0) -> set equals
+:: GATE_5:def 4
+  CARR2({},AND2(x1,y1),AND2(x1,y0),
+  AND2(x0,y1),{});
+end;
+
+::
+:: Logical Equivalence of 2-by-2 bit Plain Array Multiplier.
+::
+::The following theorem shows that
+:: outputs of '2-by-2 bit plain Array Multiplier' are equivalent to
+:: outputs of '2-by-2 normal Multiplier'
+:: We assume that there is no feedback loop in multiplier.
+
+theorem :: GATE_5:1
+  for x0,x1,y0,y1,z0,z1,z2,z3,q00,q01,c01,q11,c11 being set holds (q00
+is not empty iff AND2(x0,y0) is not empty)& (q01 is not empty iff XOR3(AND2(x1,
+y0),AND2(x0,y1),{} ) is not empty)& (c01 is not empty iff MAJ3(AND2(x1,y0),AND2
+(x0,y1),{} ) is not empty)& (q11 is not empty iff XOR3(AND2(x1,y1),{} ,c01) is
+not empty)& (c11 is not empty iff MAJ3(AND2(x1,y1),{} ,c01) is not empty)& (z0
+is not empty iff q00 is not empty)& (z1 is not empty iff q01 is not empty)& (z2
+  is not empty iff q11 is not empty)& (z3 is not empty iff c11 is not empty)
+  implies (z0 is not empty iff MULT210(x1,y1,x0,y0) is not empty)& (z1 is not
+empty iff MULT211(x1,y1,x0,y0) is not empty)& (z2 is not empty iff MULT212(x1,
+y1,x0,y0) is not empty)& (z3 is not empty iff MULT213(x1,y1,x0,y0) is not empty
+  );
+
+::
+:: Logical Equivalence of 3-by-3 bit Plain Array Multiplier.
+::
+::[sequence 1]
+::The following 5 definitions are for normal 3-by-2 bit multiplier.
+
+definition
+  let x0,x1,x2,y0,y1 be set;
+  func MULT310(x2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 5
+  AND2(x0,y0);
+  func MULT311(x2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 6
+  ADD1(AND2(x1,y0),AND2(x0,y1),{});
+  func MULT312(x2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 7
+  ADD2(AND2(x2,y0),AND2(x1,y1),
+  AND2(x1,y0),AND2(x0,y1),{});
+  func MULT313(x2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 8
+  ADD3({} ,AND2(x2,y1), AND2(x2,y0)
+  ,AND2(x1,y1), AND2(x1,y0),AND2(x0,y1),{});
+  func MULT314(x2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 9
+  CARR3({} ,AND2(x2,y1), AND2(x2,y0
+  ),AND2(x1,y1), AND2(x1,y0),AND2(x0,y1),{});
+end;
+
+::[sequence 2]
+::The following 4 definitions are for normal 3-by-3 bit multiplier.
+
+definition
+  let x0,x1,x2,y0,y1,y2 be set;
+  func MULT321(x2,y2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 10
+  ADD1(MULT312(x2,x1,y1,x0,y0),
+  AND2(x0,y2),{});
+  func MULT322(x2,y2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 11
+  ADD2(MULT313(x2,x1,y1,x0,y0),
+  AND2(x1,y2), MULT312(x2,x1,y1,x0,y0),AND2(x0,y2),{});
+  func MULT323(x2,y2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 12
+  ADD3(MULT314(x2,x1,y1,x0,y0),
+AND2(x2,y2), MULT313(x2,x1,y1,x0,y0),AND2(x1,y2), MULT312(x2,x1,y1,x0,y0),AND2(
+  x0,y2),{});
+  func MULT324(x2,y2,x1,y1,x0,y0) -> set equals
+:: GATE_5:def 13
+  CARR3(MULT314(x2,x1,y1,x0,y0),
+AND2(x2,y2), MULT313(x2,x1,y1,x0,y0),AND2(x1,y2), MULT312(x2,x1,y1,x0,y0),AND2(
+  x0,y2),{});
+end;
+
+::The following theorem shows that
+:: outputs of '3-by-3 bit plain Array Multiplier' are equivalent to
+:: outputs of '3-by-3 normal (sequencial) Multiplier'
+:: We assume that there is no feedback loop in multiplier.
+
+theorem :: GATE_5:2 ::3AM:
+  for x0,x1,x2,y0,y1,y2,z0,z1,z2,z3,z4,z5, q00,q01,q02,c01,c02,q11,q12,
+  c11,c12,q21,q22,c21,c22 being set holds (q00 is not empty iff AND2(x0,y0) is
+  not empty)& (q01 is not empty iff XOR3(AND2(x1,y0),AND2(x0,y1),{} ) is not
+empty)& (c01 is not empty iff MAJ3(AND2(x1,y0),AND2(x0,y1),{} ) is not empty)&
+(q02 is not empty iff XOR3(AND2(x2,y0),AND2(x1,y1),{} ) is not empty)& (c02 is
+  not empty iff MAJ3(AND2(x2,y0),AND2(x1,y1),{} ) is not empty)& (q11 is not
+empty iff XOR3(q02,AND2(x0,y2),c01) is not empty)& (c11 is not empty iff MAJ3(
+q02,AND2(x0,y2),c01) is not empty)& (q12 is not empty iff XOR3(AND2(x2,y1),AND2
+(x1,y2),c02) is not empty)& (c12 is not empty iff MAJ3(AND2(x2,y1),AND2(x1,y2),
+c02) is not empty)& (q21 is not empty iff XOR3(q12,{} ,c11) is not empty)& (c21
+  is not empty iff MAJ3(q12,{} ,c11) is not empty)& (q22 is not empty iff XOR3(
+AND2(x2,y2),c21,c12) is not empty)& (c22 is not empty iff MAJ3(AND2(x2,y2),c21,
+  c12) is not empty)& (z0 is not empty iff q00 is not empty)& (z1 is not empty
+iff q01 is not empty)& (z2 is not empty iff q11 is not empty)& (z3 is not empty
+iff q21 is not empty)& (z4 is not empty iff q22 is not empty)& (z5 is not empty
+iff c22 is not empty) implies (z0 is not empty iff MULT310(x2, x1,y1,x0,y0) is
+not empty)& (z1 is not empty iff MULT311(x2, x1,y1,x0,y0) is not empty)& (z2 is
+  not empty iff MULT321(x2,y2,x1,y1,x0,y0) is not empty)& (z3 is not empty iff
+MULT322(x2,y2,x1,y1,x0,y0) is not empty)& (z4 is not empty iff MULT323(x2,y2,x1
+  ,y1,x0,y0) is not empty)& (z5 is not empty iff MULT324(x2,y2,x1,y1,x0,y0) is
+  not empty);
+
+begin :: Logical Equivalence of Wallace tree Multiplier.
+::
+:: Logical Equivalence of 3-by-3 bit Wallace tree Multiplier.
+::
+::The following theorem shows that
+:: outputs of '3-by-3 bit Wallace tree Multiplier' are equivalent to
+:: outputs of '3-by-3 normal (sequencial) Multiplier'
+:: We assume that there is no feedback loop in multiplier.
+
+theorem :: GATE_5:3
+  for x0,x1,x2,y0,y1,y2,z0,z1,z2,z3,z4,z5, q00,q01,q02,q03,c01,c02,c03,
+  q11,q12,q13,c11,c12,c13 being set holds (q00 is not empty iff AND2(x0,y0) is
+not empty)& (q01 is not empty iff XOR3(AND2(x1,y0),AND2(x0,y1),{}) is not empty
+  )& (c01 is not empty iff MAJ3(AND2(x1,y0),AND2(x0,y1),{}) is not empty)& (q02
+is not empty iff XOR3(AND2(x2,y0),AND2(x1,y1),AND2(x0,y2)) is not empty)& (c02
+is not empty iff MAJ3(AND2(x2,y0),AND2(x1,y1),AND2(x0,y2)) is not empty)& (q03
+  is not empty iff XOR3(AND2(x2,y1),AND2(x1,y2),{}) is not empty)& (c03 is not
+empty iff MAJ3(AND2(x2,y1),AND2(x1,y2),{}) is not empty)& (q11 is not empty iff
+  XOR3(q02,c01,{}) is not empty)& (c11 is not empty iff MAJ3(q02,c01,{}) is not
+  empty)& (q12 is not empty iff XOR3(q03,c02,c11) is not empty)& (c12 is not
+empty iff MAJ3(q03,c02,c11) is not empty)& (q13 is not empty iff XOR3(AND2(x2,
+y2),c03,c12) is not empty)& (c13 is not empty iff MAJ3(AND2(x2,y2),c03,c12) is
+not empty)& (z0 is not empty iff q00 is not empty)& (z1 is not empty iff q01 is
+not empty)& (z2 is not empty iff q11 is not empty)& (z3 is not empty iff q12 is
+not empty)& (z4 is not empty iff q13 is not empty)& (z5 is not empty iff c13 is
+not empty) implies (z0 is not empty iff MULT310(x2, x1,y1,x0,y0) is not empty)&
+  (z1 is not empty iff MULT311(x2, x1,y1,x0,y0) is not empty)& (z2 is not empty
+iff MULT321(x2,y2,x1,y1,x0,y0) is not empty)& (z3 is not empty iff MULT322(x2,
+y2,x1,y1,x0,y0) is not empty)& (z4 is not empty iff MULT323(x2,y2,x1,y1,x0,y0)
+  is not empty)& (z5 is not empty iff MULT324(x2,y2,x1,y1,x0,y0) is not empty);
+
+::
+:: Carry Look-up Ahead (CLA) Adder
+:: (This eqivalency has been checked out by the theorem GATE_1:44.)
+::
+::The following two definitions are for CLA 1 bit adder.
+
+notation
+  let a1,b1,c be set;
+  synonym CLAADD1(a1,b1,c) for XOR3(a1,b1,c);
+  synonym CLACARR1(a1,b1,c) for MAJ3(a1,b1,c);
+end;
+
+::The following two definitions are for CLA 2 bit adder.
+
+definition
+  let a1,b1,a2,b2,c be set;
+
+  func CLAADD2(a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 14
+  XOR3(a2,b2,MAJ3(a1,b1,c));
+  func CLACARR2(a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 15
+  OR2(AND2(a2,b2),AND2(OR2(a2,b2),
+  MAJ3(a1,b1,c)));
+end;
+
+::The following two definitions are for CLA 3 bit adder.
+
+definition
+  let a1,b1,a2,b2,a3,b3,c be set;
+  func CLAADD3(a3,b3,a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 16
+  XOR3(a3,b3,CLACARR2(a2,b2,a1
+  ,b1,c));
+  func CLACARR3(a3,b3,a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 17
+  OR3(AND2(a3,b3),AND2(OR2(a3
+  ,b3),AND2(a2,b2)), AND3(OR2(a3,b3),OR2(a2,b2),MAJ3(a1,b1,c)));
+end;
+
+::The following two definitions are for CLA 4 bit adder.
+
+definition
+  let a1,b1,a2,b2,a3,b3,a4,b4,c be set;
+  func CLAADD4(a4,b4,a3,b3,a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 18
+  XOR3(a4,b4,CLACARR3(a3
+  ,b3,a2,b2,a1,b1,c));
+  func CLACARR4(a4,b4,a3,b3,a2,b2,a1,b1,c) -> set equals
+:: GATE_5:def 19
+  OR4(AND2(a4,b4),AND2(
+OR2(a4,b4),AND2(a3,b3)), AND3(OR2(a4,b4),OR2(a3,b3),AND2(a2,b2)), AND4(OR2(a4,
+  b4),OR2(a3,b3),OR2(a2,b2),MAJ3(a1,b1,c)));
+end;
+
+::The following theorem shows that
+:: outputs of '3-by-3 bit Wallace tree Multiplier' by using Carry Look-up
+:: Ahead Adder are equivalent to outputs of '3-by-3 normal (sequencial)
+:: Multiplier'.
+:: We assume that there is no feedback loop in multiplier.
+
+theorem :: GATE_5:4 ::3WTMCLA:
+  for x0,x1,x2,y0,y1,y2,z0,z1,z2,z3,z4,z5, q00,q01,q02,q03,c01,c02,c03
+  being set holds (q00 is not empty iff AND2(x0,y0) is not empty)& (q01 is not
+empty iff XOR3(AND2(x1,y0),AND2(x0,y1),{}) is not empty)& (c01 is not empty iff
+MAJ3(AND2(x1,y0),AND2(x0,y1),{}) is not empty)& (q02 is not empty iff XOR3(AND2
+(x2,y0),AND2(x1,y1),AND2(x0,y2)) is not empty)& (c02 is not empty iff MAJ3(AND2
+(x2,y0),AND2(x1,y1),AND2(x0,y2)) is not empty)& (q03 is not empty iff XOR3(AND2
+(x2,y1),AND2(x1,y2),{}) is not empty)& (c03 is not empty iff MAJ3(AND2(x2,y1),
+  AND2(x1,y2),{}) is not empty)& (z0 is not empty iff q00 is not empty)& (z1 is
+  not empty iff q01 is not empty)& (z2 is not empty iff CLAADD1( q02,c01,{}) is
+not empty)& (z3 is not empty iff CLAADD2( q03,c02,q02,c01,{}) is not empty)& (
+z4 is not empty iff CLAADD3(AND2(x2,y2),c03,q03,c02,q02,c01,{}) is not empty)&
+(z5 is not empty iff CLACARR3(AND2(x2,y2),c03,q03,c02,q02,c01,{}) is not empty)
+implies (z0 is not empty iff MULT310(x2, x1,y1,x0,y0) is not empty)& (z1 is not
+empty iff MULT311(x2, x1,y1,x0,y0) is not empty)& (z2 is not empty iff MULT321(
+x2,y2,x1,y1,x0,y0) is not empty)& (z3 is not empty iff MULT322(x2,y2,x1,y1,x0,
+y0) is not empty)& (z4 is not empty iff MULT323(x2,y2,x1,y1,x0,y0) is not empty
+  )& (z5 is not empty iff MULT324(x2,y2,x1,y1,x0,y0) is not empty);

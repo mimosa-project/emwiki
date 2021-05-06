@@ -1,0 +1,433 @@
+:: Linear Combinations in Right Module over Associative Ring
+::  by Michal Muzalewski and Wojciech Skaba
+::
+:: Received October 22, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FUNCSDOM, VECTSP_2, VECTSP_1, FINSEQ_1, NAT_1, SUBSET_1,
+      FUNCT_1, FINSET_1, ARYTM_3, RELAT_1, CARD_3, XXREAL_0, TARSKI, CARD_1,
+      STRUCT_0, SUPINF_2, PARTFUN1, XBOOLE_0, ORDINAL4, ARYTM_1, RLVECT_2,
+      FUNCT_2, FUNCOP_1, VALUED_1, GROUP_1, RLSUB_1, FINSEQ_4, RLVECT_3,
+      RMOD_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, XCMPLX_0, FINSET_1, FINSEQ_1, ORDINAL1,
+      NUMBERS, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, NAT_1, CARD_1, DOMAIN_1,
+      STRUCT_0, ALGSTR_0, RLVECT_1, GROUP_1, VECTSP_1, FINSEQ_4, VECTSP_2,
+      RMOD_2, RMOD_3, FUNCOP_1, XXREAL_0;
+ constructors PARTFUN1, DOMAIN_1, FUNCOP_1, XXREAL_0, NAT_1, FINSEQ_4,
+      RLVECT_2, RMOD_2, RMOD_3, RELSET_1;
+ registrations XBOOLE_0, SUBSET_1, FUNCT_1, RELSET_1, FINSET_1, XREAL_0,
+      STRUCT_0, VECTSP_1, ORDINAL1, FINSEQ_1, VECTSP_2, RMOD_2, CARD_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET;
+
+
+begin
+
+reserve R for Ring,
+  V for RightMod of R,
+  a,b for Scalar of R,
+  x,y for set,
+  p,q ,r for FinSequence,
+  i,k for Nat,
+  u,v,v1,v2,v3,w for Vector of V,
+  F,G,H for FinSequence of V,
+  A,B for Subset of V,
+  f for Function of V, R,
+  S,T for finite Subset of V;
+
+theorem :: RMOD_4:1
+  len F = len G & (for k,v st k in dom F & v = G.k holds F.k = v *
+  a) implies Sum(F) = Sum(G) * a;
+
+theorem :: RMOD_4:2
+  Sum(<*>(the carrier of V)) * a = 0.V;
+
+theorem :: RMOD_4:3
+  Sum<* v,u *> * a = v * a + u * a;
+
+theorem :: RMOD_4:4
+  Sum<* v,u,w *> * a = v * a + u * a + w * a;
+
+definition
+  let R, V, T;
+
+  func Sum(T) -> Vector of V means
+:: RMOD_4:def 1
+
+  ex F st rng F = T & F is one-to-one & it = Sum(F);
+end;
+
+theorem :: RMOD_4:5
+  Sum({}V) = 0.V;
+
+theorem :: RMOD_4:6
+  Sum{v} = v;
+
+theorem :: RMOD_4:7
+  v1 <> v2 implies Sum{v1,v2} = v1 + v2;
+
+theorem :: RMOD_4:8
+  v1 <> v2 & v2 <> v3 & v1 <> v3 implies Sum{v1,v2,v3} = v1 + v2 + v3;
+
+theorem :: RMOD_4:9
+  T misses S implies Sum(T \/ S) = Sum(T) + Sum(S);
+
+theorem :: RMOD_4:10
+  Sum(T \/ S) = Sum(T) + Sum(S) - Sum(T /\ S);
+
+theorem :: RMOD_4:11
+  Sum(T /\ S) = Sum(T) + Sum(S) - Sum(T \/ S);
+
+theorem :: RMOD_4:12
+  Sum(T \ S) = Sum(T \/ S) - Sum(S);
+
+theorem :: RMOD_4:13
+  Sum(T \ S) = Sum(T) - Sum(T /\ S);
+
+theorem :: RMOD_4:14
+  Sum(T \+\ S) = Sum(T \/ S) - Sum(T /\ S);
+
+theorem :: RMOD_4:15
+  Sum(T \+\ S) = Sum(T \ S) + Sum(S \ T);
+
+definition
+  let R, V;
+  mode Linear_Combination of V -> Element of Funcs(the carrier of V, the
+    carrier of R) means
+:: RMOD_4:def 2
+
+    ex T st for v st not v in T holds it.v = 0.R;
+end;
+
+reserve L,L1,L2,L3 for Linear_Combination of V;
+
+definition
+  let R, V, L;
+  func Carrier(L) -> finite Subset of V equals
+:: RMOD_4:def 3
+  {v : L.v <> 0.R};
+end;
+
+theorem :: RMOD_4:16
+  x in Carrier(L) iff ex v st x = v & L.v <> 0.R;
+
+theorem :: RMOD_4:17
+  L.v = 0.R iff not v in Carrier(L);
+
+definition
+  let R, V;
+  func ZeroLC(V) -> Linear_Combination of V means
+:: RMOD_4:def 4
+
+  Carrier(it) = {};
+end;
+
+theorem :: RMOD_4:18
+  ZeroLC(V).v = 0.R;
+
+definition
+  let R, V, A;
+  mode Linear_Combination of A -> Linear_Combination of V means
+:: RMOD_4:def 5
+
+    Carrier (it) c= A;
+end;
+
+reserve l for Linear_Combination of A;
+
+theorem :: RMOD_4:19
+  A c= B implies l is Linear_Combination of B;
+
+theorem :: RMOD_4:20
+  ZeroLC(V) is Linear_Combination of A;
+
+theorem :: RMOD_4:21
+  for l being Linear_Combination of {}(the carrier of V) holds l = ZeroLC(V);
+
+theorem :: RMOD_4:22
+  L is Linear_Combination of Carrier(L);
+
+definition
+  let R, V, F, f;
+  func f (#) F -> FinSequence of V means
+:: RMOD_4:def 6
+
+  len it = len F & for i being
+  Nat st i in dom it holds it.i = (F/.i) * f.(F/.i);
+end;
+
+theorem :: RMOD_4:23
+  i in dom F & v = F.i implies (f (#) F).i = v * f.v;
+
+theorem :: RMOD_4:24
+  f (#) <*>(the carrier of V) = <*>(the carrier of V);
+
+theorem :: RMOD_4:25
+  f (#) <* v *> = <* v * f.v *>;
+
+theorem :: RMOD_4:26
+  f (#) <* v1,v2 *> = <* v1 * f.v1, v2 * f.v2 *>;
+
+theorem :: RMOD_4:27
+  f (#) <* v1,v2,v3 *> = <* v1 * f.v1, v2 * f.v2, v3 * f.v3 *>;
+
+theorem :: RMOD_4:28
+  f (#) (F ^ G) = (f (#) F) ^ (f (#) G);
+
+definition
+  let R, V, L;
+  func Sum(L) -> Vector of V means
+:: RMOD_4:def 7
+
+  ex F st F is one-to-one & rng F = Carrier(L) & it = Sum(L (#) F);
+end;
+
+theorem :: RMOD_4:29
+  0.R <> 1_R implies (A <> {} & A is linearly-closed iff for l
+  holds Sum l in A);
+
+theorem :: RMOD_4:30
+  Sum(ZeroLC(V)) = 0.V;
+
+theorem :: RMOD_4:31
+  for l being Linear_Combination of {}(the carrier of V) holds Sum (l) = 0.V;
+
+theorem :: RMOD_4:32
+  for l being Linear_Combination of {v} holds Sum(l) = v * l.v;
+
+theorem :: RMOD_4:33
+  v1 <> v2 implies for l being Linear_Combination of {v1,v2} holds
+  Sum (l) = v1 * l.v1 + v2 * l.v2;
+
+theorem :: RMOD_4:34
+  Carrier(L) = {} implies Sum(L) = 0.V;
+
+theorem :: RMOD_4:35
+  Carrier(L) = {v} implies Sum(L) = v * L.v;
+
+theorem :: RMOD_4:36
+  Carrier(L) = {v1,v2} & v1 <> v2 implies Sum(L) = v1 * L.v1 + v2 * L.v2;
+
+definition
+  let R, V, L1, L2;
+  redefine pred L1 = L2 means
+:: RMOD_4:def 8
+  for v holds L1.v = L2.v;
+end;
+
+definition
+  let R, V, L1, L2;
+  func L1 + L2 -> Linear_Combination of V means
+:: RMOD_4:def 9
+
+  for v holds it.v = L1. v + L2.v;
+end;
+
+theorem :: RMOD_4:37
+  Carrier(L1 + L2) c= Carrier(L1) \/ Carrier(L2);
+
+theorem :: RMOD_4:38
+  L1 is Linear_Combination of A & L2 is Linear_Combination of A
+  implies L1 + L2 is Linear_Combination of A;
+
+theorem :: RMOD_4:39
+  for R being comRing for V being RightMod of R for L1, L2 being
+  Linear_Combination of V holds L1 + L2 = L2 + L1;
+
+theorem :: RMOD_4:40
+  L1 + (L2 + L3) = L1 + L2 + L3;
+
+theorem :: RMOD_4:41
+  for R being comRing for V being RightMod of R for L being
+  Linear_Combination of V holds L + ZeroLC(V) = L & ZeroLC(V) + L = L;
+
+definition
+  let R, V, a, L;
+  func L * a -> Linear_Combination of V means
+:: RMOD_4:def 10
+
+  for v holds it.v = L.v * a;
+end;
+
+theorem :: RMOD_4:42
+  Carrier(L * a) c= Carrier(L);
+
+reserve RR for domRing;
+reserve VV for RightMod of RR;
+reserve LL for Linear_Combination of VV;
+reserve aa for Scalar of RR;
+reserve uu, vv for Vector of VV;
+
+theorem :: RMOD_4:43
+  aa <> 0.RR implies Carrier(LL * aa) = Carrier(LL);
+
+theorem :: RMOD_4:44
+  L * 0.R = ZeroLC(V);
+
+theorem :: RMOD_4:45
+  L is Linear_Combination of A implies L * a is Linear_Combination of A;
+
+theorem :: RMOD_4:46
+  L * (a + b) = L * a + L * b;
+
+theorem :: RMOD_4:47
+  (L1 + L2) * a = L1 * a + L2 * a;
+
+theorem :: RMOD_4:48
+  (L * b) * a = L * (b * a);
+
+theorem :: RMOD_4:49
+  L * 1_R = L;
+
+definition
+  let R, V, L;
+  func - L -> Linear_Combination of V equals
+:: RMOD_4:def 11
+  L * (- 1_R);
+  involutiveness;
+end;
+
+theorem :: RMOD_4:50
+  (- L).v = - L.v;
+
+theorem :: RMOD_4:51
+  L1 + L2 = ZeroLC(V) implies L2 = - L1;
+
+theorem :: RMOD_4:52
+  Carrier(- L) = Carrier(L);
+
+theorem :: RMOD_4:53
+  L is Linear_Combination of A implies - L is Linear_Combination of A;
+
+definition
+  let R, V, L1, L2;
+  func L1 - L2 -> Linear_Combination of V equals
+:: RMOD_4:def 12
+  L1 + (- L2);
+end;
+
+theorem :: RMOD_4:54
+  (L1 - L2).v = L1.v - L2.v;
+
+theorem :: RMOD_4:55
+  Carrier(L1 - L2) c= Carrier(L1) \/ Carrier(L2);
+
+theorem :: RMOD_4:56
+  L1 is Linear_Combination of A & L2 is Linear_Combination of A implies
+  L1 - L2 is Linear_Combination of A;
+
+theorem :: RMOD_4:57
+  L - L = ZeroLC(V);
+
+theorem :: RMOD_4:58
+  Sum(L1 + L2) = Sum(L1) + Sum(L2);
+
+reserve R for domRing;
+reserve V for RightMod of R;
+reserve L,L1,L2 for Linear_Combination of V;
+reserve a for Scalar of R;
+
+theorem :: RMOD_4:59
+  Sum(L * a) = Sum(L) * a;
+
+theorem :: RMOD_4:60
+  Sum(- L) = - Sum(L);
+
+theorem :: RMOD_4:61
+  Sum(L1 - L2) = Sum(L1) - Sum(L2);
+
+begin :: RMOD_5
+
+reserve x for set;
+reserve R for Ring;
+reserve V for RightMod of R;
+reserve v,v1,v2 for Vector of V;
+reserve A,B for Subset of V;
+
+definition
+  let R, V;
+  let IT be Subset of V;
+  attr IT is linearly-independent means
+:: RMOD_4:def 13
+
+  for l being Linear_Combination of IT st Sum(l) = 0.V holds Carrier(l) = {};
+end;
+
+notation
+  let R, V;
+  let IT be Subset of V;
+  antonym IT is linearly-dependent for IT is linearly-independent;
+end;
+
+theorem :: RMOD_4:62
+  A c= B & B is linearly-independent implies A is linearly-independent;
+
+theorem :: RMOD_4:63
+  0.R <> 1_R & A is linearly-independent implies not 0.V in A;
+
+theorem :: RMOD_4:64
+  {}(the carrier of V) is linearly-independent;
+
+theorem :: RMOD_4:65
+  0.R <> 1_R & {v1,v2} is linearly-independent implies v1 <> 0.V & v2 <> 0.V;
+
+theorem :: RMOD_4:66
+  0.R <> 1_R implies {v,0.V} is linearly-dependent & {0.V,v} is
+  linearly-dependent;
+
+reserve R for domRing;
+reserve V for RightMod of R;
+reserve v,u for Vector of V;
+reserve A,B for Subset of V;
+reserve l for Linear_Combination of A;
+reserve f,g for Function of the carrier of V, the carrier of R;
+
+definition
+  let R, V, A;
+  func Lin(A) -> strict Submodule of V means
+:: RMOD_4:def 14
+
+  the carrier of it = the set of all Sum( l) ;
+end;
+
+theorem :: RMOD_4:67
+  x in Lin(A) iff ex l st x = Sum(l);
+
+theorem :: RMOD_4:68
+  x in A implies x in Lin(A);
+
+theorem :: RMOD_4:69
+  Lin({}(the carrier of V)) = (0).V;
+
+theorem :: RMOD_4:70
+  Lin(A) = (0).V implies A = {} or A = {0.V};
+
+theorem :: RMOD_4:71
+  for W being strict Submodule of V st 0.R <> 1_R & A = the
+  carrier of W holds Lin(A) = W;
+
+theorem :: RMOD_4:72
+  for V being strict RightMod of R, A being Subset of V st 0.R <> 1_R &
+  A = the carrier of V holds Lin(A) = V;
+
+theorem :: RMOD_4:73
+  A c= B implies Lin(A) is Submodule of Lin(B);
+
+theorem :: RMOD_4:74
+  for V being strict RightMod of R, A,B being Subset of V st Lin(A) = V
+  & A c= B holds Lin(B) = V;
+
+theorem :: RMOD_4:75
+  Lin(A \/ B) = Lin(A) + Lin(B);
+
+theorem :: RMOD_4:76
+  Lin(A /\ B) is Submodule of Lin(A) /\ Lin(B);

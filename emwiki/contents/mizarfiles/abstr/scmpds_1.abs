@@ -1,0 +1,154 @@
+:: A Small Computer Model with Push-Down Stack
+::  by JingChao Chen
+::
+:: Received June 15, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, CARD_1, AMI_2, INT_1, XBOOLE_0, FINSEQ_1,
+      RELAT_1, ARYTM_3, FUNCT_1, CARD_3, AMI_1, FUNCOP_1, COMPLEX1, XXREAL_0,
+      ARYTM_1, ZFMISC_1, FUNCT_5, SCMPDS_1, GROUP_9;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FUNCT_1, CARD_1, FUNCT_2,
+      BINOP_1, ORDINAL1, NUMBERS, XCMPLX_0, CARD_3, INT_1, NAT_1, FINSEQ_1,
+      FUNCOP_1, XXREAL_0, FUNCT_5, AMI_2, INT_2, COMPOS_0, SCMPDS_I;
+ constructors NAT_1, NAT_D, FUNCT_5, AMI_2, RELSET_1, FUNCOP_1, COMPOS_0,
+      SCMPDS_I, BINOP_1;
+ registrations ORDINAL1, RELSET_1, XREAL_0, INT_1, FINSEQ_1, CARD_3, AMI_2,
+      ORDINAL2, XXREAL_0, FUNCT_1, FUNCT_2, SCM_INST, SCMPDS_I;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve
+  i, j, k for Element of NAT,
+  I,I2,I3,I4 for Element of Segm 15,
+  i1 for Element of NAT,
+  d1,d2,d3,d4,d5 for Element of SCM-Data-Loc,
+  k1,k2 for Integer;
+
+::$CT 2
+
+theorem :: SCMPDS_1:3
+  for d be Element of SCM-Data-Loc holds d in SCM-Data-Loc \/ INT;
+
+begin  :: The construction of SCM with Push-Down Stack
+:: [0,goto L]
+:: [1,return sp<-sp+0,count<-(sp)+2]
+:: [2,a:=c(constant)]
+:: [3,saveIC (a,k)]
+:: [4,if(a,k)<>0 goto L ]
+:: [5,if(a,k)<=0 goto L ]
+:: [6,if(a,k)>=0 goto L ]
+:: [7,(a,k):=c(constant) ]
+:: [8,(a,k1)+k2]
+:: [9, (a1,k1)+(a2,k2)]
+:: [10,(a1,k1)-(a2,k2)]
+:: [11,(a1,k1)*(a2,k2)]
+:: [12,(a1,k1)/(a2,k2)]
+:: [13,(a1,k1):=(a2,k2)]
+
+definition
+::$CD 5
+  let s be SCM-State, a be Element of SCM-Data-Loc, n be Integer;
+  func Address_Add(s,a,n) -> Element of SCM-Data-Loc equals
+:: SCMPDS_1:def 6
+  [1,|.s.a+n.|];
+end;
+
+definition
+  let s be SCM-State, n be Integer;
+  func jump_address(s,n) -> Element of NAT equals
+:: SCMPDS_1:def 7
+  |.(IC s qua Element of NAT)+n.|;
+end;
+
+definition
+  let d be Element of SCM-Data-Loc, s be Integer;
+  redefine func <*d,s*> -> FinSequence of SCM-Data-Loc \/ INT;
+end;
+
+definition
+::$CD 11
+  let s be SCM-State, a be Element of SCM-Data-Loc;
+  func PopInstrLoc(s,a) -> Element of NAT equals
+:: SCMPDS_1:def 19
+  |.s.a.|+2;
+end;
+
+:: RetSP: Return Stack Pointer
+:: RetIC: Return Instruction-Counter
+
+::$CD 2
+
+definition
+  let x be Element of SCMPDS-Instr, s be SCM-State;
+  func SCM-Exec-Res (x,s) -> SCM-State equals
+:: SCMPDS_1:def 22
+  SCM-Chg(s, jump_address(s,x const_INT ))
+   if InsCode x = 14,
+  SCM-Chg(SCM-Chg(s, x P21address, x P22const), IC s + 1)
+   if InsCode x = 2,
+  SCM-Chg(SCM-Chg(s,Address_Add(s,x P21address,x P22const),
+   IC s qua Element of NAT),IC s + 1)
+   if InsCode x = 3,
+  SCM-Chg(SCM-Chg(s, x address_1,s.Address_Add(s,x address_1,RetSP)),
+    PopInstrLoc(s,Address_Add(s,x address_1,RetIC)) )
+   if InsCode x = 1,
+  SCM-Chg(s,IFEQ(s.Address_Add(s,x P31address,x P32const), 0, IC s + 1,
+        jump_address(s,x P33const )))
+   if InsCode x = 4,
+  SCM-Chg(s,IFGT(s.Address_Add(s,x P31address,x P32const), 0, IC
+      s + 1,jump_address(s,x P33const )))
+   if InsCode x = 5,
+  SCM-Chg(s, IFGT(0, s.Address_Add(s,x P31address,x P32const), IC s + 1,
+         jump_address(s,x P33const )))
+   if InsCode x = 6,
+  SCM-Chg(SCM-Chg(s,
+    Address_Add(s,x P31address,x P32const), x P33const), IC s + 1)
+   if InsCode x = 7,
+  SCM-Chg(SCM-Chg(s,Address_Add(s,x P31address,x P32const),
+      s.Address_Add(s,x P31address,x P32const)+ (x P33const)), IC s + 1)
+   if InsCode x = 8,
+  SCM-Chg(SCM-Chg(s,Address_Add(s,x P41address,x P43const),
+      s.Address_Add(s,x P41address,x P43const)+
+      s.Address_Add(s,x P42address,x P44const)),IC s + 1)
+   if InsCode x = 9,
+  SCM-Chg(SCM-Chg(s, Address_Add(s,x P41address,x P43const),
+    s.Address_Add(s,x P41address,x P43const) - s.Address_Add(s,x
+    P42address,x P44const)),IC s + 1)
+   if InsCode x = 10,
+  SCM-Chg(SCM-Chg(s, Address_Add(s,x P41address,x P43const),
+      s.Address_Add(s,x P41address,x P43const) *
+      s.Address_Add(s,x P42address,x P44const)),IC s + 1)
+   if InsCode x = 11,
+  SCM-Chg(SCM-Chg(s,Address_Add(s,x P41address,x P43const),
+      s.Address_Add(s,x P42address,x P44const)), IC s + 1)
+   if InsCode x = 13,
+  SCM-Chg(SCM-Chg(SCM-Chg(s,Address_Add(s,x P41address,x P43const),
+    s.Address_Add(s,x P41address,x P43const) div
+    s.Address_Add(s,x P42address,x P44const)),
+      Address_Add(s,x P42address,x P44const),
+    s.Address_Add(s,x P41address,x P43const) mod
+    s.Address_Add(s,x P42address,x P44const)), IC s + 1)
+   if InsCode x = 12
+  otherwise s;
+end;
+
+definition
+  func SCMPDS-Exec -> Action of SCMPDS-Instr,
+     product(SCM-VAL*SCM-OK) means
+:: SCMPDS_1:def 23
+  for x being Element of SCMPDS-Instr, y being
+  SCM-State holds (it.x).y = SCM-Exec-Res (x,y);
+end;
+

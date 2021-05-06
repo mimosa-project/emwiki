@@ -1,0 +1,356 @@
+:: Lattice of Fuzzy Sets
+::  by Takashi Mitsuishi and Grzegorz Bancerek
+::
+:: Received August 12, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ORDERS_2, XREAL_0, STRUCT_0, TARSKI, XXREAL_0, MEASURE5,
+      XXREAL_1, XBOOLE_0, SUBSET_1, CARD_1, RELAT_2, LATTICE3, EQREL_1,
+      LATTICES, XXREAL_2, YELLOW_0, REAL_1, SEQ_4, REWRITE1, TREES_2, LATTICE2,
+      WAYBEL_0, RELAT_1, FUNCT_1, ORDINAL2, YELLOW_1, WAYBEL_3, PBOOLE, CARD_3,
+      WAYBEL_1, NEWTON, FUNCOP_1, FUNCT_2, MONOID_0, FUZZY_1, PARTFUN1,
+      QC_LANG1, FUZZY_2, VALUED_1, ZFMISC_1, LFUZZY_0, MEMBERED;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, RELAT_1, FUNCT_1, FUNCT_2, BINOP_1,
+      DOMAIN_1, ORDINAL1, PARTFUN1, SUBSET_1, NUMBERS, XXREAL_2, XREAL_0,
+      MEMBERED, SEQ_4, RCOMP_1, RELSET_1, STRUCT_0, ORDERS_2, PBOOLE, MONOID_0,
+      LATTICE3, YELLOW_0, WAYBEL_0, YELLOW_1, WAYBEL_1, WAYBEL_3, FUZZY_1,
+      FUZZY_2, FUZZY_4, MEASURE5, FUNCOP_1, XXREAL_0;
+ constructors DOMAIN_1, SQUARE_1, LATTICE3, MONOID_0, ORDERS_3, WAYBEL_1,
+      WAYBEL_3, INTEGRA1, FUZZY_4, SEQ_4, RELSET_1, FUZZY_1, BINOP_2;
+ registrations SUBSET_1, RELSET_1, NUMBERS, XREAL_0, MEMBERED, STRUCT_0,
+      LATTICE3, YELLOW_0, MONOID_0, YELLOW_1, WAYBEL_1, WAYBEL_2, WAYBEL_3,
+      WAYBEL10, WAYBEL17, ORDERS_4, ORDERS_2, FUNCOP_1;
+ requirements BOOLE, SUBSET, NUMERALS, REAL;
+
+
+begin :: Posets of Real Numbers
+
+definition
+  let R be RelStr;
+  attr R is real means
+:: LFUZZY_0:def 1
+
+  the carrier of R c= REAL & for x,y being Real
+ st x in the carrier of R & y in the carrier of R holds [x,y] in the
+  InternalRel of R iff x <= y;
+end;
+
+definition
+  let R be RelStr;
+  attr R is interval means
+:: LFUZZY_0:def 2
+
+  R is real & ex a,b being Real st a <= b & the carrier of R = [.a,b.];
+end;
+
+registration
+  cluster interval -> real non empty for RelStr;
+end;
+
+registration
+  cluster empty -> real for RelStr;
+end;
+
+theorem :: LFUZZY_0:1
+  for X being real-membered set ex R being strict RelStr st the
+  carrier of R = X & R is real;
+
+registration
+  cluster interval strict for RelStr;
+end;
+
+theorem :: LFUZZY_0:2
+  for R1,R2 being real RelStr st the carrier of R1 = the carrier of
+  R2 holds the RelStr of R1 = the RelStr of R2;
+
+registration
+  let R be non empty real RelStr;
+  cluster -> real for Element of R;
+end;
+
+definition
+  let X be real-membered set;
+  func RealPoset X -> real strict RelStr means
+:: LFUZZY_0:def 3
+
+  the carrier of it = X;
+end;
+
+registration
+  let X be non empty real-membered set;
+  cluster RealPoset X -> non empty;
+end;
+
+notation
+  let R be RelStr;
+  let x,y be Element of R;
+  synonym x <<= y for x <= y;
+  synonym y >>= x for x <= y;
+  antonym x ~<= y for x <= y;
+  antonym y ~>= x for x <= y;
+end;
+
+theorem :: LFUZZY_0:3
+  for R being non empty real RelStr for x,y being Element of R
+  holds x <= y iff x <<= y;
+
+registration
+  cluster real -> reflexive antisymmetric transitive for RelStr;
+end;
+
+registration
+  cluster -> connected for real non empty RelStr;
+end;
+
+definition
+  let R be non empty real RelStr;
+  let x,y be Element of R;
+  redefine func max(x,y) -> Element of R;
+end;
+
+definition
+  let R be non empty real RelStr;
+  let x,y be Element of R;
+  redefine func min(x,y) -> Element of R;
+end;
+
+registration
+  cluster -> with_suprema with_infima for real non empty RelStr;
+end;
+
+reserve x,y,z for Real,
+  R for real non empty RelStr,
+  a,b for Element of R;
+
+registration
+  let R;
+  let a,b be Element of R;
+  identify a"\/"b with max(a,b);
+  identify a"/\"b with min(a,b);
+end;
+
+theorem :: LFUZZY_0:4
+  a"\/"b = max(a,b);
+
+theorem :: LFUZZY_0:5
+  a"/\"b = min(a,b);
+
+theorem :: LFUZZY_0:6
+  (ex x st x in the carrier of R & for y st y in the carrier of R
+  holds x <= y) iff R is lower-bounded;
+
+theorem :: LFUZZY_0:7
+  (ex x st x in the carrier of R & for y st y in the carrier of R
+  holds x >= y) iff R is upper-bounded;
+
+registration
+  cluster interval -> bounded for non empty RelStr;
+end;
+
+theorem :: LFUZZY_0:8
+  for R being interval non empty RelStr, X being set holds ex_sup_of X,R;
+
+registration
+  cluster -> complete for interval non empty RelStr;
+end;
+
+registration
+  cluster -> distributive for Chain;
+end;
+
+registration
+  cluster -> Heyting for interval non empty RelStr;
+end;
+
+registration
+  cluster [.0,1 .] -> non empty;
+end;
+
+registration
+  cluster RealPoset [.0,1 .] -> interval;
+end;
+
+begin :: Product of Heyting Lattices
+
+theorem :: LFUZZY_0:9
+  for I being non empty set for J being RelStr-yielding non-Empty
+reflexive-yielding ManySortedSet of I st for i being Element of I holds J.i is
+  sup-Semilattice holds product J is with_suprema;
+
+theorem :: LFUZZY_0:10
+  for I being non empty set for J being RelStr-yielding non-Empty
+reflexive-yielding ManySortedSet of I st for i being Element of I holds J.i is
+  Semilattice holds product J is with_infima;
+
+theorem :: LFUZZY_0:11
+  for I being non empty set for J being RelStr-yielding non-Empty
+reflexive-yielding ManySortedSet of I st for i being Element of I holds J.i is
+  Semilattice for f,g being Element of product J, i being Element of I holds (f
+  "/\" g).i = (f.i) "/\" (g.i);
+
+theorem :: LFUZZY_0:12
+  for I being non empty set for J being RelStr-yielding non-Empty
+reflexive-yielding ManySortedSet of I st for i being Element of I holds J.i is
+sup-Semilattice for f,g being Element of product J, i being Element of I holds
+  (f "\/" g).i = (f.i) "\/" (g.i);
+
+theorem :: LFUZZY_0:13
+  for I being non empty set for J being RelStr-yielding non-Empty
+reflexive-yielding ManySortedSet of I st for i being Element of I holds J.i is
+  Heyting complete LATTICE holds product J is complete Heyting;
+
+registration
+  let A be non empty set;
+  let R be complete Heyting LATTICE;
+  cluster R |^ A -> Heyting;
+end;
+
+begin :: Lattice of Fuzzy Sets
+
+definition
+  let A be non empty set;
+  func FuzzyLattice A -> Heyting complete LATTICE equals
+:: LFUZZY_0:def 4
+  (RealPoset [. 0,1 .])
+  |^ A;
+end;
+
+theorem :: LFUZZY_0:14
+  for A being non empty set holds the carrier of FuzzyLattice A =
+  Funcs(A, [. 0, 1 .]);
+
+registration
+  let A be non empty set;
+  cluster FuzzyLattice A -> constituted-Functions;
+end;
+
+theorem :: LFUZZY_0:15
+  for R being complete Heyting LATTICE, X being Subset of R, y be
+Element of R holds "\/"(X,R) "/\" y = "\/"({x "/\" y where x is Element of R: x
+  in X},R);
+
+definition
+  let X be non empty set;
+  let a be Element of FuzzyLattice X;
+  func @a -> Membership_Func of X equals
+:: LFUZZY_0:def 5
+  a;
+end;
+
+definition
+  let X be non empty set;
+  let f be Membership_Func of X;
+  func (X,f)@ -> Element of FuzzyLattice X equals
+:: LFUZZY_0:def 6
+  f;
+end;
+
+definition
+  let X be non empty set;
+  let f be Membership_Func of X;
+  let x be Element of X;
+  redefine func f.x -> Element of RealPoset [. 0,1 .];
+end;
+
+definition
+  let X,Y be non empty set;
+  let f be RMembership_Func of X,Y;
+  let x be Element of X, y be Element of Y;
+  redefine func f.(x,y) -> Element of RealPoset [. 0,1 .];
+end;
+
+definition
+  let X be non empty set;
+  let f be Element of FuzzyLattice X;
+  let x be Element of X;
+  redefine func f.x -> Element of RealPoset [. 0,1 .];
+end;
+
+reserve C for non empty set,
+  c for Element of C,
+  f,g for Membership_Func of C,
+  s,t for Element of FuzzyLattice C;
+
+theorem :: LFUZZY_0:16
+  (for c holds f.c <= g.c) iff (C,f)@ <<= (C,g)@;
+
+theorem :: LFUZZY_0:17
+  s <<= t iff for c holds @s.c <= @t.c;
+
+theorem :: LFUZZY_0:18
+  max(f,g) = (C,f)@ "\/" (C,g)@;
+
+theorem :: LFUZZY_0:19
+  s "\/" t = max(@s, @t);
+
+theorem :: LFUZZY_0:20
+  min(f,g) = (C,f)@ "/\" (C,g)@;
+
+theorem :: LFUZZY_0:21
+  s "/\" t = min(@s, @t);
+
+begin :: Associativity of composition of fuzzy relations
+
+scheme :: LFUZZY_0:sch 1
+  SupDistributivity { L() -> complete LATTICE, X, Y() -> non empty set, F(set,
+set) -> Element of L(), P,Q[set]}: "\/"({ "\/"({F(x,y) where y is Element of Y(
+  ): Q[y]}, L()) where x is Element of X(): P[x] }, L()) = "\/"({F(x,y) where x
+  is Element of X(), y is Element of Y(): P[x] & Q[y]}, L());
+
+scheme :: LFUZZY_0:sch 2
+  SupDistributivity9 { L() -> complete LATTICE, X, Y() -> non empty set, F(set
+,set) -> Element of L(), P,Q[set]}: "\/"({ "\/"({F(x,y) where x is Element of X
+  (): P[x]},L()) where y is Element of Y(): Q[y] }, L()) = "\/"({F(x,y) where x
+  is Element of X(), y is Element of Y(): P[x] & Q[y]}, L());
+
+scheme :: LFUZZY_0:sch 3
+  FraenkelF9R9{ A() -> non empty set,B() -> non empty set, F1, F2(set,set) ->
+set, P[set,set] } : { F1(u1,v1) where u1 is (Element of A()), v1 is Element of
+B() : P[u1,v1] } = { F2(u2,v2) where u2 is (Element of A()), v2 is Element of B
+  () : P[u2,v2] }
+provided
+ for u being (Element of A()), v being Element of B() st P[u,v] holds
+F1(u,v) = F2(u,v);
+
+scheme :: LFUZZY_0:sch 4
+  FraenkelF699R { A() -> non empty set, B() -> non empty set, F1, F2(set,set)
+-> set, P[set,set], Q[set,set] } : { F1(u1,v1) where u1 is (Element of A()), v1
+  is Element of B() : P[u1,v1] } = { F2(u2,v2) where u2 is (Element of A()), v2
+  is Element of B() : Q[u2,v2] }
+provided
+ for u being (Element of A()), v being Element of B() holds P[u,v]
+iff Q[u,v] and
+ for u being (Element of A()), v being Element of B() st P[u,v] holds
+F1(u,v) = F2(u,v);
+
+scheme :: LFUZZY_0:sch 5
+  SupCommutativity { L() -> complete LATTICE, X, Y() -> non empty set, F1, F2(
+set,set) -> Element of L(), P,Q[set]}: "\/"({ "\/"({F1(x,y) where y is Element
+of Y(): Q[y]}, L()) where x is Element of X(): P[x] }, L()) = "\/"({ "\/"({F2(
+x9,y9) where x9 is Element of X(): P[x9]}, L()) where y9 is Element of Y(): Q[
+  y9] }, L())
+provided
+ for x being Element of X(), y being Element of Y() st P[x] & Q[y]
+holds F1(x,y) = F2(x,y);
+
+theorem :: LFUZZY_0:22
+  for X,Y,Z being non empty set for R being RMembership_Func of X,
+Y for S being RMembership_Func of Y,Z for x being Element of X, z being Element
+of Z holds (R (#) S).(x,z) =
+"\/"((the set of all R.(x,y) "/\" S.(y,z) where y is Element of Y),
+RealPoset [. 0,1 .]);
+
+theorem :: LFUZZY_0:23
+  for X,Y,Z,W being non empty set for R being RMembership_Func of X,Y
+for S being RMembership_Func of Y,Z for T being RMembership_Func of Z,W holds (
+  R (#) S) (#) T = R (#) (S (#) T);

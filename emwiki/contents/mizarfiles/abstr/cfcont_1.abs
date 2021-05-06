@@ -1,0 +1,264 @@
+:: Property of Complex Sequence and Continuity of Complex Function
+::  by Takashi Mitsuishi , Katsumi Wasaki and Yasunari Shidama
+::
+:: Received December 7, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, COMSEQ_1, PARTFUN1, REAL_1, ORDINAL2, NAT_1,
+      SEQ_1, FCONT_1, RELAT_1, TARSKI, SEQ_2, FUNCT_2, ARYTM_1, FUNCT_1,
+      ARYTM_3, VALUED_1, COMPLEX1, XBOOLE_0, ORDINAL4, VALUED_0, CARD_1,
+      XXREAL_0, XREAL_0, RCOMP_1, CFCONT_1, XCMPLX_0, ZFMISC_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ZFMISC_1, FUNCT_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, XREAL_0, COMPLEX1, REAL_1, NAT_1, PARTFUN1, FUNCT_2, SEQ_1,
+      RELSET_1, VALUED_0, VALUED_1, CFUNCT_1, COMSEQ_1, COMSEQ_2, COMSEQ_3,
+      XXREAL_0, RECDEF_1;
+ constructors ZFMISC_1, PARTFUN1, XXREAL_0, REAL_1, NAT_1, COMSEQ_2, CFUNCT_1,
+      COMSEQ_3, RECDEF_1, SEQM_3, VALUED_1, RELSET_1;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, FUNCT_2, NUMBERS,
+      XREAL_0, NAT_1, MEMBERED, VALUED_0, VALUED_1, COMSEQ_2, XCMPLX_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve n,n1,m,m1,k for Nat;
+reserve x,X,X1 for set;
+reserve g,g1,g2,t,x0,x1,x2 for Complex;
+reserve s1,s2,q1,seq,seq1,seq2,seq3 for Complex_Sequence;
+reserve Y for Subset of COMPLEX;
+reserve f,f1,f2,h,h1,h2 for PartFunc of COMPLEX,COMPLEX;
+reserve p,r,s for Real;
+reserve Ns,Nseq for increasing sequence of NAT;
+
+::
+:: COMPLEX SEQUENCE
+::
+
+definition
+
+  let f,x0;
+  pred f is_continuous_in x0 means
+:: CFCONT_1:def 1
+
+  x0 in dom f & for s1 st rng s1 c=
+dom f & s1 is convergent & lim s1 = x0 holds f/*s1 is convergent & f/.x0 = lim
+  (f/*s1);
+end;
+
+theorem :: CFCONT_1:1
+  seq1=seq2-seq3 iff for n holds seq1.n=seq2.n-seq3.n;
+
+theorem :: CFCONT_1:2
+  (seq1 + seq2)*Ns = (seq1*Ns) + (seq2*Ns) & (seq1 - seq2)*Ns = (
+  seq1*Ns) - (seq2*Ns) & (seq1 (#) seq2)*Ns = (seq1*Ns) (#) (seq2*Ns);
+
+theorem :: CFCONT_1:3
+  (g(#)seq)*Ns = g(#)(seq*Ns);
+
+theorem :: CFCONT_1:4
+  (-seq)*Ns = -(seq*Ns) & (|.seq.|)*Ns = |.(seq*Ns).|;
+
+theorem :: CFCONT_1:5
+  (seq*Ns)" = (seq")*Ns;
+
+theorem :: CFCONT_1:6
+  (seq1/"seq)*Ns = (seq1*Ns)/"(seq*Ns);
+
+theorem :: CFCONT_1:7
+  rng seq c= dom h1 /\ dom h2 implies (h1+h2)/*seq=h1/*seq+h2/*seq
+  & (h1-h2)/*seq=h1/*seq-h2/*seq & (h1(#)h2)/*seq=(h1/*seq)(#)(h2/*seq);
+
+theorem :: CFCONT_1:8
+  rng seq c= dom h implies (g(#)h)/*seq = g(#)(h/*seq);
+
+theorem :: CFCONT_1:9
+  rng seq c= dom h implies -(h/*seq) = (-h)/*seq;
+
+theorem :: CFCONT_1:10
+  rng seq c= dom (h^) implies h/*seq is non-zero;
+
+theorem :: CFCONT_1:11
+  rng seq c= dom (h^) implies (h^)/*seq =(h/*seq)";
+
+theorem :: CFCONT_1:12
+  rng seq c= dom h implies Re ( (h/*seq)*Ns ) = Re (h/*(seq*Ns));
+
+theorem :: CFCONT_1:13
+  rng seq c= dom h implies Im ( (h/*seq)*Ns ) = Im (h/*(seq*Ns));
+
+theorem :: CFCONT_1:14
+  h1 is total & h2 is total implies (h1+h2)/*seq = h1/*seq + h2/*seq & (
+  h1-h2)/*seq = h1/*seq - h2/*seq & (h1(#)h2)/*seq = (h1/*seq) (#) (h2/*seq);
+
+theorem :: CFCONT_1:15
+  h is total implies (g(#)h)/*seq = g(#)(h/*seq);
+
+theorem :: CFCONT_1:16
+  rng seq c= dom (h|X) & h"{0}={} implies ((h^)|X)/*seq = ((h|X)/*seq)";
+
+theorem :: CFCONT_1:17
+  seq1 is subsequence of seq & seq is convergent implies seq1 is convergent;
+
+theorem :: CFCONT_1:18
+  seq1 is subsequence of seq & seq is convergent implies lim seq1= lim seq;
+
+theorem :: CFCONT_1:19
+  seq is convergent & (ex k st for n st k<=n holds seq1.n=seq.n)
+  implies seq1 is convergent;
+
+theorem :: CFCONT_1:20
+  seq is convergent & (ex k st for n st k<=n holds seq1.n=seq.n) implies
+  lim seq=lim seq1;
+
+theorem :: CFCONT_1:21
+  seq is convergent implies (seq ^\k) is convergent & lim (seq ^\k)=lim
+  seq;
+
+theorem :: CFCONT_1:22
+  seq is convergent & (ex k st seq=seq1 ^\k) implies seq1 is convergent;
+
+theorem :: CFCONT_1:23
+  seq is convergent & (ex k st seq=seq1 ^\k) implies lim seq1 =lim seq;
+
+theorem :: CFCONT_1:24
+  seq is convergent & lim seq<>0 implies ex k st (seq ^\k) is non-zero;
+
+theorem :: CFCONT_1:25
+  seq is convergent & lim seq<>0 implies ex seq1 st seq1 is subsequence
+  of seq & seq1 is non-zero;
+
+theorem :: CFCONT_1:26
+  seq is constant implies seq is convergent;
+
+theorem :: CFCONT_1:27
+  (seq is constant & g in rng seq or seq is constant & ex n st seq
+  .n=g ) implies lim seq=g;
+
+theorem :: CFCONT_1:28
+  seq is constant implies for n holds lim seq=seq.n;
+
+theorem :: CFCONT_1:29
+  seq is convergent & lim seq<>0 implies for seq1 st seq1 is subsequence
+  of seq & seq1 is non-zero holds lim (seq1")=(lim seq)";
+
+theorem :: CFCONT_1:30
+  seq is constant & seq1 is convergent implies lim (seq+seq1) =(seq.0) +
+lim seq1 & lim (seq-seq1) =(seq.0) - lim seq1 & lim (seq1-seq) =(lim seq1) -seq
+  .0 & lim (seq(#)seq1) =(seq.0) * (lim seq1);
+
+scheme :: CFCONT_1:sch 1
+  CompSeqChoice { P[object,object] }: ex s1 st for n holds P[n,s1.n]
+provided
+ for n ex g st P[n,g];
+
+begin
+
+theorem :: CFCONT_1:31
+  f is_continuous_in x0 iff x0 in dom f & for s1 st rng s1 c= dom f & s1
+is convergent & lim s1=x0 & (for n holds s1.n<>x0) holds f/*s1 is convergent &
+  f/.x0=lim(f/*s1);
+
+theorem :: CFCONT_1:32
+  f is_continuous_in x0 iff x0 in dom f & for r st 0<r ex s st 0<s
+  & for x1 st x1 in dom f & |.x1-x0.|<s holds |.f/.x1-f/.x0.|<r;
+
+theorem :: CFCONT_1:33
+  f1 is_continuous_in x0 & f2 is_continuous_in x0 implies f1+f2
+  is_continuous_in x0 & f1-f2 is_continuous_in x0 & f1(#)f2 is_continuous_in x0
+;
+
+theorem :: CFCONT_1:34
+  f is_continuous_in x0 implies g(#)f is_continuous_in x0;
+
+theorem :: CFCONT_1:35
+  f is_continuous_in x0 implies -f is_continuous_in x0;
+
+theorem :: CFCONT_1:36
+  f is_continuous_in x0 & f/.x0<>0 implies f^ is_continuous_in x0;
+
+theorem :: CFCONT_1:37
+  f1 is_continuous_in x0 & f1/.x0<>0 & f2 is_continuous_in x0 implies f2
+  /f1 is_continuous_in x0;
+
+definition
+
+  let f,X;
+  pred f is_continuous_on X means
+:: CFCONT_1:def 2
+
+  X c= dom f & for x0 st x0 in X holds f|X is_continuous_in x0;
+end;
+
+theorem :: CFCONT_1:38
+  for X,f holds f is_continuous_on X iff X c= dom f & for s1 st
+  rng s1 c= X & s1 is convergent & lim s1 in X holds f/*s1 is convergent & f/.(
+  lim s1) = lim (f/*s1);
+
+theorem :: CFCONT_1:39
+  f is_continuous_on X iff X c= dom f & for x0,r st x0 in X & 0<r
+  ex s st 0<s & for x1 st x1 in X & |.x1-x0.| < s holds |.f/.x1 - f/.x0.| < r;
+
+theorem :: CFCONT_1:40
+  f is_continuous_on X iff f|X is_continuous_on X;
+
+theorem :: CFCONT_1:41
+  f is_continuous_on X & X1 c= X implies f is_continuous_on X1;
+
+theorem :: CFCONT_1:42
+  x0 in dom f implies f is_continuous_on {x0};
+
+theorem :: CFCONT_1:43
+  for X,f1,f2 st f1 is_continuous_on X & f2 is_continuous_on X
+  holds f1+f2 is_continuous_on X & f1-f2 is_continuous_on X & f1(#) f2
+  is_continuous_on X;
+
+theorem :: CFCONT_1:44
+  for X,X1,f1,f2 st f1 is_continuous_on X & f2 is_continuous_on X1 holds
+  f1+f2 is_continuous_on X /\ X1 & f1-f2 is_continuous_on X /\ X1 & f1(#)f2
+  is_continuous_on X /\ X1;
+
+theorem :: CFCONT_1:45
+  for g,X,f st f is_continuous_on X holds g(#)f is_continuous_on X;
+
+theorem :: CFCONT_1:46
+  f is_continuous_on X implies -f is_continuous_on X;
+
+theorem :: CFCONT_1:47
+  f is_continuous_on X & f"{0} = {} implies f^ is_continuous_on X;
+
+theorem :: CFCONT_1:48
+  f is_continuous_on X & (f|X)"{0} = {} implies f^ is_continuous_on X;
+
+theorem :: CFCONT_1:49
+  f1 is_continuous_on X & f1"{0} = {} & f2 is_continuous_on X implies f2
+  /f1 is_continuous_on X;
+
+theorem :: CFCONT_1:50
+  f is total & (for x1,x2 holds f/.(x1+x2) = f/.x1 + f/.x2) & (ex x0 st
+  f is_continuous_in x0) implies f is_continuous_on COMPLEX;
+
+definition
+  let X;
+  attr X is compact means
+:: CFCONT_1:def 3
+
+  for s1 st (rng s1) c= X ex s2 st s2 is
+  subsequence of s1 & s2 is convergent & (lim s2) in X;
+end;
+
+theorem :: CFCONT_1:51
+  for f st dom f is compact & f is_continuous_on (dom f) holds (
+  rng f) is compact;
+
+theorem :: CFCONT_1:52
+  Y c= dom f & Y is compact & f is_continuous_on Y implies (f.:Y) is compact;

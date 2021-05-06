@@ -1,0 +1,234 @@
+:: Introduction to Banach and Hilbert spaces - Part III
+::  by Jan Popio{\l}ek
+::
+:: Received July 19, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, BHSP_1, PRE_TOPC, REAL_1, NAT_1, ORDINAL2, SUBSET_1,
+      SUPINF_2, XXREAL_0, CARD_1, METRIC_1, FUNCT_1, ARYTM_3, NORMSP_1,
+      ARYTM_1, RELAT_1, COMPLEX1, SEQ_2, XXREAL_2, VALUED_0, REWRITE1, BHSP_3;
+ notations ORDINAL1, SUBSET_1, NUMBERS, XCMPLX_0, XREAL_0, COMPLEX1, REAL_1,
+      XXREAL_0, NAT_1, VALUED_0, STRUCT_0, PRE_TOPC, RLVECT_1, VFUNCT_1,
+      NORMSP_1, BHSP_1, BHSP_2;
+ constructors PARTFUN1, FUNCT_3, XXREAL_0, REAL_1, COMPLEX1, SEQM_3, BHSP_2,
+      VALUED_1, RECDEF_1, NAT_1, RELSET_1, VFUNCT_1;
+ registrations XBOOLE_0, ORDINAL1, RELSET_1, XREAL_0, NAT_1, STRUCT_0,
+      VALUED_0, VFUNCT_1, FUNCT_2, BHSP_2;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve X for RealUnitarySpace,
+  x, g, g1, h for Point of X,
+  a, p, r, M, M1, M2 for Real,
+  seq, seq1, seq2, seq3 for sequence of X,
+  Nseq for increasing sequence of NAT,
+
+  k, l, l1, l2, l3, n, m, m1, m2 for Nat;
+
+registration let X;
+ cluster constant for sequence of X;
+end;
+
+definition
+  let X;
+  let seq;
+  attr seq is Cauchy means
+:: BHSP_3:def 1
+
+  for r st r > 0 ex k st for n, m st n >= k &
+  m >= k holds dist(seq.n, seq.m) < r;
+end;
+
+registration let X;
+ cluster constant -> Cauchy for sequence of X;
+end;
+
+::$CT
+
+theorem :: BHSP_3:2
+  seq is Cauchy iff for r st r > 0 ex k st for n, m st n >= k & m >= k
+  holds ||.(seq.n) - (seq.m).|| < r;
+
+registration let X; let seq1,seq2 be Cauchy sequence of X;
+ cluster seq1+seq2 -> Cauchy;
+end;
+
+registration let X; let seq1,seq2 be Cauchy sequence of X;
+ cluster seq1-seq2 -> Cauchy;
+end;
+
+registration let X,a; let seq be Cauchy sequence of X;
+ cluster a * seq -> Cauchy;
+end;
+
+registration let X; let seq be Cauchy sequence of X;
+ cluster - seq -> Cauchy;
+end;
+
+registration let X,x; let seq be Cauchy sequence of X;
+ cluster seq + x -> Cauchy;
+end;
+
+registration let X,x; let seq be Cauchy sequence of X;
+ cluster seq - x -> Cauchy;
+end;
+
+registration let X;
+ cluster convergent -> Cauchy for sequence of X;
+end;
+
+definition
+  let X;
+  let seq1, seq2;
+  pred seq1 is_compared_to seq2 means
+:: BHSP_3:def 2
+
+  for r st r > 0 ex m st for n st n >= m holds dist(seq1.n, seq2.n) < r;
+ reflexivity;
+ symmetry;
+end;
+
+::$CT 9
+
+theorem :: BHSP_3:12
+  seq1 is_compared_to seq2 & seq2 is_compared_to seq3 implies seq1
+  is_compared_to seq3;
+
+theorem :: BHSP_3:13
+  seq1 is_compared_to seq2 iff for r st r > 0 ex m st for n st n >= m
+  holds ||.(seq1.n) - (seq2.n).|| < r;
+
+theorem :: BHSP_3:14
+  ( ex k st for n st n >= k holds seq1.n = seq2.n ) implies seq1
+  is_compared_to seq2;
+
+theorem :: BHSP_3:15
+  seq1 is Cauchy & seq1 is_compared_to seq2 implies seq2 is Cauchy;
+
+theorem :: BHSP_3:16
+  seq1 is convergent & seq1 is_compared_to seq2 implies seq2 is convergent;
+
+theorem :: BHSP_3:17
+  seq1 is convergent & lim seq1 = g & seq1 is_compared_to seq2 implies
+  seq2 is convergent & lim seq2 = g;
+
+definition
+  let X;
+  let seq;
+  attr seq is bounded means
+:: BHSP_3:def 3
+
+  ex M st M > 0 & for n holds ||.seq.n.|| <= M;
+end;
+
+registration let X;
+ cluster constant -> bounded for sequence of X;
+end;
+
+registration let X; let seq1, seq2 be bounded sequence of X;
+ cluster seq1 + seq2 -> bounded;
+end;
+
+registration let X; let seq be bounded sequence of X;
+ cluster -seq -> bounded;
+end;
+
+registration let X; let seq1, seq2 be bounded sequence of X;
+ cluster seq1 - seq2 -> bounded;
+end;
+
+registration let X,a; let seq be bounded sequence of X;
+ cluster a * seq -> bounded;
+end;
+
+::$CT 5
+
+theorem :: BHSP_3:23
+  for m ex M st ( M > 0 & for n st n <= m holds ||.seq.n.|| < M );
+
+registration let X;
+ cluster convergent -> bounded for sequence of X;
+end;
+
+::$CT
+
+theorem :: BHSP_3:25
+  seq1 is bounded & seq1 is_compared_to seq2 implies seq2 is bounded;
+
+registration let X; let seq be bounded sequence of X;
+ cluster -> bounded for subsequence of seq;
+end;
+
+registration let X; let seq be convergent sequence of X;
+ cluster -> convergent for subsequence of seq;
+end;
+
+::$CT 2
+
+theorem :: BHSP_3:28
+  seq1 is subsequence of seq & seq is convergent implies lim seq1= lim seq;
+
+registration let X; let seq be Cauchy sequence of X;
+ cluster -> Cauchy for subsequence of seq;
+end;
+
+::$CT
+
+theorem :: BHSP_3:30
+  (seq ^\k)^\m = (seq ^\m)^\k;
+
+theorem :: BHSP_3:31
+  (seq ^\k)^\m=seq ^\(k + m);
+
+theorem :: BHSP_3:32
+  (seq1 + seq2) ^\k = (seq1 ^\k) + (seq2 ^\k);
+
+theorem :: BHSP_3:33
+  (-seq) ^\k = -(seq ^\k);
+
+theorem :: BHSP_3:34
+  (seq1 - seq2) ^\k = (seq1 ^\k) - (seq2 ^\k);
+
+theorem :: BHSP_3:35
+  (a * seq) ^\k = a * (seq ^\k);
+
+theorem :: BHSP_3:36
+  seq is convergent implies (seq ^\k) is convergent & lim (seq ^\k)=lim
+  seq;
+
+theorem :: BHSP_3:37
+  seq is convergent & (ex k st seq = seq1 ^\k) implies seq1 is convergent;
+
+theorem :: BHSP_3:38
+  seq is Cauchy & (ex k st seq = seq1 ^\k) implies seq1 is Cauchy;
+
+
+::$CT
+
+theorem :: BHSP_3:40
+  seq1 is_compared_to seq2 implies (seq1 ^\k) is_compared_to (seq2 ^\k);
+
+definition
+  let X;
+  attr X is complete means
+:: BHSP_3:def 4
+
+  for seq holds seq is Cauchy implies seq is convergent;
+end;
+
+::$CT 2
+
+theorem :: BHSP_3:43
+  X is complete & seq is Cauchy implies seq is bounded;

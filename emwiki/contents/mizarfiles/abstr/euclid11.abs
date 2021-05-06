@@ -1,0 +1,169 @@
+:: Morley's Trisector Theorem
+::  by Roland Coghetto
+::
+:: Received March 26, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, COMPLEX1, RELAT_1, CARD_1, ARYTM_1, ARYTM_3, PRE_TOPC,
+      EUCLID, SIN_COS, COMPLEX2, EUCLID_6, XXREAL_0, REAL_1, SQUARE_1,
+      ZFMISC_1, EUCLID_3, XXREAL_1, INT_1, NAT_1, PROJPL_1, XBOOLE_0, RLTOPSP1,
+      EUCLID10;
+ notations RLTOPSP1, XCMPLX_0, PRE_TOPC, XXREAL_0, RLVECT_1, SIN_COS, EUCLID,
+      EUCLID_3, EUCLID_6, SQUARE_1, COMPLEX2, XREAL_0, RCOMP_1, ZFMISC_1,
+      SUBSET_1, EUCLID10, NUMBERS, SEQ_4, INT_1, NAT_1;
+ constructors MONOID_0, SIN_COS, EUCLID_3, EUCLID_6, SQUARE_1, COMPLEX2,
+      EUCLID10, INTEGRA1, SEQ_4;
+ registrations XREAL_0, EUCLID, SIN_COS, XCMPLX_0, ORDINAL1, SQUARE_1,
+      XXREAL_0, MONOID_0, INT_1;
+ requirements NUMERALS, SUBSET, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve A,B,C,D,E,F,G for Point of TOP-REAL 2;
+
+theorem :: EUCLID11:1
+  angle(A,B,A) = 0;
+
+theorem :: EUCLID11:2
+  0 <= angle(A,B,C) < 2*PI;
+
+theorem :: EUCLID11:3
+  0 <= angle(A,B,C) < PI or angle(A,B,C) = PI or PI < angle(A,B,C) < 2*PI;
+
+theorem :: EUCLID11:4
+  |.F-E.|^2 = |.A-E.|^2 + |.A-F.|^2 - 2 * |.A-E.| * |.A-F.| * cos angle(E,A,F);
+
+theorem :: EUCLID11:5
+  A,B,C are_mutually_distinct & 0 < angle(A,B,C) < PI implies
+  0 < angle(B,C,A) < PI & 0 < angle(C,A,B) < PI;
+
+theorem :: EUCLID11:6
+  A,B,C are_mutually_distinct & angle(A,B,C) = 0 implies (angle(B,C,A) =0 &
+  angle(C,A,B) = PI) or (angle(B,C,A) = PI & angle(C,A,B) = 0) & angle(A,B,C)
+  + angle(B,C,A) + angle(C,A,B) = PI;
+
+theorem :: EUCLID11:7
+  A,B,C are_mutually_distinct & angle(A,B,C) = PI implies angle(B,C,A) = 0 &
+  angle(C,A,B) = 0 & angle(A,B,C) + angle(B,C,A) + angle(C,A,B) = PI;
+
+theorem :: EUCLID11:8
+  A,B,C are_mutually_distinct & angle (A,B,C) > PI implies
+    angle (B,C,A) > PI & angle (C,A,B) > PI;
+
+theorem :: EUCLID11:9
+  A,B,C are_mutually_distinct & angle(A,B,C) > PI implies
+  angle(A,B,C) + angle(B,C,A) + angle(C,A,B) = 5*PI;
+
+theorem :: EUCLID11:10
+  angle(C,B,A) < PI implies 0 <= the_area_of_polygon3(A,B,C);
+
+theorem :: EUCLID11:11
+  angle(C,B,A) < PI implies 0 <= the_diameter_of_the_circumcircle(A,B,C);
+
+begin :: Morley's Theorem
+
+theorem :: EUCLID11:12
+  A,F,C is_a_triangle & angle (C,F,A) < PI &
+  angle (A,C,F) = angle (A,C,B)/3 & angle (F,A,C) = angle (B,A,C)/3 &
+  angle (A,C,B)/3 + angle(B,A,C)/3 + angle(C,B,A)/3 = PI/3
+  implies
+  |.A-F.| * sin (PI/3 - angle(C,B,A)/3) = |.A-C.| * sin (angle (A,C,B)/3);
+
+theorem :: EUCLID11:13
+  A,B,C is_a_triangle & A,F,C is_a_triangle & angle (C,F,A) < PI &
+  angle (A,C,F) = angle (A,C,B)/3 & angle (F,A,C) = angle (B,A,C)/3 &
+  angle (A,C,B)/3 + angle(B,A,C)/3 + angle(C,B,A)/3 = PI/3 &
+  sin (PI/3 - angle(C,B,A)/3)<>0 implies
+  |.A-F.| = 4 * the_diameter_of_the_circumcircle(A,B,C)
+              * sin (angle(C,B,A) / 3) * sin (PI/3 + angle(C,B,A)/3)
+              * sin (angle(A,C,B) / 3);
+
+theorem :: EUCLID11:14
+  C,A,B is_a_triangle & A,F,C is_a_triangle &
+  F,A,E is_a_triangle & E,A,B is_a_triangle &
+  angle(B,A,E) = angle(B,A,C) / 3 & angle(F,A,C) = angle(B,A,C) / 3
+  implies angle(E,A,F) = angle(B,A,C) / 3;
+
+theorem :: EUCLID11:15
+  C,A,B is_a_triangle & angle(A,C,B) < PI &
+  A,F,C is_a_triangle & F,A,E is_a_triangle & E,A,B is_a_triangle &
+  angle (B,A,E) = angle (B,A,C) / 3 & angle (F,A,C) = angle (B,A,C) / 3
+  implies
+  (PI/3 + angle(A,C,B)/3) + (PI/3 + angle(C,B,A)/3) + angle(E,A,F) = PI;
+
+theorem :: EUCLID11:16
+  A,C,B is_a_triangle implies sin (PI/3 - angle(A,C,B)/3)<>0;
+
+theorem :: EUCLID11:17
+  A,B,C is_a_triangle & A,B,E is_a_triangle &
+  angle (E,B,A) = angle (C,B,A) / 3 & angle (B,A,E) = angle (B,A,C) / 3 &
+  A,F,C is_a_triangle &
+  angle (A,C,F) = angle (A,C,B)/3 & angle (F,A,C) = angle (B,A,C)/3 &
+  angle(A,C,B) < PI
+  implies
+  |.F-E.| = 4 * the_diameter_of_the_circumcircle(A,B,C)
+              * sin (angle(A,C,B)/3) * sin (angle(C,B,A) /3)
+              * sin (angle(B,A,C)/3);
+
+theorem :: EUCLID11:18
+  A,B,C is_a_triangle & angle (E,B,A) = angle (C,B,A) / 3 &
+  angle (B,A,E) = angle (B,A,C) / 3 implies A,B,E is_a_triangle;
+
+theorem :: EUCLID11:19
+  A,B,C is_a_triangle & angle (A,C,F) = angle (A,C,B) / 3 &
+  angle (F,A,C) = angle (B,A,C) / 3 implies A,F,C is_a_triangle;
+
+theorem :: EUCLID11:20
+  A,B,C is_a_triangle & angle (C,B,G) = angle (C,B,A)/3 &
+  angle (G,C,B) = angle (A,C,B)/3 implies C,G,B is_a_triangle;
+
+theorem :: EUCLID11:21
+  A,B,C is_a_triangle & angle(A,C,B) < PI &
+  angle (E,B,A) = angle (C,B,A) / 3 &
+  angle (B,A,E) = angle (B,A,C) / 3 &
+  angle (A,C,F) = angle (A,C,B) / 3 &
+  angle (F,A,C) = angle (B,A,C) / 3 &
+  angle (C,B,G) = angle (C,B,A) / 3 &
+  angle (G,C,B) = angle (A,C,B) / 3
+  implies
+  |.F-E.| = 4 * the_diameter_of_the_circumcircle(A,B,C)
+     * sin (angle(A,C,B)/3) * sin (angle(C,B,A) /3) * sin (angle(B,A,C)/3) &
+  |.G-F.| = 4 * the_diameter_of_the_circumcircle(C,A,B)
+     * sin (angle(C,B,A)/3) * sin (angle(B,A,C) /3) * sin (angle(A,C,B)/3) &
+  |.E-G.| = 4 * the_diameter_of_the_circumcircle(B,C,A)
+     * sin (angle(B,A,C)/3) * sin (angle(A,C,B) /3) * sin (angle(C,B,A)/3);
+
+theorem :: EUCLID11:22
+  A,B,C is_a_triangle & angle(A,C,B) < PI &
+  angle(E,B,A) = angle(C,B,A) / 3 &
+  angle(B,A,E) = angle(B,A,C) / 3 &
+  angle(A,C,F) = angle(A,C,B) / 3 &
+  angle(F,A,C) = angle(B,A,C) / 3 &
+  angle(C,B,G) = angle(C,B,A) / 3 &
+  angle(G,C,B) = angle(A,C,B) / 3
+  implies
+  |.F-E.| = |.G-F.| & |.F-E.| = |.E-G.| & |.G-F.| = |.E-G.|;
+
+::$N Morley's trisector theorem
+theorem :: EUCLID11:23
+  A,B,C is_a_triangle & angle(A,B,C) < PI &
+  angle(E,C,A) = angle(B,C,A) / 3 &
+  angle(C,A,E) = angle(C,A,B) / 3 &
+  angle(A,B,F) = angle(A,B,C) / 3 &
+  angle(F,A,B) = angle(C,A,B) / 3 &
+  angle(B,C,G) = angle(B,C,A) / 3 &
+  angle(G,B,C) = angle(A,B,C) / 3
+  implies
+  |.F-E.| = |.G-F.| & |.F-E.| = |.E-G.| & |.G-F.| = |.E-G.|;
+

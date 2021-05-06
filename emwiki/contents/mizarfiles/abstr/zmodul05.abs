@@ -1,0 +1,552 @@
+:: Rank of Submodule, Linear Transformations and Linearly Independent Subsets
+:: of $\mathbb Z$-module
+::  by Kazuhisa Nakasho , Yuichi Futa , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received July 10, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2,
+      FUNCOP_1, REALSET1, FUNCT_4, FINSET_1, CARD_1, PBOOLE, CARD_3, ARYTM_3,
+      ARYTM_1, NUMBERS, XXREAL_0, REAL_1, NAT_1, INT_1, VALUED_0, ORDINAL4,
+      GRCAT_1, MESFUNC1, MOD_3, CLASSES1, RFINSEQ, FINSEQ_1, VALUED_1,
+      SUPINF_2, MSSUBFAM, STRUCT_0, RLVECT_1, RLSUB_1, RLSUB_2, RLVECT_2,
+      RLVECT_3, RMOD_2, PRELAMB, UNIALG_1, MSAFREE2, RANKNULL, UPROOTS,
+      VECTSP10, ZMODUL01, ZMODUL03, ZMODUL05, SETWISEO, BINOP_2, VECTSP_1,
+      INT_3, FUNCSDOM, VECTSP_2;
+ notations TARSKI, XBOOLE_0, ENUMSET1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      CLASSES1, RELSET_1, PARTFUN1, FUNCT_2, DOMAIN_1, FUNCOP_1, FUNCT_4,
+      FINSET_1, SETWOP_2, RFINSEQ, CARD_1, NUMBERS, XCMPLX_0, XXREAL_0,
+      XREAL_0, INT_1, VALUED_0, FINSEQ_1, FINSEQOP, RVSUM_1, FUNCT_7, STRUCT_0,
+      ALGSTR_0, GROUP_1, RLVECT_1, GR_CY_1, VECTSP_1, MOD_2, GRCAT_1, RLVECT_2,
+      VECTSP_2, VECTSP_4, VECTSP_5, VECTSP_6, INT_3, LOPBAN_1, VECTSP_7,
+      ZMODUL01, ZMODUL02, ZMODUL03, RANKNULL;
+ constructors RELSET_1, REALSET1, CLASSES1, FINSEQOP, FINSOP_1, FUNCT_7,
+      ALGSTR_1, GR_CY_1, LOPBAN_1, ZMODUL02, ZMODUL03, SETWISEO, BINOP_2,
+      VECTSP_2, VECTSP_4, VECTSP_6, VECTSP_7, INT_3, ALGSTR_0, RLVECT_2,
+      REAL_1, VFUNCT_1, RFINSEQ, GRCAT_1, MOD_2, VECTSP_5, MOD_4, ZMODUL01,
+      RANKNULL;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      FUNCT_2, FUNCOP_1, FINSET_1, CARD_1, NUMBERS, XREAL_0, NAT_1, INT_1,
+      VALUED_0, FINSEQ_1, RVSUM_1, INT_6, STRUCT_0, RLVECT_1, GRCAT_1,
+      ZMODUL01, ZMODUL02, MOD_2, ZMODUL03, ZMODUL04, BINOP_2, VECTSP_2,
+      VECTSP_4, INT_3, ALGSTR_0, RANKNULL;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: 1. Rank of submodule of $\mathbb Z$-module
+
+reserve V,W for Z_Module;
+
+registration
+  let V be LeftMod of INT.Ring;
+  let A be finite Subset of V;
+  cluster Lin(A) -> finitely-generated;
+end;
+
+theorem :: ZMODUL05:1
+  for V be finite-rank free Z_Module holds
+  rank V = 0 iff (Omega).V = (0).V;
+
+registration
+  let V be finite-rank free Z_Module;
+  cluster finite for Basis of V;
+end;
+
+registration
+  let V be finite-rank free Z_Module;
+  cluster -> finite for Basis of V;
+end;
+
+theorem :: ZMODUL05:2
+  for V being finite-rank free Z_Module, W being Submodule of V holds
+  rank W <= rank V;
+
+theorem :: ZMODUL05:3
+  for V being Z_Module, A being finite linearly-independent Subset of V holds
+  card A = rank Lin(A);
+
+theorem :: ZMODUL05:4
+  for V being finite-rank free Z_Module holds
+  rank V = rank (Omega).V;
+
+theorem :: ZMODUL05:5
+  for V being finite-rank free Z_Module holds
+  rank V = 1 iff ex v being VECTOR of V st v <> 0.V & (Omega).V = Lin{v};
+
+theorem :: ZMODUL05:6
+  for V being finite-rank free Z_Module holds
+  rank V = 2 iff ex u, v being VECTOR of V st u <> v &
+  {u, v} is linearly-independent & (Omega).V = Lin{u, v};
+
+theorem :: ZMODUL05:7
+  for V being finite-rank free Z_Module, W being Submodule of V,
+  n being Nat holds
+  n <= rank V iff ex W being strict free Submodule of V st rank W = n;
+
+definition
+  let V be finite-rank free Z_Module, n be Nat;
+  func n Submodules_of V -> set means
+:: ZMODUL05:def 1
+  for x being object holds
+  x in it iff ex W being strict free Submodule of V st W = x & rank W = n;
+end;
+
+theorem :: ZMODUL05:8
+  for V being finite-rank free Z_Module, n being Nat holds
+  n <= rank V implies n Submodules_of V is non empty;
+
+theorem :: ZMODUL05:9
+  for V being finite-rank free Z_Module, n being Nat holds
+  rank V < n implies n Submodules_of V = {};
+
+theorem :: ZMODUL05:10
+  for V being finite-rank free Z_Module, W being Submodule of V,
+  n being Nat holds
+  n Submodules_of W c= n Submodules_of V;
+
+theorem :: ZMODUL05:11
+  for F,G being FinSequence of INT, v be Integer holds
+  len F = len G + 1 & G = F | (dom G) & v = F.(len F) implies
+  Sum(F) = Sum(G) + v;
+
+theorem :: ZMODUL05:12  ::: should be proven for real-valued
+  for F,G being FinSequence of INT
+  st rng F = rng G & F is one-to-one
+  & G is one-to-one holds Sum(F) = Sum(G);
+
+definition
+  let T be finite Subset of the carrier of INT.Ring;
+    ::: what for? defined for reals, then redefine
+  func Sum T -> Element of INT.Ring means
+:: ZMODUL05:def 2
+  ex F being FinSequence of INT st
+  rng F = T & F is one-to-one & it = Sum F;
+end;
+
+theorem :: ZMODUL05:13
+  for K being Ring
+  for R1,R2 be FinSequence of K st R1,R2 are_fiberwise_equipotent
+  holds Sum R1 = Sum R2;
+
+::$CT 2
+
+::theorem
+:::  for X be finite Subset of INT st X = {}
+:::  holds Sum X = 0 by Def2,GR_CY_1:3,RELAT_1:38;
+
+::theorem
+::  for v be Element of INT holds Sum {v} = v
+::  proof
+::    let v be Element of INT;
+::    A1: Sum <*v*> = v by RVSUM_1:73;
+::    rng <*v*> = {v} & <*v*> is one-to-one by FINSEQ_1:39;
+::    hence Sum {v} = v by A1,Def2;
+::  end;
+
+::theorem
+::  for S, T being finite Subset of INT
+::  st T misses S holds
+::  Sum (T \/ S) = (Sum T) + (Sum S)
+::  proof
+::    let S, T be finite Subset of INT;
+::    consider F being FinSequence of INT such that
+::    A1: rng F = T \/ S and
+::    A2: F is one-to-one & Sum (T \/ S) = Sum F by Def2;
+::    consider G being FinSequence of INT such that
+::    A3: rng G = T and
+::    A4: G is one-to-one and
+::    A5: Sum T = Sum G by Def2;
+::    consider H being FinSequence of INT such that
+::    A6: rng H = S and
+::    A7: H is one-to-one and
+::    A8: Sum S = Sum H by Def2;
+::    set I = G ^ H;
+::    reconsider G0 = G, H0 = H as real-valued FinSequence;
+:::    A9: Sum (G0 ^ H0) = Sum (G) + Sum (H) by RVSUM_1:75;
+::    assume T misses S; then
+::    A10: G ^ H is one-to-one by A3,A4,A6,A7,FINSEQ_3:91;
+::    rng (G ^ H) = rng F by A1,A3,A6,FINSEQ_1:31;
+::    hence Sum (T \/ S) = (Sum T) + (Sum S) by A2,A5,A8,A9,A10,RLVECT142;
+::  end;
+
+definition
+::$CD 3
+end;
+
+theorem :: ZMODUL05:16
+  for R being Ring
+  for V1, V2 being LeftMod of R
+  for f being Function of V1, V2
+  for p being FinSequence of V1 st f is additive homogeneous holds
+  f . (Sum p) = Sum (f * p);
+
+theorem :: ZMODUL05:17
+  for V be free Z_Module st [#]V is finite holds
+  (Omega).V = (0).V;
+
+begin :: Basic facts of linear transformations
+
+reserve T for linear-transformation of V,W;
+
+theorem :: ZMODUL05:18
+  for F being Ring, V,W being VectSp of F,
+      T being linear-transformation of V,W
+  for x,y being Element of V holds T.x - T.y = T.(x - y);
+
+theorem :: ZMODUL05:19
+  T.(0.V) = 0.W;
+
+theorem :: ZMODUL05:20
+  for x being Element of V holds x in ker T iff T.x = 0.W;
+
+theorem :: ZMODUL05:21
+  0.V in ker T;
+
+theorem :: ZMODUL05:22
+  for X being Subset of V holds T .: X is Subset of im T;
+
+theorem :: ZMODUL05:23
+  for y being Element of W holds y in im T iff
+   ex x being Element of V st y = T.x;
+
+theorem :: ZMODUL05:24
+  for x being Element of ker T holds T.x = 0.W;
+
+theorem :: ZMODUL05:25
+  T is one-to-one implies ker T = (0).V;
+
+theorem :: ZMODUL05:26
+  for V being finite-rank free Z_Module holds rank ((0).V) = 0;
+
+theorem :: ZMODUL05:27
+  for x,y being Element of V st T.x = T.y holds x - y in ker T;
+
+theorem :: ZMODUL05:28
+  for A being Subset of V, x,y being Element of V st x - y in Lin A holds
+  x in Lin (A \/ {y});
+
+begin :: Some basic facts about linearly independent subsets and linear
+      :: combinations
+
+theorem :: ZMODUL05:29
+  for X being Subset of V st V is Submodule of W holds X is Subset of W;
+
+theorem :: ZMODUL05:30
+  for R being Ring
+  for V being LeftMod of R,
+      A being Subset of V holds A is Subset of Lin(A);
+
+theorem :: ZMODUL05:31
+  for V being LeftMod of INT.Ring,
+      A being linearly-independent Subset of V
+  holds A is Basis of Lin(A);
+
+:: Adjoining an element x to A that is already in its linear span
+:: results in a linearly dependent set.
+
+theorem :: ZMODUL05:32
+  for V be finite-rank free Z_Module,
+      A being Subset of V, x being Element of V st x in Lin A &
+  not x in A holds A \/ {x} is linearly-dependent;
+
+registration
+  let V be finite-rank free Z_Module, W be Z_Module;
+  let T be linear-transformation of V,W;
+  cluster ker T -> finite-rank free;
+end;
+
+reserve T for linear-transformation of V,W;
+
+theorem :: ZMODUL05:33
+  for V be finite-rank free Z_Module,A being Subset of V,
+      B being Basis of V,
+      T being linear-transformation of V,W
+  st A is Basis of ker T & A c= B holds
+  T | (B \ A) is one-to-one;
+
+theorem :: ZMODUL05:34
+  for R being Ring, V being LeftMod of R
+  for A being Subset of V, l being Linear_Combination of A,
+      x being Element of V, a being Element of R holds
+    l +* (x,a) is Linear_Combination of A \/ {x};
+
+reserve l for Linear_Combination of V;
+
+registration
+  let R be non degenerated Ring, V be LeftMod of R;
+  cluster linearly-dependent for Subset of V;
+end;
+
+:: Restricting a linear combination to a given set
+
+definition
+  let R be Ring;
+  let V be LeftMod of R, l be Linear_Combination of V, A be Subset of V;
+  func l!A -> Linear_Combination of A equals
+:: ZMODUL05:def 6
+  (l|A) +* ((A`) --> 0.R);
+end;
+
+theorem :: ZMODUL05:35
+  for R be Ring
+  for V be LeftMod of R, l be Linear_Combination of V holds
+  l = l!Carrier l;
+
+theorem :: ZMODUL05:36
+  for R being Ring for V being LeftMod of R
+  for l being Linear_Combination of V
+  for A being Subset of V, v being Element of V st v in A holds
+  (l !A).v = l.v;
+
+theorem :: ZMODUL05:37
+  for R being Ring, V being LeftMod of R
+  for l being Linear_Combination of V
+  for A being Subset of V, v being Element of V st not v in A holds
+    (l!A).v = 0.R;
+
+theorem :: ZMODUL05:38
+  for R being Ring, V being LeftMod of R
+  for A,B being Subset of V, l being Linear_Combination of B st A c= B holds
+  l = (l!A) + (l!(B\A));
+
+registration
+  let R be Ring, V be LeftMod of R,
+      l be Linear_Combination of V, X be Subset of V;
+  cluster l .: X -> finite;
+end;
+
+theorem :: ZMODUL05:39
+  for R being Ring, V being LeftMod of R,
+      l be Linear_Combination of V
+  for X being Subset of V st X misses Carrier l holds l .: X c= {0.R};
+
+definition
+  let K be Ring;
+  let V,W be VectSp of K,
+      l be Linear_Combination of V,
+      T be linear-transformation of V,W;
+  let w be Element of W;
+  func lCFST(l,T,w) -> (the carrier of K) -valued FinSequence equals
+:: ZMODUL05:def 7
+  l * canFS((T"{w}) /\ (Carrier l));
+end;
+
+reserve V,W for Z_Module;
+reserve l for Linear_Combination of V;
+reserve T for linear-transformation of V,W;
+
+theorem :: ZMODUL05:40
+  for V,W be non empty set,
+  f be FinSequence,
+  l be Function of V,W
+  st rng f c= V
+  holds l*f is W-valued FinSequence-like;
+
+registration
+  let V,W be non empty set,
+      f be V-valued FinSequence,
+      l be Function of V,W;
+  cluster l*f -> W -valued FinSequence-like;
+end;
+
+registration
+  let V,W be non empty set,
+      A be finite Subset of V,
+      l be Function of V,W;
+  cluster l*canFS(A) -> W -valued FinSequence-like;
+end;
+
+registration
+  let R be Ring;
+  let V be LeftMod of R,
+      A be finite Subset of V,
+      l be Linear_Combination of V;
+  cluster l*canFS(A) -> (the carrier of R) -valued FinSequence-like;
+end;
+
+theorem :: ZMODUL05:41
+  for V,W be non empty set,
+  f,g be V-valued FinSequence,
+  l be Function of V,W
+  holds l*(f^g) = (l*f)^(l*g);
+
+theorem :: ZMODUL05:42
+  for R being Ring
+  for V be LeftMod of R,
+  A,B be finite Subset of V,
+  l be Linear_Combination of V,
+  l0,l1,l2 being FinSequence of R
+  st A /\ B = {} & l0 = l*canFS(A \/ B) & l1 = l*canFS(A) & l2 = l*canFS(B)
+  holds Sum l0 = Sum l1 + Sum l2;
+
+theorem :: ZMODUL05:43
+  for R being Ring
+  for V be LeftMod of R,
+  A be finite Subset of V,
+  l,l0 be Linear_Combination of V
+  st l | (Carrier l0) = l0 | (Carrier l0)
+  & Carrier l0 c= Carrier l & A c= Carrier l0
+  holds Sum(l*canFS(A)) = Sum(l0*canFS(A));
+
+definition
+  let R be Ring;
+  let V,W be LeftMod of R,
+  l be Linear_Combination of V, T be linear-transformation of V,W;
+  func T @* l -> Linear_Combination of W means
+:: ZMODUL05:def 8
+
+  Carrier it c= T.:(Carrier l)
+  & for w being Element of W holds it.w = Sum(lCFST(l,T,w));
+end;
+
+theorem :: ZMODUL05:44
+  for R being Ring
+  for V,W be LeftMod of R,
+  l be Linear_Combination of V, T be linear-transformation of V,W holds
+  (T@*l) is Linear_Combination of T .: (Carrier l);
+
+theorem :: ZMODUL05:45
+  for K being Ring
+  for V,W being LeftMod of K,
+  T being linear-transformation of V,W,
+  s being Vector of W holds
+  (for A being Subset of V, l being Linear_Combination of A
+  st (for v being Vector of V st v in Carrier l holds T.v = s)
+  holds T.Sum(l) = Sum(lCFST(l,T,s)) * s);
+
+theorem :: ZMODUL05:46
+  for K being Ring
+  for V, W being LeftMod of K,
+  T being linear-transformation of V,W,
+  A being Subset of V,
+  l being Linear_Combination of A,
+  Tl being Linear_Combination of T.:(Carrier l)
+  st Tl = T@*l
+  holds T.Sum(l) = Sum (Tl);
+
+::: same as ZMODUL04:25
+theorem :: ZMODUL05:47
+  for R being Ring
+  for V being LeftMod of R
+  for l,m being Linear_Combination of V
+  st (Carrier l) misses (Carrier m) holds
+  Carrier(l + m) = (Carrier l) \/ (Carrier m);
+
+theorem :: ZMODUL05:48
+  for R being Ring
+  for V being LeftMod of R
+  for l, m being Linear_Combination of V
+  st (Carrier l) misses (Carrier m) holds
+  Carrier (l - m) = (Carrier l) \/ (Carrier m);
+
+theorem :: ZMODUL05:49
+  for R being Ring
+  for V being LeftMod of R, A being Subset of V,
+  l1, l2 being Linear_Combination of A
+  st Carrier(l1) misses Carrier(l2) holds
+  Carrier(l1 - l2) = Carrier(l1) \/ Carrier(l2);
+
+theorem :: ZMODUL05:50
+  for V be free Z_Module,
+  A,B being Subset of V st A c= B & B is Basis of V holds
+  V is_the_direct_sum_of Lin A, Lin (B \ A);
+
+theorem :: ZMODUL05:51
+  for R being Ring
+  for V,W being LeftMod of R
+  for A being Subset of V, l being Linear_Combination of A,
+      T being linear-transformation of V,W,
+      v being Element of V st T|A is one-to-one & v in A holds
+  ex X being Subset of V
+  st X misses A & T"{T.v} = {v} \/ X;
+
+theorem :: ZMODUL05:52
+  for R being Ring
+  for V being LeftMod of R, A being Subset of V,
+      l being Linear_Combination of A
+  for X being Subset of V st X misses Carrier l & X <> {} holds
+    l .: X = {0.R};
+
+theorem :: ZMODUL05:53
+  for R being Ring
+  for V,W being LeftMod of R
+  for l being Linear_Combination of V,
+      T being linear-transformation of V,W
+  for w being Element of W st w in Carrier (T@*l) holds T"{w} meets Carrier l;
+
+theorem :: ZMODUL05:54
+  for R being Ring
+  for V,W being LeftMod of R
+  for l being Linear_Combination of V,
+      T being linear-transformation of V,W
+  for v being Element of V st T | (Carrier l) is one-to-one &
+  v in Carrier l holds (T@*l).(T.v) = l.v;
+
+theorem :: ZMODUL05:55
+  for R being Ring
+  for V,W being LeftMod of R
+  for l being Linear_Combination of V,
+      T being linear-transformation of V,W
+  for G being FinSequence of V st rng G = Carrier l &
+    T | (Carrier l) is one-to-one holds T*(l (#) G) = (T@*l) (#) (T*G);
+
+theorem :: ZMODUL05:56
+  for R being Ring
+  for V,W being LeftMod of R
+  for l being Linear_Combination of V,
+      T being linear-transformation of V,W holds
+  T | (Carrier l) is one-to-one implies T .: (Carrier l) = Carrier(T@*l);
+
+theorem :: ZMODUL05:57
+  for V being finite-rank free Z_Module,
+      A being Subset of V,
+      B being Basis of V,
+      T being linear-transformation of V,W,
+      l being Linear_Combination of B \ A
+  st A is Basis of ker T & A c= B holds T.(Sum l) = Sum(T@*l);
+
+theorem :: ZMODUL05:58
+  for X being Subset of V st X is linearly-dependent holds
+  ex l being Linear_Combination of X st Carrier l <> {} & Sum l = 0.V;
+
+:: "Pulling back" a linear combination from the image space of a
+:: linear transformation to the base space.
+
+definition
+  let R be Ring;
+  let V,W be LeftMod of R, X be Subset of V,
+      T be linear-transformation of V,W, l be Linear_Combination of T .: X;
+  assume
+   T|X is one-to-one;
+  func T#l -> Linear_Combination of X equals
+:: ZMODUL05:def 9
+  (l*T) +* ((X`) --> 0.R);
+end;
+
+theorem :: ZMODUL05:59
+  for R being Ring
+  for V,W be LeftMod of R, X be Subset of V,
+      T be linear-transformation of V,W
+  for X being Subset of V,
+      l be Linear_Combination of T.:X,
+  v being Element of V st v in X & T|X is one-to-one holds (T#l).v = l.(T.v);
+
+:: # is a right inverse of @*
+
+theorem :: ZMODUL05:60
+  for R being Ring
+  for V,W be LeftMod of R, X be Subset of V,
+      T be linear-transformation of V,W,
+      X being Subset of V,
+      l be Linear_Combination of T .: X st
+  T|X is one-to-one holds T@*(T#l) = l;

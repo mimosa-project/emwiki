@@ -1,0 +1,221 @@
+:: Some Remarkable Identities Involving Numbers
+::  by Rafa{\l} Ziobro
+::
+:: Received September 5, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ABIAN, NUMBERS, NAT_1, INT_1, ARYTM_3, XXREAL_0, CARD_1, ARYTM_1,
+      INT_2, COMPLEX1, RELAT_1, NEWTON, SQUARE_1, XCMPLX_0;
+ notations ABIAN, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, INT_1, INT_2, ORDINAL1,
+      SQUARE_1, NEWTON;
+ constructors ABIAN, SQUARE_1, NAT_1, NAT_D, NEWTON;
+ registrations ABIAN, ORDINAL1, XXREAL_0, XREAL_0, NAT_1, INT_1, NEWTON,
+      WSIERP_1, XCMPLX_0, ABSVALUE;
+ requirements REAL, NUMERALS, SUBSET, ARITHM;
+
+
+begin
+
+reserve a,b,c,d,x,j,k,l,m,n for Nat,
+  p,q,t,z,u,v for Integer,
+  a1,b1,c1,d1 for Complex;
+
+registration
+  let u,v be even Integer;
+  cluster u-v -> even;
+end;
+
+registration
+  let u be odd Integer;
+  let k;
+  cluster u|^k -> odd;
+end;
+
+registration
+  let k be positive Nat;
+  let u be even Integer;
+  cluster u|^k -> even;
+end;
+
+theorem :: NEWTON01:1
+  a1|^2 - b1|^2 = (a1-b1)*(a1+b1);
+
+theorem :: NEWTON01:2
+  (2*a1+1)|^2 + (2*a1|^2 + 2*a1)|^2 = (2*a1|^2 + 2*a1 + 1)|^2;
+
+theorem :: NEWTON01:3
+  a1|^2+a1*b1+b1|^2 = (3*(a1+b1)|^2 +(a1-b1)|^2)/4;
+
+theorem :: NEWTON01:4
+  a is odd implies ex b st a|^2 + b|^2 = (b+1)|^2;
+
+theorem :: NEWTON01:5
+  ((a1|^m+b1|^m)*(a1|^n-b1|^n) + (a1|^n+b1|^n)*(a1|^m-b1|^m))/2
+  = a1|^(m+n) - b1|^(m+n);
+
+theorem :: NEWTON01:6
+  a|^m + b|^m <= c|^m implies a <= c;
+
+theorem :: NEWTON01:7
+  (a1+b1)|^(n+1) = a1|^(n+1) + b1|^(n+1) + a1*b1*c1 implies
+  (a1+b1)|^(n+2) = a1|^(n+2) + b1|^(n+2) + a1*b1*(a1|^n + b1|^n + c1*(a1+b1));
+
+theorem :: NEWTON01:8
+  ((a1|^m+b1|^m)*(a1|^n+b1|^n) + (a1|^n-b1|^n)*(a1|^m-b1|^m))/2
+  = a1|^(m+n) + b1|^(m+n);
+
+theorem :: NEWTON01:9
+  a1|^(m+1)+b1|^(m+1) = ((a1|^m+b1|^m)*(a1+b1) + (a1-b1)*(a1|^m-b1|^m))/2;
+
+theorem :: NEWTON01:10
+  (a-b)*(a|^m-b|^m) >= 0;
+
+theorem :: NEWTON01:11
+  a|^(m+1)+b|^(m+1) >= (a|^m+b|^m)*(a+b)/2;
+
+theorem :: NEWTON01:12
+  a|^m + b|^m <= c|^m implies ex x st a|^m + b|^m <= (a+x)|^m;
+
+theorem :: NEWTON01:13
+  a1|^(m+1)-b1|^(m+1) = ((a1|^m+b1|^m)*(a1-b1) + (a1+b1)*(a1|^m-b1|^m))/2;
+
+theorem :: NEWTON01:14
+  a|^(m+1)-b|^(m+1)=(a-b)*(t*(a+b)+a|^m+b|^m)/2 iff
+  a|^m - b|^m = (a-b)*t;
+
+theorem :: NEWTON01:15
+  (c1|^n/2+c1/2)|^2-(c1|^n/2-c1/2)|^2 = c1|^(n+1);
+
+theorem :: NEWTON01:16
+  a|^3-b|^3 = (a-b)*((a+b)*(a+b)+a|^2+b|^2)/2;
+
+theorem :: NEWTON01:17
+  c|^m >= a|^m + b|^m & a>0 & b>0 implies
+  c|^(m+1) > a|^(m+1) + b|^(m+1);
+
+theorem :: NEWTON01:18
+  c|^m >= a|^m + b|^m & a>0 & b>0 & k>0 implies
+  c|^(k+m) > a|^(k+m) + b|^(k+m);
+
+theorem :: NEWTON01:19
+  c|^m >= a|^m + b|^m implies
+  c|^(k+m) >= a|^(k+m) + b|^(k+m);
+
+theorem :: NEWTON01:20
+  c|^n > a|^n + b|^n implies
+  c|^(k+n) > a|^(k+n) + b|^(k+n);
+
+theorem :: NEWTON01:21
+  a1|^(m+2) - b1|^(m+2) = (a1|^(m+1)+b1|^(m+1))*(a1-b1) + a1*b1*(a1|^m-b1|^m);
+
+theorem :: NEWTON01:22
+  a1|^(m+2) + b1|^(m+2) = (a1|^(m+1)-b1|^(m+1))*(a1-b1) + a1*b1*(a1|^m+b1|^m);
+
+theorem :: NEWTON01:23
+  a|^(2*m+2)-b|^(2*m+2) =
+  (a|^2-b|^2)*(c*(a|^2+b|^2)+a|^(2*m)+b|^(2*m))/2
+  iff a|^(2*m) - b|^(2*m) = (a|^2-b|^2)*c;
+
+theorem :: NEWTON01:24
+  a1|^(2*m+3) + b1|^(2*m+3) = (a1|^(2*m+2)+b1|^(2*m+2))*(a1+b1)
+  - a1*b1*(a1|^(2*m+1)+b1|^(2*m+1));
+
+theorem :: NEWTON01:25
+  a1|^m - b1|^m = (a1-b1)*k implies
+  a1|^(m+2) - b1|^(m+2) = (a1|^(m+1)+b1|^(m+1) + a1*b1*k)*(a1-b1);
+
+theorem :: NEWTON01:26
+  a1|^(m+2) - b1|^(m+2) = (a1|^(m+1)+b1|^(m+1) + a1*b1*k)*(a1-b1) & a1*b1<>0
+  implies a1|^m - b1|^m = (a1-b1)*k;
+
+theorem :: NEWTON01:27
+  b>0 & a>b implies
+  ((a|^n-b|^n)*(a+b) = (a|^n+b|^n)*(a-b) iff n=1);
+
+theorem :: NEWTON01:28
+  n>1 & b>0 & a>b implies (a|^n-b|^n)*(a+b) > a|^(n+1) - b|^(n+1);
+
+theorem :: NEWTON01:29
+  n>0 & a>b implies (a|^n+b|^n)*(a-b) <= a|^(n+1) - b|^(n+1);
+
+theorem :: NEWTON01:30
+  p+q divides p*u + q*v implies p+q divides p*(u+z) + q*(v+z);
+
+theorem :: NEWTON01:31
+  p+q divides p*(t*(p+q)+z) + q*z;
+
+theorem :: NEWTON01:32
+  p+q divides u-v implies p+q divides p*(u+t) + q*(v+t);
+
+theorem :: NEWTON01:33
+  a-b divides a|^n-b|^n;
+
+theorem :: NEWTON01:34
+  a|^2-b|^2 divides a|^(2*m)-b|^(2*m);
+
+theorem :: NEWTON01:35
+  a+b divides a|^(2*m+1) + b|^(2*m+1);
+
+theorem :: NEWTON01:36
+  a+b divides a|^(2*m) - b|^(2*m);
+
+theorem :: NEWTON01:37
+  a+b divides a|^n - b|^n implies
+    a+b divides a|^(n+1) + b|^(n+1);
+
+theorem :: NEWTON01:38
+  a+b divides a|^n+b|^n or a+b divides a|^n-b|^n;
+
+theorem :: NEWTON01:39
+  a>=b & c|^n - b|^n = a|^n implies (c-b) gcd (a|^n) = c-b &
+    (c-a) gcd b|^n = c-a;
+
+theorem :: NEWTON01:40
+  a,b are_coprime & a+b divides a*c + b*d implies a+b divides c-d;
+
+theorem :: NEWTON01:41
+  a*b,c*d are_coprime implies a,c are_coprime;
+
+theorem :: NEWTON01:42
+  a>0 & b>0 & a|^n + b|^n = c|^n implies
+  ex j,k,l st j|^n + k|^n = l|^n & j,k are_coprime
+  & j,l are_coprime & k,l are_coprime
+  & a = (a gcd b)*j & b = (a gcd b)*k & c = (a gcd b)*l;
+
+theorem :: NEWTON01:43
+  a>0 implies a|^(n+2) + a|^(n+2) <> b|^(n+2);
+
+theorem :: NEWTON01:44
+  x>0 & b < c & a +b|^2 = c|^2 implies a + (b+x)|^2 < (c+x)|^2;
+
+theorem :: NEWTON01:45
+  q < 0 & b < c & a|^2 +b|^2 = c|^2 implies
+    a|^2 + (b+q)|^2 > (c+q)|^2;
+
+theorem :: NEWTON01:46
+  x>0 & a|^2 +b|^2 = (b+1)|^2 implies a|^2 + (b-x)|^2 > (b+1-x)|^2;
+
+theorem :: NEWTON01:47
+  a>=1 & (a+1)|^2 + ((a+1)+x)|^2 <= ((a+1)+x+1)|^2 implies
+  a|^2 + (a+x)|^2 < (a+x+1)|^2;
+
+theorem :: NEWTON01:48
+  a>=1 & a|^2 + (a+x)|^2 >= (a+x+1)|^2 implies
+  (a+l+1)|^2 + (a+l+1+x)|^2 > (a+l+1+x+1)|^2;
+
+theorem :: NEWTON01:49
+  a >= 3 iff a|^2 + a|^2 > (a+1)|^2;
+
+theorem :: NEWTON01:50
+  2|^(3+m) + 2|^(3+m) < 3|^(3+m);
+

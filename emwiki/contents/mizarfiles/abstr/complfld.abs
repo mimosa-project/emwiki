@@ -1,0 +1,340 @@
+:: The Field of Complex Numbers
+::  by Anna Justyna Milewska
+::
+:: Received January 18, 2000
+:: Copyright (c) 2000-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, ALGSTR_0, NUMBERS, BINOP_2, MESFUNC1, COMPLEX1,
+      SUPINF_2, XBOOLE_0, XCMPLX_0, SUBSET_1, ORDINAL1, ARYTM_3, FUNCT_1,
+      RELAT_1, VECTSP_1, GROUP_1, RLVECT_1, BINOP_1, LATTICES, ARYTM_1, CARD_1,
+      XXREAL_0, NAT_1, NEWTON, COMPTRIG, COMPLFLD, MEMBERED;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, COMPLEX1,
+      REAL_1, NAT_1, MEMBERED, FUNCT_1, XXREAL_0, COMPTRIG, BINOP_1, BINOP_2,
+      STRUCT_0, ALGSTR_0, RLVECT_1, GROUP_1, NEWTON, VECTSP_1;
+ constructors BINOP_1, XXREAL_0, REAL_1, NAT_1, BINOP_2, NEWTON, COMPTRIG,
+      VECTSP_1, RLVECT_1, GROUP_1, MEMBERED;
+ registrations ORDINAL1, RELSET_1, NUMBERS, XCMPLX_0, NAT_1, COMPLEX1,
+      STRUCT_0, VECTSP_1, XREAL_0, CARD_1, MEMBERED;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+definition
+  func F_Complex -> strict doubleLoopStr means
+:: COMPLFLD:def 1
+
+  the carrier of it = COMPLEX & the addF of it = addcomplex &
+  the multF of it = multcomplex & 1.it = 1r & 0.it = 0c;
+end;
+
+registration
+  cluster F_Complex -> non empty;
+end;
+
+registration
+  cluster the carrier of F_Complex -> complex-membered;
+end;
+
+registration
+  let a,b be Complex;
+  let x,y be Element of F_Complex;
+  identify x+y with a+b when x=a, y=b;
+  identify x*y with a*b when x=a, y=b;
+end;
+
+registration
+  cluster F_Complex -> well-unital;
+end;
+
+registration
+  cluster F_Complex -> add-associative right_zeroed right_complementable
+    Abelian commutative associative left_unital right_unital distributive
+    almost_left_invertible non degenerated;
+end;
+
+theorem :: COMPLFLD:1
+  for x1,y1 be Element of F_Complex for x2,y2 be Complex st x1 =
+  x2 & y1 = y2 holds x1 + y1 = x2 + y2;
+
+theorem :: COMPLFLD:2
+  for x1 be Element of F_Complex for x2 be Complex st x1 =
+  x2 holds - x1 = - x2;
+
+theorem :: COMPLFLD:3
+  for x1,y1 be Element of F_Complex for x2,y2 be Complex st
+  x1 = x2 & y1 = y2 holds x1 - y1 = x2 - y2;
+
+theorem :: COMPLFLD:4
+  for x1,y1 be Element of F_Complex for x2,y2 be Complex st x1 =
+  x2 & y1 = y2 holds x1 * y1 = x2 * y2;
+
+theorem :: COMPLFLD:5
+  for x1 be Element of F_Complex for x2 be Complex st x1 =
+  x2 & x1 <> 0.F_Complex holds x1" = x2";
+
+theorem :: COMPLFLD:6
+  for x1,y1 be Element of F_Complex for x2,y2 be Complex st
+  x1 = x2 & y1 = y2 & y1 <> 0.F_Complex holds x1/y1 = x2/y2;
+
+theorem :: COMPLFLD:7
+  0.F_Complex = 0c;
+
+theorem :: COMPLFLD:8
+  1_F_Complex = 1r;
+
+theorem :: COMPLFLD:9
+  1_F_Complex + 1_F_Complex <> 0.F_Complex;
+
+definition
+  let z be Element of F_Complex;
+  redefine func z *' -> Element of F_Complex;
+end;
+
+reserve z,z1,z2,z3,z4 for Element of F_Complex;
+
+theorem :: COMPLFLD:10
+  -z = (-1_F_Complex) * z;
+
+theorem :: COMPLFLD:11
+  z1 - -z2 = z1 + z2;
+
+theorem :: COMPLFLD:12
+  z1 = z1 + z - z;
+
+theorem :: COMPLFLD:13
+  z1 = z1 - z + z;
+
+theorem :: COMPLFLD:14
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex & z1" = z2" implies z1 = z2;
+
+theorem :: COMPLFLD:15
+  z2 <> 0.F_Complex & (z1 * z2 = 1.F_Complex or z2 * z1 = 1.F_Complex)
+  implies z1 = z2";
+
+theorem :: COMPLFLD:16
+  z2 <> 0.F_Complex & (z1 * z2 = z3 or z2 * z1 = z3) implies z1 = z3 *
+  z2" & z1 = z2" * z3;
+
+theorem :: COMPLFLD:17
+  (1.F_Complex)" = 1.F_Complex;
+
+theorem :: COMPLFLD:18
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies (z1 * z2)" = z1" * z2";
+
+theorem :: COMPLFLD:19
+  z <> 0.F_Complex implies (-z)" = -(z");
+
+theorem :: COMPLFLD:20
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies z1" + z2" = (z1 + z2) *
+  (z1 * z2)";
+
+theorem :: COMPLFLD:21
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies z1" - z2" = (z2 - z1) *
+  (z1 * z2)";
+
+theorem :: COMPLFLD:22
+  z <> 0.F_Complex implies z" = (1.F_Complex) / z;
+
+theorem :: COMPLFLD:23
+  z / (1.F_Complex) = z;
+
+theorem :: COMPLFLD:24
+  z <> 0.F_Complex implies z / z = 1.F_Complex;
+
+theorem :: COMPLFLD:25
+  z <> 0.F_Complex implies (0.F_Complex) / z = 0.F_Complex;
+
+theorem :: COMPLFLD:26
+  z2 <> 0.F_Complex & z1 / z2 = 0.F_Complex implies z1 = 0. F_Complex;
+
+theorem :: COMPLFLD:27
+  z2 <> 0.F_Complex & z4 <> 0.F_Complex implies (z1 / z2) * (z3 / z4) =
+  (z1 * z3) / (z2 * z4);
+
+theorem :: COMPLFLD:28
+  z2 <> 0.F_Complex implies z * (z1 / z2) = (z * z1) / z2;
+
+theorem :: COMPLFLD:29
+  z2 <> 0.F_Complex & z1 / z2 = 1.F_Complex implies z1 = z2;
+
+theorem :: COMPLFLD:30
+  z <> 0.F_Complex implies z1 = (z1 * z) / z;
+
+theorem :: COMPLFLD:31
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies (z1 / z2)" = z2 / z1;
+
+theorem :: COMPLFLD:32
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies (z1" / z2") = z2 / z1;
+
+theorem :: COMPLFLD:33
+  z2 <> 0.F_Complex implies z1 / z2" = z1 * z2;
+
+theorem :: COMPLFLD:34
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies z1" / z2 = (z1 * z2)";
+
+theorem :: COMPLFLD:35
+  z1 <> 0.F_Complex & z2 <> 0.F_Complex implies z1"* (z / z2) = z / (z1 * z2);
+
+theorem :: COMPLFLD:36
+  z <> 0.F_Complex & z2 <> 0.F_Complex implies (z1 / z2) = (z1 * z) / (
+  z2 * z) & (z1 / z2) = (z * z1) / (z * z2);
+
+theorem :: COMPLFLD:37
+  z2 <> 0.F_Complex & z3 <> 0.F_Complex implies z1 / (z2 * z3) = z1 / z2 / z3;
+
+theorem :: COMPLFLD:38
+  z2 <> 0.F_Complex & z3 <> 0.F_Complex implies (z1 * z3) / z2 = z1 / (
+  z2 / z3);
+
+theorem :: COMPLFLD:39
+  z2 <> 0.F_Complex & z3 <> 0.F_Complex & z4 <> 0.F_Complex implies (z1
+  / z2) / (z3 / z4) = (z1 * z4) / (z2 * z3);
+
+theorem :: COMPLFLD:40
+  z2 <> 0.F_Complex & z4 <> 0.F_Complex implies z1 / z2 + z3 / z4 = (z1
+  * z4 + z3 * z2) / (z2 * z4);
+
+theorem :: COMPLFLD:41
+  z <> 0.F_Complex implies z1 / z + z2 / z = (z1 + z2) / z;
+
+theorem :: COMPLFLD:42
+  z2 <> 0.F_Complex implies -(z1 / z2) = (-z1) / z2 & -(z1 / z2) = z1 / (-z2);
+
+theorem :: COMPLFLD:43
+  z2 <> 0.F_Complex implies z1 / z2 = (-z1) / (-z2);
+
+theorem :: COMPLFLD:44
+  z2 <> 0.F_Complex & z4 <> 0.F_Complex implies z1 / z2 - z3 / z4 = (z1
+  * z4 - z3 * z2) / (z2 * z4);
+
+theorem :: COMPLFLD:45
+  z <> 0.F_Complex implies z1 / z - z2 / z = (z1 - z2) / z;
+
+theorem :: COMPLFLD:46
+  z2 <> 0.F_Complex & (z1 * z2 = z3 or z2 * z1 = z3) implies z1 = z3 / z2;
+
+theorem :: COMPLFLD:47
+  (0.F_Complex)*' = 0.F_Complex;
+
+theorem :: COMPLFLD:48
+  z*' = 0.F_Complex implies z = 0.F_Complex;
+
+theorem :: COMPLFLD:49
+  (1.F_Complex)*' = 1.F_Complex;
+
+theorem :: COMPLFLD:50
+  z*'*' = z;
+
+theorem :: COMPLFLD:51
+  (z1 + z2)*' = z1*' + z2*';
+
+theorem :: COMPLFLD:52
+  (-z)*' = -(z*');
+
+theorem :: COMPLFLD:53
+  (z1 - z2)*' = z1*' - z2*';
+
+theorem :: COMPLFLD:54
+  (z1 * z2)*' = z1*' * z2*';
+
+theorem :: COMPLFLD:55
+  z <> 0.F_Complex implies z"*' = z*'";
+
+theorem :: COMPLFLD:56
+  z2 <> 0.F_Complex implies (z1 / z2)*' = (z1*') / (z2*');
+
+theorem :: COMPLFLD:57
+  |.0.F_Complex.| = 0;
+
+theorem :: COMPLFLD:58
+  |.z.| = 0 implies z = 0.F_Complex;
+
+theorem :: COMPLFLD:59
+  z <> 0.F_Complex iff 0 < |.z.|;
+
+theorem :: COMPLFLD:60
+  |.1.F_Complex.| = 1;
+
+theorem :: COMPLFLD:61
+  |.-z.| = |.z.|;
+
+theorem :: COMPLFLD:62
+  |.z1 + z2.| <= |.z1.| + |.z2.|;
+
+theorem :: COMPLFLD:63
+  |.z1 - z2.| <= |.z1.| + |.z2.|;
+
+theorem :: COMPLFLD:64
+  |.z1.| - |.z2.| <= |.z1 + z2.|;
+
+theorem :: COMPLFLD:65
+  |.z1.| - |.z2.| <= |.z1 - z2.|;
+
+theorem :: COMPLFLD:66
+  |.z1 - z2.| = |.z2 - z1.|;
+
+theorem :: COMPLFLD:67
+  |.z1 - z2.| = 0 iff z1 = z2;
+
+theorem :: COMPLFLD:68
+  z1 <> z2 iff 0 < |.z1 - z2.|;
+
+theorem :: COMPLFLD:69
+  |.z1 - z2.| <= |.z1 - z.| + |.z - z2.|;
+
+theorem :: COMPLFLD:70
+  |.|.z1.| - |.z2.|.| <= |.z1 - z2.|;
+
+theorem :: COMPLFLD:71
+  |.z1*z2.| = |.z1.|*|.z2.|;
+
+theorem :: COMPLFLD:72
+  z <> 0.F_Complex implies |.z".| = |.z.|";
+
+theorem :: COMPLFLD:73
+  z2 <> 0.F_Complex implies |.z1.| / |.z2.| = |.z1 / z2.|;
+
+begin :: Addenda
+:: from COMPTRIG, 2006.08.12, A.T.
+
+scheme :: COMPLFLD:sch 1
+  Regrwithout0 { P[Nat] } : P[1]
+provided
+ ex k be non zero Element of NAT st P[k] and
+ for k be non zero Element of NAT st k <> 1 & P[k]
+   ex n be non zero Element of NAT st n < k & P[n];
+
+theorem :: COMPLFLD:74
+  for e being Element of F_Complex, n be Nat holds
+  (power F_Complex).(e,n) = e|^n;
+
+definition
+  let x be Element of F_Complex;
+  let n be non zero Element of NAT;
+  redefine mode CRoot of n,x -> Element of F_Complex means
+:: COMPLFLD:def 2
+
+    (power F_Complex).(it,n) = x;
+end;
+
+theorem :: COMPLFLD:75
+  for x be Element of F_Complex for v be CRoot of 1,x holds v = x;
+
+theorem :: COMPLFLD:76
+  for n be non zero Element of NAT for v be CRoot of n,0.F_Complex
+  holds v = 0.F_Complex;
+
+theorem :: COMPLFLD:77
+  for n be non zero Element of NAT for x be Element of F_Complex for v
+  be CRoot of n,x st v = 0.F_Complex holds x = 0.F_Complex;

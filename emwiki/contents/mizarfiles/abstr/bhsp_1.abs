@@ -1,0 +1,329 @@
+:: Introduction to Banach and Hilbert spaces - Part I
+::  by Jan Popio{\l}ek
+::
+:: Received July 19, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, RLVECT_1, STRUCT_0, SUBSET_1, ALGSTR_0, BINOP_1,
+      FUNCT_1, ZFMISC_1, XBOOLE_0, REAL_1, PRE_TOPC, SUPINF_2, PROB_2, RLSUB_1,
+      FUNCOP_1, CARD_1, ARYTM_3, RELAT_1, XXREAL_0, ARYTM_1, COMPLEX1,
+      SQUARE_1, FUNCT_3, RVSUM_1, NORMSP_1, METRIC_1, NAT_1, BHSP_1, PARTFUN1,
+      FUNCT_7;
+ notations XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0,
+      COMPLEX1, REAL_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, FUNCOP_1, BINOP_1,
+      NAT_1, STRUCT_0, ALGSTR_0, DOMAIN_1, PRE_TOPC, RLVECT_1, RLSUB_1,
+      SQUARE_1, VFUNCT_1, NORMSP_1, QUIN_1, XXREAL_0;
+ constructors BINOP_1, DOMAIN_1, FUNCOP_1, REAL_1, SQUARE_1, NAT_1, MEMBERED,
+      COMPLEX1, QUIN_1, RLSUB_1, NORMSP_1, RELSET_1, VFUNCT_1;
+ registrations SUBSET_1, ORDINAL1, RELSET_1, NUMBERS, XXREAL_0, XREAL_0,
+      SQUARE_1, STRUCT_0, XBOOLE_0, ALGSTR_0, FUNCT_2, VFUNCT_1, QUIN_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+definition
+  struct(RLSStruct) UNITSTR (#
+  carrier -> set,
+  ZeroF -> Element of the carrier,
+  addF -> BinOp of the carrier,
+  Mult -> Function of [:REAL, the carrier:], the carrier,
+  scalar -> Function of [: the carrier, the carrier :], REAL #);
+end;
+
+registration
+  cluster non empty strict for UNITSTR;
+end;
+
+registration
+  let D be non empty set, Z be Element of D, a be BinOp of D,m be Function of
+  [:REAL, D:], D, s be Function of [: D,D:],REAL;
+  cluster UNITSTR (#D,Z,a,m,s#) -> non empty;
+end;
+
+reserve X for non empty UNITSTR;
+reserve a, b for Real;
+reserve x, y for Point of X;
+
+definition
+  let X;
+  let x, y;
+  func x .|. y -> Real equals
+:: BHSP_1:def 1
+  (the scalar of X).[x,y];
+end;
+
+definition
+  let IT be non empty UNITSTR;
+  attr IT is RealUnitarySpace-like means
+:: BHSP_1:def 2
+
+  for x, y, z being Point of IT, a holds
+  ( x .|. x = 0 iff x = 0.IT ) & 0 <= x .|. x & x .|. y = y .|. x &
+  (x+y) .|. z = x .|. z + y .|. z & (a*x) .|. y = a * ( x .|. y );
+end;
+
+registration
+  cluster RealUnitarySpace-like vector-distributive scalar-distributive
+  scalar-associative scalar-unital Abelian add-associative
+    right_zeroed right_complementable strict for non empty UNITSTR;
+end;
+
+definition
+  mode RealUnitarySpace is RealUnitarySpace-like vector-distributive
+  scalar-distributive scalar-associative scalar-unital Abelian
+    add-associative right_zeroed right_complementable non empty UNITSTR;
+end;
+
+reserve X for RealUnitarySpace;
+reserve x, y, z, u, v for Point of X;
+
+definition
+  let X, x, y;
+  redefine func x .|. y;
+  commutativity;
+end;
+
+theorem :: BHSP_1:1
+  (0.X) .|. (0.X) = 0;
+
+theorem :: BHSP_1:2
+  x .|. (y+z) = x .|. y + x .|. z;
+
+theorem :: BHSP_1:3
+  x .|. (a*y) = a * x .|. y;
+
+theorem :: BHSP_1:4
+  (a*x) .|. y = x .|. (a*y);
+
+theorem :: BHSP_1:5
+  (a*x+b*y) .|. z = a * x .|. z + b * y .|. z;
+
+theorem :: BHSP_1:6
+  x .|. (a*y + b*z) = a * x .|. y + b * x .|. z;
+
+theorem :: BHSP_1:7
+  (-x) .|. y = x .|. (-y);
+
+theorem :: BHSP_1:8
+  (-x) .|. y = - x .|. y;
+
+theorem :: BHSP_1:9
+  x .|. (-y) = - x .|. y;
+
+theorem :: BHSP_1:10
+  (-x) .|. (-y) = x .|. y;
+
+theorem :: BHSP_1:11
+  (x - y) .|. z = x .|. z - y .|. z;
+
+theorem :: BHSP_1:12
+  x .|. (y - z) = x .|. y - x .|. z;
+
+theorem :: BHSP_1:13
+  (x - y) .|. (u - v) = x .|. u - x .|. v - y .|. u + y .|. v;
+
+theorem :: BHSP_1:14
+  (0.X) .|. x = 0;
+
+theorem :: BHSP_1:15
+  x .|. 0.X = 0;
+
+theorem :: BHSP_1:16
+  (x + y) .|. (x + y) = x .|. x + 2 * x .|. y + y .|. y;
+
+theorem :: BHSP_1:17
+  (x + y) .|. (x - y) = x .|. x - y .|. y;
+
+theorem :: BHSP_1:18
+  (x - y) .|. (x - y) = x .|. x - 2 * x .|. y + y .|. y;
+
+theorem :: BHSP_1:19
+  |.x .|. y.| <= sqrt (x .|. x) * sqrt (y .|. y);
+
+definition
+  let X, x, y;
+  pred x, y are_orthogonal means
+:: BHSP_1:def 3
+
+  x .|. y = 0;
+  symmetry;
+end;
+
+theorem :: BHSP_1:20
+  x, y are_orthogonal implies x, - y are_orthogonal;
+
+theorem :: BHSP_1:21
+  x, y are_orthogonal implies -x, y are_orthogonal;
+
+theorem :: BHSP_1:22
+  x, y are_orthogonal implies -x, -y are_orthogonal;
+
+theorem :: BHSP_1:23
+  x, 0.X are_orthogonal;
+
+theorem :: BHSP_1:24
+  x, y are_orthogonal implies (x + y) .|. (x + y) = x .|. x + y .|. y;
+
+theorem :: BHSP_1:25
+  x, y are_orthogonal implies (x - y) .|. (x - y) = x .|. x + y .|. y;
+
+definition
+  let X, x;
+  func ||.x.|| -> Real equals
+:: BHSP_1:def 4
+  sqrt (x .|. x);
+end;
+
+theorem :: BHSP_1:26
+  ||.x.|| = 0 iff x = 0.X;
+
+theorem :: BHSP_1:27
+  ||.a * x.|| = |.a.| * ||.x.||;
+
+theorem :: BHSP_1:28
+  0 <= ||.x.||;
+
+theorem :: BHSP_1:29
+  |.x .|. y.| <= ||.x.|| * ||.y.||;
+
+theorem :: BHSP_1:30
+  ||.x + y.|| <= ||.x.|| + ||.y.||;
+
+theorem :: BHSP_1:31
+  ||.-x.|| = ||.x.||;
+
+theorem :: BHSP_1:32
+  ||.x.|| - ||.y.|| <= ||.x - y.||;
+
+theorem :: BHSP_1:33
+  |.||.x.|| - ||.y.||.| <= ||.x - y.||;
+
+definition
+  let X, x, y;
+  func dist(x,y) -> Real equals
+:: BHSP_1:def 5
+  ||.x - y.||;
+  commutativity;
+end;
+
+theorem :: BHSP_1:34
+  dist(x,x) = 0;
+
+theorem :: BHSP_1:35
+  dist(x,z) <= dist(x,y) + dist(y,z);
+
+theorem :: BHSP_1:36
+  x <> y iff dist(x,y) <> 0;
+
+theorem :: BHSP_1:37
+  dist(x,y) >= 0;
+
+theorem :: BHSP_1:38
+  x <> y iff dist(x,y) > 0;
+
+theorem :: BHSP_1:39
+  dist(x,y) = sqrt ((x-y) .|. (x-y));
+
+theorem :: BHSP_1:40
+  dist(x + y,u + v) <= dist(x,u) + dist(y,v);
+
+theorem :: BHSP_1:41
+  dist(x - y,u - v) <= dist(x,u) + dist(y,v);
+
+theorem :: BHSP_1:42
+  dist(x - z, y - z) = dist(x,y);
+
+theorem :: BHSP_1:43
+  dist(x - z,y - z) <= dist(z,x) + dist(z,y);
+
+reserve seq, seq1, seq2, seq3 for sequence of X;
+reserve  n for Nat;
+
+definition
+  let X be non empty addLoopStr;
+  let seq be sequence of X;
+  let x be Point of X;
+
+  func seq + x -> sequence of X means
+:: BHSP_1:def 6
+
+  for n holds it.n = seq.n + x;
+end;
+
+theorem :: BHSP_1:44
+  for X being non empty addLoopStr, seq being sequence of X holds
+  (-seq).n = - seq.n;
+
+definition
+  let X, seq1, seq2;
+  redefine func seq1 + seq2;
+  commutativity;
+end;
+
+theorem :: BHSP_1:45
+  seq1 + (seq2 + seq3) = (seq1 + seq2) + seq3;
+
+theorem :: BHSP_1:46
+  seq1 is constant & seq2 is constant implies seq1 + seq2 is constant;
+
+theorem :: BHSP_1:47
+  seq1 is constant & seq2 is constant implies seq1 - seq2 is constant;
+
+theorem :: BHSP_1:48
+  seq1 is constant implies a * seq1 is constant;
+
+theorem :: BHSP_1:49
+  seq1 - seq2 = seq1 + -seq2;
+
+theorem :: BHSP_1:50
+  seq = seq + 0.X;
+
+theorem :: BHSP_1:51
+  a * (seq1 + seq2) = a * seq1 + a * seq2;
+
+theorem :: BHSP_1:52
+  (a + b) * seq = a * seq + b * seq;
+
+theorem :: BHSP_1:53
+  (a * b) * seq = a * (b * seq);
+
+theorem :: BHSP_1:54
+  (1 qua Real) * seq = seq;
+
+theorem :: BHSP_1:55
+  (-1) * seq = - seq;
+
+theorem :: BHSP_1:56
+  seq - x = seq + -x;
+
+theorem :: BHSP_1:57
+  seq1 - seq2 = - (seq2 - seq1);
+
+theorem :: BHSP_1:58
+  seq = seq - 0.X;
+
+theorem :: BHSP_1:59
+  seq = - ( - seq );
+
+theorem :: BHSP_1:60
+  seq1 - (seq2 + seq3) = (seq1 - seq2) - seq3;
+
+theorem :: BHSP_1:61
+  (seq1 + seq2) - seq3 = seq1 + (seq2 - seq3);
+
+theorem :: BHSP_1:62
+  seq1 - (seq2 - seq3) = (seq1 - seq2) + seq3;
+
+theorem :: BHSP_1:63
+  a * (seq1 - seq2) = a * seq1 - a * seq2;

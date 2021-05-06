@@ -1,0 +1,384 @@
+:: Product Pre-Measure
+::  by Noboru Endou
+::
+:: Received December 31, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, CARD_3, FUNCT_1, RELAT_1, FINSEQ_1, XBOOLE_0,
+      ARYTM_3, XXREAL_0, CARD_1, TARSKI, NAT_1, ZFMISC_1, ORDINAL4, PROB_1,
+      FINSUB_1, SETFAM_1, PROB_2, MEASURE9, MSSUBFAM, FUNCOP_1, SUPINF_2,
+      VALUED_0, FUNCT_2, PARTFUN1, MEASURE1, ORDINAL2, SERIES_1, MESFUNC5,
+      SUPINF_1, SEQ_2, MEASURE6, SEQFUNC, REAL_1, XCMPLX_0, PBOOLE, MESFUNC9,
+      VALUED_1, SIMPLEX0, SRINGS_3, MEASURE3, MEASURE5, XXREAL_1, MEASUR10,
+      SRINGS_1, SRINGS_4, MESFUNC8, MESFUNC1, FUNCT_3, INTEGRA5, RFUNCT_3,
+      REWRITE1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, SETFAM_1, RELAT_1, FUNCT_1,
+      ORDINAL1, RELSET_1, PARTFUN1, FUNCT_2, FUNCOP_1, FINSUB_1, CARD_1,
+      CARD_3, NUMBERS, FUNCT_3, XXREAL_1, XXREAL_3, BINOP_1, XTUPLE_0, PROB_1,
+      XCMPLX_0, XREAL_0, XXREAL_0, SIMPLEX0, NAT_1, VALUED_0, SUPINF_1,
+      FINSEQ_1, FINSEQOP, SUPINF_2, PROB_2, SEQFUNC, MEASURE1, MEASURE3,
+      MEASURE5, MESFUNC1, MESFUNC2, MESFUNC5, MESFUNC8, MESFUNC9, RINFSUP2,
+      EXTREAL1, SRINGS_3, MEASURE9, SRINGS_1, SRINGS_4, MESFUNC6;
+ constructors TOPMETR, PROB_2, MESFUNC5, EXTREAL1, SUPINF_1, MESFUNC1,
+      MESFUNC9, RINFSUP2, FINSEQOP, SEQFUNC, MEASURE3, INTEGRA1, SRINGS_1,
+      MEASURE9, SEQ_4, SRINGS_4, MESFUNC2, MESFUNC8, MESFUNC6;
+ registrations XREAL_0, MEMBERED, FUNCT_1, XBOOLE_0, FINSEQ_1, RELAT_1,
+      SUBSET_1, XXREAL_0, ROUGHS_1, NUMBERS, VALUED_0, FUNCT_2, ORDINAL1,
+      MESFUNC9, RELSET_1, PROB_1, MEASURE1, MESFUNC5, NAT_1, PARTFUN1,
+      XXREAL_3, CARD_1, XXREAL_2, SIMPLEX0, SRINGS_3, DBLSEQ_3, MEASURE3,
+      MEASURE9, SRINGS_2, SRINGS_1, SRINGS_4;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: MEASUR10:1
+  for A,A1,A2,B,B1,B2 be non empty set holds
+    [:A1,B1:] misses [:A2,B2:] & [:A,B:] = [:A1,B1:] \/ [:A2,B2:]
+  iff
+  (A1 misses A2 & A = A1 \/ A2 & B = B1 & B = B2)
+     or (B1 misses B2 & B = B1 \/ B2 & A = A1 & A = A2);
+
+definition
+  let C,D be non empty set, F be sequence of Funcs(C,D), n be Nat;
+  redefine func F.n -> Function of C,D;
+end;
+
+theorem :: MEASUR10:2
+  for X,Y,A,B being set, x,y being object st x in X & y in Y holds
+    chi(A,X).x * chi(B,Y).y = chi([:A,B:],[:X,Y:]).(x,y);
+
+registration
+  let A, B be set;
+  cluster chi (A,B) -> nonnegative;
+end;
+
+theorem :: MEASUR10:3
+ :: Construction of complete sigma measure from pre-measure
+  for X be non empty set, S be semialgebra_of_sets of X,
+      P be pre-Measure of S, m be induced_Measure of S,P,
+      M be induced_sigma_Measure of S,m holds
+    COM(M) is complete;
+
+definition
+  func Family_of_Intervals -> semialgebra_of_sets of REAL equals
+:: MEASUR10:def 1
+  the set of all I where I is Interval;
+end;
+
+theorem :: MEASUR10:4
+  Family_of_halflines c= Family_of_Intervals;
+
+theorem :: MEASUR10:5
+  for I be Subset of REAL st I is Interval holds I in Borel_Sets;
+
+theorem :: MEASUR10:6
+  sigma Family_of_Intervals = Borel_Sets &
+  sigma(Field_generated_by Family_of_Intervals) = Borel_Sets;
+
+begin :: Family of semialgebras, fields and measures
+
+theorem :: MEASUR10:7
+  for X1,X2 be set, S1 be non empty Subset-Family of X1,
+      S2 be non empty Subset-Family of X2
+  holds the set of all [:a,b:] where a is Element of S1, b is Element of S2
+    is non empty Subset-Family of [:X1,X2:];
+
+theorem :: MEASUR10:8
+  for X,Y be set, M be with_empty_element Subset-Family of X,
+      N be with_empty_element Subset-Family of Y
+  holds the set of all [:A,B:] where A is Element of M, B is Element of N
+     is with_empty_element Subset-Family of [:X,Y:];
+
+theorem :: MEASUR10:9
+  for X be set, F1,F2 be disjoint_valued FinSequence of X
+    st union rng F1 misses union rng F2 holds
+      F1^F2 is disjoint_valued FinSequence of X;
+
+theorem :: MEASUR10:10
+  for X1,X2 be set, S1 be Semiring of X1, S2 be Semiring of X2 holds
+    the set of all [:A,B:] where A is Element of S1, B is Element of S2
+      is Semiring of [:X1,X2:];
+
+theorem :: MEASUR10:11
+  for X1,X2 be set, S1 be semialgebra_of_sets of X1,
+      S2 be semialgebra_of_sets of X2 holds
+  the set of all [:A,B:] where A is Element of S1, B is Element of S2
+    is semialgebra_of_sets of [:X1,X2:];
+
+theorem :: MEASUR10:12
+  for X1,X2 be set, F1 be Field_Subset of X1, F2 be Field_Subset of X2
+  holds the set of all [:A,B:] where A is Element of F1, B is Element of F2
+   is semialgebra_of_sets of [:X1,X2:];
+
+definition
+  let n be non zero Nat, X be non-empty n-element FinSequence;
+  mode SemialgebraFamily of X -> n-element FinSequence means
+:: MEASUR10:def 2
+
+  for i being Nat st i in Seg n holds
+  it.i is semialgebra_of_sets of X.i;
+end;
+
+definition
+  let n be non zero Nat, X be non-empty n-element FinSequence;
+  redefine mode SemialgebraFamily of X
+    -> cap-closed-yielding SemiringFamily of X;
+end;
+
+theorem :: MEASUR10:13
+  for n be non zero Nat, X be non-empty n-element FinSequence,
+      S be SemialgebraFamily of X
+  holds for i be Nat st i in Seg n holds X.i in S.i;
+
+theorem :: MEASUR10:14
+  for X be non-empty 1-element FinSequence,
+      S be SemialgebraFamily of X holds
+  the set of all product <*s*> where s is Element of S.1 is
+    semialgebra_of_sets of the set of all <*x*> where x is Element of X.1;
+
+theorem :: MEASUR10:15
+  for X be non-empty 1-element FinSequence, S be SemialgebraFamily of X
+    holds SemiringProduct(S) is semialgebra_of_sets of product X;
+
+theorem :: MEASUR10:16
+  for X1,X2 be set, S1 be semialgebra_of_sets of X1,
+      S2 be semialgebra_of_sets of X2 holds
+   the set of all [:s1,s2:] where s1 is Element of S1,
+     s2 is Element of S2 is semialgebra_of_sets of [:X1,X2:];
+
+theorem :: MEASUR10:17
+  for n be non zero Nat, X be non-empty n-element FinSequence,
+      S be SemialgebraFamily of X holds
+    SemiringProduct(S) is semialgebra_of_sets of product X;
+
+theorem :: MEASUR10:18
+  for n be non zero Nat, Xn be non-empty n-element FinSequence,
+      X1 be non-empty 1-element FinSequence,
+      Sn be SemialgebraFamily of Xn, S1 be SemialgebraFamily of X1 holds
+   SemiringProduct(Sn^S1) is semialgebra_of_sets of product(Xn^X1);
+
+definition
+  let n be non zero Nat, X be non-empty n-element FinSequence;
+  mode FieldFamily of X -> n-element FinSequence means
+:: MEASUR10:def 3
+
+  for i being Nat st i in Seg n holds it.i is Field_Subset of X.i;
+end;
+
+definition
+  let n be non zero Nat, X be non-empty n-element FinSequence;
+  redefine mode FieldFamily of X -> SemialgebraFamily of X;
+end;
+
+theorem :: MEASUR10:19
+  for X be non-empty 1-element FinSequence,
+      S be FieldFamily of X holds
+    the set of all product <*s*> where s is Element of S.1 is
+      Field_Subset of the set of all <*x*> where x is Element of X.1;
+
+theorem :: MEASUR10:20
+  for X be non-empty 1-element FinSequence, S be FieldFamily of X
+    holds SemiringProduct(S) is Field_Subset of product X;
+
+definition
+  let n be non zero Nat, X be non-empty n-element FinSequence,
+      S be FieldFamily of X;
+  mode MeasureFamily of S -> n-element FinSequence means
+:: MEASUR10:def 4
+  for i being Nat st i in Seg n
+  ex F being Field_Subset of X.i st F = S.i & it.i is Measure of F;
+end;
+
+begin :: Product of two measures
+
+definition
+  let X1,X2 be set, S1 be Field_Subset of X1, S2 be Field_Subset of X2;
+  func measurable_rectangles(S1,S2) -> semialgebra_of_sets of [:X1,X2:]
+    equals
+:: MEASUR10:def 5
+  the set of all [:A,B:] where A is Element of S1, B is Element of S2;
+end;
+
+theorem :: MEASUR10:21
+  for X being set, F being Field_Subset of X
+    ex S being semialgebra_of_sets of X
+    st F = S & F = Field_generated_by S;
+
+definition
+  let X1,X2 be set, S1 be Field_Subset of X1, S2 be Field_Subset of X2,
+      m1 be Measure of S1, m2 be Measure of S2;
+  func product-pre-Measure(m1,m2) -> nonnegative zeroed Function
+            of measurable_rectangles(S1,S2),ExtREAL means
+:: MEASUR10:def 6
+  for C be Element of measurable_rectangles(S1,S2)
+   ex A be Element of S1, B be Element of S2 st
+    C = [:A,B:] & it.C = m1.A * m2.B;
+end;
+
+theorem :: MEASUR10:22
+  for X1,X2 be set, S1 be Field_Subset of X1, S2 be Field_Subset of X2,
+      m1 be Measure of S1, m2 be Measure of S2, A,B be set
+  st A in S1 & B in S2 holds
+    product-pre-Measure(m1,m2).([:A,B:]) = m1.A * m2.B;
+
+theorem :: MEASUR10:23
+  for X1,X2 be set, S1 be non empty Subset-Family of X1,
+      S2 be non empty Subset-Family of X2,
+  S be non empty Subset-Family of [:X1,X2:], H be FinSequence of S
+    st S = the set of all [:A,B:] where A is Element of S1, B is Element of S2
+  ex F be FinSequence of S1, G be FinSequence of S2 st
+   len H = len F & len H = len G &
+   for k be Nat st k in dom H & H.k <> {} holds H.k = [:F.k,G.k:];
+
+theorem :: MEASUR10:24
+  for X be set,
+      S be non empty semi-diff-closed cap-closed Subset-Family of X,
+      E1,E2 be Element of S
+  ex F1,F2,F3 be disjoint_valued FinSequence of S
+     st union rng F1 = E1 \ E2
+      & union rng F2 = E2 \ E1 & union rng F3 = E1 /\ E2
+      & F1^F2^F3 is disjoint_valued FinSequence of S;
+
+theorem :: MEASUR10:25
+  for X1,X2 be set, S1 be Field_Subset of X1, S2 be Field_Subset of X2,
+      m1 be Measure of S1, m2 be Measure of S2,
+      E1,E2 be Element of measurable_rectangles(S1,S2)
+  st E1 misses E2 & E1 \/ E2 in measurable_rectangles(S1,S2)
+  holds product-pre-Measure(m1,m2).(E1 \/ E2)
+         = product-pre-Measure(m1,m2).E1 + product-pre-Measure(m1,m2).E2;
+
+theorem :: MEASUR10:26
+  for X be non empty set, S be non empty Subset-Family of X,
+      f be Function of NAT,S, F be Functional_Sequence of X,ExtREAL st
+    f is disjoint_valued & (for n be Nat holds F.n = chi(f.n,X))
+   holds (for x be object st x in X holds
+   chi(Union f,X).x = (lim Partial_Sums F).x);
+
+theorem :: MEASUR10:27
+  for X being non empty set,
+      S being SigmaField of X, M being sigma_Measure of S,
+      f being PartFunc of X,ExtREAL, r being Real
+  st dom f in S & 0 <= r & (for x be object st x in dom f holds f.x = r)
+    holds Integral(M,f) = r * M.(dom f);
+
+theorem :: MEASUR10:28
+  for X being non empty set,
+      S being SigmaField of X, M being sigma_Measure of S,
+      f being PartFunc of X,ExtREAL, A being Element of S
+   st (ex E being Element of S st E = dom f & f is E-measurable) &
+      (for x being object st x in dom f \ A holds f.x = 0) &
+      f is nonnegative
+   holds Integral(M,f) = Integral(M,f|A);
+
+theorem :: MEASUR10:29
+  for X being non empty set,
+      S being SigmaField of X, M being sigma_Measure of S,
+      f being PartFunc of X,ExtREAL, A being Element of S
+   st f is_integrable_on M &
+      (for x being object st x in dom f \ A holds f.x = 0)
+   holds Integral(M,f) = Integral(M,f|A);
+
+theorem :: MEASUR10:30
+  for X1,X2 being non empty set,
+      S1 being SigmaField of X1,
+      S2 being SigmaField of X2,
+      M2 being sigma_Measure of S2,
+      D being Function of NAT,S1, E being Function of NAT,S2,
+      A being Element of S1, B being Element of S2,
+      F being Functional_Sequence of X2,ExtREAL,
+      RD being sequence of Funcs(X1,REAL),
+     x being Element of X1 st
+   (for n being Nat holds RD.n = chi(D.n,X1))
+   & (for n being Nat holds F.n = ((RD.n).x)(#)(chi(E.n,X2)))
+   & (for n being Nat holds E.n c= B)
+   holds
+     ex I be ExtREAL_sequence st
+     (for n be Nat holds I.n = M2.(E.n) * (chi(D.n,X1).x)) &
+     I is summable & Integral(M2,lim Partial_Sums F) = Sum I;
+
+theorem :: MEASUR10:31
+  for X being non empty set, S being SigmaField of X, A being Element of S,
+      p being R_eal holds
+    X --> p is A-measurable;
+
+definition
+  let A,X be set;
+  func Xchi(A,X) -> Function of X,ExtREAL means
+:: MEASUR10:def 7
+  for x being object st x in X holds
+  (x in A implies it.x = +infty) & (not x in A implies it.x = 0);
+end;
+
+theorem :: MEASUR10:32
+  for X being non empty set, S being SigmaField of X, A,B being Element of S
+    holds Xchi(A,X) is B-measurable;
+
+registration
+  let X be non empty set;
+  let S be SigmaField of X;
+  let A be Element of S;
+  cluster Xchi(A,X) -> A-measurable;
+end;
+
+registration
+  let X,A be set;
+  cluster Xchi(A,X) -> nonnegative;
+end;
+
+theorem :: MEASUR10:33
+  for X be non empty set, S be SigmaField of X, M be sigma_Measure of S,
+      A be Element of S holds
+  (M.A <> 0 implies Integral(M,Xchi(A,X)) = +infty) &
+  (M.A = 0 implies Integral(M,Xchi(A,X)) = 0);
+
+theorem :: MEASUR10:34
+  for X1,X2 being non empty set, S1 being SigmaField of X1,
+      S2 being SigmaField of X2,
+      M1 being sigma_Measure of S1, M2 being sigma_Measure of S2,
+      K being disjoint_valued Function of NAT,measurable_rectangles(S1,S2) st
+   Union K in measurable_rectangles(S1,S2) holds
+     product-pre-Measure(M1,M2).(Union K) = SUM(product-pre-Measure(M1,M2)*K);
+
+theorem :: MEASUR10:35
+  for f be without-infty FinSequence of ExtREAL,
+      s be without-infty ExtREAL_sequence
+    st (for n be object st n in dom f holds f.n = s.n) holds
+    Sum f + s.0 = (Partial_Sums s).(len f);
+
+theorem :: MEASUR10:36
+  for f be nonnegative FinSequence of ExtREAL, s be ExtREAL_sequence
+    st (for n be object st n in dom f holds f.n = s.n) &
+      (for n be Element of NAT st not n in dom f holds s.n = 0) holds
+    Sum f = Sum s & Sum f = SUM s;
+
+theorem :: MEASUR10:37
+  for X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+      M1 be sigma_Measure of S1, M2 be sigma_Measure of S2 holds
+    for F be disjoint_valued FinSequence of measurable_rectangles(S1,S2)
+      st Union F in measurable_rectangles(S1,S2) holds
+        product-pre-Measure(M1,M2).(Union F)
+          = Sum(product-pre-Measure(M1,M2)*F);
+
+theorem :: MEASUR10:38
+  for X1,X2 be non empty set,
+      S1 be SigmaField of X1, S2 be SigmaField of X2,
+      M1 be sigma_Measure of S1, M2 be sigma_Measure of S2 holds
+  product-pre-Measure(M1,M2) is pre-Measure of measurable_rectangles(S1,S2);
+
+definition
+  let X1,X2 be non empty set, S1 be SigmaField of X1, S2 be SigmaField of X2,
+      M1 be sigma_Measure of S1, M2 be sigma_Measure of S2;
+  redefine func product-pre-Measure(M1,M2) -> pre-Measure of
+    measurable_rectangles(S1,S2);
+end;

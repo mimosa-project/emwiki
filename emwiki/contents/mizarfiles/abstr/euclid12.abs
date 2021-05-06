@@ -1,0 +1,494 @@
+:: Circumcenter, Circumcircle, and Centroid of a Triangle
+::  by Roland Coghetto
+:: 
+:: Received December 30, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, SUBSET_1, COMPLEX1, REAL_1, RELAT_1, TARSKI,
+      CARD_1, ARYTM_1, ARYTM_3, RVSUM_1, SQUARE_1, XXREAL_0, ZFMISC_1,
+      XBOOLE_0, RLTOPSP1, PRE_TOPC, MCART_1, EUCLID, INCSP_1, PROJRED2, AFF_1,
+      ANALOAF, EUCLID_3, SYMSP_1, EUCLIDLP, METRIC_1, JGRAPH_6, SIN_COS,
+      COMPLEX2, XXREAL_1, PROJPL_1, EUCLID10, EUCLID12, RUSUB_5, GTARSKI1,
+      SUPINF_2, PENCIL_1;
+ notations INT_1, EUCLIDLP, TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XCMPLX_0,
+      NUMBERS, XREAL_0, COMPLEX1, ORDINAL1, METRIC_1, STRUCT_0, FINSEQ_2,
+      SQUARE_1, RVSUM_1, PRE_TOPC, XXREAL_0, RLVECT_1, RLTOPSP1, EUCLID,
+      EUCLID_4, JGRAPH_6, SIN_COS, COMPLEX2, EUCLID_3, EUCLID_6, RCOMP_1,
+      EUCLID10, MENELAUS, TOPREAL6, GTARSKI1;
+ constructors SQUARE_1, EUCLID_4, EUCLIDLP, COMPLEX1, JGRAPH_6, MONOID_0,
+      SIN_COS, EUCLID_3, EUCLID10, INTEGRA1, MENELAUS, TOPREAL6, GTARSKI1,
+      COMPLEX2, COMPTRIG;
+ registrations INT_1, MONOID_0, SUBSET_1, RELSET_1, XXREAL_0, XREAL_0, EUCLID,
+      VALUED_0, SQUARE_1, ORDINAL1, EUCLIDLP, SIN_COS, EUCLID10;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve n for Nat,
+        lambda,lambda2,mu,mu2 for Real,
+        x1,x2 for Element of REAL n,
+        An,Bn,Cn for Point of TOP-REAL n,
+        a for Real;
+
+theorem :: EUCLID12:1
+  An = (1-lambda) * x1 + lambda * x2 & Bn = (1-mu) * x1 + mu * x2
+  implies Bn - An = (mu-lambda)*(x2-x1);
+
+theorem :: EUCLID12:2
+  |.a.| = |.1-a.| implies a = 1/2;
+
+ reserve Pn,PAn,PBn for Element of REAL n,
+         Ln for Element of line_of_REAL n;
+
+theorem :: EUCLID12:3
+  Line(Pn,Pn)={Pn};
+
+theorem :: EUCLID12:4
+  An=PAn & Bn=PBn implies Line(An,Bn)=Line(PAn,PBn);
+
+theorem :: EUCLID12:5
+  An <> Cn & Cn in LSeg(An,Bn) & An in Ln & Cn in Ln & Ln is being_line
+  implies Bn in Ln;
+
+definition
+  let n being Nat;
+  let S being Subset of REAL n;
+  attr S is being_point means
+:: EUCLID12:def 1
+ex Pn being Element of REAL n st S = {Pn};
+end;
+
+theorem :: EUCLID12:6
+  Ln is being_line or ex Pn being Element of REAL n st Ln={Pn};
+
+theorem :: EUCLID12:7
+  Ln is being_line or Ln is being_point;
+
+theorem :: EUCLID12:8
+  Ln is being_line implies not ex Pn being Element of REAL n st Ln={Pn};
+
+theorem :: EUCLID12:9
+  Ln is being_line implies not Ln is being_point;
+
+begin :: Between
+
+reserve A,B,C for Point of TOP-REAL 2;
+
+theorem :: EUCLID12:10
+  C in LSeg(A,B) implies |.A-B.| = |.A-C.| + |.C-B.|;
+
+theorem :: EUCLID12:11
+  |.A-B.| = |.A-C.| + |.C-B.| implies C in LSeg(A,B);
+
+theorem :: EUCLID12:12
+  for p,q1,q2 being Point of TOP-REAL 2 holds
+  p in LSeg(q1,q2) iff dist(q1,p)+dist(p,q2)=dist(q1,q2);
+
+theorem :: EUCLID12:13
+  for p,q,r be Element of Euclid 2 st p,q,r are_mutually_distinct &
+  p=A & q=B & r=C holds A in LSeg(B,C) iff p is_between q,r;
+
+theorem :: EUCLID12:14
+  for p,q,r be Element of Euclid 2 st
+  p,q,r are_mutually_distinct & p=A & q=B & r=C holds
+  A in LSeg(B,C) iff p is_Between q,r;
+
+begin :: REAL 2 is a plane
+
+reserve x,y,z,y1,y2 for Element of REAL 2;
+reserve L,L1,L2,L3,L4 for Element of line_of_REAL 2;
+reserve D,E,F for Point of TOP-REAL 2;
+reserve b,c,d,r,s for Real;
+
+theorem :: EUCLID12:15
+  for OO,Ox,Oy be Element of REAL 2 st
+  OO = |[0,0]| & Ox = |[1,0]| & Oy = |[0,1]| holds
+  REAL 2 = plane(OO,Ox,Oy);
+
+theorem :: EUCLID12:16
+  REAL 2 is Element of plane_of_REAL 2;
+
+theorem :: EUCLID12:17
+  |[1,0]| <> |[0,1]| & |[1,0]| <> |[0,0]| & |[0,1]| <> |[0,0]|;
+
+theorem :: EUCLID12:18
+  ex x st not x in L;
+
+theorem :: EUCLID12:19
+  ex L st L is being_point & L misses L1;
+
+theorem :: EUCLID12:20
+  not L1 // L2 implies
+   (ex x st L1 = {x} or L2 = {x})
+  or
+   (L1 is being_line & L2 is being_line & ex x st L1 /\ L2 = {x});
+
+theorem :: EUCLID12:21
+  not L1 // L2 implies
+         L1 is being_point or L2 is being_point or
+         (L1 is being_line & L2 is being_line & L1 /\ L2 is being_point);
+
+theorem :: EUCLID12:22
+  L1 /\ L2 is being_point & A in L1 /\ L2 implies L1 /\ L2 = {A};
+
+begin :: The midpoint of a segment
+
+definition
+  let A,B be Point of TOP-REAL 2;
+  func half_length(A,B) -> Real equals
+:: EUCLID12:def 2
+1/2 * |.A-B.|;
+end;
+
+theorem :: EUCLID12:23
+  half_length(A,B) = half_length(B,A);
+
+theorem :: EUCLID12:24
+  half_length(A,A) = 0;
+
+theorem :: EUCLID12:25
+  |.A - 1/2 *(A+B).| = 1/2 * |.A-B.|;
+
+theorem :: EUCLID12:26
+  ex C st C in LSeg(A,B) & |.A-C.| = 1/2 * |.A-B.|;
+
+theorem :: EUCLID12:27
+  |.A-B.| = |.A-C.| & B in LSeg(A,D) & C in LSeg(A,D) implies B = C;
+
+definition
+  let A,B being Point of TOP-REAL 2;
+  func the_midpoint_of_the_segment(A,B) -> Point of TOP-REAL 2 means
+:: EUCLID12:def 3
+
+  ex C st C in LSeg(A,B) & it = C & |.A-C.| = half_length(A,B);
+end;
+
+theorem :: EUCLID12:28
+  the_midpoint_of_the_segment(A,B) in LSeg(A,B);
+
+theorem :: EUCLID12:29
+  the_midpoint_of_the_segment(A,B) = 1/2 * (A+B);
+
+theorem :: EUCLID12:30
+  the_midpoint_of_the_segment(A,B) = the_midpoint_of_the_segment(B,A);
+
+theorem :: EUCLID12:31
+  the_midpoint_of_the_segment(A,A)=A;
+
+theorem :: EUCLID12:32
+  the_midpoint_of_the_segment(A,B) = A implies A=B;
+
+theorem :: EUCLID12:33
+  the_midpoint_of_the_segment(A,B) = B implies A=B;
+
+theorem :: EUCLID12:34
+  C in LSeg(A,B) & |.A-C.| = |.B-C.| implies half_length(A,B) = |.A-C.|;
+
+theorem :: EUCLID12:35
+  C in LSeg(A,B) & |.A-C.| = |.B-C.| implies
+  C = the_midpoint_of_the_segment(A,B);
+
+theorem :: EUCLID12:36
+  |.A - the_midpoint_of_the_segment(A,B).|
+    = |. the_midpoint_of_the_segment(A,B) - B.|;
+
+theorem :: EUCLID12:37
+  A<>B & r is positive & r <> 1 & |.A-C.| = r * |.A-B.| implies
+  A,B,C are_mutually_distinct;
+
+theorem :: EUCLID12:38
+  C in LSeg(A,B) & |.A-C.| = 1/2 * |.A-B.| implies |.B-C.| = 1/2 * |.A-B.|;
+
+begin :: Perpendicularity
+
+theorem :: EUCLID12:39
+  L1,L2 are_coplane;
+
+theorem :: EUCLID12:40
+  L1 _|_ L2 implies L1 meets L2;
+
+theorem :: EUCLID12:41
+  L1 is being_line & L2 is being_line & L1 misses L2 implies L1//L2;
+
+theorem :: EUCLID12:42
+  L1 <> L2 & L1 meets L2 implies
+  (ex x st L1 = {x} or L2 = {x})
+  or
+  (L1 is being_line & L2 is being_line & ex x st L1 /\ L2 = {x});
+
+theorem :: EUCLID12:43
+  L1 _|_ L2 implies ex x st L1 /\ L2 = {x};
+
+theorem :: EUCLID12:44
+  L1 _|_ L2 implies L1 /\ L2 is being_point;
+
+theorem :: EUCLID12:45
+  L1 _|_ L2 implies not L1 // L2;
+
+theorem :: EUCLID12:46
+  L1 is being_line & L2 is being_line & L1 // L2 implies not L1 _|_ L2;
+
+theorem :: EUCLID12:47
+  L1 is being_line implies ex L2 st x in L2 & L1 _|_ L2;
+
+theorem :: EUCLID12:48
+  L1 _|_ L2 & L1 = Line(A,B) & L2 = Line(C,D) implies |(B-A,D-C)| = 0;
+
+theorem :: EUCLID12:49
+  L is being_line & A in L & B in L & A <> B implies L = Line(A,B);
+
+theorem :: EUCLID12:50
+  L1 _|_ L2 & C in L1 /\ L2 & A in L1 & B in L2  & A<>C & B<>C
+  implies angle(A,C,B) = PI/2 or angle(A,C,B) = 3 * PI/2;
+
+theorem :: EUCLID12:51
+  L1 _|_ L2 & C in L1 /\ L2 & A in L1 & B in L2 & A <> C & B <> C
+  implies A,B,C is_a_triangle;
+
+begin :: The Perpendicular bisector of a segment
+
+theorem :: EUCLID12:52
+  A <> B & L1 = Line(A,B) & C in LSeg(A,B) & |.A-C.| = 1/2 * |.A-B.|
+  implies ex L2 st C in L2 & L1 _|_ L2;
+
+definition
+  let A,B being Element of TOP-REAL 2;
+  assume
+ A <> B;
+  func the_perpendicular_bisector(A,B) -> Element of line_of_REAL 2 means
+:: EUCLID12:def 4
+
+  ex L1, L2 be Element of line_of_REAL 2 st it = L2 &
+  L1 = Line(A,B) & L1 _|_ L2 & L1 /\ L2 = {the_midpoint_of_the_segment(A,B)};
+end;
+
+theorem :: EUCLID12:53
+  A <> B implies the_perpendicular_bisector(A,B) is being_line;
+
+theorem :: EUCLID12:54
+  A <> B implies
+  the_perpendicular_bisector(A,B) = the_perpendicular_bisector(B,A);
+
+theorem :: EUCLID12:55
+  A <> B & L1=Line(A,B) & C in LSeg(A,B) & |.A-C.| = 1/2 * |.A-B.| &
+  C in L2 & L1 _|_ L2 & D in L2 implies |.D-A.| = |.D-B.|;
+
+theorem :: EUCLID12:56
+  A <> B & C in the_perpendicular_bisector(A,B) implies |.C-A.| = |.C-B.|;
+
+theorem :: EUCLID12:57
+  C in Line(A,B) & |.A-C.| = |.B-C.| implies C in LSeg(A,B);
+
+theorem :: EUCLID12:58
+  A <> B implies
+  the_midpoint_of_the_segment(A,B) in the_perpendicular_bisector(A,B);
+
+theorem :: EUCLID12:59
+  A<>B & L1 = Line(A,B) & L1 _|_ L2 & the_midpoint_of_the_segment(A,B) in L2
+  implies L2 = the_perpendicular_bisector(A,B);
+
+theorem :: EUCLID12:60
+  A <> B & |.C-A.| = |.C-B.| implies C in the_perpendicular_bisector(A,B);
+
+begin :: The circumcircle of a triangle
+
+theorem :: EUCLID12:61
+  A,B,C is_a_triangle implies
+  the_perpendicular_bisector(A,B) /\ the_perpendicular_bisector(B,C)
+  is being_point;
+
+theorem :: EUCLID12:62
+  A,B,C is_a_triangle implies ex D st
+  the_perpendicular_bisector(A,B) /\ the_perpendicular_bisector(B,C) = {D} &
+  the_perpendicular_bisector(B,C) /\ the_perpendicular_bisector(C,A) = {D} &
+  the_perpendicular_bisector(C,A) /\ the_perpendicular_bisector(A,B) = {D} &
+  |.D-A.| = |.D-B.| & |.D-A.| = |.D-C.| & |.D-B.| = |.D-C.|;
+
+definition
+  let A,B,C being Point of TOP-REAL 2;
+  assume
+ A,B,C is_a_triangle;
+  func the_circumcenter(A,B,C) -> Point of TOP-REAL 2 means
+:: EUCLID12:def 5
+
+  the_perpendicular_bisector(A,B) /\ the_perpendicular_bisector(B,C) = {it} &
+  the_perpendicular_bisector(B,C) /\ the_perpendicular_bisector(C,A) = {it} &
+  the_perpendicular_bisector(C,A) /\ the_perpendicular_bisector(A,B) = {it};
+end;
+
+definition
+  let A,B,C being Point of TOP-REAL 2;
+  assume A,B,C is_a_triangle;
+  func the_radius_of_the_circumcircle(A,B,C) -> Real equals
+:: EUCLID12:def 6
+
+  |.the_circumcenter(A,B,C)-A.|;
+end;
+
+theorem :: EUCLID12:63
+  A,B,C is_a_triangle implies ex a,b,r st A in circle(a,b,r) &
+  B in circle(a,b,r) & C in circle(a,b,r);
+
+theorem :: EUCLID12:64
+  A,B,C is_a_triangle & A in circle(a,b,r) & B in circle(a,b,r) &
+  C in circle(a,b,r)
+  implies |[a,b]| = the_circumcenter(A,B,C) & r = |.the_circumcenter(A,B,C)-A.|
+;
+
+theorem :: EUCLID12:65
+  A,B,C is_a_triangle implies the_radius_of_the_circumcircle(A,B,C) > 0;
+
+theorem :: EUCLID12:66
+  A,B,C is_a_triangle implies
+  |.the_circumcenter(A,B,C)-A.| = |.the_circumcenter(A,B,C)-B.| &
+  |.the_circumcenter(A,B,C)-A.| = |.the_circumcenter(A,B,C)-C.| &
+  |.the_circumcenter(A,B,C)-B.| = |.the_circumcenter(A,B,C)-C.|;
+
+theorem :: EUCLID12:67
+  A,B,C is_a_triangle implies
+  the_radius_of_the_circumcircle(A,B,C) = |.the_circumcenter(A,B,C)-B.| &
+  the_radius_of_the_circumcircle(A,B,C) = |.the_circumcenter(A,B,C)-C.|;
+
+theorem :: EUCLID12:68
+  A,B,C is_a_triangle &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r) &
+  A in circle(c,d,s) & B in circle(c,d,s) & C in circle(c,d,s)
+  implies a=c & b=d & r=s;
+
+theorem :: EUCLID12:69
+  r <> s implies circle(a,b,r) misses circle(a,b,s);
+
+begin :: Extended Law of sines
+
+theorem :: EUCLID12:70
+  A,B,C is_a_triangle &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r) &
+  A,B,D is_a_triangle &
+  A in circle(a,b,r) & B in circle(a,b,r) & D in circle(a,b,r) &
+  C <> D implies
+  the_diameter_of_the_circumcircle(A,B,C)
+     = the_diameter_of_the_circumcircle(D,B,C) or
+  the_diameter_of_the_circumcircle(A,B,C)
+     = - the_diameter_of_the_circumcircle(D,B,C);
+
+theorem :: EUCLID12:71
+  A,B,C is_a_triangle &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r)
+  implies
+    the_diameter_of_the_circumcircle(A,B,C) = 2 * r or
+    the_diameter_of_the_circumcircle(A,B,C) = - 2 * r;
+
+theorem :: EUCLID12:72
+  A,B,C is_a_triangle & 0 < angle(C,B,A) < PI implies
+  the_diameter_of_the_circumcircle(A,B,C) > 0;
+
+theorem :: EUCLID12:73
+  A,B,C is_a_triangle & PI < angle(C,B,A) < 2 * PI implies
+  the_diameter_of_the_circumcircle(A,B,C) < 0;
+
+theorem :: EUCLID12:74
+  A,B,C is_a_triangle & 0 < angle(C,B,A) < PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r) implies
+  the_diameter_of_the_circumcircle(A,B,C) = 2 * r;
+
+theorem :: EUCLID12:75
+  A,B,C is_a_triangle & PI < angle(C,B,A) < 2 * PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r) implies
+  the_diameter_of_the_circumcircle(A,B,C) = - 2 * r;
+
+theorem :: EUCLID12:76
+  A,B,C is_a_triangle & 0 < angle(C,B,A) < PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r)
+  implies
+  |.A-B.| = 2 * r * sin angle(A,C,B) &
+  |.B-C.| = 2 * r * sin angle(B,A,C) &
+  |.C-A.| = 2 * r * sin angle(C,B,A);
+
+theorem :: EUCLID12:77
+  A,B,C is_a_triangle & PI < angle(C,B,A) < 2 * PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r)
+  implies
+  |.A-B.| = - 2 * r * sin angle(A,C,B) &
+  |.B-C.| = - 2 * r * sin angle(B,A,C) &
+  |.C-A.| = - 2 * r * sin angle(C,B,A);
+
+::$N Extended law of sines
+theorem :: EUCLID12:78
+  A,B,C is_a_triangle & 0 < angle(C,B,A) < PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r)
+  implies
+  |.A-B.| / sin angle(A,C,B) = 2 * r &
+  |.B-C.| / sin angle(B,A,C) = 2 * r &
+  |.C-A.| / sin angle(C,B,A) = 2 * r;
+
+theorem :: EUCLID12:79
+  A,B,C is_a_triangle & PI < angle(C,B,A) < 2 * PI &
+  A in circle(a,b,r) & B in circle(a,b,r) & C in circle(a,b,r)
+  implies
+  |.A-B.| / sin angle(A,C,B) = - 2 * r &
+  |.B-C.| / sin angle(B,A,C) = - 2 * r &
+  |.C-A.| / sin angle(C,B,A) = - 2 * r;
+
+begin :: The centroid of a triangle
+
+theorem :: EUCLID12:80
+  A,B,C is_a_triangle &
+  D = (1-1/2) * B + 1/2 * C &
+  E = (1-1/2) * C + 1/2 * A &
+  F = (1-1/2) * A + 1/2 * B
+  implies Line(A,D),Line(B,E),Line(C,F) are_concurrent;
+
+definition
+  let A,B,C be Point of TOP-REAL 2;
+  func median(A,B,C) -> Element of line_of_REAL 2 equals
+:: EUCLID12:def 7
+  Line(A,the_midpoint_of_the_segment(B,C));
+end;
+
+theorem :: EUCLID12:81
+  median(A,A,A)={A};
+
+theorem :: EUCLID12:82
+  median(A,A,B)=Line(A,B);
+
+theorem :: EUCLID12:83
+  median(A,B,A)=Line(A,B);
+
+theorem :: EUCLID12:84
+  median(B,A,A)=Line(A,B);
+
+theorem :: EUCLID12:85
+  A,B,C is_a_triangle implies median(A,B,C) is being_line;
+
+theorem :: EUCLID12:86
+  A,B,C is_a_triangle implies ex D st D in median(A,B,C) & D in median(B,C,A) &
+  D in median(C,A,B);
+
+theorem :: EUCLID12:87
+  A,B,C is_a_triangle implies ex D st
+  median(A,B,C) /\ median(B,C,A) = {D} &
+  median(B,C,A) /\ median(C,A,B) = {D} &
+  median(C,A,B) /\ median(A,B,C) = {D};
+
+definition
+  let A,B,C be Point of TOP-REAL 2;
+  assume
+ A,B,C is_a_triangle;
+  func the_centroid_of_the_triangle(A,B,C) -> Point of TOP-REAL 2 means
+:: EUCLID12:def 8
+  median(A,B,C) /\ median(B,C,A) = {it} &
+  median(B,C,A) /\ median(C,A,B) = {it} &
+  median(C,A,B) /\ median(A,B,C) = {it};
+end;
+

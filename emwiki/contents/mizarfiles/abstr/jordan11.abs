@@ -1,0 +1,146 @@
+:: Preparing the Internal Approximations of Simple Closed Curves
+::  by Andrzej Trybulec
+::
+:: Received May 21, 2002
+:: Copyright (c) 2002-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, TOPREAL2, EUCLID, XXREAL_0, CARD_1, TREES_1,
+      JORDAN8, RLTOPSP1, RELAT_1, JORDAN1A, XBOOLE_0, JORDAN6, TOPREAL1,
+      JORDAN9, TARSKI, PRE_TOPC, GOBOARD9, JORDAN1H, ARYTM_3, FINSEQ_1,
+      MATRIX_1, JORDAN1E, CONNSP_1, PSCOMP_1, INT_1, MCART_1, FUNCT_1, SEQ_4,
+      SEQ_1, RCOMP_1, STRUCT_0, REAL_1, ZFMISC_1, RELAT_2, XXREAL_2, XXREAL_1,
+      JORDAN10, JORDAN2C, SETFAM_1, GOBOARD5, ARYTM_1, NEWTON, METRIC_1,
+      JORDAN11, MEASURE5, CONVEX1, FUNCT_7, NAT_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, SETFAM_1, ORDINAL1, NUMBERS, XXREAL_0,
+      XCMPLX_0, XREAL_0, REAL_1, INT_1, NAT_D, NEWTON, XXREAL_2, SEQ_4,
+      FUNCT_1, RELSET_1, FUNCT_2, NAT_1, FINSEQ_1, MATRIX_0, SEQ_1, RCOMP_1,
+      STRUCT_0, PRE_TOPC, METRIC_1, METRIC_6, CONNSP_1, COMPTS_1, RLTOPSP1,
+      EUCLID, TOPREAL1, TOPREAL2, GOBOARD5, GOBOARD9, PSCOMP_1, JORDAN2C,
+      JORDAN6, JORDAN8, JORDAN9, JORDAN10, JORDAN1A, JORDAN1E, JORDAN1H,
+      TOPREAL6, JORDAN1K;
+ constructors REAL_1, NAT_D, RCOMP_1, NEWTON, BINARITH, TOPS_1, CONNSP_1,
+      TBSP_1, PSCOMP_1, GOBOARD9, JORDAN5C, JORDAN6, JORDAN2C, TOPREAL6,
+      JORDAN1K, JORDAN8, JORDAN9, JORDAN10, JORDAN1A, JORDAN1E, JORDAN1H,
+      SEQ_4, CONVEX1, GOBOARD1;
+ registrations SUBSET_1, ORDINAL1, RELSET_1, NUMBERS, XXREAL_0, XREAL_0, NAT_1,
+      INT_1, MEMBERED, STRUCT_0, COMPTS_1, TBSP_1, EUCLID, TOPREAL1, TOPREAL2,
+      SPPOL_2, PSCOMP_1, TOPREAL5, SPRECT_2, JORDAN6, JORDAN2C, TOPREAL6,
+      JORDAN8, JORDAN10, VALUED_0, XXREAL_2, JORDAN, RLTOPSP1, JORDAN1,
+      JORDAN5A, NEWTON;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve i,j,k,n for Nat,
+  C for being_simple_closed_curve Subset of TOP-REAL 2;
+
+definition
+  let C;
+  func ApproxIndex C -> Element of NAT means
+:: JORDAN11:def 1
+
+  it
+is_sufficiently_large_for C & for j st j is_sufficiently_large_for C holds j >=
+  it;
+end;
+
+theorem :: JORDAN11:1
+  ApproxIndex C >= 1;
+
+definition
+  let C;
+  func Y-InitStart C -> Element of NAT means
+:: JORDAN11:def 2
+
+  it < width Gauge(C,
+ApproxIndex C) & cell(Gauge(C,ApproxIndex C),X-SpanStart(C,ApproxIndex C)-'1,it
+  ) c= BDD C & for j st j < width Gauge(C,ApproxIndex C) & cell(Gauge(C,
+  ApproxIndex C),X-SpanStart(C,ApproxIndex C)-'1,j) c= BDD C holds j >= it;
+end;
+
+theorem :: JORDAN11:2
+  Y-InitStart C > 1;
+
+theorem :: JORDAN11:3
+  Y-InitStart C + 1 < width Gauge(C,ApproxIndex C);
+
+definition
+  let C,n;
+  assume n is_sufficiently_large_for C;
+  func Y-SpanStart(C,n) -> Element of NAT means
+:: JORDAN11:def 3
+
+  it <= width Gauge(C,n)
+  & (for k st it <= k & k <= 2|^(n-'ApproxIndex C)*(Y-InitStart C-'2)+2 holds
+cell(Gauge(C,n),X-SpanStart(C,n)-'1,k) c= BDD C) & for j st j <= width Gauge(C,
+  n) & for k st j <= k & k <= 2|^(n-'ApproxIndex C)*(Y-InitStart C-'2)+2 holds
+  cell(Gauge(C,n),X-SpanStart(C,n)-'1,k) c= BDD C holds j >= it;
+end;
+
+theorem :: JORDAN11:4
+  n is_sufficiently_large_for C implies X-SpanStart(C,n) = 2|^(n-'
+  ApproxIndex C)*(X-SpanStart(C,ApproxIndex C)-2)+2;
+
+theorem :: JORDAN11:5
+  n is_sufficiently_large_for C implies Y-SpanStart(C,n) <= 2|^(n-'
+  ApproxIndex C)*(Y-InitStart C-'2)+2;
+
+theorem :: JORDAN11:6
+  n is_sufficiently_large_for C implies cell(Gauge(C,n),X-SpanStart
+  (C,n)-'1,Y-SpanStart(C,n)) c= BDD C;
+
+theorem :: JORDAN11:7
+  n is_sufficiently_large_for C implies 1 < Y-SpanStart(C,n) &
+  Y-SpanStart(C,n) <= width Gauge(C,n);
+
+theorem :: JORDAN11:8
+  n is_sufficiently_large_for C implies [X-SpanStart(C,n),Y-SpanStart(C,
+  n)] in Indices Gauge(C,n);
+
+theorem :: JORDAN11:9
+  n is_sufficiently_large_for C implies [X-SpanStart(C,n)-'1,Y-SpanStart
+  (C,n)] in Indices Gauge(C,n);
+
+theorem :: JORDAN11:10
+  n is_sufficiently_large_for C implies cell(Gauge(C,n),X-SpanStart(C,n)
+  -'1,Y-SpanStart(C,n)-'1) meets C;
+
+theorem :: JORDAN11:11
+  n is_sufficiently_large_for C implies cell(Gauge(C,n),X-SpanStart(C,n)
+  -'1,Y-SpanStart(C,n)) misses C;
+
+:: Moved from JORDAN1K, AK 20.02.2006
+
+begin :: BDD & UBD
+
+reserve p,q for Point of TOP-REAL 2,
+  D for Simple_closed_curve;
+
+theorem :: JORDAN11:12
+  UBD C meets UBD D;
+
+theorem :: JORDAN11:13
+  q in UBD C & p in BDD C implies dist(q,C) < dist(q,p);
+
+theorem :: JORDAN11:14
+  not p in BDD C implies dist(p,C) <= dist(p,BDD C);
+
+theorem :: JORDAN11:15
+  not(C c= BDD D & D c= BDD C);
+
+theorem :: JORDAN11:16
+  C c= BDD D implies D c= UBD C;
+
+theorem :: JORDAN11:17
+  L~Cage(C,n) c= UBD C;

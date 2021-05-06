@@ -1,0 +1,215 @@
+:: Real Linear Space of Real Sequences
+::  by Noboru Endou , Yasumasa Suzuki and Yasunari Shidama
+::
+:: Received April 3, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, SEQ_1, FUNCT_2, TARSKI, REAL_1, BINOP_1,
+      SUBSET_1, FUNCT_1, ARYTM_3, ZFMISC_1, VALUED_1, CARD_1, NAT_1, RLVECT_1,
+      RELAT_1, SUPINF_2, ARYTM_1, STRUCT_0, ALGSTR_0, RLSUB_1, REALSET1,
+      SERIES_1, XXREAL_0, SQUARE_1, CARD_3, BHSP_1, COMPLEX1, SEQ_2, ORDINAL2,
+      XXREAL_2, VALUED_0, RSSPACE, ASYMPT_1, FUNCSDOM;
+ notations TARSKI, SUBSET_1, XBOOLE_0, ZFMISC_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      XXREAL_0, XREAL_0, COMPLEX1, STRUCT_0, ALGSTR_0, REAL_1, NAT_1, RELAT_1,
+      FUNCT_1, PARTFUN1, FUNCT_2, REALSET1, FUNCOP_1, RLVECT_1, RLSUB_1,
+      BHSP_1, SQUARE_1, VALUED_1, SEQ_1, SEQ_2, SERIES_1, BINOP_1, FUNCSDOM;
+ constructors PARTFUN1, BINOP_1, FUNCOP_1, REAL_1, SQUARE_1, NAT_1, NAT_D,
+      SEQ_2, SEQM_3, SERIES_1, REALSET1, RLSUB_1, BHSP_1, VALUED_1, RELSET_1,
+      COMSEQ_2, SEQ_1, FUNCSDOM;
+ registrations ORDINAL1, RELSET_1, NUMBERS, XXREAL_0, XREAL_0, MEMBERED,
+      REALSET1, STRUCT_0, RLVECT_1, BHSP_1, ALGSTR_0, VALUED_1, FUNCT_2,
+      VALUED_0, SERIES_1, SQUARE_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin
+
+definition
+  func the_set_of_RealSequences -> non empty set equals
+:: RSSPACE:def 1
+  Funcs(NAT,REAL);
+end;
+
+definition
+  let a be object such that
+ a in the_set_of_RealSequences;
+  func seq_id(a) -> Real_Sequence equals
+:: RSSPACE:def 2
+
+  a;
+end;
+
+definition
+::$CD 3
+  func Zeroseq -> Element of the_set_of_RealSequences equals
+:: RSSPACE:def 6
+  seq_const 0;
+end;
+
+registration
+  let x be Element of the_set_of_RealSequences;
+  reduce seq_id x to x;
+end;
+
+registration
+  let x be Real_Sequence;
+  reduce seq_id x to x;
+end;
+
+theorem :: RSSPACE:1
+  for x be Real_Sequence holds seq_id x = x;
+
+definition
+  func Linear_Space_of_RealSequences -> strict RLSStruct equals
+:: RSSPACE:def 7
+  RealVectSpace(NAT);
+end;
+
+registration
+  let x be Element of Linear_Space_of_RealSequences;
+  reduce seq_id x to x;
+end;
+
+registration
+  cluster Linear_Space_of_RealSequences -> non empty;
+end;
+
+theorem :: RSSPACE:2
+  for v,w being VECTOR of Linear_Space_of_RealSequences holds
+  v + w = seq_id(v) + seq_id(w);
+
+theorem :: RSSPACE:3
+  for r being Real, v being VECTOR of Linear_Space_of_RealSequences holds
+  r * v = r (#) seq_id(v);
+
+registration
+  cluster Linear_Space_of_RealSequences -> Abelian add-associative
+    right_zeroed right_complementable vector-distributive
+    scalar-distributive scalar-associative scalar-unital;
+end;
+
+definition
+  let X be RealLinearSpace;
+  let X1 be Subset of X such that
+ X1 is linearly-closed non empty;
+  func Add_(X1,X) -> BinOp of X1 equals
+:: RSSPACE:def 8
+
+  (the addF of X)||X1;
+end;
+
+definition
+  let X be RealLinearSpace;
+  let X1 be Subset of X such that
+ X1 is linearly-closed non empty;
+  func Mult_(X1,X) -> Function of [:REAL,X1:], X1 equals
+:: RSSPACE:def 9
+
+  (the Mult of X) | [:REAL,X1:];
+end;
+
+definition
+  let X be RealLinearSpace, X1 be Subset of X such that
+ X1 is linearly-closed non empty;
+  func Zero_(X1,X) -> Element of X1 equals
+:: RSSPACE:def 10
+
+  0.X;
+end;
+
+theorem :: RSSPACE:4
+  for n being object holds (seq_id Zeroseq).n = 0;
+
+theorem :: RSSPACE:5
+  for f being Element of the_set_of_RealSequences st
+    for n being Nat holds (seq_id f).n = 0 holds
+  f = Zeroseq;
+
+::$CT 5
+
+theorem :: RSSPACE:11
+  for V be RealLinearSpace, V1 be Subset of V st
+  V1 is linearly-closed non empty holds
+  RLSStruct (# V1,Zero_(V1,V), Add_(V1,V),Mult_(V1,V) #) is Subspace of V;
+
+definition
+  func the_set_of_l2RealSequences -> Subset of Linear_Space_of_RealSequences
+  means
+:: RSSPACE:def 11
+
+  for x being object holds x in it iff x in the_set_of_RealSequences &
+  seq_id(x) (#) seq_id(x) is summable;
+end;
+
+registration
+  cluster the_set_of_l2RealSequences -> linearly-closed non empty;
+end;
+
+theorem :: RSSPACE:12
+  RLSStruct(# the_set_of_l2RealSequences, Zero_(
+    the_set_of_l2RealSequences,Linear_Space_of_RealSequences), Add_(
+    the_set_of_l2RealSequences,Linear_Space_of_RealSequences), Mult_(
+    the_set_of_l2RealSequences,Linear_Space_of_RealSequences) #) is Subspace of
+  Linear_Space_of_RealSequences;
+
+theorem :: RSSPACE:13
+  RLSStruct (# the_set_of_l2RealSequences,
+  Zero_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences),
+  Add_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences),
+  Mult_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences) #)
+  is RealLinearSpace;
+
+::$CT
+
+definition
+  func l_scalar -> Function of [:the_set_of_l2RealSequences,
+  the_set_of_l2RealSequences:], REAL means
+:: RSSPACE:def 12
+  for x,y be object st x in
+  the_set_of_l2RealSequences & y in the_set_of_l2RealSequences holds it.(x,y) =
+  Sum(seq_id(x)(#)seq_id(y));
+end;
+
+definition
+  func l2_Space -> non empty UNITSTR equals
+:: RSSPACE:def 13
+  UNITSTR (#
+    the_set_of_l2RealSequences,
+    Zero_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences),
+    Add_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences),
+    Mult_(the_set_of_l2RealSequences,Linear_Space_of_RealSequences),
+    l_scalar #);
+end;
+
+registration
+  let x be Element of l2_Space;
+  reduce seq_id x to x;
+end;
+
+theorem :: RSSPACE:15
+  for l being RLSStruct st the RLSStruct of l is RealLinearSpace
+  holds l is RealLinearSpace;
+
+theorem :: RSSPACE:16
+  for rseq be Real_Sequence st (for n be Nat holds rseq.n=0)
+  holds rseq is summable & Sum rseq = 0;
+
+theorem :: RSSPACE:17
+  for rseq be Real_Sequence st (for n be Nat holds 0 <= rseq.n) &
+  rseq is summable & Sum rseq=0 holds for n be Nat holds rseq.n = 0;
+
+registration
+  cluster l2_Space -> Abelian add-associative right_zeroed
+    right_complementable vector-distributive scalar-distributive
+    scalar-associative scalar-unital;
+end;

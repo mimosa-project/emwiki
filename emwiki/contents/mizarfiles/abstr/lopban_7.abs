@@ -1,0 +1,206 @@
+:: Banach's Continuous Inverse Theorem and Closed Graph Theorem
+::  by Hideki Sakurai , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received August 6, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, CARD_1, XXREAL_0, ARYTM_3, RELAT_1, ARYTM_1, XBOOLE_0,
+      SUBSET_1, FUNCT_1, ZFMISC_1, NORMSP_1, RLSUB_1, RSSPACE, COHSP_1,
+      PRE_TOPC, METRIC_1, SUPINF_2, TARSKI, REAL_1, COMPLEX1, LOPBAN_1,
+      STRUCT_0, NORMSP_2, RCOMP_1, NAT_1, CARD_3, ORDINAL2, SEQ_2, RSSPACE3,
+      FUNCT_2, UNIALG_1, PARTFUN1, FCONT_1, CFCONT_1, RLVECT_1, TMAP_1,
+      MSSUBFAM, RELAT_2, RLTOPSP1, REWRITE1, FINSEQ_1, NORMSP_0, ALGSTR_0,
+      LOPBAN_7, REALSET1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, FUNCT_1, RELSET_1,
+      PARTFUN1, FUNCT_2, REALSET1, NUMBERS, XXREAL_0, XCMPLX_0, XREAL_0,
+      COMPLEX1, FUNCT_3, FINSEQ_1, FINSEQ_2, STRUCT_0, ALGSTR_0, PRE_TOPC,
+      RLVECT_1, RLSUB_1, VECTSP_1, NORMSP_0, NORMSP_1, T_0TOPSP, TMAP_1,
+      RLTOPSP1, RSSPACE, EUCLID, RSSPACE3, LOPBAN_1, NFCONT_1, NORMSP_2,
+      PDIFF_1, PRVECT_3;
+ constructors REAL_1, PCOMPS_1, RUSUB_4, NFCONT_1, FUNCT_3, NEWTON, NORMSP_2,
+      RSSPACE3, T_0TOPSP, RELSET_1, TMAP_1, PRVECT_3, PDIFF_1, REALSET1;
+ registrations XREAL_0, XXREAL_0, ORDINAL1, RELSET_1, STRUCT_0, NAT_1,
+      NORMSP_1, NORMSP_2, FUNCT_1, FUNCT_2, LOPBAN_1, NORMSP_0, RELAT_1,
+      RLTOPSP1, PRVECT_3, NUMBERS, XBOOLE_0, VALUED_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+definition
+  let X,Y be non empty NORMSTR,
+    x be Point of X,
+    y be Point of Y;
+  redefine func [x,y] -> Point of [:X,Y:];
+end;
+
+definition
+  let X,Y be non empty NORMSTR,
+      seqx be sequence of X,
+      seqy be sequence of Y;
+  redefine func <:seqx,seqy:> -> sequence of [:X,Y:];
+end;
+
+theorem :: LOPBAN_7:1
+  for X,Y be RealLinearSpace,
+      T be LinearOperator of X,Y
+    st T is bijective
+    holds T" is LinearOperator of Y,X & rng(T") = the carrier of X;
+
+theorem :: LOPBAN_7:2
+  for X,Y be non empty LinearTopSpace,
+      T be LinearOperator of X,Y,
+      S be Function of Y, X
+    st T is bijective open & S = T" holds
+  S is LinearOperator of Y,X & S is onto continuous;
+
+theorem :: LOPBAN_7:3
+  for X,Y be RealNormSpace,
+      f be LinearOperator of X,Y holds 0.Y=f.(0.X);
+
+theorem :: LOPBAN_7:4
+  for X,Y be RealNormSpace,
+      f be LinearOperator of X,Y,
+      x be Point of X holds
+    f is_continuous_in x iff f is_continuous_in 0.X;
+
+theorem :: LOPBAN_7:5
+  for X,Y be RealNormSpace, f be LinearOperator of X,Y holds
+  f is_continuous_on the carrier of X
+    iff
+  f is_continuous_in 0.X;
+
+theorem :: LOPBAN_7:6
+   for X,Y be RealNormSpace, f be LinearOperator of X,Y
+   holds f is Lipschitzian iff f is_continuous_on the carrier of X;
+
+:: Banach's Continuous Inverse Theorem
+
+theorem :: LOPBAN_7:7
+  for X,Y be RealBanachSpace,
+      T be Lipschitzian LinearOperator of X,Y
+    st T is bijective
+    holds T" is Lipschitzian LinearOperator of Y,X;
+
+theorem :: LOPBAN_7:8
+  for X,Y be RealNormSpace,
+      seqx be sequence of X,
+      seqy be sequence of Y,
+      x be Point of X,
+      y be Point of Y holds
+   ( seqx is convergent & lim seqx = x
+            & seqy is convergent & lim seqy = y )
+   iff
+   <:seqx,seqy:> is convergent & lim <:seqx,seqy:> = [x,y];
+
+definition
+  let X,Y be RealNormSpace;
+  let T be PartFunc of X, Y;
+  func graph(T) -> Subset of [:X,Y:] equals
+:: LOPBAN_7:def 1
+  T;
+end;
+
+registration
+  let X,Y be RealNormSpace;
+  let T be non empty PartFunc of X, Y;
+  cluster graph(T) -> non empty;
+end;
+
+registration
+  let X,Y be RealNormSpace, T be LinearOperator of X,Y;
+  cluster graph(T) -> linearly-closed;
+end;
+
+definition
+  let X,Y be RealNormSpace;
+  let T be LinearOperator of X,Y;
+  func graphNrm(T) -> Function of graph(T),REAL equals
+:: LOPBAN_7:def 2
+  (the normF of [:X,Y:]) | graph(T);
+end;
+
+definition
+  let X,Y be RealNormSpace;
+  let T be PartFunc of X,Y;
+  attr T is closed means
+:: LOPBAN_7:def 3
+  graph(T) is closed;
+end;
+
+definition
+  let X,Y be RealNormSpace, T be LinearOperator of X,Y;
+  func graphNSP(T) -> non empty NORMSTR equals
+:: LOPBAN_7:def 4
+  NORMSTR(# graph(T),Zero_(graph(T),[:X,Y:]), Add_(graph(T),[:X,Y:]),
+    Mult_(graph(T),[:X,Y:]),graphNrm(T) #);
+end;
+
+registration
+  let X,Y be RealNormSpace, T be LinearOperator of X,Y;
+  cluster graphNSP(T) -> Abelian add-associative right_zeroed
+    right_complementable scalar-distributive vector-distributive
+    scalar-associative scalar-unital;
+end;
+
+theorem :: LOPBAN_7:9
+  for X,Y be RealNormSpace, T be LinearOperator of X,Y holds
+  graphNSP(T) is Subspace of [:X,Y:];
+
+registration
+  let X,Y be RealNormSpace,
+      T be LinearOperator of X,Y;
+  cluster graphNSP(T) -> reflexive discerning RealNormSpace-like;
+end;
+
+theorem :: LOPBAN_7:10
+  for X be RealNormSpace, Y be RealBanachSpace, X0 be Subset of Y
+    st X is Subspace of Y & the carrier of X = X0
+       & the normF of X = (the normF of Y ) | (the carrier of X) &
+       X0 is closed holds
+     X is complete;
+
+theorem :: LOPBAN_7:11
+  for X,Y be RealBanachSpace,
+      T be LinearOperator of X,Y st T is closed
+    holds graphNSP(T) is complete;
+
+theorem :: LOPBAN_7:12
+  for X,Y be RealNormSpace, T be non empty PartFunc of X,Y holds
+  T is closed iff
+  for seq be sequence of X
+  st rng seq c= dom T & seq is convergent & T/*seq is convergent
+  holds lim seq in dom T & lim (T/*seq)= T.(lim seq);
+
+theorem :: LOPBAN_7:13
+  for X,Y be RealNormSpace,
+      T be non empty PartFunc of X,Y,T0 be LinearOperator of X,Y st
+   T0 is Lipschitzian & dom T is closed & T=T0
+    holds T is closed;
+
+theorem :: LOPBAN_7:14
+for X,Y be RealNormSpace,T be non empty PartFunc of X,Y,
+    S be non empty PartFunc of Y,X st
+    T is closed & T is one-to-one & S=T"
+    holds S is closed;
+
+:: The Closed Graph Theorem
+
+theorem :: LOPBAN_7:15
+  for X,Y be RealNormSpace, x be Point of X, y be Point of Y holds
+    ||.x.|| <= ||. [x,y] .|| & ||.y.|| <= ||. [x,y] .||;
+
+registration
+  let X,Y be RealBanachSpace;
+  cluster closed -> Lipschitzian for LinearOperator of X,Y;
+end;

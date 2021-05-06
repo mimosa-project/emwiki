@@ -1,0 +1,389 @@
+:: Tarski Geometry Axioms. {P}art {IV } -- Right angle
+::  by Roland Coghetto and Adam Grabowski
+:: 
+:: Received March 11, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies INCSP_1, GTARSKI1, GTARSKI2, GTARSKI3, XXREAL_0, XBOOLE_0,
+      SUBSET_1, RVSUM_1, GTARSKI4;
+ notations GTARSKI1, GTARSKI2, STRUCT_0, GTARSKI3;
+ constructors GTARSKI2, GTARSKI3;
+ registrations GTARSKI1, GTARSKI2, GTARSKI3;
+
+
+begin :: Preliminaries
+
+reserve S for non empty satisfying_Tarski-model
+              TarskiGeometryStruct,
+        a,b,c,d,c9,x,y,z,p,q,q9 for POINT of S;
+
+definition let S be non empty satisfying_CongruenceIdentity
+              satisfying_SegmentConstruction satisfying_BetweennessIdentity
+              satisfying_Pasch TarskiGeometryStruct;
+           let a,b be POINT of S;
+  redefine func Line (a,b);
+  commutativity;
+end;
+
+theorem :: GTARSKI4:1
+  for S being satisfying_CongruenceSymmetry
+  satisfying_CongruenceEquivalenceRelation satisfying_CongruenceIdentity
+  TarskiGeometryStruct for a,b,c,d being POINT of S st a,b equiv c,d
+  holds a,b equiv d,c & b,a equiv c,d & b,a equiv d,c & c,d equiv a,b &
+  d,c equiv a,b & c,d equiv b,a & d,c equiv b,a;
+
+theorem :: GTARSKI4:2
+  for S being satisfying_CongruenceSymmetry
+  satisfying_CongruenceEquivalenceRelation satisfying_CongruenceIdentity
+  TarskiGeometryStruct for p,q,a,b,c,d being POINT of S st
+  (p,q equiv a,b or p,q equiv b,a or q,p equiv a,b or q,p equiv b,a) &
+  (p,q equiv c,d or p,q equiv d,c or q,p equiv c,d or q,p equiv d,c)
+  holds a,b equiv d,c & b,a equiv c,d & b,a equiv d,c &
+  c,d equiv a,b & d,c equiv a,b & c,d equiv b,a & d,c equiv b,a;
+
+theorem :: GTARSKI4:3
+  for S being satisfying_CongruenceSymmetry
+  satisfying_CongruenceEquivalenceRelation satisfying_CongruenceIdentity
+  TarskiGeometryStruct for p,q,a,b,c,d being POINT of S st
+  (p,q equiv a,b or p,q equiv b,a or q,p equiv a,b or q,p equiv b,a or
+  a,b equiv p,q or b,a equiv p,q or a,b equiv q,p or b,a equiv q,p) &
+  (p,q equiv c,d or p,q equiv d,c or q,p equiv c,d or q,p equiv d,c or
+  c,d equiv p,q or d,c equiv p,q or c,d equiv q,p or d,c equiv q,p)
+  holds a,b equiv d,c & b,a equiv c,d & b,a equiv d,c & c,d equiv a,b &
+  d,c equiv a,b & c,d equiv b,a & d,c equiv b,a & a,b equiv c,d;
+
+theorem :: GTARSKI4:4
+  for S being satisfying_CongruenceIdentity satisfying_SegmentConstruction
+  satisfying_BetweennessIdentity satisfying_Pasch TarskiGeometryStruct
+  for a,b being POINT of S holds Collinear a,b,b & Collinear b,b,a &
+  Collinear b,a,b;
+
+theorem :: GTARSKI4:5
+  for S being non empty satisfying_Tarski-model TarskiGeometryStruct
+  for p,q,r being POINT of S st p <> q & p <> r &
+  (Collinear p,q,r or Collinear q,r,p or Collinear r,p,q or
+  Collinear p,r,q or Collinear q,p,r or Collinear r,q,p ) holds
+  Line(p,q) = Line(p,r) & Line(p,q) = Line(r,p) &
+  Line(q,p) = Line(p,r) & Line(q,p) = Line(r,p);
+
+theorem :: GTARSKI4:6
+  for S being TarskiGeometryStruct
+  for a,b,c being POINT of S st
+  (Middle a,b,c or between a,b,c) holds Collinear a,b,c;
+
+theorem :: GTARSKI4:7
+  for S being satisfying_CongruenceIdentity
+    satisfying_SegmentConstruction satisfying_BetweennessIdentity
+    satisfying_Pasch TarskiGeometryStruct
+  for a,b,c being POINT of S st
+  (Middle a,b,c or between a,b,c) holds
+  Collinear a,b,c & Collinear b,c,a & Collinear c,a,b &
+  Collinear c,b,a & Collinear b,a,c & Collinear a,c,b;
+
+theorem :: GTARSKI4:8  ::: Lemma ext1, Chap. 8A
+  for S being non empty satisfying_Tarski-model TarskiGeometryStruct
+  for a,b,c,d being POINT of S st a <> b & Collinear a,b,c &
+  Collinear a,b,d holds Collinear a,c,d;
+
+theorem :: GTARSKI4:9
+  for S being non empty satisfying_Tarski-model TarskiGeometryStruct
+  for a,b being POINT of S st Middle a,a,b or Middle a,b,b or
+  Middle a,b,a holds a = b;
+
+theorem :: GTARSKI4:10
+  (Middle a,b,c or Middle c,b,a) & (a <> b or b <> c) implies
+  (Line(b,a) = Line(b,c) & Line(a,b) = Line(b,c) &
+  Line(a,b) = Line(c,b) & Line(b,a) = Line(c,b));
+
+theorem :: GTARSKI4:11
+  a <> b & c <> c9 & (c in Line(a,b) or c in Line(b,a)) &
+  (c9 in Line(a,b) or c9 in Line(b,a)) implies
+  Line(c,c9) = Line(a,b) & Line(c,c9) = Line(b,a) &
+  Line(c9,c) = Line(b,a) & Line(c9,c) = Line(a,b);
+
+theorem :: GTARSKI4:12
+  Middle reflection(p,c),reflection(p,b),reflection(p,reflection(b,c));
+
+begin :: Right angle
+
+definition
+  let S be satisfying_CongruenceIdentity
+           satisfying_CongruenceSymmetry
+           satisfying_CongruenceEquivalenceRelation
+           satisfying_SegmentConstruction
+           satisfying_BetweennessIdentity
+           satisfying_SAS
+           TarskiGeometryStruct;
+  let a,b,c be POINT of S;
+  pred right_angle a,b,c means
+:: GTARSKI4:def 1
+    a,c equiv a,reflection(b,c);
+end;
+
+reserve              S for satisfying_Tarski-model TarskiGeometryStruct,
+        a,a9,b,b9,c,c9 for POINT of S;
+
+::$N 8.2 Satz
+theorem :: GTARSKI4:13
+  right_angle a,b,c implies right_angle c,b,a;
+
+theorem :: GTARSKI4:14
+  reflection(a,a) = a;
+
+::$N 8.3 Satz
+theorem :: GTARSKI4:15
+  right_angle a,b,c & a <> b & Collinear b,a,a9 implies right_angle a9,b,c;
+
+theorem :: GTARSKI4:16
+  right_angle a,b,c implies right_angle a,b,reflection(b,c);
+
+::$N 8.5 Satz
+theorem :: GTARSKI4:17
+  right_angle a,b,b;
+
+::$N 8.6 Satz
+theorem :: GTARSKI4:18
+  right_angle a,b,c & right_angle a9,b,c & between a,c,a9 implies b = c;
+
+::$N 8.7 Satz
+theorem :: GTARSKI4:19
+  right_angle a,b,c & right_angle a,c,b implies b = c;
+
+::$N 8.8 Satz
+theorem :: GTARSKI4:20
+  right_angle a,b,a implies a = b;
+
+::$N 8.9 Satz
+theorem :: GTARSKI4:21
+  right_angle a,b,c & Collinear a,b,c implies a = b or c = b;
+
+::$N 8.10 Satz
+theorem :: GTARSKI4:22
+  right_angle a,b,c & a,b,c cong a9,b9,c9 implies right_angle a9,b9,c9;
+
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let A,A9 be Subset of S;
+  let x be POINT of S;
+  pred are_orthogonal A,x,A9 means
+:: GTARSKI4:def 2
+    A is_line & A9 is_line & x in A & x in A9 &
+    (for u,v being POINT of S st u in A & v in A9 holds right_angle u,x,v);
+end;
+
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let A,A9 be Subset of S;
+  pred are_orthogonal A,A9 means
+:: GTARSKI4:def 3
+  ex x being POINT of S st are_orthogonal A,x,A9;
+end;
+
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let A be Subset of S;
+  let x,c,d be POINT of S;
+  pred are_lorthogonal A,x,c,d means
+:: GTARSKI4:def 4
+    c <> d & are_orthogonal A,x,Line(c,d);
+end;
+
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let a,b,x,c,d be POINT of S;
+  pred are_orthogonal a,b,x,c,d means
+:: GTARSKI4:def 5
+  a <> b & c <> d & are_orthogonal Line(a,b),x,Line(c,d);
+end;
+
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let a,b,c,d be POINT of S;
+  pred are_orthogonal a,b,c,d means
+:: GTARSKI4:def 6
+    a <> b & c <> d & are_orthogonal Line(a,b),Line(c,d);
+end;
+
+reserve S                 for non empty satisfying_Tarski-model
+                                    TarskiGeometryStruct,
+        A,A9              for Subset of S,
+        x,y,z,a,b,c,c9,d,u,p,q,q9 for POINT of S;
+
+::$N 8.12 Satz
+theorem :: GTARSKI4:23
+  are_orthogonal A,x,A9 iff are_orthogonal A9,x,A;
+
+::$N 8.13 Satz
+theorem :: GTARSKI4:24
+  are_orthogonal A,x,A9 iff A is_line & A9 is_line & x in A & x in A9 &
+  (ex u,v being POINT of S st u in A & v in A9 & u <> x & v <> x &
+  right_angle u,x,v);
+
+::$N 8.14 (i) Satz
+theorem :: GTARSKI4:25
+  are_orthogonal A,A9 implies A <> A9;
+
+::$N 6.22 Satz
+definition
+  let S be non empty TarskiGeometryStruct;
+  let A,B be Subset of S;
+  let x be POINT of S;
+  pred A,B Is x means
+:: GTARSKI4:def 7   ::: intersect at
+  A is_line & B is_line & A <> B & x in A & x in B;
+end;
+
+::$N 8.14 (ii) Satz
+theorem :: GTARSKI4:26
+  are_orthogonal A,x,A9 iff are_orthogonal A,A9 & A,A9 Is x;
+
+::$N 8.14 (iii) Satz
+theorem :: GTARSKI4:27
+  are_orthogonal A,x,A9 & are_orthogonal A,y,A9 implies x = y;
+
+theorem :: GTARSKI4:28
+  Collinear a,b,x & are_orthogonal a,b,c,x implies
+    are_orthogonal a,b,x,c,x;
+
+::$N 8.15 Satz
+theorem :: GTARSKI4:29
+  a <> b & Collinear a,b,x implies
+  (are_orthogonal a,b,c,x iff are_orthogonal a,b,x,c,x);
+
+::$N 8.16 Satz
+theorem :: GTARSKI4:30
+  a <> b & Collinear a,b,x & Collinear a,b,u & u <> x implies
+  (are_orthogonal a,b,c,x iff (not Collinear a,b,c & right_angle c,x,u));
+
+::$N 8.17 Definition
+definition
+  let S be non empty satisfying_Tarski-model TarskiGeometryStruct;
+  let a,b,c,x be POINT of S;
+  pred x is_foot a,b,c means
+:: GTARSKI4:def 8
+  Collinear a,b,x & are_orthogonal a,b,c,x;
+end;
+
+::$N 8.18 Satz - Uniqueness
+theorem :: GTARSKI4:31
+  x is_foot a,b,c & y is_foot a,b,c implies x = y;
+
+theorem :: GTARSKI4:32
+  not Collinear a,b,c & between b,a,y & a <> y &
+    between a,y,z & y,z equiv y,p & y <> p &
+    q9 = reflection(z,q) & Middle c,x,c9 & c <> y &
+    between q9,y,c9 & Middle y,p,c & between p,y,q & q <> q9
+  implies x <> y;
+
+reserve S                 for non empty
+                            satisfying_Lower_Dimension_Axiom
+                            satisfying_Tarski-model
+                            TarskiGeometryStruct,
+        a,b,c,p,q,x,y,z,t for POINT of S;
+
+::$N 8.18 Satz - Existence
+theorem :: GTARSKI4:33
+  not Collinear a,b,c implies ex x st x is_foot a,b,c;
+
+::$N 8.20 Lemma
+theorem :: GTARSKI4:34
+  right_angle a,b,c & Middle reflection(a,c),p,reflection(b,c) implies
+  right_angle b,a,p & (b <> c implies a <> p);
+
+theorem :: GTARSKI4:35
+  not Collinear a,b,c implies ex p,t st are_orthogonal a,b,p,a &
+    Collinear a,b,t & between c,t,p;
+
+::$N 8.21 Satz
+theorem :: GTARSKI4:36
+  a <> b implies ex p,t st are_orthogonal a,b,p,a & Collinear a,b,t &
+    between c,t,p;
+
+theorem :: GTARSKI4:37
+  a <> b & a <> p & right_angle b,a,p & right_angle a,b,q implies
+    not Collinear p,a,q;
+
+theorem :: GTARSKI4:38
+  for S being non empty satisfying_Lower_Dimension_Axiom
+    satisfying_Tarski-model TarskiGeometryStruct
+  for a,b,p,q,t being POINT of S st a,p <= b,q & are_orthogonal a,b,q,b &
+    are_orthogonal a,b,p,a & Collinear a,b,t & between q,t,p holds
+  ex x being POINT of S st Middle a,x,b;
+
+::$N 8.22 Satz
+theorem :: GTARSKI4:39
+  for S being non empty satisfying_Lower_Dimension_Axiom
+  satisfying_Tarski-model TarskiGeometryStruct
+  for a,b being POINT of S holds
+  ex x being POINT of S st Middle a,x,b;
+
+definition
+  let S be non empty satisfying_Lower_Dimension_Axiom
+    satisfying_Tarski-model TarskiGeometryStruct;
+  let a,b be POINT of S;
+  func Midpoint (a,b) -> POINT of S means
+:: GTARSKI4:def 9
+  Middle a,it,b;
+end;
+
+::$N 8.24 Lemma
+theorem :: GTARSKI4:40
+  for S being non empty satisfying_Lower_Dimension_Axiom
+    satisfying_Tarski-model TarskiGeometryStruct
+  for a,b,p,q,r,t being POINT of S st are_orthogonal p,a,a,b &
+    are_orthogonal q,b,a,b & Collinear a,b,t & between p,t,q &
+  between b,r,q & a,p equiv b,r holds
+  ex x being POINT of S st Middle a,x,b & Middle p,x,r;
+
+begin :: Chapter 8A
+
+theorem :: GTARSKI4:41 :: ExtCol2
+  for a,b,c,d,x,p,q being POINT of S holds
+    c in Line(a,b) & d in Line(a,b) & a <> b & c <> d implies
+      Line (a,b) = Line (c,d);
+
+theorem :: GTARSKI4:42 :: ExtPerp:
+  for a,b,c,d,x,p,q being POINT of S holds
+    c in Line(a,b) & d in Line(a,b) & c <> d &
+      are_orthogonal a,b,x,p,q implies are_orthogonal c,d,x,p,q;
+
+theorem :: GTARSKI4:43 :: ExtPerp2:
+  for a,b,c,d,p,q being POINT of S holds
+    p in Line(a,b) & q in Line(a,b) & a <> b &
+      are_orthogonal p,q,c,d implies are_orthogonal a,b,c,d;
+
+theorem :: GTARSKI4:44 :: ExtPerp3:
+  for a,b,c,d being POINT of S holds
+    a <> b & b <> c & c <> d & a <> c & a <> d & b <> d &
+      are_orthogonal b,a,a,c & Collinear a,c,d implies
+        are_orthogonal b,a,a,d;
+
+theorem :: GTARSKI4:45 :: ExtPerp4:
+  for a,b,p,q being POINT of S holds
+    are_orthogonal a,b,p,q implies are_orthogonal a,b,q,p;
+
+theorem :: GTARSKI4:46
+  for a,b,c,d,p,q being POINT of S holds
+    p in Line(a,b) & q in Line(a,b) & p <> q &
+      are_orthogonal a,b,c,d implies are_orthogonal p,q,c,d;
+
+theorem :: GTARSKI4:47 :: ExtPerp5A:
+  for a,b,c,d,p,q being POINT of S holds
+    Collinear a,b,p & Collinear a,b,q & p <> q &
+      are_orthogonal a,b,c,d implies are_orthogonal p,q,c,d;
+
+theorem :: GTARSKI4:48 :: ExtPerp6:
+  for a,b,c,d,p,q being POINT of S holds
+    p in Line(a,b) & q in Line(a,b) & p <> q & a <> b &
+      are_orthogonal c,d,p,q implies are_orthogonal c,d,a,b;
+

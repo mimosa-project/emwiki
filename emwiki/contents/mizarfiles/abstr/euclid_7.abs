@@ -1,0 +1,573 @@
+:: The Real Vector Spaces of Finite Sequences Are Finite Dimensional
+::  by Yatsuka Nakamura , Artur Korni{\l}owicz , Nagato Oya and Yasunari Shidama
+::
+:: Received September 23, 2008
+:: Copyright (c) 2008-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, SUBSET_1, FINSEQ_2, EUCLID, VALUED_0, FINSEQ_1,
+      FUNCT_1, RELAT_1, XBOOLE_0, TARSKI, FUNCT_2, CARD_1, ARYTM_1, ARYTM_3,
+      REAL_1, PARTFUN1, ZFMISC_1, ORDINAL2, XXREAL_0, RLVECT_1, RLSUB_1,
+      STRUCT_0, SUPINF_2, ALGSTR_0, REALSET1, MONOID_0, FUNCT_7, AFINSQ_1,
+      RFINSEQ2, CLASSES1, RVSUM_1, COMPLEX1, SQUARE_1, REWRITE1, SETFAM_1,
+      CARD_3, ORDINAL4, MATRIXR2, BINOP_2, XCMPLX_0, REAL_NS1, VALUED_1,
+      RLVECT_2, MATRIX_7, FUNCOP_1, FUNCSDOM, RLVECT_3, FINSET_1, RLVECT_5,
+      EUCLID_7;
+ notations XBOOLE_0, TARSKI, RELAT_1, FUNCT_1, RVSUM_1, RELSET_1, PARTFUN1,
+      CARD_1, FUNCT_2, FUNCT_3, ORDINAL1, CLASSES1, NUMBERS, SUBSET_1,
+      XCMPLX_0, XREAL_0, COMPLEX1, FINSEQ_1, FINSEQ_2, VALUED_0, VALUED_1,
+      FINSET_1, BINOP_1, STRUCT_0, ALGSTR_0, FUNCSDOM, MONOID_0, BINOP_2,
+      RLVECT_1, EUCLID, SQUARE_1, XXREAL_0, SETFAM_1, RLSUB_1, RLVECT_2,
+      RLVECT_3, REAL_1, NAT_1, NAT_D, MATRIXR2, ZFMISC_1, RLVECT_5, REALSET1,
+      MATRIX_7, RFINSEQ2, FINSEQ_7, RUSUB_3, REAL_NS1, DOMAIN_1, RUSUB_4,
+      FUNCOP_1;
+ constructors REAL_1, SQUARE_1, BINOP_2, MONOID_0, RLVECT_2, RLVECT_3,
+      REAL_NS1, FUNCT_3, REALSET1, MATRIXR2, RLVECT_5, FINSOP_1, MATRIX_7,
+      RFINSEQ2, SETWISEO, FINSEQ_7, RUSUB_3, RUSUB_4, NAT_D, CLASSES1,
+      FUNCSDOM, RELSET_1, NUMBERS;
+ registrations FUNCT_1, MONOID_0, RELSET_1, NUMBERS, XREAL_0, STRUCT_0,
+      FINSET_1, XXREAL_0, CARD_1, NAT_1, MEMBERED, FINSEQ_2, EUCLID, VALUED_0,
+      FUNCT_2, SUBSET_1, XBOOLE_0, REAL_NS1, FINSEQ_1, RELAT_1, ORDINAL1,
+      SQUARE_1;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: 1. Preliminaries
+
+reserve i, j, m, n for Nat,
+  z, B0 for set,
+  f, x0 for real-valued FinSequence;
+
+::$CT
+
+theorem :: EUCLID_7:2
+  for R being Relation, Y being set st rng R c= Y holds R"Y = dom R;
+
+theorem :: EUCLID_7:3
+  <* z *> * <* 1 *> = <* z *>;
+
+theorem :: EUCLID_7:4
+  for x being Element of REAL 0 holds x = <*>REAL;
+
+theorem :: EUCLID_7:5
+  for a,b,c being Element of REAL n holds a - b + c + b = a + c;
+
+registration
+  let f1,f2 be FinSequence;
+  cluster <:f1,f2:> -> FinSequence-like;
+end;
+
+definition
+  let D be set, f1,f2 be FinSequence of D;
+  redefine func <:f1,f2:> -> FinSequence of [:D,D:];
+end;
+
+definition
+  let h be real-valued FinSequence;
+  redefine attr h is increasing means
+:: EUCLID_7:def 1
+
+  for i being Nat st 1<=i & i<len h holds h.i < h.(i+1);
+end;
+
+theorem :: EUCLID_7:6
+  for h being real-valued FinSequence st h is increasing holds for
+  i,j being Nat st i<j & 1<=i & j<=len h holds h.i < h.j;
+
+theorem :: EUCLID_7:7
+  for h being real-valued FinSequence st h is increasing holds for
+  i,j being Nat st i<=j & 1<=i & j<=len h holds h.i <= h.j;
+
+theorem :: EUCLID_7:8
+  for h being natural-valued FinSequence st h is increasing holds
+  for i being Nat st i<=len h & 1<=h.1 holds i <= h.i;
+
+theorem :: EUCLID_7:9
+  for V being RealLinearSpace, X being Subspace of V st V is
+  strict & X is strict & the carrier of X = the carrier of V holds X = V;
+
+definition
+  let D be set;
+  let F be FinSequence of D;
+  let h be Permutation of dom F;
+  func F(*)h -> FinSequence of D equals
+:: EUCLID_7:def 2
+  F*h;
+end;
+
+theorem :: EUCLID_7:10
+  for D being non empty set,f being FinSequence of D st 1<=i & i<=
+  len f & 1<=j & j<=len f holds (Swap(f,i,j)).i=f.j & (Swap(f,i,j)).j=f.i;
+
+theorem :: EUCLID_7:11
+  {} is Permutation of {};
+
+theorem :: EUCLID_7:12
+  <* 1 *> is Permutation of {1};
+
+theorem :: EUCLID_7:13
+  for h being FinSequence of REAL holds h is one-to-one iff sort_a
+  h is one-to-one;
+
+theorem :: EUCLID_7:14
+  for h being FinSequence of NAT st h is one-to-one ex h3 being
+Permutation of dom h,h2 being FinSequence of NAT st h2=h*h3 & h2 is increasing
+  & dom h=dom h2 & rng h=rng h2;
+
+begin :: 2. Orthogonal Basis of REAL n
+
+definition
+  let B0 be set;
+  attr B0 is R-orthogonal means
+:: EUCLID_7:def 3
+
+  for x, y being real-valued FinSequence
+  st x in B0 & y in B0 & x<>y holds |( x,y )| = 0;
+end;
+
+registration
+  cluster empty -> R-orthogonal for set;
+end;
+
+theorem :: EUCLID_7:15
+  B0 is R-orthogonal iff for x,y being real-valued FinSequence st x in
+  B0 & y in B0 & x <> y holds x,y are_orthogonal;
+
+definition
+  let B0 be set;
+  attr B0 is R-normal means
+:: EUCLID_7:def 4
+
+  for x being real-valued FinSequence st x in B0 holds |.x.| = 1;
+end;
+
+registration
+  cluster empty -> R-normal for set;
+end;
+
+registration
+  cluster R-normal for set;
+end;
+
+registration
+  let B0, B1 be R-normal set;
+  cluster B0 \/ B1 -> R-normal;
+end;
+
+theorem :: EUCLID_7:16
+  |.f.| = 1 implies {f} is R-normal;
+
+theorem :: EUCLID_7:17
+  B0 is R-normal & |.x0.| = 1 implies B0 \/ {x0} is R-normal;
+
+definition
+  let B0 be set;
+  attr B0 is R-orthonormal means
+:: EUCLID_7:def 5
+
+  B0 is R-orthogonal R-normal;
+end;
+
+registration
+  cluster R-orthonormal -> R-orthogonal R-normal for set;
+  cluster R-orthogonal R-normal -> R-orthonormal for set;
+end;
+
+registration
+  cluster { <*1*> } -> R-orthonormal;
+end;
+
+registration
+  cluster R-orthonormal non empty for set;
+end;
+
+registration
+  let n;
+  cluster R-orthonormal for Subset of REAL n;
+end;
+
+definition
+  let n be Nat;
+  let B0 be Subset of REAL n;
+  attr B0 is complete means
+:: EUCLID_7:def 6
+
+  for B being R-orthonormal Subset of REAL n st B0 c= B holds B = B0;
+end;
+
+definition
+  let n be Nat, B0 be Subset of REAL n;
+  attr B0 is orthogonal_basis means
+:: EUCLID_7:def 7
+
+  B0 is R-orthonormal complete;
+end;
+
+registration
+  let n be Nat;
+  cluster orthogonal_basis -> R-orthonormal complete for Subset of REAL n;
+  cluster R-orthonormal complete -> orthogonal_basis for Subset of REAL n;
+end;
+
+theorem :: EUCLID_7:18
+  for B0 being Subset of REAL 0 st B0 is orthogonal_basis holds B0 = {};
+
+theorem :: EUCLID_7:19
+  for B0 being Subset of REAL n,y being Element of REAL n st B0 is
+  orthogonal_basis & (for x being Element of REAL n st x in B0 holds |(x,y)|=0)
+  holds y=0*n;
+
+begin :: 3. Linear Manifolds
+
+definition
+  let n;
+  let X be Subset of REAL n;
+  attr X is linear_manifold means
+:: EUCLID_7:def 8
+
+  for x, y being Element of REAL n, a,b
+  being Element of REAL st x in X & y in X holds a*x+b*y in X;
+end;
+
+registration
+  let n;
+  cluster [#](REAL n) -> linear_manifold;
+end;
+
+theorem :: EUCLID_7:20
+  { 0*n } is linear_manifold;
+
+registration
+  let n;
+  cluster { 0*n } -> linear_manifold for Subset of REAL n;
+end;
+
+definition
+  let n;
+  let X be Subset of REAL n;
+  func L_Span X -> Subset of REAL n equals
+:: EUCLID_7:def 9
+  meet {Y where Y is Subset of REAL n
+  : Y is linear_manifold & X c= Y};
+end;
+
+registration
+  let n;
+  let X be Subset of REAL n;
+  cluster L_Span X -> linear_manifold;
+end;
+
+definition
+  let n be Nat,f be FinSequence of REAL n;
+  func accum f -> FinSequence of REAL n means
+:: EUCLID_7:def 10
+  len f = len it & f.1 = it.1 &
+  for i being Nat st 1<=i & i<len f holds it.(i+1) = (it/.i) + (f/.(i+1));
+end;
+
+definition
+  let n be Nat;
+  let f be FinSequence of REAL n;
+  func Sum f -> Element of REAL n equals
+:: EUCLID_7:def 11
+    (accum f).len f if len f > 0 otherwise 0*n;
+end;
+
+theorem :: EUCLID_7:21
+  for F, F2 being FinSequence of REAL n, h being Permutation of
+  dom F st F2=F(*)h holds Sum F2=Sum F;
+
+theorem :: EUCLID_7:22
+  for k being Element of NAT holds Sum(k |-> 0*n) = 0*n;
+
+theorem :: EUCLID_7:23
+  for g being FinSequence of REAL n, h being FinSequence of NAT,F
+being FinSequence of REAL n st h is increasing & rng h c= dom g & F=g*h & (for
+i being Element of NAT st i in dom g & not i in rng h holds g.i= 0*n) holds Sum
+  g=Sum F;
+
+theorem :: EUCLID_7:24
+  for g being FinSequence of REAL n, h being FinSequence of NAT,F
+being FinSequence of REAL n st h is one-to-one & rng h c= dom g & F=g*h & (for
+i being Element of NAT st i in dom g & not i in rng h holds g.i= 0*n) holds Sum
+  g =Sum F;
+
+begin :: 4. Standard Basis
+
+definition
+  let n, i be Nat;
+  redefine func Base_FinSeq(n,i) -> Element of REAL n;
+end;
+
+theorem :: EUCLID_7:25
+  for i1,i2 being Nat st 1<=i1 & i1<=n & Base_FinSeq(n,i1)=
+  Base_FinSeq(n,i2) holds i1=i2;
+
+theorem :: EUCLID_7:26
+  sqr (Base_FinSeq(n,i)) = Base_FinSeq(n,i);
+
+theorem :: EUCLID_7:27
+  1<=i & i<=n implies Sum Base_FinSeq(n,i)= 1;
+
+theorem :: EUCLID_7:28
+  1<=i & i<=n implies |. Base_FinSeq(n,i) .| = 1;
+
+theorem :: EUCLID_7:29
+  1<=i & i<=n & i<>j implies |( Base_FinSeq(n,i),Base_FinSeq(n,j))| = 0;
+
+theorem :: EUCLID_7:30
+  for x being Element of REAL n st 1<=i & i<=n holds |( x,
+  Base_FinSeq(n,i) )| = x.i;
+
+definition
+  let n be Nat;
+  let x0 be Element of REAL n;
+  func ProjFinSeq x0 -> FinSequence of REAL n means
+:: EUCLID_7:def 12
+  len it = n & for i being Nat st 1<=i & i<=n holds
+  it.i = |( x0,Base_FinSeq(n,i) )| * Base_FinSeq(n,i);
+end;
+
+theorem :: EUCLID_7:31
+  for x0 being Element of REAL n holds x0 = Sum (ProjFinSeq x0);
+
+definition
+  let n be Nat;
+  func RN_Base n -> Subset of REAL n equals
+:: EUCLID_7:def 13
+  { Base_FinSeq(n,i) where i is
+  Element of NAT: 1<=i & i<=n };
+end;
+
+theorem :: EUCLID_7:32
+  for n being non zero Nat holds RN_Base n <> {};
+
+registration
+  cluster RN_Base 0 -> empty;
+end;
+
+registration
+  let n be non zero Nat;
+  cluster RN_Base n -> non empty;
+end;
+
+registration
+  let n;
+  cluster RN_Base n -> orthogonal_basis;
+end;
+
+registration
+  let n;
+  cluster orthogonal_basis for Subset of REAL n;
+end;
+
+definition
+  let n;
+  mode Orthogonal_Basis of n is orthogonal_basis Subset of REAL n;
+end;
+
+registration
+  let n be non zero Nat;
+  cluster -> non empty for Orthogonal_Basis of n;
+end;
+
+begin :: 5. Finite Real Unitary Spaces and Finite Real Linear Spaces
+
+registration
+  let n be Element of NAT;
+  cluster REAL-US n -> constituted-FinSeqs;
+end;
+
+registration
+  let n be Element of NAT;
+  cluster -> real-valued for Element of REAL-US n;
+end;
+
+registration
+  let n be Element of NAT;
+  let x, y be VECTOR of REAL-US n, a, b be real-valued Function;
+  identify x+y with a+b when x = a, y = b;
+end;
+
+registration
+  let n be Element of NAT,
+      x be VECTOR of REAL-US n, y be real-valued Function,
+      a, b be Element of REAL;
+  identify a*x with b(#)y when x = y, a = b;
+end;
+
+registration
+  let n be Element of NAT;
+  let x be VECTOR of REAL-US n, a be real-valued Function;
+  identify -x with -a when x = a;
+end;
+
+registration
+  let n be Element of NAT;
+  let x, y be VECTOR of REAL-US n, a, b be real-valued Function;
+  identify x-y with a-b when x = a, y = b;
+end;
+
+theorem :: EUCLID_7:33
+  for n,j being Element of NAT,
+      F being FinSequence of the carrier of REAL-US n,
+      Bn being Subset of REAL-US n, v0 being Element of REAL-US n,
+      l being Linear_Combination of Bn st
+    F is one-to-one & Bn is R-orthogonal &
+    rng F = Carrier l & v0 in Bn & j in dom (l (#) F) &
+    v0=F.j holds (Euclid_scalar n).(v0,Sum (l(#)F)) =
+    (Euclid_scalar n).(v0,(l.(F/.j))*v0);
+
+theorem :: EUCLID_7:34
+  for n being Element of NAT, f being FinSequence of REAL n, g
+  being FinSequence of the carrier of (REAL-US n) st f=g holds Sum f=Sum g;
+
+registration
+  let A be set;
+  cluster RealVectSpace(A) -> constituted-Functions;
+end;
+
+registration
+  let n;
+  cluster RealVectSpace(Seg n) -> constituted-FinSeqs;
+end;
+
+registration
+  let A be set;
+  cluster -> real-valued for Element of RealVectSpace(A);
+end;
+
+registration
+  let A be set;
+  let x, y be VECTOR of RealVectSpace(A), a, b be real-valued Function;
+  identify x+y with a+b when x = a, y = b;
+end;
+
+registration
+  let A be set;
+  let x be VECTOR of RealVectSpace(A), y be real-valued Function, a, b be
+  Element of REAL;
+  identify a*x with b(#)y when x = y, a = b;
+end;
+
+
+registration
+  let A be set;
+  let x be VECTOR of RealVectSpace(A), a be real-valued Function;
+  identify -x with -a when x = a;
+end;
+
+registration
+  let A be set;
+  let x, y be VECTOR of RealVectSpace(A), a, b be real-valued Function;
+  identify x-y with a-b when x = a, y = b;
+end;
+
+theorem :: EUCLID_7:35
+  for X being Subspace of RealVectSpace(Seg n), x being Element of
+  REAL n, a being Real st x in the carrier of X holds a*x in the carrier of X;
+
+theorem :: EUCLID_7:36
+  for X being Subspace of RealVectSpace(Seg n), x,y being Element of REAL n st
+      x in the carrier of X & y in the carrier of X holds
+      x+y in the carrier of X;
+
+theorem :: EUCLID_7:37
+  for X being Subspace of RealVectSpace(Seg n), x,y being Element of
+REAL n,a,b being Real st x in the carrier of X & y in the carrier of X holds a*
+  x+b*y in the carrier of X;
+
+theorem :: EUCLID_7:38
+  for u,v being Element of REAL n holds (Euclid_scalar n).(u,v) = |(u,v
+  )|;
+
+theorem :: EUCLID_7:39
+  for F being FinSequence of the carrier of RealVectSpace(Seg n),
+Bn being Subset of RealVectSpace(Seg n), v0 being Element of RealVectSpace(Seg
+  n),l being Linear_Combination of Bn st F is one-to-one & Bn is R-orthogonal &
+rng F = Carrier l & v0 in Bn & j in dom (l (#) F) & v0=F.j holds (Euclid_scalar
+  n).(v0,Sum (l(#)F)) = (Euclid_scalar n).(v0,(l.(F/.j))*v0);
+
+registration
+  let n;
+  cluster R-orthonormal -> linearly-independent for
+Subset of RealVectSpace(Seg n);
+end;
+
+registration
+  let n be Element of NAT;
+  cluster R-orthonormal -> linearly-independent for Subset of REAL-US n;
+end;
+
+theorem :: EUCLID_7:40
+  for Bn being Subset of RealVectSpace(Seg n), x,y being Element
+of REAL n,a being Real st Bn is linearly-independent & x in Bn & y in Bn & y=a*
+  x holds x=y;
+
+begin :: 6. Finite Dimensionality of the Spaces
+
+registration let n;
+  cluster RN_Base n -> finite;
+end;
+
+theorem :: EUCLID_7:41
+  card RN_Base n = n;
+
+theorem :: EUCLID_7:42
+  for f being FinSequence of REAL n, g being FinSequence of the
+  carrier of RealVectSpace(Seg n) st f=g holds Sum f=Sum g;
+
+theorem :: EUCLID_7:43
+  for x0 being Element of RealVectSpace(Seg n), B being Subset of
+RealVectSpace(Seg n) st B=RN_Base n holds ex l being Linear_Combination of B st
+  x0=Sum l;
+
+theorem :: EUCLID_7:44
+  for n being Element of NAT,x0 being Element of REAL-US n, B
+being Subset of REAL-US n st B=RN_Base n holds ex l being Linear_Combination of
+  B st x0=Sum l;
+
+theorem :: EUCLID_7:45
+  for B being Subset of RealVectSpace(Seg n) st B=RN_Base n holds
+  B is Basis of RealVectSpace(Seg n);
+
+registration
+  let n;
+  cluster RealVectSpace(Seg n) -> finite-dimensional;
+end;
+
+theorem :: EUCLID_7:46
+  dim (RealVectSpace(Seg n)) = n;
+
+theorem :: EUCLID_7:47
+  for B being Subset of RealVectSpace(Seg n) st B is Basis of
+  RealVectSpace(Seg n) holds card B = n;
+
+theorem :: EUCLID_7:48
+  {} is Basis of RealVectSpace(Seg 0);
+
+theorem :: EUCLID_7:49
+  for n being Element of NAT holds RN_Base n is Basis of REAL-US n;
+
+theorem :: EUCLID_7:50
+  for D being Orthogonal_Basis of n holds D is Basis of RealVectSpace(Seg n);
+
+registration
+  let n be Element of NAT;
+  cluster REAL-US n -> finite-dimensional;
+end;
+
+theorem :: EUCLID_7:51
+  for n being Element of NAT holds dim (REAL-US n) = n;
+
+theorem :: EUCLID_7:52
+  for B being Orthogonal_Basis of n holds card B = n;

@@ -1,0 +1,277 @@
+:: Function Domains and Fr{\ae}nkel Operator
+::  by Andrzej Trybulec
+::
+:: Received February 7, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, SUBSET_1, TARSKI, FUNCT_1, RELAT_1, FUNCT_2, ZFMISC_1,
+      PARTFUN1, FINSET_1, MCART_1, FINSUB_1, SETWISEO;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XTUPLE_0, MCART_1, RELAT_1,
+      FINSET_1, FINSUB_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, BINOP_1,
+      DOMAIN_1, SETWISEO;
+ constructors PARTFUN1, BINOP_1, DOMAIN_1, FINSET_1, SETWISEO, RELSET_1,
+      XTUPLE_0;
+ registrations SUBSET_1, RELAT_1, FINSET_1, FINSUB_1, RELSET_1, XTUPLE_0;
+ requirements BOOLE, SUBSET;
+
+
+begin
+
+reserve B for non empty set,
+  A,X,x for set;
+
+scheme :: FRAENKEL:sch 1
+Fraenkel59{ A() -> set, F(object) -> object, P,Q[object] } :
+  { F(v) where v is Element of A() : P[v] } c=
+   { F(u) where u is Element of A() : Q[u] }
+provided
+ for v being Element of A() holds P[v] implies Q[v];
+
+scheme :: FRAENKEL:sch 2
+  Fraenkel599 { A,B() -> set, F(object,object) -> object, P,Q[object,object] }:
+  { F(u1,v1) where u1 is Element of A(), v1 is Element of B() : P[u1,v1] } c=
+  { F(u2,v2) where u2 is Element of A(), v2 is Element of B() : Q[u2,v2] }
+provided
+ for u being (Element of A()), v being Element of B() holds P[u,v]
+implies Q[u,v];
+
+scheme :: FRAENKEL:sch 3
+  Fraenkel69{ B() -> set, F(object) -> object, P, Q[object] } :
+  { F(v1) where v1 is Element of B() : P[v1] } =
+  { F(v2) where v2 is Element of B() : Q[v2] }
+provided
+ for v being Element of B() holds P[v] iff Q[v];
+
+scheme :: FRAENKEL:sch 4
+  Fraenkel699 { A,B() -> set, F(object,object) -> object, P,Q[object,object] }:
+  { F(u1,v1) where u1 is Element of A(), v1 is Element of B() : P[u1,v1] } =
+  { F(u2,v2) where u2 is Element of A(), v2 is Element of B() : Q[u2,v2] }
+provided
+ for u being Element of A(), v being Element of B() holds P[u,v]
+iff Q[u,v];
+
+scheme :: FRAENKEL:sch 5
+  FraenkelF9{ B() -> set, F,G(object) -> object, P[object] } :
+  { F(v1) where v1 is Element of B() : P[v1] } =
+  { G(v2) where v2 is Element of B() : P[v2] }
+provided
+ for v being Element of B() holds F(v) = G(v);
+
+scheme :: FRAENKEL:sch 6
+  FraenkelF9R{ B() -> set, F,G(object) -> object, P[object] } :
+  { F(v1) where v1 is Element of B() : P[v1] } =
+  { G(v2) where v2 is Element of B() : P[v2] }
+provided
+ for v being Element of B() st P[v] holds F(v) = G(v);
+
+scheme :: FRAENKEL:sch 7
+  FraenkelF99 { A,B() -> set, F,G(object,object) -> object, P[object,object] }:
+  { F(u1,v1) where u1 is Element of A(), v1 is Element of B() : P[u1,v1] } =
+  { G(u2,v2) where u2 is Element of A(), v2 is Element of B() : P[u2,v2] }
+provided
+ for u being Element of A(), v being Element of B() holds F(u,v) = G(u,v);
+
+scheme :: FRAENKEL:sch 8
+  FraenkelF699 { A,B() -> set, F(object,object) -> object,
+  P,Q[object,object] }:
+  { F(u1,v1) where u1 is Element of A(), v1 is Element of B() : P[u1,v1] } =
+  { F(v2,u2) where u2 is Element of A(), v2 is Element of B() : Q[u2,v2] }
+provided
+ for u being Element of A(), v being Element of B() holds P[u,v]
+iff Q[u,v] and
+ for u being Element of A(), v being Element of B() holds F(u,v) = F(v,u);
+
+theorem :: FRAENKEL:1
+  for A,B being  set, F,G being Function of A,B for X
+  being set st F|X = G|X for x being Element of A st x in X holds F.x = G.x;
+
+theorem :: FRAENKEL:2
+  for A,B being set holds Funcs(A,B) c= bool [:A,B:];
+
+theorem :: FRAENKEL:3
+  for X,Y being set st Funcs(X,Y) <> {} & X c= A & Y c= B for f
+  being Element of Funcs(X,Y) holds f is PartFunc of A,B;
+
+scheme :: FRAENKEL:sch 9
+  RelevantArgs
+  { A,B,X() -> set, f,g() -> Function of A(),B(), P,Q[object] } :
+  { f().u9 where u9 is Element of A() : P[u9] & u9 in X() } =
+  { g().v9 where v9 is Element of A() : Q[v9] & v9 in X() }
+provided
+ f()|X() = g()|X() and
+ for u being Element of A() st u in X() holds P[u] iff Q[u];
+
+scheme :: FRAENKEL:sch 10
+  FrSet0{ A() -> non empty set, P[object] }:
+  { x where x is Element of A(): P[x] } c= A();
+
+scheme :: FRAENKEL:sch 11
+  Gen199{A,B() -> set, F(object,object) -> object, P[object,object],
+  Q[object] }:
+  for s being Element of A(), t being Element of B() st P[s,t] holds Q[F(s,t)]
+provided
+ for st1 being set st st1 in { F(s1,t1) where s1 is (Element of A()),
+t1 is Element of B(): P[s1,t1] } holds Q[st1];
+
+scheme :: FRAENKEL:sch 12
+  Gen199A{A,B() -> set, F(object,object) -> object, P[object,object],
+  Q[object] } :
+  for st1 being set st st1 in { F(s1,t1) where s1 is Element of A(),
+  t1 is Element of B(): P[s1,t1] } holds Q[st1]
+provided
+ for s being Element of A(), t being Element of B() st P[s,t] holds
+    Q[F(s,t)];
+
+scheme :: FRAENKEL:sch 13
+  Gen299{A,B,C() -> set, F(object,object) -> Element of C(), P[object,object],
+  Q[object] } :
+  { st1 where st1 is Element of C() :
+    st1 in { F(s1,t1) where s1 is Element of A(), t1 is Element of B() :
+       P[s1,t1] } & Q[st1] } =
+  { F(s2,t2) where s2 is Element of A(), t2 is Element of B() :
+    P[s2,t2] & Q[F(s2,t2)]};
+
+scheme :: FRAENKEL:sch 14
+  Gen39{A() -> set, F(object) -> object, P,Q[object] } :
+  { F(s) where s is Element of A() :
+  s in { s1 where s1 is Element of A(): Q[s1] } & P[s] } = {
+  F(s2) where s2 is Element of A() : Q[s2] & P[s2] };
+
+scheme :: FRAENKEL:sch 15
+  Gen399{A,B() -> set, F(object,object) -> object, P[object,object],
+  Q[object] }:
+  { F(s,t) where s is (Element of A()), t is Element of B() : s
+in { s1 where s1 is Element of A(): Q[s1] } & P[s,t] } = { F(s2,t2) where s2 is
+  (Element of A()), t2 is Element of B() : Q[s2] & P[s2,t2] };
+
+scheme :: FRAENKEL:sch 16
+  Gen499{A,B() -> set, F(object,object) -> object, P,Q[object,object] } :
+  { F(s,t) where s is (Element of A()), t is Element of B()
+: P[s,t] } c= { F(s1,t1) where s1 is (Element of A()), t1 is Element of B() : Q
+  [s1,t1] }
+provided
+ for s being (Element of A()), t being Element of B() st P[s,t] ex s9
+being Element of A() st Q[s9,t] & F(s,t) = F(s9,t);
+
+scheme :: FRAENKEL:sch 17
+  FrSet1{ D,A() -> set, P[object], F(object) -> object }:
+  { F(y) where y is Element of D() : F(y) in A() & P[y] } c= A();
+
+scheme :: FRAENKEL:sch 18
+  FrSet2{ D,A() -> set, Q[object], F(object) -> object }:
+  { F(y) where y is Element of D() : Q[y] & not F(y) in A() } misses A();
+
+scheme :: FRAENKEL:sch 19
+  FrEqua1{ A,B() -> set, F(object,object) -> object, x() -> (Element of B()),
+  P,Q[object,object] }: { F(s,t) where s is (Element of
+A()), t is Element of B(): Q[s,t] } = { F(s9,x()) where s9 is Element of A(): P
+  [s9,x()] }
+provided
+ for s being Element of A() for t being Element of B() holds Q[s,t]
+iff t = x() & P[s,t];
+
+scheme :: FRAENKEL:sch 20
+  FrEqua2{ A,B() -> set, F(object,object) -> object, x() -> (Element of B()),
+  P[object,object] }: { F(s,t) where s is (Element of A()), t is
+Element of B(): t = x() & P[s,t] } = { F(s9,x()) where s9 is Element of A(): P[
+  s9,x()] };
+
+:: dziedziny funkcji
+
+reserve phi for Element of Funcs(A,B);
+
+theorem :: FRAENKEL:4
+  for X,Y being set st Funcs(X,Y) <> {} & X c= A & Y c= B for f
+  being Element of Funcs(X,Y) ex phi being Element of Funcs(A,B) st phi|X = f;
+
+theorem :: FRAENKEL:5
+  phi|X = phi|(A /\ X);
+
+:: Zbiory skonczone
+
+scheme :: FRAENKEL:sch 21
+  FraenkelFin { A,X() -> set, F(object) -> object }:
+  { F(w) where w is Element of A(): w in X() } is finite
+provided
+ X() is finite;
+
+scheme :: FRAENKEL:sch 22
+  CartFin { A, B() -> non empty set, X, Y() -> set,
+    F(object, object) -> object }:
+  { F(u,v) where u is Element of A(), v is Element of B() :
+    u in X() & v in Y () } is finite
+provided
+ X() is finite and
+ Y() is finite;
+
+scheme :: FRAENKEL:sch 23
+  Finiteness { A()->non empty set, B()->(Element of Fin A()), P[(Element of A(
+  )), Element of A()] } : for x being Element of A() st x in B() ex y being
+Element of A() st y in B() & P[y,x] & for z being Element of A() st z in B() &
+  P[z,y] holds P[y,z]
+provided
+ for x being Element of A() holds P[x,x] and
+ for x,y,z being Element of A() st P[x,y] & P[y,z] holds P[x,z];
+
+scheme :: FRAENKEL:sch 24
+  FinIm{A,B()->non empty set, x()-> (Element of Fin B()),
+  F(object)->(Element of A()), P[object,object]}:
+  ex c1 being Element of Fin A() st for t
+being Element of A() holds t in c1 iff ex t9 being Element of B() st t9 in x()
+  & t = F(t9) & P[t,t9];
+
+registration
+  let A, B be finite set;
+  cluster Funcs(A,B) -> finite;
+end;
+
+theorem :: FRAENKEL:6
+  for A,B being set st A is finite & B is finite holds Funcs(A,B) is finite;
+
+scheme :: FRAENKEL:sch 25
+  ImFin { A() -> set, B() -> non empty set, X,Y() -> set,
+   F(object) -> object } :
+   { F(phi9) where phi9 is Element of Funcs(A(),B()): phi9.:X() c= Y() }
+   is finite
+provided
+ X() is finite and
+ Y() is finite and
+ for phi,psi being Element of Funcs(A(),B()) holds phi|X() = psi|X()
+implies F(phi) = F(psi);
+
+:: Schematy zwiazane z pewnikiem wyboru
+
+scheme :: FRAENKEL:sch 26
+  FunctChoice { A()->non empty set, B()->non empty set, P[(Element of A()),
+Element of B()], x()->Element of Fin A() }: ex ff being Function of A(), B() st
+  for t being Element of A() st t in x() holds P[t,ff.t]
+provided
+ for t being Element of A() st t in x() ex ff being Element of B() st
+P[t,ff];
+
+scheme :: FRAENKEL:sch 27
+  FuncsChoice { A()->non empty set, B()->non empty set, P[Element of A(),
+Element of B()], x()->Element of Fin A() }: ex ff being Element of Funcs(A(),B(
+  )) st for t being Element of A() st t in x() holds P[t,ff.t]
+provided
+ for t being Element of A() st t in x() ex ff being Element of B() st
+P[t,ff];
+
+scheme :: FRAENKEL:sch 28
+  FraenkelFin9 { A,B() -> non empty set, X() -> set, P[object,object] }:
+{ x where x
+  is Element of B(): ex w being Element of A() st P[w,x] & w in X() } is finite
+provided
+ X() is finite and
+ for w being Element of A(), x,y being Element of B() st P[w,x] & P[w
+,y] holds x = y;

@@ -1,0 +1,364 @@
+:: Constructing Binary {H}uffman Tree
+::  by Hiroyuki Okazaki , Yuichi Futa and Yasunari Shidama
+::
+:: Received June 18, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, FINSEQ_1, FUNCT_1, XXREAL_0, ORDINAL4,
+      RELAT_1, TREES_1, XBOOLE_0, FINSET_1, TARSKI, TREES_2, FUNCT_2, CARD_1,
+      ZFMISC_1, MCART_1, NAT_1, ARYTM_3, TREES_A, ARYTM_1, TREES_3, REAL_1,
+      BINTREE1, ORDINAL1, TREES_4, HUFFMAN1, PROB_1, RANDOM_1, UPROOTS;
+ notations TARSKI, XBOOLE_0, XTUPLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1,
+      RELSET_1, FUNCT_2, DOMAIN_1, FUNCOP_1, FINSET_1, CARD_1, NUMBERS,
+      XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, VALUED_0, XXREAL_2, FINSEQ_1,
+      TREES_1, RVSUM_1, TREES_2, TREES_3, TREES_4, PROB_1, BINTREE1, RANDOM_1;
+ constructors DOMAIN_1, XXREAL_2, RELSET_1, WELLORD2, BINTREE1, RVSUM_1,
+      RANDOM_1, ARYTM_1, TREES_4, RFINSEQ2;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, TREES_3,
+      FINSET_1, XREAL_0, NAT_1, FINSEQ_1, TREES_1, TREES_2, CARD_1, RELSET_1,
+      MEMBERED, BINTREE1, XTUPLE_0, VALUED_0, RVSUM_1, NUMBERS, FRAENKEL,
+      XXREAL_2, FUNCOP_1, TREES_4;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Constructing Binary Decoded Trees
+
+registration
+  let D be non empty set, x be Element of D;
+  cluster root-tree x -> binary;
+end;
+
+definition
+  func IndexedREAL -> set equals
+:: HUFFMAN1:def 1
+  [:NAT,REAL:];
+end;
+
+registration
+  cluster IndexedREAL -> non empty;
+end;
+
+definition
+let D be non empty set;
+func BinFinTrees D -> DTree-set of D means
+:: HUFFMAN1:def 2
+for T being DecoratedTree of D holds
+ dom T is finite & T is binary iff T in it;
+end;
+
+definition
+let D be non empty set;
+func BoolBinFinTrees D -> non empty Subset of bool BinFinTrees D equals
+:: HUFFMAN1:def 3
+{x where x is Element of bool BinFinTrees D: x is finite & x <> {} };
+end;
+
+reserve SOURCE for non empty finite set,
+ p for Probability of Trivial-SigmaField SOURCE,
+ Tseq for FinSequence of BoolBinFinTrees IndexedREAL,
+ q for FinSequence of NAT;
+
+definition
+let SOURCE,p;
+func Initial-Trees(p)
+  -> non empty finite Subset of BinFinTrees IndexedREAL equals
+:: HUFFMAN1:def 4
+{T where T is Element of FinTrees IndexedREAL :
+ T is finite binary DecoratedTree of IndexedREAL &
+ ex x be Element of SOURCE st
+ T = root-tree [ (canFS SOURCE)".x, p.{x} ] };
+end;
+
+definition
+let p be DecoratedTree of IndexedREAL;
+func Vrootr p -> Real equals
+:: HUFFMAN1:def 5
+ (p.{}) `2;
+func Vrootl p -> Nat equals
+:: HUFFMAN1:def 6
+ (p.{}) `1;
+end;
+
+definition
+let T be finite binary DecoratedTree of IndexedREAL;
+let p be Element of dom T;
+func Vtree (p) -> Real equals
+:: HUFFMAN1:def 7
+ (T.p) `2;
+end;
+
+definition
+let p,q be finite binary DecoratedTree of IndexedREAL;
+let k be Nat;
+func MakeTree (p,q,k) -> finite binary DecoratedTree of IndexedREAL equals
+:: HUFFMAN1:def 8
+ [k,(Vrootr p) +(Vrootr q)] -tree (p,q);
+end;
+
+definition
+  let X be non empty finite Subset of BinFinTrees IndexedREAL;
+  func MaxVl(X) -> Nat means
+:: HUFFMAN1:def 9
+
+ ex L be non empty finite Subset of NAT
+ st L = {Vrootl p where p is Element of BinFinTrees IndexedREAL: p in X }
+ & it = max L;
+end;
+
+theorem :: HUFFMAN1:1
+for X be non empty finite Subset of BinFinTrees IndexedREAL,
+    w be finite binary DecoratedTree of IndexedREAL st X = {w}
+holds MaxVl X = Vrootl w;
+
+theorem :: HUFFMAN1:2
+for X,Y,Z be non empty finite Subset of BinFinTrees IndexedREAL
+st Z = X \/ Y holds
+ MaxVl(Z) = max (MaxVl(X), MaxVl(Y));
+
+theorem :: HUFFMAN1:3
+for X,Z be non empty finite Subset of BinFinTrees IndexedREAL
+for Y be set st Z = X \ Y holds MaxVl(Z) <= MaxVl(X);
+
+theorem :: HUFFMAN1:4
+for X be non empty finite Subset of BinFinTrees IndexedREAL,
+p be Element of BinFinTrees IndexedREAL
+st p in X holds Vrootl p <= MaxVl(X);
+
+definition
+  let X be non empty finite Subset of BinFinTrees IndexedREAL;
+  mode MinValueTree of X -> finite binary DecoratedTree of IndexedREAL means
+:: HUFFMAN1:def 10
+
+  it in X & for q be finite binary DecoratedTree of IndexedREAL
+  st q in X holds Vrootr it <= Vrootr q;
+end;
+
+theorem :: HUFFMAN1:5
+  card (Initial-Trees(p)) = card SOURCE;
+
+theorem :: HUFFMAN1:6
+ for X be non empty finite Subset of BinFinTrees IndexedREAL,
+ s,t be finite binary DecoratedTree of IndexedREAL holds
+ not MakeTree (t,s,(MaxVl(X) + 1)) in X;
+
+definition
+let X be set;
+func LeavesSet(X) -> Subset of bool IndexedREAL equals
+:: HUFFMAN1:def 11
+ { Leaves p where p is Element of BinFinTrees IndexedREAL : p in X};
+end;
+
+theorem :: HUFFMAN1:7
+ for X be finite binary DecoratedTree of IndexedREAL
+ holds LeavesSet({X}) = {Leaves X};
+
+theorem :: HUFFMAN1:8
+ for X,Y be set
+ holds LeavesSet(X \/ Y ) = LeavesSet(X) \/ LeavesSet(Y);
+
+theorem :: HUFFMAN1:9
+ for s,t be Tree holds not {} in Leaves (tree (t,s));
+
+theorem :: HUFFMAN1:10
+ for s,t be Tree holds Leaves (tree (t,s)) =
+ {<* 0 *>^p where p is Element of t : p in Leaves t}
+ \/ {<* 1 *>^p where p is Element of s : p in Leaves s};
+
+theorem :: HUFFMAN1:11
+ for s,t be DecoratedTree, x be object,
+ q being FinSequence of NAT st q in dom t holds
+ (x-tree (t,s)). (<* 0 *>^q) = t.q;
+
+theorem :: HUFFMAN1:12
+ for s,t be DecoratedTree, x be object,
+ q being FinSequence of NAT st q in dom s holds
+ (x-tree (t,s)). (<* 1 *>^q) = s.q;
+
+theorem :: HUFFMAN1:13
+ for s,t be DecoratedTree, x be object holds
+ Leaves (x-tree (t,s)) = (Leaves t) \/ Leaves s;
+
+theorem :: HUFFMAN1:14
+ for k be Nat
+ for s,t be finite binary DecoratedTree of IndexedREAL
+ holds union LeavesSet( {s,t} ) = union LeavesSet({MakeTree (t,s,k)});
+
+theorem :: HUFFMAN1:15
+ Leaves (elementary_tree 0 ) = elementary_tree 0;
+
+theorem :: HUFFMAN1:16
+ for x be object, D be non empty set,
+ T be finite binary DecoratedTree of D st T = root-tree x holds
+ Leaves (T) = {x};
+
+begin :: Binary Huffman Tree
+
+definition
+  let SOURCE,p,Tseq,q;
+  pred Tseq,q,p is_constructingBinHuffmanTree means
+:: HUFFMAN1:def 12
+
+ Tseq.1 = Initial-Trees(p) &
+ len Tseq = card SOURCE &
+ ( for i be Nat st 1<= i & i < len Tseq
+ ex X,Y being non empty finite Subset of BinFinTrees IndexedREAL,
+    s being MinValueTree of X,
+    t being MinValueTree of Y,
+    v being finite binary DecoratedTree of IndexedREAL st
+ Tseq.i = X & Y = X \ {s} &
+ v in {MakeTree (t,s,MaxVl(X) + 1),MakeTree (s,t,MaxVl(X) + 1) } &
+ Tseq.(i+1) = (X \ {t,s} ) \/ {v}) &
+ ( ex T be finite binary DecoratedTree of IndexedREAL
+ st { T } = Tseq.(len Tseq)) &
+ dom q = Seg card SOURCE
+ & (for k be Nat st k in Seg card SOURCE
+ holds q.k = card(Tseq.k) & q.k <> 0)
+ & (for k be Nat holds (k < card SOURCE implies q.(k+1) = q.1 - k))
+ & (for k be Nat st 1<=k & k < card SOURCE holds 2 <= q.k);
+end;
+
+theorem :: HUFFMAN1:17
+ ex Tseq,q st Tseq,q,p is_constructingBinHuffmanTree;
+
+definition
+  let SOURCE,p;
+  mode BinHuffmanTree of p -> finite binary DecoratedTree of IndexedREAL means
+:: HUFFMAN1:def 13
+
+  ex Tseq being FinSequence of BoolBinFinTrees IndexedREAL,
+        q being FinSequence of NAT
+  st Tseq,q,p is_constructingBinHuffmanTree &
+  {it} = Tseq.(len Tseq);
+end;
+
+reserve T for BinHuffmanTree of p;
+
+theorem :: HUFFMAN1:18
+union LeavesSet(Initial-Trees p) = { z where z is Element of [:NAT,REAL:]
+ :ex x be Element of SOURCE st z =[(canFS SOURCE)".x,p.{x}] };
+
+theorem :: HUFFMAN1:19
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat st 1 <= i & i <= len Tseq holds
+ union LeavesSet(Tseq.i) = { z where z is Element of [:NAT,REAL:]
+ :ex x be Element of SOURCE
+ st z =[(canFS SOURCE)".x,p.{x}] };
+
+theorem :: HUFFMAN1:20
+ Leaves T ={ z where z is Element of [:NAT,REAL:]
+ :ex x be Element of SOURCE
+ st z =[(canFS SOURCE)".x,p.{x}] };
+
+theorem :: HUFFMAN1:21
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for T be finite binary DecoratedTree of IndexedREAL
+ for t,s,r be Element of dom T
+ st T in Tseq.i & t in ( dom T \ (Leaves (dom T)) )
+ & s = (t^<* 0 *> ) & r = (t^<* 1 *> ) holds
+ Vtree (t) = Vtree (s) + Vtree (r);
+
+theorem :: HUFFMAN1:22
+ for t,s,r be Element of dom T st t in ( dom T \ (Leaves (dom T)) )
+ & s = (t^<* 0 *> ) & r = (t^<* 1 *> ) holds
+ Vtree (t) = Vtree (s) + Vtree (r);
+
+theorem :: HUFFMAN1:23
+ for X be non empty finite Subset of BinFinTrees IndexedREAL st
+ for T be finite binary DecoratedTree of IndexedREAL st T in X holds
+ for p be Element of (dom T), r be Element of NAT st r = (T.p) `1
+ holds r <= MaxVl(X) holds
+ for s,t,w be finite binary DecoratedTree of IndexedREAL st
+ s in X & t in X & w= MakeTree (t,s,MaxVl(X) + 1) holds
+ for p be Element of (dom w), r be Element of NAT st r = (w.p) `1
+ holds r <= MaxVl(X)+1;
+
+theorem :: HUFFMAN1:24
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat st 1 <=i & i < len Tseq
+ for X,Y be non empty finite Subset of BinFinTrees IndexedREAL
+ st X=Tseq.i & Y = Tseq.(i+1) holds
+ MaxVl(Y)=MaxVl(X) + 1;
+
+theorem :: HUFFMAN1:25
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for X be non empty finite Subset of BinFinTrees IndexedREAL
+ st X=Tseq.i holds
+ for T be finite binary DecoratedTree of IndexedREAL st T in X holds
+ for p be Element of (dom T), r be Element of NAT
+ st r = (T.p) `1 holds r <= MaxVl(X);
+
+theorem :: HUFFMAN1:26
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for X be non empty finite Subset of BinFinTrees IndexedREAL
+ st X=Tseq.i
+ for T be finite binary DecoratedTree of IndexedREAL st T in X
+ for p be Element of (dom T), r be Element of NAT st r = (T.p) `1
+ holds r <= MaxVl(X);
+
+theorem :: HUFFMAN1:27
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for s,t be finite binary DecoratedTree of IndexedREAL
+ for X be non empty finite Subset of BinFinTrees IndexedREAL
+ st X=Tseq.i & s in X & t in X
+ for z be finite binary DecoratedTree of IndexedREAL st z in X holds
+ not [(MaxVl(X) + 1),(Vrootr t) +(Vrootr s)] in rng z;
+
+registration
+ let x be object;
+ cluster root-tree x -> one-to-one;
+end;
+
+theorem :: HUFFMAN1:28
+ for X be non empty finite Subset of BinFinTrees IndexedREAL,
+ s,t,w be finite binary DecoratedTree of IndexedREAL st
+ ( for T be finite binary DecoratedTree of IndexedREAL st T in X holds
+ for p be Element of (dom T), r be Element of NAT st r = (T.p) `1
+ holds r <= MaxVl(X) ) &
+ ( for p,q be finite binary DecoratedTree of IndexedREAL
+ st p in X & q in X & p <> q holds rng p /\ rng q = {} ) &
+ s in X & t in X & s <> t & w in X \{s,t}
+holds
+ rng (MakeTree (t,s,(MaxVl(X) + 1)) ) /\ rng w = {};
+
+theorem :: HUFFMAN1:29
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for T,S be finite binary DecoratedTree of IndexedREAL
+ st T in Tseq.i & S in Tseq.i & T <> S
+ holds rng T /\ rng S = {};
+
+theorem :: HUFFMAN1:30
+ for X be non empty finite Subset of BinFinTrees IndexedREAL,
+ s,t be finite binary DecoratedTree of IndexedREAL st
+ s is one-to-one & t is one-to-one & t in X & s in X
+ & rng s /\ rng t = {}
+ & ( for z be finite binary DecoratedTree of IndexedREAL
+ st z in X holds
+ not [(MaxVl(X) + 1),(Vrootr t) +(Vrootr s)] in rng z ) holds
+ MakeTree (t,s,(MaxVl(X) + 1)) is one-to-one;
+
+theorem :: HUFFMAN1:31
+ Tseq,q,p is_constructingBinHuffmanTree implies
+ for i be Nat
+ for T be finite binary DecoratedTree of IndexedREAL
+ st T in Tseq.i
+ holds T is one-to-one;
+
+registration
+  let SOURCE,p;
+  cluster -> one-to-one for BinHuffmanTree of p;
+end;

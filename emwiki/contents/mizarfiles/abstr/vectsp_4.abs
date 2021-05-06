@@ -1,0 +1,430 @@
+:: Subspaces and Cosets of Subspaces in Vector Space
+::  by Wojciech A. Trybulec
+::
+:: Received July 27, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies RLVECT_1, ALGSTR_0, BINOP_1, VECTSP_1, LATTICES, XBOOLE_0,
+      SUBSET_1, ARYTM_1, RELAT_1, ARYTM_3, RLSUB_1, SUPINF_2, GROUP_1,
+      STRUCT_0, TARSKI, REALSET1, ZFMISC_1, FUNCT_1, MESFUNC1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, REALSET1, FUNCT_1,
+      FUNCT_2, STRUCT_0, ALGSTR_0, DOMAIN_1, BINOP_1, RLVECT_1, GROUP_1,
+      VECTSP_1;
+ constructors PARTFUN1, BINOP_1, REALSET1, VECTSP_1, RLVECT_1, RELSET_1,
+      GROUP_1;
+ registrations XBOOLE_0, SUBSET_1, FUNCT_1, REALSET1, STRUCT_0, VECTSP_1,
+      RELAT_1, ALGSTR_0;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+reserve x,y,y1,y2 for object;
+
+definition
+  let GF be non empty multMagma;
+  let V be non empty ModuleStr over GF;
+  let V1 be Subset of V;
+  attr V1 is linearly-closed means
+:: VECTSP_4:def 1
+
+  (for v,u being Element of V st v in
+V1 & u in V1 holds v + u in V1) & for a being Element of GF, v being Element of
+  V st v in V1 holds a * v in V1;
+end;
+
+theorem :: VECTSP_4:1
+  for GF be add-associative right_zeroed right_complementable
+  Abelian associative well-unital distributive non empty doubleLoopStr, V be
+  Abelian add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital non
+empty ModuleStr over GF, V1 be Subset of V st V1 <> {} & V1 is linearly-closed
+  holds 0.V in V1;
+
+theorem :: VECTSP_4:2
+  for GF be add-associative right_zeroed right_complementable
+  Abelian associative well-unital distributive non empty doubleLoopStr, V be
+  Abelian add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital non
+  empty ModuleStr over GF, V1 be Subset of V st V1 is linearly-closed for v
+  being Element of V st v in V1 holds - v in V1;
+
+theorem :: VECTSP_4:3
+  for GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF, V1 be Subset of V st V1 is linearly-closed for v,u being
+  Element of V st v in V1 & u in V1 holds v - u in V1;
+
+theorem :: VECTSP_4:4
+  for GF be add-associative right_zeroed right_complementable
+  Abelian associative well-unital distributive non empty doubleLoopStr, V be
+  Abelian add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital non
+  empty ModuleStr over GF holds {0.V} is linearly-closed;
+
+theorem :: VECTSP_4:5
+  for GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF, V1 be Subset of V st the carrier of V = V1 holds V1 is
+  linearly-closed;
+
+theorem :: VECTSP_4:6
+  for GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF, V1,V2,V3 be Subset of V st V1 is linearly-closed & V2 is
+linearly-closed & V3 = {v + u where v is Element of V, u is Element of V : v in
+  V1 & u in V2} holds V3 is linearly-closed;
+
+theorem :: VECTSP_4:7
+  for GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF, V1,V2 be Subset of V st V1 is linearly-closed & V2 is
+  linearly-closed holds V1 /\ V2 is linearly-closed;
+
+definition
+  let GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF;
+  mode Subspace of V -> Abelian add-associative right_zeroed
+    right_complementable vector-distributive scalar-distributive
+    scalar-associative scalar-unital non empty ModuleStr over GF means
+:: VECTSP_4:def 2
+
+    the
+carrier of it c= the carrier of V & 0.it = 0.V & the addF of it = (the addF of
+V)||the carrier of it & the lmult of it = (the lmult of V) |([:the carrier of
+    GF, the carrier of it:] qua set);
+end;
+
+reserve GF for add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr,
+  V,X,Y for Abelian add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital non
+  empty ModuleStr over GF;
+reserve a for Element of GF;
+reserve u,u1,u2,v,v1,v2 for Element of V;
+reserve W,W1,W2 for Subspace of V;
+reserve V1 for Subset of V;
+reserve w,w1,w2 for Element of W;
+
+theorem :: VECTSP_4:8
+  x in W1 & W1 is Subspace of W2 implies x in W2;
+
+theorem :: VECTSP_4:9
+  x in W implies x in V;
+
+theorem :: VECTSP_4:10
+  w is Element of V;
+
+theorem :: VECTSP_4:11
+  0.W = 0.V;
+
+theorem :: VECTSP_4:12
+  0.W1 = 0.W2;
+
+theorem :: VECTSP_4:13
+  w1 = v & w2 = u implies w1 + w2 = v + u;
+
+theorem :: VECTSP_4:14
+  w = v implies a * w = a * v;
+
+theorem :: VECTSP_4:15
+  w = v implies - v = - w;
+
+theorem :: VECTSP_4:16
+  w1 = v & w2 = u implies w1 - w2 = v - u;
+
+theorem :: VECTSP_4:17
+  0.V in W;
+
+theorem :: VECTSP_4:18
+  0.W1 in W2;
+
+theorem :: VECTSP_4:19
+  0.W in V;
+
+theorem :: VECTSP_4:20
+  u in W & v in W implies u + v in W;
+
+theorem :: VECTSP_4:21
+  v in W implies a * v in W;
+
+theorem :: VECTSP_4:22
+  v in W implies - v in W;
+
+theorem :: VECTSP_4:23
+  u in W & v in W implies u - v in W;
+
+theorem :: VECTSP_4:24
+  V is Subspace of V;
+
+theorem :: VECTSP_4:25
+  for X,V being strict Abelian add-associative right_zeroed
+  right_complementable vector-distributive scalar-distributive
+  scalar-associative scalar-unital non empty ModuleStr over GF holds V is
+  Subspace of X & X is Subspace of V implies V = X;
+
+theorem :: VECTSP_4:26
+  V is Subspace of X & X is Subspace of Y implies V is Subspace of Y;
+
+theorem :: VECTSP_4:27
+  the carrier of W1 c= the carrier of W2 implies W1 is Subspace of W2;
+
+theorem :: VECTSP_4:28
+  (for v st v in W1 holds v in W2) implies W1 is Subspace of W2;
+
+registration
+  let GF be add-associative right_zeroed right_complementable Abelian
+  associative well-unital distributive non empty doubleLoopStr, V be Abelian
+  add-associative right_zeroed right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital non empty
+  ModuleStr over GF;
+  cluster strict for Subspace of V;
+end;
+
+theorem :: VECTSP_4:29
+  for W1,W2 being strict Subspace of V st the carrier of W1 = the
+  carrier of W2 holds W1 = W2;
+
+theorem :: VECTSP_4:30
+  for W1,W2 being strict Subspace of V st (for v holds v in W1 iff
+  v in W2) holds W1 = W2;
+
+theorem :: VECTSP_4:31
+  for V being strict Abelian add-associative right_zeroed
+right_complementable vector-distributive scalar-distributive
+scalar-associative scalar-unital non empty ModuleStr over GF, W being strict
+  Subspace of V holds the carrier of W = the carrier of V implies W = V;
+
+theorem :: VECTSP_4:32
+  for V being strict Abelian add-associative right_zeroed
+right_complementable vector-distributive scalar-distributive
+scalar-associative scalar-unital non empty ModuleStr over GF, W being strict
+  Subspace of V holds (for v being Element of V holds v in W) implies W = V;
+
+theorem :: VECTSP_4:33
+  the carrier of W = V1 implies V1 is linearly-closed;
+
+theorem :: VECTSP_4:34
+  V1 <> {} & V1 is linearly-closed implies ex W being strict
+  Subspace of V st V1 = the carrier of W;
+
+definition
+  let GF;
+  let V;
+  func (0).V -> strict Subspace of V means
+:: VECTSP_4:def 3
+
+  the carrier of it = {0.V};
+end;
+
+definition
+  let GF;
+  let V;
+  func (Omega).V -> strict Subspace of V equals
+:: VECTSP_4:def 4
+  the ModuleStr of V;
+end;
+
+theorem :: VECTSP_4:35
+  x in (0).V iff x = 0.V;
+
+theorem :: VECTSP_4:36
+  (0).W = (0).V;
+
+theorem :: VECTSP_4:37
+  (0).W1 = (0).W2;
+
+theorem :: VECTSP_4:38
+  (0).W is Subspace of V;
+
+theorem :: VECTSP_4:39
+  (0).V is Subspace of W;
+
+theorem :: VECTSP_4:40
+  (0).W1 is Subspace of W2;
+
+theorem :: VECTSP_4:41
+  for V being Abelian add-associative right_zeroed
+  right_complementable vector-distributive scalar-distributive
+  scalar-associative scalar-unital non empty ModuleStr over GF holds V is
+  Subspace of (Omega).V;
+
+definition
+  let GF;
+  let V;
+  let v,W;
+  func v + W -> Subset of V equals
+:: VECTSP_4:def 5
+  {v + u : u in W};
+end;
+
+definition
+  let GF;
+  let V;
+  let W;
+  mode Coset of W -> Subset of V means
+:: VECTSP_4:def 6
+
+    ex v st it = v + W;
+end;
+
+reserve B,C for Coset of W;
+
+theorem :: VECTSP_4:42
+  x in v + W iff ex u st u in W & x = v + u;
+
+theorem :: VECTSP_4:43
+  0.V in v + W iff v in W;
+
+theorem :: VECTSP_4:44
+  v in v + W;
+
+theorem :: VECTSP_4:45
+  0.V + W = the carrier of W;
+
+theorem :: VECTSP_4:46
+  v + (0).V = {v};
+
+theorem :: VECTSP_4:47
+  v + (Omega).V = the carrier of V;
+
+theorem :: VECTSP_4:48
+  0.V in v + W iff v + W = the carrier of W;
+
+theorem :: VECTSP_4:49
+  v in W iff v + W = the carrier of W;
+
+theorem :: VECTSP_4:50
+  v in W implies (a * v) + W = the carrier of W;
+
+theorem :: VECTSP_4:51
+  for GF being Field, V being VectSp of GF, a being Element of GF,
+  v being Element of V, W being Subspace of V st a <> 0.GF & (a * v) + W = the
+  carrier of W holds v in W;
+
+theorem :: VECTSP_4:52
+  for GF being Field, V being VectSp of GF, v being Element of V, W
+  being Subspace of V holds v in W iff - v + W = the carrier of W;
+
+theorem :: VECTSP_4:53
+  u in W iff v + W = (v + u) + W;
+
+theorem :: VECTSP_4:54
+  u in W iff v + W = (v - u) + W;
+
+theorem :: VECTSP_4:55
+  v in u + W iff u + W = v + W;
+
+theorem :: VECTSP_4:56
+  u in v1 + W & u in v2 + W implies v1 + W = v2 + W;
+
+theorem :: VECTSP_4:57
+  for GF being Field, V being VectSp of GF, a being Element of GF, v
+being Element of V, W being Subspace of V st a <> 1_GF & a * v in v + W holds v
+  in W;
+
+theorem :: VECTSP_4:58
+  v in W implies a * v in v + W;
+
+theorem :: VECTSP_4:59
+  v in W implies - v in v + W;
+
+theorem :: VECTSP_4:60
+  u + v in v + W iff u in W;
+
+theorem :: VECTSP_4:61
+  v - u in v + W iff u in W;
+
+theorem :: VECTSP_4:62
+  u in v + W iff ex v1 st v1 in W & u = v - v1;
+
+theorem :: VECTSP_4:63
+  (ex v st v1 in v + W & v2 in v + W) iff v1 - v2 in W;
+
+theorem :: VECTSP_4:64
+  v + W = u + W implies ex v1 st v1 in W & v + v1 = u;
+
+theorem :: VECTSP_4:65
+  v + W = u + W implies ex v1 st v1 in W & v - v1 = u;
+
+theorem :: VECTSP_4:66
+  for W1,W2 being strict Subspace of V holds v + W1 = v + W2 iff W1 = W2;
+
+theorem :: VECTSP_4:67
+  for W1,W2 being strict Subspace of V st v + W1 = u + W2 holds W1 = W2;
+
+theorem :: VECTSP_4:68
+  ex C st v in C;
+
+theorem :: VECTSP_4:69
+  C is linearly-closed iff C = the carrier of W;
+
+theorem :: VECTSP_4:70
+  for W1,W2 being strict Subspace of V, C1 being Coset of W1, C2 being
+  Coset of W2 st C1 = C2 holds W1 = W2;
+
+theorem :: VECTSP_4:71
+  {v} is Coset of (0).V;
+
+theorem :: VECTSP_4:72
+  V1 is Coset of (0).V implies ex v st V1 = {v};
+
+theorem :: VECTSP_4:73
+  the carrier of W is Coset of W;
+
+theorem :: VECTSP_4:74
+  the carrier of V is Coset of (Omega).V;
+
+theorem :: VECTSP_4:75
+  V1 is Coset of (Omega).V implies V1 = the carrier of V;
+
+theorem :: VECTSP_4:76
+  0.V in C iff C = the carrier of W;
+
+theorem :: VECTSP_4:77
+  u in C iff C = u + W;
+
+theorem :: VECTSP_4:78
+  u in C & v in C implies ex v1 st v1 in W & u + v1 = v;
+
+theorem :: VECTSP_4:79
+  u in C & v in C implies ex v1 st v1 in W & u - v1 = v;
+
+theorem :: VECTSP_4:80
+  (ex C st v1 in C & v2 in C) iff v1 - v2 in W;
+
+theorem :: VECTSP_4:81
+  u in B & u in C implies B = C;
+
+::
+::  Auxiliary theorems.
+::
+
+theorem :: VECTSP_4:82
+  for GF be add-associative right_zeroed right_complementable Abelian
+  commutative associative well-unital distributive non empty doubleLoopStr, V
+  be Abelian add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital non
+empty ModuleStr over GF, a,b being Element of GF, v being Element of V holds (
+  a - b) * v = a * v - b * v;

@@ -1,0 +1,335 @@
+:: Group of Homography in Real Projective Plane
+::  by Roland Coghetto
+:: 
+:: Received March 17, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies REAL_1, XCMPLX_0, ANPROJ_1, PENCIL_1, MCART_1, EUCLID_5,
+      ALGSTR_0, ARYTM_1, ARYTM_3, CARD_1, EUCLID, FINSEQ_1, FUNCT_1, FVSUM_1,
+      INCSP_1, MATRIX_1, NAT_1, NUMBERS, PRE_TOPC, QC_LANG1, RELAT_1, STRUCT_0,
+      SUBSET_1, SUPINF_2, TREES_1, VECTSP_1, XBOOLE_0, BINOP_1, EUCLID_8,
+      MATRIX_0, MATRIX_6, MESFUNC1, FINSEQ_2, ANPROJ_8, GROUP_1, MONOID_0,
+      ANPROJ_9;
+ notations RELSET_1, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0, FUNCT_1,
+      BINOP_1, FINSEQ_1, FINSEQ_4, PRE_TOPC, RVSUM_1, EUCLID, ANPROJ_1, TARSKI,
+      FUNCT_2, VECTSP_1, MATRIX_0, MATRIX_1, MATRIX_3, MATRIX13, FVSUM_1,
+      GROUP_1, XBOOLE_0, STRUCT_0, ALGSTR_0, RLVECT_1, COLLSP, EUCLID_8,
+      EUCLID_5, FINSEQ_2, LAPLACE, MATRIX_6, ANPROJ_8;
+ constructors RELSET_1, BINOP_2, FINSEQ_4, MONOID_0, EUCLID_5, FVSUM_1,
+      MATRIX13, EUCLID_8, LAPLACE, ANPROJ_8, MATRPROB;
+ registrations XBOOLE_0, ANPROJ_1, FUNCT_1, MATRTOP1, STRUCT_0, VECTSP_1,
+      REVROT_1, MATRIX_0, RELSET_1, XREAL_0, MEMBERED, MONOID_0, EUCLID,
+      VALUED_0, FINSEQ_1, MATRIX_6, NUMBERS, RLVECT_1;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+ reserve i,n for Nat;
+ reserve r for Real;
+ reserve ra for Element of F_Real;
+ reserve a,b,c for non zero Element of F_Real;
+ reserve u,v for Element of TOP-REAL 3;
+ reserve p1 for FinSequence of (1-tuples_on REAL);
+ reserve pf,uf for FinSequence of F_Real;
+ reserve N for Matrix of 3,F_Real;
+ reserve K for Field;
+ reserve k for Element of K;
+
+theorem :: ANPROJ_9:1
+  1.(F_Real,3) = <* <* 1,0,0 *>,
+                    <* 0,1,0 *>,
+                    <* 0,0,1 *> *>;
+
+theorem :: ANPROJ_9:2
+  ra * N = (ra * 1.(F_Real,3)) * N;
+
+theorem :: ANPROJ_9:3
+  r <> 0 & u is non zero implies r * u is non zero;
+
+theorem :: ANPROJ_9:4
+  for a11,a12,a13,a21,a22,a23,a31,a32,a33 being Element of F_Real
+  for A being Matrix of 3,F_Real st
+  A = <* <* a11,a12,a13 *>, <* a21,a22,a23 *>, <* a31,a32,a33 *> *> holds
+  Line(A,1) = <* a11,a12,a13 *> & Line(A,2) = <* a21,a22,a23 *> &
+  Line(A,3) = <* a31,a32,a33 *>;
+
+theorem :: ANPROJ_9:5
+  for a11,a12,a13,a21,a22,a23,a31,a32,a33 being Element of F_Real
+  for A being Matrix of 3,F_Real st
+  A = <* <* a11,a12,a13 *>, <* a21,a22,a23 *>, <* a31,a32,a33 *> *>
+  holds
+  Col(A,1) = <* a11,a21,a31 *> & Col(A,2) = <* a12,a22,a32 *> &
+  Col(A,3) = <* a13,a23,a33 *>;
+
+theorem :: ANPROJ_9:6
+  for a11,a12,a13,a21,a22,a23,a31,a32,a33,
+      b11,b12,b13,b21,b22,b23,b31,b32,b33 being Element of F_Real
+  for A,B being Matrix of 3,F_Real st
+  A = <* <* a11,a12,a13 *>,
+         <* a21,a22,a23 *>,
+         <* a31,a32,a33 *> *> &
+  B = <* <* b11,b12,b13 *>,
+         <* b21,b22,b23 *>,
+         <* b31,b32,b33 *> *> holds
+  A * B = <* <* a11 * b11 + a12 * b21 + a13 * b31, a11 * b12 +
+    a12 * b22 + a13 * b32, a11 * b13 + a12 * b23 + a13 * b33 *>,
+             <* a21 * b11 + a22 * b21 + a23 * b31, a21 * b12 +
+    a22 * b22 + a23 * b32, a21 * b13 + a22 * b23 + a23 * b33 *>,
+             <* a31 * b11 + a32 * b21 + a33 * b31, a31 * b12 +
+    a32 * b22 + a33 * b32, a31 * b13 + a32 * b23 + a33 * b33 *> *>;
+
+theorem :: ANPROJ_9:7
+  for a11,a12,a13,a21,a22,a23,a31,a32,a33,b1,b2,b3 being Element of F_Real
+  for A being Matrix of 3,3,F_Real for B being Matrix of 3,1,F_Real st
+  A = <* <* a11,a12,a13 *>,
+         <* a21,a22,a23 *>,
+         <* a31,a32,a33 *> *> &
+  B = <* <* b1 *>, <* b2 *>, <* b3 *> *> holds
+  A * B = <* <* a11 * b1 + a12 * b2 + a13 * b3 *>,
+             <* a21 * b1 + a22 * b2 + a23 * b3 *>,
+             <* a31 * b1 + a32 * b2 + a33 * b3 *> *>;
+
+theorem :: ANPROJ_9:8
+  for a,b,c being non zero Element of F_Real
+  for M1,M2 being Matrix of 3,F_Real st
+  M1 = <* <* a,0,0 *>,
+          <* 0,b,0 *>,
+          <* 0,0,c *> *> &
+  M2 = <* <* 1/a,0,0 *>,
+          <* 0,1/b,0 *>,
+          <* 0,0,1/c *> *>
+  holds M1 * M2 = 1.(F_Real,3) & M2 * M1 = 1.(F_Real,3);
+
+theorem :: ANPROJ_9:9
+  for a,b,c being non zero Element of F_Real holds
+  <* <* a,0,0 *>,
+     <* 0,b,0 *>,
+     <* 0,0,c *> *> is invertible Matrix of 3,F_Real;
+
+theorem :: ANPROJ_9:10
+  |[1,0,0]| is non zero &
+  |[0,1,0]| is non zero &
+  |[0,0,1]| is non zero &
+  |[1,1,1]| is non zero;
+
+theorem :: ANPROJ_9:11
+  |[1,0,0]| <> 0.TOP-REAL 3 &
+  |[0,1,0]| <> 0.TOP-REAL 3 &
+  |[0,0,1]| <> 0.TOP-REAL 3 &
+  |[1,1,1]| <> 0.TOP-REAL 3;
+
+theorem :: ANPROJ_9:12
+  <e1> <> 0.TOP-REAL 3 &
+  <e2> <> 0.TOP-REAL 3 &
+  <e3> <> 0.TOP-REAL 3;
+
+begin
+
+registration
+  let n be Nat;
+  cluster 1.(F_Real,n) -> invertible;
+end;
+
+registration
+  let n be Nat;
+  let M be invertible Matrix of n,F_Real;
+  cluster M~ -> invertible;
+end;
+
+registration
+  let n be Nat;
+  let K be Field;
+  let N1,N2 be invertible Matrix of n,K;
+  cluster N1 * N2 -> invertible;
+end;
+
+begin :: Group of homography
+
+ reserve N,N1,N2 for invertible Matrix of 3,F_Real;
+ reserve P,P1,P2,P3 for Point of ProjectiveSpace TOP-REAL 3;
+
+theorem :: ANPROJ_9:13
+  (homography(N1)).((homography(N2)).P) = (homography(N1 * N2)).P;
+
+theorem :: ANPROJ_9:14
+  (homography(1.(F_Real,3))).P = P;
+
+theorem :: ANPROJ_9:15
+  (homography(N)).((homography(N~)).P) = P &
+  (homography(N~)).((homography(N)).P) = P;
+
+theorem :: ANPROJ_9:16
+  (homography(N)).P1 = (homography(N)).P2 implies P1 = P2;
+
+theorem :: ANPROJ_9:17
+  for a being non zero Element of F_Real st
+  a * 1.(F_Real,3) = N holds (homography(N)).P = P;
+
+definition
+  func EnsHomography3 -> set equals
+:: ANPROJ_9:def 1
+    the set of all homography(N) where N is invertible Matrix of 3,F_Real;
+end;
+
+registration
+  cluster EnsHomography3 -> non empty;
+end;
+
+definition
+  let h1,h2 be Element of EnsHomography3;
+  func h1 (*) h2 -> Element of EnsHomography3 means
+:: ANPROJ_9:def 2
+
+  ex N1,N2 being invertible Matrix of 3,F_Real st h1 = homography(N1) &
+    h2 = homography(N2) & it = homography(N1 * N2);
+end;
+
+theorem :: ANPROJ_9:18
+  for h1,h2 being Element of EnsHomography3 st
+  h1 = homography(N1) & h2 = homography(N2) holds
+  homography(N1 * N2) = h1 (*) h2;
+
+theorem :: ANPROJ_9:19
+  for x,y,z being Element of EnsHomography3 holds
+  (x (*) y) (*) z = x (*) (y (*) z);
+
+definition
+  func BinOpHomography3 -> BinOp of EnsHomography3 means
+:: ANPROJ_9:def 3
+
+  for h1,h2 being Element of EnsHomography3 holds it.(h1,h2) = h1 (*) h2;
+end;
+
+definition
+  func GroupHomography3 -> strict multMagma equals
+:: ANPROJ_9:def 4
+  multMagma(# EnsHomography3, BinOpHomography3 #);
+end;
+
+registration
+  cluster GroupHomography3 -> non empty associative Group-like;
+ end;
+
+theorem :: ANPROJ_9:20
+  1_GroupHomography3 = homography(1.(F_Real,3));
+
+theorem :: ANPROJ_9:21
+  for h,g being Element of GroupHomography3
+  for N,Ng being invertible Matrix of 3,F_Real st
+  h = homography(N) & g = homography(Ng) & Ng = N~
+  holds g = h";
+
+begin
+
+definition
+  func Dir100 -> Point of ProjectiveSpace TOP-REAL 3 equals
+:: ANPROJ_9:def 5
+Dir |[1,0,0]|;
+  func Dir010 -> Point of ProjectiveSpace TOP-REAL 3 equals
+:: ANPROJ_9:def 6
+Dir |[0,1,0]|;
+  func Dir001 -> Point of ProjectiveSpace TOP-REAL 3 equals
+:: ANPROJ_9:def 7
+Dir |[0,0,1]|;
+  func Dir111 -> Point of ProjectiveSpace TOP-REAL 3 equals
+:: ANPROJ_9:def 8
+Dir |[1,1,1]|;
+end;
+
+theorem :: ANPROJ_9:22
+  Dir100 <> Dir010 &
+  Dir100 <> Dir001 &
+  Dir100 <> Dir111 &
+  Dir010 <> Dir001 &
+  Dir010 <> Dir111 &
+  Dir001 <> Dir111;
+
+registration
+  let a be non zero Element of F_Real;
+  let N;
+  cluster a * N -> invertible for Matrix of 3,F_Real;
+end;
+
+theorem :: ANPROJ_9:23
+  for a being non zero Element of F_Real
+  holds (homography(a*N1)).P = (homography(N1)).P;
+
+theorem :: ANPROJ_9:24
+  not P1,P2,P3 are_collinear implies
+  ex N being invertible Matrix of 3,F_Real st
+  (homography(N)).P1 = Dir100 &
+  (homography(N)).P2 = Dir010 &
+  (homography(N)).P3 = Dir001;
+
+theorem :: ANPROJ_9:25
+  for a,b,c being non zero Element of F_Real st
+  N = <* <* a,0,0 *>,
+         <* 0,b,0 *>,
+         <* 0,0,c *> *> holds
+  (homography(N)).Dir100 = Dir100 &
+  (homography(N)).Dir010 = Dir010 &
+  (homography(N)).Dir001 = Dir001;
+
+theorem :: ANPROJ_9:26
+  for P being Point of ProjectiveSpace TOP-REAL 3
+  ex a,b,c being Element of F_Real st P = Dir |[a,b,c]| &
+  (a <> 0 or b <> 0 or c <> 0);
+
+theorem :: ANPROJ_9:27
+  for P being Point of ProjectiveSpace TOP-REAL 3 st
+  not (Dir100,Dir010,P are_collinear) &
+  not (Dir100,Dir001,P are_collinear) &
+  not (Dir010,Dir001,P are_collinear) holds
+  ex a,b,c being non zero Element of F_Real st P = Dir |[a,b,c]|;
+
+theorem :: ANPROJ_9:28
+  for a,b,c,ia,ib,ic being non zero Element of F_Real
+  for P being Point of ProjectiveSpace TOP-REAL 3
+  for N being invertible Matrix of 3,F_Real
+  st P = Dir |[a,b,c]| &
+  ia = 1/a & ib = 1/b & ic = 1/c &
+  N = <* <* ia,0,0 *>,
+         <* 0,ib,0 *>,
+         <* 0,0,ic *> *>
+  holds (homography(N)).P = Dir |[1,1,1]|;
+
+theorem :: ANPROJ_9:29
+  for P being Point of ProjectiveSpace TOP-REAL 3 st
+  not (Dir100,Dir010,P are_collinear) &
+  not (Dir100,Dir001,P are_collinear) &
+  not (Dir010,Dir001,P are_collinear) holds
+  ex a,b,c being non zero Element of F_Real st
+  for N being invertible Matrix of 3,F_Real st
+  N = <* <* a,0,0 *>,
+         <* 0,b,0 *>,
+         <* 0,0,c *> *> holds
+  (homography(N)).P = Dir111;
+
+theorem :: ANPROJ_9:30
+  for P1,P2,P3,P4 being Point of ProjectiveSpace TOP-REAL 3 st
+  not (P1,P2,P3 are_collinear) & not (P1,P2,P4 are_collinear) &
+  not (P1,P3,P4 are_collinear) & not (P2,P3,P4 are_collinear) holds
+  ex N being invertible Matrix of 3,F_Real st
+  (homography(N)).P1 = Dir100 & (homography(N)).P2 = Dir010 &
+  (homography(N)).P3 = Dir001 & (homography(N)).P4 = Dir111;
+
+theorem :: ANPROJ_9:31
+  for P1,P2,P3,P4,Q1,Q2,Q3,Q4 being Point of ProjectiveSpace TOP-REAL 3 st
+  not (P1,P2,P3 are_collinear) & not (P1,P2,P4 are_collinear) &
+  not (P1,P3,P4 are_collinear) & not (P2,P3,P4 are_collinear) &
+  not (Q1,Q2,Q3 are_collinear) & not (Q1,Q2,Q4 are_collinear) &
+  not (Q1,Q3,Q4 are_collinear) & not (Q2,Q3,Q4 are_collinear) holds
+  ex N being invertible Matrix of 3,F_Real st
+  (homography(N)).P1 = Q1 & (homography(N)).P2 = Q2 &
+  (homography(N)).P3 = Q3 & (homography(N)).P4 = Q4;

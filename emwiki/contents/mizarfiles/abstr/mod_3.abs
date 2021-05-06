@@ -1,0 +1,151 @@
+:: Free Modules
+::  by Michal Muzalewski
+::
+:: Received October 18, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FUNCSDOM, VECTSP_1, ARYTM_1, SUPINF_2, STRUCT_0, RLVECT_1,
+      ALGSTR_0, XBOOLE_0, MESFUNC1, VECTSP_2, RLVECT_2, FINSEQ_1, FINSET_1,
+      SUBSET_1, TARSKI, FUNCT_1, RELAT_1, CARD_3, VALUED_1, ARYTM_3, RLVECT_3,
+      RLSUB_1, FUNCT_2, PRELAMB, ZFMISC_1, ORDINAL1, ORDERS_1, MOD_3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, FINSET_1, FINSEQ_1,
+      RELAT_1, FUNCT_1, ORDERS_1, DOMAIN_1, STRUCT_0, ALGSTR_0, PARTFUN1,
+      FUNCT_2, GROUP_1, RLVECT_1, VECTSP_1, VECTSP_2, VECTSP_4, VECTSP_5,
+      VECTSP_6, VECTSP_7;
+ constructors ORDERS_1, PARTFUN1, REALSET1, VECTSP_5, VECTSP_6, RELSET_1,
+      VECTSP_7, GROUP_1;
+ registrations SUBSET_1, RELSET_1, FINSET_1, STRUCT_0, VECTSP_1, VECTSP_2,
+      VECTSP_4, ORDINAL1, VECTSP_7;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+theorem :: MOD_3:1
+  for R being non degenerated add-associative right_zeroed
+  right_complementable non empty doubleLoopStr holds 0.R <> -1.R;
+
+reserve x,y for object,
+  R for Ring,
+  V for LeftMod of R,
+  L for Linear_Combination of V,
+  a for Scalar of R,
+  v,u for Vector of V,
+  F,G for FinSequence of the carrier of V,
+  C for finite Subset of V;
+reserve X,Y,Z for set,
+  A,B for Subset of V,
+  T for finite Subset of V,
+  l for Linear_Combination of A,
+  f,g for Function of the carrier of V,the carrier of R;
+
+theorem :: MOD_3:2
+  Carrier(L) c= C implies ex F st F is one-to-one & rng F = C & Sum
+  (L) = Sum(L (#) F);
+
+theorem :: MOD_3:3
+  Sum(a * L) = a * Sum(L);
+
+theorem :: MOD_3:4
+  x in Lin(A) iff ex l st x = Sum(l);
+
+theorem :: MOD_3:5
+  x in A implies x in Lin(A);
+
+theorem :: MOD_3:6
+  Lin({}(the carrier of V)) = (0).V;
+
+theorem :: MOD_3:7
+  Lin(A) = (0).V implies A = {} or A = {0.V};
+
+theorem :: MOD_3:8
+  for R being non degenerated Ring,
+      V being LeftMod of R,
+      A being Subset of V
+  for W being strict Subspace of V st A = the carrier of W
+  holds Lin(A) = W;
+
+theorem :: MOD_3:9
+  for R being non degenerated Ring
+  for V being strict LeftMod of R
+  for A being Subset of V st A = the carrier of V holds
+    Lin(A) = V;
+
+theorem :: MOD_3:10
+  A c= B implies Lin(A) is Subspace of Lin(B);
+
+theorem :: MOD_3:11
+  Lin(A) = V & A c= B implies Lin(B) = V;
+
+theorem :: MOD_3:12
+  Lin(A \/ B) = Lin(A) + Lin(B);
+
+theorem :: MOD_3:13
+  Lin(A /\ B) is Subspace of Lin(A) /\ Lin(B);
+
+theorem :: MOD_3:14
+  (0).V is free;
+
+registration
+  let R;
+  cluster strict free for LeftMod of R;
+end;
+
+reserve R for Skew-Field;
+reserve a,b for Scalar of R;
+reserve V for LeftMod of R;
+reserve v,v1,v2,u for Vector of V;
+reserve f for Function of the carrier of V, the carrier of R;
+
+theorem :: MOD_3:15
+  {v} is linearly-independent iff v <> 0.V;
+
+theorem :: MOD_3:16
+  v1 <> v2 & {v1,v2} is linearly-independent iff v2 <> 0.V &
+    for a holds v1 <> a * v2;
+
+theorem :: MOD_3:17
+  v1 <> v2 & {v1,v2} is linearly-independent iff for a,b st a * v1 + b *
+  v2 = 0.V holds a = 0.R & b = 0.R;
+
+theorem :: MOD_3:18
+  for V being LeftMod of R for A being Subset of V st
+  A is linearly-independent holds
+  ex B being Subset of V st A c= B & B is base;
+
+theorem :: MOD_3:19
+  for R being almost_left_invertible non degenerated Ring
+  for V being LeftMod of R for A being Subset of V st
+  Lin(A) = V holds ex B being Subset of V st B c= A & B is base;
+
+registration
+  let R be non degenerated almost_left_invertible Ring;
+  let V be LeftMod of R;
+  cluster base for Subset of V;
+end;
+
+theorem :: MOD_3:20
+  for V being LeftMod of R holds V is free;
+
+registration let R;
+  cluster -> free for LeftMod of R;
+end;
+
+theorem :: MOD_3:21
+  for R being non degenerated almost_left_invertible Ring
+  for V being LeftMod of R for A being Subset of V st
+  A is linearly-independent holds ex I being Basis of V st A c= I;
+
+theorem :: MOD_3:22
+  for V being LeftMod of R for A being Subset of V st Lin(A) = V
+  holds ex I being Basis of V st I c= A;

@@ -1,0 +1,536 @@
+:: Cardinal Numbers
+::  by Grzegorz Bancerek
+::
+:: Received September 19, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ORDINAL1, RELAT_1, FUNCT_1, XBOOLE_0, TARSKI, WELLORD1, WELLORD2,
+      ZFMISC_1, ORDINAL2, FUNCOP_1, FINSET_1, SUBSET_1, MCART_1, CARD_1,
+      BSPACE, NAT_1, XCMPLX_0, FUNCT_4, QUANTAL1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, ENUMSET1, XTUPLE_0,
+      MCART_1, FUNCT_1, FUNCOP_1, WELLORD1, ORDINAL1, ORDINAL2, WELLORD2,
+      FINSET_1, FUNCT_4;
+ constructors ENUMSET1, WELLORD1, WELLORD2, FUNCOP_1, ORDINAL2, FINSET_1,
+      XTUPLE_0, FUNCT_4;
+ registrations XBOOLE_0, SUBSET_1, FUNCT_1, ORDINAL1, FUNCOP_1, FINSET_1,
+      ZFMISC_1, XTUPLE_0, FUNCT_4;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin
+
+reserve A,B,C for Ordinal,
+  X,X1,Y,Y1,Z for set,a,b,b1,b2,x,y,z for object,
+  R for Relation,
+  f,g,h for Function,
+  k,m,n for Nat;
+
+definition
+  let IT be object;
+  attr IT is cardinal means
+:: CARD_1:def 1
+
+  ex B st IT = B & for A st A,B are_equipotent holds B c= A;
+end;
+
+registration
+  cluster cardinal for set;
+end;
+
+definition
+  mode Cardinal is cardinal set;
+end;
+
+registration
+  cluster cardinal -> ordinal for set;
+end;
+
+reserve M,N for Cardinal;
+
+::$CT
+
+theorem :: CARD_1:2
+  M,N are_equipotent implies M = N;
+
+theorem :: CARD_1:3
+  M in N iff M c= N & M <> N;
+
+theorem :: CARD_1:4
+  M in N iff not N c= M;
+
+definition
+  let X;
+  func card X -> Cardinal means
+:: CARD_1:def 2
+
+    X, it are_equipotent;
+  projectivity;
+end;
+
+registration let C be Cardinal;
+ reduce card C to C;
+end;
+
+registration
+  cluster empty -> cardinal for set;
+end;
+
+registration
+  let X be empty set;
+  cluster card X -> empty;
+end;
+
+registration
+  let X be empty set;
+  cluster card X -> zero;
+end;
+
+registration
+  let X be non empty set;
+  cluster card X -> non empty;
+end;
+
+registration
+  let X be non empty set;
+  cluster card X -> non zero;
+end;
+
+theorem :: CARD_1:5
+  X,Y are_equipotent iff card X = card Y;
+
+theorem :: CARD_1:6
+  R is well-ordering implies field R,order_type_of R
+  are_equipotent;
+
+theorem :: CARD_1:7
+  X c= M implies card X c= M;
+
+theorem :: CARD_1:8
+  card A c= A;
+
+theorem :: CARD_1:9
+  X in M implies card X in M;
+
+::$N Cantor-Bernstein Theorem
+theorem :: CARD_1:10
+  card X c= card Y iff ex f st f is one-to-one & dom f = X & rng f c= Y;
+
+theorem :: CARD_1:11
+  X c= Y implies card X c= card Y;
+
+theorem :: CARD_1:12
+  card X c= card Y iff ex f st dom f = Y & X c= rng f;
+
+theorem :: CARD_1:13
+  not X,bool X are_equipotent;
+
+::$N Cantor Theorem
+theorem :: CARD_1:14
+  card X in card bool X;
+
+definition
+  let X;
+  func nextcard X -> Cardinal means
+:: CARD_1:def 3
+
+  card X in it & for M st card X in M holds it c= M;
+end;
+
+theorem :: CARD_1:15
+  {} in nextcard X;
+
+theorem :: CARD_1:16
+  card X = card Y implies nextcard X = nextcard Y;
+
+theorem :: CARD_1:17
+  X,Y are_equipotent implies nextcard X = nextcard Y;
+
+theorem :: CARD_1:18
+  A in nextcard A;
+
+reserve S for Sequence;
+
+definition
+  let M;
+  attr M is limit_cardinal means
+:: CARD_1:def 4
+
+  not ex N st M = nextcard N;
+end;
+
+definition
+  let A;
+  func aleph A -> set means
+:: CARD_1:def 5
+
+  ex S st it = last S & dom S = succ A & S.0 = card omega &
+  (for B st succ B in succ A holds S.succ B = nextcard(S.B)) &
+  for B st B in succ A & B <> 0 & B is limit_ordinal holds S.B = card sup(S|B);
+end;
+
+registration
+  let A;
+  cluster aleph A -> cardinal;
+end;
+
+theorem :: CARD_1:19
+  aleph succ A = nextcard aleph A;
+
+theorem :: CARD_1:20
+  A <> {} & A is limit_ordinal implies for S st dom S = A & for B st B
+  in A holds S.B = aleph B holds aleph A = card sup S;
+
+theorem :: CARD_1:21
+  A in B iff aleph A in aleph B;
+
+theorem :: CARD_1:22
+  aleph A = aleph B implies A = B;
+
+theorem :: CARD_1:23
+  A c= B iff aleph A c= aleph B;
+
+theorem :: CARD_1:24
+  X c= Y & Y c= Z & X,Z are_equipotent implies X,Y are_equipotent & Y,Z
+  are_equipotent;
+
+theorem :: CARD_1:25
+  bool Y c= X implies card Y in card X & not Y,X are_equipotent;
+
+theorem :: CARD_1:26
+  X,{} are_equipotent implies X = {};
+
+theorem :: CARD_1:27
+ card {} = 0;
+
+theorem :: CARD_1:28
+ for x being object  holds
+  X,{x} are_equipotent iff ex x being object st X = { x };
+
+theorem :: CARD_1:29
+ for x being object holds
+  card X = card { x } iff ex x being object st X = { x };
+
+theorem :: CARD_1:30
+ for x being object holds card { x } = 1;
+
+theorem :: CARD_1:31
+  X misses X1 & Y misses Y1 & X,Y are_equipotent & X1,Y1
+  are_equipotent implies X \/ X1,Y \/ Y1 are_equipotent;
+
+theorem :: CARD_1:32
+  x in X & y in X implies X \ { x },X \ { y } are_equipotent;
+
+theorem :: CARD_1:33
+  X c= dom f & f is one-to-one implies X,f.:X are_equipotent;
+
+theorem :: CARD_1:34
+  X,Y are_equipotent & x in X & y in Y implies X \ { x },Y \ { y }
+  are_equipotent;
+
+theorem :: CARD_1:35
+  succ X, succ Y are_equipotent implies X, Y are_equipotent;
+
+theorem :: CARD_1:36
+  n = {} or ex m st n = succ m;
+
+theorem :: CARD_1:37
+  x in omega implies x is cardinal;
+
+registration
+  cluster natural -> cardinal for number;
+end;
+
+theorem :: CARD_1:38
+  X,Y are_equipotent & X is finite implies Y is finite;
+
+theorem :: CARD_1:39
+  n is finite & card n is finite;
+
+theorem :: CARD_1:40
+  card n = card m implies n = m;
+
+theorem :: CARD_1:41
+  card n c= card m iff n c= m;
+
+theorem :: CARD_1:42
+  card n in card m iff n in m;
+
+::$CT
+
+theorem :: CARD_1:44
+  nextcard card n = card succ n;
+
+:: definition
+::   let n be Nat;
+::   redefine func succ n -> Element of omega;
+::   coherence by ORDINAL1:def 12;
+:: end;
+
+definition
+  let X be finite set;
+  redefine func card X -> Element of omega;
+end;
+
+theorem :: CARD_1:45
+  X is finite implies nextcard X is finite;
+
+scheme :: CARD_1:sch 1
+  CardinalInd { Sigma[set] }: for M holds Sigma[M]
+provided
+ Sigma[{}] and
+ for M st Sigma[M] holds Sigma[nextcard M] and
+ for M st M <> {} & M is limit_cardinal & for N st N in M holds Sigma
+[N] holds Sigma[M];
+
+scheme :: CARD_1:sch 2
+  CardinalCompInd { Sigma[set] }: for M holds Sigma[M]
+provided
+ for M st for N st N in M holds Sigma[N] holds Sigma[M];
+
+theorem :: CARD_1:46
+  aleph 0 = omega;
+
+registration
+  cluster omega -> cardinal for number;
+end;
+
+theorem :: CARD_1:47
+  card omega = omega;
+
+registration
+  cluster omega -> limit_cardinal;
+end;
+
+registration
+  cluster -> finite for Element of omega;
+end;
+
+registration
+  cluster finite for Cardinal;
+end;
+
+theorem :: CARD_1:48
+  for M being finite Cardinal ex n st M = card n;
+
+registration
+  let X be finite set;
+  cluster card X -> finite;
+end;
+
+registration
+  cluster omega -> infinite;
+end;
+
+registration
+  cluster infinite for set;
+end;
+
+registration
+  let X be infinite set;
+  cluster card X -> infinite;
+end;
+
+begin :: The meaning of numerals, 2006.08.25
+
+theorem :: CARD_1:49
+  1 = { 0 };
+
+theorem :: CARD_1:50
+  2 = { 0,1 };
+
+theorem :: CARD_1:51
+  3 = { 0,1,2 };
+
+theorem :: CARD_1:52
+  4 = { 0,1,2,3 };
+
+theorem :: CARD_1:53
+  5 = { 0,1,2,3,4 };
+
+theorem :: CARD_1:54
+  6 = { 0,1,2,3,4,5 };
+
+theorem :: CARD_1:55
+  7 = { 0,1,2,3,4,5,6 };
+
+theorem :: CARD_1:56
+  8 = { 0,1,2,3,4,5,6,7 };
+
+theorem :: CARD_1:57
+  9 = { 0,1,2,3,4,5,6,7,8 };
+
+theorem :: CARD_1:58
+  10 = { 0,1,2,3,4,5,6,7,8,9 };
+
+:: Moved from FRECHET2 by AK on 27.12.2006
+
+theorem :: CARD_1:59
+  for f being Function st dom f is infinite & f is one-to-one holds rng
+  f is infinite;
+
+:: from ALGSEQ_1, 2007.03.18, A.T.
+
+reserve k,n,m for Nat;
+
+registration
+ cluster non zero natural for object;
+ cluster non zero for Nat;
+end;
+
+registration let n be non zero natural Number;
+ cluster Segm n -> non empty;
+end;
+
+reserve l for Element of omega;
+
+definition
+  let n be natural Number;
+  redefine func Segm n -> Subset of omega;
+end;
+
+:: from CARD_4, 2007.08.16, A.T.
+
+theorem :: CARD_1:60
+  A,n are_equipotent implies A = n;
+
+theorem :: CARD_1:61
+  A is finite iff A in omega;
+
+registration
+  cluster natural -> finite for set;
+end;
+
+:: from CARD_4, CARD_5 etc. 2008.02.21, A.T.
+
+registration
+  let A be infinite set;
+  cluster bool A -> infinite;
+  let B be non empty set;
+  cluster [:A,B:] ->infinite;
+  cluster [:B,A:] ->infinite;
+end;
+
+registration
+  let X be infinite set;
+  cluster infinite for Subset of X;
+end;
+
+:: from NECKLA_2, 2008.06.28, A.T.
+
+registration
+  cluster finite ordinal -> natural for number;
+end;
+
+theorem :: CARD_1:62
+  for f being Function holds card f = card dom f;
+
+registration
+  let X be finite set;
+  cluster RelIncl X -> finite;
+end;
+
+:: from AMISTD_2, 2010.01.10, A.T
+
+theorem :: CARD_1:63
+  RelIncl X is finite implies X is finite;
+
+theorem :: CARD_1:64
+ card(k -->x) = k;
+
+begin :: n-element set, 2010.11.17, A.T.
+
+definition
+::$CD
+ let N be object, X be set;
+ attr X is N-element means
+:: CARD_1:def 7
+ card X = N;
+end;
+
+registration let N be Cardinal;
+ cluster N-element for set;
+end;
+
+registration
+ cluster 0-element -> empty for set;
+ cluster empty -> 0-element for set;
+end;
+
+registration let x be object;
+ cluster {x} -> 1-element;
+end;
+
+registration let N be Cardinal;
+ cluster N-element for Function;
+end;
+
+registration let N be Cardinal; let f be N-element Function;
+ cluster dom f -> N-element;
+end;
+
+registration
+ cluster 1-element -> trivial non empty for set;
+ cluster trivial non empty -> 1-element for set;
+end;
+
+registration let X be non empty set;
+ cluster 1-element for Subset of X;
+end;
+
+definition let X be non empty set;
+ mode Singleton of X is 1-element Subset of X;
+end;
+
+theorem :: CARD_1:65
+ for X being non empty set, A being Singleton of X
+  ex x being Element of X st A = {x};
+
+theorem :: CARD_1:66
+  card X c= card Y iff ex f st X c= f.:Y;
+
+theorem :: CARD_1:67
+  card (f.:X) c= card X;
+
+theorem :: CARD_1:68
+  card X in card Y implies Y \ X <> {};
+
+theorem :: CARD_1:69
+ for x being object holds
+  X,[:X,{x}:] are_equipotent & card X = card [:X,{x}:];
+
+:: from POLYFORM, 2011.07.25, A.T.
+
+theorem :: CARD_1:70
+  for f being Function st f is one-to-one holds card dom f = card rng f;
+
+registration
+  let F be non trivial set;
+  let A be Singleton of F;
+  cluster F\A -> non empty;
+end;
+
+registration let k be non empty Cardinal;
+ cluster k-element -> non empty for set;
+end;
+
+registration let k be natural Number;
+ cluster Segm k -> finite;
+end;
+
+theorem :: CARD_1:71
+ for f being Function, x,y being object
+ holds card(f+~(x,y)) = card f;
+
+registration let n be non zero natural Number;
+ cluster Segm n -> with_zero;
+end;

@@ -1,0 +1,247 @@
+:: On the Composition of non-parahalting Macro Instructions
+::  by Piotr Rudnicki
+::
+:: Received June 3, 1998
+:: Copyright (c) 1998-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies AMI_1, SCMFSA_2, SCMFSA7B, SCMFSA6A, SF_MASTR, GRAPHSP, AMI_3,
+      SCMFSA6B, AOFA_I00, SCMFSA8C, CARD_1, AMISTD_2, RELAT_1, TARSKI,
+      XXREAL_0, ARYTM_3, FSM_1, XBOOLE_0, FUNCT_4, NUMBERS, SCMFSA6C, CIRCUIT2,
+      FUNCT_1, MSUALG_1, SUBSET_1, NAT_1, STRUCT_0, FINSET_1, EXTPRO_1,
+      SFMASTR1, PARTFUN1, RELOC, FUNCOP_1, COMPOS_1, AMISTD_1, FRECHET;
+ notations TARSKI, XBOOLE_0, ENUMSET1, SUBSET_1, CARD_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, FINSET_1, NAT_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, FUNCT_4,
+      FUNCOP_1, PBOOLE, VALUED_1, FUNCT_7, AMI_2, STRUCT_0, MEMSTR_0, COMPOS_0,
+      COMPOS_1, EXTPRO_1, AMISTD_1, AMISTD_2, SCMFSA_1, SCMFSA_2, SCMFSA6A,
+      SCMFSA6B, SF_MASTR, SCMFSA6C, SCMFSA7B, SCMFSA8C, XXREAL_0, SEQ_4,
+      SCMFSA_M;
+ constructors DOMAIN_1, SETWISEO, SEQ_4, PRE_FF, SCM_1, SCMFSA6A, SF_MASTR,
+      SCMFSA6B, SCMFSA6C, SCMFSA8A, SCMFSA8B, SCMFSA8C, RELSET_1, PRE_POLY,
+      AMISTD_2, SCMFSA7B, SCMFSA_1, PBOOLE, AMISTD_1, COMPLEX1, INT_2, NAT_D,
+      XXREAL_1, MEMSTR_0, SCMFSA_M, FUNCT_7, SCMFSA_X;
+ registrations ORDINAL1, FINSET_1, XREAL_0, NAT_1, INT_1, SCMFSA_2, SF_MASTR,
+      SCMFSA6B, SCMFSA6C, SCMFSA7B, SCMFSA8A, SCMFSA8C, SCMFSA_9, SCMFSA10,
+      AMISTD_2, COMPOS_1, EXTPRO_1, FUNCT_4, FUNCOP_1, STRUCT_0, MEMSTR_0,
+      AMI_3, COMPOS_0, SCMFSA_M, SCMFSA8B, SCMFSA6A;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin :: Good instructions and good macro instructions
+
+reserve p,P,P1,P2 for Instruction-Sequence of SCM+FSA;
+
+definition
+  let i be Instruction of SCM+FSA;
+  attr i is good means
+:: SFMASTR1:def 1
+
+  Macro i is good;
+end;
+
+registration
+  let a be read-write Int-Location, b be Int-Location;
+  cluster a := b -> good;
+  cluster AddTo(a, b) -> good;
+  cluster SubFrom(a, b) -> good;
+  cluster MultBy(a, b) -> good;
+end;
+
+registration
+  cluster good sequential for Instruction of SCM+FSA;
+end;
+
+registration
+  let a, b be read-write Int-Location;
+  cluster Divide(a, b) -> good;
+end;
+
+registration
+  let l be Element of NAT;
+  cluster goto l -> good;
+end;
+
+registration
+  let a be Int-Location, l be Element of NAT;
+  cluster a =0_goto l -> good;
+  cluster a >0_goto l -> good;
+end;
+
+registration
+  let a be Int-Location, f be FinSeq-Location, b be read-write Int-Location;
+  cluster b := (f,a) -> good;
+end;
+
+registration
+  let f be FinSeq-Location, b be read-write Int-Location;
+  cluster b :=len f -> good;
+end;
+
+registration
+  let f be FinSeq-Location, a be Int-Location;
+  cluster f :=<0,...,0> a -> good;
+  let b be Int-Location;
+  cluster (f,a) := b -> good;
+end;
+
+registration
+  let i be good Instruction of SCM+FSA;
+  cluster Macro i -> good;
+end;
+
+registration
+  let i, j be good Instruction of SCM+FSA;
+  cluster i ";" j -> good;
+end;
+
+registration
+  let i be good Instruction of SCM+FSA, I be good Program of SCM+FSA;
+  cluster i ";" I -> good;
+  cluster I ";" i -> good;
+end;
+
+registration
+  let a, b be read-write Int-Location;
+  cluster swap(a, b) -> good;
+end;
+
+registration
+  let I be good MacroInstruction of SCM+FSA, a be read-write Int-Location;
+  cluster Times(a, I) -> good;
+end;
+
+theorem :: SFMASTR1:1
+  for a being Int-Location, I being Program of SCM+FSA st not a in
+  UsedILoc I holds I does not destroy a;
+
+begin :: Composition of non parahalting macro instructions
+
+reserve s, S for State of SCM+FSA,
+  I, J for Program of SCM+FSA,
+  Ig for good Program of SCM+FSA,
+  i for good sequential Instruction of SCM+FSA,
+  j for sequential Instruction of SCM+FSA,
+  a, b for Int-Location,
+  f for FinSeq-Location;
+
+::$CT
+
+theorem :: SFMASTR1:3  :: SCMFSA6B:27
+ for I,J being really-closed Program of SCM+FSA holds
+  I is_halting_on Initialized S,P & J is_halting_on IExec(I,P,S),P
+  implies
+   I ";" J is_halting_on Initialized S,P;
+
+theorem :: SFMASTR1:4  :: SCMFSA6B:27
+ for I being really-closed Program of SCM+FSA
+ for s being 0-started State of SCM+FSA
+  st I c= p & p halts_on s
+ for m being Nat st m <= LifeSpan(p,s) holds
+   Comput(p, s,m) =  Comput(p+*(I ";" J),s,m);
+
+theorem :: SFMASTR1:5
+ for Ig being good really-closed Program of SCM+FSA
+ for J being really-closed Program of SCM+FSA holds
+  Ig is_halting_on Initialized s,p & J is_halting_on IExec(Ig,p,s),p
+ implies LifeSpan(p +* (Ig ";" J),Initialized s)
+ = LifeSpan(p +* Ig,Initialized s) + 1 +
+   LifeSpan(p +* Ig +* J,Initialized Result(p +* Ig,Initialized s));
+
+theorem :: SFMASTR1:6  :: Main theorem
+ for Ig being good really-closed Program of SCM+FSA
+ for J being really-closed Program of SCM+FSA holds
+  Ig is_halting_on Initialized s,p & J is_halting_on IExec(Ig,p,s),p
+implies IExec(Ig ";" J,p,s) = IExec(J,p,IExec(Ig,p,s))+*
+  Start-At(IC IExec(J,p,IExec(Ig,p,s))+card Ig,SCM+FSA);
+
+theorem :: SFMASTR1:7
+ for Ig being good really-closed Program of SCM+FSA
+ for J being really-closed Program of SCM+FSA holds
+  (Ig is parahalting or Ig is_halting_on Initialized s,p) &
+  (J is parahalting or J is_halting_on IExec(Ig,p,s),p)
+implies IExec(Ig ";" J,p,s).a = IExec(J,p,IExec(Ig,p,s)).a;
+
+theorem :: SFMASTR1:8
+ for Ig being good really-closed Program of SCM+FSA
+ for J being really-closed Program of SCM+FSA holds
+  (Ig is parahalting or Ig is_halting_on Initialized s,p) &
+  (J is parahalting or J is_halting_on IExec(Ig,p,s),p)
+  implies IExec(Ig ";" J,p,s).f = IExec(J,p,IExec(Ig,p,s)).f;
+
+theorem :: SFMASTR1:9
+ for Ig being good really-closed Program of SCM+FSA
+ for J being really-closed Program of SCM+FSA holds
+  (Ig is parahalting or Ig is_halting_on Initialized s,p) &
+  (J is parahalting or J is_halting_on IExec(Ig,p,s),p)
+  implies DataPart IExec(Ig ";" J,p,s) = DataPart IExec(J,p,IExec(Ig,p,s));
+
+theorem :: SFMASTR1:10
+ for Ig being good really-closed Program of SCM+FSA holds
+  Ig is parahalting or Ig is_halting_on Initialized s,p implies
+DataPart Initialized IExec(Ig,p,s)= DataPart IExec(Ig,p,s);
+
+theorem :: SFMASTR1:11
+ for Ig being good really-closed Program of SCM+FSA holds
+  Ig is parahalting or Ig is_halting_on Initialized s,p
+  implies IExec(Ig ";" j,p,s).a = Exec(j, IExec(Ig,p,s)).a;
+
+theorem :: SFMASTR1:12
+ for Ig being good really-closed Program of SCM+FSA holds
+  Ig is parahalting or Ig is_halting_on Initialized s,p
+ implies IExec(Ig ";" j,p,s).f = Exec(j, IExec(Ig,p,s)).f;
+
+theorem :: SFMASTR1:13
+ for Ig being good really-closed Program of SCM+FSA holds
+  Ig is parahalting or Ig is_halting_on Initialized s,p
+  implies DataPart IExec(Ig ";" j,p,s) = DataPart Exec(j, IExec(Ig,p,s));
+
+theorem :: SFMASTR1:14
+ for J being really-closed Program of SCM+FSA holds
+  J is parahalting or J is_halting_on Exec(i, Initialized s),p
+implies IExec(i ";" J,p,s).a = IExec(J,p,Exec(i,Initialized s)).a;
+
+theorem :: SFMASTR1:15
+ for J being really-closed Program of SCM+FSA holds
+  J is parahalting or J is_halting_on Exec(i, Initialized s),p
+ implies IExec(i ";" J,p,s).f = IExec(J,p,Exec(i,Initialized s)).f;
+
+theorem :: SFMASTR1:16
+ for J being really-closed Program of SCM+FSA holds
+  J is parahalting or J is_halting_on Exec(i, Initialized s),p
+implies
+  DataPart IExec(i ";" J,p,s) = DataPart IExec(J,p,Exec(i,Initialized s));
+
+begin :: Memory allocation
+
+reserve L for finite Subset of Int-Locations,
+  m, n for Nat;
+
+definition
+::$CD 2
+  let n be Element of NAT, p be preProgram of SCM+FSA;
+  func n-thNotUsed p -> Int-Location equals
+:: SFMASTR1:def 4
+  n-thRWNotIn UsedILoc p;
+end;
+
+notation
+  let n be Element of NAT, p be preProgram of SCM+FSA;
+  synonym n-stNotUsed p for n-thNotUsed p;
+  synonym n-ndNotUsed p for n-thNotUsed p;
+  synonym n-rdNotUsed p for n-thNotUsed p;
+end;
+
+registration
+  let n be Element of NAT, p be preProgram of SCM+FSA;
+  cluster n-thNotUsed p -> read-write;
+end;
+

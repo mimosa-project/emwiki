@@ -1,0 +1,736 @@
+:: Uniform Space
+::  by Roland Coghetto
+:: 
+:: Received June 30, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ORDERS_2, CONNSP_2, GROUP_1, YELLOW_6, FINTOPO7, FINTOPO2,
+      RELAT_2, REAL_1, METRIC_1, PRE_TOPC, FUNCT_1, STRUCT_0, CARD_1, XBOOLE_0,
+      SUBSET_1, SETFAM_1, TARSKI, ZFMISC_1, RELAT_1, XXREAL_0, WAYBEL_0,
+      NUMBERS, ARYTM_3, CANTOR_1, FILTER_0, XXREAL_1, ARYTM_1, PCOMPS_1,
+      RCOMP_1, FINSUB_1, TOPGRP_1, BINOP_1, POLYNOM1, GROUP_1A, RLVECT_1,
+      FCONT_2, FUNCOP_1, UNIFORM2, UNIFORM3, EQREL_1, PARTFUN1, SIMPLEX0,
+      CARD_3, SRINGS_4, CAT_4, PROB_1, QC_LANG1, TOLER_1, ROUGHS_4, LATTICE7,
+      MEASURE1, TOPGEN_4, DYNKIN, PROB_2, FINSET_1, LOPCLSET, FINSEQ_1;
+ notations CANTOR_1, EQREL_1, TOLER_1, SIMPLEX0, TOPGEN_4, DYNKIN, SRINGS_4,
+      ORDINAL1, IDEAL_1, TARSKI, RELAT_1, SETFAM_1, XXREAL_0, XBOOLE_0,
+      RELSET_1, XREAL_0, FUNCT_1, ZFMISC_1, SUBSET_1, XCMPLX_0, STRUCT_0,
+      METRIC_1, DOMAIN_1, MCART_1, CARDFIL2, FINSUB_1, FINTOPO2, PARTFUN1,
+      TOPGRP_1, CONNSP_2, GROUP_1, GROUP_2, ALGSTR_0, FINTOPO7, PCOMPS_1,
+      GROUP_1A, RLVECT_1, PRE_TOPC, UNIFORM2, RELAT_2, ROUGHS_4, LATTICE7,
+      PROB_1, MEASURE1, ORDERS_2, FINSET_1, LOPCLSET;
+ constructors CARDFIL2, TOPMETR, COMPTS_1, GROUP_2, PCOMPS_1, GROUP_1A,
+      UNIFORM2, COHSP_1, CANTOR_1, TOPGEN_4, DYNKIN, SRINGS_4, ROUGHS_4,
+      LATTICE7, MEASURE1, LOPCLSET;
+ registrations CARDFIL2, FIN_TOPO, RELAT_1, ZFMISC_1, METRIC_1, XBOOLE_0,
+      SUBSET_1, ORDINAL1, RELSET_1, XREAL_0, STRUCT_0, XXREAL_0, FINTOPO7,
+      TOPGRP_1, GROUP_1, PCOMPS_1, GROUP_1A, XCMPLX_0, UNIFORM2, PARTFUN1,
+      TOPGEN_4, PRE_TOPC, MEASURE1, FINSET_1, CANTOR_1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve X for set,
+        D for a_partition of X,
+        TG for non empty TopologicalGroup;
+reserve A for Subset of X;
+
+theorem :: UNIFORM3:1
+  [:A,A:] \/ [:X \ A,X \ A:] c= [:X \ A,X:] \/ [:X,A:];
+
+theorem :: UNIFORM3:2
+  {1,2,3} \ {1} = {2,3};
+
+theorem :: UNIFORM3:3
+  X = {1,2,3} & A = {1} implies
+  [2,1] in [:X \ A,X:] \/ [:X,A:] &
+  not [2,1] in [:A,A:] \/ [:X \ A,X \ A:];
+
+theorem :: UNIFORM3:4
+  for A being Subset of X holds
+    ([:A,A:] \/ [:X \ A,X \ A:])~ = [:A,A:] \/ [:X \ A,X \ A:];
+
+theorem :: UNIFORM3:5
+  for P1,P2 being Subset of D st union P1 = union P2 holds P1 = P2;
+
+theorem :: UNIFORM3:6  :: EQREL_1:43 generalized
+  for P being Subset of D holds union (D \ P) = union D \ union P;
+
+theorem :: UNIFORM3:7
+  for SF being upper Subset-Family of X,
+      S being Element of SF holds meet SF c= S;
+
+theorem :: UNIFORM3:8
+  for G being addGroup,A,B,C,D being Subset of G st
+  A c= B & C c= D holds A + C c= B + D;
+
+theorem :: UNIFORM3:9
+  for e being Element of TG,
+      V being a_neighborhood of 1_TG holds {e} * V is a_neighborhood of e;
+
+theorem :: UNIFORM3:10
+  for e being Element of TG,
+      V being a_neighborhood of 1_TG holds V * {e} is a_neighborhood of e;
+
+theorem :: UNIFORM3:11
+  for V being a_neighborhood of 1_TG holds
+    V" is a_neighborhood of 1_TG;
+
+begin :: UniformSpace
+
+definition
+  mode UniformSpace is upper cap-closed axiom_U1 axiom_U2
+    axiom_U3 UniformSpaceStr;
+end;
+
+reserve US for UniformSpace;
+
+theorem :: UNIFORM3:12
+  US is axiom_U2 Quasi-UniformSpace;
+
+theorem :: UNIFORM3:13
+  US is axiom_U3 Semi-UniformSpace;
+
+definition
+  let X be set, cB be Subset-Family of [:X,X:];
+  attr cB is axiom_UP2 means
+:: UNIFORM3:def 1
+  for B1 being Element of cB holds
+    ex B2 being Element of cB st B2 c= B1~;
+end;
+
+theorem :: UNIFORM3:14
+  for X being empty set,cB being empty Subset-Family of [:X,X:] holds
+  cB is quasi_basis & cB is axiom_UP1 & cB is axiom_UP2 &
+  cB is axiom_UP3;
+
+registration
+  cluster strict for UniformSpace;
+end;
+
+theorem :: UNIFORM3:15
+  for X being set, SF being Subset-Family of [:X,X:] st X = {{}} &
+  SF = {[:X,X:]} holds UniformSpaceStr(# X,SF #) is UniformSpace;
+
+registration
+  cluster non empty for strict UniformSpace;
+end;
+
+theorem :: UNIFORM3:16
+  for X being set,cB being Subset-Family of [:X,X:] st
+  cB is quasi_basis axiom_UP1 axiom_UP2 axiom_UP3 holds
+  ex US being strict UniformSpace st
+  the carrier of US = X & the entourages of US = <.cB.];
+
+begin :: Open set and UniformSpace
+
+theorem :: UNIFORM3:17
+  for US being non empty UniformSpace holds
+  the carrier of TopSpace_induced_by(US) = the carrier of US &
+  the topology of TopSpace_induced_by(US) = Family_open_set(FMT_induced_by(US))
+;
+
+theorem :: UNIFORM3:18
+  for US being non empty UniformSpace,
+       S being Subset of FMT_induced_by(US) holds
+  S is open iff for x being Element of US st x in S holds
+  S in Neighborhood x;
+
+theorem :: UNIFORM3:19
+  for US being non empty UniformSpace holds
+  Family_open_set(FMT_induced_by(US))
+    = the set of all O where O is open Subset of FMT_induced_by(US);
+
+theorem :: UNIFORM3:20
+  for US being non empty UniformSpace,
+      S being Subset of FMT_induced_by(US) holds
+  S is open iff S in Family_open_set(FMT_induced_by(US));
+
+theorem :: UNIFORM3:21
+  for US being non empty UniformSpace,
+      S being Subset of FMT_induced_by(US) holds
+  S in Family_open_set(FMT_induced_by(US)) iff for x being Element of US st
+  x in S holds S in Neighborhood x;
+
+begin :: Pseudo-metric space and Uniform Space
+
+definition
+  let MS be non empty MetrStruct, r be positive Real;
+  func fundamental_element_of_entourages(MS,r) ->
+    Subset of [:the carrier of MS,the carrier of MS:] equals
+:: UNIFORM3:def 2
+  {[x,y] where x,y is Element of MS: dist(x,y) <= r};
+end;
+
+registration
+  let MS be non empty Reflexive MetrStruct, r be positive Real;
+  cluster fundamental_element_of_entourages(MS,r) -> non empty;
+end;
+
+definition
+  let MS be non empty MetrStruct;
+  func fundamental_system_of_entourages(MS) -> non empty Subset-Family of
+  [:the carrier of MS,the carrier of MS:] equals
+:: UNIFORM3:def 3
+the set of all
+    fundamental_element_of_entourages(MS,r) where r is positive Real;
+end;
+
+definition
+  let MS be non empty MetrStruct;
+  func uniformity_induced_by MS -> UniformSpaceStr equals
+:: UNIFORM3:def 4
+    UniformSpaceStr(# the carrier of MS,
+                      <. fundamental_system_of_entourages(MS) .] #);
+end;
+
+definition
+  let MS be PseudoMetricSpace;
+  func uniformity_induced_by(MS) -> non empty strict UniformSpace equals
+:: UNIFORM3:def 5
+    UniformSpaceStr(# the carrier of MS,
+                      <. fundamental_system_of_entourages(MS) .] #);
+end;
+
+theorem :: UNIFORM3:22
+  for MS being PseudoMetricSpace holds
+  Family_open_set(FMT_induced_by(uniformity_induced_by(MS))) =
+    Family_open_set MS;
+
+theorem :: UNIFORM3:23
+  for MS being PseudoMetricSpace holds
+    TopSpace_induced_by(uniformity_induced_by(MS)) = TopSpaceMetr(MS);
+
+begin :: Uniform space and topological group
+
+definition
+  let G be TopologicalGroup;
+  let U be a_neighborhood of 1_G;
+  func element_left_uniformity(U) -> Subset of
+    [:the carrier of G,the carrier of G:] equals
+:: UNIFORM3:def 6
+    {[x,y] where x is Element of G,y is Element of G: x" * y in U};
+end;
+
+definition
+  let TG be non empty TopologicalGroup;
+  func system_left_uniformity(TG) -> non empty Subset-Family of
+    [:the carrier of TG,the carrier of TG:] equals
+:: UNIFORM3:def 7
+the set of all
+    element_left_uniformity(U) where U is a_neighborhood of 1_TG;
+end;
+
+definition
+  let TG be non empty TopologicalGroup;
+  func left_uniformity(TG) -> non empty UniformSpace equals
+:: UNIFORM3:def 8
+    UniformSpaceStr(# the carrier of TG, <. system_left_uniformity(TG) .] #);
+end;
+
+definition
+  let G be TopologicalGroup;
+  let U be a_neighborhood of 1_G;
+  func element_right_uniformity(U) -> Subset of
+    [:the carrier of G,the carrier of G:] equals
+:: UNIFORM3:def 9
+    {[x,y] where x is Element of G,y is Element of G: y * x" in U};
+end;
+
+definition
+  let TG be non empty TopologicalGroup;
+  func system_right_uniformity(TG) -> non empty Subset-Family of
+    [:the carrier of TG,the carrier of TG:] equals
+:: UNIFORM3:def 10
+the set of all
+    element_right_uniformity(U) where U is a_neighborhood of 1_TG;
+end;
+
+definition
+  let TG be non empty TopologicalGroup;
+  func right_uniformity(TG) -> non empty UniformSpace equals
+:: UNIFORM3:def 11
+    UniformSpaceStr(# the carrier of TG, <. system_right_uniformity(TG) .] #);
+end;
+
+theorem :: UNIFORM3:24
+  for TG being non empty commutative TopologicalGroup,
+       U being a_neighborhood of 1_TG holds
+  element_left_uniformity(U) = element_right_uniformity(U);
+
+theorem :: UNIFORM3:25
+  for TG being non empty commutative TopologicalGroup holds
+  left_uniformity(TG) = right_uniformity(TG);
+
+definition
+  let G be TopaddGroup;
+  let U be a_neighborhood of 0_G;
+  func element_left_uniformity(U) -> Subset of
+    [:the carrier of G,the carrier of G:] equals
+:: UNIFORM3:def 12
+    {[x,y] where x is Element of G,y is Element of G: (-x) + y in U};
+end;
+
+definition
+  let TG be non empty TopaddGroup;
+  func system_left_uniformity(TG) -> non empty Subset-Family of
+    [:the carrier of TG,the carrier of TG:] equals
+:: UNIFORM3:def 13
+the set of all
+    element_left_uniformity(U)
+    where U is a_neighborhood of 0_TG;
+end;
+
+definition
+  let TG be non empty TopologicaladdGroup;
+  func left_uniformity(TG) -> non empty UniformSpace equals
+:: UNIFORM3:def 14
+    UniformSpaceStr(# the carrier of TG, <. system_left_uniformity(TG) .] #);
+end;
+
+definition
+  let G be TopaddGroup;
+  let U be a_neighborhood of 0_G;
+  func element_right_uniformity(U) -> Subset of
+    [:the carrier of G,the carrier of G:] equals
+:: UNIFORM3:def 15
+    {[x,y] where x is Element of G,y is Element of G: y + (- x) in U};
+end;
+
+definition
+  let TG be non empty TopaddGroup;
+  func system_right_uniformity(TG) -> non empty Subset-Family of
+    [:the carrier of TG,the carrier of TG:] equals
+:: UNIFORM3:def 16
+the set of all
+    element_right_uniformity(U) where U is a_neighborhood of 0_TG;
+end;
+
+definition
+  let TG be non empty TopologicaladdGroup;
+  func right_uniformity(TG) -> non empty UniformSpace equals
+:: UNIFORM3:def 17
+    UniformSpaceStr(# the carrier of TG, <. system_right_uniformity(TG) .] #);
+end;
+
+theorem :: UNIFORM3:26
+  for TG being Abelian TopaddGroup, U being a_neighborhood of 0_TG holds
+  element_left_uniformity(U) = element_right_uniformity(U);
+
+theorem :: UNIFORM3:27
+  for TG being non empty TopologicaladdGroup st TG is Abelian holds
+  left_uniformity(TG) = right_uniformity(TG);
+
+theorem :: UNIFORM3:28
+  the topology of TopSpace_induced_by(left_uniformity(TG)) = the topology of TG
+;
+
+theorem :: UNIFORM3:29
+  the topology of TopSpace_induced_by(right_uniformity(TG))
+    = the topology of TG;
+
+begin :: Function uniformly continuous
+
+definition
+  let US1,US2 be UniformSpaceStr, f be Function of US1,US2;
+  attr f is uniformly_continuous means
+:: UNIFORM3:def 18
+    for V being Element of the entourages of US2 holds
+    ex U being Element of the entourages of US1 st
+    for x,y being object st [x,y] in U holds [f.x,f.y] in V;
+end;
+
+registration
+  let US1, US2 be non empty axiom_U1 UniformSpaceStr;
+  cluster uniformly_continuous for Function of US1,US2;
+end;
+
+begin :: Partition topology
+
+theorem :: UNIFORM3:30
+  the set of all union P where P is Subset of D = UniCl D;
+
+theorem :: UNIFORM3:31
+  X in UniCl D;
+
+theorem :: UNIFORM3:32
+  D = {} implies X is empty & UniCl D = {{}};
+
+registration
+  let X be set, D be a_partition of X;
+  cluster UniCl D -> cap-closed;
+end;
+
+registration
+  let X be set, D be a_partition of X;
+  cluster UniCl D -> union-closed;
+end;
+
+registration
+  let X be set;
+  cluster union-closed -> cup-closed for Subset-Family of X;
+end;
+
+registration
+  let X be set, D be a_partition of X;
+  cluster UniCl D -> compl-closed;
+end;
+
+registration
+  let X be set, D be a_partition of X;
+  cluster UniCl D -> cup-closed diff-closed;
+end;
+
+theorem :: UNIFORM3:33
+  UniCl D is Ring_of_sets;
+
+registration let X, D;
+  cluster UniCl D -> with_empty_element;
+end;
+
+registration
+  let X be set,D be a_partition of X;
+  cluster UniCl D -> non empty;
+end;
+
+theorem :: UNIFORM3:34
+  UniCl D is Field_Subset of X;
+
+registration
+  let X be set,D be a_partition of X;
+  cluster UniCl D -> sigma-additive;
+end;
+
+registration
+  let X be set,D be a_partition of X;
+  cluster UniCl D -> sigma-multiplicative;
+end;
+
+theorem :: UNIFORM3:35
+  UniCl D is SigmaField of X;
+
+registration
+  let X be set,D be a_partition of X;
+  cluster UniCl D -> closed_for_countable_unions closed_for_countable_meets;
+end;
+
+theorem :: UNIFORM3:36
+  for Omega being non empty set, D being a_partition of Omega holds
+    UniCl D is Dynkin_System of Omega;
+
+definition
+  let X be set,D be a_partition of X;
+  func partition_topology(D) -> TopSpace equals
+:: UNIFORM3:def 19
+    TopStruct (# X,UniCl D #);
+end;
+
+theorem :: UNIFORM3:37
+  for O being open Subset of partition_topology(D) holds O is closed;
+
+theorem :: UNIFORM3:38
+  for O being closed Subset of partition_topology(D) holds O is open;
+
+theorem :: UNIFORM3:39
+  for S being Subset of partition_topology(D) holds
+    S is open iff S is closed;
+
+registration
+  let X be non empty set,D be a_partition of X;
+  cluster partition_topology(D) -> non empty;
+end;
+
+theorem :: UNIFORM3:40
+  for X being non empty set,D being a_partition of X holds
+    capOpCl partition_topology(D) = UniCl D;
+
+theorem :: UNIFORM3:41
+  for X being non empty set,D being a_partition of X holds
+  OpenClosedSet(partition_topology(D)) = the topology of partition_topology(D);
+
+begin :: UniformSpace and partition topology
+
+reserve R for Relation of X;
+
+definition
+  let X be set,R be Relation of X;
+  func rho(R) -> non empty Subset-Family of [:X,X:] equals
+:: UNIFORM3:def 20
+    {S where S is Subset of [:X,X:] : R c= S};
+end;
+
+theorem :: UNIFORM3:42
+  <. rho(R).] = rho(R);
+
+theorem :: UNIFORM3:43
+  <. {R} .] = rho(R);
+
+theorem :: UNIFORM3:44
+  rho(R) is upper & rho(R) is cap-closed;
+
+registration let X,R;
+  cluster rho(R) -> quasi_basis;
+end;
+
+theorem :: UNIFORM3:45
+  for R being total reflexive Relation of X holds
+  rho(R) is axiom_UP1;
+
+theorem :: UNIFORM3:46
+  for R being symmetric Relation of X holds rho(R) is axiom_UP2;
+
+theorem :: UNIFORM3:47
+  for R being total transitive Relation of X holds rho(R) is axiom_UP3;
+
+definition
+  let X be set, R be Relation of X;
+  func uniformity_induced_by(R) -> upper cap-closed strict UniformSpaceStr
+  equals
+:: UNIFORM3:def 21
+UniformSpaceStr(# X,rho(R) #);
+end;
+
+theorem :: UNIFORM3:48
+  for X being set,R being total reflexive Relation of X holds
+    uniformity_induced_by(R) is axiom_U1;
+
+theorem :: UNIFORM3:49
+  for X being set,R being symmetric Relation of X holds
+  uniformity_induced_by(R) is axiom_U2;
+
+theorem :: UNIFORM3:50
+  for X being set, R being total transitive Relation of X holds
+  uniformity_induced_by(R) is axiom_U3;
+
+definition
+  let X be set, R be Tolerance of X;
+  redefine func uniformity_induced_by(R) -> strict Semi-UniformSpace;
+end;
+
+theorem :: UNIFORM3:51
+  for X being set, R being Equivalence_Relation of X holds
+    uniformity_induced_by(R) is UniformSpace;
+
+definition
+  let X be set, R be Equivalence_Relation of X;
+  redefine func uniformity_induced_by(R) -> strict UniformSpace;
+end;
+
+registration
+  let X be non empty set, R be Tolerance of X;
+  cluster uniformity_induced_by(R) -> non empty;
+end;
+
+registration
+  cluster -> topological for non empty UniformSpace;
+end;
+
+definition
+  let US be non empty UniformSpace;
+  func @US -> topological non empty axiom_U1 UniformSpaceStr equals
+:: UNIFORM3:def 22
+    US;
+end;
+
+theorem :: UNIFORM3:52
+  for X being non empty set, R being Equivalence_Relation of X holds
+  TopSpace_induced_by( @(uniformity_induced_by(R)) ) =
+    partition_topology(Class R);
+
+begin :: Uniformity induced by a Tolerance or an Equivalence
+
+theorem :: UNIFORM3:53
+  for USS being upper UniformSpaceStr st meet the entourages of USS in
+  the entourages of USS
+  holds ex R being Relation of the carrier of USS st
+  meet the entourages of USS = R & the entourages of USS = rho(R);
+
+definition
+  let USS be UniformSpaceStr;
+  func Uniformity2InternalRel(USS) -> Relation of the carrier of USS equals
+:: UNIFORM3:def 23
+  meet the entourages of USS;
+end;
+
+definition
+  let USS be UniformSpaceStr;
+  func UniformSpaceStr2RelStr(USS) -> RelStr equals
+:: UNIFORM3:def 24
+  RelStr(# the carrier of USS, Uniformity2InternalRel(USS) #);
+end;
+
+definition
+  let RS be RelStr;
+  func InternalRel2Uniformity(RS) -> Subset-Family of
+  [:the carrier of RS,the carrier of RS:] equals
+:: UNIFORM3:def 25
+  {R where R is Relation of the carrier of RS : the InternalRel of RS c= R};
+end;
+
+definition
+  let RS be RelStr;
+  func RelStr2UniformSpaceStr(RS) -> strict UniformSpaceStr equals
+:: UNIFORM3:def 26
+  UniformSpaceStr(# the carrier of RS, InternalRel2Uniformity RS #);
+end;
+
+definition
+  let RS be RelStr;
+  func InternalRel2Element(RS) -> Element of the entourages of
+  RelStr2UniformSpaceStr(RS) equals
+:: UNIFORM3:def 27
+the InternalRel of RS;
+end;
+
+theorem :: UNIFORM3:54
+  for R be Relation of X holds meet rho(R) = R;
+
+theorem :: UNIFORM3:55
+  for RS being strict RelStr holds
+  UniformSpaceStr2RelStr(RelStr2UniformSpaceStr(RS)) = RS;
+
+theorem :: UNIFORM3:56
+  for US being UniformSpaceStr holds
+  the carrier of RelStr2UniformSpaceStr(UniformSpaceStr2RelStr(US)) =
+    the carrier of US &
+  the entourages of RelStr2UniformSpaceStr(UniformSpaceStr2RelStr(US)) =
+    rho(meet the entourages of US);
+
+theorem :: UNIFORM3:57
+  for SF being Subset-Family of [:X,X:],R being Relation of X st
+  SF = rho(R) holds SF c= rho(meet SF);
+
+theorem :: UNIFORM3:58
+  for SF being upper Subset-Family of [:X,X:] st meet SF in SF holds
+  rho(meet SF) c= SF;
+
+theorem :: UNIFORM3:59
+  for SF being upper Subset-Family of [:X,X:],R being Relation of X  st
+  R in SF & SF = rho(R) & meet SF in SF holds rho(meet SF) = SF;
+
+theorem :: UNIFORM3:60
+  for US being upper UniformSpaceStr st
+  ex R being Relation of the carrier of US st
+  the entourages of US = rho(R) &
+  meet the entourages of US in the entourages of US holds
+  the entourages of US = rho(meet the entourages of US);
+
+theorem :: UNIFORM3:61
+  for US being upper UniformSpaceStr, R being Relation of the carrier of US
+  st the entourages of US = rho(R) &
+  meet the entourages of US in the entourages of US holds
+  the entourages of US = rho(meet the entourages of US);
+
+theorem :: UNIFORM3:62
+  for R being Tolerance of X holds
+  uniformity_induced_by(R) is Semi-UniformSpace &
+  the entourages of uniformity_induced_by(R) = rho(R) &
+  meet the entourages of uniformity_induced_by(R) = R;
+
+theorem :: UNIFORM3:63
+  for R being Tolerance of X holds
+  RelStr2UniformSpaceStr(UniformSpaceStr2RelStr(uniformity_induced_by(R)))
+    = uniformity_induced_by(R);
+
+theorem :: UNIFORM3:64
+  for R being Equivalence_Relation of X holds
+  RelStr2UniformSpaceStr(UniformSpaceStr2RelStr(uniformity_induced_by(R)))
+    = uniformity_induced_by(R);
+
+begin :: Uniform Pervin Space
+
+definition
+  let X be set,SF be Subset-Family of X, A be Element of SF;
+  func block_Pervin_uniformity(A) -> Subset of [:X,X:] equals
+:: UNIFORM3:def 28
+    [:X \ A,X \ A:] \/ [:A,A:];
+end;
+
+reserve SF for Subset-Family of X, A for Element of SF;
+
+theorem :: UNIFORM3:65
+  A = {} implies block_Pervin_uniformity(A) = [:X,X:];
+
+theorem :: UNIFORM3:66
+  X is non empty implies block_Pervin_uniformity(A) =
+  {[x,y] where x,y is Element of X: x in A iff y in A};
+
+theorem :: UNIFORM3:67
+  id X c= block_Pervin_uniformity(A) &
+  block_Pervin_uniformity(A) * block_Pervin_uniformity(A) c=
+  block_Pervin_uniformity(A);
+
+definition
+  let X be set, SF be Subset-Family of X;
+  func subbasis_Pervin_uniformity(SF) -> Subset-Family of [:X,X:] equals
+:: UNIFORM3:def 29
+  the set of all block_Pervin_uniformity(A) where A is Element of SF;
+end;
+
+registration
+  let X be set, SF be Subset-Family of X;
+  cluster subbasis_Pervin_uniformity(SF) -> non empty;
+end;
+
+definition
+  let X be set, SF be Subset-Family of X;
+  func basis_Pervin_uniformity(SF) -> Subset-Family of [:X,X:] equals
+:: UNIFORM3:def 30
+    FinMeetCl(subbasis_Pervin_uniformity(SF));
+end;
+
+theorem :: UNIFORM3:68
+  basis_Pervin_uniformity(SF) is cap-closed;
+
+theorem :: UNIFORM3:69
+  basis_Pervin_uniformity(SF) is quasi_basis;
+
+theorem :: UNIFORM3:70
+  basis_Pervin_uniformity(SF) is axiom_UP1;
+
+theorem :: UNIFORM3:71
+  for A being Element of SF, R being Relation of X st
+  R = block_Pervin_uniformity(A) holds R~ = block_Pervin_uniformity(A);
+
+theorem :: UNIFORM3:72
+  for R being Relation of X st
+  R is Element of subbasis_Pervin_uniformity(SF) holds
+  R~ is Element of subbasis_Pervin_uniformity(SF);
+
+theorem :: UNIFORM3:73
+  for Y being non empty Subset-Family of [:X,X:] st
+  Y c= subbasis_Pervin_uniformity(SF) holds Y[~] = Y;
+
+theorem :: UNIFORM3:74
+  for Y being non empty Subset-Family of [:X,X:] st
+  Y c= subbasis_Pervin_uniformity(SF) holds
+  (meet Y)~ = meet (Y[~]);
+
+theorem :: UNIFORM3:75
+  for Y being non empty Subset-Family of [:X,X:] st
+  Y c= subbasis_Pervin_uniformity(SF) holds
+  meet Y = (meet Y)~;
+
+theorem :: UNIFORM3:76
+  basis_Pervin_uniformity(SF) is axiom_UP2;
+
+theorem :: UNIFORM3:77
+  basis_Pervin_uniformity(SF) is axiom_UP3;
+
+definition
+  let X be set, SF be Subset-Family of X;
+  func Pervin_uniform_space SF -> strict UniformSpace equals
+:: UNIFORM3:def 31
+  UniformSpaceStr(# X, <.basis_Pervin_uniformity(SF).] #);
+end;

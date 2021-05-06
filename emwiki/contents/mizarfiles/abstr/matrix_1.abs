@@ -1,0 +1,300 @@
+:: Abelian Group of Matrices
+::  by Katarzyna Jankowska
+::
+:: Received June 8, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, XBOOLE_0, ALGSTR_0, FINSEQ_1, SUBSET_1, RLVECT_1,
+      RELAT_1, FINSEQ_2, TARSKI, STRUCT_0, TREES_1, ZFMISC_1, FUNCT_1,
+      SUPINF_2, MESFUNC1, ARYTM_1, ARYTM_3, VECTSP_1, BINOP_1, MATRIX_1,
+      XXREAL_0, FUNCOP_1, CARD_1, FUNCT_2, GROUP_1, ABIAN, INT_1, CARD_3,
+      FINSET_1, FUNCSDOM;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1,
+      NAT_1, FUNCT_1, FUNCT_2, FINSEQ_1, FINSEQ_2, CARD_3, MATRIX_0, STRUCT_0,
+      ALGSTR_0, BINOP_1, FINSEQOP, RLVECT_1, VECTSP_1, XXREAL_0, PARTFUN1,
+      NAT_D, GROUP_1, GROUP_4, FINSET_1, FINSUB_1, FINSEQ_3, FINSEQ_4;
+ constructors BINOP_1, XXREAL_0, FINSEQOP, VECTSP_1, RLVECT_1, RELSET_1,
+      CARD_3, FUNCT_6, CARD_2, WELLORD2, NAT_1, MATRIX_0, PRE_POLY, GROUP_1,
+      RELAT_2, PARTFUN1, FINSUB_1, NAT_D, FINSEQ_4, GROUP_4;
+ registrations RELAT_1, FINSEQ_2, STRUCT_0, VECTSP_1, ORDINAL1, XXREAL_0,
+      XBOOLE_0, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, FINSEQ_1, GROUP_1,
+      CARD_1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin
+
+reserve x,y,z for object,
+  i,j,n,m for Nat,
+  D for non empty set,
+  K for non empty doubleLoopStr,
+  s,t for FinSequence,
+  a,a1,a2,b1,b2,d for Element of D,
+  p, p1,p2,q,r for FinSequence of D,
+  F for add-associative right_zeroed
+  right_complementable Abelian non empty doubleLoopStr;
+
+definition
+  let K be non empty 1-sorted;
+  mode Matrix of K is Matrix of the carrier of K;
+  let n;
+  mode Matrix of n,K is Matrix of n,n,the carrier of K;
+  let m;
+  mode Matrix of n,m,K is Matrix of n,m,the carrier of K;
+end;
+
+reserve A,B for Matrix of n,K;
+
+definition
+  let K,n;
+  func n-Matrices_over K -> set equals
+:: MATRIX_1:def 1
+  n-tuples_on (n-tuples_on the carrier of K);
+  func 0.(K,n) -> Matrix of n,K equals
+:: MATRIX_1:def 2
+  n |-> (n |-> 0.K);
+  func 1.(K,n) -> Matrix of n,K means
+:: MATRIX_1:def 3
+
+  (for i st [i,i] in Indices it
+holds it*(i,i) = 1.K) & for i,j st [i,j] in Indices it & i <> j holds it*(i,j)
+  = 0.K;
+  let A;
+  func -A -> Matrix of n,K means
+:: MATRIX_1:def 4
+
+  for i,j holds [i,j] in Indices A implies it*(i,j) = -(A*(i,j));
+  let B;
+  func A+B -> Matrix of n,K means
+:: MATRIX_1:def 5
+
+  for i,j holds [i,j] in Indices A implies it*(i,j) = A*(i,j) + B*(i,j);
+end;
+
+registration
+  let K,n;
+  cluster n-Matrices_over K -> non empty;
+end;
+
+theorem :: MATRIX_1:1
+  [i,j] in Indices (0.(K,n)) implies (0.(K,n))*(i,j)= 0.K;
+
+theorem :: MATRIX_1:2
+  x is Element of n-Matrices_over K iff x is Matrix of n,K;
+
+definition
+  let K be non empty ZeroStr;
+  let M be Matrix of K;
+  attr M is diagonal means
+:: MATRIX_1:def 6
+  for i,j st [i,j] in Indices M & M*(i,j) <> 0.K holds i=j;
+end;
+
+registration
+  let n, K;
+  cluster diagonal for Matrix of n,K;
+end;
+
+reserve A,A9,B,B9,C for Matrix of n,F;
+
+theorem :: MATRIX_1:3
+  A + B = B + A;
+
+theorem :: MATRIX_1:4
+  (A + B) + C = A + (B + C);
+
+theorem :: MATRIX_1:5
+  A + 0.(F,n)= A;
+
+theorem :: MATRIX_1:6
+  A + (-A) = 0.(F,n);
+
+definition
+  let F,n;
+  func n-G_Matrix_over F -> strict AbGroup means
+:: MATRIX_1:def 7
+  the carrier of it = n
+-Matrices_over F & (for A,B holds (the addF of it).(A,B) = A+B) & 0.it = 0.(F,n
+  );
+end;
+
+begin :: taken from MATRIX_2
+
+reserve i,j,n for Nat,
+  K for Field,
+  a,b for Element of K;
+
+definition
+  let n, K;
+  let M be Matrix of n,K;
+  attr M is upper_triangular means
+:: MATRIX_1:def 8
+  for i,j st [i,j] in Indices M & i>j holds M*(i,j) = 0.K;
+  attr M is lower_triangular means
+:: MATRIX_1:def 9
+  for i,j st [i,j] in Indices M & i<j holds M*(i,j) = 0.K;
+end;
+
+registration
+  let n, K;
+  cluster -> upper_triangular lower_triangular for diagonal Matrix of n,K;
+end;
+
+registration
+  let n, K;
+  cluster lower_triangular upper_triangular for Matrix of n,K;
+end;
+
+theorem :: MATRIX_1:7
+  ((n,n)-->a) + ((n,n)-->b) = (n,n)-->(a+b);
+
+begin :: Sets of Permutations
+
+reserve x,y,x1,x2,y1,y2 for set,
+  i,j,k,l,n,m for Nat,
+  D for non empty set,
+  K for Field,
+  s,s2 for FinSequence,
+  a,b,c,d for Element of D,
+  q,r for FinSequence of D,
+  a9,b9 for Element of K;
+
+definition
+  let IT be set;
+  attr IT is permutational means
+:: MATRIX_1:def 10
+  ex n st for x st x in IT holds x is Permutation of Seg n;
+end;
+
+registration
+  cluster permutational non empty for set;
+end;
+
+definition
+  let P be permutational non empty set;
+  func len P -> Nat means
+:: MATRIX_1:def 11
+
+  ex s st s in P & it=len s;
+end;
+
+definition
+  let P be permutational non empty set;
+  redefine func len P -> Element of NAT;
+end;
+
+definition
+  let P be permutational non empty set;
+  redefine mode Element of P -> Permutation of Seg len P;
+end;
+
+theorem :: MATRIX_1:8
+  ex P being permutational non empty set st len P =n;
+
+definition
+  let n;
+  func Permutations n -> set means
+:: MATRIX_1:def 12
+
+  x in it iff x is Permutation of Seg n;
+end;
+
+registration
+  let n;
+  cluster Permutations(n) -> permutational non empty;
+end;
+
+theorem :: MATRIX_1:9
+  len Permutations(n)=n;
+
+theorem :: MATRIX_1:10
+  Permutations 1 = {idseq 1};
+
+begin :: Group of Permutations
+
+reserve p,q for Element of Permutations(n);
+
+definition let n;
+  func Group_of_Perm(n) -> strict multMagma means
+:: MATRIX_1:def 13
+
+  the carrier of it = Permutations(n) &
+    for q,p be Element of Permutations(n) holds (the multF of it).(q,p)=p*q;
+end;
+
+registration
+  let n;
+  cluster Group_of_Perm(n) -> non empty;
+end;
+
+theorem :: MATRIX_1:11
+  idseq n is Element of Group_of_Perm(n);
+
+theorem :: MATRIX_1:12
+  p *(idseq n)=p & (idseq n)*p=p;
+
+theorem :: MATRIX_1:13
+  p *p"=idseq n & p"*p=idseq n;
+
+theorem :: MATRIX_1:14
+  p" is Element of Group_of_Perm(n);
+
+registration
+  let n;
+  cluster Group_of_Perm(n) -> associative Group-like;
+end;
+
+theorem :: MATRIX_1:15
+  idseq n= 1_Group_of_Perm(n);
+
+definition
+  let n;
+  let p be Permutation of Seg n;
+  attr p is being_transposition means
+:: MATRIX_1:def 14
+  ex i,j st i in dom p & j in dom p & i<>j
+  & p.i=j & p.j=i & for k st k <>i & k<>j & k in dom p holds p.k=k;
+end;
+
+definition
+  let n;
+  let IT be Permutation of Seg n;
+  attr IT is even means
+:: MATRIX_1:def 15
+  ex l be FinSequence of Group_of_Perm(n) st (
+  len l) mod 2=0 & IT=Product l & for i st i in dom l ex q st l.i=q & q is
+  being_transposition;
+end;
+
+notation
+  let n;
+  let IT be Permutation of Seg n;
+  antonym IT is odd for IT is even;
+end;
+
+theorem :: MATRIX_1:16
+  id Seg n is even;
+
+definition
+  let K be Ring;
+  let n be Nat;
+  let x be Element of K;
+  let p be Element of Permutations(n);
+  func -(x,p) -> Element of K equals
+:: MATRIX_1:def 16
+  x if p is even otherwise -x;
+end;
+
+registration let n;
+  cluster Permutations n -> finite;
+end;

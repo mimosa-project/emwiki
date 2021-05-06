@@ -1,0 +1,511 @@
+:: On $L^1$ Space Formed by Complex-valued Partial Functions
+::  by Yasushige Watase , Noboru Endou and Yasunari Shidama
+::
+:: Received August 27, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, RLVECT_1, SUBSET_1, RELAT_1, RLSUB_1, IDEAL_1,
+      ARYTM_3, STRUCT_0, RSSPACE, FUNCT_1, ZFMISC_1, TARSKI, BINOP_1, SUPINF_2,
+      ALGSTR_0, REALSET1, FUNCT_7, PARTFUN1, VALUED_0, VALUED_1, FUNCOP_1,
+      CARD_1, ARYTM_1, PROB_1, MEASURE1, MEMBERED, INTEGRA5, MESFUNC5, REAL_1,
+      XXREAL_0, MESFUNC1, MEASURE6, SETFAM_1, COMPLEX1, PRE_TOPC, NORMSP_1,
+      LPSPACE1, CLVECT_1, LPSPACC1, XCMPLX_0, SQUARE_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, SETFAM_1, FUNCT_1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCOP_1, REALSET1,
+      NUMBERS, XCMPLX_0, XXREAL_0, XXREAL_3, XREAL_0, SQUARE_1, MEMBERED,
+      VALUED_0, COMPLEX1, COMSEQ_3, VALUED_1, CFUNCT_1, SUPINF_2, PROB_1,
+      MEASURE1, RFUNCT_3, MEASURE6, EXTREAL1, MESFUNC1, MESFUNC5, MESFUNC6,
+      MESFUN6C, STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, NORMSP_0, IDEAL_1,
+      CLVECT_1, LPSPACE1;
+ constructors COMPLEX1, EXTREAL1, CLVECT_1, CFUNCT_1, IDEAL_1, SQUARE_1,
+      MEASURE6, MESFUNC2, MESFUNC5, MESFUNC6, SUPINF_1, REALSET1, MESFUNC1,
+      RELSET_1, BINOP_2, MESFUN6C, LPSPACE2, COMSEQ_3;
+ registrations XBOOLE_0, RELSET_1, NUMBERS, XREAL_0, MEMBERED, PARTFUN1,
+      SQUARE_1, VALUED_0, SUBSET_1, XCMPLX_0, STRUCT_0, MEASURE1, XXREAL_3,
+      CLVECT_1;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin :: Preliminaries of Complex Linear Space
+
+registration
+  let D be non empty set, E be complex-membered set;
+  cluster -> complex-valued for Element of PFuncs(D,E);
+end;
+
+definition
+  let D be non empty set, E be complex-membered set,
+  F1,F2 be Element of PFuncs(D,E);
+  redefine func F1+F2 -> Element of PFuncs(D,COMPLEX);
+  redefine func F1-F2 -> Element of PFuncs(D,COMPLEX);
+  redefine func F1(#)F2 -> Element of PFuncs(D,COMPLEX);
+  redefine func F1 /" F2 -> Element of PFuncs(D,COMPLEX);
+end;
+
+definition
+  let D be non empty set, E be complex-membered set,
+  F be Element of PFuncs(D,E), a be Complex;
+  redefine func a(#)F -> Element of PFuncs(D,COMPLEX);
+end;
+
+definition
+  let V be non empty CLSStruct, V1 be Subset of V;
+  attr V1 is multi-closed means
+:: LPSPACC1:def 1
+  for a be Complex, v be VECTOR of V st v in V1 holds a*v in V1;
+end;
+
+theorem :: LPSPACC1:1
+  for V be ComplexLinearSpace, V1 be Subset of V holds
+  V1 is linearly-closed iff V1 is add-closed multi-closed;
+
+registration
+  let V be non empty CLSStruct;
+  cluster add-closed multi-closed for non empty Subset of V;
+end;
+
+definition
+  let X be non empty CLSStruct;
+  let X1 be multi-closed non empty Subset of X;
+  func Mult_X1 -> Function of [:COMPLEX,X1:], X1 equals
+:: LPSPACC1:def 2
+  (the Mult of X) | [:COMPLEX, X1:];
+end;
+
+ reserve a,b,r for Complex;
+ reserve V for ComplexLinearSpace;
+
+theorem :: LPSPACC1:2
+  for V be Abelian add-associative right_zeroed
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty CLSStruct, V1 be non empty Subset of V, d1 be
+Element of V1, A be BinOp of V1, M be Function of [:COMPLEX,V1:],V1 st
+d1 = 0.V &
+A = (the addF of V)|| V1 & M = (the Mult of V)|[:COMPLEX,V1:]
+    holds CLSStruct(# V1,d1,A,M #) is Abelian add-associative right_zeroed
+    vector-distributive scalar-distributive scalar-associative scalar-unital;
+
+theorem :: LPSPACC1:3
+  for V be Abelian add-associative right_zeroed
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+   non empty CLSStruct, V1 be add-closed multi-closed non
+empty Subset of V st 0.V in V1 holds CLSStruct (# V1,In (0.V, V1), add|(V1,V),
+    Mult_ V1 #) is Abelian add-associative right_zeroed vector-distributive
+    scalar-distributive scalar-associative scalar-unital;
+
+begin :: Quasi-Complex Linear Space of Partial Functions
+
+reserve A,B for non empty set;
+reserve f,g,h for Element of PFuncs(A,COMPLEX);
+
+definition
+  let A;
+  func multcpfunc A -> BinOp of PFuncs(A,COMPLEX) means
+:: LPSPACC1:def 3
+
+  for f,g being Element of PFuncs(A,COMPLEX) holds it.(f,g) = f(#)g;
+end;
+
+definition
+  let A;
+  func multcomplexcpfunc A -> Function of
+    [:COMPLEX,PFuncs(A,COMPLEX):],PFuncs(A,COMPLEX) means
+:: LPSPACC1:def 4
+  for a being Complex, f being Element of PFuncs(A,COMPLEX)
+    holds it.(a,f) = a(#)f;
+end;
+
+:: Newly Define addcpfunc instead of addpfunc(D) of RFUNCT_3:def 4
+
+definition
+  let D be non empty set;
+  func addcpfunc(D) -> BinOp of PFuncs(D,COMPLEX) means
+:: LPSPACC1:def 5
+
+  for F1,F2 be Element of PFuncs(D,COMPLEX) holds it.(F1,F2) = F1 + F2;
+end;
+
+definition
+  let A be set;
+  func CPFuncZero A -> Element of PFuncs(A,COMPLEX) equals
+:: LPSPACC1:def 6
+  A --> 0c;
+end;
+
+definition
+  let A be set;
+  func CPFuncUnit A -> Element of PFuncs(A,COMPLEX) equals
+:: LPSPACC1:def 7
+  A --> 1r;
+end;
+
+theorem :: LPSPACC1:4
+  h = (addcpfunc A).(f,g) iff (dom h= dom f /\ dom g & for x being
+  Element of A st x in dom h holds h.x = f.x + g.x);
+
+theorem :: LPSPACC1:5
+  h = (multcpfunc A).(f,g) iff dom h = dom f /\ dom g & for x being
+  Element of A st x in dom h holds h.x = f.x * g.x;
+
+theorem :: LPSPACC1:6
+  CPFuncZero A <> CPFuncUnit A;
+
+theorem :: LPSPACC1:7
+  h = (multcomplexcpfunc A).(a,f) iff dom h = dom f & for x being
+  Element of A st x in dom f holds h.x = a * f.x;
+
+registration
+  let A;
+  cluster addcpfunc(A) -> commutative associative;
+end;
+
+registration
+  let A;
+  cluster multcpfunc(A) -> commutative associative;
+end;
+
+theorem :: LPSPACC1:8
+  CPFuncUnit A is_a_unity_wrt multcpfunc A;
+
+theorem :: LPSPACC1:9
+  CPFuncZero A is_a_unity_wrt addcpfunc A;
+
+theorem :: LPSPACC1:10
+  (addcpfunc A).(f,(multcomplexcpfunc A).(-1r,f)) = (CPFuncZero A)|(dom f);
+
+theorem :: LPSPACC1:11
+  (multcomplexcpfunc A).(1r,f) = f;
+
+theorem :: LPSPACC1:12
+  (multcomplexcpfunc A).(a,(multcomplexcpfunc A).(b,f))
+  = (multcomplexcpfunc A).(a*b,f);
+
+theorem :: LPSPACC1:13
+  (addcpfunc A).((multcomplexcpfunc A).(a,f),(multcomplexcpfunc A).(b,f)) =
+  (multcomplexcpfunc A).(a+b,f);
+
+theorem :: LPSPACC1:14
+  (multcpfunc A).(f,(addcpfunc A).(g,h)) =
+  (addcpfunc A).((multcpfunc A).(f,g),(multcpfunc A).(f,h));
+
+theorem :: LPSPACC1:15
+  (multcpfunc A).((multcomplexcpfunc A).(a,f),g)
+  = (multcomplexcpfunc A).(a,(multcpfunc A).(f,g));
+
+definition
+  let A;
+  func CLSp_PFunctA -> non empty CLSStruct equals
+:: LPSPACC1:def 8
+  CLSStruct(#PFuncs(A,COMPLEX),
+    CPFuncZero A, addcpfunc A, multcomplexcpfunc A#);
+end;
+
+reserve u,v,w for VECTOR of CLSp_PFunctA;
+
+registration
+  let A;
+  cluster CLSp_PFunctA -> strict Abelian add-associative right_zeroed
+    vector-distributive scalar-distributive scalar-associative scalar-unital;
+end;
+
+begin :: Quasi-Complex Linear Space of Integrable Functions
+
+reserve X for non empty set,
+  x for Element of X,
+  S for SigmaField of X,
+  M for sigma_Measure of S,
+  E,E1,E2,A,B for Element of S,
+  f,g,h,f1,g1 for PartFunc of X,COMPLEX;
+
+registration
+  let X; let f be PartFunc of X,COMPLEX;
+  cluster abs f -> nonnegative;
+end;
+
+theorem :: LPSPACC1:16
+  for f be PartFunc of X,COMPLEX st dom f in S
+  & for x st x in dom f holds 0= f.x holds
+  f is_integrable_on M & Integral(M,f) = 0;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func L1_CFunctions M -> non empty Subset of CLSp_PFunctX equals
+:: LPSPACC1:def 9
+  { f where f
+  is PartFunc of X,COMPLEX : ex ND be Element of S st M.ND=0 & dom f = ND` & f
+  is_integrable_on M };
+end;
+
+theorem :: LPSPACC1:17
+  f in L1_CFunctions M & g in L1_CFunctions M implies f + g in L1_CFunctions M;
+
+theorem :: LPSPACC1:18
+  f in L1_CFunctions M implies a(#)f in L1_CFunctions M;
+
+registration
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  cluster L1_CFunctions M -> multi-closed add-closed;
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func CLSp_L1Funct M -> non empty CLSStruct equals
+:: LPSPACC1:def 10
+  CLSStruct (# L1_CFunctions M, In (0.(CLSp_PFunctX), L1_CFunctions M),
+   add|(L1_CFunctions M,CLSp_PFunctX), Mult_(L1_CFunctions M) #);
+end;
+
+registration
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  cluster CLSp_L1Funct M -> strict Abelian add-associative right_zeroed
+    vector-distributive scalar-distributive scalar-associative scalar-unital;
+end;
+
+begin :: Quotient Space of Quasi-Complex Linear Space of Integrable Functions
+
+reserve v,u for VECTOR of CLSp_L1Funct M;
+
+theorem :: LPSPACC1:19
+  f=v & g=u implies f+g=v+u;
+
+theorem :: LPSPACC1:20
+  f=u implies a(#)f=a*u;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S, f,g
+  be PartFunc of X,COMPLEX;
+  pred f a.e.cpfunc= g,M means
+:: LPSPACC1:def 11
+
+  ex E be Element of S st M.E = 0 & f|E` = g|E`;
+end;
+
+theorem :: LPSPACC1:21
+  f=u implies u+(-1r)*u = (X --> 0c)|dom f &
+  ex v,g be PartFunc of X,COMPLEX st v in L1_CFunctions M
+  & g in L1_CFunctions M & v = u+(-1r)*u & g = X --> 0c & v a.e.cpfunc= g,M;
+
+theorem :: LPSPACC1:22
+  f a.e.cpfunc= f,M;
+
+theorem :: LPSPACC1:23
+  f a.e.cpfunc= g,M implies g a.e.cpfunc= f,M;
+
+theorem :: LPSPACC1:24
+  f a.e.cpfunc= g,M & g a.e.cpfunc= h,M implies f a.e.cpfunc= h,M;
+
+theorem :: LPSPACC1:25
+  f a.e.cpfunc= f1,M & g a.e.cpfunc= g1,M implies (f+g) a.e.cpfunc= (f1+g1),M;
+
+theorem :: LPSPACC1:26
+  f a.e.cpfunc= g,M implies a(#)f a.e.cpfunc= a(#)g,M;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func AlmostZeroCFunctions M -> non empty Subset of CLSp_L1Funct M equals
+:: LPSPACC1:def 12
+  { f where f is PartFunc of X,COMPLEX :
+  f in L1_CFunctions M & f a.e.cpfunc= X-->0c,M };
+end;
+
+theorem :: LPSPACC1:27
+  (X-->0c) + (X-->0c) = X-->0c & a(#)(X-->0c) = X-->0c;
+
+registration
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  cluster AlmostZeroCFunctions M -> add-closed multi-closed;
+end;
+
+theorem :: LPSPACC1:28
+  0.(CLSp_L1Funct M) = X-->0c & 0.(CLSp_L1Funct M) in
+  AlmostZeroCFunctions M;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func CLSp_AlmostZeroFunct M -> non empty CLSStruct equals
+:: LPSPACC1:def 13
+  CLSStruct (#
+    AlmostZeroCFunctions M, In(0.(CLSp_L1Funct M),AlmostZeroCFunctions M),
+    add|(AlmostZeroCFunctions M,CLSp_L1Funct M),
+    Mult_(AlmostZeroCFunctions M) #);
+end;
+
+registration
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  cluster CLSp_L1Funct M -> strict Abelian add-associative right_zeroed
+    vector-distributive scalar-distributive scalar-associative scalar-unital;
+end;
+
+reserve v,u for VECTOR of CLSp_AlmostZeroFunct M;
+
+theorem :: LPSPACC1:29
+  f=v & g=u implies f+g=v+u;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S, f be
+  PartFunc of X,COMPLEX;
+  func a.e-Ceq-class(f,M) -> Subset of L1_CFunctions M equals
+:: LPSPACC1:def 14
+  {g where g is PartFunc of X,COMPLEX : g in L1_CFunctions M
+   & f in L1_CFunctions M & f a.e.cpfunc= g,M };
+end;
+
+theorem :: LPSPACC1:30
+  f in L1_CFunctions M & g in L1_CFunctions M implies (g a.e.cpfunc= f,M
+  iff g in a.e-Ceq-class(f,M));
+
+theorem :: LPSPACC1:31
+  f in L1_CFunctions M implies f in a.e-Ceq-class(f,M);
+
+theorem :: LPSPACC1:32
+  f in L1_CFunctions M & g in L1_CFunctions M implies (a.e-Ceq-class(
+  f,M) = a.e-Ceq-class(g,M) iff f a.e.cpfunc= g,M);
+
+theorem :: LPSPACC1:33
+  f in L1_CFunctions M & g in L1_CFunctions M implies (a.e-Ceq-class(f,M) =
+  a.e-Ceq-class(g,M) iff g in a.e-Ceq-class(f,M));
+
+theorem :: LPSPACC1:34
+  f in L1_CFunctions M & f1 in L1_CFunctions M & g in L1_CFunctions M
+& g1 in L1_CFunctions M
+& a.e-Ceq-class(f,M) = a.e-Ceq-class(f1,M) & a.e-Ceq-class(g,M)
+= a.e-Ceq-class(g1,M) implies a.e-Ceq-class(f+g,M) = a.e-Ceq-class(f1+g1,M);
+
+theorem :: LPSPACC1:35
+  f in L1_CFunctions M & g in L1_CFunctions M & a.e-Ceq-class(f,M) =
+  a.e-Ceq-class(g,M) implies a.e-Ceq-class(a(#)f,M) = a.e-Ceq-class(a(#)g,M);
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func CCosetSet M -> non empty Subset-Family of L1_CFunctions M equals
+:: LPSPACC1:def 15
+  {
+  a.e-Ceq-class(f,M) where f is PartFunc of X,COMPLEX : f in L1_CFunctions M};
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func addCCoset M -> BinOp of CCosetSet M means
+:: LPSPACC1:def 16
+
+  for A,B be Element of
+  CCosetSet M, a,b be PartFunc of X,COMPLEX st a in A & b in B holds it.(A,B) =
+  a.e-Ceq-class(a+b,M);
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func zeroCCoset M -> Element of CCosetSet M equals
+:: LPSPACC1:def 17
+  a.e-Ceq-class(X --> 0c,M);
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func lmultCCoset M -> Function of [:COMPLEX, CCosetSet M:],CCosetSet M means
+:: LPSPACC1:def 18
+
+  for z be Complex, A be Element of CCosetSet M, f be PartFunc of X,COMPLEX st
+  f in A holds it.(z,A) = a.e-Ceq-class(z(#)f,M);
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func Pre-L-CSpace M -> strict Abelian add-associative right_zeroed
+  right_complementable vector-distributive scalar-distributive
+  scalar-associative scalar-unital non empty CLSStruct means
+:: LPSPACC1:def 19
+
+  the carrier of it = CCosetSet M & the addF of it = addCCoset M
+  & 0.it = zeroCCoset M & the Mult of it = lmultCCoset M;
+end;
+
+begin :: Complex Normed Space of Integrable Functions
+
+theorem :: LPSPACC1:36
+  f in L1_CFunctions M & g in L1_CFunctions M & f a.e.cpfunc= g,M implies
+  Integral(M,f) = Integral(M,g);
+
+theorem :: LPSPACC1:37
+  f is_integrable_on M implies Integral(M,f) in COMPLEX &
+  Integral(M,|.f.|) in REAL & |.f.| is_integrable_on M;
+
+theorem :: LPSPACC1:38
+  f in L1_CFunctions M & g in L1_CFunctions M & f a.e.cpfunc= g,M implies
+  |.f.| a.e.= |.g.|,M & Integral(M,|.f.|) = Integral(M,|.g.|);
+
+theorem :: LPSPACC1:39
+  (ex x be VECTOR of Pre-L-CSpace M st f in x & g in x) implies f
+  a.e.cpfunc= g,M & f in L1_CFunctions M & g in L1_CFunctions M;
+
+theorem :: LPSPACC1:40
+  ex NORM be Function of the carrier of Pre-L-CSpace M,REAL st for
+  x be Point of Pre-L-CSpace M ex f be PartFunc of X,COMPLEX
+  st f in x & NORM.x = Integral(M,abs f);
+
+reserve x for Point of Pre-L-CSpace M;
+
+theorem :: LPSPACC1:41
+  f in x implies f is_integrable_on M & f in L1_CFunctions M & abs
+  f is_integrable_on M;
+
+theorem :: LPSPACC1:42
+  f in x & g in x implies f a.e.cpfunc= g,M & Integral(M,f) = Integral(M,g)
+  & Integral(M,abs f) = Integral(M,abs g);
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func L-1-CNorm M -> Function of the carrier of Pre-L-CSpace M,REAL means
+:: LPSPACC1:def 20
+
+   for x be Point of Pre-L-CSpace M ex f be PartFunc of X,COMPLEX
+  st f in x & it.x = Integral(M,abs f);
+end;
+
+definition
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  func L-1-CSpace M -> non empty CNORMSTR equals
+:: LPSPACC1:def 21
+  CNORMSTR (# the carrier of Pre-L-CSpace M,
+             the ZeroF of Pre-L-CSpace M, the addF of Pre-L-CSpace M,
+             the Mult of Pre-L-CSpace M, L-1-CNorm M #);
+end;
+
+reserve x,y for Point of L-1-CSpace M;
+
+theorem :: LPSPACC1:43
+  ( ex f be PartFunc of X,COMPLEX st f in L1_CFunctions M & x=
+a.e-Ceq-class(f,M) & ||.x.|| = Integral(M,abs f) ) &
+for f be PartFunc of X,COMPLEX
+  st f in x holds Integral(M,abs f) = ||.x.||;
+
+theorem :: LPSPACC1:44
+  f in x implies x= a.e-Ceq-class(f,M) & ||.x.|| = Integral(M,abs f);
+
+theorem :: LPSPACC1:45
+  (f in x & g in y implies f+g in x+y) & (f in x implies a(#)f in a*x);
+
+theorem :: LPSPACC1:46
+  f in L1_CFunctions M & Integral(M,abs f) = 0 implies
+  f a.e.cpfunc= X-->0c,M;
+
+theorem :: LPSPACC1:47
+  f in L1_CFunctions M & g in L1_CFunctions M implies
+  Integral(M,|.f+g.|) <= Integral(M,|.f.|) + Integral(M,|.g.|);
+
+registration
+  let X be non empty set, S be SigmaField of X, M be sigma_Measure of S;
+  cluster L-1-CSpace M -> ComplexNormSpace-like vector-distributive
+  scalar-distributive scalar-associative scalar-unital Abelian
+    add-associative right_zeroed right_complementable;
+end;

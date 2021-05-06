@@ -1,0 +1,719 @@
+:: About Supergraphs, Part {II}
+::  by Sebastian Koch
+::
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, RELAT_1, FUNCT_1, XXREAL_0, TARSKI,
+      ARYTM_3, CARD_1, XBOOLE_0, NAT_1, ARYTM_1, GLIB_000, PBOOLE, FINSET_1,
+      ZFMISC_1, RELAT_2, GLIB_002, FUNCOP_1, GLIB_001, FUNCT_4, GLIB_006,
+      ABIAN, REWRITE1, CHORD, RCOMP_1, WAYBEL_0, MCART_1, GRAPH_1, CARD_2,
+      FUNCT_2, GLIB_007;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCT_3, FUNCOP_1,
+      FUNCT_4, FINSET_1, CARD_1, PBOOLE, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0,
+      NAT_1, INT_1, VALUED_0, NAT_D, CARD_2, FINSEQ_1, RVSUM_1, FUNCT_7, ABIAN,
+      GLIB_000, FINSEQ_8, GRAPH_2, GRAPH_5, GLIB_001, GLIB_002, CHORD,
+      GLIB_006;
+ constructors DOMAIN_1, BINOP_1, BINOP_2, FINSOP_1, RVSUM_1, FINSEQ_5, GRAPH_5,
+      ABIAN, WELLORD2, FUNCT_2, FIB_NUM2, FINSEQ_8, GLIB_001, GLIB_002,
+      RELSET_1, FUNCT_3, CHORD, NAT_D, GRAPH_2, RFINSEQ, FINSEQ_6, CARD_2,
+      FUNCT_7, FINSEQ_1, SUBSET_1, GLIB_006;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, FINSET_1, ABIAN,
+      NUMBERS, XREAL_0, NAT_1, MEMBERED, FINSEQ_1, GLIB_000, GLIB_001, HELLY,
+      GLIB_002, CHORD, INT_1, VALUED_0, CARD_1, FUNCT_2, PARTFUN1, HURWITZ2,
+      RELSET_1, RAMSEY_1, FUNCT_4, SUBSET_1, GLIB_006;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin :: Reversing Edge Directions
+
+reserve G, G2 for _Graph, V, E for set,
+  v for object;
+
+definition
+  let G, E;
+  mode reverseEdgeDirections of G, E -> _Graph means
+:: GLIB_007:def 1
+
+  the_Vertices_of it = the_Vertices_of G &
+  the_Edges_of it = the_Edges_of G &
+  the_Source_of it = the_Source_of G +* ((the_Target_of G) | E) &
+  the_Target_of it = the_Target_of G +* ((the_Source_of G) | E)
+  if E c= the_Edges_of G
+  otherwise it == G;
+end;
+
+definition
+  let G;
+  :: a.k.a. the transpose, converse or reverse of G
+  mode reverseEdgeDirections of G
+    is reverseEdgeDirections of G, the_Edges_of G;
+end;
+
+theorem :: GLIB_007:1
+  for G, E for G1, G2 being reverseEdgeDirections of G, E holds G1 == G2;
+
+theorem :: GLIB_007:2
+  for G, G2, E for G1 being reverseEdgeDirections of G, E
+  st G1 == G2 holds G2 is reverseEdgeDirections of G, E;
+
+theorem :: GLIB_007:3
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  holds G2 is reverseEdgeDirections of G1, E;
+
+theorem :: GLIB_007:4
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  holds the_Vertices_of G1 = the_Vertices_of G2 &
+    the_Edges_of G1 = the_Edges_of G2;
+
+theorem :: GLIB_007:5
+  for G2 for G1 being reverseEdgeDirections of G2
+  holds G2 is reverseEdgeDirections of G1;
+
+theorem :: GLIB_007:6
+  for G2 being trivial _Graph, E being set, G1 being _Graph
+  holds G1 == G2 iff G1 is reverseEdgeDirections of G2, E;
+
+theorem :: GLIB_007:7
+  for G2, E for G1 being reverseEdgeDirections of G2, E, v1,e,v2 being object
+  st E c= the_Edges_of G2 & e in E
+  holds (e DJoins v1,v2,G2 iff e DJoins v2,v1,G1);
+
+theorem :: GLIB_007:8
+  for G2, E for G1 being reverseEdgeDirections of G2, E, v1,e,v2 being object
+  st E c= the_Edges_of G2 & not e in E
+  holds (e DJoins v1,v2,G2 iff e DJoins v1,v2,G1);
+
+theorem :: GLIB_007:9
+  for G2, E for G1 being reverseEdgeDirections of G2, E, v1,e,v2 being object
+  holds (e Joins v1,v2,G2 iff e Joins v1,v2,G1);
+
+theorem :: GLIB_007:10
+  for G2, E, v for G1 being reverseEdgeDirections of G2, E
+  holds v is Vertex of G1 iff v is Vertex of G2;
+
+theorem :: GLIB_007:11
+  for G2, E, V for G1 being reverseEdgeDirections of G2, E
+  holds G1.edgesBetween(V) = G2.edgesBetween(V);
+
+theorem :: GLIB_007:12
+  for G2, E, V for G1 being reverseEdgeDirections of G2, E
+  holds G1.edgesInOut(V) = G2.edgesInOut(V);
+
+theorem :: GLIB_007:13
+  for G2, E, V for G1 being reverseEdgeDirections of G2, E
+  for v1 being Vertex of G1, v2 being Vertex of G2 st v1 = v2
+  holds v1.edgesInOut() = v2.edgesInOut();
+
+theorem :: GLIB_007:14
+  for G2, E for G1 being reverseEdgeDirections of G2, E, W2 being Walk of G2
+  holds W2 is Walk of G1;
+
+theorem :: GLIB_007:15
+  for G2, E for G1 being reverseEdgeDirections of G2, E, W1 being Walk of G1
+  holds W1 is Walk of G2;
+
+theorem :: GLIB_007:16
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  for W2 being Walk of G2, W1 being Walk of G1
+  st E c= the_Edges_of G2 & W1 = W2 & W2.edges() c= E
+  holds (W1 is directed iff W2.reverse() is directed);
+
+theorem :: GLIB_007:17
+  for G2 for G1 being reverseEdgeDirections of G2
+  for W2 being Walk of G2, W1 being Walk of G1 st W1 = W2
+  holds (W1 is directed iff W2.reverse() is directed);
+
+theorem :: GLIB_007:18
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  for W2 being Walk of G2, W1 being Walk of G1 st W1 = W2
+  holds (W1 is chordal iff W2 is chordal);
+
+theorem :: GLIB_007:19
+  for G2, E for G1 being reverseEdgeDirections of G2, E, v1, v2 being object
+  holds (ex W1 being Walk of G1 st W1 is_Walk_from v1,v2) iff
+    (ex W2 being Walk of G2 st W2 is_Walk_from v1,v2);
+
+theorem :: GLIB_007:20
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  for v1 being Vertex of G1, v2 being Vertex of G2 st v1 = v2
+  holds G1.reachableFrom(v1) = G2.reachableFrom(v2);
+
+theorem :: GLIB_007:21
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  holds G1.componentSet() = G2.componentSet() &
+    G1.numComponents() = G2.numComponents();
+
+registration
+  let G be trivial _Graph, E be set;
+  cluster -> trivial for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non trivial _Graph, E be set;
+  cluster -> non trivial for reverseEdgeDirections of G, E;
+end;
+
+:: More theorems of this kind can be produced with other
+:: subgraph modes. This particular example was needed
+:: to show that the cut-vertex property prevails in graphs
+:: with (partially) reversed edge directions
+theorem :: GLIB_007:22
+  for G2, E for G1 being reverseEdgeDirections of G2, E, v being set
+  for G3 being removeVertex of G1, v, G4 being removeVertex of G2, v
+  holds G4 is reverseEdgeDirections of G3, E \ G1.edgesInOut({v});
+
+theorem :: GLIB_007:23
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  for v1 being Vertex of G1, v2 being Vertex of G2 st v1 = v2
+  holds (v1 is isolated iff v2 is isolated) &
+    (v1 is endvertex iff v2 is endvertex) &
+    (v1 is cut-vertex iff v2 is cut-vertex);
+
+theorem :: GLIB_007:24
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  holds G1.order() = G2.order() & G1.size() = G2.size();
+
+theorem :: GLIB_007:25
+  for G2, E for G1 being reverseEdgeDirections of G2, E
+  st E c= the_Edges_of G2 & G2 is non-Dmulti &
+    for e1,e2,v1,v2 being object st e1 Joins v1,v2,G2 & e2 Joins v1,v2,G2
+    holds (e1 in E & e2 in E) or (not e1 in E & not e2 in E)
+  holds G1 is non-Dmulti;
+
+registration
+  let G be non-Dmulti _Graph;
+  cluster -> non-Dmulti for reverseEdgeDirections of G;
+end;
+
+registration
+  let G be non non-Dmulti _Graph;
+  cluster -> non non-Dmulti for reverseEdgeDirections of G;
+end;
+
+registration
+  let G be non-multi _Graph, E be set;
+  cluster -> non-multi for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non non-multi _Graph, E be set;
+  cluster -> non non-multi for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be loopless _Graph, E be set;
+  cluster -> loopless for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non loopless _Graph, E be set;
+  cluster -> non loopless for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be connected _Graph, E be set;
+  cluster -> connected for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non connected _Graph, E be set;
+  cluster -> non connected for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be acyclic _Graph, E be set;
+  cluster -> acyclic for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non acyclic _Graph, E be set;
+  cluster -> non acyclic for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be complete _Graph, E be set;
+  cluster -> complete for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non complete _Graph, E be set;
+  cluster -> non complete for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be chordal _Graph, E be set;
+  cluster -> chordal for reverseEdgeDirections of G, E;
+end;
+
+:: "non"-version of this cluster has to wait
+:: because non chordal existence will be proven with cycle graphs
+
+registration
+  let G be finite _Graph, E be set;
+  cluster -> finite for reverseEdgeDirections of G, E;
+end;
+
+registration
+  let G be non finite _Graph, E be set;
+  cluster -> non finite for reverseEdgeDirections of G, E;
+end;
+
+theorem :: GLIB_007:26
+  for G2 for G1 being reverseEdgeDirections of G2
+  holds the_Source_of G1 = the_Target_of G2 &
+    the_Target_of G1 = the_Source_of G2;
+
+theorem :: GLIB_007:27
+  for G2 for G1 being reverseEdgeDirections of G2
+  for v1,e,v2 being object
+  holds (e DJoins v1,v2,G2 iff e DJoins v2,v1,G1);
+
+begin
+
+:: we need a lot of edges, so we take the freedom
+:: to specify them within the definition
+definition
+  let G, v, V;
+  mode addAdjVertexToAll of G,v,V -> Supergraph of G means
+:: GLIB_007:def 2
+  the_Vertices_of it = the_Vertices_of G \/ {v} &
+  the_Edges_of it = the_Edges_of G \/ (V --> the_Edges_of G) &
+  the_Source_of it = the_Source_of G +* ((V --> the_Edges_of G) --> v) &
+  the_Target_of it = the_Target_of G +* pr1(V,{the_Edges_of G})
+  if V c= the_Vertices_of G & not v in the_Vertices_of G
+  otherwise it == G;
+end;
+
+definition
+  let G, v, V;
+  mode addAdjVertexFromAll of G,v,V -> Supergraph of G means
+:: GLIB_007:def 3
+
+  the_Vertices_of it = the_Vertices_of G \/ {v} &
+  the_Edges_of it = the_Edges_of G \/ (V --> the_Edges_of G) &
+  the_Source_of it = the_Source_of G +* pr1(V,{the_Edges_of G}) &
+  the_Target_of it = the_Target_of G +* ((V --> the_Edges_of G) --> v)
+  if V c= the_Vertices_of G & not v in the_Vertices_of G
+  otherwise it == G;
+end;
+
+definition
+  let G, v;
+  mode addAdjVertexToAll of G, v is
+    addAdjVertexToAll of G, v, the_Vertices_of G;
+  mode addAdjVertexFromAll of G, v is
+    addAdjVertexFromAll of G,v, the_Vertices_of G;
+end;
+
+theorem :: GLIB_007:28
+  for G, v, V for G1, G2 being addAdjVertexToAll of G,v,V
+  holds G1 == G2;
+
+theorem :: GLIB_007:29
+  for G, v, V for G1, G2 being addAdjVertexFromAll of G,v,V
+  holds G1 == G2;
+
+theorem :: GLIB_007:30
+  for G, G2, v, V for G1 being addAdjVertexToAll of G,v,V
+  st G1 == G2 holds G2 is addAdjVertexToAll of G,v,V;
+
+theorem :: GLIB_007:31
+  for G, G2, v, V for G1 being addAdjVertexFromAll of G,v,V
+  st G1 == G2 holds G2 is addAdjVertexFromAll of G,v,V;
+
+theorem :: GLIB_007:32
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V
+  holds the_Vertices_of G1 = the_Vertices_of G2
+    & the_Edges_of G1 = the_Edges_of G2;
+
+theorem :: GLIB_007:33
+  for G2, v, V for G1 being addAdjVertexToAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.edgesOutOf({v}) = V --> the_Edges_of G2;
+
+theorem :: GLIB_007:34
+  for G2, v, V for G1 being addAdjVertexFromAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.edgesInto({v}) = V --> the_Edges_of G2;
+
+theorem :: GLIB_007:35
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V
+  st V c= the_Vertices_of G & not v in the_Vertices_of G
+  holds G2 is reverseEdgeDirections of G1, G1.edgesOutOf({v})
+    & G1 is reverseEdgeDirections of G2, G2.edgesInto({v});
+
+theorem :: GLIB_007:36
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V
+  for v1,e,v2 being object
+  holds (e Joins v1,v2,G1 iff e Joins v1,v2,G2);
+
+theorem :: GLIB_007:37
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V, w being object
+  holds (w is Vertex of G1 iff w is Vertex of G2);
+
+theorem :: GLIB_007:38
+  for G2, v, V for G1 being addAdjVertexToAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  for e1, u being object
+  holds not e1 DJoins u,v,G1 & (not u in V implies not e1 DJoins v,u,G1) &
+    for e2 being object
+    holds e1 DJoins v,u,G1 & e2 DJoins v,u,G1 implies e1 = e2;
+
+theorem :: GLIB_007:39
+  for G2, v, V for G1 being addAdjVertexFromAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  for e1, u being object
+  holds not e1 DJoins v,u,G1 & (not u in V implies not e1 DJoins u,v,G1) &
+    for e2 being object
+    holds e1 DJoins u,v,G1 & e2 DJoins u,v,G1 implies e1 = e2;
+
+theorem :: GLIB_007:40
+  for G2, v, V for G1 being addAdjVertexToAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  for e, v1, v2 being object st v1 <> v
+  holds e DJoins v1,v2,G1 implies e DJoins v1,v2,G2;
+
+theorem :: GLIB_007:41
+  for G2, v, V for G1 being addAdjVertexFromAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  for e, v1, v2 being object st v2 <> v
+  holds e DJoins v1,v2,G1 implies e DJoins v1,v2,G2;
+
+theorem :: GLIB_007:42
+  for G2, v, V for G1 being addAdjVertexToAll of G2,v,V, v1 being object
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 & v1 in V
+  holds [v1,the_Edges_of G2] DJoins v,v1,G1;
+
+theorem :: GLIB_007:43
+  for G2, v, V for G1 being addAdjVertexFromAll of G2,v,V, v1 being object
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 & v1 in V
+  holds [v1,the_Edges_of G2] DJoins v1,v,G1;
+
+theorem :: GLIB_007:44
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V
+  for W1 being Walk of G1 holds W1 is Walk of G2;
+
+theorem :: GLIB_007:45
+  for G, v, V for G1 being addAdjVertexToAll of G,v,V
+  for G2 being addAdjVertexFromAll of G,v,V
+  for W2 being Walk of G2 holds W2 is Walk of G1;
+
+:: If someone could come up with an easier redefinition
+:: without using isomorphisms, it would be appreciated.
+:: Note that each property of the definition is used within
+:: the next three theorems.
+:: Also note that about half the definition is implied when V is finite
+:: because of the card-property. However, this will not be proved here.
+:: We need this general form (as opposed to addAdjVertexTo/FromAll)
+:: to give a constructive characterization of star and wheel graphs
+:: without having to use isomorphisms.
+definition
+  let G, v, V;
+  mode addAdjVertexAll of G,v,V -> Supergraph of G means
+:: GLIB_007:def 4
+
+  the_Vertices_of it = the_Vertices_of G \/ {v} &
+  (for e being object holds not e Joins v,v,it &
+    for v1 being object
+    holds (not v1 in V implies not e Joins v1,v,it) &
+      for v2 being object st (v1 <> v & v2 <> v) & e DJoins v1,v2,it
+      holds e DJoins v1,v2,G) &
+  ex E being set st
+    card V = card E & E misses the_Edges_of G &
+    the_Edges_of it = the_Edges_of G \/ E &
+    for v1 being object st v1 in V ex e1 being object st e1 in E &
+      e1 Joins v1,v,it &
+      for e2 being object st e2 Joins v1,v,it holds e1 = e2
+  if V c= the_Vertices_of G & not v in the_Vertices_of G
+  otherwise it == G;
+end;
+
+definition
+  let G, v;
+  mode addAdjVertexAll of G,v is addAdjVertexAll of G,v,the_Vertices_of G;
+  let V;
+  redefine mode addAdjVertexToAll of G,v,V -> addAdjVertexAll of G,v,V;
+  redefine mode addAdjVertexFromAll of G,v,V -> addAdjVertexAll of G,v,V;
+end;
+
+theorem :: GLIB_007:46
+  for G2, v for G1 being addAdjVertexAll of G2,v,{}
+  holds the_Edges_of G2 = the_Edges_of G1;
+
+theorem :: GLIB_007:47
+  for G2, v for V being non empty set, G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds the_Edges_of G1 <> {};
+
+theorem :: GLIB_007:48
+  for G, G2, v, V for G1 being addAdjVertexAll of G,v,V
+  st G1 == G2 holds G2 is addAdjVertexAll of G,v,V;
+
+theorem :: GLIB_007:49
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V, v1,e,v2 being object
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    v1 <> v & v2 <> v & e Joins v1,v2,G1
+  holds e Joins v1,v2,G2;
+
+theorem :: GLIB_007:50
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds v is Vertex of G1;
+
+theorem :: GLIB_007:51
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V
+  for E being set, v1,e,v2 being object
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    the_Edges_of G1 = the_Edges_of G2 \/ E & E misses the_Edges_of G2 &
+    e Joins v1,v2,G1 & not e in the_Edges_of G2
+  holds e in E & ((v1 = v & v2 in V) or (v2 = v & v1 in V));
+
+theorem :: GLIB_007:52
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V, E being set
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    the_Edges_of G1 = the_Edges_of G2 \/ E & E misses the_Edges_of G2
+  holds ex f, g being Function of E, V \/ {v} st
+    the_Source_of G1 = the_Source_of G2 +* f &
+    the_Target_of G1 = the_Target_of G2 +* g &
+    for e being object st e in E holds e DJoins f.e,g.e,G1 &
+      (f.e = v iff g.e <> v);
+
+theorem :: GLIB_007:53
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds the_Edges_of G2 = G1.edgesBetween(the_Vertices_of G2);
+
+theorem :: GLIB_007:54
+  for G2 being _Graph, v, V being set, G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G2 is removeVertex of G1, v;
+
+theorem :: GLIB_007:55
+  for G2, v for G1 being addAdjVertexAll of G2,v,{}
+  holds G1 is addVertex of G2, v;
+
+:: TODO other direction
+theorem :: GLIB_007:56
+  for G2, v for v1 being object, G1 being addAdjVertexAll of G2,v,{v1}
+  st v1 in the_Vertices_of G2 & not v in the_Vertices_of G2
+  ex e being object st not e in the_Edges_of G2 &
+    (G1 is addAdjVertex of G2,v,e,v1 or G1 is addAdjVertex of G2,v1,e,v);
+
+theorem :: GLIB_007:57
+  for G2, v, V for W being Subset of V, G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  ex f being Function of W, G1.edgesBetween(W,{v}) st
+    f is one-to-one onto & for w being object st w in W holds f.w Joins w,v,G1;
+
+theorem :: GLIB_007:58
+  for G2, v, V, E for G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    E misses the_Edges_of G2 & the_Edges_of G1 = the_Edges_of G2 \/ E
+  holds E = G1.edgesBetween(V,{v});
+
+theorem :: GLIB_007:59
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.edgesBetween(V,{v}) misses the_Edges_of G2 &
+    the_Edges_of G1 = the_Edges_of G2 \/ G1.edgesBetween(V,{v});
+
+theorem :: GLIB_007:60
+  for G3 being _Graph, v being object, V1, V2 being set
+  for G1 being addAdjVertexAll of G3, v, V1 \/ V2
+  for G2 being removeEdges of G1, G1.edgesBetween(V2,{v})
+  st V1 \/ V2 c= the_Vertices_of G3 & not v in the_Vertices_of G3
+    & V1 misses V2
+  holds G2 is addAdjVertexAll of G3, v, V1;
+
+theorem :: GLIB_007:61
+  for G3 being _Graph, v being object, V being set, v1 being Vertex of G3
+  for G1 being addAdjVertexAll of G3,v,V \/ {v1}
+  st V c= the_Vertices_of G3 & not v in the_Vertices_of G3 & not v1 in V
+  ex G2 being addAdjVertexAll of G3,v,V, e being object
+  st not e in the_Edges_of G2 &
+    (G1 is addEdge of G2,v,e,v1 or G1 is addEdge of G2,v1,e,v);
+
+theorem :: GLIB_007:62
+  for G3 being _Graph, v being object, V being set, v1 being Vertex of G3
+  for e being object, G2 being addAdjVertexAll of G3,v,V
+  st V c= the_Vertices_of G3 & not v in the_Vertices_of G3 & not v1 in V &
+    not e in the_Edges_of G2
+  for G1 being _Graph
+  st G1 is addEdge of G2,v1,e,v or G1 is addEdge of G2,v,e,v1
+  holds G1 is addAdjVertexAll of G3,v,V \/ {v1};
+
+theorem :: GLIB_007:63
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V, W being Walk of G1
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds
+    (W.edges() c= the_Edges_of G2 & W is non trivial implies
+      not v in W.vertices())
+    & (not v in W.vertices() implies W.edges() c= the_Edges_of G2);
+
+theorem :: GLIB_007:64
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V, W being Walk of G1
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    ((W.edges() c= the_Edges_of G2 & W is non trivial)
+      or not v in W.vertices())
+  holds W is Walk of G2;
+
+theorem :: GLIB_007:65
+  for G2, v, V for G1 being addAdjVertexAll of G2,v,V, W being Walk of G1
+  st W.vertices() c= the_Vertices_of G2
+  holds W.edges() c= the_Edges_of G2;
+
+theorem :: GLIB_007:66
+  for G, v, V for G1, G2 being addAdjVertexAll of G,v,V
+  holds the_Vertices_of G1 = the_Vertices_of G2 &
+    for v1 being Vertex of G1 holds v1 is Vertex of G2;
+
+theorem :: GLIB_007:67
+  for G, v, V for G1, G2 being addAdjVertexAll of G,v,V
+  for v1,e1,v2 being object st e1 Joins v1,v2,G1
+  ex e2 being object st e2 Joins v1,v2,G2;
+
+:: The closest analogon we can get for
+:: theorem for G, v, V for G1, G2 being addAdjVertexToAll of G,v,V
+::   holds G1 == G2
+:: but also preparation for
+:: registration let G, v, V; let G1 being addAdjVertexAll of G,v,V;
+::   cluster -> G1-isomorphic for addAdjVertexAll of G,v,V;
+:: coming soon
+theorem :: GLIB_007:68
+  for G, v, V for G1, G2 being addAdjVertexAll of G,v,V
+  ex f being Function of the_Edges_of G1, the_Edges_of G2
+  st f|the_Edges_of G = id the_Edges_of G & f is one-to-one onto &
+    for v1,e,v2 being object st e Joins v1,v2,G1 holds f.e Joins v1,v2,G2;
+
+registration
+  let G be loopless _Graph;
+  let v,V;
+  cluster -> loopless for addAdjVertexAll of G,v,V;
+end;
+
+registration
+  let G be non-Dmulti _Graph;
+  let v,V;
+  cluster -> non-Dmulti for addAdjVertexAll of G,v,V;
+end;
+
+registration
+  let G be non-multi _Graph;
+  let v,V;
+  cluster -> non-multi for addAdjVertexAll of G,v,V;
+end;
+
+registration
+  let G be Dsimple _Graph;
+  let v,V;
+  cluster -> Dsimple for addAdjVertexAll of G,v,V;
+end;
+
+registration
+  let G be simple _Graph;
+  let v,V;
+  cluster -> simple for addAdjVertexAll of G,v,V;
+end;
+
+theorem :: GLIB_007:69
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V, W being Walk of G1
+  for v1, v2 being Vertex of G2
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    W.first() = v1 & W.last() = v2 & not v2 in G2.reachableFrom(v1)
+  holds v in W.vertices();
+
+:: this means that in each component there is at most one
+:: vertex connecting to the new one
+theorem :: GLIB_007:70
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 & G2 is acyclic &
+    for G3 being Component of G2, w1, w2 being Vertex of G3
+      st w1 in V & w2 in V holds w1 = w2
+  holds G1 is acyclic;
+
+theorem :: GLIB_007:71
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    (G2 is non acyclic or
+      ex G3 being Component of G2, w1, w2 being Vertex of G3
+      st w1 in V & w2 in V & w1 <> w2)
+  holds G1 is non acyclic;
+
+:: this means that in each component there is at least one
+:: vertex connecting to the new one
+theorem :: GLIB_007:72
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    for G3 being Component of G2 ex w being Vertex of G3 st w in V
+  holds G1 is connected;
+
+registration
+  let G be connected _Graph, v be object, V be non empty set;
+  cluster -> connected for addAdjVertexAll of G,v,V;
+end;
+
+theorem :: GLIB_007:73
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    ex G3 being Component of G2 st for w being Vertex of G3 holds not w in V
+  holds G1 is non connected;
+
+theorem :: GLIB_007:74
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2 &
+    ex G3 being Component of G2 st the_Vertices_of G3 misses V
+  holds G1 is non connected;
+
+registration
+  let G be non connected _Graph, v be object;
+  cluster -> non connected for addAdjVertexAll of G,v,{};
+end;
+
+theorem :: GLIB_007:75
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1 is complete iff G2 is complete & V = the_Vertices_of G2;
+
+registration
+  let G be complete _Graph;
+  cluster -> complete for addAdjVertexAll of G, the_Vertices_of G;
+end;
+
+theorem :: GLIB_007:76
+  for G2, v, V for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.order() = G2.order() +` 1 & G1.size() = G2.size() +` card V;
+
+theorem :: GLIB_007:77
+  for G2 being finite _Graph, v being object, V being set
+  for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.order() = G2.order() + 1;
+
+theorem :: GLIB_007:78
+  for G2 being finite _Graph, v being object, V being finite set
+  for G1 being addAdjVertexAll of G2, v, V
+  st V c= the_Vertices_of G2 & not v in the_Vertices_of G2
+  holds G1.size() = G2.size() + card V;
+
+registration
+  let G be finite _Graph, v be object, V be set;
+  cluster -> finite for addAdjVertexAll of G,v,V;
+end;

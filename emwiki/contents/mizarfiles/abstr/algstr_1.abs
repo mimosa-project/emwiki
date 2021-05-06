@@ -1,0 +1,365 @@
+:: From Loops to Abelian Multiplicative Groups with Zero
+::  by Micha{\l} Muzalewski and Wojciech Skaba
+::
+:: Received July 10, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, ALGSTR_0, SUBSET_1, ARYTM_3, SUPINF_2, RLVECT_1,
+      STRUCT_0, ARYTM_1, VECTSP_1, RELAT_1, MESFUNC1, GROUP_1, BINOP_1,
+      NUMBERS, BINOP_2, CARD_1, REAL_1, ALGSTR_1, ZFMISC_1, FUNCT_7;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0,
+      REAL_1, BINOP_2, FUNCT_7, STRUCT_0, ALGSTR_0, GROUP_1, VECTSP_1,
+      RLVECT_1;
+ constructors BINOP_1, BINOP_2, VECTSP_1, RLVECT_1, FUNCT_5, XXREAL_0, REAL_1,
+      FUNCT_7, GROUP_1;
+ registrations NUMBERS, VECTSP_1, ALGSTR_0, XREAL_0, ORDINAL1, STRUCT_0;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: GROUPS
+
+reserve L for non empty addLoopStr;
+reserve a,b,c,x for Element of L;
+
+theorem :: ALGSTR_1:1
+  (for a holds a + 0.L = a) & (for a ex x st a+x = 0.L) & (for a,b,
+  c holds (a+b)+c = a+(b+c)) implies (a+b = 0.L implies b+a = 0.L);
+
+theorem :: ALGSTR_1:2
+  (for a holds a + 0.L = a) & (for a ex x st a+x = 0.L) & (for a,b,c
+  holds (a+b)+c = a+(b+c)) implies 0.L+a = a+0.L;
+
+theorem :: ALGSTR_1:3
+  (for a holds a + 0.L = a) & (for a ex x st a+x = 0.L) & (for a,b,c
+  holds (a+b)+c = a+(b+c)) implies for a ex x st x+a = 0.L;
+
+definition
+  let x be set;
+
+  func Extract x -> Element of {x} equals
+:: ALGSTR_1:def 1
+  x;
+end;
+
+theorem :: ALGSTR_1:4
+  for a,b being Element of Trivial-addLoopStr holds a = b;
+
+theorem :: ALGSTR_1:5
+  for a,b be Element of Trivial-addLoopStr holds a+b = 0.
+  Trivial-addLoopStr;
+
+definition
+  let IT be non empty addLoopStr;
+
+  attr IT is left_zeroed means
+:: ALGSTR_1:def 2
+
+  for a being Element of IT holds 0.IT + a = a;
+end;
+
+definition
+  let L be non empty addLoopStr;
+
+  attr L is add-left-invertible means
+:: ALGSTR_1:def 3
+
+  for a,b be Element of L ex x being Element of L st x + a = b;
+  attr L is add-right-invertible means
+:: ALGSTR_1:def 4
+
+  for a,b be Element of L ex x being Element of L st a + x = b;
+end;
+
+definition
+  let IT be non empty addLoopStr;
+
+  attr IT is Loop-like means
+:: ALGSTR_1:def 5
+
+  IT is left_add-cancelable
+  right_add-cancelable add-left-invertible add-right-invertible;
+end;
+
+registration
+  cluster Loop-like -> left_add-cancelable right_add-cancelable
+    add-left-invertible add-right-invertible for non empty addLoopStr;
+  cluster left_add-cancelable right_add-cancelable add-left-invertible
+    add-right-invertible -> Loop-like for non empty addLoopStr;
+end;
+
+theorem :: ALGSTR_1:6
+  for L being non empty addLoopStr holds L is Loop-like iff (for a,
+b be Element of L ex x being Element of L st a+x=b) & (for a,b be Element of L
+  ex x being Element of L st x+a=b) & (for a,x,y be Element of L holds a+x=a+y
+  implies x=y) & for a,x,y be Element of L holds x+a=y+a implies x=y;
+
+registration
+  cluster Trivial-addLoopStr -> add-associative Loop-like right_zeroed
+    left_zeroed;
+end;
+
+registration
+  cluster strict left_zeroed right_zeroed Loop-like for non empty addLoopStr;
+end;
+
+definition
+  mode Loop is left_zeroed right_zeroed Loop-like non empty addLoopStr;
+end;
+
+registration
+  cluster strict add-associative for Loop;
+end;
+
+registration
+  cluster Loop-like -> add-left-invertible for non empty addLoopStr;
+  cluster add-associative right_zeroed right_complementable -> left_zeroed
+    Loop-like for non empty addLoopStr;
+end;
+
+theorem :: ALGSTR_1:7
+  L is AddGroup iff (for a holds a + 0.L = a) & (for a ex x st a+x
+  = 0.L) & for a,b,c holds (a+b)+c = a+(b+c);
+
+registration
+  cluster Trivial-addLoopStr -> Abelian;
+end;
+
+registration
+  cluster strict Abelian for AddGroup;
+end;
+
+theorem :: ALGSTR_1:8
+  L is Abelian AddGroup iff (for a holds a + 0.L = a) & (for a ex x st a
+  +x = 0.L) & (for a,b,c holds (a+b)+c = a+(b+c)) & for a,b holds a+b = b+a;
+
+registration
+  cluster Trivial-multLoopStr -> non empty;
+end;
+
+theorem :: ALGSTR_1:9
+  for a,b being Element of Trivial-multLoopStr holds a = b;
+
+theorem :: ALGSTR_1:10
+  for a,b be Element of Trivial-multLoopStr holds a*b = 1.
+  Trivial-multLoopStr;
+
+definition
+  let IT be non empty multLoopStr;
+
+  attr IT is invertible means
+:: ALGSTR_1:def 6
+
+  (for a,b be Element of IT ex x being
+Element of IT st a*x=b) & for a,b be Element of IT ex x being Element of IT st
+  x*a=b;
+
+end;
+
+notation
+  let L be non empty multLoopStr;
+  synonym L is cancelable for L is mult-cancelable;
+end;
+
+registration
+  cluster strict well-unital invertible cancelable for non empty multLoopStr;
+end;
+
+definition
+  mode multLoop is well-unital invertible cancelable non empty multLoopStr;
+end;
+
+registration
+  cluster Trivial-multLoopStr -> well-unital invertible cancelable;
+end;
+
+registration
+  cluster strict associative for multLoop;
+end;
+
+definition
+  mode multGroup is associative multLoop;
+end;
+
+reserve L for non empty multLoopStr;
+reserve a,b,c,x,y,z for Element of L;
+
+theorem :: ALGSTR_1:11
+  L is multGroup iff (for a holds a * 1.L = a) & (for a ex x st a*
+  x = 1.L) & for a,b,c holds (a*b)*c = a*(b*c);
+
+registration
+  cluster Trivial-multLoopStr -> associative;
+end;
+
+registration
+  cluster strict commutative for multGroup;
+end;
+
+theorem :: ALGSTR_1:12
+  L is commutative multGroup iff (for a holds a * 1.L = a) & (for a ex x
+  st a*x = 1.L) & (for a,b,c holds (a*b)*c = a*(b*c)) & for a,b holds a*b = b*a
+;
+
+notation
+  let L be invertible cancelable non empty multLoopStr;
+  let x be Element of L;
+  synonym x" for /x;
+end;
+
+registration
+  let L be invertible cancelable non empty multLoopStr;
+  cluster -> left_invertible for Element of L;
+end;
+
+reserve G for multGroup;
+reserve a,b,c,x for Element of G;
+
+theorem :: ALGSTR_1:13
+  a"*a=1.G & a*(a") = 1.G;
+
+:: definition
+
+::   let L be invertible cancelable non empty multLoopStr;
+::   let a, b be Element of L;
+::   func a/b -> Element of L equals
+::   a*(b");
+::   correctness;
+:: end;
+
+::$CD
+
+definition
+
+  func multEX_0 -> strict multLoopStr_0 equals
+:: ALGSTR_1:def 8
+  multLoopStr_0 (# REAL, multreal,In(0,REAL),In(1,REAL) #);
+end;
+
+registration
+  cluster multEX_0 -> non empty;
+end;
+
+registration
+  cluster multEX_0 -> well-unital;
+end;
+
+definition
+  let IT be non empty multLoopStr_0;
+  attr IT is almost_invertible means
+:: ALGSTR_1:def 9
+
+  (for a,b be Element of IT st a<>
+0.IT ex x be Element of IT st a*x=b) & for a,b be Element of IT st a<>0.IT ex x
+  be Element of IT st x*a=b;
+end;
+
+definition
+  let IT be non empty multLoopStr_0;
+
+  attr IT is multLoop_0-like means
+:: ALGSTR_1:def 10
+
+  IT is almost_invertible
+  almost_cancelable & (for a be Element of IT holds a*0.IT = 0.IT) & for a be
+  Element of IT holds 0.IT*a = 0.IT;
+end;
+
+::$CT 2
+
+theorem :: ALGSTR_1:16
+  for L being non empty multLoopStr_0 holds L is multLoop_0-like
+iff (for a,b be Element of L st a<>0.L ex x be Element of L st a*x=b) & (for a,
+  b be Element of L st a<>0.L ex x be Element of L st x*a=b) & (for a,x,y be
+Element of L st a<>0.L holds a*x=a*y implies x=y) & (for a,x,y be Element of L
+st a<>0.L holds x*a=y*a implies x=y) & (for a be Element of L holds a*0.L = 0.L
+  ) & for a be Element of L holds 0.L*a = 0.L;
+
+registration
+  cluster multLoop_0-like -> almost_invertible almost_cancelable for non empty
+    multLoopStr_0;
+end;
+
+registration
+  cluster strict well-unital multLoop_0-like non degenerated for non empty
+    multLoopStr_0;
+end;
+
+definition
+  mode multLoop_0 is well-unital non degenerated multLoop_0-like non empty
+    multLoopStr_0;
+end;
+
+registration
+  cluster multEX_0 -> well-unital multLoop_0-like;
+end;
+
+registration
+  cluster strict associative non degenerated for multLoop_0;
+end;
+
+definition
+  mode multGroup_0 is associative non degenerated multLoop_0;
+end;
+
+registration
+  cluster multEX_0 -> associative;
+end;
+
+registration
+  cluster strict commutative for multGroup_0;
+end;
+
+notation
+  let L be almost_invertible almost_cancelable non empty multLoopStr_0;
+  let x be Element of L;
+  synonym x" for /x;
+end;
+
+definition
+  let L be almost_invertible almost_cancelable non empty multLoopStr_0;
+  let x be Element of L;
+  assume
+ x<>0.L;
+  redefine func x" means
+:: ALGSTR_1:def 11
+
+  it*x = 1.L;
+end;
+
+reserve G for associative almost_invertible almost_cancelable well-unital non
+  empty multLoopStr_0;
+reserve a,x for Element of G;
+
+theorem :: ALGSTR_1:17
+  a<>0.G implies a"*a=1.G & a*(a") = 1.G;
+
+definition
+  let L be almost_invertible almost_cancelable non empty multLoopStr_0;
+  let a, b be Element of L;
+  func a/b -> Element of L equals
+:: ALGSTR_1:def 12
+  a*(b");
+end;
+
+:: from SCMRING1, 2010,02.06, A.T.
+
+registration
+  cluster  -> Abelian add-associative right_zeroed right_complementable
+    for 1-element addLoopStr;
+  cluster trivial -> well-unital right-distributive for
+non empty doubleLoopStr;
+end;
+
+registration
+  cluster -> Group-like associative commutative for 1-element multMagma;
+end;

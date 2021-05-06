@@ -1,0 +1,626 @@
+:: Pascal's Theorem in Real Projective Plane
+::  by Roland Coghetto
+:: 
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies REAL_1, XCMPLX_0, ANPROJ_1, PENCIL_1, MCART_1, EUCLID_5,
+      ALGSTR_0, ARYTM_1, ARYTM_3, CARD_1, EUCLID, FINSEQ_1, FUNCT_1, MATRIX_1,
+      MATRIX_3, NAT_1, NUMBERS, PRE_TOPC, QC_LANG1, RELAT_1, RVSUM_1, STRUCT_0,
+      SUBSET_1, SUPINF_2, TARSKI, TREES_1, VECTSP_1, XXREAL_0, MATRIX_6,
+      MESFUNC1, MATRIXR1, MATRIXR2, FINSEQ_2, ANPROJ_8, ANPROJ_9, PASCAL,
+      RELAT_2, MATRIXC1, PRALG_1, COLLSP, ANPROJ_2, INCSP_1;
+ notations SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0, FUNCT_1, FINSEQ_1,
+      FINSEQ_4, PRE_TOPC, RVSUM_1, EUCLID, DOMAIN_1, ANPROJ_1, TARSKI,
+      XXREAL_0, FUNCT_2, VECTSP_1, MATRIX_0, MATRIX_1, MATRIX_3, GROUP_1,
+      RLVECT_1, EUCLID_5, FINSEQ_2, LAPLACE, MATRIXR1, MATRIXR2, MATRIX_6,
+      ANPROJ_8, MATRPROB, ANPROJ_9, STRUCT_0, COLLSP, ANPROJ_2;
+ constructors BINOP_2, FINSEQ_4, MONOID_0, EUCLID_5, MATRIX13, REALSET1,
+      ANPROJ_2, LAPLACE, MATRIXR2, ANPROJ_8, MATRPROB, ANPROJ_9;
+ registrations ANPROJ_1, FUNCT_1, MATRTOP1, STRUCT_0, VECTSP_1, REVROT_1,
+      MATRIX_0, RELSET_1, NUMBERS, XREAL_0, MEMBERED, MONOID_0, EUCLID,
+      VALUED_0, FINSEQ_2, MATRIX_6, SUBSET_1, RLTOPSP1, XCMPLX_0, ANPROJ_2;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve n for Nat;
+reserve K for Field;
+reserve a,b,c,d,e,f,g,h,i,a1,b1,c1,d1,e1,f1,g1,h1,i1 for Element of K;
+reserve M,N for Matrix of 3,K;
+reserve p for FinSequence of REAL;
+
+theorem :: PASCAL:1
+  for p,q,r being Point of TOP-REAL 3 holds
+  |{p,q,r}| = |{r,p,q}| & |{p,q,r}| = |{q,r,p}|;
+
+theorem :: PASCAL:2
+  <* <* a,b,c *>,
+     <* d,e,f *>,
+     <* g,h,i *> *> =
+  <* <* a1,b1,c1 *>,
+     <* d1,e1,f1 *>,
+     <* g1,h1,i1 *> *>
+  implies
+  a = a1 & b = b1 & c = c1 &
+        d = d1 & e = e1 & f = f1 &
+        g = g1 & h = h1 & i = i1;
+
+theorem :: PASCAL:3
+  ex a,b,c,d,e,f,g,h,i st
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *>;
+
+theorem :: PASCAL:4
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *>
+  implies
+  a = M*(1,1) & b = M*(1,2) & c = M*(1,3) &
+  d = M*(2,1) & e = M*(2,2) & f = M*(2,3) &
+  g = M*(3,1) & h = M*(3,2) & i = M*(3,3);
+
+theorem :: PASCAL:5
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *>
+  implies
+  M@ = <* <* a,d,g *>,
+          <* b,e,h *>,
+          <* c,f,i *> *>;
+
+theorem :: PASCAL:6
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *> &
+  M is symmetric implies b = d & c = g & h = f;
+
+theorem :: PASCAL:7
+  for M,N being Matrix of 3,F_Real st
+  N is symmetric holds M@ * N * M is symmetric;
+
+theorem :: PASCAL:8
+  for M being Matrix of 3,F_Real
+  for a,b,c,d,e,f,g,h,i,x,y,z being Element of F_Real
+  for v being Element of TOP-REAL 3
+  for uf being FinSequence of F_Real
+  for p being FinSequence of (1-tuples_on REAL)
+  st p = M * uf & v = M2F p &
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *> &
+  uf = <* x,y,z *> holds
+  p = <* <* a * x + b * y + c * z *>,
+         <* d * x + e * y + f * z *>,
+         <* g * x + h * y + i * z *> *> &
+  v = <* a * x + b * y + c * z ,
+         d * x + e * y + f * z ,
+         g * x + h * y + i * z  *>;
+
+theorem :: PASCAL:9
+  for M being Matrix of 3,REAL
+  for a,b,c,d,e,f,g,h,i,p1,p2,p3 being Element of REAL st
+  M = <* <* a,b,c *>,
+         <* d,e,f *>,
+         <* g,h,i *> *> &
+  p = <* p1,p2,p3 *>
+  holds M * p =
+             <* a * p1 + b * p2 + c * p3,
+                d * p1 + e * p2 + f * p3,
+                g * p1 + h * p2 + i * p3 *>;
+
+begin :: Conic in Real Projective Plane
+
+definition
+  let a,b,c,d,e,f be Real;
+  let u be Element of TOP-REAL 3;
+  func qfconic(a,b,c,d,e,f,u) -> Real equals
+:: PASCAL:def 1
+    a * u.1 * u.1 + b * u.2 * u.2 + c * u.3 * u.3 +
+      d * u.1 * u.2 + e * u.1 * u.3 + f * u.2 * u.3;
+end;
+
+definition
+  let a,b,c,d,e,f be Real;
+  func conic(a,b,c,d,e,f) -> Subset of ProjectiveSpace TOP-REAL 3 equals
+:: PASCAL:def 2
+  {P where P is Point of ProjectiveSpace TOP-REAL 3:
+  for u being Element of TOP-REAL 3 st u is non zero & P = Dir u holds
+    qfconic(a,b,c,d,e,f,u) = 0};
+end;
+
+reserve a,b,c,d,e,f for Real;
+reserve u,u1,u2 for non zero Element of TOP-REAL 3;
+reserve P for Element of ProjectiveSpace TOP-REAL 3;
+
+theorem :: PASCAL:10
+  Dir u1 = Dir u2 & qfconic(a,b,c,d,e,f,u1) = 0 implies
+    qfconic(a,b,c,d,e,f,u2) = 0;
+
+theorem :: PASCAL:11
+  P = Dir u & qfconic(a,b,c,d,e,f,u) = 0 implies
+  P in conic(a,b,c,d,e,f);
+
+definition
+  let a,b,c,d,e,f be Real;
+  func symmetric_3(a,b,c,d,e,f)-> Matrix of 3,F_Real equals
+:: PASCAL:def 3
+    <* <* a, d, e *>,
+       <* d, b, f *>,
+       <* e, f, c *> *>;
+end;
+
+theorem :: PASCAL:12
+  symmetric_3(a,b,c,d,e,f) is symmetric;
+
+theorem :: PASCAL:13
+  for a,b,c,d,e,f being Real, u being Point of TOP-REAL 3,
+  M being Matrix of 3,REAL st
+  p = u & M = symmetric_3(a,b,c,d,e,f) holds
+  SumAll QuadraticForm(p,M,p) = qfconic(a,b,c,2 * d,2 * e,2 * f,u);
+
+theorem :: PASCAL:14
+  for N being invertible Matrix of 3,F_Real
+  for NR,M1,M2 being Matrix of 3,REAL
+  for a,b,c,d,e,f being Real st
+  NR = MXF2MXR N & M1 = symmetric_3(a,b,c,d/2,f/2,e/2) &
+  M2 = MXF2MXR((MXR2MXF(NR@))~) * M1 * MXF2MXR((MXR2MXF NR)~)
+  holds MXR2MXF M2 is symmetric;
+
+theorem :: PASCAL:15
+  for a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6 being Real st
+  symmetric_3(a1,a2,a3,a4,a5,a6) = symmetric_3(b1,b2,b3,b4,b5,b6) holds
+  a1 = b1 & a2 = b2 & a3 = b3 & a4 = b4 & a5 = b5 & a6 = b6;
+
+theorem :: PASCAL:16
+  for a,b,c,d,e,f being Real
+  for P being Point of ProjectiveSpace TOP-REAL 3
+  for N being invertible Matrix of 3,F_Real
+  st not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0 ) &
+  P in conic(a,b,c,d,e,f) holds
+  (for fa,fb,fc,fd,fe,fi,ff being Real
+  for M1,M2 being Matrix of 3,REAL
+  for NR being Matrix of 3,REAL
+  st M1 = symmetric_3(a,b,c,d/2,e/2,f/2) & NR = MXF2MXR N &
+  M2 = MXF2MXR((MXR2MXF(NR@))~) * M1 * MXF2MXR((MXR2MXF NR)~) &
+  M2 = symmetric_3(fa,fe,fi,fb,fc,ff) holds
+  not(fa = 0 & fe = 0 & fi = 0 & fb = 0 & ff = 0 & fc = 0) &
+  (homography(N)).P in conic(fa,fe,fi,2 * fb,2 * fc,2 * ff));
+
+theorem :: PASCAL:17
+  for a,b,c,d,e,f being Real
+  for P1,P2,P3,P4,P5,P6 being Point of ProjectiveSpace TOP-REAL 3
+  for N being invertible Matrix of 3,F_Real
+  st not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0 ) &
+  P1 in conic(a,b,c,d,e,f) &
+  P2 in conic(a,b,c,d,e,f) &
+  P3 in conic(a,b,c,d,e,f) &
+  P4 in conic(a,b,c,d,e,f) &
+  P5 in conic(a,b,c,d,e,f) &
+  P6 in conic(a,b,c,d,e,f) holds
+  ex a2,b2,c2,d2,e2,f2 be Real st not (a2 = 0 & b2 = 0 & c2 = 0 & d2 = 0 &
+  e2 = 0 & f2 = 0 ) &
+  (homography(N)).P1 in conic(a2,b2,c2,d2,e2,f2) &
+  (homography(N)).P2 in conic(a2,b2,c2,d2,e2,f2) &
+  (homography(N)).P3 in conic(a2,b2,c2,d2,e2,f2) &
+  (homography(N)).P4 in conic(a2,b2,c2,d2,e2,f2) &
+  (homography(N)).P5 in conic(a2,b2,c2,d2,e2,f2) &
+  (homography(N)).P6 in conic(a2,b2,c2,d2,e2,f2);
+
+reserve a,b,c,d,e,f,g,h,i for Element of F_Real;
+
+theorem :: PASCAL:18
+  (qfconic(a,b,c,d,e,f,|[1,0,0]|) = 0 implies a = 0) &
+  (qfconic(a,b,c,d,e,f,|[0,1,0]|) = 0 implies b = 0) &
+  (qfconic(a,b,c,d,e,f,|[0,0,1]|) = 0 implies c = 0) &
+  (qfconic(0,0,0,d,e,f,|[1,1,1]|) = 0 implies d + e + f = 0);
+
+begin :: Pascal's theorem
+
+reserve M for Matrix of 3,F_Real;
+reserve e1,e2,e3,f1,f2,f3 for Element of F_Real;
+reserve MABC,MAEF,MDBF,MDEC,MDEF,MDBC,MAEC,MABF,
+        MABE,MACF,MBDF,MCDE,MACE,MBDE,MCDF for Matrix of 3,F_Real;
+reserve r1,r2 for Real;
+
+theorem :: PASCAL:19
+  MABE = <* <* 1 ,0 ,0 *>,
+            <* 0 ,1 ,0 *>,
+            <* e1,e2,e3 *> *> &
+  MACF = <* <* 1 ,0 ,0 *>,
+            <* 0 ,0 ,1 *>,
+            <* f1,f2,f3 *> *> &
+  MBDF = <* <* 0 ,1 ,0 *>,
+            <* 1 ,1 ,1 *>,
+            <* f1,f2,f3 *> *> &
+  MCDE = <* <* 0 ,0 ,1 *>,
+            <* 1 ,1 ,1 *>,
+            <* e1,e2,e3 *> *> &
+  MABF = <* <* 1 ,0 ,0 *>,
+            <* 0 ,1 ,0 *>,
+            <* f1,f2,f3 *> *> &
+  MACE = <* <* 1 ,0 ,0 *>,
+            <* 0 ,0 ,1 *>,
+            <* e1,e2,e3 *> *> &
+  MBDE = <* <* 0 ,1 ,0 *>,
+            <* 1 ,1 ,1 *>,
+            <* e1,e2,e3 *> *> &
+  MCDF = <* <* 0 ,0 ,1 *>,
+            <* 1 ,1 ,1 *>,
+            <* f1,f2,f3 *> *> &
+  (r1 <> 0 or r2 <> 0) &
+  (r1 * e1 * e2 + r2 * e1 * e3 = (r1 + r2) * e2 * e3 &
+  r1 * f1 * f2 + r2 * f1 * f3 = (r1 + r2) * f2 * f3)
+  implies
+  Det MABE * Det MACF * Det MBDF * Det MCDE
+  = Det MABF * Det MACE * Det MBDE * Det MCDF;
+
+reserve p1,p2,p3,p4,p5,p6 for Point of TOP-REAL 3;
+
+theorem :: PASCAL:20
+  MABE = <* p1, p2, p5 *> &
+  MACF = <* p1, p3, p6 *> &
+  MBDF = <* p2, p4, p6 *> &
+  MCDE = <* p3, p4, p5 *> &
+  MABF = <* p1, p2, p6 *> &
+  MACE = <* p1, p3, p5 *> &
+  MBDE = <* p2, p4, p5 *> &
+  MCDF = <* p3, p4, p6 *> implies
+  Det MABE = |{ p1, p2, p5 }| &
+  Det MACF = |{ p1, p3, p6 }| &
+  Det MBDF = |{ p2, p4, p6 }| &
+  Det MCDE = |{ p3, p4, p5 }| &
+  Det MABF = |{ p1, p2, p6 }| &
+  Det MACE = |{ p1, p3, p5 }| &
+  Det MBDE = |{ p2, p4, p5 }| &
+  Det MCDF = |{ p3, p4, p6 }|;
+
+reserve p7,p8,p9 for Point of TOP-REAL 3;
+
+theorem :: PASCAL:21
+  |{p1,p5,p9}| = 0 implies
+  |{p1,p5,p7}| * |{p2,p5,p9}| = - |{p1,p2,p5}| * |{p5,p9,p7}|;
+
+theorem :: PASCAL:22
+  |{p1,p6,p8}| = 0 implies
+  |{p1,p2,p6}| * |{p3,p6,p8}| = |{p1,p3,p6}| * |{p2,p6,p8}|;
+
+theorem :: PASCAL:23
+  |{p2,p4,p9}| = 0 implies
+  |{p2,p4,p5}| * |{p2,p9,p7}| = - |{p2,p4,p7}| * |{p2,p5,p9}|;
+
+theorem :: PASCAL:24
+  |{p2,p6,p7}| = 0 implies
+  |{p2,p4,p7}| * |{p2,p6,p8}| = - |{p2,p4,p6}| * |{p2,p8,p7}|;
+
+theorem :: PASCAL:25
+  |{p3,p4,p8}| = 0 implies
+  |{p3,p4,p6}| * |{p3,p5,p8}| = |{p3,p4,p5}| * |{p3,p6,p8}|;
+
+theorem :: PASCAL:26
+  |{p3,p5,p7}| = 0 implies
+  |{p1,p3,p5}| * |{p5,p8,p7}| = - |{p1,p5,p7}| * |{p3,p5,p8}|;
+
+theorem :: PASCAL:27
+  for r125,r136,r246,r345,r126,r135,r245,r346,r157,
+  r259,r597,r368,r268,r297,r247,r287,r358,r587 being non zero Real st
+  r125 * r136 * r246 * r345 = r126 * r135 * r245 * r346 &
+  r157 * r259 = - r125 * r597 & r126 * r368 =   r136 * r268 &
+  r245 * r297 = - r247 * r259 & r247 * r268 = - r246 * r287 &
+  r346 * r358 = r345 * r368 & r135 * r587 = - r157 * r358 holds
+  r287 * r597 = r297 * r587;
+
+theorem :: PASCAL:28
+  p1 = <* 1,0,0 *> &
+  p2 = <* 0,1,0 *> &
+  p3 = <* 0,0,1 *> &
+  p4 = <* 1,1,1 *> &
+  p5 = <* e1,e2,e3 *> &
+  p6 = <* f1,f2,f3 *> &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p5) = 0 &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p6) = 0
+  implies
+  qfconic(0,0,0,r1,r2,-(r1+r2),p1) = 0 &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p2) = 0 &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p3) = 0 &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p4) = 0 &
+  (r1 * e1 * e2 + r2 * e1 * e3 = (r1 + r2) * e2 * e3 &
+  r1 * f1 * f2 + r2 * f1 * f3 = (r1 + r2) * f2 * f3);
+
+theorem :: PASCAL:29
+  p1 = <* 1,0,0 *> &
+  p2 = <* 0,1,0 *> &
+  p3 = <* 0,0,1 *> &
+  p4 = <* 1,1,1 *> &
+  p5 = <* e1,e2,e3 *> &
+  p6 = <* f1,f2,f3 *> &
+  |{p1,p2,p5}| <> 0 & |{p1,p3,p6}| <> 0 & |{p2,p4,p6}| <> 0 &
+  |{p3,p4,p5}| <> 0 & |{p1,p2,p6}| <> 0 & |{p1,p3,p5}| <> 0 &
+  |{p2,p4,p5}| <> 0 & |{p3,p4,p6}| <> 0 & |{p1,p5,p7}| <> 0 &
+  |{p2,p5,p9}| <> 0 & |{p5,p9,p7}| <> 0 & |{p3,p6,p8}| <> 0 &
+  |{p2,p6,p8}| <> 0 & |{p2,p9,p7}| <> 0 & |{p2,p4,p7}| <> 0 &
+  |{p2,p8,p7}| <> 0 & |{p3,p5,p8}| <> 0 & |{p5,p8,p7}| <> 0 &
+  (r1 <> 0 or r2 <> 0) &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p5) = 0 &
+  qfconic(0,0,0,r1,r2,-(r1+r2),p6) = 0 &
+  |{p1,p5,p9}| = 0 & |{p1,p6,p8}| = 0 & |{p2,p4,p9}| = 0 &
+  |{p2,p6,p7}| = 0 & |{p3,p4,p8}| = 0 & |{p3,p5,p7}| = 0
+  implies
+  |{p2,p8,p7}| * |{p5,p9,p7}| = |{p2,p9,p7}| * |{p5,p8,p7}|;
+
+theorem :: PASCAL:30
+  |{p2,p8,p7}| * |{p5,p9,p7}| = |{p2,p9,p7}| * |{p5,p8,p7}| implies
+  |{p7,p2,p5}| * |{p7,p8,p9}| = 0;
+
+::PROVER9
+:: set(ignore_option_dependencies). % GUI handles dependencies
+
+:: if(Prover9). % Options for Prover9
+::   assign(max_seconds, 60).
+:: end_if.
+
+:: if(Mace4).   % Options for Mace4
+::   assign(max_seconds, 60).
+:: end_if.
+
+:: formulas(assumptions).
+
+:: ((x = y) | (x = z) | (y = z)) -> f(x,y,z) #label(COLLSP2).
+:: ((x != y) & f(x,y,z) & f(x,y,u) & f(x,y,v)) -> f(z,u,v) #label(COLLSP3).
+:: f(x,y,x) #label(COLLSP5).
+:: f(x,y,z) -> (f(y,z,x) & f(z,x,y) & f(y,x,z) & f(x,z,y) & f(z,x,y)) #label(HESSENBE1).
+
+:: end_of_list.
+
+:: formulas(goals).
+
+:: -f(x1,x2,x4) & -f(x1,x2,x5) &
+:: -f(x1,x6,x4) & -f(x1,x6,x5) &
+:: -f(x2,x6,x4) & -f(x3,x4,x2) &
+:: -f(x3,x4,x6) & -f(x3,x5,x2) &
+:: -f(x3,x5,x6) & -f(x4,x5,x2) &
+:: f(x1,x4,x7) & f(x1,x5,x8) &
+:: f(x2,x3,x7) & f(x2,x5,x9) &
+:: f(x6,x3,x8) & f(x6,x4,x9)
+:: -> (-f(x9,x2,x4) & -f(x1,x4,x9) &
+::     -f(x2,x3,x9) & -f(x2,x4,x7) &
+::     -f(x2,x5,x8) & -f(x2,x9,x8) &
+::     -f(x2,x9,x7) & -f(x6,x4,x8) &
+::     -f(x6,x5,x8) & -f(x4,x9,x8) &
+::     -f(x4,x9,x7)).
+
+:: end_of_list.
+
+:: ============================== prooftrans ============================
+:: Prover9 (32) version Dec-2007, Dec 2007.
+:: Process 10620 was started by RC on ,
+:: Wed
+:: The command was "/cygdrive/c/Program Files (x86)/Prover9-Mace4/bin-win32/prover9".
+:: ============================== end of head ===========================
+
+:: ============================== end of input ==========================
+
+:: ============================== PROOF =================================
+
+:: % -------- Comments from original proof --------
+:: % Proof 1 at 0.36 (+ 0.09) seconds.
+:: % Length of proof is 104.
+:: % Level of proof is 29.
+:: % Maximum clause weight is 44.
+:: % Given clauses 786.
+
+:: 1 x = y | x = z | y = z -> f(x,y,z) # label(COLLSP2) # label(non_clause).  [assumption].
+:: 2 x != y & f(x,y,z) & f(x,y,u) & f(x,y,w) -> f(z,u,w) # label(COLLSP3) # label(non_clause).  [assumption].
+:: 3 f(x,y,z) -> f(y,z,x) & f(z,x,y) & f(y,x,z) & f(x,z,y) & f(z,x,y) # label(HESSENBE1) # label(non_clause).  [assumption].
+:: 4 -f(x,y,z) & -f(x,y,u) & -f(x,w,z) & -f(x,w,u) & -f(y,w,z) & -f(v5,z,y) & -f(v5,z,w) & -f(v5,u,y) & -f(v5,u,w) & -f(z,u,y) & f(x,z,v6) & f(x,u,v7) & f(y,v5,v6) & f(y,u,v8) & f(w,v5,v7) & f(w,z,v8) -> -f(v8,y,z) & -f(x,z,v8) & -f(y,v5,v8) & -f(y,z,v6) & -f(y,u,v7) & -f(y,v8,v7) & -f(y,v8,v6) & -f(w,z,v7) & -f(w,u,v7) & -f(z,v8,v7) & -f(z,v8,v6) # label(non_clause) # label(goal).  [goal].
+:: 6 x != y | f(y,z,x) # label(COLLSP2).  [clausify(1)].
+:: 7 x != y | f(z,y,x) # label(COLLSP2).  [clausify(1)].
+:: 8 x = y | -f(y,x,z) | -f(y,x,u) | -f(y,x,w) | f(z,u,w) # label(COLLSP3).  [clausify(2)].
+:: 9 f(x,y,x) # label(COLLSP5).  [assumption].
+:: 10 -f(x,y,z) | f(y,z,x) # label(HESSENBE1).  [clausify(3)].
+:: 11 -f(x,y,z) | f(z,x,y) # label(HESSENBE1).  [clausify(3)].
+:: 12 -f(x,y,z) | f(y,x,z) # label(HESSENBE1).  [clausify(3)].
+:: 13 -f(x,y,z) | f(x,z,y) # label(HESSENBE1).  [clausify(3)].
+:: 14 -f(c1,c2,c3).  [deny(4)].
+:: 15 -f(c1,c2,c4).  [deny(4)].
+:: 16 -f(c1,c5,c3).  [deny(4)].
+:: 17 -f(c1,c5,c4).  [deny(4)].
+:: 18 -f(c2,c5,c3).  [deny(4)].
+:: 19 -f(c6,c3,c2).  [deny(4)].
+:: 20 -f(c6,c3,c5).  [deny(4)].
+:: 21 -f(c6,c4,c2).  [deny(4)].
+:: 22 -f(c6,c4,c5).  [deny(4)].
+:: 23 -f(c3,c4,c2).  [deny(4)].
+:: 24 f(c1,c3,c7).  [deny(4)].
+:: 25 f(c1,c4,c8).  [deny(4)].
+:: 26 f(c2,c6,c7).  [deny(4)].
+:: 27 f(c2,c4,c9).  [deny(4)].
+:: 28 f(c5,c6,c8).  [deny(4)].
+:: 29 f(c5,c3,c9).  [deny(4)].
+:: 30 f(c9,c2,c3) | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c5,c3,c8) | f(c5,c4,c8) | f(c3,c9,c8) | f(c3,c9,c7).  [deny(4)].
+:: 34 f(x,y,y).  [xx_res(7,a)].
+:: 35 x = y | -f(y,x,z) | -f(y,x,u) | f(z,u,y).  [resolve(9,a,8,d)].
+:: 36 x = y | -f(y,x,z) | -f(y,x,u) | f(z,y,u).  [resolve(9,a,8,c)].
+:: 37 x = y | -f(y,x,z) | -f(y,x,u) | f(y,z,u).  [resolve(9,a,8,b)].
+:: 40 -f(c2,c3,c1).  [ur(11,b,14,a)].
+:: 42 c3 != c2.  [ur(7,b,14,a)].
+:: 43 c3 != c1.  [ur(6,b,14,a)].
+:: 49 c4 != c2.  [ur(7,b,15,a)].
+:: 54 -f(c3,c1,c5).  [ur(10,b,16,a)].
+:: 55 c5 != c3.  [ur(7,b,16,a),flip(a)].
+:: 57 -f(c1,c4,c5).  [ur(13,b,17,a)].
+:: 61 c5 != c4.  [ur(7,b,17,a),flip(a)].
+:: 63 -f(c5,c2,c3).  [ur(12,b,18,a)].
+:: 64 -f(c5,c3,c2).  [ur(11,b,18,a)].
+:: 70 -f(c2,c6,c3).  [ur(10,b,19,a)].
+:: 79 -f(c4,c6,c2).  [ur(12,b,21,a)].
+:: 86 -f(c5,c6,c4).  [ur(10,b,22,a)].
+:: 92 f(c1,c7,c3).  [resolve(24,a,13,a)].
+:: 99 f(c1,c8,c4).  [resolve(25,a,13,a)].
+:: 108 f(c7,c2,c6).  [resolve(26,a,11,a)].
+:: 113 f(c2,c9,c4).  [resolve(27,a,13,a)].
+:: 120 f(c5,c8,c6).  [resolve(28,a,13,a)].
+:: 127 f(c5,c9,c3).  [resolve(29,a,13,a)].
+:: 130 f(c3,c9,c5).  [resolve(29,a,10,a)].
+:: 132 -f(c5,c3,x) | -f(c5,c3,y) | f(x,c9,y).  [resolve(29,a,8,c),flip(a),unit_del(a,55)].
+:: 134 f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c5,c3,c8) | f(c5,c4,c8) | f(c3,c9,c8) | f(c3,c9,c7) | f(c9,c3,c2).  [resolve(30,a,13,a)].
+:: 142 x = y | -f(y,x,z) | -f(y,x,u) | f(z,u,x).  [resolve(34,a,8,d)].
+:: 144 x = y | -f(y,x,z) | -f(y,x,u) | f(x,z,u).  [resolve(34,a,8,b)].
+:: 145 -f(c2,c4,c3).  [ur(8,a,49,a,c,34,a,d,9,a,e,23,a)].
+:: 146 -f(c2,c4,c6).  [ur(8,a,49,a,c,34,a,d,9,a,e,21,a)].
+:: 148 -f(c4,c2,c1).  [ur(8,a,49,a(flip),c,34,a,d,9,a,e,15,a)].
+:: 149 -f(c3,c2,c1).  [ur(8,a,42,a(flip),c,34,a,d,9,a,e,14,a)].
+:: 150 f(c7,c3,c1).  [resolve(92,a,10,a)].
+:: 173 x = y | -f(y,x,z) | f(z,x,y).  [resolve(35,c,34,a)].
+:: 182 -f(c3,c5,c1).  [ur(35,a,55,a,c,34,a,d,16,a)].
+:: 184 -f(c4,c5,c1).  [ur(35,a,61,a,c,34,a,d,17,a)].
+:: 193 f(c8,c4,c1).  [resolve(99,a,10,a)].
+:: 310 c9 = c2 | -f(c2,c9,x) | f(c2,c4,x).  [resolve(113,a,37,b)].
+:: 311 c9 = c2 | -f(c2,c9,x) | f(x,c2,c4).  [resolve(113,a,36,c)].
+:: 314 c9 = c2 | -f(c2,c9,x) | f(c4,x,c2).  [resolve(113,a,35,b)].
+:: 351 c8 = c5 | -f(c5,c8,x) | f(c6,x,c5).  [resolve(120,a,35,b)].
+:: 389 f(c9,c3,c5).  [resolve(127,a,10,a)].
+:: 413 c9 = c3 | -f(c3,c9,x) | f(x,c3,c5).  [resolve(130,a,36,c)].
+:: 416 c9 = c3 | -f(c3,c9,x) | f(c5,x,c3).  [resolve(130,a,35,b)].
+:: 506 -f(c5,c3,x) | f(c3,c9,x).  [resolve(132,a,34,a)].
+:: 581 c9 = c3 | -f(c9,c3,x) | f(c5,x,c3).  [resolve(142,b,389,a),flip(a)].
+:: 751 c9 = c3 | -f(c9,c3,x) | f(c3,x,c5).  [resolve(144,c,389,a),flip(a)].
+:: 755 c8 = c4 | -f(c8,c4,x) | f(c4,x,c1).  [resolve(144,c,193,a),flip(a)].
+:: 756 c7 = c3 | -f(c7,c3,x) | f(c3,x,c1).  [resolve(144,c,150,a),flip(a)].
+:: 774 c7 = c2 | -f(c7,c2,x) | f(c2,x,c6).  [resolve(144,c,108,a),flip(a)].
+:: 797 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c5,c3,c8) | f(c5,c4,c8) | f(c3,c9,c8) | f(c3,c9,c7).  [resolve(581,b,134,k),unit_del(b,63)].
+:: 799 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c5,c3,c8) | f(c3,c9,c8) | f(c3,c9,c7) | f(c8,c4,c5).  [resolve(797,i,173,b),flip(k),unit_del(k,61)].
+:: 843 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c5,c3,c8) | f(c3,c9,c8) | f(c3,c9,c7) | c8 = c4.  [resolve(799,k,755,b),unit_del(l,184)].
+:: 847 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c3,c9,c8) | f(c3,c9,c7) | c8 = c4.  [resolve(843,h,506,a),merge(k)].
+:: 882 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c3,c9,c7) | c8 = c4 | f(c5,c8,c3).  [resolve(847,h,416,b),merge(j)].
+:: 1055 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | f(c3,c9,c7) | c8 = c4 | c8 = c5.  [resolve(882,j,351,b),unit_del(k,20)].
+:: 1071 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | c8 = c4 | c8 = c5 | f(c7,c3,c5).  [resolve(1055,h,413,b),merge(j)].
+:: 1256 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c8) | f(c2,c9,c7) | c8 = c4 | c8 = c5 | c7 = c3.  [resolve(1071,j,756,b),unit_del(k,182)].
+:: 1273 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | f(c2,c9,c7) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2.  [resolve(1256,f,310,b),merge(k)].
+:: 1293 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | f(c7,c2,c4).  [resolve(1273,f,311,b),merge(j)].
+:: 1497 c9 = c3 | f(c1,c3,c9) | f(c2,c6,c9) | f(c2,c3,c7) | f(c2,c4,c8) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [resolve(1293,j,774,b),unit_del(k,146)].
+:: 1529 c9 = c3 | f(c1,c3,c9) | f(c2,c3,c7) | f(c2,c4,c8) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2 | f(c2,c9,c6).  [resolve(1497,c,13,a)].
+:: 1809 c9 = c3 | f(c1,c3,c9) | f(c2,c3,c7) | f(c2,c4,c8) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [resolve(1529,j,314,b),merge(j),unit_del(j,79)].
+:: 1821 c9 = c3 | f(c1,c3,c9) | f(c2,c3,c7) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2 | f(c8,c4,c2).  [resolve(1809,d,173,b),unit_del(i,49)].
+:: 2066 c9 = c3 | f(c1,c3,c9) | f(c2,c3,c7) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [resolve(1821,i,755,b),merge(i),unit_del(i,148)].
+:: 2067 c9 = c3 | f(c1,c3,c9) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2 | f(c7,c3,c2).  [resolve(2066,c,173,b),unit_del(h,42)].
+:: 2087 c9 = c3 | f(c1,c3,c9) | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [resolve(2067,h,756,b),merge(h),unit_del(h,149)].
+:: 2099 c9 = c3 | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2 | f(c9,c3,c1).  [resolve(2087,b,173,b),unit_del(g,43)].
+:: 2339 c9 = c3 | c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [resolve(2099,g,751,b),merge(g),unit_del(g,54)].
+:: 2346 c8 = c4 | c8 = c5 | c7 = c3 | c9 = c2 | c7 = c2.  [para(2339(a,1),27(a,3)),unit_del(f,145)].
+:: 2353 c8 = c4 | c8 = c5 | c7 = c3 | c7 = c2.  [para(2346(d,1),29(a,3)),unit_del(e,64)].
+:: 2360 c8 = c4 | c7 = c3 | c7 = c2.  [para(2353(b,1),25(a,3)),unit_del(d,57)].
+:: 2367 c7 = c3 | c7 = c2.  [para(2360(a,1),28(a,3)),unit_del(c,86)].
+:: 2374 c7 = c2.  [para(2367(a,1),26(a,3)),unit_del(b,70)].
+:: 2470 $F.  [back_rewrite(150),rewrite([2374(1)]),unit_del(a,40)].
+
+:: ============================== end of proof ==========================
+
+:: OTT2MIZ (J. URBAN)
+
+theorem :: PASCAL:31
+  for PCPP being CollProjectiveSpace
+  for c1,c2,c3,c4,c5,c6,c7,c8,c9 being Element of PCPP st
+  not c1,c2,c4 are_collinear & not c1,c2,c5 are_collinear &
+  not c1,c6,c4 are_collinear & not c1,c6,c5 are_collinear &
+  not c2,c6,c4 are_collinear & not c3,c4,c2 are_collinear &
+  not c3,c4,c6 are_collinear & not c3,c5,c2 are_collinear &
+  not c3,c5,c6 are_collinear & not c4,c5,c2 are_collinear &
+  c1,c4,c7 are_collinear & c1,c5,c8 are_collinear &
+  c2,c3,c7 are_collinear & c2,c5,c9 are_collinear &
+  c6,c3,c8 are_collinear & c6,c4,c9 are_collinear holds
+  not c9,c2,c4 are_collinear & not c1,c4,c9 are_collinear &
+  not c2,c3,c9 are_collinear & not c2,c4,c7 are_collinear &
+  not c2,c5,c8 are_collinear & not c2,c9,c8 are_collinear &
+  not c2,c9,c7 are_collinear & not c6,c4,c8 are_collinear &
+  not c6,c5,c8 are_collinear & not c4,c9,c8 are_collinear &
+  not c4,c9,c7 are_collinear;
+
+reserve P1,P2,P3,P4,P5,P6,P7,P8,P9 for Point of ProjectiveSpace TOP-REAL 3,
+                       a,b,c,d,e,f for Real;
+
+definition
+  let P1,P2,P3,P4,P5,P6,P7,P8,P9 be Point of ProjectiveSpace TOP-REAL 3;
+  pred P1,P2,P3,P4,P5,P6,P7,P8,P9 are_in_Pascal_configuration means
+:: PASCAL:def 4
+  not P1,P2,P4 are_collinear & not P1,P3,P4 are_collinear &
+  not P2,P3,P4 are_collinear & not P1,P2,P5 are_collinear &
+  not P1,P2,P6 are_collinear & not P1,P3,P5 are_collinear &
+  not P1,P3,P6 are_collinear & not P2,P4,P5 are_collinear &
+  not P2,P4,P6 are_collinear & not P3,P4,P5 are_collinear &
+  not P3,P4,P6 are_collinear & not P2,P3,P5 are_collinear &
+  not P2,P3,P6 are_collinear & not P4,P5,P1 are_collinear &
+  not P4,P6,P1 are_collinear & not P5,P6,P1 are_collinear &
+  not P5,P6,P2 are_collinear &
+  P1,P5,P9 are_collinear & P1,P6,P8 are_collinear & P2,P4,P9 are_collinear &
+  P2,P6,P7 are_collinear & P3,P4,P8 are_collinear & P3,P5,P7 are_collinear;
+end;
+
+theorem :: PASCAL:32
+  P1,P2,P3,P4,P5,P6,P7,P8,P9 are_in_Pascal_configuration
+  implies
+  not P7,P2,P5 are_collinear & not P1,P5,P7 are_collinear &
+  not P2,P4,P7 are_collinear & not P2,P5,P9 are_collinear &
+  not P2,P6,P8 are_collinear & not P2,P7,P8 are_collinear &
+  not P2,P7,P9 are_collinear & not P3,P5,P8 are_collinear &
+  not P3,P6,P8 are_collinear & not P5,P7,P8 are_collinear &
+  not P5,P7,P9 are_collinear;
+
+theorem :: PASCAL:33
+  not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0) &
+  {P1,P2,P3,P4,P5,P6} c= conic(a,b,c,d,e,f) &
+  not P1,P2,P3 are_collinear &
+  not P1,P2,P4 are_collinear & not P1,P3,P4 are_collinear &
+  not P2,P3,P4 are_collinear & not P7,P2,P5 are_collinear &
+  not P1,P2,P5 are_collinear & not P1,P2,P6 are_collinear &
+  not P1,P3,P5 are_collinear & not P1,P3,P6 are_collinear &
+  not P1,P5,P7 are_collinear & not P2,P4,P5 are_collinear &
+  not P2,P4,P6 are_collinear & not P2,P4,P7 are_collinear &
+  not P2,P5,P9 are_collinear & not P2,P6,P8 are_collinear &
+  not P2,P7,P8 are_collinear & not P2,P7,P9 are_collinear &
+  not P3,P4,P5 are_collinear & not P3,P4,P6 are_collinear &
+  not P3,P5,P8 are_collinear & not P3,P6,P8 are_collinear &
+  not P5,P7,P8 are_collinear & not P5,P7,P9 are_collinear &
+  P1,P5,P9 are_collinear & P1,P6,P8 are_collinear & P2,P4,P9 are_collinear &
+  P2,P6,P7 are_collinear & P3,P4,P8 are_collinear & P3,P5,P7 are_collinear
+  implies P7,P8,P9 are_collinear;
+
+theorem :: PASCAL:34
+  not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0) &
+  {P1,P2,P3,P4,P5,P6} c= conic(a,b,c,d,e,f) &
+  not P1,P2,P3 are_collinear &
+  P1,P2,P3,P4,P5,P6,P7,P8,P9 are_in_Pascal_configuration
+  implies
+  P7,P8,P9 are_collinear;
+
+registration
+  cluster TOP-REAL 3 -> up-3-dimensional;
+end;
+
+theorem :: PASCAL:35
+  not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0) &
+  {P1,P2,P3,P4,P5,P6} c= conic(a,b,c,d,e,f) &
+  P1,P2,P3 are_collinear &
+  P1,P2,P3,P4,P5,P6,P7,P8,P9 are_in_Pascal_configuration
+  implies P7,P8,P9 are_collinear;
+
+::$N Pascal's theorem
+theorem :: PASCAL:36
+  not (a = 0 & b = 0 & c = 0 & d = 0 & e = 0 & f = 0) &
+  {P1,P2,P3,P4,P5,P6} c= conic(a,b,c,d,e,f) &
+  P1,P2,P3,P4,P5,P6,P7,P8,P9 are_in_Pascal_configuration
+  implies
+  P7,P8,P9 are_collinear;
+

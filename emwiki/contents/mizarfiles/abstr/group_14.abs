@@ -1,0 +1,209 @@
+:: Isomorphisms of Direct Products of Finite Cyclic Groups
+::  by Kenichi Arai , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received August 27, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSEQ_1, FUNCT_1, RELAT_1, CARD_3, TARSKI, BINOP_2, FINSET_1,
+      XXREAL_0, GROUP_2, CARD_1, NUMBERS, ALGSTR_0, FUNCT_2, SUBSET_1,
+      XBOOLE_0, STRUCT_0, NAT_1, ORDINAL4, PRE_TOPC, ARYTM_1, ARYTM_3,
+      RLVECT_1, SUPINF_2, PRVECT_1, INT_3, XCMPLX_0, INT_1, INT_6, ZFMISC_1,
+      VECTSP_1, FUNCSDOM, GROUP_6, GROUP_14, ORDINAL1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FINSET_1, CARD_1,
+      XTUPLE_0, NUMBERS, XCMPLX_0, XXREAL_0, INT_1, CARD_3, FINSEQ_1, RVSUM_1,
+      STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, VECTSP_1, GR_CY_1, PRVECT_1,
+      INT_3, INT_6, PRVECT_3, WSIERP_1, MOD_4;
+ constructors REALSET1, MONOID_0, PRALG_1, GROUP_4, GROUP_7, FUNCT_7, RELSET_1,
+      REAL_1, SQUARE_1, RUSUB_4, ALGSTR_1, CARD_2, PRVECT_2, NAT_D, LOPBAN_1,
+      XTUPLE_0, BINOP_2, FINSEQ_4, FINSEQOP, PRVECT_3, SETWISEO, BINOM, INT_3,
+      INT_6, POLYNOM1, WELLORD2, WSIERP_1;
+ registrations XBOOLE_0, XREAL_0, STRUCT_0, ORDINAL1, NAT_1, FUNCT_2, CARD_1,
+      CARD_3, XXREAL_0, RELSET_1, FINSEQ_1, MEMBERED, FUNCT_1, VALUED_0,
+      ALGSTR_0, PRVECT_1, INT_1, INT_6, RLVECT_1, PRVECT_3, RELAT_1, SUBSET_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin
+
+registration
+  let G be Abelian add-associative right_zeroed right_complementable
+  non empty addLoopStr;
+  cluster <* G *> -> non empty AbGroup-yielding for FinSequence;
+end;
+
+registration
+  let G,F be Abelian add-associative right_zeroed right_complementable
+  non empty addLoopStr;
+  cluster <* G,F *> -> non empty AbGroup-yielding for FinSequence;
+end;
+
+theorem :: GROUP_14:1
+  for X be AbGroup holds
+  ex I being Homomorphism of X,product <*X*>
+  st I is bijective & (for x be Element of X holds I.x = <*x*>);
+
+registration
+  let G,F be non empty AbGroup-yielding FinSequence;
+  cluster G^F -> AbGroup-yielding;
+end;
+
+theorem :: GROUP_14:2
+  for X,Y be AbGroup holds
+  ex I be Homomorphism of [:X,Y:],product <*X,Y*> st I is bijective &
+  (for x be Element of X, y be Element of Y holds I.(x,y) = <*x,y*>);
+
+theorem :: GROUP_14:3
+  for X,Y be Group-Sequence holds
+  ex I be Homomorphism of [:product X,product Y:],product (X^Y)
+  st I is bijective &
+  (for x be Element of product X, y be Element of product Y holds
+  ex x1,y1 be FinSequence st x = x1 & y = y1 & I.(x,y) = x1^y1);
+
+theorem :: GROUP_14:4
+  for G,F be AbGroup holds
+  (for x be set holds x is Element of product <*G,F*> iff
+  ex x1 be Element of G, x2 be Element of F st x = <* x1,x2 *>) &
+  (for x,y be Element of product <*G,F*>, x1,y1 be Element of G,
+  x2,y2 be Element of F st x = <*x1,x2*> & y = <*y1,y2*> holds
+  x+y = <*x1+y1,x2+y2*>) & 0.(product <*G,F*>) = <* 0.G,0.F *> &
+  (for x be Element of product <*G,F*>, x1 be Element of G, x2 be Element of F
+  st x = <* x1,x2 *> holds -x = <* -x1,-x2 *>);
+
+theorem :: GROUP_14:5
+  for G,F be AbGroup holds
+  (for x be set holds x is Element of [:G,F:] iff ex x1 be Element of G,
+  x2 be Element of F st x = [x1,x2]) &
+  (for x,y be Element of [:G,F:], x1,y1 be Element of G, x2,y2 be Element of F
+  st x = [x1,x2] & y = [y1,y2] holds x+y = [x1+y1,x2+y2]) &
+  0.[:G,F:] = [0.G,0.F] &
+  (for x be Element of [:G,F:], x1 be Element of G, x2 be Element of F
+  st x = [x1,x2] holds -x = [-x1,-x2]);
+
+theorem :: GROUP_14:6
+  for G,H,I being AddGroup, h being Homomorphism of G,H
+  for h1 being Homomorphism of H,I holds
+  h1 * h is Homomorphism of G,I;
+
+definition
+  let G,H,I be AddGroup;
+  let h be Homomorphism of G,H;
+  let h1 be Homomorphism of H,I;
+  redefine func h1 * h -> Homomorphism of G,I;
+end;
+
+theorem :: GROUP_14:7
+  for G,H being AddGroup, h being Homomorphism of G,H st h is bijective holds
+  h" is Homomorphism of H,G;
+
+theorem :: GROUP_14:8
+  for X,Y be Group-Sequence holds
+  ex I be Homomorphism of product <* product X,product Y *>,product (X^Y)
+  st I is bijective &
+  (for x be Element of product X, y be Element of product Y holds
+  ex x1,y1 be FinSequence st x = x1 & y = y1 & I.<*x,y*> = x1^y1);
+
+theorem :: GROUP_14:9
+  for X,Y be AbGroup holds
+  ex I be Homomorphism of [:X,Y:],[:X,product <*Y*>:] st I is bijective &
+  (for x be Element of X, y be Element of Y holds I.(x,y) = [x,<*y*>]);
+
+theorem :: GROUP_14:10
+  for X be Group-Sequence, Y be AbGroup holds
+  ex I be Homomorphism of [:product X,Y:],product(X^<*Y*>) st I is bijective &
+  (for x be Element of product X, y be Element of Y ex x1,y1 be FinSequence
+  st x = x1 & <*y*> = y1 & I.(x,y) = x1^y1);
+
+theorem :: GROUP_14:11
+  for n be non zero Nat holds
+  the addLoopStr of INT.Ring n is non empty Abelian right_complementable
+  add-associative right_zeroed;
+
+definition
+  let n be natural Number;
+  func Z/Z n -> addLoopStr equals
+:: GROUP_14:def 1
+  the addLoopStr of INT.Ring n;
+end;
+
+registration
+  let n be non zero natural Number;
+  cluster Z/Z n -> non empty strict;
+end;
+
+registration
+  let n be non zero natural Number;
+  cluster Z/Z n -> Abelian right_complementable add-associative right_zeroed;
+end;
+
+theorem :: GROUP_14:12
+  for X be Group-Sequence, x,y,z be Element of product X,
+  x1,y1,z1 be FinSequence st x = x1 & y = y1 & z = z1 holds
+  z = x+y iff for j be Element of dom carr X holds
+  z1.j = (the addF of (X.j)).((x1.j),(y1.j));
+
+theorem :: GROUP_14:13
+  for m being CR_Sequence, j being Nat, x be Integer st j in dom m
+  holds (x mod Product(m)) mod m.j = x mod m.j;
+
+theorem :: GROUP_14:14
+  for m being CR_Sequence, X be Group-Sequence st len m = len X &
+  (for i be Element of NAT st i in dom X holds ex mi be non zero Nat
+  st mi = m.i & X.i = Z/Z (mi)) holds
+  ex I being Homomorphism of Z/Z (Product(m)),product X
+  st (for x be Integer st x in the carrier of Z/Z (Product(m)) holds
+  I.x = mod(x,m));
+
+theorem :: GROUP_14:15
+  for X,Y be non empty set ex I be Function of [:X,Y:],[:X,product<*Y*>:]
+  st I is one-to-one onto &
+  (for x,y be set st x in X & y in Y holds I.(x,y) = [x,<*y*>]);
+
+theorem :: GROUP_14:16
+  for X be non empty set holds card(product <*X*>) = card X;
+
+theorem :: GROUP_14:17
+  for X be non-empty non empty FinSequence, Y be non empty set
+  ex I be Function of [:product X,Y:],product(X^<*Y*>)
+  st I is one-to-one onto &
+  (for x,y be set st x in product X & y in Y ex x1,y1 be FinSequence
+  st x = x1 & <*y*> = y1 & I.(x,y) = x1^y1);
+
+theorem :: GROUP_14:18
+  for m being FinSequence of NAT, X being non-empty non empty FinSequence
+  st len m = len X &
+  (for i be Element of NAT st i in dom X holds card(X.i) = m.i) holds
+  card(product X) = Product(m);
+
+theorem :: GROUP_14:19
+  for m being CR_Sequence, X be Group-Sequence st len m = len X &
+  (for i be Element of NAT st i in dom X holds ex mi be non zero Nat
+  st mi = m.i & X.i = Z/Z (mi)) holds
+  card(the carrier of product X) = Product(m);
+
+theorem :: GROUP_14:20
+  for m being CR_Sequence, X be Group-Sequence,
+  I be Function of Z/Z (Product(m)),product X st len m = len X &
+  (for i be Element of NAT st i in dom X holds ex mi be non zero Nat
+  st mi = m.i & X.i = Z/Z (mi)) &
+  (for x be Integer st x in the carrier of Z/Z (Product(m)) holds
+  I.x = mod(x,m)) holds
+  I is one-to-one;
+
+theorem :: GROUP_14:21
+  for m being CR_Sequence, X be Group-Sequence st len m = len X &
+  (for i be Element of NAT st i in dom X holds ex mi be non zero Nat
+  st mi = m.i & X.i = Z/Z (mi)) holds
+  ex I being Homomorphism of Z/Z (Product(m)),product X st I is bijective &
+  (for x be Integer st x in the carrier of Z/Z (Product(m)) holds
+  I.x = mod(x,m));

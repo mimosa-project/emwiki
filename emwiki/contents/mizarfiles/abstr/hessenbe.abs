@@ -1,0 +1,115 @@
+:: Hessenberg Theorem
+::  by Eugeniusz Kusak and Wojciech Leo\'nczuk
+::
+:: Received October 2, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ANPROJ_2, SUBSET_1, AFF_2, INCSP_1, PENCIL_1;
+ notations STRUCT_0, COLLSP, ANPROJ_2;
+ constructors ANPROJ_2;
+ registrations ANPROJ_2, PROJDES1;
+
+
+begin
+
+reserve PCPP for CollProjectiveSpace,
+  a,a9,a1,a2,a3,b,b9,b1,b2,c,c1,c3,d,d9,e,
+  o,p,p1,p2,p3,r,q, q1,q2,q3,x,y for Element of PCPP;
+
+theorem :: HESSENBE:1
+  a,b,c are_collinear implies b,c,a are_collinear & c,a,b
+  are_collinear & b,a,c are_collinear & a,c,b are_collinear &
+c,b,a are_collinear;
+
+theorem :: HESSENBE:2
+  a<>b & a,b,c are_collinear & a,b,d are_collinear implies a,c,d are_collinear;
+
+theorem :: HESSENBE:3
+  p<>q & a,b,p are_collinear & a,b,q are_collinear & p,q,r are_collinear
+  implies a,b,r are_collinear;
+
+theorem :: HESSENBE:4
+  p<>q implies ex r st not p,q,r are_collinear;
+
+theorem :: HESSENBE:5
+  ex q,r st not p,q,r are_collinear;
+
+theorem :: HESSENBE:6
+  not a,b,c are_collinear & a,b,b9 are_collinear & a<>b9 implies not
+  a,b9,c are_collinear;
+
+theorem :: HESSENBE:7
+  not a,b,c are_collinear & a,b,d are_collinear & a,c,d are_collinear
+implies a=d;
+
+theorem :: HESSENBE:8
+  not o,a,d are_collinear & o,d,d9 are_collinear & d<>d9 & a9,d9,x
+  are_collinear & o,a,a9 are_collinear & o<>a9 implies x<>d;
+
+theorem :: HESSENBE:9
+  not a1,a2,a3 are_collinear & a1,a2,c3 are_collinear & a2,a3,c1
+are_collinear & c1,c3,x are_collinear & c3<>a1 & c3<>a2 & c1<>a2 & c1<>a3
+implies
+  a1<>x & a3<>x;
+
+theorem :: HESSENBE:10
+  not a,b,c are_collinear & a,b,d are_collinear & c,e,d are_collinear
+  & e<>c & d<>a implies not e,a,c are_collinear;
+
+theorem :: HESSENBE:11
+  not p1,p2,q1 are_collinear & p1,p2,q2 are_collinear & q1,q2,q3
+  are_collinear & q2<>q3 implies not p2,p1,q3 are_collinear;
+
+theorem :: HESSENBE:12
+  not p1,p2,q1 are_collinear & p1,p2,p3 are_collinear & q1,q2,p3
+  are_collinear & p3<>q2 & p2<>p3 implies not p3,p2,q2 are_collinear;
+
+theorem :: HESSENBE:13
+  not p1,p2,q1 are_collinear & p1,p2,p3 are_collinear & q1,q2,p1
+  are_collinear & p1<>p3 & p1<>q2 implies not p3,p1,q2 are_collinear;
+
+theorem :: HESSENBE:14
+  a1<>a2 & b1<>b2 & b1,b2,x are_collinear & b1,b2,y are_collinear &
+a1,a2,x are_collinear & a1,a2,y are_collinear & not a1,a2,b1 are_collinear
+implies
+  x=y;
+
+theorem :: HESSENBE:15
+  not o,a1,a2 are_collinear & o,a1,b1 are_collinear & o,a2,b2
+  are_collinear & o<>b1 & o<>b2 implies not o,b1,b2 are_collinear;
+
+reserve PCPP for Pappian CollProjectivePlane,
+  a,a1,a2,a3,b1,b2,b3,c1,c2,c3,o,p
+  ,p1,p2,p3,q,q9, q1,q2,q3,r,r1,r2,r3,x,y,z for Element of PCPP;
+
+theorem :: HESSENBE:16
+  p2<>p3 & p1<>p3 & q2<>q3 & q1<>q2 & q1<>q3 & not p1,p2,q1
+  are_collinear & p1,p2,p3 are_collinear & q1,q2,q3 are_collinear & p1,q2,r3
+  are_collinear & q1,p2,r3 are_collinear & p1,q3,r2 are_collinear & p3,q1,r2
+  are_collinear & p2,q3,r1 are_collinear & p3,q2,r1 are_collinear
+implies r1,r2,r3
+  are_collinear;
+
+theorem :: HESSENBE:17
+  o<>b1 & a1<>b1 & o<>b2 & a2<>b2 & o<>b3 & a3<>b3 & not o,a1,a2
+  are_collinear & not o,a1,a3 are_collinear & not o,a2,a3 are_collinear &
+a1,a2,c3
+  are_collinear & b1,b2,c3 are_collinear & a2,a3,c1 are_collinear & b2,b3,c1
+  are_collinear & a1,a3,c2 are_collinear & b1,b3,c2 are_collinear & o,a1,b1
+  are_collinear & o,a2,b2 are_collinear & o,a3,b3 are_collinear
+implies c1,c2,c3
+  are_collinear;
+
+registration
+  cluster Pappian -> Desarguesian for CollProjectiveSpace;
+end;

@@ -1,0 +1,223 @@
+:: Correctness of a Cyclic Redundancy Check Code Generator
+::  by Yuguang Yang , Katsumi Wasaki , Yasushi Fuwa and Yatsuka Nakamura
+::
+:: Received April 16, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, GATE_1;
+ notations XBOOLE_0, GATE_1;
+ constructors XBOOLE_0, GATE_1;
+ registrations GATE_1;
+
+
+begin
+
+:: Correctness of Division Circuits with 12-bit Register and 16-bit Register
+::
+:: Assumptions:
+:: g0,g1,g2,...,g12: the coefficients of divident polynomial;
+:: a0,a1,a2,...,a11: the present state of register;
+:: p: input;
+:: b0,b1,b2,...,b11: the state of register with input p;
+:: A=(a11, a10, ..., a1, a0), B=(b11, b10, ..., b1,b0);
+:: G=(g12,g11,g10,...,g1,g0);
+:: A + B = (a11+b11, a10+b10, ..., a1+b1, a0+b0);
+:: note: the operator + here means exclusive or.
+::
+:: In a division circuit, a shift is expected to complete one step division by
+:: divident polynomial. So we can derive the relation of A, B, G and p as following:
+::   A*2+p=G*a11+B
+:: here, A*2=(a11, a10, ..., a1, a0)*2=(a11, a10, ..., a1, a0,0),
+::       G*a11=(g12 & a11, g11 & a11, g10 & a11,...,g1 & a11, g0 & a11).
+
+theorem :: GATE_4:1
+  for g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12, a0,a1,a2,a3,a4,a5,a6,a7
+,a8,a9,a10,a11, b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11, p being set holds g12 is
+not empty & (b0 is not empty iff XOR2(p,AND2(g0,a11)) is not empty)& (b1 is not
+  empty iff XOR2(a0,AND2(g1,a11)) is not empty)& (b2 is not empty iff XOR2(a1,
+AND2(g2,a11)) is not empty)& (b3 is not empty iff XOR2(a2,AND2(g3,a11)) is not
+  empty)& (b4 is not empty iff XOR2(a3,AND2(g4,a11)) is not empty)& (b5 is not
+  empty iff XOR2(a4,AND2(g5,a11)) is not empty)& (b6 is not empty iff XOR2(a5,
+AND2(g6,a11)) is not empty)& (b7 is not empty iff XOR2(a6,AND2(g7,a11)) is not
+  empty)& (b8 is not empty iff XOR2(a7,AND2(g8,a11)) is not empty)& (b9 is not
+  empty iff XOR2(a8,AND2(g9,a11)) is not empty)& (b10 is not empty iff XOR2(a9,
+AND2(g10,a11)) is not empty)& (b11 is not empty iff XOR2(a10,AND2(g11,a11)) is
+not empty) implies (a11 is not empty iff AND2(g12,a11) is not empty) & (a10 is
+not empty iff XOR2(b11,AND2(g11,a11)) is not empty)& (a9 is not empty iff XOR2(
+b10,AND2(g10,a11)) is not empty)& (a8 is not empty iff XOR2(b9,AND2(g9,a11)) is
+  not empty)& (a7 is not empty iff XOR2(b8,AND2(g8,a11)) is not empty)& (a6 is
+not empty iff XOR2(b7,AND2(g7,a11)) is not empty)& (a5 is not empty iff XOR2(b6
+,AND2(g6,a11)) is not empty)& (a4 is not empty iff XOR2(b5,AND2(g5,a11)) is not
+  empty)& (a3 is not empty iff XOR2(b4,AND2(g4,a11)) is not empty)& (a2 is not
+  empty iff XOR2(b3,AND2(g3,a11)) is not empty)& (a1 is not empty iff XOR2(b2,
+AND2(g2,a11)) is not empty)& (a0 is not empty iff XOR2(b1,AND2(g1,a11)) is not
+  empty)& (p is not empty iff XOR2(b0,AND2(g0,a11)) is not empty);
+
+:: Assumptions:
+:: g0,g1,g2,...,g16: the coefficients of divident polynomial;
+:: a0,a1,a2,...,a15: the present state of register;
+:: p: input;
+:: b0,b1,b2,...,b15: the state of register with input p;
+:: A=(a15, a14, ..., a1, a0), B=(b15, b14, ..., b1,b0);
+:: G=(g16,g15,g14,...,g1,g0);
+:: A + B = (a15+b15, a14+b14, ..., a1+b1, a0+b0);
+:: note: the operator + here means exclusive or.
+::
+:: In a division circuit, a shift is expected to complete one step division by
+:: divident polynomial. So we can derive the relation of A, B, G and p as following:
+::   A*2+p=G*a15+B
+:: here, A*2=(a15, a14, ..., a1, a0)*2=(a15, a14, ..., a1, a0,0),
+::       G*a15=(g16 & a15, g15 & a15, g14 & a15,...,g1 & a15, g0 is not empty & a15).
+
+theorem :: GATE_4:2
+  for g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16, a0,a1,
+a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15, b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,
+b10,b11,b12,b13,b14,b15, p being set holds g16 is not empty & (b0 is not empty
+  iff XOR2(p,AND2(g0,a15)) is not empty)& (b1 is not empty iff XOR2(a0,AND2(g1,
+a15)) is not empty)& (b2 is not empty iff XOR2(a1,AND2(g2,a15)) is not empty)&
+(b3 is not empty iff XOR2(a2,AND2(g3,a15)) is not empty)& (b4 is not empty iff
+XOR2(a3,AND2(g4,a15)) is not empty)& (b5 is not empty iff XOR2(a4,AND2(g5,a15))
+is not empty)& (b6 is not empty iff XOR2(a5,AND2(g6,a15)) is not empty)& (b7 is
+not empty iff XOR2(a6,AND2(g7,a15)) is not empty)& (b8 is not empty iff XOR2(a7
+,AND2(g8,a15)) is not empty)& (b9 is not empty iff XOR2(a8,AND2(g9,a15)) is not
+empty)& (b10 is not empty iff XOR2(a9,AND2(g10,a15)) is not empty)& (b11 is not
+empty iff XOR2(a10,AND2(g11,a15)) is not empty)& (b12 is not empty iff XOR2(a11
+,AND2(g12,a15)) is not empty)& (b13 is not empty iff XOR2(a12,AND2(g13,a15)) is
+  not empty)& (b14 is not empty iff XOR2(a13,AND2(g14,a15)) is not empty)& (b15
+  is not empty iff XOR2(a14,AND2(g15,a15)) is not empty) implies (a15 is not
+empty iff AND2(g16,a15) is not empty) & (a14 is not empty iff XOR2(b15,AND2(g15
+  ,a15)) is not empty)& (a13 is not empty iff XOR2(b14,AND2(g14,a15)) is not
+  empty)& (a12 is not empty iff XOR2(b13,AND2(g13,a15)) is not empty)& (a11 is
+not empty iff XOR2(b12,AND2(g12,a15)) is not empty)& (a10 is not empty iff XOR2
+(b11,AND2(g11,a15)) is not empty)& (a9 is not empty iff XOR2(b10,AND2(g10,a15))
+is not empty)& (a8 is not empty iff XOR2(b9,AND2(g9,a15)) is not empty)& (a7 is
+not empty iff XOR2(b8,AND2(g8,a15)) is not empty)& (a6 is not empty iff XOR2(b7
+,AND2(g7,a15)) is not empty)& (a5 is not empty iff XOR2(b6,AND2(g6,a15)) is not
+  empty)& (a4 is not empty iff XOR2(b5,AND2(g5,a15)) is not empty)& (a3 is not
+  empty iff XOR2(b4,AND2(g4,a15)) is not empty)& (a2 is not empty iff XOR2(b3,
+AND2(g3,a15)) is not empty)& (a1 is not empty iff XOR2(b2,AND2(g2,a15)) is not
+  empty)& (a0 is not empty iff XOR2(b1,AND2(g1,a15)) is not empty)& (p is not
+  empty iff XOR2(b0,AND2(g0,a15)) is not empty);
+
+begin:: Correctness of CRC Circuits with Generator Polynomial of
+:: Degree 12 and 16
+:: Assumptions:
+:: g0,g1,g2,...,g12: the coefficients of generator polynomial;
+:: a0,a1,a2,...,a11: the present state of register;
+:: p: input;
+:: b0,b1,b2,...,b11: the state of register after a shift with input p;
+:: A=(a11, a10, ..., a1, a0), B=(b11, b10, ..., b1,b0);
+:: G=(g12,g11,g10,...,g1,g0)
+:: A + B=(a11+b11, a10+b10, ..., a1+b1, a0+b0);
+:: note: the operator + here means exclusive or;
+:: A*2=(a11, a10, ..., a1, a0)*2=(a11, a10, ..., a1, a0,0);
+:: G*a11=(g12 is not empty & a11, g11 & a11, g10 & a11,...,g1 & a11, g0 is not empty & a11);
+:: 2^11 means 2 to the 11th power.
+::
+::
+:: In a CRC circuit, with assumption that A is the remainder of message M*2^11
+:: divided by G, B which is the contents of register after one shift is expected
+:: to be the remainder of (M*2 + p)*2^11 divided by G. That means
+:: B= mod((M*2 + p)*2^11,G)
+::  = mod(M*2^12+ p*2^11,G)
+::  = mod(M*2^12,G) + mod(p*2^11,G)
+::  = mod(A*2,G) + mod(p*2^11,G)
+::  = (A*2+G*a11)+(p*2^11 + G*p);
+::
+:: Note: The initial state of register can be regarded as M=0.
+
+theorem :: GATE_4:3
+  for g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12, a0,a1,a2,a3,a4,a5,a6,a7
+  ,a8,a9,a10,a11, b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11, z,p being set holds g0
+  is not empty & not z is not empty & (b0 is not empty iff XOR2(p,a11) is not
+  empty)& (b1 is not empty iff XOR2(a0,AND2(g1,b0)) is not empty)& (b2 is not
+empty iff XOR2(a1,AND2(g2,b0)) is not empty)& (b3 is not empty iff XOR2(a2,AND2
+(g3,b0)) is not empty)& (b4 is not empty iff XOR2(a3,AND2(g4,b0)) is not empty)
+& (b5 is not empty iff XOR2(a4,AND2(g5,b0)) is not empty)& (b6 is not empty iff
+  XOR2(a5,AND2(g6,b0)) is not empty)& (b7 is not empty iff XOR2(a6,AND2(g7,b0))
+is not empty)& (b8 is not empty iff XOR2(a7,AND2(g8,b0)) is not empty)& (b9 is
+not empty iff XOR2(a8,AND2(g9,b0)) is not empty)& (b10 is not empty iff XOR2(a9
+  ,AND2(g10,b0)) is not empty)& (b11 is not empty iff XOR2(a10,AND2(g11,b0)) is
+  not empty) implies (b11 is not empty iff XOR2(XOR2(a10,AND2(g11,a11)),XOR2(z,
+AND2(g11,p))) is not empty) & (b10 is not empty iff XOR2(XOR2(a9,AND2(g10,a11))
+,XOR2(z,AND2(g10,p))) is not empty) & (b9 is not empty iff XOR2(XOR2(a8,AND2(g9
+  ,a11)),XOR2(z,AND2(g9,p))) is not empty) & (b8 is not empty iff XOR2(XOR2(a7,
+  AND2(g8,a11)),XOR2(z,AND2(g8,p))) is not empty) & (b7 is not empty iff XOR2(
+XOR2(a6,AND2(g7,a11)),XOR2(z,AND2(g7,p))) is not empty) & (b6 is not empty iff
+XOR2(XOR2(a5,AND2(g6,a11)),XOR2(z,AND2(g6,p))) is not empty) & (b5 is not empty
+  iff XOR2(XOR2(a4,AND2(g5,a11)),XOR2(z,AND2(g5,p))) is not empty) & (b4 is not
+empty iff XOR2(XOR2(a3,AND2(g4,a11)),XOR2(z,AND2(g4,p))) is not empty) & (b3 is
+not empty iff XOR2(XOR2(a2,AND2(g3,a11)),XOR2(z,AND2(g3,p))) is not empty) & (
+b2 is not empty iff XOR2(XOR2(a1,AND2(g2,a11)),XOR2(z,AND2(g2,p))) is not empty
+) & (b1 is not empty iff XOR2(XOR2(a0,AND2(g1,a11)),XOR2(z,AND2(g1,p))) is not
+empty) & (b0 is not empty iff XOR2(XOR2(z, AND2(g0,a11)),XOR2(z,AND2(g0,p))) is
+  not empty);
+
+:: Assumptions:
+:: g0,g1,g2,...,g16: the coefficients of generator polynomial;
+:: a0,a1,a2,...,a15: the present state of register;
+:: p: input;
+:: b0,b1,b2,...,b15: the state of register with input p;
+:: A=(a15, a10, ..., a1, a0), B=(b11, b10, ..., b1,b0);
+:: G=(g16,g15,g14,...,g1,g0)
+:: A + B=(a15+b15, a14+b14, ..., a1+b1, a0+b0);
+:: note: the operator + here means exclusive or;
+:: A*2= (a15, a14, ..., a1, a0)*2=(a15, a14, ..., a1, a0,0);
+:: G*a15=(g16 is not empty & a15, g15 & a15, g14 & a15,...,g1 is not empty & a15, g0 is not empty & a15);
+:: 2^15 means 2 to the 15th power.
+::
+:: In a CRC circuit, with assumption that A is the remainder of message M*2^15
+:: divided by G, B which is the contents of register after one shift is expected
+:: to be the remainder of (M*2 + p)*2^15 divided by G. That means
+:: B= mod((M*2 + p)*2^15,G)
+::  = mod(M*2^16+ p*2^15,G)
+::  = mod(M*2^16,G) + mod(p*2^15,G)
+::  = mod(A*2,G) + mod(p*2^15,G)
+::  = (A*2+G*a15)+(p*2^15 + G*p);
+::
+:: Note: The initial state of register can be regarded as M=0.
+
+theorem :: GATE_4:4
+  for g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16, a0,a1,
+a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15, b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,
+  b10,b11,b12,b13,b14,b15, z,p being set holds g0 is not empty & not z is not
+  empty & (b0 is not empty iff XOR2(p,a15) is not empty)& (b1 is not empty iff
+  XOR2(a0,AND2(g1,b0)) is not empty)& (b2 is not empty iff XOR2(a1,AND2(g2,b0))
+is not empty)& (b3 is not empty iff XOR2(a2,AND2(g3,b0)) is not empty)& (b4 is
+not empty iff XOR2(a3,AND2(g4,b0)) is not empty)& (b5 is not empty iff XOR2(a4,
+  AND2(g5,b0)) is not empty)& (b6 is not empty iff XOR2(a5,AND2(g6,b0)) is not
+  empty)& (b7 is not empty iff XOR2(a6,AND2(g7,b0)) is not empty)& (b8 is not
+empty iff XOR2(a7,AND2(g8,b0)) is not empty)& (b9 is not empty iff XOR2(a8,AND2
+  (g9,b0)) is not empty)& (b10 is not empty iff XOR2(a9,AND2(g10,b0)) is not
+empty)& (b11 is not empty iff XOR2(a10,AND2(g11,b0)) is not empty)& (b12 is not
+empty iff XOR2(a11,AND2(g12,b0)) is not empty)& (b13 is not empty iff XOR2(a12,
+  AND2(g13,b0)) is not empty)& (b14 is not empty iff XOR2(a13,AND2(g14,b0)) is
+not empty)& (b15 is not empty iff XOR2(a14,AND2(g15,b0)) is not empty) implies
+(b15 is not empty iff XOR2(XOR2(a14,AND2(g15,a15)),XOR2(z,AND2(g15,p))) is not
+empty) & (b14 is not empty iff XOR2(XOR2(a13,AND2(g14,a15)),XOR2(z,AND2(g14,p))
+  ) is not empty) & (b13 is not empty iff XOR2(XOR2(a12,AND2(g13,a15)),XOR2(z,
+AND2(g13,p))) is not empty) & (b12 is not empty iff XOR2(XOR2(a11,AND2(g12,a15)
+),XOR2(z,AND2(g12,p))) is not empty) & (b11 is not empty iff XOR2(XOR2(a10,AND2
+(g11,a15)),XOR2(z,AND2(g11,p))) is not empty) & (b10 is not empty iff XOR2(XOR2
+  (a9,AND2(g10,a15)),XOR2(z,AND2(g10,p))) is not empty) & (b9 is not empty iff
+XOR2(XOR2(a8,AND2(g9,a15)),XOR2(z,AND2(g9,p))) is not empty) & (b8 is not empty
+  iff XOR2(XOR2(a7,AND2(g8,a15)),XOR2(z,AND2(g8,p))) is not empty) & (b7 is not
+empty iff XOR2(XOR2(a6,AND2(g7,a15)),XOR2(z,AND2(g7,p))) is not empty) & (b6 is
+not empty iff XOR2(XOR2(a5,AND2(g6,a15)),XOR2(z,AND2(g6,p))) is not empty) & (
+b5 is not empty iff XOR2(XOR2(a4,AND2(g5,a15)),XOR2(z,AND2(g5,p))) is not empty
+) & (b4 is not empty iff XOR2(XOR2(a3,AND2(g4,a15)),XOR2(z,AND2(g4,p))) is not
+empty) & (b3 is not empty iff XOR2(XOR2(a2,AND2(g3,a15)),XOR2(z,AND2(g3,p))) is
+not empty) & (b2 is not empty iff XOR2(XOR2(a1,AND2(g2,a15)),XOR2(z,AND2(g2,p))
+) is not empty) & (b1 is not empty iff XOR2(XOR2(a0,AND2(g1,a15)),XOR2(z,AND2(
+g1,p))) is not empty) & (b0 is not empty iff XOR2(XOR2(z, AND2(g0,a15)),XOR2(z,
+  AND2(g0,p))) is not empty);

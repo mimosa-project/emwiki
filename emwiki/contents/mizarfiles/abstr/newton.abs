@@ -1,0 +1,537 @@
+:: Factorial and Newton coefficients
+::  by Rafa{\l} Kwiatek
+::
+:: Received July 27, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, XREAL_0, ORDINAL1, FINSEQ_1, RELAT_1, FUNCT_1,
+      XXREAL_0, XBOOLE_0, SUBSET_1, ARYTM_3, TARSKI, FINSEQ_2, XCMPLX_0,
+      CARD_3, REAL_1, CARD_1, ORDINAL4, REALSET1, ARYTM_1, PARTFUN1, INT_2,
+      INT_1, FINSET_1, SQUARE_1, FUNCOP_1, NEWTON, VALUED_0, FUNCT_7, MEMBERED;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS, XCMPLX_0,
+      XREAL_0, REAL_1, FUNCT_1, PARTFUN1, FUNCT_2, MEMBERED, VALUED_0,
+      FINSET_1, FINSEQ_1, FINSEQ_2, FUNCOP_1, INT_1, INT_2, NAT_1, NAT_D,
+      RVSUM_1, SQUARE_1, XXREAL_0;
+ constructors PARTFUN1, WELLORD2, REAL_1, SQUARE_1, NAT_1, NAT_D, BINOP_2,
+      FINSOP_1, RVSUM_1, FUNCOP_1, RELSET_1, FINSEQOP;
+ registrations ORDINAL1, RELSET_1, FINSET_1, NUMBERS, XCMPLX_0, XXREAL_0,
+      XREAL_0, NAT_1, INT_1, MEMBERED, FINSEQ_1, FINSEQ_2, RVSUM_1, VALUED_0,
+      CARD_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve i,j,k,n,m,l,s,t for Nat;
+reserve a,b for Real;
+reserve F,G,H for FinSequence of REAL;
+
+theorem :: NEWTON:1
+  n>=1 implies Seg n = {1} \/ {k where k is Element of NAT: 1<k & k <n} \/ {n};
+
+theorem :: NEWTON:2
+  len (a*F) = len F;
+
+theorem :: NEWTON:3
+  dom G = dom (a*G);
+
+:: x |^ n Function
+
+registration
+  let x be Complex, n be natural Number;
+  cluster n |-> x -> complex-valued;
+end;
+
+definition
+  let x be Complex, n be natural Number;
+  func x |^ n -> number equals
+:: NEWTON:def 1
+  Product (n |-> x);
+end;
+
+registration
+  let x be Real, n be natural Number;
+  cluster x |^ n -> real;
+end;
+
+reserve z for Complex;
+
+registration
+  let z be Complex, n be natural Number;
+  cluster z|^n -> complex;
+end;
+
+theorem :: NEWTON:4
+  z|^0 = 1;
+
+theorem :: NEWTON:5
+  z|^1 = z;
+
+registration
+  let a be Complex;
+  reduce a |^ 1 to a;
+end;
+
+theorem :: NEWTON:6
+  z|^(s+1) = z|^s * z;
+
+registration
+  let x, n be natural Number;
+  cluster x|^n -> natural;
+end;
+
+reserve x,y for Complex;
+reserve r,s,t for natural Number;
+
+theorem :: NEWTON:7
+  (x*y) |^ s = x|^s * y|^s;
+
+theorem :: NEWTON:8
+  x|^(s+t) = x|^s * x|^t;
+
+theorem :: NEWTON:9
+  (x|^s) |^ t = x|^(s*t);
+
+theorem :: NEWTON:10
+  1|^s = 1;
+
+registration
+  let n be Nat;
+  reduce 1|^n to 1;
+end;
+
+theorem :: NEWTON:11
+  s >= 1 implies 0|^s = 0;
+
+:: n! Function
+
+registration
+  let n be natural Number;
+  cluster idseq n -> natural-valued;
+end;
+
+definition
+  let n be natural Number;
+  func n! -> number equals
+:: NEWTON:def 2
+  Product idseq n;
+end;
+
+registration
+  let n be natural Number;
+  cluster n! -> real;
+end;
+
+theorem :: NEWTON:12
+  0! = 1;
+
+theorem :: NEWTON:13
+  1! = 1;
+
+theorem :: NEWTON:14
+  2! = 2;
+
+theorem :: NEWTON:15
+  (s+1)! = (s!) * (s+1);
+
+theorem :: NEWTON:16
+  s! is Element of NAT;
+
+registration
+  let n be natural Number;
+  cluster n! -> natural;
+end;
+
+theorem :: NEWTON:17
+  s! > 0;
+
+registration
+  let n be natural Number;
+  cluster n! -> positive;
+end;
+
+theorem :: NEWTON:18
+  (s!) * (t!) <> 0;
+
+:: n choose k Function
+
+definition
+  let k,n be natural Number;
+  func n choose k -> number means
+:: NEWTON:def 3
+
+  for l be Nat st l = n-k holds it = (n!)/((k!) * (l!)) if n >= k
+  otherwise it = 0;
+end;
+
+registration
+  let k,n be natural Number;
+  cluster n choose k -> real;
+end;
+
+theorem :: NEWTON:19
+  s choose 0 = 1;
+
+theorem :: NEWTON:20
+  s >= t & r = s-t implies s choose t = s choose r;
+
+theorem :: NEWTON:21
+  s choose s = 1;
+
+theorem :: NEWTON:22
+  (t+1) choose (s+1) = (t choose (s+1)) + (t choose s);
+
+theorem :: NEWTON:23
+  s >= 1 implies s choose 1 = s;
+
+theorem :: NEWTON:24
+  s>=1 & t = s-1 implies s choose t = s;
+
+theorem :: NEWTON:25
+  s choose r is Element of NAT;
+
+theorem :: NEWTON:26
+  for m,F st m <> 0 & len F = m & (for i,l st i in dom F & l = n+i-1
+  holds F.i = l choose n) holds Sum F = (n+m) choose (n+1);
+
+registration
+  let k,n be natural Number;
+  cluster n choose k -> natural;
+end;
+
+definition
+  let k,n be Nat;
+  redefine func n choose k -> Element of NAT;
+end;
+
+definition
+  let a,b be Real;
+  let n be natural Number;
+  func (a,b) In_Power n -> FinSequence of REAL means
+:: NEWTON:def 4
+
+  len it = n+1 & for i,l,m being Nat st i in dom it & m = i - 1 & l = n-m holds
+    it.i = (n choose m) * a|^l * b|^m;
+end;
+
+theorem :: NEWTON:27
+  (a,b) In_Power 0 = <*1*>;
+
+theorem :: NEWTON:28
+  ((a,b) In_Power s).1 = a|^s;
+
+theorem :: NEWTON:29
+  ((a,b) In_Power s).(s+1) = b|^s;
+
+theorem :: NEWTON:30
+  (a+b) |^ s = Sum((a,b) In_Power s);
+
+definition
+  let n be natural Number;
+  func Newton_Coeff n -> FinSequence of REAL means
+:: NEWTON:def 5
+
+  len it = n+1 & for i,k be Nat st i in dom it & k = i-1 holds
+  it.i = n choose k;
+end;
+
+theorem :: NEWTON:31
+  Newton_Coeff s = (1,1) In_Power s;
+
+theorem :: NEWTON:32
+  2|^s = Sum(Newton_Coeff s);
+
+begin :: Addenda
+:: from NAT_LAT
+
+theorem :: NEWTON:33
+  l >= 1 implies k*l >= k;
+
+theorem :: NEWTON:34
+  l >= 1 & n >= k*l implies n >= k;
+
+definition
+  let n;
+  redefine func n! -> Element of NAT;
+end;
+
+theorem :: NEWTON:35
+  l <> 0 implies l divides l!;
+
+theorem :: NEWTON:36
+  n <> 0 implies (n+1)/n > 1;
+
+theorem :: NEWTON:37
+  k/(k+1) < 1;
+
+theorem :: NEWTON:38
+  l! >= l;
+
+theorem :: NEWTON:39
+  m<>1 & m divides n implies not m divides (n+1);
+
+theorem :: NEWTON:40
+  j<>0 implies j divides (j+k)!;
+
+theorem :: NEWTON:41
+  j<=l & j<>0 implies j divides l!;
+
+theorem :: NEWTON:42
+  j<>1 & j<>0 & j divides (l!+1) implies j>l;
+
+:: The fundamental properties of lcm, hcf
+
+theorem :: NEWTON:43
+  m lcm (n lcm k) = (m lcm n) lcm k;
+
+theorem :: NEWTON:44
+  m divides n iff m lcm n = n;
+
+theorem :: NEWTON:45
+  n divides m & k divides m iff n lcm k divides m;
+
+theorem :: NEWTON:46
+  m lcm 1 = m;
+
+theorem :: NEWTON:47
+  m lcm n divides m*n;
+
+theorem :: NEWTON:48
+  m gcd (n gcd k) = (m gcd n) gcd k;
+
+theorem :: NEWTON:49
+  n divides m implies n gcd m = n;
+
+theorem :: NEWTON:50
+  m divides n & m divides k iff m divides n gcd k;
+
+theorem :: NEWTON:51
+  m gcd 1 = 1;
+
+theorem :: NEWTON:52
+  m gcd 0 = m;
+
+theorem :: NEWTON:53
+  (m gcd n) lcm n = n;
+
+theorem :: NEWTON:54
+  m gcd (m lcm n) = m;
+
+theorem :: NEWTON:55
+  m gcd (m lcm n) = (n gcd m) lcm m;
+
+theorem :: NEWTON:56
+  m divides n implies m gcd k divides n gcd k;
+
+theorem :: NEWTON:57
+  m divides n implies k gcd m divides k gcd n;
+
+theorem :: NEWTON:58
+  for m,n being Integer holds
+  n > 0 implies n gcd m > 0;
+
+theorem :: NEWTON:59
+  m > 0 & n > 0 implies m lcm n > 0;
+
+theorem :: NEWTON:60
+  (n gcd m) lcm (n gcd k) divides n gcd (m lcm k);
+
+theorem :: NEWTON:61
+  m divides l implies m lcm (n gcd l) divides (m lcm n) gcd l;
+
+theorem :: NEWTON:62
+  n gcd m divides n lcm m;
+
+:: from GR_CY_2
+
+reserve p,q for natural Number;
+reserve i0,i,i1,i2,i4 for Integer;
+
+theorem :: NEWTON:63
+  0 < m implies n mod m = n - m * (n div m);
+
+theorem :: NEWTON:64
+  i2 >= 0 implies i1 mod i2 >= 0;
+
+theorem :: NEWTON:65
+  i2 > 0 implies i1 mod i2 < i2;
+
+theorem :: NEWTON:66
+  i2 <> 0 implies i1 = (i1 div i2) * i2 + (i1 mod i2);
+
+::$N Bezout's identity
+theorem :: NEWTON:67
+  ex i,i1 st i*m + i1*n = m gcd n;
+
+:: from NAT_LAT
+
+definition
+  func SetPrimes -> Subset of NAT means
+:: NEWTON:def 6
+
+  for n being Nat holds n in it iff n is prime;
+end;
+
+registration
+  cluster prime for Element of NAT;
+  cluster prime for Nat;
+end;
+
+definition
+  mode Prime is prime Nat;
+end;
+
+reserve x for set;
+
+definition
+  let p be natural Number;
+  func SetPrimenumber p -> Subset of NAT means
+:: NEWTON:def 7
+
+  for q being Nat holds q in it iff q < p & q is prime;
+end;
+
+theorem :: NEWTON:68
+  SetPrimenumber p c= SetPrimes;
+
+theorem :: NEWTON:69
+  p <= q implies SetPrimenumber p c= SetPrimenumber q;
+
+theorem :: NEWTON:70
+  SetPrimenumber p c= Seg p;
+
+theorem :: NEWTON:71
+  SetPrimenumber p is finite;
+
+registration
+  let n be natural Number;
+  cluster SetPrimenumber n -> finite;
+end;
+
+reserve p for Prime;
+
+theorem :: NEWTON:72
+  ex p st p>l;
+
+registration
+  cluster SetPrimes -> non empty;
+end;
+
+registration
+  cluster SetPrimenumber 2 -> empty;
+end;
+
+theorem :: NEWTON:73
+  SetPrimenumber m c= Seg m;
+
+theorem :: NEWTON:74
+  k>=m implies not k in SetPrimenumber m;
+
+theorem :: NEWTON:75
+  SetPrimenumber n \/ {n} is finite;
+
+theorem :: NEWTON:76
+  for f being Prime, g being Nat st f < g holds SetPrimenumber f
+  \/ {f} c= SetPrimenumber g;
+
+theorem :: NEWTON:77
+  k>=m implies not k in SetPrimenumber m;
+
+definition
+  let n be Nat;
+  func primenumber n -> prime Element of NAT means
+:: NEWTON:def 8
+
+  n = card SetPrimenumber it;
+end;
+
+theorem :: NEWTON:78
+  SetPrimenumber n = {k where k is Element of NAT: k<n & k is prime};
+
+::$N The Infinitude of Primes
+theorem :: NEWTON:79
+  SetPrimes is infinite;
+
+registration
+  cluster SetPrimes -> non empty infinite;
+end;
+
+reserve i for Nat;
+
+:: divisibility
+
+theorem :: NEWTON:80
+  i is prime implies for m,n being Nat holds i divides m * n implies
+  i divides m or i divides n;
+
+theorem :: NEWTON:81
+  for x being Complex holds x |^ 2 = x * x & x^2 = x |^ 2;
+
+:: from SCMFSA9A, 2005.11.16, A.T
+
+theorem :: NEWTON:82
+  m qua Integer div n = m div n & m qua Integer mod n = m mod n;
+
+:: from HEINE, 2006.01.07, A.T
+
+reserve x for Real;
+
+theorem :: NEWTON:83
+  x > 0 implies x|^k > 0;
+
+:: missing, 2006.07.17, A.T.
+
+theorem :: NEWTON:84
+  n > 0 implies 0 |^ n = 0;
+
+:: from CARD_4 and WSIERP_1, 2007.02.07, AK
+
+definition
+  let m,n be Element of NAT;
+  redefine func m|^n -> Element of NAT;
+end;
+
+theorem :: NEWTON:85
+  2 <= i implies i|^n >= n + 1;
+
+theorem :: NEWTON:86
+  2 <= i implies i|^n > n;
+
+:: from AMI_4, 2008.02.14, A.T.
+
+reserve k for Nat;
+
+scheme :: NEWTON:sch 1
+  Euklides9 { F(Nat) -> Element of NAT, G(Nat) -> Element of NAT,
+    a() -> Element of NAT, b() -> Element of NAT } :
+    ex k st F(k) = a() gcd b() & G(k) = 0
+provided
+ 0 < b() and
+ b() < a() and
+ F(0) = a() and
+ G(0) = b() and
+ for k st G(k) > 0 holds F(k+1) = G(k) & G(k+1) = F(k) mod G(k);
+
+:: from CARD_4, 2008.05.11, A.T.
+
+reserve k,n,n1,n2,m1,m2 for Nat;
+
+theorem :: NEWTON:87
+  r <> 0 or n = 0 iff r|^n <> 0;
+
+theorem :: NEWTON:88
+  (2|^n1)*(2*m1+1) = (2|^n2)*(2*m2+1) implies n1 = n2 & m1 = m2;
+
+theorem :: NEWTON:89
+  k <= n implies m |^ k divides m |^ n;
+

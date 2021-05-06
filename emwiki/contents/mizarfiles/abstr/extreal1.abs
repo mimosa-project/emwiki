@@ -1,0 +1,216 @@
+:: Basic Properties of Extended Real Numbers
+::  by Noboru Endou , Katsumi Wasaki and Yasunari Shidama
+::
+:: Received September 7, 2000
+:: Copyright (c) 2000-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUPINF_1, REAL_1, RELAT_1, XXREAL_0, ARYTM_3, COMPLEX1,
+      CARD_1, ARYTM_1, FINSEQ_1, CARD_3, FUNCT_1, SUBSET_1, SUPINF_2, NAT_1,
+      FUNCT_2, FUNCOP_1, XBOOLE_0, TARSKI, ORDINAL4, PARTFUN1, RFINSEQ,
+      XCMPLX_0, MESFUNC1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, CARD_1, ORDINAL1, NUMBERS, XXREAL_0,
+      XXREAL_3, XCMPLX_0, XREAL_0, COMPLEX1, REAL_1, RELAT_1, FUNCT_1,
+      RELSET_1, PARTFUN1, BINOP_1, FUNCT_2, DOMAIN_1, RFINSEQ, RFUNCT_3,
+      RVSUM_1, FUNCOP_1, FINSEQ_1, FINSEQ_4, NAT_1, NAT_D, SUPINF_1, SUPINF_2,
+      MEASURE6;
+ constructors BINOP_1, DOMAIN_1, REAL_1, NAT_1, FINSEQ_4, FINSOP_1, RVSUM_1,
+      SUPINF_2, RFINSEQ, RFUNCT_3, MEASURE6, BINARITH, BINOP_2, SUPINF_1,
+      CLASSES1, NAT_D, RELSET_1, XXREAL_3, FINSEQ_1, FUNCT_1, FUNCT_2, INT_1,
+      FUNCOP_1, COMPLEX1, ARYTM_2;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, FUNCT_2, NUMBERS,
+      XXREAL_0, XREAL_0, NAT_1, INT_1, FINSEQ_1, VALUED_0, CARD_1, XXREAL_3;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin  :: Operations "x * y","x / y", "|.x.|" in R_eal numbers
+
+definition
+  let x,y be R_eal;
+  redefine func x * y -> R_eal;
+end;
+
+theorem :: EXTREAL1:1
+  for x,y being ExtReal holds for a,b being Real holds x = a & y = b
+  implies x * y = a * b;
+
+definition
+  let x,y be ExtReal;
+  redefine func x / y -> R_eal;
+end;
+
+theorem :: EXTREAL1:2
+  for x,y being ExtReal holds for a,b being Real st x = a & y = b
+  holds x / y = a / b;
+
+definition
+  let x be ExtReal;
+  func |. x .| -> R_eal equals
+:: EXTREAL1:def 1
+
+  x if 0 <= x otherwise -x;
+  projectivity;
+end;
+
+registration
+  let x be Real, a be Complex;
+  identify |.x.| with |.a.| when x = a;
+end;
+
+theorem :: EXTREAL1:3
+  for x being R_eal st 0 <= x holds |. x .| = x;
+
+theorem :: EXTREAL1:4
+  for x being R_eal st x < 0 holds |. x .| = -x;
+
+registration let x be R_eal;
+ cluster |.x.| -> non negative;
+end;
+
+::$CT 2
+
+begin :: Sum of Finite Sequence of Extended Real Numbers
+  :: from CONVFUN1, 2010.02.13, A.T.
+
+definition
+  let F be FinSequence of ExtREAL;
+  func Sum(F) -> R_eal means
+:: EXTREAL1:def 2
+
+  ex f being sequence of ExtREAL st it = f.(len F) & f.0 = 0. &
+  for i being Nat st i < len F holds f.(i+1)= f.i+F.(i+1);
+end;
+
+theorem :: EXTREAL1:7
+  Sum(<*> ExtREAL) = 0.;
+
+theorem :: EXTREAL1:8
+  for a being R_eal holds Sum<*a*> = a;
+
+theorem :: EXTREAL1:9
+  for a,b being R_eal holds Sum<*a,b*> = a+b;
+
+theorem :: EXTREAL1:10
+  for F,G being FinSequence of ExtREAL st not -infty in rng F & not
+  -infty in rng G holds Sum(F^G) = Sum(F)+Sum(G);
+
+theorem :: EXTREAL1:11
+  for F,G being FinSequence of ExtREAL, s being Permutation of dom
+  F st G = F*s & not -infty in rng F holds Sum(F) = Sum(G);
+
+reserve x,y,w,z for ExtReal,
+  a for Real;
+
+begin :: Basic properties of absolute value for extended real numbers
+
+theorem :: EXTREAL1:12
+  x = a implies |.x.| = |.a qua Complex.|;
+
+theorem :: EXTREAL1:13
+  |.x.| = x or |.x.| = -x;
+
+theorem :: EXTREAL1:14
+  0 <= |.x.|;
+
+theorem :: EXTREAL1:15
+  x <> 0 implies 0 < |.x.|;
+
+theorem :: EXTREAL1:16
+  x = 0 iff |.x.| = 0;
+
+theorem :: EXTREAL1:17
+  |.x.| = -x & x <> 0 implies x < 0;
+
+theorem :: EXTREAL1:18
+  x <= 0 implies |.x.| = -x;
+
+theorem :: EXTREAL1:19
+  |.x * y.| = |.x.| * |.y.|;
+
+theorem :: EXTREAL1:20
+  -|.x.| <= x & x <= |.x.|;
+
+theorem :: EXTREAL1:21
+  |.x.| < y implies -y < x & x < y;
+
+theorem :: EXTREAL1:22
+  -y < x & x < y implies 0 < y & |.x.| < y;
+
+theorem :: EXTREAL1:23
+  -y <= x & x <= y iff |.x.| <= y;
+
+theorem :: EXTREAL1:24
+  |.x + y.| <= |.x.| + |.y.|;
+
+theorem :: EXTREAL1:25
+  -infty < x & x < +infty & x <> 0 implies |.x.|*|. 1. / x .| = 1.;
+
+theorem :: EXTREAL1:26
+  x = +infty or x = -infty implies |.x.|*|. 1./x .| = 0;
+
+theorem :: EXTREAL1:27
+  x <> 0 implies |. 1./x .| = 1./|.x.|;
+
+theorem :: EXTREAL1:28
+  not((x=-infty or x=+infty) & (y=-infty or y=+infty)) & y<>0 implies |.
+  x/y.| = |.x.|/|.y.|;
+
+theorem :: EXTREAL1:29
+  |.x.| = |.-x.|;
+
+theorem :: EXTREAL1:30
+  |.+infty.| = +infty & |.-infty.| = +infty;
+
+theorem :: EXTREAL1:31
+  x is Real or y is Real implies |.x.|-|.y.| <= |.x-y.|;
+
+theorem :: EXTREAL1:32
+   |.x-y.| <= |.x.| + |.y.|;
+
+::$CT
+
+theorem :: EXTREAL1:34
+  |.x.| <= z & |.y.| <= w implies |.x+y.| <= z + w;
+
+theorem :: EXTREAL1:35
+  x is Real or y is Real implies |.|.x.|-|.y.|.| <= |.x-y.|;
+
+theorem :: EXTREAL1:36
+  0 <= x * y implies |.x+y.| = |.x.|+|.y.|;
+
+begin
+
+theorem :: EXTREAL1:37
+  x <> +infty & y <> +infty & not ( x = +infty & y = +infty or x =
+  -infty & y = -infty ) implies min(x,y) = (x + y - |.x - y.|) / 2;
+
+theorem :: EXTREAL1:38
+  x <> -infty & y <> -infty & not ( x = +infty & y = +infty or x =
+  -infty & y = -infty ) implies max(x,y) = (x + y + |.x - y.|) / 2;
+
+definition
+  let x,y be R_eal;
+  redefine func max(x,y) -> R_eal;
+  redefine func min(x,y) -> R_eal;
+end;
+
+theorem :: EXTREAL1:39
+  min(x,y) + max(x,y)= x + y;
+
+begin ::Addenda
+:: missing, 2007.07.20, A.T.
+
+theorem :: EXTREAL1:40
+  |.x.| = +infty implies x = +infty or x = -infty;
+
+theorem :: EXTREAL1:41
+  |.x.| < +infty iff x in REAL;

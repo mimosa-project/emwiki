@@ -1,0 +1,351 @@
+:: The Continuous Functions on Normed Linear Spaces
+::  by Takaya Nishiyama, Keiji Ohkubo and Yasunari Shidama
+::
+:: Received April 6, 2004
+:: Copyright (c) 2004-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, REAL_1, NORMSP_1, PARTFUN1, NAT_1, PRE_TOPC,
+      XBOOLE_0, ALGSTR_0, ARYTM_1, ARYTM_3, FUNCT_1, RELAT_1, STRUCT_0,
+      RCOMP_1, CARD_1, TARSKI, XXREAL_0, SUPINF_2, VALUED_0, SEQ_2, ORDINAL2,
+      FCONT_1, FUNCT_2, COMPLEX1, VALUED_1, CFCONT_1, SEQ_1, SEQ_4, NFCONT_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      PARTFUN2, FUNCT_2, PRE_TOPC, VALUED_0, STRUCT_0, ALGSTR_0, ORDINAL1,
+      NUMBERS, XCMPLX_0, COMPLEX1, REAL_1, XREAL_0, RLVECT_1, SEQ_1, SEQ_2,
+      SEQ_4, RCOMP_1, VFUNCT_1, NORMSP_0, NORMSP_1, XXREAL_0;
+ constructors REAL_1, COMPLEX1, SEQ_2, SEQ_4, RCOMP_1, PARTFUN2, VFUNCT_1,
+      RELSET_1, COMSEQ_2;
+ registrations XBOOLE_0, ORDINAL1, RELSET_1, NUMBERS, NAT_1, STRUCT_0,
+      RLVECT_1, VALUED_0, XREAL_0, VFUNCT_1, FUNCT_2;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Continuous Functions on Normed Linear Spaces
+
+reserve n,m for Nat;
+reserve x,X,X1 for set;
+reserve s,g,r,p for Real;
+reserve S,T for RealNormSpace;
+reserve f,f1,f2 for PartFunc of S,T;
+reserve s1,s2 for sequence of S;
+reserve x0,x1,x2 for Point of S;
+reserve Y for Subset of S;
+
+theorem :: NFCONT_1:1
+  for S being non empty addLoopStr for seq1,seq2 be sequence of S holds
+  seq1 - seq2 = seq1 +- seq2;
+
+theorem :: NFCONT_1:2
+  for seq be sequence of S holds -seq=(-1)*seq;
+
+definition
+  let S, x0;
+
+  mode Neighbourhood of x0 -> Subset of S means
+:: NFCONT_1:def 1
+
+   ex g be Real
+      st 0<g & { y where y is Point of S: ||.y-x0 .|| < g} c= it;
+end;
+
+theorem :: NFCONT_1:3
+  for g be Real st 0<g holds
+  {y where y is Point of S: ||.y-x0 .|| < g} is Neighbourhood of x0;
+
+theorem :: NFCONT_1:4
+  for N being Neighbourhood of x0 holds x0 in N;
+
+definition
+  let S;
+  let X be Subset of S;
+  attr X is compact means
+:: NFCONT_1:def 2
+
+  for s1 be sequence of S st rng s1 c= X
+  ex s2 be sequence of S st s2 is subsequence of s1 & s2 is convergent &
+  lim s2 in X;
+end;
+
+definition
+  let S;
+  let X be Subset of S;
+  attr X is closed means
+:: NFCONT_1:def 3
+  for s1 be sequence of S st rng s1 c= X & s1 is convergent holds lim s1 in X;
+end;
+
+definition
+  let S;
+  let X be Subset of S;
+  attr X is open means
+:: NFCONT_1:def 4
+  X` is closed;
+end;
+
+definition
+
+  let S,T;
+  let f,x0;
+  pred f is_continuous_in x0 means
+:: NFCONT_1:def 5
+
+  x0 in dom f & for s1 st rng s1 c= dom f & s1 is convergent & lim s1 = x0
+  holds f/*s1 is convergent & f/.x0 = lim (f/*s1);
+end;
+
+definition
+  let S;
+  let f be PartFunc of the carrier of S,REAL;
+  let x0;
+  pred f is_continuous_in x0 means
+:: NFCONT_1:def 6
+
+  x0 in dom f & for s1 st rng s1 c= dom f & s1 is convergent & lim s1 = x0
+  holds f/*s1 is convergent & f/.x0 = lim (f/*s1);
+end;
+
+theorem :: NFCONT_1:5
+  for seq be sequence of S, h be PartFunc of S,T st rng seq c= dom h holds
+  seq.n in dom h;
+
+theorem :: NFCONT_1:6
+  for seq be sequence of S, x be set holds x in rng seq iff ex n st x = seq.n;
+
+theorem :: NFCONT_1:7
+  f is_continuous_in x0 iff x0 in dom f & for r st 0<r ex s st 0<s
+  & for x1 st x1 in dom f & ||. x1- x0 .|| <s holds ||. f/.x1-f/.x0 .||<r;
+
+theorem :: NFCONT_1:8
+  for f be PartFunc of the carrier of S,REAL holds (f
+  is_continuous_in x0 iff x0 in dom f & for r st 0<r ex s st 0<s & for x1 st x1
+  in dom f & ||. x1- x0 .|| <s holds |. f/.x1-f/.x0 .|<r );
+
+theorem :: NFCONT_1:9
+  for f,x0 holds f is_continuous_in x0 iff x0 in dom f & for N1
+being Neighbourhood of f/.x0 ex N being Neighbourhood of x0 st for x1 st x1 in
+  dom f & x1 in N holds f/.x1 in N1;
+
+theorem :: NFCONT_1:10
+  for f,x0 holds f is_continuous_in x0 iff x0 in dom f & for N1
+  being Neighbourhood of f/.x0 ex N being Neighbourhood of x0 st f.:N c= N1;
+
+theorem :: NFCONT_1:11
+  x0 in dom f & (ex N be Neighbourhood of x0 st dom f /\ N = {x0})
+  implies f is_continuous_in x0;
+
+theorem :: NFCONT_1:12
+  for h1,h2 be PartFunc of S,T for seq be sequence of S st rng seq
+c= dom h1 /\ dom h2 holds (h1+h2)/*seq=h1/*seq+h2/*seq & (h1-h2)/*seq=h1/*seq-
+  h2/*seq;
+
+theorem :: NFCONT_1:13
+  for h be PartFunc of S,T for seq be sequence of S
+  for r be Real
+  st rng seq c= dom h holds (r(#)h)/*seq = r*(h/*seq);
+
+theorem :: NFCONT_1:14
+  for h be PartFunc of S,T for seq be sequence of S st rng seq c=
+  dom h holds ||.h/*seq .|| = ||.h.||/*seq & -(h/*seq) = (-h)/*seq;
+
+theorem :: NFCONT_1:15
+  f1 is_continuous_in x0 & f2 is_continuous_in x0 implies f1+f2
+  is_continuous_in x0 & f1-f2 is_continuous_in x0;
+
+theorem :: NFCONT_1:16
+  f is_continuous_in x0 implies r(#)f is_continuous_in x0;
+
+theorem :: NFCONT_1:17
+  f is_continuous_in x0 implies ||. f .|| is_continuous_in x0 & -f
+  is_continuous_in x0;
+
+definition
+  let S,T;
+  let f,X;
+  pred f is_continuous_on X means
+:: NFCONT_1:def 7
+
+  X c= dom f & for x0 st x0 in X holds f|X is_continuous_in x0;
+end;
+
+definition
+  let S;
+  let f be PartFunc of the carrier of S, REAL;
+  let X;
+  pred f is_continuous_on X means
+:: NFCONT_1:def 8
+
+  X c= dom f & for x0 st x0 in X holds f|X is_continuous_in x0;
+end;
+
+theorem :: NFCONT_1:18
+  for X,f holds f is_continuous_on X iff X c= dom f & for s1 st
+  rng s1 c= X & s1 is convergent & lim s1 in X holds f/*s1 is convergent & f/.(
+  lim s1) = lim (f/*s1);
+
+theorem :: NFCONT_1:19
+  f is_continuous_on X iff X c= dom f & for x0,r st x0 in X & 0<r
+  ex s st 0<s & for x1 st x1 in X & ||. x1- x0 .|| < s holds ||. f/.x1 - f/.x0
+  .|| < r;
+
+theorem :: NFCONT_1:20
+  for f be PartFunc of the carrier of S, REAL holds ( f is_continuous_on
+X iff X c= dom f & for x0,r st x0 in X & 0<r ex s st 0<s & for x1 st x1 in X &
+  ||. x1- x0 .|| < s holds |. f/.x1 - f/.x0 .| < r );
+
+theorem :: NFCONT_1:21
+  f is_continuous_on X iff f|X is_continuous_on X;
+
+theorem :: NFCONT_1:22
+  for f be PartFunc of the carrier of S,REAL holds (f
+  is_continuous_on X iff f|X is_continuous_on X);
+
+theorem :: NFCONT_1:23
+  f is_continuous_on X & X1 c= X implies f is_continuous_on X1;
+
+theorem :: NFCONT_1:24
+  x0 in dom f implies f is_continuous_on {x0};
+
+theorem :: NFCONT_1:25
+  for X,f1,f2 st f1 is_continuous_on X & f2 is_continuous_on X
+  holds f1+f2 is_continuous_on X & f1-f2 is_continuous_on X;
+
+theorem :: NFCONT_1:26
+  for X,X1,f1,f2 st f1 is_continuous_on X & f2 is_continuous_on X1 holds
+  f1+f2 is_continuous_on X /\ X1 & f1-f2 is_continuous_on X /\ X1;
+
+theorem :: NFCONT_1:27
+  for r,X,f st f is_continuous_on X holds r(#)f is_continuous_on X;
+
+theorem :: NFCONT_1:28
+  f is_continuous_on X implies ||.f.|| is_continuous_on X & -f
+  is_continuous_on X;
+
+theorem :: NFCONT_1:29
+  f is total & (for x1,x2 holds f/.(x1+x2) = f/.x1 + f/.x2) & (ex x0 st
+  f is_continuous_in x0) implies f is_continuous_on the carrier of S;
+
+theorem :: NFCONT_1:30
+  for f st dom f is compact & f is_continuous_on (dom f) holds (
+  rng f) is compact;
+
+theorem :: NFCONT_1:31
+  for f be PartFunc of the carrier of S, REAL st dom f is compact
+  & f is_continuous_on dom f holds rng f is compact;
+
+theorem :: NFCONT_1:32
+  Y c= dom f & Y is compact & f is_continuous_on Y implies (f.:Y) is compact;
+
+theorem :: NFCONT_1:33
+  for f be PartFunc of the carrier of S,REAL st dom f<>{} & (dom f
+) is compact & f is_continuous_on (dom f) ex x1,x2 st x1 in dom f & x2 in dom f
+  & f/.x1 = upper_bound (rng f) & f/.x2 = lower_bound (rng f);
+
+theorem :: NFCONT_1:34
+  for f st dom f<>{} & (dom f) is compact & f is_continuous_on (
+  dom f) ex x1,x2 st x1 in dom f & x2 in dom f & ||.f.||/.x1 = upper_bound (rng
+  ||.f.||) & ||.f.||/.x2 = lower_bound (rng ||.f.||);
+
+theorem :: NFCONT_1:35
+  (||.f.||)|X = ||.(f|X).||;
+
+theorem :: NFCONT_1:36
+  for f,Y st Y<>{} & Y c= dom f & Y is compact & f is_continuous_on Y ex
+x1,x2 st x1 in Y & x2 in Y & ||.f.||/.x1 = upper_bound (||.f.||.:Y) & ||.f.||/.
+  x2 = lower_bound (||.f.||.:Y);
+
+theorem :: NFCONT_1:37
+  for f be PartFunc of the carrier of S,REAL for Y st Y<>{} & Y c= dom f
+  & Y is compact & f is_continuous_on Y ex x1,x2 st x1 in Y & x2 in Y & f/.x1 =
+  upper_bound (f.:Y) & f/.x2 = lower_bound (f.:Y);
+
+definition
+  let S,T;
+  let X,f;
+  pred f is_Lipschitzian_on X means
+:: NFCONT_1:def 9
+
+  X c= dom f & ex r st 0<r & for x1,
+  x2 st x1 in X & x2 in X holds ||.f/.x1-f/.x2.||<=r*||.x1-x2.||;
+end;
+
+definition
+  let S;
+  let X;
+  let f be PartFunc of the carrier of S,REAL;
+  pred f is_Lipschitzian_on X means
+:: NFCONT_1:def 10
+
+  X c= dom f & ex r st 0<r & for x1,
+  x2 st x1 in X & x2 in X holds |.f/.x1-f/.x2.|<=r*||.x1-x2.||;
+end;
+
+theorem :: NFCONT_1:38
+  f is_Lipschitzian_on X & X1 c= X implies f is_Lipschitzian_on X1;
+
+theorem :: NFCONT_1:39
+  f1 is_Lipschitzian_on X & f2 is_Lipschitzian_on X1 implies f1+f2
+  is_Lipschitzian_on X /\ X1;
+
+theorem :: NFCONT_1:40
+  f1 is_Lipschitzian_on X & f2 is_Lipschitzian_on X1 implies f1-f2
+  is_Lipschitzian_on X /\ X1;
+
+theorem :: NFCONT_1:41
+  f is_Lipschitzian_on X implies p(#)f is_Lipschitzian_on X;
+
+theorem :: NFCONT_1:42
+  f is_Lipschitzian_on X implies -f is_Lipschitzian_on X & ||.f.||
+  is_Lipschitzian_on X;
+
+theorem :: NFCONT_1:43
+  X c= dom f & f|X is constant implies f is_Lipschitzian_on X;
+
+theorem :: NFCONT_1:44
+  id Y is_Lipschitzian_on Y;
+
+theorem :: NFCONT_1:45
+  f is_Lipschitzian_on X implies f is_continuous_on X;
+
+theorem :: NFCONT_1:46
+  for f be PartFunc of the carrier of S, REAL st f
+  is_Lipschitzian_on X holds f is_continuous_on X;
+
+theorem :: NFCONT_1:47
+  for f st (ex r be Point of T st rng f = {r}) holds f is_continuous_on (dom f)
+;
+
+theorem :: NFCONT_1:48
+  X c= dom f & f|X is constant implies f is_continuous_on X;
+
+theorem :: NFCONT_1:49
+  for f be PartFunc of S,S st (for x0 st x0 in dom f holds f/.x0 =
+  x0) holds f is_continuous_on dom f;
+
+theorem :: NFCONT_1:50
+  for f be PartFunc of S,S st f = id dom f holds f is_continuous_on dom f;
+
+theorem :: NFCONT_1:51
+  for f be PartFunc of S,S st Y c= dom f & f|Y = id Y holds f
+  is_continuous_on Y;
+
+theorem :: NFCONT_1:52
+  for f be PartFunc of S,S for r be Real for p be Point of S holds (X c=
+dom f & (for x0 st x0 in X holds f/.x0 = r*x0+p) implies f is_continuous_on X )
+;
+
+theorem :: NFCONT_1:53
+  for f be PartFunc of the carrier of S,REAL st (for x0 st x0 in
+  dom f holds f/.x0 = ||. x0.|| ) holds f is_continuous_on (dom f);
+
+theorem :: NFCONT_1:54
+  for f be PartFunc of the carrier of S,REAL st X c= dom f & (for x0 st
+  x0 in X holds f/.x0 = ||. x0.||) holds f is_continuous_on X;

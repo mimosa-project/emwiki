@@ -1,0 +1,592 @@
+:: Introduction to Formal Preference Spaces
+::  by Eliza Niewiadomska and Adam Grabowski
+::
+:: Received October 7, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies PREFER_1, PCS_0, ORDERS_1, WELLORD1, WAYBEL_4, CARD_1, SUBSET_1,
+      RELAT_1, XBOOLE_0, PARTFUN1, RELAT_2, STRUCT_0, ZFMISC_1, TARSKI,
+      ORDERS_2, EQREL_1;
+ notations TARSKI, XBOOLE_0, XTUPLE_0, SUBSET_1, ZFMISC_1, MCART_1, DOMAIN_1,
+      CARD_1, NAT_1, RELAT_1, FUNCT_1, PARTFUN1, RELSET_1, RELAT_2, EQREL_1,
+      CARD_3, PARTIT_2, FUNCT_4, ORDINAL1, NUMBERS, FUNCOP_1, WELLORD1,
+      STRUCT_0, ORDERS_1, ORDERS_2, YELLOW_3, ENUMSET1, PCS_0, XCMPLX_0,
+      FUNCT_2, VALUED_0;
+ constructors PRALG_1, PARTIT_2, TSEP_1, YELLOW16, YELLOW_3, DOMAIN_1,
+      RELSET_1, FUNCT_4, AFINSQ_1, XTUPLE_0, NUMBERS, PARTFUN2, NAT_1,
+      ORDERS_1, PCS_0, WELLORD1, WELLORD2, FUNCOP_1, XXREAL_0, XREAL_0, CARD_1,
+      XCMPLX_0, INT_1, VALUED_0;
+ registrations EQREL_1, PARTFUN1, SUBSET_1, XBOOLE_0, WAYBEL_3, RELAT_1,
+      ORDERS_1, WELLORD1, ORDERS_2, STRUCT_0, YELLOW16, YELLOW_3, RELSET_1,
+      FUNCOP_1, RELAT_2, XTUPLE_0, ORDINAL1, PARTIT_2, TOLER_1, ZFMISC_1,
+      NAT_1, FOMODEL3, REWRITE2, PRE_POLY, FUNCT_1, FINSET_1, XXREAL_0,
+      XREAL_0, CARD_1, NUMBERS, VALUED_0;
+ requirements BOOLE, SUBSET, NUMERALS, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+definition let X, Y, Z be set;
+  pred X, Y, Z are_mutually_disjoint means
+:: PREFER_1:def 1
+    X misses Y & Y misses Z & X misses Z;
+end;
+
+theorem :: PREFER_1:1
+  for A being set holds
+    {}, A, {} are_mutually_disjoint;
+
+registration
+  cluster 2-element -> non empty for set;
+end;
+
+theorem :: PREFER_1:2
+  for a, b being set st a <> b holds
+    {[a, a], [b, b]} <> {[a, a], [a, b], [b, a], [b, b]};
+
+theorem :: PREFER_1:3
+  for A being 2-element set, a, b being Element of A st
+    a <> b holds A = {a, b};
+
+theorem :: PREFER_1:4
+  for A being 2-element set holds
+    ex a, b being Element of A st a <> b & A = {a, b};
+
+theorem :: PREFER_1:5
+  for A being non trivial set holds
+    ex a, b being Element of A st a <> b;
+
+theorem :: PREFER_1:6
+  for x1, x2, x3, x4 being set holds
+    {x1} \/ {x2} \/ {x3, x4} = {x3, x1, x2, x4};
+
+theorem :: PREFER_1:7
+  for a, b being set st a <> b holds
+    {[a, a], [b, b]} misses {[a, b], [b, a]};
+
+theorem :: PREFER_1:8
+  for A being 2-element set, a, b being Element of A st a <> b holds
+    id A = {[a, a], [b, b]};
+
+theorem :: PREFER_1:9
+  for a, b being object,
+      R being Relation st R = {[a, b]} holds
+    R~ = {[b, a]};
+
+theorem :: PREFER_1:10
+  for a, b being set holds
+    a <> b iff {[a, b]} misses {[a, a], [b, b]};
+
+theorem :: PREFER_1:11
+  for X being non empty set,
+      R being (Relation of X),
+      x,y being Element of X holds
+    not [x,y] in R` implies [x,y] in R;
+
+theorem :: PREFER_1:12
+  for X being non empty set,
+      R being Relation of X holds
+    R /\ (R~)`, R /\ R~, R` /\ (R~)` are_mutually_disjoint;
+
+theorem :: PREFER_1:13
+  for P,R being Relation st P misses R holds
+    P~ misses R~;
+
+theorem :: PREFER_1:14
+  for X being non empty set,
+      R being Relation of X holds
+    R = R~`~`;
+
+theorem :: PREFER_1:15
+  for X being non empty set,
+      R being Relation of X holds
+    R~ = R`~`;
+
+theorem :: PREFER_1:16
+  for X being non empty set,
+      R being Relation of X holds
+    R~`~ = R`;
+
+begin :: Properties of Binary Relations
+
+registration let X be set;
+  cluster connected being_linear-order for Order of X;
+end;
+
+theorem :: PREFER_1:17
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    R~ is total;
+
+theorem :: PREFER_1:18
+  for X being non empty set,
+      R being total Relation of X holds
+    field R = X;
+
+theorem :: PREFER_1:19
+  for R being Relation holds
+    R is irreflexive iff
+      for x being object st x in field R holds not [x, x] in R;
+
+theorem :: PREFER_1:20
+  for R being Relation holds
+    R is symmetric iff
+      for x, y being object st [x,y] in R holds [y,x] in R;
+
+theorem :: PREFER_1:21
+  for X being set, R being Relation of X holds
+    R /\ R~ is symmetric;
+
+theorem :: PREFER_1:22
+  for R being Relation holds
+    R is asymmetric iff
+      for x, y being object st [x,y] in R holds not [y,x] in R;
+
+theorem :: PREFER_1:23
+  for a, b being object st a <> b holds
+    {[a, b]} is asymmetric;
+
+theorem :: PREFER_1:24
+  for X being non empty set,
+      R being Relation of X holds
+    R /\ (R~)` is asymmetric;
+
+theorem :: PREFER_1:25
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    R /\ R~ is reflexive;
+
+theorem :: PREFER_1:26
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    R /\ R~ is total;
+
+theorem :: PREFER_1:27
+  for a, b being object st a <> b holds
+    {[a, b], [b, a]} is irreflexive symmetric;
+
+theorem :: PREFER_1:28
+  for X being non empty set,
+      R being total Relation of X holds
+  for S being Relation of X holds
+    R \/ S is total;
+
+theorem :: PREFER_1:29
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    R` /\ R~` is irreflexive symmetric;
+
+theorem :: PREFER_1:30
+  for X being set, R being Relation of X st R is symmetric holds
+    R` is symmetric;
+
+theorem :: PREFER_1:31
+  for X being object, R being Relation holds
+    R is antisymmetric iff
+      for x, y being object st [x,y] in R & [y,x] in R holds x = y;
+
+theorem :: PREFER_1:32
+  for A being set,
+      R being asymmetric Relation of A holds
+    R \/ id A is antisymmetric;
+
+theorem :: PREFER_1:33
+  for X being object, R being Relation holds
+    R is connected iff
+      for x, y being object st x <> y & x in field R & y in field R
+      holds [x,y] in R or [y,x] in R;
+
+theorem :: PREFER_1:34
+  for R being Relation holds
+    R is connected iff [:field R,field R:] = R \/ R~ \/ id (field R);
+
+theorem :: PREFER_1:35
+  for A being set,
+      R being asymmetric Relation of A holds
+    R misses R~;
+
+theorem :: PREFER_1:36
+  for R,P being Relation st R misses P & P is symmetric holds
+    R~ misses P;
+
+theorem :: PREFER_1:37
+  for X being set, R being asymmetric Relation of X holds
+    R misses id X;
+
+theorem :: PREFER_1:38
+  for X being set, R being asymmetric Relation of X holds
+    R * R misses id X;
+
+definition let X be set, R be Relation of X;
+  func SymCl R -> Relation of X equals
+:: PREFER_1:def 2
+    R \/ R~;
+end;
+
+registration let X be set, R be total Relation of X;
+  cluster SymCl R -> total;
+end;
+
+registration let X be set,
+                 R be Relation of X;
+  cluster SymCl R -> symmetric;
+end;
+
+begin :: Preference Structures
+
+definition
+  struct (1-sorted) PrefStr
+      (# carrier -> set,
+         PrefRel -> Relation of the carrier
+       #);
+end;
+
+definition
+  struct (PrefStr, TolStr) PIStr
+      (# carrier -> set,
+         PrefRel,
+    ToleranceRel -> Relation of the carrier
+       #);
+end;
+
+definition
+  struct (PIStr, RelStr, PrefStr) PreferenceStr
+      (# carrier -> set,
+         PrefRel,
+    ToleranceRel,
+     InternalRel -> (Relation of the carrier)
+       #);
+end;
+
+registration
+  cluster non empty strict for PIStr;
+  cluster empty strict for PIStr;
+end;
+
+registration
+  cluster non empty strict for PrefStr;
+  cluster empty strict for PrefStr;
+  cluster non empty strict for PIStr;
+  cluster non empty strict for PreferenceStr;
+end;
+
+definition let X be PreferenceStr;
+  attr X is preference-like means
+:: PREFER_1:def 3
+    the PrefRel of X is asymmetric &
+    the ToleranceRel of X is Tolerance of the carrier of X &
+    the InternalRel of X is irreflexive symmetric &
+    the PrefRel of X, the ToleranceRel of X,
+      the InternalRel of X are_mutually_disjoint &
+    (the PrefRel of X) \/ (the PrefRel of X)~ \/
+      (the ToleranceRel of X) \/
+       (the InternalRel of X) = nabla the carrier of X;
+end;
+
+definition let X be set;
+  func PrefSpace X -> strict PreferenceStr equals
+:: PREFER_1:def 4
+    PreferenceStr (# X, {}(X,X), nabla X, {}(X,X) #);
+end;
+
+registration
+  let A be non empty set;
+  cluster PrefSpace A -> non empty preference-like;
+end;
+
+registration
+  cluster non empty strict preference-like for PreferenceStr;
+end;
+
+definition
+  mode PreferenceSpace is preference-like PreferenceStr;
+end;
+
+registration
+  cluster empty -> preference-like for PreferenceStr;
+end;
+
+registration
+  cluster PrefSpace {} -> empty preference-like;
+end;
+
+registration
+  cluster empty for PreferenceSpace;
+end;
+
+registration
+  let A be trivial non empty set;
+  cluster PrefSpace A -> trivial;
+end;
+
+registration
+  let A be trivial non empty set;
+  cluster PrefSpace A -> non empty preference-like;
+end;
+
+begin :: Constructing Examples
+
+definition
+  let A be set;
+  func IdPrefSpace A -> strict PreferenceStr means
+:: PREFER_1:def 5
+  the carrier of it = A &
+   the PrefRel of it = {} &
+   the ToleranceRel of it = id A &
+   the InternalRel of it = {};
+end;
+
+registration
+  let A be non trivial set;
+  cluster IdPrefSpace A -> non preference-like;
+end;
+
+definition
+  let A be 2-element set, a, b be Element of A;
+  func PrefSpace (A,a,b) -> strict PreferenceStr means
+:: PREFER_1:def 6
+  the carrier of it = A &
+   the PrefRel of it = {[a, b]} &
+   the ToleranceRel of it = {[a, a], [b, b]} &
+   the InternalRel of it = {};
+end;
+
+theorem :: PREFER_1:39
+  for A be 2-element set, a, b be Element of A st a <> b holds
+    PrefSpace (A,a,b) is preference-like;
+
+definition
+  let A be non empty set, a, b be Element of A;
+  func IntPrefSpace (A,a,b) -> strict PreferenceStr means
+:: PREFER_1:def 7
+    the carrier of it = A &
+    the PrefRel of it = {} &
+    the ToleranceRel of it = {[a, a], [b, b]} &
+    the InternalRel of it = {[a, b], [b, a]};
+end;
+
+theorem :: PREFER_1:40
+  for A be 2-element set, a, b be Element of A st a <> b holds
+    IntPrefSpace (A,a,b) is non empty preference-like;
+
+begin :: Characteristic Relation of a Preference Space
+
+definition let P be PIStr;
+  func CharRel P -> Relation of the carrier of P equals
+:: PREFER_1:def 8
+    (the PrefRel of P) \/ (the ToleranceRel of P);
+end;
+
+definition let P be PIStr;
+  attr P is PI-preference-like means
+:: PREFER_1:def 9
+    the PrefRel of P is asymmetric &
+    the ToleranceRel of P is Tolerance of the carrier of P &
+    (the PrefRel of P) /\ (the ToleranceRel of P) = {} &
+    (the PrefRel of P) \/ (the PrefRel of P)~ \/
+      (the ToleranceRel of P) = nabla the carrier of P;
+end;
+
+registration
+  cluster PI-preference-like for non empty strict PIStr;
+  cluster PI-preference-like for empty strict PIStr;
+end;
+
+theorem :: PREFER_1:41
+  for P being non empty PIStr st P is PI-preference-like holds
+    the PrefRel of P = CharRel P /\ ((CharRel P)~)`;
+
+theorem :: PREFER_1:42
+  for P being non empty PIStr st P is PI-preference-like holds
+    the ToleranceRel of P = CharRel P /\ (CharRel P)~;
+
+theorem :: PREFER_1:43
+  for P being non empty PreferenceStr st P is preference-like holds
+    the PrefRel of P = CharRel P /\ ((CharRel P)~)`;
+
+theorem :: PREFER_1:44
+  for P being non empty PreferenceStr st P is preference-like holds
+    the ToleranceRel of P = CharRel P /\ (CharRel P)~;
+
+theorem :: PREFER_1:45
+  for P being non empty PreferenceStr st P is preference-like holds
+    the InternalRel of P = (CharRel P)` /\ ((CharRel P)~)`;
+
+begin :: Generating Preference Space from Arbitrary (Characteristic) Relation
+
+definition let X be set,
+               R be Relation of X;
+  func Aux R -> Relation of X equals
+:: PREFER_1:def 10
+    SymCl (((R /\ R~`) \/ (R /\ R~`)~ \/ (R /\ R~))`);
+end;
+
+theorem :: PREFER_1:46
+  for X being non empty set,
+      R being Relation of X holds
+    (R /\ (R~)`) \/ (R /\ (R~)`)~ \/ (R /\ R~) \/ Aux R = nabla X;
+
+theorem :: PREFER_1:47
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    Aux R = (R~` /\ R`) \/ (R`~ /\ (R` \/ R~));
+
+theorem :: PREFER_1:48
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    (R /\ R~`) misses Aux R;
+
+theorem :: PREFER_1:49
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    Aux R is irreflexive symmetric;
+
+registration
+  let X be non empty set,
+      R be total reflexive Relation of X;
+  cluster Aux R -> irreflexive symmetric;
+end;
+
+theorem :: PREFER_1:50
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    (R /\ R~) misses Aux R;
+
+theorem :: PREFER_1:51
+  for X being non empty set,
+      R being total reflexive Relation of X holds
+    R /\ (R~)`, R /\ R~, Aux R are_mutually_disjoint;
+
+definition
+  let X be set;
+  let P be Relation of X;
+  func CharPrefSpace P -> strict PreferenceStr means
+:: PREFER_1:def 11
+  the carrier of it = X &
+   the PrefRel of it = P /\ (P~)` &
+   the ToleranceRel of it = P /\ P~ &
+   the InternalRel of it = Aux P;
+end;
+
+theorem :: PREFER_1:52
+  for A being non empty set,
+      R being total reflexive Relation of A holds
+    CharPrefSpace R is preference-like;
+
+registration
+  let X be non empty set;
+  let P be Relation of X;
+  cluster CharPrefSpace P -> non empty;
+end;
+
+registration
+  let X be non empty set;
+  let P be total reflexive Relation of X;
+  cluster CharPrefSpace P -> preference-like;
+end;
+
+begin :: Flat Preference Spaces
+
+definition let P be PreferenceStr;
+  attr P is flat means
+:: PREFER_1:def 12
+    the ToleranceRel of P = id the carrier of P &
+      ex a being Element of P st
+       the PrefRel of P = [:{a}, (the carrier of P) \ {a}:] &
+       the InternalRel of P =
+         [:(the carrier of P) \ {a}, (the carrier of P) \ {a}:];
+end;
+
+theorem :: PREFER_1:53
+  for A being trivial set holds
+    IdPrefSpace A = PrefSpace A;
+
+registration
+  let A be trivial non empty set;
+  cluster IdPrefSpace A -> non empty preference-like;
+end;
+
+registration
+  let A be trivial non empty set;
+  cluster IdPrefSpace A -> flat;
+end;
+
+begin :: Tournament Preference Spaces
+
+definition let P be PreferenceStr;
+  attr P is tournament-like means
+:: PREFER_1:def 13
+   the ToleranceRel of P = id the carrier of P &
+   the InternalRel of P = {};
+end;
+
+registration
+  cluster empty -> tournament-like for PreferenceStr;
+end;
+
+registration
+  cluster tournament-like -> void for PreferenceStr;
+end;
+
+registration
+  cluster tournament-like for empty PreferenceSpace;
+  cluster tournament-like for non empty PreferenceSpace;
+end;
+
+theorem :: PREFER_1:54 :: The Connection Between Tournament Spaces and Orders
+  for P being non empty PreferenceSpace holds
+    P is tournament-like iff
+      CharRel P is connected antisymmetric total;
+
+begin :: Total Preference Spaces
+
+definition let P be PreferenceStr;
+  attr P is total means
+:: PREFER_1:def 14
+    the PrefRel of P is transitive &
+    the ToleranceRel of P = id the carrier of P &
+    the InternalRel of P = {};
+end;
+
+registration
+  cluster total -> void for PreferenceStr;
+end;
+
+registration
+  cluster total -> tournament-like for PreferenceStr;
+end;
+
+registration
+  cluster PrefSpace {} -> total;
+end;
+
+registration
+  let A be set;
+  cluster IdPrefSpace A -> total;
+end;
+
+registration
+  let A be trivial non empty set;
+  cluster PrefSpace A -> total;
+end;
+
+registration
+  cluster total for empty PreferenceSpace;
+  cluster total for non empty PreferenceSpace;
+end;
+
+theorem :: PREFER_1:55
+  for P being non empty PreferenceSpace holds
+    P is total iff
+      CharRel P is connected Order of the carrier of P;
+

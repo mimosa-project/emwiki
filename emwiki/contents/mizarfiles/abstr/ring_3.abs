@@ -1,0 +1,1096 @@
+:: Characteristic of Rings; Prime Fields
+::  by Christoph Schwarzweller and Artur Korni{\l}owicz
+::
+:: Received August 14, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, FUNCT_1, RELAT_1, RLVECT_1, VECTSP_1, ALGSTR_0, TARSKI,
+      INT_1, FUNCT_2, VECTSP_2, VECTSP10, STRUCT_0, SUBSET_1, SUPINF_2, NAT_1,
+      CARD_1, MESFUNC1, INT_3, GROUP_1, ARYTM_1, ORDINAL1, INT_2, QUOFIELD,
+      MSSUBFAM, BINOP_1, GROUP_6, MOD_4, LATTICES, NUMBERS, IDEAL_1, C0SP1,
+      ZFMISC_1, FUNCSDOM, RING_2, FINSET_1, XXREAL_0, WELLORD1, REALSET1,
+      XBOOLE_0, EC_PF_1, BINOP_2, COMPLFLD, GAUSSINT, XCMPLX_0, REAL_1, RING_3,
+      RAT_1, NEWTON;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, DOMAIN_1, RELAT_1, FUNCT_1,
+      RELSET_1, PARTFUN1, ORDINAL1, FUNCT_2, BINOP_1, REALSET1, XCMPLX_0,
+      XXREAL_0, XREAL_0, CARD_1, BINOP_2, XXREAL_2, NAT_1, INT_1, INT_2, NAT_D,
+      RAT_1, INT_3, NUMBERS, NEWTON, MATRLIN2, STRUCT_0, MOD_4, BINOM,
+      ALGSTR_0, GROUP_1, GROUP_6, RLVECT_1, GCD_1, VECTSP_2, VECTSP_1, GR_CY_1,
+      COMPLFLD, VECTSP10, EC_PF_1, GAUSSINT, IDEAL_1, QUOFIELD, C0SP1, RING_1,
+      RING_2;
+ constructors BINOM, QUOFIELD, MOD_4, REALSET1, BINOP_2, GCD_1, RINGCAT1,
+      XXREAL_2, RING_2, GAUSSINT, GR_CY_1, EC_PF_1, NAT_D, MATRLIN2, TOPALG_7;
+ registrations ORDINAL1, XXREAL_0, XREAL_0, RELSET_1, VECTSP_1, STRUCT_0,
+      MEMBERED, NUMBERS, XBOOLE_0, RAT_1, RLVECT_1, INT_1, INT_3, COMPLFLD,
+      REALSET1, TOPALG_7, GAUSSINT, NAT_1, ALGSTR_1, SUBSET_1, RELAT_1,
+      FUNCT_2, ALGSTR_0, QUOFIELD, GROUP_6, MOD_4, RINGCAT1, RING_1, C0SP1,
+      GRCAT_1, XCMPLX_0, XXREAL_2, FOMODEL0, RING_2, NAT_2, FUNCT_1, CARD_1,
+      EC_PF_1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: RING_3:1
+  for f being Function, A being set, a,b being object st a in A & b in A
+  holds (f||A).(a,b) = f.(a,b);
+
+theorem :: RING_3:2
+  addcomplex||REAL = addreal;
+
+theorem :: RING_3:3
+  multcomplex||REAL = multreal;
+
+theorem :: RING_3:4
+  addrat||INT = addint;
+
+theorem :: RING_3:5
+  multrat||INT = multint;
+
+begin :: Properties of Fractions
+
+reserve p,q for Rational;
+reserve g,m,m1,m2,n,n1,n2 for Nat;
+reserve i,i1,i2,j,j1,j2 for Integer;
+
+theorem :: RING_3:6
+  n divides i implies i div n = i / n;
+
+theorem :: RING_3:7
+  i div (i gcd n) = i / (i gcd n);
+
+theorem :: RING_3:8
+  n div (n gcd i) = n / (n gcd i);
+
+theorem :: RING_3:9
+  g divides i & g divides m implies i / m = (i div g) / (m div g);
+
+theorem :: RING_3:10
+  i / m = (i div (i gcd m)) / (m div (i gcd m));
+
+theorem :: RING_3:11
+  0 < m & m*i divides m implies i = 1 or i = -1;
+
+theorem :: RING_3:12
+  0 < m & m*n divides m implies n = 1;
+
+theorem :: RING_3:13
+  m divides i implies i div m divides i;
+
+theorem :: RING_3:14
+  m <> 0 implies (i div (i gcd m)) gcd (m div (i gcd m)) = 1;
+
+theorem :: RING_3:15
+  m <> 0 implies
+  denominator(i/m) = m div ( i gcd m ) &
+  numerator(i/m) = i div ( i gcd m );
+
+theorem :: RING_3:16
+  m <> 0 implies
+  denominator(i/m) = m / ( i gcd m ) &
+  numerator(i/m) = i / ( i gcd m );
+
+theorem :: RING_3:17
+  m <> 0 implies
+  denominator -(i/m) = m div ( (-i) gcd m ) &
+  numerator -(i/m) = (-i) div ( (-i) gcd m );
+
+theorem :: RING_3:18
+  m <> 0 implies
+  denominator -(i/m) = m / ( (-i) gcd m ) &
+  numerator -(i/m) = (-i) / ( (-i) gcd m );
+
+theorem :: RING_3:19
+  m <> 0 implies
+  denominator((m/i)") = m div ( m gcd i ) &
+  numerator((m/i)") = i div ( m gcd i );
+
+theorem :: RING_3:20
+  m <> 0 implies
+  denominator((m/i)") = m / ( m gcd i ) &
+  numerator((m/i)") = i / ( m gcd i );
+
+theorem :: RING_3:21
+  m <> 0 & n <> 0 implies
+  denominator(i/m+j/n) = (m*n) div ( (i*n+j*m) gcd (m*n) ) &
+  numerator(i/m+j/n) = (i*n+j*m) div ( (i*n+j*m) gcd (m*n) );
+
+theorem :: RING_3:22
+  m <> 0 & n <> 0 implies
+  denominator(i/m+j/n) = (m*n) / ( (i*n+j*m) gcd (m*n) ) &
+  numerator(i/m+j/n) = (i*n+j*m) / ( (i*n+j*m) gcd (m*n) );
+
+theorem :: RING_3:23
+  m <> 0 & n <> 0 implies
+  denominator(i/m-j/n) = (m*n) div ( (i*n-j*m) gcd (m*n) ) &
+  numerator(i/m-j/n) = (i*n-j*m) div ( (i*n-j*m) gcd (m*n) );
+
+theorem :: RING_3:24
+  m <> 0 & n <> 0 implies
+  denominator(i/m-j/n) = (m*n) / ( (i*n-j*m) gcd (m*n) ) &
+  numerator(i/m-j/n) = (i*n-j*m) / ( (i*n-j*m) gcd (m*n) );
+
+theorem :: RING_3:25
+  m <> 0 & n <> 0 implies
+  denominator((i/m)*(j/n)) = (m*n) div ( (i*j) gcd (m*n) ) &
+  numerator((i/m)*(j/n)) = (i*j) div ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:26
+  m <> 0 & n <> 0 implies
+  denominator((i/m)*(j/n)) = (m*n) / ( (i*j) gcd (m*n) ) &
+  numerator((i/m)*(j/n)) = (i*j) / ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:27
+  m <> 0 & n <> 0 implies
+  denominator((i/m)/(n/j)) = (m*n) div ( (i*j) gcd (m*n) ) &
+  numerator((i/m)/(n/j)) = (i*j) div ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:28
+  m <> 0 & n <> 0 implies
+  denominator((i/m)/(n/j)) = (m*n) / ( (i*j) gcd (m*n) ) &
+  numerator((i/m)/(n/j)) = (i*j) / ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:29
+  denominator(p) = denominator(p) div (numerator(p) gcd denominator(p));
+
+theorem :: RING_3:30
+  numerator(p) = numerator(p) div (numerator(p) gcd denominator(p));
+
+theorem :: RING_3:31
+  m = denominator p & i = numerator p implies
+  denominator(-p) = m div ( (-i) gcd m ) &
+  numerator(-p) = (-i) div ( (-i) gcd m );
+
+theorem :: RING_3:32
+  m = denominator p & i = numerator p implies
+  denominator(-p) = m / ( (-i) gcd m ) &
+  numerator(-p) = (-i) / ( (-i) gcd m );
+
+theorem :: RING_3:33
+  m = denominator p & n = numerator p & n <> 0 implies
+  denominator(p") = n div ( n gcd m ) &
+  numerator(p") = m div ( n gcd m );
+
+theorem :: RING_3:34
+  m = denominator p & n = numerator p & n <> 0 implies
+  denominator(p") = n / ( n gcd m ) &
+  numerator(p") = m / ( n gcd m );
+
+theorem :: RING_3:35
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p+q) = (m*n) div ( (i*n+j*m) gcd (m*n) ) &
+  numerator(p+q) = (i*n+j*m) div ( (i*n+j*m) gcd (m*n) );
+
+theorem :: RING_3:36
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p+q) = (m*n) / ( (i*n+j*m) gcd (m*n) ) &
+  numerator(p+q) = (i*n+j*m) / ( (i*n+j*m) gcd (m*n) );
+
+theorem :: RING_3:37
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p-q) = (m*n) div ( (i*n-j*m) gcd (m*n) ) &
+  numerator(p-q) = (i*n-j*m) div ( (i*n-j*m) gcd (m*n) );
+
+theorem :: RING_3:38
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p-q) = (m*n) / ( (i*n-j*m) gcd (m*n) ) &
+  numerator(p-q) = (i*n-j*m) / ( (i*n-j*m) gcd (m*n) );
+
+theorem :: RING_3:39
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p*q) = (m*n) div ( (i*j) gcd (m*n) ) &
+  numerator(p*q) = (i*j) div ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:40
+  m = denominator p & n = denominator q &
+  i = numerator p & j = numerator q implies
+  denominator(p*q) = (m*n) / ( (i*j) gcd (m*n) ) &
+  numerator(p*q) = (i*j) / ( (i*j) gcd (m*n) );
+
+theorem :: RING_3:41
+  m1 = denominator p & m2 = denominator q &
+  n1 = numerator p & n2 = numerator q & n2 <> 0 implies
+  denominator(p/q) = (m1*n2) div ( (n1*m2) gcd (m1*n2) ) &
+  numerator(p/q) = (n1*m2) div ( (n1*m2) gcd (m1*n2) );
+
+theorem :: RING_3:42
+  m1 = denominator p & m2 = denominator q &
+  n1 = numerator p & n2 = numerator q & n2 <> 0 implies
+  denominator(p/q) = (m1*n2) / ( (n1*m2) gcd (m1*n2) ) &
+  numerator(p/q) = (n1*m2) / ( (n1*m2) gcd (m1*n2) );
+
+begin :: Preliminaries about Rings and Fields
+
+reserve R for Ring, F for Field;
+
+registration
+  cluster positive for Element of INT.Ring;
+  cluster negative for Element of INT.Ring;
+end;
+
+registration
+  let a be non zero Element of F_Rat, x be Rational;
+  identify a" with x" when a = x;
+end;
+
+registration
+  let a be Element of F_Rat, b be non zero Element of F_Rat;
+  let x,y be Rational;
+  identify a/b with x/y when a = x, b = y;
+end;
+
+registration
+  let F be Field;
+  reduce (1.F)" to 1.F;
+end;
+
+definition
+  let R,S be Ring;
+  pred R includes_an_isomorphic_copy_of S means
+:: RING_3:def 1
+  ex T being strict Subring of R st T,S are_isomorphic;
+end;
+
+notation
+  let R,S be Ring;
+  synonym R includes S for R includes_an_isomorphic_copy_of S;
+end;
+
+definition
+  let R,S be Ring;
+  redefine pred R,S are_isomorphic;
+  reflexivity;
+end;
+
+theorem :: RING_3:43
+  for E being Field, F being Subfield of E holds F is Subring of E;
+
+theorem :: RING_3:44
+  for R,S,T being Ring
+  st R,S are_isomorphic & S,T are_isomorphic holds R,T are_isomorphic;
+
+theorem :: RING_3:45
+for F being Field,
+    R being Subring of F holds R is Subfield of F iff R is Field;
+
+theorem :: RING_3:46
+for E being Field, F being strict Subfield of E holds E includes F;
+
+theorem :: RING_3:47
+  INT.Ring is Subring of F_Rat;
+
+theorem :: RING_3:48
+  F_Real is Subfield of F_Complex;
+
+registration
+let R be domRing;
+cluster R-homomorphic for domRing;
+cluster R-homomorphic for comRing;
+cluster R-homomorphic for Ring;
+end;
+
+registration
+let R be Field;
+cluster R-homomorphic for domRing;
+end;
+
+registration
+let F be Field,
+    R be F-homomorphic Ring,
+    f be Homomorphism of F,R;
+cluster Image f -> almost_left_invertible;
+end;
+
+registration
+let F be domRing,
+    E be F-homomorphic domRing,
+    f be Homomorphism of F,E;
+cluster Image f -> non degenerated;
+end;
+
+theorem :: RING_3:49
+for R being Ring, E being R-homomorphic Ring, K being Subring of R
+for f being Function of R,E, g being Function of K,E st
+g = f|(the carrier of K) & f is additive
+holds g is additive;
+
+theorem :: RING_3:50
+for R being Ring, E being R-homomorphic Ring, K being Subring of R
+for f being Function of R,E, g being Function of K,E st
+g = f|(the carrier of K) & f is multiplicative
+holds g is multiplicative;
+
+theorem :: RING_3:51
+for R being Ring, E being R-homomorphic Ring, K being Subring of R
+for f being Function of R,E, g being Function of K,E st
+g = f|(the carrier of K) & f is unity-preserving
+holds g is unity-preserving;
+
+theorem :: RING_3:52
+  for R being Ring, E being R-homomorphic Ring, K being Subring of R holds
+  E is K-homomorphic;
+
+theorem :: RING_3:53
+for R being Ring,
+    E being R-homomorphic Ring,
+    K being Subring of R,
+    EK being K-homomorphic Ring
+for f being Homomorphism of R,E st E = EK holds f|K is Homomorphism of K,EK;
+
+theorem :: RING_3:54
+for F being Field, E being F-homomorphic Field, K being Subfield of F
+for f being Function of F,E, g being Function of K,E st
+g = f|(the carrier of K) & f is additive
+holds g is additive;
+
+theorem :: RING_3:55
+for F being Field, E being F-homomorphic Field, K being Subfield of F
+for f being Function of F,E, g being Function of K,E st
+g = f|(the carrier of K) & f is multiplicative
+holds g is multiplicative;
+
+theorem :: RING_3:56
+for F being Field, E being F-homomorphic Field, K being Subfield of F
+for f being Function of F,E, g being Function of K,E st
+g = f|(the carrier of K) & f is unity-preserving
+holds g is unity-preserving;
+
+theorem :: RING_3:57
+  for F being Field, E being F-homomorphic Field, K being Subfield of F holds
+  E is K-homomorphic;
+
+theorem :: RING_3:58
+for F being Field,
+    E being F-homomorphic Field,
+    K being Subfield of F,
+    EK being K-homomorphic Field
+for f being Homomorphism of F,E st E = EK holds f|K is Homomorphism of K,EK;
+
+notation
+let n be Nat;
+synonym Z/n for INT.Ring n;
+end;
+
+registration
+let n be Nat;
+cluster Z/n -> finite;
+end;
+
+registration
+let n be non trivial Nat;
+cluster Z/n -> non degenerated;
+end;
+
+registration
+let n be positive Nat;
+cluster Z/n -> Abelian add-associative right_zeroed right_complementable;
+end;
+
+registration
+let n be positive Nat;
+cluster Z/n -> associative well-unital distributive commutative;
+end;
+
+registration
+let p be Prime;
+cluster Z/p -> almost_left_invertible;
+end;
+
+begin :: Embedding the Integers in Rings
+
+definition
+let R be add-associative right_zeroed right_complementable
+         non empty doubleLoopStr,
+    a be Element of R,
+    i be Integer;
+func i '*' a -> Element of R means
+:: RING_3:def 2
+  ex n being Nat st (i = n & it = n*a) or (i = -n & it = -(n*a));
+end;
+
+theorem :: RING_3:59
+for R being add-associative right_zeroed right_complementable
+            non empty doubleLoopStr,
+    a being Element of R holds 0 '*' a = 0.R;
+
+theorem :: RING_3:60
+for R being add-associative right_zeroed right_complementable
+            non empty doubleLoopStr,
+    a being Element of R holds 1 '*' a = a;
+
+theorem :: RING_3:61
+for R being add-associative right_zeroed right_complementable
+            non empty doubleLoopStr,
+    a being Element of R holds (-1) '*' a = -a;
+
+theorem :: RING_3:62
+for R being add-associative right_zeroed right_complementable
+            Abelian non empty doubleLoopStr,
+    a being Element of R,
+    i,j being Integer holds (i + j) '*' a = i '*' a + j '*' a;
+
+theorem :: RING_3:63
+for R being add-associative right_zeroed right_complementable
+            Abelian non empty doubleLoopStr,
+    a being Element of R,
+    i being Integer holds (-i) '*' a = -(i '*' a);
+
+theorem :: RING_3:64
+for R being add-associative right_zeroed right_complementable
+            Abelian non empty doubleLoopStr,
+    a being Element of R,
+    i,j being Integer holds (i - j) '*' a = i '*' a - j '*' a;
+
+theorem :: RING_3:65
+for R being add-associative right_zeroed right_complementable
+            Abelian non empty doubleLoopStr,
+    a being Element of R,
+    i,j being Integer holds (i * j) '*' a = i '*' (j '*' a);
+
+theorem :: RING_3:66
+for R being add-associative right_zeroed right_complementable
+            Abelian non empty doubleLoopStr,
+    a being Element of R,
+    i,j being Integer holds i '*' (j '*' a) = j '*' (i '*' a);
+
+theorem :: RING_3:67
+for R being add-associative right_zeroed right_complementable
+            Abelian left_unital distributive non empty doubleLoopStr,
+    i,j being Integer holds (i * j) '*' 1.R = (i '*' 1.R) * (j '*' 1.R);
+
+theorem :: RING_3:68
+for R being Ring, S being R-homomorphic Ring, f being Homomorphism of R,S
+for a being Element of R,
+    i being Integer holds f.(i '*' a) = i '*' f.a;
+
+begin :: Mono- and Isomorphisms of Rings
+
+definition
+let R,S be Ring;
+attr S is R-monomorphic means
+:: RING_3:def 3
+  ex f being Function of R,S st f is RingHomomorphism monomorphism;
+end;
+
+registration
+let R be Ring;
+cluster R-monomorphic for Ring;
+end;
+
+registration
+let R be comRing;
+cluster R-monomorphic for comRing;
+cluster R-monomorphic for Ring;
+end;
+
+registration
+let R be domRing;
+cluster R-monomorphic for domRing;
+cluster R-monomorphic for comRing;
+cluster R-monomorphic for Ring;
+end;
+
+registration
+let R be Field;
+cluster R-monomorphic for Field;
+cluster R-monomorphic for domRing;
+cluster R-monomorphic for comRing;
+cluster R-monomorphic for Ring;
+end;
+
+registration
+let R be Ring,
+    S be R-monomorphic Ring;
+cluster additive multiplicative unity-preserving monomorphism
+                                                for Function of R,S;
+end;
+
+definition
+let R be Ring,
+    S be R-monomorphic Ring;
+mode Monomorphism of R,S is additive multiplicative unity-preserving
+                            monomorphism Function of R,S;
+end;
+
+registration
+let R be Ring,
+    S be R-monomorphic Ring;
+cluster -> R-monomorphic for S-monomorphic Ring;
+end;
+
+registration
+let R be Ring;
+cluster -> R-homomorphic for R-monomorphic Ring;
+end;
+
+registration
+let R be Ring;
+let S be R-monomorphic Ring;
+let f be Monomorphism of R,S;
+reduce (f")" to f;
+end;
+
+theorem :: RING_3:69
+for R being Ring,
+    S being R-homomorphic Ring, T being S-homomorphic Ring
+for f being Homomorphism of R,S
+for g being Homomorphism of S,T holds ker(f) c= ker(g*f);
+
+theorem :: RING_3:70
+for R being Ring,
+    S being R-homomorphic Ring, T being S-monomorphic Ring
+for f being Homomorphism of R,S
+for g being Monomorphism of S,T holds ker(f) = ker(g*f);
+
+theorem :: RING_3:71
+for R being Ring, S being Subring of R holds R is S-monomorphic;
+
+theorem :: RING_3:72
+for R,S being Ring holds S is R-monomorphic Ring iff S includes R;
+
+definition
+let R,S be Ring;
+attr S is R-isomorphic means
+:: RING_3:def 4
+  ex f being Function of R,S st f is RingHomomorphism isomorphism;
+end;
+
+registration
+let R be Ring;
+cluster R-isomorphic for Ring;
+end;
+
+registration
+let R be comRing;
+cluster R-isomorphic for comRing;
+cluster R-isomorphic for Ring;
+end;
+
+registration
+let R be domRing;
+cluster R-isomorphic for domRing;
+cluster R-isomorphic for comRing;
+cluster R-isomorphic for Ring;
+end;
+
+registration
+let R be Field;
+cluster R-isomorphic for Field;
+cluster R-isomorphic for domRing;
+cluster R-isomorphic for comRing;
+cluster R-isomorphic for Ring;
+end;
+
+registration
+let R be Ring,
+    S be R-isomorphic Ring;
+cluster additive multiplicative unity-preserving
+        isomorphism for Function of R,S;
+end;
+
+definition
+let R be Ring,
+    S be R-isomorphic Ring;
+mode Isomorphism of R,S is additive multiplicative unity-preserving
+                           isomorphism Function of R,S;
+end;
+
+definition
+let R be Ring;
+let S be R-isomorphic Ring;
+let f be Isomorphism of R,S;
+redefine func f" -> Function of S,R;
+end;
+
+registration
+let R be Ring,
+    S be R-isomorphic Ring;
+cluster additive multiplicative unity-preserving
+        isomorphism for Function of S,R;
+end;
+
+definition
+let R be Ring,
+    S be R-isomorphic Ring;
+mode Isomorphism of S,R is additive multiplicative unity-preserving
+                           isomorphism Function of S,R;
+end;
+
+registration
+let R be Ring,
+    S be R-isomorphic Ring;
+cluster -> R-isomorphic for S-isomorphic Ring;
+end;
+
+registration
+let R be Ring;
+cluster -> R-monomorphic for R-isomorphic Ring;
+end;
+
+theorem :: RING_3:73
+for R being Ring, S being R-isomorphic Ring,
+    f being Isomorphism of R,S holds f" is Isomorphism of S,R;
+
+theorem :: RING_3:74
+for R being Ring, S being R-isomorphic Ring holds R is S-isomorphic;
+
+registration
+let R be comRing;
+cluster -> commutative for R-isomorphic Ring;
+end;
+
+registration
+let R be domRing;
+cluster -> non degenerated domRing-like for R-isomorphic Ring;
+end;
+
+registration
+let F be Field;
+cluster -> almost_left_invertible for F-isomorphic Ring;
+end;
+
+theorem :: RING_3:75
+for E,F being Field
+holds E includes F iff ex K being strict Subfield of E st K,F are_isomorphic;
+
+begin :: Characteristic of Rings
+
+definition
+let R be Ring;
+func Char R -> Nat means
+:: RING_3:def 5
+  (it '*' 1.R = 0.R & it <> 0 &
+   for m being positive Nat st m < it holds m '*' 1.R <> 0.R) or
+  (it = 0 &
+   for m being positive Nat holds m '*' 1.R <> 0.R);
+end;
+
+definition
+let n be Nat;
+let R be Ring;
+attr R is n-characteristic means
+:: RING_3:def 6
+  Char R = n;
+end;
+
+theorem :: RING_3:76
+Char(INT.Ring) = 0;
+
+theorem :: RING_3:77
+for n being positive Nat holds Char(Z/n) = n;
+
+registration
+cluster INT.Ring -> 0-characteristic;
+end;
+
+registration
+let n be positive Nat;
+cluster Z/n -> n-characteristic;
+end;
+
+registration
+let n be Nat;
+cluster n-characteristic for comRing;
+end;
+
+registration
+let n be positive Nat;
+let R be n-characteristic Ring;
+cluster Char R -> positive;
+end;
+
+definition
+let R be Ring;
+func CharSet R -> Subset of NAT equals
+:: RING_3:def 7
+  { n where n is positive Nat : n '*' 1.R = 0.R };
+end;
+
+registration
+let n be positive Nat,
+    R be n-characteristic Ring;
+cluster CharSet R -> non empty;
+end;
+
+theorem :: RING_3:78
+for R being Ring holds Char R = 0 iff CharSet R = {};
+
+theorem :: RING_3:79
+for n being positive Nat,
+    R being n-characteristic Ring holds Char R = min(CharSet R);
+
+theorem :: RING_3:80
+for R being Ring holds Char R = min*(CharSet R);
+
+theorem :: RING_3:81
+for p being Prime,
+    R being p-characteristic Ring,
+    n being positive Nat
+holds n is Element of CharSet R iff p divides n;
+
+
+definition
+let R be Ring;
+func canHom_Int R -> Function of INT.Ring,R means
+:: RING_3:def 8
+  for x being Element of INT.Ring holds it.x = x '*' 1.R;
+end;
+
+registration
+let R be Ring;
+cluster canHom_Int R -> additive multiplicative unity-preserving;
+end;
+
+registration
+cluster -> (INT.Ring)-homomorphic for Ring;
+end;
+
+theorem :: RING_3:82
+for R being Ring,
+    n being non negative Element of INT.Ring
+holds Char R = n iff ker(canHom_Int R) = {n}-Ideal;
+
+theorem :: RING_3:83
+for R being Ring holds Char R = 0 iff canHom_Int R is monomorphism;
+
+registration
+let R be 0-characteristic Ring;
+cluster canHom_Int R -> monomorphism;
+end;
+
+registration
+let R be 0-characteristic Ring;
+cluster additive multiplicative unity-preserving monomorphism for
+        Function of INT.Ring,R;
+end;
+
+theorem :: RING_3:84
+for R being Ring, f being Homomorphism of INT.Ring,R holds f = canHom_Int R;
+
+theorem :: RING_3:85
+for f being Homomorphism of INT.Ring,INT.Ring holds f = id INT.Ring;
+
+theorem :: RING_3:86
+for R being domRing holds Char R = 0 or Char R is prime;
+
+theorem :: RING_3:87
+for R being Ring, S being R-homomorphic Ring holds Char S divides Char R;
+
+theorem :: RING_3:88
+for R being Ring, S being R-monomorphic Ring holds Char S = Char R;
+
+theorem :: RING_3:89
+for R being Ring, S being Subring of R holds Char S = Char R;
+
+registration
+let n be Nat;
+let R be n-characteristic Ring;
+cluster R-monomorphic -> n-characteristic for Ring;
+cluster -> n-characteristic for Subring of R;
+end;
+
+registration
+cluster F_Complex -> 0-characteristic;
+end;
+
+registration
+cluster F_Real -> 0-characteristic;
+end;
+
+registration
+cluster F_Rat -> 0-characteristic;
+end;
+
+registration
+cluster 0-characteristic for Field;
+end;
+
+registration
+let p be Prime;
+cluster p-characteristic for Field;
+end;
+
+registration
+let p be Prime;
+let R be p-characteristic domRing;
+cluster Char R -> prime;
+end;
+
+registration
+let F be 0-characteristic Field;
+cluster -> 0-characteristic for Subfield of F;
+end;
+
+registration
+let p be Prime;
+let F be p-characteristic Field;
+cluster -> p-characteristic for Subfield of F;
+end;
+
+begin :: Prime Fields
+
+definition
+let F be Field;
+func carrier/\ F -> Subset of F equals
+:: RING_3:def 9
+  {x where x is Element of F : for K being Subfield of F holds x in K};
+end;
+
+definition
+let F be Field;
+func PrimeField F -> strict doubleLoopStr means
+:: RING_3:def 10
+  the carrier of it = carrier/\ F &
+  the addF of it = (the addF of F)||(carrier/\ F) &
+  the multF of it = (the multF of F)||(carrier/\ F) &
+  the OneF of it = 1.F &
+  the ZeroF of it = 0.F;
+end;
+
+registration
+let F be Field;
+cluster PrimeField F -> non degenerated;
+end;
+
+registration
+let F be Field;
+cluster PrimeField F -> Abelian
+                        add-associative right_zeroed right_complementable;
+end;
+
+registration
+let F be Field;
+cluster PrimeField F -> commutative;
+end;
+
+registration
+let F be Field;
+cluster PrimeField F -> associative well-unital
+                        distributive almost_left_invertible;
+end;
+
+definition
+let F be Field;
+redefine func PrimeField F -> strict Subfield of F;
+end;
+
+theorem :: RING_3:90
+for F being Field,
+    E being strict Subfield of PrimeField F holds E = PrimeField F;
+
+theorem :: RING_3:91
+for F being Field, E being Subfield of F holds PrimeField F is Subfield of E;
+
+theorem :: RING_3:92
+for F,K being Field holds
+K = PrimeField F iff (K is strict Subfield of F &
+                      for E being strict Subfield of K holds E = K);
+
+theorem :: RING_3:93
+for F,K being Field holds
+K = PrimeField F iff (K is strict Subfield of F &
+                      for E being Subfield of F holds K is Subfield of E);
+
+theorem :: RING_3:94
+for E being Field, F being Subfield of E holds PrimeField F = PrimeField E;
+
+theorem :: RING_3:95
+for F being Field holds PrimeField(PrimeField F) = PrimeField F;
+
+registration
+let F be Field;
+cluster PrimeField F -> prime;
+end;
+
+theorem :: RING_3:96
+for F being Field holds F is prime iff F = PrimeField F;
+
+theorem :: RING_3:97
+for F being 0-characteristic Field,
+    i,j being non zero Integer st j divides i
+holds (i div j) '*' 1.F = (i '*' 1.F) * (j '*' 1.F)";
+
+definition
+let x be Element of F_Rat;
+redefine func denominator(x) -> positive Element of INT.Ring;
+redefine func numerator(x) -> Element of INT.Ring;
+end;
+
+definition
+let F be Field;
+func canHom_Rat F -> Function of F_Rat,F means
+:: RING_3:def 11
+ for x being Element of F_Rat holds
+  it.x = ((canHom_Int F).numerator x) / ((canHom_Int F).denominator x);
+end;
+
+registration
+let F be Field;
+cluster canHom_Rat F -> unity-preserving;
+end;
+
+registration
+let F be 0-characteristic Field;
+cluster canHom_Rat F -> additive multiplicative;
+end;
+
+registration
+cluster -> (F_Rat)-monomorphic for 0-characteristic Field;
+end;
+
+theorem :: RING_3:98
+for F being Field holds canHom_Int F = (canHom_Rat F) | INT;
+
+registration
+ cluster 0-characteristic F_Rat-homomorphic for Field;
+end;
+
+theorem :: RING_3:99
+for F being 0-characteristic F_Rat-homomorphic Field,
+    f being Homomorphism of F_Rat,F holds f = canHom_Rat F;
+
+registration
+ cluster F_Rat -> F_Rat-homomorphic;
+end;
+
+registration
+ let F be 0-characteristic Field;
+ cluster PrimeField F -> F_Rat-homomorphic;
+end;
+
+theorem :: RING_3:100
+for f being Homomorphism of F_Rat,F_Rat holds f = id F_Rat;
+
+definition
+let F be Field,
+    S be F-homomorphic Field,
+    f be Homomorphism of F,S;
+redefine func Image f -> strict Subfield of S;
+end;
+
+registration
+let F be 0-characteristic Field;
+cluster canHom_Rat PrimeField F -> onto;
+end;
+
+theorem :: RING_3:101
+for F being 0-characteristic Field holds F_Rat,PrimeField F are_isomorphic;
+
+theorem :: RING_3:102
+PrimeField F_Rat = F_Rat;
+
+theorem :: RING_3:103
+for F being 0-characteristic Field holds F includes F_Rat;
+
+theorem :: RING_3:104
+for F being 0-characteristic Field,
+    E being Field st F includes E holds E includes F_Rat;
+
+
+theorem :: RING_3:105
+for p being Prime, R being p-characteristic Ring,
+    i being Integer
+holds i '*' 1.R = (i mod p) '*' 1.R;
+
+definition
+let p be Prime,
+    F be Field;
+func canHom_Z/(p,F) -> Function of Z/p,F equals
+:: RING_3:def 12
+  (canHom_Int F) | (the carrier of Z/p);
+end;
+
+registration
+let p be Prime,
+    F be Field;
+cluster canHom_Z/(p,F) -> unity-preserving;
+end;
+
+registration
+let p be Prime,
+    F be p-characteristic Field;
+cluster canHom_Z/(p,F) -> additive multiplicative;
+end;
+
+registration
+let p be Prime;
+cluster -> (Z/p)-monomorphic for p-characteristic Field;
+end;
+
+registration
+let p be Prime;
+cluster p-characteristic (Z/p)-homomorphic for Field;
+cluster Z/p -> (Z/p)-homomorphic;
+end;
+
+theorem :: RING_3:106
+for p being Prime,
+    F being p-characteristic (Z/p)-homomorphic Field,
+    f being Homomorphism of Z/p,F holds f = canHom_Z/(p,F);
+
+theorem :: RING_3:107
+for p being Prime,
+    f being Homomorphism of Z/p,Z/p holds f = id Z/p;
+
+registration
+let p be Prime, F be p-characteristic Field;
+cluster PrimeField F -> Z/p-homomorphic;
+end;
+
+registration
+let p be Prime, F be p-characteristic Field;
+cluster canHom_Z/(p,PrimeField F) -> onto;
+end;
+
+theorem :: RING_3:108
+for p being Prime,
+    F being p-characteristic Field holds Z/p,PrimeField F are_isomorphic;
+
+theorem :: RING_3:109
+for p being Prime, F being strict Subfield of Z/p holds F = Z/p;
+
+theorem :: RING_3:110
+for p being Prime holds PrimeField Z/p = Z/p;
+
+theorem :: RING_3:111
+for p being Prime,
+    F being p-characteristic Field holds F includes Z/p;
+
+theorem :: RING_3:112
+for p being Prime,
+    F being p-characteristic Field,
+    E being Field st F includes E holds E includes Z/p;
+
+registration
+let p be Prime;
+cluster Z/p -> prime;
+end;
+
+theorem :: RING_3:113
+for F being Field
+holds Char F = 0 iff PrimeField F, F_Rat are_isomorphic;
+
+theorem :: RING_3:114
+for p being Prime,
+    F being Field
+holds Char F = p iff PrimeField F, Z/p are_isomorphic;
+
+theorem :: RING_3:115
+for F being strict Field
+holds F is prime iff (F,F_Rat are_isomorphic or
+                      ex p being Prime st F,Z/p are_isomorphic);

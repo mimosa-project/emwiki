@@ -1,0 +1,1256 @@
+:: Walks in a Graph
+::  by Gilbert Lee
+::
+:: Received February 22, 2005
+:: Copyright (c) 2005-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ABIAN, SUBSET_1, ARYTM_3, XXREAL_0, ARYTM_1, CARD_1,
+      TARSKI, FINSEQ_1, RELAT_1, FUNCT_1, NAT_1, XBOOLE_0, GLIB_000, FINSEQ_5,
+      GRAPH_2, INT_1, FINSET_1, RCOMP_1, WAYBEL_0, ZFMISC_1, MSAFREE2,
+      ORDINAL4, GRAPH_1, FUNCT_4, FUNCOP_1, MCART_1, GLIB_001;
+ notations TARSKI, XBOOLE_0, CARD_1, ORDINAL1, NUMBERS, SUBSET_1, XCMPLX_0,
+      XXREAL_0, DOMAIN_1, RELAT_1, FUNCT_1, FINSEQ_1, GRAPH_2, FINSEQ_5,
+      RELSET_1, XTUPLE_0, MCART_1, FINSET_1, NAT_1, NAT_D, FUNCOP_1, FUNCT_4,
+      GLIB_000, ABIAN, FINSEQ_6;
+ constructors DOMAIN_1, FUNCT_4, NAT_D, RECDEF_1, FINSEQ_5, GLIB_000, ABIAN,
+      GRAPH_2, XXREAL_2, RELSET_1, FINSEQ_2, RAT_1, XTUPLE_0, FINSEQ_6;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, FINSET_1,
+      XXREAL_0, XREAL_0, NAT_1, INT_1, FINSEQ_1, GLIB_000, ABIAN, GRAPH_2,
+      GRAPH_3, CARD_1, SUBSET_1, XTUPLE_0, FINSEQ_6;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin :: Preliminaries
+
+theorem :: GLIB_001:1
+  for x,y being odd Element of NAT holds x < y iff x + 2 <= y;
+
+::$CT
+
+theorem :: GLIB_001:3
+  for X being set, fs being FinSequence of X, fss being Subset of
+  fs holds len (Seq fss) <= len fs;
+
+theorem :: GLIB_001:4
+  for X being set, fs being FinSequence of X, fss being Subset of
+fs, m being Element of NAT st m in dom Seq fss holds ex n being Element of NAT
+  st n in dom fs & m <= n & (Seq fss).m = fs.n;
+
+theorem :: GLIB_001:5
+  for X being set, fs being FinSequence of X, fss being Subset of
+  fs holds len Seq fss = card fss;
+
+theorem :: GLIB_001:6
+  for X being set, fs being FinSequence of X, fss being Subset of
+  fs holds dom Seq fss = dom Sgm (dom fss);
+
+begin :: Definitions
+
+definition
+  let G be _Graph;
+  mode VertexSeq of G -> FinSequence of the_Vertices_of G means
+:: GLIB_001:def 1
+
+    for n
+being Element of NAT st 1 <= n & n < len it holds ex e being set st e Joins it.
+    n, it.(n+1), G;
+end;
+
+definition
+  let G be _Graph;
+  mode EdgeSeq of G -> FinSequence of the_Edges_of G means
+:: GLIB_001:def 2
+
+    ex vs being
+FinSequence of the_Vertices_of G st len vs = len it + 1 & for n being Element
+    of NAT st 1 <= n & n <= len it holds it.n Joins vs.n,vs.(n+1),G;
+end;
+
+definition
+  let G be _Graph;
+  mode Walk of G -> FinSequence of the_Vertices_of G \/ the_Edges_of G means
+:: GLIB_001:def 3
+ len
+ it is odd & it.1 in the_Vertices_of G & for n being odd Element of
+    NAT st n < len it holds it.(n+1) Joins it.n, it.(n+2), G;
+end;
+
+registration
+  let G be _Graph, W be Walk of G;
+  cluster len W -> odd non empty;
+end;
+
+definition
+  let G be _Graph, v be Vertex of G;
+  func G.walkOf(v) -> Walk of G equals
+:: GLIB_001:def 4
+  <*v*>;
+end;
+
+definition
+  let G be _Graph, x,y,e be object;
+  func G.walkOf(x,e,y) -> Walk of G equals
+:: GLIB_001:def 5
+
+  <*x,e,y*> if e Joins x,y,G
+  otherwise G.walkOf(the Element of the_Vertices_of G);
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.first() -> Vertex of G equals
+:: GLIB_001:def 6
+  W.1;
+  func W.last() -> Vertex of G equals
+:: GLIB_001:def 7
+  W.(len W);
+end;
+
+definition
+  let G be _Graph, W be Walk of G, n be Nat;
+  func W.vertexAt(n) -> Vertex of G equals
+:: GLIB_001:def 8
+
+  W.n if n is odd & n <= len W
+  otherwise W.first();
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.reverse() -> Walk of G equals
+:: GLIB_001:def 9
+  Rev W;
+ involutiveness;
+end;
+
+definition
+  let G be _Graph, W1, W2 be Walk of G;
+  func W1.append(W2) -> Walk of G equals
+:: GLIB_001:def 10
+
+  W1 ^' W2 if W1.last() = W2
+  .first() otherwise W1;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, m, n being Nat;
+  func W.cut(m,n) -> Walk of G equals
+:: GLIB_001:def 11
+
+  (m,n)-cut W if m is odd & n is
+  odd & m <= n & n <= len W otherwise W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, m, n be Element of NAT;
+  func W.remove(m,n) -> Walk of G equals
+:: GLIB_001:def 12
+
+  W.cut(1,m).append(W.cut(n,len
+  W)) if m is odd & n is odd & m <= n & n <= len W & W.m = W.n otherwise W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, e be object;
+  func W.addEdge(e) -> Walk of G equals
+:: GLIB_001:def 13
+  W.append(G.walkOf(W.last(), e, W
+  .last().adj(e)));
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.vertexSeq() -> VertexSeq of G means
+:: GLIB_001:def 14
+
+  len W + 1 = 2 * len it &
+  for n being Nat st 1 <= n & n <= len it holds it.n = W.(2*n - 1);
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.edgeSeq() -> EdgeSeq of G means
+:: GLIB_001:def 15
+
+  len W = 2*len it+1 & for n
+  being Nat st 1 <= n & n <= len it holds it.n = W.(2*n);
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.vertices() -> finite Subset of the_Vertices_of G equals
+:: GLIB_001:def 16
+  rng W
+  .vertexSeq();
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.edges() -> finite Subset of the_Edges_of G equals
+:: GLIB_001:def 17
+  rng W.edgeSeq();
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  func W.length() -> Element of NAT equals
+:: GLIB_001:def 18
+  len W.edgeSeq();
+end;
+
+definition
+  let G be _Graph, W be Walk of G, v be set;
+  func W.find(v) -> odd Element of NAT means
+:: GLIB_001:def 19
+
+  it <= len W & W.it = v &
+for n being odd Nat st n <= len W & W.n = v holds it <= n if v in W.vertices()
+  otherwise it = len W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, n be Element of NAT;
+  func W.find(n) -> odd Element of NAT means
+:: GLIB_001:def 20
+
+  it <= len W & W.it = W.n
+  & for k being odd Nat st k <= len W & W.k = W.n holds it <= k if n is odd & n
+  <= len W otherwise it = len W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, v be set;
+  func W.rfind(v) -> odd Element of NAT means
+:: GLIB_001:def 21
+
+  it <= len W & W.it = v &
+for n being odd Element of NAT st n <= len W & W.n = v holds n <= it if v in W
+  .vertices() otherwise it = len W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, n be Element of NAT;
+  func W.rfind(n) -> odd Element of NAT means
+:: GLIB_001:def 22
+
+  it <= len W & W.it = W.n
+  & for k being odd Element of NAT st k <= len W & W.k = W.n holds k <= it if n
+  is odd & n <= len W otherwise it = len W;
+end;
+
+definition
+  let G be _Graph, u, v be object, W be Walk of G;
+  pred W is_Walk_from u,v means
+:: GLIB_001:def 23
+
+  W.first() = u & W.last() = v;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  attr W is closed means
+:: GLIB_001:def 24
+
+  W.first() = W.last();
+  attr W is directed means
+:: GLIB_001:def 25
+
+  for n being odd Element of NAT st n < len W
+  holds (the_Source_of G).(W.(n+1)) = W.n;
+  attr W is trivial means
+:: GLIB_001:def 26
+
+  W.length() = 0;
+  attr W is Trail-like means
+:: GLIB_001:def 27
+
+  W.edgeSeq() is one-to-one;
+end;
+
+notation
+  let G be _Graph, W be Walk of G;
+  antonym W is open for W is closed;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  attr W is Path-like means
+:: GLIB_001:def 28
+
+  W is Trail-like & for m, n being odd
+Element of NAT st m < n & n <= len W holds W.m = W.n implies m = 1 & n = len W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  attr W is vertex-distinct means
+:: GLIB_001:def 29
+
+  for m,n being odd Element of NAT st
+  m <= len W & n <= len W & W.m = W.n holds m = n;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  attr W is Circuit-like means
+:: GLIB_001:def 30
+
+  W is closed & W is Trail-like & W is non trivial;
+  attr W is Cycle-like means
+:: GLIB_001:def 31
+
+  W is closed & W is Path-like & W is non trivial;
+end;
+
+registration
+  let G be _Graph;
+  cluster Path-like -> Trail-like for Walk of G;
+  cluster trivial -> Path-like for Walk of G;
+  cluster trivial -> vertex-distinct for Walk of G;
+  cluster vertex-distinct -> Path-like for Walk of G;
+  cluster Circuit-like -> closed Trail-like non trivial for Walk of G;
+  cluster Cycle-like -> closed Path-like non trivial for Walk of G;
+end;
+
+registration
+  let G be _Graph;
+  cluster closed directed trivial for Walk of G;
+end;
+
+registration
+  let G be _Graph;
+  cluster vertex-distinct for Walk of G;
+end;
+
+definition
+  let G be _Graph;
+  mode Trail of G is Trail-like Walk of G;
+  mode Path of G is Path-like Walk of G;
+end;
+
+definition
+  let G be _Graph;
+  mode DWalk of G is directed Walk of G;
+  mode DTrail of G is directed Trail of G;
+  mode DPath of G is directed Path of G;
+end;
+
+registration
+  let G be _Graph, v be Vertex of G;
+  cluster G.walkOf(v) -> closed directed trivial;
+end;
+
+registration
+  let G be _Graph, x,e,y be object;
+  cluster G.walkOf(x,e,y) -> Path-like;
+end;
+
+registration
+  let G be _Graph, x,e be object;
+  cluster G.walkOf(x,e,x) -> closed;
+end;
+
+registration
+  let G be _Graph, W be closed Walk of G;
+  cluster W.reverse() -> closed;
+end;
+
+registration
+  let G be _Graph, W be trivial Walk of G;
+  cluster W.reverse() -> trivial;
+end;
+
+registration
+  let G be _Graph, W be Trail of G;
+  cluster W.reverse() -> Trail-like;
+end;
+
+registration
+  let G be _Graph, W be Path of G;
+  cluster W.reverse() -> Path-like;
+end;
+
+registration
+  let G be _Graph, W1,W2 be closed Walk of G;
+  cluster W1.append(W2) -> closed;
+end;
+
+registration
+  let G be _Graph, W1,W2 be DWalk of G;
+  cluster W1.append(W2) -> directed;
+end;
+
+registration
+  let G be _Graph, W1,W2 be trivial Walk of G;
+  cluster W1.append(W2) -> trivial;
+end;
+
+registration
+  let G be _Graph, W be DWalk of G, m,n be Element of NAT;
+  cluster W.cut(m,n) -> directed;
+end;
+
+registration
+  let G be _Graph, W be trivial Walk of G, m,n be Element of NAT;
+  cluster W.cut(m,n) -> trivial;
+end;
+
+registration
+  let G be _Graph, W be Trail of G, m,n be Element of NAT;
+  cluster W.cut(m,n) -> Trail-like;
+end;
+
+registration
+  let G be _Graph, W be Path of G, m,n be Element of NAT;
+  cluster W.cut(m,n) -> Path-like;
+end;
+
+registration
+  let G be _Graph, W be vertex-distinct Walk of G, m,n be Element of NAT;
+  cluster W.cut(m,n) -> vertex-distinct;
+end;
+
+registration
+  let G be _Graph, W be closed Walk of G, m,n be Element of NAT;
+  cluster W.remove(m,n) -> closed;
+end;
+
+registration
+  let G be _Graph, W be DWalk of G, m,n be Element of NAT;
+  cluster W.remove(m,n) -> directed;
+end;
+
+registration
+  let G be _Graph, W be trivial Walk of G, m,n be Element of NAT;
+  cluster W.remove(m,n) -> trivial;
+end;
+
+registration
+  let G be _Graph, W be Trail of G, m,n be Element of NAT;
+  cluster W.remove(m,n) -> Trail-like;
+end;
+
+registration
+  let G be _Graph, W be Path of G, m,n be Element of NAT;
+  cluster W.remove(m,n) -> Path-like;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  mode Subwalk of W -> Walk of G means
+:: GLIB_001:def 32
+
+    it is_Walk_from W.first(), W
+    .last() & ex es being Subset of W.edgeSeq() st it.edgeSeq() = Seq es;
+end;
+
+definition
+  let G be _Graph, W be Walk of G, m,n being Element of NAT;
+  redefine func W.remove(m,n) -> Subwalk of W;
+end;
+
+registration
+  let G be _Graph, W be Walk of G;
+  cluster Trail-like Path-like for Subwalk of W;
+end;
+
+definition
+  let G be _Graph, W be Walk of G;
+  mode Trail of W is Trail-like Subwalk of W;
+  mode Path of W is Path-like Subwalk of W;
+end;
+
+registration
+  let G be _Graph, W be DWalk of G;
+  cluster directed for Path of W;
+end;
+
+definition
+  let G be _Graph, W be DWalk of G;
+  mode DWalk of W is directed Subwalk of W;
+  mode DTrail of W is directed Trail of W;
+  mode DPath of W is directed Path of W;
+end;
+
+definition
+  let G be _Graph;
+  func G.allWalks()-> non empty Subset of ((the_Vertices_of G)\/(the_Edges_of
+  G))* equals
+:: GLIB_001:def 33
+  the set of all W where W is Walk of G ;
+end;
+
+definition
+  let G be _Graph;
+  func G.allTrails() -> non empty Subset of G.allWalks() equals
+:: GLIB_001:def 34
+  the set of all W where W is
+  Trail of G ;
+end;
+
+definition
+  let G be _Graph;
+  func G.allPaths() -> non empty Subset of G.allTrails() equals
+:: GLIB_001:def 35
+  the set of all W where W is
+  Path of G ;
+end;
+
+definition
+  let G be _Graph;
+  func G.allDWalks() -> non empty Subset of G.allWalks() equals
+:: GLIB_001:def 36
+  the set of all W where W is
+  DWalk of G ;
+end;
+
+definition
+  let G be _Graph;
+  func G.allDTrails() -> non empty Subset of G.allTrails() equals
+:: GLIB_001:def 37
+  the set of all W where W
+  is DTrail of G ;
+end;
+
+definition
+  let G be _Graph;
+  func G.allDPaths() -> non empty Subset of G.allDTrails() equals
+:: GLIB_001:def 38
+  the set of all W where W
+  is directed Path of G ;
+end;
+
+registration
+  let G be finite _Graph;
+  cluster G.allTrails() -> finite;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allWalks();
+  redefine mode Element of X -> Walk of G;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allTrails();
+  redefine mode Element of X -> Trail of G;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allPaths();
+  redefine mode Element of X -> Path of G;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allDWalks();
+  redefine mode Element of X -> DWalk of G;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allDTrails();
+  redefine mode Element of X -> DTrail of G;
+end;
+
+definition
+  let G be _Graph, X be non empty Subset of G.allDPaths();
+  redefine mode Element of X -> DPath of G;
+end;
+
+begin :: Theorems
+
+reserve G,G1,G2 for _Graph;
+reserve W,W1,W2 for Walk of G;
+reserve e,x,y,z for set;
+reserve v for Vertex of G;
+reserve n,m for Element of NAT;
+
+theorem :: GLIB_001:7
+  for n being odd Element of NAT st n <= len W holds W.n in
+  the_Vertices_of G;
+
+theorem :: GLIB_001:8
+  for n being even Element of NAT st n in dom W holds W.n in the_Edges_of G;
+
+theorem :: GLIB_001:9
+  for n being even Element of NAT st n in dom W holds ex naa1 being odd
+Element of NAT st naa1 = n-1 & n-1 in dom W & n+1 in dom W & W.n Joins W.(naa1)
+  , W.(n+1),G;
+
+theorem :: GLIB_001:10
+  for n being odd Element of NAT st n < len W holds W.(n+1) in W
+  .vertexAt(n).edgesInOut();
+
+theorem :: GLIB_001:11
+  for n being odd Element of NAT st 1 < n & n <= len W holds W.(n-
+  1) in W.vertexAt(n).edgesInOut();
+
+theorem :: GLIB_001:12
+  for n being odd Element of NAT st n < len W holds n in dom W & n+1 in
+  dom W & n+2 in dom W;
+
+theorem :: GLIB_001:13
+  len G.walkOf(v) = 1 & G.walkOf(v).1 = v & G.walkOf(v).first() =
+  v & G.walkOf(v).last() = v & G.walkOf(v) is_Walk_from v,v;
+
+theorem :: GLIB_001:14
+ for e,x,y being object holds
+  e Joins x,y,G implies len G.walkOf(x,e,y) = 3;
+
+theorem :: GLIB_001:15
+ for e,x,y being object holds
+  e Joins x,y,G implies G.walkOf(x,e,y).first() = x & G.walkOf(x,e
+  ,y).last() = y & G.walkOf(x,e,y) is_Walk_from x,y;
+
+theorem :: GLIB_001:16
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .first() = W2.first() & W1.last() = W2.last();
+
+theorem :: GLIB_001:17
+ for x,y being object holds
+  W is_Walk_from x,y iff W.1 = x & W.(len W) = y;
+
+theorem :: GLIB_001:18
+ for x,y being object holds
+  W is_Walk_from x,y implies x is Vertex of G & y is Vertex of G;
+
+theorem :: GLIB_001:19
+ for x,y being object holds
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  is_Walk_from x,y iff W2 is_Walk_from x,y;
+
+theorem :: GLIB_001:20
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds for n
+  being Element of NAT holds W1.vertexAt(n) = W2.vertexAt(n);
+
+theorem :: GLIB_001:21
+  len W = len W.reverse() & dom W = dom W.reverse() & rng W = rng W
+  .reverse();
+
+theorem :: GLIB_001:22
+  W.first() = W.reverse().last() & W.last() = W.reverse().first();
+
+theorem :: GLIB_001:23
+ for x,y being object holds
+  W is_Walk_from x,y iff W.reverse() is_Walk_from y, x;
+
+theorem :: GLIB_001:24
+  n in dom W implies W.n = W.reverse().(len W - n + 1) & (len W -
+  n + 1) in dom W.reverse();
+
+theorem :: GLIB_001:25
+  n in dom W.reverse() implies W.reverse().n = W.(len W - n + 1) & (len
+  W - n + 1) in dom W;
+
+::$CT
+
+theorem :: GLIB_001:27
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .reverse() = W2.reverse();
+
+theorem :: GLIB_001:28
+  W1.last() = W2.first() implies len W1.append(W2) + 1 = len W1 + len W2;
+
+theorem :: GLIB_001:29
+  W1.last() = W2.first() implies len W1 <= len W1.append(W2) & len W2 <=
+  len W1.append(W2);
+
+theorem :: GLIB_001:30
+  W1.last() = W2.first() implies W1.append(W2).first() = W1.first() & W1
+  .append(W2).last() = W2.last() & W1.append(W2) is_Walk_from W1.first(), W2
+  .last();
+
+theorem :: GLIB_001:31
+ for x,y,z being object holds
+  W1 is_Walk_from x,y & W2 is_Walk_from y,z implies W1.append(W2)
+  is_Walk_from x,z;
+
+theorem :: GLIB_001:32
+  n in dom W1 implies W1.append(W2).n = W1.n & n in dom W1.append(W2);
+
+theorem :: GLIB_001:33
+  W1.last() = W2.first() implies for n being Element of NAT st n < len
+W2 holds W1.append(W2).(len W1 + n) = W2.(n+1) & (len W1 + n) in dom W1.append(
+  W2);
+
+theorem :: GLIB_001:34
+  n in dom W1.append(W2) implies n in dom W1 or ex k being Element of
+  NAT st k < len W2 & n = len W1 + k;
+
+theorem :: GLIB_001:35
+  for W1A, W1B being Walk of G1, W2A,W2B being Walk of G2 st W1A =
+  W2A & W1B = W2B holds W1A.append(W1B) = W2A.append(W2B);
+
+theorem :: GLIB_001:36
+  for m,n being odd Element of NAT st m <= n & n <= len W holds len W
+.cut(m,n) + m = n+1 & for i being Element of NAT st i < len W.cut(m,n) holds W
+  .cut(m,n).(i+1) = W.(m+i) & m+i in dom W;
+
+theorem :: GLIB_001:37
+  for m, n being odd Element of NAT st m <= n & n <= len W holds W.cut(m
+,n).first() = W.m & W.cut(m,n).last() = W.n & W.cut(m,n) is_Walk_from W.m, W.n;
+
+theorem :: GLIB_001:38
+  for m,n,o being odd Element of NAT st m <= n & n <= o & o <= len W
+  holds W.cut(m,n).append(W.cut(n,o)) = W.cut(m,o);
+
+theorem :: GLIB_001:39
+  W.cut(1,len W) = W;
+
+theorem :: GLIB_001:40
+  for n being odd Element of NAT st n < len W holds G.walkOf(W.n,
+  W.(n+1), W.(n+2)) = W.cut(n,n+2);
+
+theorem :: GLIB_001:41
+  for m,n being odd Element of NAT st m <= n & n < len W holds W
+  .cut(m,n).addEdge(W.(n+1)) = W.cut(m,n+2);
+
+theorem :: GLIB_001:42
+  for n being odd Element of NAT st n <= len W holds W.cut(n,n) = <* W
+  .vertexAt(n) *>;
+
+theorem :: GLIB_001:43
+  m is odd & m <= n implies W.cut(1,n).cut(1,m) = W.cut(1,m);
+
+theorem :: GLIB_001:44
+  for m,n being odd Element of NAT st m <= n & n <= len W1 & W1.last() =
+  W2.first() holds W1.append(W2).cut(m,n) = W1.cut(m,n);
+
+theorem :: GLIB_001:45
+  for m being odd Element of NAT st m <= len W holds len W.cut(1,m) = m;
+
+theorem :: GLIB_001:46
+  for m being odd Element of NAT, x being Element of NAT st x in dom W
+  .cut(1,m) & m <= len W holds W.cut(1,m).x = W.x;
+
+theorem :: GLIB_001:47
+  for m,n being odd Element of NAT, i being Element of NAT st m <= n & n
+<= len W & i in dom W.cut(m,n) holds W.cut(m,n).i = W.(m+i-1) & m+i-1 in dom W;
+
+theorem :: GLIB_001:48
+  for W1 being Walk of G1, W2 being Walk of G2, m, n being Element
+  of NAT st W1 = W2 holds W1.cut(m,n) = W2.cut(m,n);
+
+theorem :: GLIB_001:49
+  for m,n being odd Element of NAT st m <= n & n <= len W & W.m = W.n
+  holds len W.remove(m,n) + n = len W + m;
+
+theorem :: GLIB_001:50
+  W is_Walk_from x,y implies W.remove(m,n) is_Walk_from x,y;
+
+theorem :: GLIB_001:51
+  len W.remove(m,n) <= len W;
+
+theorem :: GLIB_001:52
+  W.remove(m,m) = W;
+
+theorem :: GLIB_001:53
+  for m,n being odd Element of NAT st m <= n & n <= len W & W.m = W.n
+  holds W.cut(1,m).last() = W.cut(n,len W).first();
+
+theorem :: GLIB_001:54
+  for m,n being odd Element of NAT st m <= n & n <= len W & W.m = W.n
+  holds for x being Element of NAT st x in Seg m holds W.remove(m,n).x = W.x;
+
+theorem :: GLIB_001:55
+  for m,n being odd Element of NAT st m <= n & n <= len W & W.m = W.n
+  holds for x being Element of NAT st m <= x & x <= len W.remove(m,n) holds W
+.remove(m,n).x = W.(x - m + n) & x - m + n is Element of NAT & x - m + n <= len
+  W;
+
+theorem :: GLIB_001:56
+  for m,n being odd Element of NAT st m <= n & n <= len W & W.m = W.n
+  holds len W.remove(m,n) = len W + m - n;
+
+theorem :: GLIB_001:57
+  for m being Element of NAT st W.m = W.last() holds W.remove(m,
+  len W) = W.cut(1,m);
+
+theorem :: GLIB_001:58
+  for m being Element of NAT st W.first() = W.m holds W.remove(1,m) = W
+  .cut(m, len W);
+
+theorem :: GLIB_001:59
+  W.remove(m,n).first() = W.first() & W.remove(m,n).last() = W.last();
+
+theorem :: GLIB_001:60
+  for m,n being odd Element of NAT, x being Element of NAT st m <= n & n
+<= len W & W.m = W.n & x in dom W.remove(m,n) holds x in Seg m or m <= x & x <=
+  len W.remove(m,n);
+
+theorem :: GLIB_001:61
+  for W1 being Walk of G1, W2 being Walk of G2, m, n being Element of
+  NAT st W1 = W2 holds W1.remove(m,n) = W2.remove(m,n);
+
+theorem :: GLIB_001:62
+ for e,x being object holds
+  e Joins W.last(), x, G implies W.addEdge(e) = W^<*e,x*>;
+
+theorem :: GLIB_001:63
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e).first() = W.first() & W
+  .addEdge(e).last() = x & W.addEdge(e) is_Walk_from W.first(), x;
+
+theorem :: GLIB_001:64
+ for e,x being object holds
+  e Joins W.last(),x,G implies len W.addEdge(e) = len W + 2;
+
+theorem :: GLIB_001:65
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e).(len W + 1) = e & W.addEdge(
+e).(len W + 2) = x & for n being Element of NAT st n in dom W holds W.addEdge(e
+  ).n = W.n;
+
+theorem :: GLIB_001:66
+ for e,x,y,z being object holds
+  W is_Walk_from x,y & e Joins y,z,G implies W.addEdge(e) is_Walk_from x
+  ,z;
+
+theorem :: GLIB_001:67
+  1 <= len W.vertexSeq();
+
+theorem :: GLIB_001:68
+  for n being odd Element of NAT st n <= len W holds 2 * ((n+1)
+  div 2) - 1 = n & 1 <= (n+1) div 2 & (n+1) div 2 <= len W.vertexSeq();
+
+theorem :: GLIB_001:69
+  G.walkOf(v).vertexSeq() = <*v*>;
+
+theorem :: GLIB_001:70
+ for e,x,y being object holds
+  e Joins x,y,G implies G.walkOf(x,e,y).vertexSeq() = <*x,y*>;
+
+theorem :: GLIB_001:71
+  W.first() = W.vertexSeq().1 & W.last() = W.vertexSeq().(len W .vertexSeq());
+
+theorem :: GLIB_001:72
+  for n being odd Element of NAT st n <= len W holds W.vertexAt(n) = W
+  .vertexSeq().((n+1) div 2);
+
+theorem :: GLIB_001:73
+  n in dom W.vertexSeq() iff 2*n-1 in dom W;
+
+theorem :: GLIB_001:74
+  W.cut(1,n).vertexSeq() c= W.vertexSeq();
+
+theorem :: GLIB_001:75
+  e Joins W.last(),x,G implies W.addEdge(e).vertexSeq() = W
+  .vertexSeq() ^ <*x*>;
+
+theorem :: GLIB_001:76
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .vertexSeq() = W2.vertexSeq();
+
+theorem :: GLIB_001:77
+  for n being even Element of NAT st 1 <= n & n <= len W holds n div 2
+  in dom W.edgeSeq() & W.n = W.edgeSeq().(n div 2);
+
+theorem :: GLIB_001:78
+  n in dom W.edgeSeq() iff 2*n in dom W;
+
+theorem :: GLIB_001:79
+  for n being Element of NAT st n in dom W.edgeSeq() holds W.edgeSeq().n
+  in the_Edges_of G;
+
+theorem :: GLIB_001:80
+  ex lenWaa1 being even Element of NAT st lenWaa1 = len W - 1 & len W
+  .edgeSeq() = lenWaa1 div 2;
+
+theorem :: GLIB_001:81
+  W.cut(1,n).edgeSeq() c= W.edgeSeq();
+
+theorem :: GLIB_001:82
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e).edgeSeq() = W.edgeSeq() ^ <*
+  e*>;
+
+theorem :: GLIB_001:83
+ for e,x,y being object holds
+  e Joins x,y,G iff G.walkOf(x,e,y).edgeSeq() = <*e*>;
+
+theorem :: GLIB_001:84
+  W.reverse().edgeSeq() = Rev (W.edgeSeq());
+
+theorem :: GLIB_001:85
+  W1.last() = W2.first() implies W1.append(W2).edgeSeq() = W1.edgeSeq()
+  ^ W2.edgeSeq();
+
+theorem :: GLIB_001:86
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .edgeSeq() = W2.edgeSeq();
+
+theorem :: GLIB_001:87
+  x in W.vertices() iff ex n being odd Element of NAT st n <= len W & W.
+  n = x;
+
+theorem :: GLIB_001:88
+  W.first() in W.vertices() & W.last() in W.vertices();
+
+theorem :: GLIB_001:89
+  for n being odd Element of NAT st n <= len W holds W.vertexAt(n)
+  in W.vertices();
+
+theorem :: GLIB_001:90
+  G.walkOf(v).vertices() = {v};
+
+theorem :: GLIB_001:91
+ for e,x,y being object holds
+  e Joins x,y,G implies G.walkOf(x,e,y).vertices() = {x,y};
+
+theorem :: GLIB_001:92
+  W.vertices() = W.reverse().vertices();
+
+theorem :: GLIB_001:93
+  W1.last() = W2.first() implies W1.append(W2).vertices() = W1
+  .vertices() \/ W2.vertices();
+
+theorem :: GLIB_001:94
+  for m,n being odd Element of NAT st m <= n & n <= len W holds W.cut(m,
+  n).vertices() c= W.vertices();
+
+theorem :: GLIB_001:95
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e).vertices() = W .vertices() \/ {x};
+
+theorem :: GLIB_001:96
+  for G being finite _Graph, W being Walk of G, e,x being set holds e
+Joins W.last(),x,G & not x in W.vertices() implies card W.addEdge(e).vertices()
+  = card W.vertices() + 1;
+
+theorem :: GLIB_001:97
+  x in W.vertices() & y in W.vertices() implies ex W9 being Walk of G st
+  W9 is_Walk_from x,y;
+
+theorem :: GLIB_001:98
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .vertices() = W2.vertices();
+
+theorem :: GLIB_001:99
+  e in W.edges() iff ex n being even Element of NAT st 1 <= n & n <= len
+  W & W.n = e;
+
+theorem :: GLIB_001:100
+  e in W.edges() iff ex n being odd Element of NAT st n < len W & W.(n+1) = e;
+
+theorem :: GLIB_001:101
+  rng W = W.vertices() \/ W.edges();
+
+theorem :: GLIB_001:102
+  W1.last() = W2.first() implies W1.append(W2).edges() = W1
+  .edges() \/ W2.edges();
+
+theorem :: GLIB_001:103
+  e in W.edges() implies ex v1, v2 being Vertex of G, n being odd
+  Element of NAT st n+2 <= len W & v1 = W.n & e = W.(n+1) & v2 = W.(n+2) & e
+  Joins v1, v2,G;
+
+theorem :: GLIB_001:104
+  e in W.edges() iff ex n being Element of NAT st n in dom W
+  .edgeSeq() & W.edgeSeq().n = e;
+
+theorem :: GLIB_001:105
+  e in W.edges() & e Joins x,y,G implies x in W.vertices() & y in W
+  .vertices();
+
+theorem :: GLIB_001:106
+  W.cut(m,n).edges() c= W.edges();
+
+theorem :: GLIB_001:107
+  W.edges() = W.reverse().edges();
+
+theorem :: GLIB_001:108
+ for e,x,y being object holds
+  e Joins x,y,G iff G.walkOf(x,e,y).edges() = {e};
+
+theorem :: GLIB_001:109
+  W.edges() c= G.edgesBetween(W.vertices());
+
+theorem :: GLIB_001:110
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .edges() = W2.edges();
+
+theorem :: GLIB_001:111
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e).edges() = W.edges() \/ {e};
+
+theorem :: GLIB_001:112
+  len W = 2 * W.length() + 1;
+
+theorem :: GLIB_001:113
+  len W1 = len W2 iff W1.length() = W2.length();
+
+theorem :: GLIB_001:114
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 holds W1
+  .length() = W2.length();
+
+theorem :: GLIB_001:115
+  for n being odd Element of NAT st n <= len W holds W.find(W.n)
+  <= n & W.rfind(W.n) >= n;
+
+theorem :: GLIB_001:116
+  for W1 being Walk of G1, W2 being Walk of G2, v being set st W1 = W2
+  holds W1.find(v) = W2.find(v) & W1.rfind(v) = W2.rfind(v);
+
+theorem :: GLIB_001:117
+  for n being odd Element of NAT st n <= len W holds W.find(n) <= n &
+  W.rfind(n) >= n;
+
+theorem :: GLIB_001:118
+  W is closed iff W.1 = W.(len W);
+
+theorem :: GLIB_001:119
+  W is closed iff ex x being set st W is_Walk_from x,x;
+
+theorem :: GLIB_001:120
+  W is closed iff W.reverse() is closed;
+
+theorem :: GLIB_001:121
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 & W1 is closed
+  holds W2 is closed;
+
+theorem :: GLIB_001:122
+  W is directed iff for n being odd Element of NAT st n < len W holds W.
+  (n+1) DJoins W.n, W.(n+2), G;
+
+theorem :: GLIB_001:123
+  W is directed & W is_Walk_from x,y & e DJoins y,z,G implies W.addEdge(
+  e) is directed & W.addEdge(e) is_Walk_from x,z;
+
+theorem :: GLIB_001:124
+  for W being DWalk of G, m,n being Element of NAT holds W.cut(m,n) is
+  directed;
+
+theorem :: GLIB_001:125
+  W is non trivial iff 3 <= len W;
+
+theorem :: GLIB_001:126
+  W is non trivial iff len W <> 1;
+
+theorem :: GLIB_001:127
+  W.first() <> W.last() implies W is non trivial;
+
+theorem :: GLIB_001:128
+  W is trivial iff ex v being Vertex of G st W = G.walkOf(v);
+
+theorem :: GLIB_001:129
+  W is trivial iff W.reverse() is trivial;
+
+theorem :: GLIB_001:130
+  W2 is trivial implies W1.append(W2) = W1;
+
+theorem :: GLIB_001:131
+  for m, n being odd Element of NAT st m <= n & n <= len W holds W.cut(m
+  ,n) is trivial iff m = n;
+
+theorem :: GLIB_001:132
+ for e,x being object holds
+  e Joins W.last(),x,G implies W.addEdge(e) is non trivial;
+
+theorem :: GLIB_001:133
+  W is non trivial implies ex lenW2 being odd Element of NAT st
+  lenW2 = len W - 2 & W.cut(1,lenW2).addEdge(W.(lenW2+1)) = W;
+
+theorem :: GLIB_001:134
+  W2 is non trivial & W2.edges() c= W1.edges() implies W2
+  .vertices() c= W1.vertices();
+
+theorem :: GLIB_001:135
+  W is non trivial implies for v being Vertex of G st v in W.vertices()
+  holds not v is isolated;
+
+theorem :: GLIB_001:136
+  W is trivial iff W.edges() = {};
+
+theorem :: GLIB_001:137
+  for W1 being Walk of G1, W2 being Walk of G2 st W1 = W2 & W1 is
+  trivial holds W2 is trivial;
+
+theorem :: GLIB_001:138
+  W is Trail-like iff for m,n being even Element of NAT st 1 <= m & m <
+  n & n <= len W holds W.m <> W.n;
+
+theorem :: GLIB_001:139
+  len W <= 3 implies W is Trail-like;
+
+theorem :: GLIB_001:140
+  W is Trail-like iff W.reverse() is Trail-like;
+
+theorem :: GLIB_001:141
+  for W being Trail of G, m,n being Element of NAT holds W.cut(m,n) is
+  Trail-like;
+
+theorem :: GLIB_001:142
+  for W being Trail of G, e being set st e in W.last().edgesInOut() &
+  not e in W.edges() holds W.addEdge(e) is Trail-like;
+
+theorem :: GLIB_001:143
+  for W being Trail of G, v being Vertex of G st v in W.vertices() & v
+  is endvertex holds v = W.first() or v = W.last();
+
+theorem :: GLIB_001:144
+  for G being finite _Graph, W being Trail of G holds len W.edgeSeq() <=
+  G.size();
+
+theorem :: GLIB_001:145
+  len W <= 3 implies W is Path-like;
+
+theorem :: GLIB_001:146
+  (for m,n being odd Element of NAT st m <= len W & n <= len W & W.m = W
+  .n holds m = n) implies W is Path-like;
+
+theorem :: GLIB_001:147
+  for W being Path of G st W is open holds for m, n being odd Element of
+  NAT st m < n & n <= len W holds W.m <> W.n;
+
+theorem :: GLIB_001:148
+  W is Path-like iff W.reverse() is Path-like;
+
+theorem :: GLIB_001:149
+  for W being Path of G, m, n being Element of NAT holds W.cut(m,n) is
+  Path-like;
+
+theorem :: GLIB_001:150
+  for W being Path of G, e,v being object st e Joins W.last(),v,G &
+  not e in W.edges() & (W is trivial or W is open) & for n being odd Element of
+  NAT st 1 < n & n <= len W holds W.n <> v holds W.addEdge(e) is Path-like;
+
+theorem :: GLIB_001:151
+  for W being Path of G, e, v being object st e Joins W.last(),v,G & not v
+  in W.vertices() & (W is trivial or W is open) holds W.addEdge(e) is Path-like
+;
+
+theorem :: GLIB_001:152
+  (for n being odd Element of NAT st n <= len W holds W.find(W.n) = W
+  .rfind(W.n)) implies W is Path-like;
+
+theorem :: GLIB_001:153
+  (for n being odd Element of NAT st n <= len W holds W.rfind(n) = n)
+  implies W is Path-like;
+
+theorem :: GLIB_001:154
+  for G being finite _Graph, W being Path of G holds len W.vertexSeq()
+  <= G.order() + 1;
+
+theorem :: GLIB_001:155
+  for G being _Graph, W being vertex-distinct Walk of G, e,v being object
+  st e Joins W.last(),v,G & not v in W.vertices() holds W.addEdge(e) is
+  vertex-distinct;
+
+theorem :: GLIB_001:156
+ for e,x being object holds
+  e Joins x,x,G implies G.walkOf(x,e,x) is Cycle-like;
+
+theorem :: GLIB_001:157
+  e Joins x,y,G & e in W1.edges() & W1 is Cycle-like implies ex W2 being
+  Walk of G st W2 is_Walk_from x,y & not e in W2.edges();
+
+theorem :: GLIB_001:158
+  W is Subwalk of W;
+
+theorem :: GLIB_001:159
+  for W1 being Walk of G, W2 being Subwalk of W1, W3 being Subwalk of W2
+  holds W3 is Subwalk of W1;
+
+theorem :: GLIB_001:160
+  W1 is Subwalk of W2 implies (W1 is_Walk_from x,y iff W2 is_Walk_from x ,y);
+
+theorem :: GLIB_001:161
+  W1 is Subwalk of W2 implies W1.first() = W2.first() & W1.last() = W2.last();
+
+theorem :: GLIB_001:162
+  W1 is Subwalk of W2 implies len W1 <= len W2;
+
+theorem :: GLIB_001:163
+  W1 is Subwalk of W2 implies W1.edges() c= W2.edges() & W1
+  .vertices() c= W2.vertices();
+
+theorem :: GLIB_001:164
+  W1 is Subwalk of W2 implies for m being odd Element of NAT st m
+<= len W1 holds ex n being odd Element of NAT st m <= n & n <= len W2 & W1.m =
+  W2.n;
+
+theorem :: GLIB_001:165
+  W1 is Subwalk of W2 implies for m being even Element of NAT st 1 <= m
+& m <= len W1 holds ex n being even Element of NAT st m <= n & n <= len W2 & W1
+  .m = W2.n;
+
+theorem :: GLIB_001:166
+  for W1 being Trail of G st W1 is non trivial holds ex W2 being Path of
+  W1 st W2 is non trivial;
+
+theorem :: GLIB_001:167
+  for G1 being _Graph, G2 being Subgraph of G1, W being Walk of
+  G2 holds W is Walk of G1;
+
+theorem :: GLIB_001:168
+  for G1 being _Graph, G2 being Subgraph of G1, W being Walk of
+  G1 st W is trivial & W.first() in the_Vertices_of G2 holds W is Walk of G2;
+
+theorem :: GLIB_001:169
+  for G1 being _Graph, G2 being Subgraph of G1, W being Walk of
+  G1 st W is non trivial & W.edges() c= the_Edges_of G2 holds W is Walk of G2;
+
+theorem :: GLIB_001:170
+  for G1 being _Graph, G2 being Subgraph of G1, W being Walk of
+G1 st W.vertices() c= the_Vertices_of G2 & W.edges() c= the_Edges_of G2 holds W
+  is Walk of G2;
+
+theorem :: GLIB_001:171
+  for G1 being non trivial _Graph, W being Walk of G1, v being Vertex of
+  G1, G2 being removeVertex of G1,v st not v in W.vertices() holds W is Walk of
+  G2;
+
+theorem :: GLIB_001:172
+  for G1 being _Graph, W being Walk of G1, e being set, G2 being
+  removeEdge of G1,e st not e in W.edges() holds W is Walk of G2;
+
+theorem :: GLIB_001:173
+  for G1 being _Graph, G2 being Subgraph of G1, x,y,e being set
+  st e Joins x,y,G2 holds G1.walkOf(x, e, y) = G2.walkOf(x, e, y);
+
+theorem :: GLIB_001:174
+  for G1 being _Graph, G2 being Subgraph of G1, W1 being Walk of G1, W2
+being Walk of G2, e being set st W1 = W2 & e in W2.last().edgesInOut() holds W1
+  .addEdge(e) = W2.addEdge(e);
+
+theorem :: GLIB_001:175
+  for G1 being _Graph, G2 being Subgraph of G1, W being Walk of
+G2 holds (W is closed implies W is closed Walk of G1) & (W is directed implies
+W is directed Walk of G1) & (W is trivial implies W is trivial Walk of G1) & (W
+  is Trail-like implies W is Trail-like Walk of G1) & (W is Path-like implies W
+  is Path-like Walk of G1) & (W is vertex-distinct implies W is vertex-distinct
+  Walk of G1);
+
+theorem :: GLIB_001:176
+  for G1 being _Graph, G2 being Subgraph of G1, W1 being Walk of
+G1, W2 being Walk of G2 st W1 = W2 holds (W1 is closed iff W2 is closed) & (W1
+  is directed iff W2 is directed) & (W1 is trivial iff W2 is trivial) & (W1 is
+Trail-like iff W2 is Trail-like) & (W1 is Path-like iff W2 is Path-like) & (W1
+  is vertex-distinct iff W2 is vertex-distinct);
+
+theorem :: GLIB_001:177
+  G1 == G2 & x is VertexSeq of G1 implies x is VertexSeq of G2;
+
+theorem :: GLIB_001:178
+  G1 == G2 & x is EdgeSeq of G1 implies x is EdgeSeq of G2;
+
+theorem :: GLIB_001:179
+  G1 == G2 & x is Walk of G1 implies x is Walk of G2;
+
+theorem :: GLIB_001:180
+  G1 == G2 implies G1.walkOf(x,e,y) = G2.walkOf(x,e,y);
+
+theorem :: GLIB_001:181
+  for W1 being Walk of G1, W2 being Walk of G2 st G1 == G2 & W1 = W2
+holds (W1 is closed iff W2 is closed) & (W1 is directed iff W2 is directed) & (
+W1 is trivial iff W2 is trivial) & (W1 is Trail-like iff W2 is Trail-like) & (
+  W1 is Path-like iff W2 is Path-like) & (W1 is vertex-distinct iff W2 is
+  vertex-distinct);

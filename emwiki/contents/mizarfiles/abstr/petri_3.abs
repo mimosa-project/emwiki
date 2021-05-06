@@ -1,0 +1,389 @@
+:: Formulation of Cell Petri Nets
+::  by Mitsuru Jitsukawa , Pauline N. Kawamoto and Yasunari Shidama
+:: 
+:: Received December 8, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, RELAT_1, ARYTM_3, PETRI, PETRI_2, FUNCT_7, FUNCT_1,
+      FINSET_1, FUNCOP_1, ZFMISC_1, SUBSET_1, BOOLMARK, NUMBERS, XBOOLE_0,
+      FUNCT_2, FUNCT_4, PBOOLE, SETLIM_2, XXREAL_0, PETRI_3, PROB_2, MCART_1,
+      CARD_1, CARD_3, STRUCT_0, ARYTM_1;
+ notations TARSKI, XBOOLE_0, XTUPLE_0, ZFMISC_1, XCMPLX_0, SUBSET_1, RELAT_1,
+      FUNCT_1, RELSET_1, FUNCT_2, DOMAIN_1, MSAFREE4, FUNCOP_1, FUNCT_4,
+      FINSET_1, NUMBERS, NAT_1, XXREAL_0, PBOOLE, RELSET_2, STRUCT_0, PETRI,
+      PETRI_2, CARD_3;
+ constructors RELSET_1, DOMAIN_1, VALUED_1, PETRI_2, RELSET_2, FUNCT_4,
+      MSAFREE4;
+ registrations SUBSET_1, ORDINAL1, RELAT_1, RELSET_1, XBOOLE_0, XREAL_0,
+      PBOOLE, NAT_1, FUNCT_2, FINSET_1, PETRI, PETRI_2, XTUPLE_0, STRUCT_0,
+      INT_1, CHAIN_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin  ::  Preliminaries
+
+definition
+  let I be non empty set;
+  let CPNTS be ManySortedSet of I;
+  attr CPNTS is Colored-PT-net-Family-like means
+:: PETRI_3:def 1
+
+  for i be Element of I holds CPNTS.i is Colored-PT-net;
+end;
+
+registration
+  let I be non empty set;
+  cluster Colored-PT-net-Family-like for ManySortedSet of I;
+end;
+
+definition
+  let I be non empty set;
+  mode Colored-PT-net-Family of I
+    is Colored-PT-net-Family-like ManySortedSet of I;
+end;
+
+definition
+  let I be non empty set;
+  let CPNTS be Colored-PT-net-Family of I;
+  let i be Element of I;
+  redefine func CPNTS.i -> Colored-PT-net;
+end;
+
+definition
+  let I be non empty set;
+  let CPNT be Colored-PT-net-Family of I;
+  attr CPNT is disjoint_valued means
+:: PETRI_3:def 2
+  for i, j be Element of I st i <> j holds
+  the carrier of (CPNT.i) misses the carrier of (CPNT.j) &
+  the carrier' of (CPNT.i) misses the carrier' of (CPNT.j);
+end;
+
+theorem :: PETRI_3:1
+  for I be set, F, D, R be ManySortedSet of I st
+  (for i be object st i in I holds
+  ex f be Function st f = F.i & dom f = D.i & rng f = R.i) &
+  (for i,j be object, f,g be Function st i in I & j in I &
+  i <> j & f = F.i & g = F.j holds dom(f) misses dom(g)) holds
+  ex G be Function st G = union rng F &
+  dom G = union rng D & rng G = union rng R &
+  for i, x be object, f be Function st i in I &
+  f = F.i & x in dom f
+  holds G.x = f.x;
+
+theorem :: PETRI_3:2
+  for I be set, Y, Z be ManySortedSet of I st
+  (for i, j be object st i in I & j in I &
+  i <> j holds Y. i /\ Z.j = {})
+  holds Union (Y (\) Z) = (Union Y) \ (Union Z);
+
+theorem :: PETRI_3:3
+  for I be set, X, Y, Z be ManySortedSet of I st (X c= (Y (\) Z) &
+  (for i, j be object st i in I & j in I &
+  i <> j holds Y.i /\ Z.j = {}))
+  holds Union(X) c= (Union Y) \ (Union Z);
+
+begin
+
+definition
+  let I be non trivial set;
+  func XorDelta(I) -> non empty set equals
+:: PETRI_3:def 3
+  {[i, j] where i,j is Element of I : i <> j};
+end;
+
+theorem :: PETRI_3:4
+  for I be non trivial finite set,
+  CPNT be Colored-PT-net-Family of I holds
+  union {Funcs(Outbds(CPNT.i), the carrier of CPNT.j)
+  where i, j is Element of I : i <> j} is non empty;
+
+definition
+  let I be non trivial finite set;
+  let CPNT be Colored-PT-net-Family of I;
+  mode connecting-mapping of CPNT -> ManySortedSet of XorDelta(I) means
+:: PETRI_3:def 4
+
+  rng it c= union
+  {Funcs(Outbds(CPNT.i), the carrier of CPNT.j)
+  where i, j is Element of I : i <> j} &
+  for i,j be Element of I st i <> j
+  holds it.[i, j] is Function of Outbds(CPNT.i), the carrier of CPNT.j;
+end;
+
+theorem :: PETRI_3:5
+  for CPNT1, CPNT2 be Colored-PT-net,
+  O12 be Function of Outbds(CPNT1), the carrier of CPNT2,
+  q12 be Function st
+  dom q12=Outbds(CPNT1) &
+  for t01 be transition of CPNT1 st t01 is outbound
+  holds q12.t01 is Function of thin_cylinders(the ColoredSet of CPNT1,
+  *'{t01}), thin_cylinders(the ColoredSet of CPNT1, Im(O12,t01)) holds
+  q12 in Funcs(Outbds(CPNT1),
+  union {Funcs(thin_cylinders(the ColoredSet of CPNT1,*'{t01}),
+  thin_cylinders(the ColoredSet of CPNT1, Im(O12,t01)))
+  where t01 is transition of CPNT1:t01 is outbound});
+
+definition
+  let I be non trivial finite set;
+  let CPNT be Colored-PT-net-Family of I;
+  let O be connecting-mapping of CPNT;
+  mode connecting-firing-rule of O -> ManySortedSet of XorDelta(I) means
+:: PETRI_3:def 5
+
+  for i, j be Element of I st i <> j holds
+  ex Oij be Function of Outbds(CPNT.i), the carrier of CPNT.j,
+  qij be Function st qij =it.[i, j] & Oij = O.[i, j] &
+  dom (qij)=Outbds(CPNT.i) &
+  for t01 be transition of CPNT.i
+  st t01 is outbound holds qij.t01 is
+  Function of thin_cylinders(the ColoredSet of CPNT.i,
+  *'{t01}), thin_cylinders(the ColoredSet of CPNT.i, Im(Oij,t01));
+end;
+
+begin  ::  Extension to a family of colored Petri nets
+
+definition
+  let I be non trivial finite set;
+  let CPNT be Colored-PT-net-Family of I;
+  let O be connecting-mapping of CPNT;
+  let q be connecting-firing-rule of O;
+  assume
+ CPNT is disjoint_valued &
+  for i, j1, j2 be Element of I st i <> j1 & i <> j2 &
+  (ex x, y1, y2 be object st
+  [x, y1] in q.[i, j1] & [x, y2] in q.[i, j2]) holds j1 = j2;
+  func synthesis(q) -> strict Colored-PT-net means
+:: PETRI_3:def 6
+  ex P, T, ST, TS, CS, F be ManySortedSet of I,
+  UF, UQ be Function st
+  ( for i be Element of I holds
+  P.i = the carrier of CPNT.i &
+  T.i = the carrier' of CPNT.i &
+  ST.i = the S-T_Arcs of CPNT.i &
+  TS.i = the T-S_Arcs of CPNT.i &
+  CS.i = the ColoredSet of CPNT.i &
+  F.i = the firing-rule of CPNT.i ) &
+  UF = union rng F &
+  UQ = union rng q &
+  the carrier of it = union rng P &
+  the carrier' of it = union rng T &
+  the S-T_Arcs of it = union rng ST &
+  the T-S_Arcs of it = (union rng TS ) \/ (union rng O ) &
+  the ColoredSet of it = union rng CS &
+  the firing-rule of it = UF +* UQ;
+end;
+
+begin :: Definition of Cell Petri nets
+
+definition
+  let I be non empty finite set;
+  let CPNT be Colored-PT-net-Family of I;
+  attr CPNT is Cell-Petri-nets means
+:: PETRI_3:def 7
+  ex N be Function of I, bool rng CPNT st
+  for i be Element of I holds
+  N.i = {CPNT.j where j is Element of I:j <> i};
+end;
+
+definition
+  let I be non trivial finite set;
+  let CPNT be Colored-PT-net-Family of I;
+  let N be Function of I,bool (rng CPNT);
+  let O be connecting-mapping of CPNT;
+  pred N, O is_Cell-Petri-nets means
+:: PETRI_3:def 8
+  for i be Element of I holds
+  N.i = {CPNT.j where j is Element of I:j <> i &
+  ex t be transition of CPNT.i,
+  s be object st [t, s] in O.[i, j]};
+end;
+
+theorem :: PETRI_3:6
+::Th3:
+  for I be non trivial finite set,
+  CPNT be Colored-PT-net-Family of I,
+  N be Function of I, bool rng CPNT,
+  O be connecting-mapping of CPNT st CPNT is one-to-one &
+  N, O is_Cell-Petri-nets holds
+  for i be Element of I holds not CPNT.i in N.i;
+
+begin  ::  Activation of Petri nets
+:: non empty non void with_S-T_arc with_T-S_arc Colored_PT_net_Str;
+
+definition let CPN be Colored_PT_net_Str;
+  attr CPN is with-nontrivial-ColoredSet means
+:: PETRI_3:def 9
+  the ColoredSet of CPN is non trivial;
+end;
+
+registration
+  cluster with-nontrivial-ColoredSet for
+  strict Colored-PT-net-like Colored_Petri_net;
+end;
+
+registration
+  let CPNT be with-nontrivial-ColoredSet Colored-PT-net;
+  cluster the ColoredSet of CPNT -> non trivial;
+end;
+
+::Def13:: color-threshold
+definition
+  let CPN be with-nontrivial-ColoredSet Colored-PT-net;
+  let S be Subset of the carrier of CPN;
+  let D be thin_cylinder of the ColoredSet of CPN, S;
+  mode color-threshold of D is Function of loc(D), the ColoredSet of CPN;
+end;
+
+:: color-count of CPN
+definition
+  let CPN be Colored-PT-net;
+  mode color-count of CPN is Function of the ColoredSet of CPN, NAT;
+end;
+
+:: Colored-states of CPN
+definition
+  let CPN be Colored-PT-net;
+  func Colored-states(CPN) -> non empty set equals
+:: PETRI_3:def 10
+  the set of all e where e is color-count of CPN;
+end;
+
+:: colored-state of CPN
+definition
+  let CPN be Colored-PT-net;
+  mode colored-state of CPN is Function of CPN, Colored-states(CPN);
+end;
+
+ reserve CPN for with-nontrivial-ColoredSet Colored-PT-net;
+ reserve m for colored-state of CPN;
+ reserve t for Element of the carrier' of CPN;
+
+definition
+  let CPN be with-nontrivial-ColoredSet Colored-PT-net,
+      m be colored-state of CPN;
+  let p be place of CPN;
+  redefine func m.p -> color-count of CPN;
+end;
+
+definition
+  let CPN be with-nontrivial-ColoredSet Colored-PT-net;
+  let mp be color-count of CPN;
+  let x be object;
+  redefine func mp.x -> Element of NAT;
+end;
+
+:: q-firable on m
+definition
+  let CPN, m, t;
+  let D being thin_cylinder of the ColoredSet of CPN, *'{t};
+  let ColD being color-threshold of D;
+  pred t is_firable_on m,ColD means
+:: PETRI_3:def 11
+  :: :Def14:
+  (the firing-rule of CPN). [t, D] <> {} &
+  for p being place of CPN st p in loc(D) holds 1 <= (m.p).(ColD.p);
+end;
+
+:: q-firable set on t
+definition
+  let CPN,m,t;
+  func firable_set_on(m,t) -> set equals
+:: PETRI_3:def 12
+  :: :Def15:
+  {D where D is thin_cylinder of the ColoredSet of CPN, *'{t}:
+  ex ColD being color-threshold of D st t is_firable_on m, ColD};
+end;
+
+:: t is q-firable on m iff q-firable set on t, m
+theorem :: PETRI_3:7
+:: Th4:
+  for D being thin_cylinder of the ColoredSet of CPN, *'{t} holds
+  (ex ColD being color-threshold of D st t is_firable_on m, ColD)
+  iff
+  D in firable_set_on(m, t);
+
+:: The definition of mapping Ptr_Sub
+definition
+  let CPN, m, t;
+  let D be thin_cylinder of the ColoredSet of CPN, *'{t};
+  let ColD be color-threshold of D;
+  let p be Element of CPN;
+  assume
+ t is_firable_on m, ColD;
+  func Ptr_Sub(ColD, m, p) ->
+    Function of the ColoredSet of CPN, NAT means
+:: PETRI_3:def 13
+  for x be Element of the ColoredSet of CPN holds
+  ((p in loc(D) & x = ColD.p) implies it.x = (m.p).x - 1) &
+  (not (p in loc(D) & x = ColD.p) implies it.x = (m.p).x);
+end;
+
+:: The definition of mapping Ptr_Add
+definition
+  let CPN, m, t;
+  let D be thin_cylinder of the ColoredSet of CPN, {t}*';
+  let ColD be color-threshold of D;
+  let p be Element of CPN;
+  func Ptr_Add(ColD, m, p) -> Function of the ColoredSet of CPN, NAT means
+:: PETRI_3:def 14
+
+  for x be Element of the ColoredSet of CPN holds
+  ((p in loc(D) & x = ColD.p) implies it.x = (m.p).x + 1) &
+  (not (p in loc(D) & x = ColD.p) implies it.x = (m.p).x);
+end;
+
+::  The definition of firing_result
+definition
+  let CPN, m, t;
+  let D be thin_cylinder of the ColoredSet of CPN, *'{t};
+  let E be thin_cylinder of the ColoredSet of CPN, {t}*';
+  let ColD be color-threshold of D;
+  let ColE be color-threshold of E;
+  let p be Element of CPN;
+  func firing_result(ColD, ColE, m, p) ->
+    Function of the ColoredSet of CPN, NAT equals
+:: PETRI_3:def 15
+
+  Ptr_Sub(ColD,m,p) if t is_firable_on m,ColD &
+  p in loc(D) \ loc(E),
+  Ptr_Add(ColE,m,p) if t is_firable_on m,ColD &
+  p in loc(E)\loc(D)
+  otherwise m.p;
+end;
+
+:: The definition of the range of firing_result
+
+theorem :: PETRI_3:8
+:::Th5A:
+  for D0 being thin_cylinder of the ColoredSet of CPN, *'{t},
+  D1 being thin_cylinder of the ColoredSet of CPN, {t}*',
+  ColD0 be color-threshold of D0,
+  ColD1 be color-threshold of D1,
+  x be Element of the ColoredSet of CPN,
+  p be Element of CPN holds
+  (m.p).x - 1 <= (firing_result(ColD0, ColD1, m, p)).x &
+  (firing_result(ColD0, ColD1, m, p)).x <= (m.p).x + 1;
+
+theorem :: PETRI_3:9
+:: :Th5B:
+  for D0 being thin_cylinder of the ColoredSet of CPN, *'{t},
+  D1 being thin_cylinder of the ColoredSet of CPN, {t}*',
+  ColD0 be color-threshold of D0,
+  ColD1 be color-threshold of D1,
+  x be Element of the ColoredSet of CPN,
+  p be Element of CPN st
+  t is outbound holds
+  (m.p).x - 1 <= (firing_result(ColD0, ColD1, m, p)).x &
+  (firing_result(ColD0, ColD1, m, p)).x <= (m.p).x;
+

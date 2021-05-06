@@ -1,0 +1,1599 @@
+:: Arithmetic Operations on Functions from Sets into Functional Sets
+::  by Artur Korni{\l}owicz
+::
+:: Received October 15, 2008
+:: Copyright (c) 2008-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, FUNCT_1, TARSKI, RELAT_1, SUBSET_1, VALUED_0,
+      PARTFUN1, FUNCT_2, MEMBERED, XCMPLX_0, ARYTM_3, ARYTM_1, VALUED_1, RAT_1,
+      FINSEQ_1, NAT_1, COMPLEX1, INT_1, VALUED_2, FUNCOP_1, REAL_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, ORDINAL1, NUMBERS, FUNCOP_1, BINOP_1, VALUED_0, VALUED_1, INT_1,
+      NAT_1, XCMPLX_0, XREAL_0, RAT_1, MEMBERED, FINSEQ_1;
+ constructors RELAT_2, PARTFUN1, MCART_1, FUNCT_2, VALUED_0, VALUED_1, NAT_1,
+      ARYTM_0, XCMPLX_0, FINSEQ_1, ARYTM_2, NUMBERS, XXREAL_0, XREAL_0,
+      COMPLEX1, RELSET_1, FUNCOP_1, BINOP_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, VALUED_0, VALUED_1, RELSET_1,
+      MEMBERED, ORDINAL1, XCMPLX_0, NUMBERS, RAT_1, XREAL_0, INT_1;
+ requirements SUBSET, BOOLE, NUMERALS, ARITHM, REAL;
+
+
+begin :: Functional sets
+
+reserve x, y for object, X, X1, X2 for set;
+
+definition
+  let Y be functional set;
+  func DOMS(Y) -> set equals
+:: VALUED_2:def 1
+  union the set of all dom f where f is Element of Y;
+end;
+
+definition
+  let X;
+  attr X is complex-functions-membered means
+:: VALUED_2:def 2
+
+  x in X implies x is complex-valued Function;
+end;
+
+definition
+  let X;
+  attr X is ext-real-functions-membered means
+:: VALUED_2:def 3
+
+  x in X implies x is ext-real-valued Function;
+end;
+
+definition
+  let X;
+  attr X is real-functions-membered means
+:: VALUED_2:def 4
+
+  x in X implies x is real-valued Function;
+end;
+
+definition
+  let X;
+  attr X is rational-functions-membered means
+:: VALUED_2:def 5
+
+  x in X implies x is RAT-valued Function;
+end;
+
+definition
+  let X;
+  attr X is integer-functions-membered means
+:: VALUED_2:def 6
+
+  x in X implies x is INT-valued Function;
+end;
+
+definition
+  let X;
+  attr X is natural-functions-membered means
+:: VALUED_2:def 7
+
+  x in X implies x is natural-valued Function;
+end;
+
+registration
+  cluster natural-functions-membered -> integer-functions-membered for set;
+  cluster integer-functions-membered -> rational-functions-membered for set;
+  cluster rational-functions-membered -> real-functions-membered for set;
+  cluster real-functions-membered -> complex-functions-membered for set;
+  cluster real-functions-membered -> ext-real-functions-membered for set;
+end;
+
+registration
+  cluster empty -> natural-functions-membered for set;
+end;
+
+registration
+  let f be complex-valued Function;
+  cluster {f} -> complex-functions-membered;
+end;
+
+registration
+  cluster complex-functions-membered -> functional for set;
+  cluster ext-real-functions-membered -> functional for set;
+end;
+
+registration
+  cluster natural-functions-membered non empty for set;
+end;
+
+registration
+  let X be complex-functions-membered set;
+  cluster -> complex-functions-membered for Subset of X;
+end;
+
+registration
+  let X be ext-real-functions-membered set;
+  cluster -> ext-real-functions-membered for Subset of X;
+end;
+
+registration
+  let X be real-functions-membered set;
+  cluster -> real-functions-membered for Subset of X;
+end;
+
+registration
+  let X be rational-functions-membered set;
+  cluster -> rational-functions-membered for Subset of X;
+end;
+
+registration
+  let X be integer-functions-membered set;
+  cluster -> integer-functions-membered for Subset of X;
+end;
+
+registration
+  let X be natural-functions-membered set;
+  cluster -> natural-functions-membered for Subset of X;
+end;
+
+definition
+  let D be set;
+  func C_PFuncs(D) -> set means
+:: VALUED_2:def 8
+
+  for f being object holds f in it iff f is PartFunc of D,COMPLEX;
+end;
+
+definition
+  let D be set;
+  func C_Funcs(D) -> set means
+:: VALUED_2:def 9
+
+  for f being object holds f in it iff f is Function of D,COMPLEX;
+end;
+
+definition
+  let D be set;
+  func E_PFuncs(D) -> set means
+:: VALUED_2:def 10
+
+  for f being object holds f in it iff f is PartFunc of D,ExtREAL;
+end;
+
+definition
+  let D be set;
+  func E_Funcs(D) -> set means
+:: VALUED_2:def 11
+
+  for f being object holds f in it iff f is Function of D,ExtREAL;
+end;
+
+definition
+  let D be set;
+  func R_PFuncs(D) -> set means
+:: VALUED_2:def 12
+
+  for f being object holds f in it iff f is PartFunc of D,REAL;
+end;
+
+definition
+  let D be set;
+  func R_Funcs(D) -> set means
+:: VALUED_2:def 13
+
+  for f being object holds f in it iff f is Function of D,REAL;
+end;
+
+definition
+  let D be set;
+  func Q_PFuncs(D) -> set means
+:: VALUED_2:def 14
+
+  for f being object holds f in it iff f is PartFunc of D,RAT;
+end;
+
+definition
+  let D be set;
+  func Q_Funcs(D) -> set means
+:: VALUED_2:def 15
+
+  for f being object holds f in it iff f is Function of D,RAT;
+end;
+
+definition
+  let D be set;
+  func I_PFuncs(D) -> set means
+:: VALUED_2:def 16
+
+  for f being object holds f in it iff f is PartFunc of D,INT;
+end;
+
+definition
+  let D be set;
+  func I_Funcs(D) -> set means
+:: VALUED_2:def 17
+
+  for f being object holds f in it iff f is Function of D,INT;
+end;
+
+definition
+  let D be set;
+  func N_PFuncs(D) -> set means
+:: VALUED_2:def 18
+
+  for f being object holds f in it iff f is PartFunc of D,NAT;
+end;
+
+definition
+  let D be set;
+  func N_Funcs(D) -> set means
+:: VALUED_2:def 19
+
+  for f being object holds f in it iff f is Function of D,NAT;
+end;
+
+theorem :: VALUED_2:1
+  C_Funcs(X) is Subset of C_PFuncs(X);
+
+theorem :: VALUED_2:2
+  E_Funcs(X) is Subset of E_PFuncs(X);
+
+theorem :: VALUED_2:3
+  R_Funcs(X) is Subset of R_PFuncs(X);
+
+theorem :: VALUED_2:4
+  Q_Funcs(X) is Subset of Q_PFuncs(X);
+
+theorem :: VALUED_2:5
+  I_Funcs(X) is Subset of I_PFuncs(X);
+
+theorem :: VALUED_2:6
+  N_Funcs(X) is Subset of N_PFuncs(X);
+
+registration
+  let X;
+  cluster C_PFuncs(X) -> complex-functions-membered;
+  cluster C_Funcs(X) -> complex-functions-membered;
+  cluster E_PFuncs(X) -> ext-real-functions-membered;
+  cluster E_Funcs(X) -> ext-real-functions-membered;
+  cluster R_PFuncs(X) -> real-functions-membered;
+  cluster R_Funcs(X) -> real-functions-membered;
+  cluster Q_PFuncs(X) -> rational-functions-membered;
+  cluster Q_Funcs(X) -> rational-functions-membered;
+  cluster I_PFuncs(X) -> integer-functions-membered;
+  cluster I_Funcs(X) -> integer-functions-membered;
+  cluster N_PFuncs(X) -> natural-functions-membered;
+  cluster N_Funcs(X) -> natural-functions-membered;
+end;
+
+registration
+  let X be complex-functions-membered set;
+  cluster -> complex-valued for Element of X;
+end;
+
+registration
+  let X be ext-real-functions-membered set;
+  cluster -> ext-real-valued for Element of X;
+end;
+
+registration
+  let X be real-functions-membered set;
+  cluster -> real-valued for Element of X;
+end;
+
+registration
+  let X be rational-functions-membered set;
+  cluster -> RAT-valued for Element of X;
+end;
+
+registration
+  let X be integer-functions-membered set;
+  cluster -> INT-valued for Element of X;
+end;
+
+registration
+  let X be natural-functions-membered set;
+  cluster -> natural-valued for Element of X;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> Function-like Relation-like;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be ext-real-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> Function-like Relation-like;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> complex-valued;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be ext-real-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> ext-real-valued;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> real-valued;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> RAT-valued;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> INT-valued;
+end;
+
+registration
+  let X be set, x be object;
+  let Y be natural-functions-membered set;
+  let f be PartFunc of X,Y;
+  cluster f.x -> natural-valued;
+end;
+
+registration
+  let X;
+  let Y be complex-membered set;
+  cluster PFuncs(X,Y) -> complex-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be ext-real-membered set;
+  cluster PFuncs(X,Y) -> ext-real-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be real-membered set;
+  cluster PFuncs(X,Y) -> real-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be rational-membered set;
+  cluster PFuncs(X,Y) -> rational-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be integer-membered set;
+  cluster PFuncs(X,Y) -> integer-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be natural-membered set;
+  cluster PFuncs(X,Y) -> natural-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be complex-membered set;
+  cluster Funcs(X,Y) -> complex-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be ext-real-membered set;
+  cluster Funcs(X,Y) -> ext-real-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be real-membered set;
+  cluster Funcs(X,Y) -> real-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be rational-membered set;
+  cluster Funcs(X,Y) -> rational-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be integer-membered set;
+  cluster Funcs(X,Y) -> integer-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be natural-membered set;
+  cluster Funcs(X,Y) -> natural-functions-membered;
+end;
+
+definition
+  let R be Relation;
+  attr R is complex-functions-valued means
+:: VALUED_2:def 20
+
+  rng R is complex-functions-membered;
+  attr R is ext-real-functions-valued means
+:: VALUED_2:def 21
+
+  rng R is ext-real-functions-membered;
+  attr R is real-functions-valued means
+:: VALUED_2:def 22
+
+  rng R is real-functions-membered;
+  attr R is rational-functions-valued means
+:: VALUED_2:def 23
+
+  rng R is rational-functions-membered;
+  attr R is integer-functions-valued means
+:: VALUED_2:def 24
+
+  rng R is integer-functions-membered;
+  attr R is natural-functions-valued means
+:: VALUED_2:def 25
+
+  rng R is natural-functions-membered;
+end;
+
+registration
+ let Y be complex-functions-membered set;
+ cluster -> complex-functions-valued for Y-valued Function;
+end;
+
+definition
+  let f be Function;
+  redefine attr f is complex-functions-valued means
+:: VALUED_2:def 26
+  for x being object st x in dom f holds f.x is complex-valued Function;
+  redefine attr f is ext-real-functions-valued means
+:: VALUED_2:def 27
+  for x being object st x in dom f holds f.x is ext-real-valued Function;
+  redefine attr f is real-functions-valued means
+:: VALUED_2:def 28
+  for x being object st x in dom f holds f.x is real-valued Function;
+  redefine attr f is rational-functions-valued means
+:: VALUED_2:def 29
+  for x being object st x in dom f holds f.x is RAT-valued Function;
+  redefine attr f is integer-functions-valued means
+:: VALUED_2:def 30
+  for x being object st x in dom f holds f.x is INT-valued Function;
+  redefine attr f is natural-functions-valued means
+:: VALUED_2:def 31
+  for x being object st x in dom f holds f.x is natural-valued Function;
+end;
+
+registration
+  cluster natural-functions-valued -> integer-functions-valued for Relation;
+  cluster integer-functions-valued -> rational-functions-valued for Relation;
+  cluster rational-functions-valued -> real-functions-valued for Relation;
+  cluster real-functions-valued -> ext-real-functions-valued for Relation;
+  cluster real-functions-valued -> complex-functions-valued for Relation;
+end;
+
+registration
+  cluster empty -> natural-functions-valued for Relation;
+end;
+
+registration
+  cluster natural-functions-valued for Function;
+end;
+
+registration
+  let R be complex-functions-valued Relation;
+  cluster rng R -> complex-functions-membered;
+end;
+
+registration
+  let R be ext-real-functions-valued Relation;
+  cluster rng R -> ext-real-functions-membered;
+end;
+
+registration
+  let R be real-functions-valued Relation;
+  cluster rng R -> real-functions-membered;
+end;
+
+registration
+  let R be rational-functions-valued Relation;
+  cluster rng R -> rational-functions-membered;
+end;
+
+registration
+  let R be integer-functions-valued Relation;
+  cluster rng R -> integer-functions-membered;
+end;
+
+registration
+  let R be natural-functions-valued Relation;
+  cluster rng R -> natural-functions-membered;
+end;
+
+registration
+  let X;
+  let Y be complex-functions-membered set;
+  cluster -> complex-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+  let X;
+  let Y be ext-real-functions-membered set;
+  cluster -> ext-real-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+  let X;
+  let Y be real-functions-membered set;
+  cluster -> real-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+  let X;
+  let Y be rational-functions-membered set;
+  cluster -> rational-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+  let X;
+  let Y be integer-functions-membered set;
+  cluster -> integer-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+  let X;
+  let Y be natural-functions-membered set;
+  cluster -> natural-functions-valued for PartFunc of X,Y;
+end;
+
+registration
+ cluster complex-functions-valued -> Function-yielding for Function;
+ cluster real-functions-valued -> Function-yielding for Function;
+ cluster ext-real-functions-valued -> Function-yielding for Function;
+end;
+
+registration
+  let f be complex-functions-valued Function;
+  let x be object;
+  cluster f.x -> Function-like Relation-like;
+end;
+
+registration
+  let f be ext-real-functions-valued Function;
+  let x be object;
+  cluster f.x -> Function-like Relation-like;
+end;
+
+registration
+  let f be complex-functions-valued Function;
+  let x be object;
+  cluster f.x -> complex-valued;
+end;
+
+registration
+  let f be ext-real-functions-valued Function;
+  let x be object;
+  cluster f.x -> ext-real-valued;
+end;
+
+registration
+  let f be real-functions-valued Function;
+  let x be object;
+  cluster f.x -> real-valued;
+end;
+
+registration
+  let f be rational-functions-valued Function;
+  let x be object;
+  cluster f.x -> RAT-valued;
+end;
+
+registration
+  let f be integer-functions-valued Function;
+  let x be object;
+  cluster f.x -> INT-valued;
+end;
+
+registration
+  let f be natural-functions-valued Function;
+  let x be object;
+  cluster f.x -> natural-valued;
+end;
+
+registration
+  let f be real-functions-valued Function;
+  let x,y;
+  cluster f.(x,y) -> real-valued for Function;
+end;
+
+begin :: Operations
+
+reserve Y, Y1, Y2 for complex-functions-membered set,
+  c, c1, c2 for Complex,
+  f for PartFunc of X,Y,
+  f1 for PartFunc of X1,Y1,
+  f2 for PartFunc of X2, Y2,
+  g, h, k for complex-valued Function;
+
+theorem :: VALUED_2:7
+  g <> {} & g + c1 = g + c2 implies c1 = c2;
+
+theorem :: VALUED_2:8
+  g <> {} & g - c1 = g - c2 implies c1 = c2;
+
+theorem :: VALUED_2:9
+  g <> {} & g is non-empty & g (#) c1 = g (#) c2 implies c1 = c2;
+
+theorem :: VALUED_2:10
+  - (g + c) = -g - c;
+
+theorem :: VALUED_2:11
+  - (g - c) = -g + c;
+
+theorem :: VALUED_2:12
+  (g + c1) + c2 = g + (c1 + c2);
+
+theorem :: VALUED_2:13
+  (g + c1) - c2 = g + (c1 - c2);
+
+theorem :: VALUED_2:14
+  (g - c1) + c2 = g - (c1 - c2);
+
+theorem :: VALUED_2:15
+  (g - c1) - c2 = g - (c1 + c2);
+
+theorem :: VALUED_2:16
+  g (#) c1 (#) c2 = g (#) (c1 * c2);
+
+theorem :: VALUED_2:17
+  - (g + h) = (-g) - h;
+
+theorem :: VALUED_2:18
+  g - h = - (h - g);
+
+theorem :: VALUED_2:19
+  g (#) h /" k = g (#) (h /" k);
+
+theorem :: VALUED_2:20
+  g /" h (#) k = g (#) k /" h;
+
+theorem :: VALUED_2:21
+  g /" h /" k = g /" (h (#) k);
+
+theorem :: VALUED_2:22
+  c(#)-g = (-c)(#)g;
+
+theorem :: VALUED_2:23
+  c(#)-g = -(c(#)g);
+
+theorem :: VALUED_2:24
+  (-c)(#)g = -(c(#)g);
+
+theorem :: VALUED_2:25
+  - (g (#) h) = (-g) (#) h;
+
+theorem :: VALUED_2:26
+  - (g /" h) = (-g) /" h;
+
+theorem :: VALUED_2:27
+  - (g /" h) = g /" -h;
+
+definition
+  let f be complex-valued Function, c be Complex;
+  func f (/) c -> Function equals
+:: VALUED_2:def 32
+  (1/c) (#) f;
+end;
+
+registration
+  let f be complex-valued Function, c be Complex;
+  cluster f (/) c -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function, r be Real;
+  cluster f (/) r -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function, r be Rational;
+  cluster f (/) r -> RAT-valued;
+end;
+
+registration
+  let f be complex-valued FinSequence, c be Complex;
+  cluster f (/) c -> FinSequence-like;
+end;
+
+theorem :: VALUED_2:28
+  dom(g(/)c) = dom g;
+
+theorem :: VALUED_2:29
+  for x being object holds (g(/)c).x = g.x / c;
+
+theorem :: VALUED_2:30
+  (-g) (/) c = -(g(/)c);
+
+theorem :: VALUED_2:31
+  g (/) -c = -(g(/)c);
+
+theorem :: VALUED_2:32
+  g (/) -c = (-g) (/) c;
+
+theorem :: VALUED_2:33
+  g <> {} & g is non-empty & g (/) c1 = g (/) c2 implies c1 = c2;
+
+theorem :: VALUED_2:34
+  g (#) c1 (/) c2 = g (#) (c1 / c2);
+
+theorem :: VALUED_2:35
+  g (/) c1 (#) c2 = g (#) c2 (/) c1;
+
+theorem :: VALUED_2:36
+  g (/) c1 (/) c2 = g (/) (c1*c2);
+
+theorem :: VALUED_2:37
+  (g+h) (/) c = g(/)c + h(/)c;
+
+theorem :: VALUED_2:38
+  (g-h) (/) c = g(/)c - h(/)c;
+
+theorem :: VALUED_2:39
+  (g(#)h) (/) c = g (#) (h(/)c);
+
+theorem :: VALUED_2:40
+  (g/"h) (/) c = g /" (h(#)c);
+
+definition
+  let f be complex-functions-valued Function;
+  func <->f -> Function means
+:: VALUED_2:def 33
+
+  dom it = dom f & for x being object st x in dom it holds it.x = -f.x;
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func <->f -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func <->f -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func <->f -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func <->f -> PartFunc of X, I_PFuncs(DOMS(Y));
+end;
+
+registration
+  let Y be complex-functions-membered set;
+  let f be FinSequence of Y;
+  cluster <->f -> FinSequence-like;
+end;
+
+theorem :: VALUED_2:41
+  <-><->f = f;
+
+theorem :: VALUED_2:42
+  <->f1 = <->f2 implies f1 = f2;
+
+definition
+  let X be complex-functions-membered set;
+  let Y be set;
+  let f be PartFunc of X,Y;
+  func f(-) -> Function means
+:: VALUED_2:def 34
+  dom it = dom f & for x being complex-valued
+  Function st x in dom it holds it.x = f.-x;
+end;
+
+definition
+  let f be complex-functions-valued Function;
+  func </>f -> Function means
+:: VALUED_2:def 35
+
+  dom it = dom f & for x being object st x in dom it holds it.x = (f.x)";
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func </>f -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func </>f -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func </>f -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+registration
+  let Y be complex-functions-membered set;
+  let f be FinSequence of Y;
+  cluster </>f -> FinSequence-like;
+end;
+
+theorem :: VALUED_2:43
+  </></>f = f;
+
+definition
+  let f be complex-functions-valued Function;
+  func abs(f) -> Function means
+:: VALUED_2:def 36
+
+  dom it = dom f & for x being object st x in dom it holds it.x = abs(f.x);
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func abs(f) -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func abs(f) -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func abs(f) -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  redefine func abs(f) -> PartFunc of X, N_PFuncs(DOMS(Y));
+end;
+
+registration
+  let Y be complex-functions-membered set;
+  let f be FinSequence of Y;
+  cluster abs(f) -> FinSequence-like;
+end;
+
+theorem :: VALUED_2:44
+  abs abs f = abs f;
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let c be Complex;
+  func f[+]c -> Function means
+:: VALUED_2:def 37
+
+  dom it = dom f & for x being object st x in dom it holds it.x = c + f.x;
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Complex;
+  redefine func f[+]c -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Real;
+  redefine func f[+]c -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Rational;
+  redefine func f[+]c -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Integer;
+  redefine func f[+]c -> PartFunc of X, I_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be natural-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Nat;
+  redefine func f[+]c -> PartFunc of X, N_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:45
+  f [+] c1 [+] c2 = f [+] (c1+c2);
+
+theorem :: VALUED_2:46
+  f <> {} & f is non-empty & f [+] c1 = f [+] c2 implies c1 = c2;
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let c be Complex;
+  func f[-]c -> Function equals
+:: VALUED_2:def 38
+  f [+] -c;
+end;
+
+theorem :: VALUED_2:47
+  dom(f[-]c) = dom f;
+
+theorem :: VALUED_2:48
+  x in dom(f[-]c) implies (f[-]c).x = f.x - c;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Complex;
+  redefine func f[-]c -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Real;
+  redefine func f[-]c -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Rational;
+  redefine func f[-]c -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Integer;
+  redefine func f[-]c -> PartFunc of X, I_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:49
+  f <> {} & f is non-empty & f [-] c1 = f [-] c2 implies c1 = c2;
+
+theorem :: VALUED_2:50
+  f [+] c1 [-] c2 = f [+] (c1-c2);
+
+theorem :: VALUED_2:51
+  f [-] c1 [+] c2 = f [-] (c1-c2);
+
+theorem :: VALUED_2:52
+  f [-] c1 [-] c2 = f [-] (c1+c2);
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let c be Complex;
+  func f[#]c -> Function means
+:: VALUED_2:def 39
+
+  dom it = dom f & for x being object st x in dom it holds it.x = c (#) (f.x);
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Complex;
+  redefine func f[#]c -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Real;
+  redefine func f[#]c -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Rational;
+  redefine func f[#]c -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Integer;
+  redefine func f[#]c -> PartFunc of X, I_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be natural-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Nat;
+  redefine func f[#]c -> PartFunc of X, N_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:53
+  f [#] c1 [#] c2 = f [#] (c1*c2);
+
+theorem :: VALUED_2:54
+  f <> {} & f is non-empty & (for x st x in dom f holds f.x is non-empty
+  ) & f [#] c1 = f [#] c2 implies c1 = c2;
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let c be Complex;
+  func f[/]c -> Function equals
+:: VALUED_2:def 40
+  f [#] (c");
+end;
+
+theorem :: VALUED_2:55
+  dom(f[/]c) = dom f;
+
+theorem :: VALUED_2:56
+  x in dom(f[/]c) implies (f[/]c).x = c" (#) f.x;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Complex;
+  redefine func f[/]c -> PartFunc of X, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Real;
+  redefine func f[/]c -> PartFunc of X, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let c be Rational;
+  redefine func f[/]c -> PartFunc of X, Q_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:57
+  f [/] c1 [/] c2 = f [/] (c1*c2);
+
+theorem :: VALUED_2:58
+  f <> {} & f is non-empty & (for x st x in dom f holds f.x is non-empty
+  ) & f [/] c1 = f [/] c2 implies c1 = c2;
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let g be complex-valued Function;
+  func f<+>g -> Function means
+:: VALUED_2:def 41
+
+  dom it = dom f /\ dom g &
+  for x being object st x in dom it holds it.x = f.x + g.x;
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be complex-valued Function;
+  redefine func f<+>g -> PartFunc of X /\ dom g, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be real-valued Function;
+  redefine func f<+>g -> PartFunc of X /\ dom g, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be RAT-valued Function;
+  redefine func f<+>g -> PartFunc of X /\ dom g, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be INT-valued Function;
+  redefine func f<+>g -> PartFunc of X /\ dom g, I_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be natural-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be natural-valued Function;
+  redefine func f<+>g -> PartFunc of X /\ dom g, N_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:59
+  f <+> g <+> h = f <+> (g+h);
+
+theorem :: VALUED_2:60
+  <->(f<+>g) = (<->f) <+> -g;
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let g be complex-valued Function;
+  func f<->g -> Function equals
+:: VALUED_2:def 42
+  f <+> -g;
+end;
+
+theorem :: VALUED_2:61
+  dom(f<->g) = dom f /\ dom g;
+
+theorem :: VALUED_2:62
+  x in dom(f<->g) implies (f<->g).x = f.x - g.x;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be complex-valued Function;
+  redefine func f<->g -> PartFunc of X /\ dom g, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be real-valued Function;
+  redefine func f<->g -> PartFunc of X /\ dom g, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be RAT-valued Function;
+  redefine func f<->g -> PartFunc of X /\ dom g, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be INT-valued Function;
+  redefine func f<->g -> PartFunc of X /\ dom g, I_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:63
+  f <-> -g = f <+> g;
+
+theorem :: VALUED_2:64
+  <->(f<->g) = (<->f) <+> g;
+
+theorem :: VALUED_2:65
+  f <+> g <-> h = f <+> (g-h);
+
+theorem :: VALUED_2:66
+  f <-> g <+> h = f <-> (g-h);
+
+theorem :: VALUED_2:67
+  f <-> g <-> h = f <-> (g+h);
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let g be complex-valued Function;
+  func f<#>g -> Function means
+:: VALUED_2:def 43
+
+  dom it = dom f /\ dom g & for x being
+  object st x in dom it holds it.x = f.x (#) g.x;
+end;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be complex-valued Function;
+  redefine func f<#>g -> PartFunc of X /\ dom g, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be real-valued Function;
+  redefine func f<#>g -> PartFunc of X /\ dom g, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be RAT-valued Function;
+  redefine func f<#>g -> PartFunc of X /\ dom g, Q_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be integer-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be INT-valued Function;
+  redefine func f<#>g -> PartFunc of X /\ dom g, I_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be natural-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be natural-valued Function;
+  redefine func f<#>g -> PartFunc of X /\ dom g, N_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:68
+  f <#> -g = (<->f) <#> g;
+
+theorem :: VALUED_2:69
+  f <#> -g = <-> (f <#> g);
+
+theorem :: VALUED_2:70
+  f <#> g <#> h = f <#> (g(#)h);
+
+definition
+  let Y be complex-functions-membered set;
+  let f be Y-valued Function;
+  let g be complex-valued Function;
+  func f</>g -> Function equals
+:: VALUED_2:def 44
+  f <#> (g");
+end;
+
+theorem :: VALUED_2:71
+  dom(f</>g) = dom f /\ dom g;
+
+theorem :: VALUED_2:72
+  x in dom(f</>g) implies (f</>g).x = f.x (/) g.x;
+
+definition
+  let X;
+  let Y be complex-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be complex-valued Function;
+  redefine func f</>g -> PartFunc of X /\ dom g, C_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be real-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be real-valued Function;
+  redefine func f</>g -> PartFunc of X /\ dom g, R_PFuncs(DOMS(Y));
+end;
+
+definition
+  let X;
+  let Y be rational-functions-membered set;
+  let f be PartFunc of X,Y;
+  let g be RAT-valued Function;
+  redefine func f</>g -> PartFunc of X /\ dom g, Q_PFuncs(DOMS(Y));
+end;
+
+theorem :: VALUED_2:73
+  f <#> g </> h = f <#> (g/"h);
+
+definition
+  let Y1, Y2 be complex-functions-membered set;
+  let f be Y1-valued Function;
+  let g be Y2-valued Function;
+  func f<++>g -> Function means
+:: VALUED_2:def 45
+
+  dom it = dom f /\ dom g & for x being
+  object st x in dom it holds it.x = f.x + g.x;
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be complex-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<++>g -> PartFunc of X1 /\ X2, C_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be real-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<++>g -> PartFunc of X1 /\ X2, R_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be rational-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<++>g -> PartFunc of X1 /\ X2, Q_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be integer-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<++>g -> PartFunc of X1 /\ X2, I_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be natural-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<++>g -> PartFunc of X1 /\ X2, N_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+theorem :: VALUED_2:74
+  f1 <++> f2 = f2 <++> f1;
+
+theorem :: VALUED_2:75
+  f <++> f1 <++> f2 = f <++> (f1 <++> f2);
+
+theorem :: VALUED_2:76
+  <-> (f1 <++> f2) = (<->f1) <++> (<->f2);
+
+definition
+  let Y1, Y2 be complex-functions-membered set;
+  let f be Y1-valued Function;
+  let g be Y2-valued Function;
+  func f<-->g -> Function means
+:: VALUED_2:def 46
+
+  dom it = dom f /\ dom g & for x being
+  object st x in dom it holds it.x = f.x - g.x;
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be complex-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<-->g -> PartFunc of X1 /\ X2, C_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be real-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<-->g -> PartFunc of X1 /\ X2, R_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be rational-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<-->g -> PartFunc of X1 /\ X2, Q_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be integer-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<-->g -> PartFunc of X1 /\ X2, I_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+theorem :: VALUED_2:77
+  f1 <--> f2 = <-> (f2 <--> f1);
+
+theorem :: VALUED_2:78
+  <-> (f1 <--> f2) = (<->f1) <++> f2;
+
+theorem :: VALUED_2:79
+  f <++> f1 <--> f2 = f <++> (f1<-->f2);
+
+theorem :: VALUED_2:80
+  f <--> f1 <++> f2 = f <--> (f1 <--> f2);
+
+theorem :: VALUED_2:81
+  f <--> f1 <--> f2 = f <--> (f1 <++> f2);
+
+theorem :: VALUED_2:82
+  f <--> f1 <--> f2 = f <--> f2 <--> f1;
+
+definition
+  let Y1, Y2 be complex-functions-membered set;
+  let f be Y1-valued Function;
+  let g be Y2-valued Function;
+  func f<##>g -> Function means
+:: VALUED_2:def 47
+
+  dom it = dom f /\ dom g & for x being
+  object st x in dom it holds it.x = f.x (#) g.x;
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be complex-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<##>g -> PartFunc of X1 /\ X2, C_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be real-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<##>g -> PartFunc of X1 /\ X2, R_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be rational-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<##>g -> PartFunc of X1 /\ X2, Q_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be integer-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<##>g -> PartFunc of X1 /\ X2, I_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be natural-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<##>g -> PartFunc of X1 /\ X2, N_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+theorem :: VALUED_2:83
+  f1 <##> f2 = f2 <##> f1;
+
+theorem :: VALUED_2:84
+  (f <##> f1) <##> f2 = f <##> (f1 <##> f2);
+
+theorem :: VALUED_2:85
+  (<->f1) <##> f2 = <-> (f1<##>f2);
+
+theorem :: VALUED_2:86
+  f1 <##> <->f2 = <-> (f1<##>f2);
+
+theorem :: VALUED_2:87
+  f <##> (f1<++>f2) = (f<##>f1) <++> (f<##>f2);
+
+theorem :: VALUED_2:88
+  (f1<++>f2) <##> f = (f1<##>f) <++> (f2<##>f);
+
+theorem :: VALUED_2:89
+  f <##> (f1<-->f2) = (f<##>f1) <--> (f<##>f2);
+
+theorem :: VALUED_2:90
+  (f1<-->f2) <##> f = (f1<##>f) <--> (f2<##>f);
+
+definition
+  let Y1, Y2 be complex-functions-membered set;
+  let f be Y1-valued Function;
+  let g be Y2-valued Function;
+  func f<//>g -> Function means
+:: VALUED_2:def 48
+
+  dom it = dom f /\ dom g & for x being
+  object st x in dom it holds it.x = f.x /" g.x;
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be complex-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<//>g -> PartFunc of X1 /\ X2, C_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be real-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<//>g -> PartFunc of X1 /\ X2, R_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+definition
+  let X1, X2 be set;
+  let Y1, Y2 be rational-functions-membered set;
+  let f be PartFunc of X1,Y1;
+  let g be PartFunc of X2,Y2;
+  redefine func f<//>g -> PartFunc of X1 /\ X2, Q_PFuncs(DOMS(Y1)/\DOMS(Y2));
+end;
+
+theorem :: VALUED_2:91
+  (<->f1) <//> f2 = <-> (f1<//>f2);
+
+theorem :: VALUED_2:92
+  f1 <//> <->f2 = <-> (f1<//>f2);
+
+theorem :: VALUED_2:93
+  f <##> f1 <//> f2 = f <##> (f1<//>f2);
+
+theorem :: VALUED_2:94
+  f <//> f1 <##> f2 = f <##> f2 <//> f1;
+
+theorem :: VALUED_2:95
+  f <//> f1 <//> f2 = f <//> (f1 <##> f2);
+
+theorem :: VALUED_2:96
+  (f1<++>f2) <//> f = (f1<//>f) <++> (f2<//>f);
+
+theorem :: VALUED_2:97
+  (f1<-->f2) <//> f = (f1<//>f) <--> (f2<//>f);

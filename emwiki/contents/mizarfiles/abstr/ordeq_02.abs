@@ -1,0 +1,300 @@
+:: Differential Equations on Functions from $\mathbbR$ into Real {B}anach
+:: Space
+::  by Keiko Narita , Noboru Endou and Yasunari Shidama
+::
+:: Received December 31, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies PRE_TOPC, NORMSP_1, FUNCT_1, ARYTM_1, NAT_1, SUBSET_1, NUMBERS,
+      CARD_1, XXREAL_0, FUNCT_7, REAL_1, ARYTM_3, RELAT_1, ORDINAL2, SEQ_1,
+      SEQ_2, POWER, LOPBAN_1, ORDEQ_01, STRUCT_0, COMPLEX1, VALUED_1, ALI2,
+      SUPINF_2, XBOOLE_0, ABIAN, INTEGRA1, FINSEQ_1, TARSKI, INTEGRA5,
+      MEASURE7, CARD_3, XXREAL_1, PARTFUN1, RLVECT_1, SEQ_4, FUNCT_2, RCOMP_1,
+      VALUED_0, XXREAL_2, FCONT_1, CFCONT_1, MEASURE5, NFCONT_1, FUNCOP_1,
+      REALSET1, FDIFF_1, INTEGRA7, SERIES_1, SIN_COS, REAL_NS1, NEWTON,
+      XCMPLX_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      PARTFUN1, FUNCT_2, FUNCOP_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1,
+      COMPLEX1, XXREAL_2, FINSEQ_1, FINSEQ_2, VALUED_1, SEQ_1, SEQ_2, RVSUM_1,
+      NEWTON, SEQ_4, RCOMP_1, FCONT_1, FDIFF_1, ABIAN, POWER, SERIES_1,
+      MEASURE5, SIN_COS, INTEGRA1, INTEGRA5, STRUCT_0, PRE_TOPC, RLVECT_1,
+      VFUNCT_1, NORMSP_0, NORMSP_1, EUCLID, LOPBAN_1, NFCONT_1, NFCONT_2,
+      NDIFF_1, REAL_NS1, INTEGRA7, PDIFF_1, INTEGR18, NFCONT_3, NDIFF_3,
+      NDIFF_5, INTEGR19, ORDEQ_01;
+ constructors ABIAN, SEQ_2, RELSET_1, SEQ_4, VFUNCT_1, PDIFF_1, RLSUB_1,
+      FCONT_1, NFCONT_1, INTEGRA3, INTEGRA4, NDIFF_1, NDIFF_3, INTEGR18,
+      RVSUM_1, INTEGR19, INTEGR15, COMSEQ_2, VALUED_2, FDIFF_1, INTEGRA7,
+      COMSEQ_3, SIN_COS, NFCONT_2, C0SP2, ORDEQ_01, RFUNCT_1, RFINSEQ2,
+      SQUARE_1, PDIFF_7, NDIFF_5, INTEGR20;
+ registrations STRUCT_0, NAT_1, VALUED_1, NORMSP_0, XXREAL_0, NUMBERS,
+      XBOOLE_0, FUNCT_1, FUNCT_2, XREAL_0, MEMBERED, NORMSP_1, RELAT_1,
+      FINSEQ_2, RELSET_1, ORDINAL1, FUNCOP_1, NEWTON, NFCONT_3, XXREAL_2,
+      RCOMP_1, RLVECT_1, REAL_NS1, VALUED_0, FDIFF_1, FCONT_1, MEASURE5, POWER,
+      PREPOWER, LOPBAN_1, ORDEQ_01, NDIFF_1, INT_1, PDIFF_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Some Properties of Differentiable Functions on Real normed space
+
+reserve Y for RealNormSpace;
+
+theorem :: ORDEQ_02:1
+for Y be RealNormSpace, J be Function of REAL-NS 1,REAL,
+    x0 be Point of REAL-NS 1, y0 be Element of REAL,
+    g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+   st J=proj(1,1) & x0 in dom f & y0 in dom g & x0 = <*y0*> & f = g*J holds
+   f is_continuous_in x0 iff g is_continuous_in y0;
+
+theorem :: ORDEQ_02:2
+for Y be RealNormSpace, I be Function of REAL,REAL-NS 1,
+    x0 be Point of REAL-NS 1, y0 be Element of REAL,
+    g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+   st I=proj(1,1) qua Function"
+    & x0 in dom f & y0 in dom g & x0=<*y0*> & f*I = g holds
+  f is_continuous_in x0 iff g is_continuous_in y0;
+
+theorem :: ORDEQ_02:3
+for I be Function of REAL,REAL-NS 1 st I=proj(1,1) qua Function" holds
+   (for R being RestFunc of REAL-NS 1,Y holds R*I is RestFunc of Y)
+ & for L being LinearOperator of REAL-NS 1,Y holds L*I is LinearFunc of Y;
+
+theorem :: ORDEQ_02:4
+for J be Function of REAL-NS 1,REAL st J = proj(1,1) holds
+   (for R being RestFunc of Y holds R*J is RestFunc of REAL-NS 1,Y)
+ & for L being LinearFunc of Y holds
+     L*J is Lipschitzian LinearOperator of REAL-NS 1,Y;
+
+theorem :: ORDEQ_02:5
+for I be Function of REAL,REAL-NS 1,
+    x0 be Point of REAL-NS 1, y0 be Element of REAL,
+    g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+  st I=proj(1,1) qua Function" & x0 in dom f & y0 in dom g
+   & x0=<*y0*> & f*I = g & f is_differentiable_in x0 holds
+  g is_differentiable_in y0 & diff(g,y0)=diff(f,x0).<*1*> &
+    for r be Element of REAL holds diff(f,x0).<*r*> = r*diff(g,y0);
+
+theorem :: ORDEQ_02:6
+for I be Function of REAL,REAL-NS 1, x0 be Point of REAL-NS 1, y0 be Real,
+    g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+   st I=proj(1,1) qua Function" & x0 in dom f & y0 in dom g
+    & x0=<*y0*> & f*I = g holds
+  f is_differentiable_in x0 iff g is_differentiable_in y0;
+
+theorem :: ORDEQ_02:7
+for J be Function of REAL-NS 1,REAL,
+      x0 be Point of REAL-NS 1, y0 be Element of REAL,
+      g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+   st J=proj(1,1) & x0 in dom f & y0 in dom g & x0=<*y0*> & f = g*J holds
+  f is_differentiable_in x0 iff g is_differentiable_in y0;
+
+theorem :: ORDEQ_02:8
+for I be Function of REAL,REAL-NS 1,
+    x0 be Point of REAL-NS 1, y0 be Element of REAL,
+    g be PartFunc of REAL,Y, f be PartFunc of REAL-NS 1,Y
+  st I=proj(1,1) qua Function" & x0 in dom f & y0 in dom g
+   & x0=<*y0*> & f*I = g & f is_differentiable_in x0 holds
+    ||.diff(g,y0).|| = ||.diff(f,x0).||;
+
+theorem :: ORDEQ_02:9
+for a,b,z be Real, p,q,x be Point of REAL-NS 1
+   st p= <*a*> & q= <*b*> & x = <*z*> holds
+    ( z in ].a,b.[ implies x in ].p,q.[ )
+  & ( x in ].p,q.[ implies
+        a <> b
+      & (a < b implies z in ].a,b.[)
+      & (a > b implies z in ].b,a.[) );
+
+theorem :: ORDEQ_02:10
+for a,b,z be Real,p,q,x be Point of REAL-NS 1
+   st p= <*a*> & q= <*b*> & x = <*z*> holds
+    ( z in [.a,b.] implies x in [.p,q.] )
+  & ( x in [.p,q.] implies
+        (a <= b implies z in [.a,b.])
+      & (a >= b implies z in [.b,a.]) );
+
+theorem :: ORDEQ_02:11
+for a,b be Real,p,q be Point of REAL-NS 1,
+    I be Function of REAL,REAL-NS 1
+  st p= <*a*> & q= <*b*> & I = proj(1,1) qua Function" holds
+      (a<=b implies I.:([.a,b.]) = [.p,q.])
+    & ( a<b implies I.:(].a,b.[) = ].p,q.[);
+
+theorem :: ORDEQ_02:12
+for Y be RealNormSpace, g be PartFunc of REAL,the carrier of Y,
+    a,b,M be Real
+  st a <= b &
+  [.a,b.] c= dom g
+   & (for x be Real st x in [.a,b.] holds g is_continuous_in x)
+   & (for x be Real st x in ].a,b.[ holds g is_differentiable_in x)
+   & (for x be Real st x in ].a,b.[ holds ||.diff(g,x).|| <= M) holds
+   ||. g/.b - g/.a .|| <= M*|.b-a.|;
+
+begin :: Differential Equations
+
+reserve X,Y for RealBanachSpace;
+reserve Z for open Subset of REAL;
+reserve a,b,c,d,e,r,x0 for Real;
+reserve y0 for VECTOR of X;
+reserve G for Function of X,X;
+
+theorem :: ORDEQ_02:13
+for X be RealBanachSpace, F be PartFunc of REAL,the carrier of X,
+    f be continuous PartFunc of REAL,the carrier of X
+   st [.a,b.] c= dom f & ].a,b.[ c= dom F
+    & (for x be Real st x in ].a,b.[ holds F/.x = integral(f,a,x))
+    & x0 in ].a,b.[ & f is_continuous_in x0 holds
+  F is_differentiable_in x0 & diff(F,x0)=f/.x0;
+
+theorem :: ORDEQ_02:14
+for F be PartFunc of REAL,the carrier of X,
+    f be continuous PartFunc of REAL,the carrier of X
+  st dom f =[.a,b.] & dom F =[.a,b.]
+   & for t be Real st t in [.a,b.] holds F/.t = integral(f,a,t) holds
+    for x be Real st x in [.a,b.] holds F is_continuous_in x;
+
+theorem :: ORDEQ_02:15
+for f be continuous PartFunc of REAL,the carrier of X
+  st a in dom f holds integral(f,a,a) = 0.X;
+
+theorem :: ORDEQ_02:16
+for f be continuous PartFunc of REAL,the carrier of X,
+    g be PartFunc of REAL,the carrier of X
+  st a <= b & dom f = [.a,b.]
+   & for t be Real st t in [.a,b.] holds g/.t = y0 + integral(f,a,t) holds
+   g/.a = y0;
+
+theorem :: ORDEQ_02:17
+for f be continuous PartFunc of REAL,the carrier of X,
+    g be PartFunc of REAL,the carrier of X
+  st dom f = [.a,b.] & dom g = [.a,b.] & Z = ].a,b.[
+   & for t be Real st t in [.a,b.] holds g/.t = y0 + integral(f,a,t) holds
+   g is continuous & g is_differentiable_on Z
+ & for t be Real st t in Z holds diff(g,t) = f/.t;
+
+theorem :: ORDEQ_02:18
+for f be PartFunc of REAL,the carrier of X
+  st a <= b & [.a,b.] c= dom f
+   & (for x be Real st x in [.a,b.] holds f is_continuous_in x)
+   & f is_differentiable_on ].a,b.[
+   & for x be Real st x in ].a,b.[ holds diff(f,x) = 0.X holds
+  f/.b = f/.a;
+
+theorem :: ORDEQ_02:19
+for f be PartFunc of REAL,the carrier of X
+   st [.a,b.] c= dom f
+    & (for x be Real st x in [.a,b.] holds f is_continuous_in x)
+    & f is_differentiable_on ].a,b.[
+    & for x be Real st x in ].a,b.[ holds diff(f,x) = 0.X holds
+  f|(].a,b.[) is constant;
+
+theorem :: ORDEQ_02:20
+for f be continuous PartFunc of REAL,the carrier of X
+   st [.a,b.] = dom f & f | ].a,b.[ is constant holds
+    for x be Real st x in [.a,b.] holds f/.x = f/.a;
+
+theorem :: ORDEQ_02:21
+for y,Gf be continuous PartFunc of REAL,the carrier of X,
+    g be PartFunc of REAL,the carrier of X
+  st a <= b & Z = ].a,b.[
+   & dom y = [.a,b.] & dom g = [.a,b.] & dom Gf = [.a,b.]
+   & y is_differentiable_on Z
+   & y/.a = y0
+   & (for t be Real st t in Z holds diff(y,t) = Gf/.t)
+   & (for t be Real st t in [.a,b.] holds g/.t = y0 + integral(Gf,a,t) )
+holds y=g;
+
+definition
+  let X be RealBanachSpace;
+  let y0 be VECTOR of X,
+      G be Function of X,X,
+      a,b be Real;
+  assume  a<=b & G is_continuous_on dom G;
+  func Fredholm(G,a,b,y0) -> Function of
+             R_NormSpace_of_ContinuousFunctions(['a,b'],X),
+             R_NormSpace_of_ContinuousFunctions(['a,b'],X) means
+:: ORDEQ_02:def 1
+
+  for x be VECTOR of R_NormSpace_of_ContinuousFunctions(['a,b'],X)
+  ex f,g,Gf be continuous PartFunc of REAL,the carrier of X
+     st x=f & it.x = g & dom f =['a,b'] & dom g =['a,b'] & Gf = G*f
+       & for t be Real st t in ['a,b'] holds g/.t = y0 + integral(Gf,a,t);
+end;
+
+theorem :: ORDEQ_02:22
+a <= b & 0 < r &
+(for y1,y2 be VECTOR of X holds ||.G/.y1-G/.y2.|| <= r*||.y1-y2.||)
+ implies
+  for u,v be VECTOR of R_NormSpace_of_ContinuousFunctions(['a,b'],X),
+      g,h be continuous PartFunc of REAL,the carrier of X
+        st g= Fredholm(G,a,b,y0).u & h= Fredholm(G,a,b,y0).v holds
+         for t be Real st t in ['a,b'] holds
+          ||. g/.t - h/.t .|| <= r*(t-a)*||.u-v.||;
+
+theorem :: ORDEQ_02:23
+  a <= b & 0 < r
+& (for y1,y2 be VECTOR of X holds ||.G/.y1-G/.y2.|| <= r*||.y1-y2.||)
+  implies
+   for u,v be VECTOR of R_NormSpace_of_ContinuousFunctions(['a,b'],X),
+       m be Element of NAT,
+       g,h be continuous PartFunc of REAL,the carrier of X
+    st g = iter(Fredholm(G,a,b,y0),(m+1)).u
+     & h = iter(Fredholm(G,a,b,y0),(m+1)).v holds
+        for t be Real st t in ['a,b']
+          holds ||. g/.t - h/.t .|| <= ((r*(t-a))|^(m+1))/((m+1)!) * ||.u-v.||;
+
+theorem :: ORDEQ_02:24
+for m be Nat st a <= b & 0 < r
+ & (for y1,y2 be VECTOR of X holds ||.G/.y1-G/.y2.|| <= r*||.y1-y2.||) holds
+  for u,v be VECTOR of R_NormSpace_of_ContinuousFunctions(['a,b'],X)
+    holds ||. iter(Fredholm(G,a,b,y0),(m+1)).u
+              - iter(Fredholm(G,a,b,y0),(m+1)).v .||
+                     <= ((r*(b-a))|^(m+1))/((m+1)!) * ||.u-v.||;
+
+theorem :: ORDEQ_02:25
+a < b & G is_Lipschitzian_on the carrier of X implies
+  ex m be Nat st iter(Fredholm(G,a,b,y0),(m+1)) is contraction;
+
+theorem :: ORDEQ_02:26
+  a < b & G is_Lipschitzian_on the carrier of X implies
+    Fredholm(G,a,b,y0) is with_unique_fixpoint;
+
+theorem :: ORDEQ_02:27
+for f,g be continuous PartFunc of REAL,the carrier of X
+  st dom f =['a,b'] & dom g =['a,b'] & Z = ].a,b.[
+   & a<b & G is_Lipschitzian_on the carrier of X
+   & g=Fredholm(G,a,b,y0).f holds
+   g/.a=y0
+    & g is_differentiable_on Z
+    & for t be Real st t in Z holds diff(g,t) = (G*f)/.t;
+
+theorem :: ORDEQ_02:28
+for y be continuous PartFunc of REAL,the carrier of X
+  st a < b & Z = ].a,b.[ & G is_Lipschitzian_on the carrier of X
+   & dom y = ['a,b'] & y is_differentiable_on Z & y/.a = y0
+   & (for t be Real st t in Z holds diff(y,t) = G.(y/.t)) holds
+  y is_a_fixpoint_of Fredholm(G,a,b,y0);
+
+theorem :: ORDEQ_02:29
+for y1,y2 be continuous PartFunc of REAL,the carrier of X
+   st a < b & Z = ].a,b.[ & G is_Lipschitzian_on the carrier of X
+    & dom y1 = ['a,b'] & y1 is_differentiable_on Z & y1/.a = y0
+    & (for t be Real st t in Z holds diff(y1,t) = G.(y1/.t))
+    & dom y2 = ['a,b'] & y2 is_differentiable_on Z & y2/.a = y0
+    & (for t be Real st t in Z holds diff(y2,t) = G.(y2/.t))
+   holds y1=y2;
+
+theorem :: ORDEQ_02:30
+a < b & Z = ].a,b.[ & G is_Lipschitzian_on the carrier of X implies
+   ex y be continuous PartFunc of REAL,the carrier of X st
+      dom y = ['a,b'] & y is_differentiable_on Z & y/.a = y0
+    & for t be Real st t in Z holds diff(y,t) = G.(y/.t);

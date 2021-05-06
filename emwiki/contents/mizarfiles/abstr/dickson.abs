@@ -1,0 +1,441 @@
+:: Dickson's lemma
+::  by Gilbert Lee and Piotr Rudnicki
+::
+:: Received March 12, 2002
+:: Copyright (c) 2002-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FUNCT_1, RELAT_1, FUNCOP_1, NAT_1, TARSKI, ARYTM_3, XBOOLE_0,
+      SUBSET_1, NUMBERS, XXREAL_0, FINSET_1, CARD_1, ORDERS_2, REARRAN1,
+      RELAT_2, STRUCT_0, WELLORD1, WAYBEL_4, WAYBEL20, EQREL_1, ORDERS_1,
+      ZFMISC_1, WELLFND1, SETFAM_1, VALUED_0, ORDINAL2, MCART_1, CAT_1,
+      YELLOW_1, PBOOLE, CARD_3, RLVECT_2, YELLOW_6, WAYBEL_3, FUNCT_4,
+      YELLOW_3, DICKSON, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, SETFAM_1, RELAT_1, FUNCT_1,
+      PBOOLE, RELSET_1, XXREAL_2, SEQ_4, PARTFUN1, FUNCT_2, CARD_3, ORDINAL1,
+      XCMPLX_0, NAT_1, STRUCT_0, RELAT_2, XXREAL_0, FUNCT_4, FUNCOP_1,
+      DOMAIN_1, FINSET_1, XTUPLE_0, MCART_1, WELLORD1, ORDERS_2, ORDERS_1,
+      EQREL_1, WELLFND1, WAYBEL_0, CARD_1, NUMBERS, WAYBEL_4, VALUED_0,
+      PRALG_1, YELLOW_3, WAYBEL_1, YELLOW_1, WAYBEL_3, YELLOW_6;
+ constructors WELLORD1, DOMAIN_1, PRALG_1, ORDERS_3, WAYBEL_1, YELLOW_3,
+      WAYBEL_3, WAYBEL_4, WELLFND1, SEQ_4, RELSET_1, XTUPLE_0, NUMBERS;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2,
+      FUNCOP_1, FINSET_1, XXREAL_0, NAT_1, MEMBERED, EQREL_1, PRE_CIRC,
+      STRUCT_0, ORDERS_2, YELLOW_1, YELLOW_3, WAYBEL18, WAYBEL_3, VALUED_0,
+      CARD_1, XXREAL_2, CARD_3, ZFMISC_1, RELSET_1, XTUPLE_0, XCMPLX_0;
+ requirements BOOLE, SUBSET, NUMERALS;
+
+
+begin :: Preliminaries
+
+theorem :: DICKSON:1
+  for g being Function, x being set st dom g = {x} holds g = x .--> g.x;
+
+::$CT
+
+theorem :: DICKSON:3
+  for X being infinite set ex f being sequence of  X st f is one-to-one;
+
+definition
+  let R be RelStr, f be sequence of R;
+  attr f is ascending means
+:: DICKSON:def 1
+  for n being Element of NAT
+  holds f.(n+1) <> f.n & [f.n, f.(n+1)] in the InternalRel of R;
+end;
+
+definition
+  let R be RelStr, f be sequence of R;
+  attr f is weakly-ascending means
+:: DICKSON:def 2
+  for n being Nat holds [f.n, f.(n+1)] in the InternalRel of R;
+end;
+
+theorem :: DICKSON:4
+  for R being non empty transitive RelStr, f being sequence of R
+  st f is weakly-ascending
+  for i,j being Nat st i < j holds f.i <= f.j;
+
+theorem :: DICKSON:5
+  for R being non empty RelStr holds R is connected iff
+  the InternalRel of R is_strongly_connected_in the carrier of R;
+
+theorem :: DICKSON:6
+  for L being RelStr, Y being set, a being set
+  holds (the InternalRel of L)-Seg(a) misses Y & a in Y iff
+  a is_minimal_wrt Y, the InternalRel of L;
+
+theorem :: DICKSON:7
+  for L being non empty transitive antisymmetric RelStr,
+  x being Element of L, a, N being set
+  st a is_minimal_wrt (the InternalRel of L)-Seg(x) /\ N,(the InternalRel of L)
+  holds a is_minimal_wrt N, (the InternalRel of L);
+
+begin :: Chapter 4.2
+
+definition
+  let R be RelStr; :: Def 4.19 (ix)
+  attr R is quasi_ordered means
+:: DICKSON:def 3
+
+  R is reflexive transitive;
+end;
+
+definition :: Lemma 4.24.i
+  let R be RelStr such that
+ R is quasi_ordered;
+  func EqRel R -> Equivalence_Relation of the carrier of R equals
+:: DICKSON:def 4
+
+  (the InternalRel of R) /\ (the InternalRel of R)~;
+end;
+
+theorem :: DICKSON:8
+  for R being RelStr, x,y being Element of R
+  st R is quasi_ordered holds x in Class(EqRel R, y) iff x <= y & y <= x;
+
+definition :: Lemma 4.24, (the InternalRel of R) / EqRel R
+  let R be RelStr;
+  func <=E R -> Relation of Class EqRel R means
+:: DICKSON:def 5
+
+  for A, B being object holds [A,B] in it iff ex a, b being Element of R
+  st A = Class(EqRel R, a) & B = Class(EqRel R, b) & a <= b;
+end;
+
+theorem :: DICKSON:9  :: Lemma 4.24.ii
+  for R being RelStr
+  st R is quasi_ordered holds <=E R partially_orders Class(EqRel R);
+
+theorem :: DICKSON:10 ::Lemma 4.24.iii
+  for R being non empty RelStr st R is quasi_ordered & R is connected
+  holds <=E R linearly_orders Class(EqRel R);
+
+definition :: "strict part" of a relation, p. 155
+  let R be Relation;
+  func R\~ -> Relation equals
+:: DICKSON:def 6
+  R \ R~;
+end;
+
+registration
+  let R be Relation;
+  cluster R \~ -> asymmetric;
+end;
+
+definition
+  let X be set, R be Relation of X;
+  redefine func R\~ -> Relation of X;
+end;
+
+definition
+  let R be RelStr;
+  func R\~ -> strict RelStr equals
+:: DICKSON:def 7
+  RelStr(# the carrier of R, (the InternalRel of R)\~ #);
+end;
+
+registration
+  let R be non empty RelStr;
+  cluster R\~ -> non empty;
+end;
+
+registration
+  let R be transitive RelStr;
+  cluster R\~ -> transitive;
+end;
+
+registration
+  let R be RelStr;
+  cluster R\~ -> antisymmetric;
+end;
+
+theorem :: DICKSON:11 ::Exercise 4.27:
+  for R being non empty Poset, x being Element of R
+  holds Class(EqRel R, x) = {x};
+
+theorem :: DICKSON:12 :: Exercise 4.29.i
+  for R being Relation holds R = R\~ iff R is asymmetric;
+
+theorem :: DICKSON:13 :: Exercise 4.29.ii
+  for R being Relation st R is transitive holds R\~ is transitive;
+
+theorem :: DICKSON:14 :: Exercise 4.29.iii
+  for R being Relation, a, b being set st R is antisymmetric
+  holds [a,b] in R\~ iff [a,b] in R & a <> b;
+
+theorem :: DICKSON:15  :: Exercise 4.29 (addition)
+  for R being RelStr st R is well_founded holds R\~ is well_founded;
+
+theorem :: DICKSON:16  :: Exercise 4.29 (addition)
+  for R being RelStr
+  st R\~ is well_founded & R is antisymmetric holds R is well_founded;
+
+begin :: Chapter 4.3
+
+theorem :: DICKSON:17  :: Def 4.30 (see WAYBEL_4:def 26)
+  for L being RelStr, N being set, x being Element of L\~
+  holds x is_minimal_wrt N, the InternalRel of (L\~) iff (x in N &
+  for y being Element of L st y in N & [y,x] in the InternalRel of L
+  holds [x,y] in the InternalRel of L);
+
+:: Proposition 4.31 - see WELLFND1:15
+:: Omitting Example 4.32, Exercise 4.33, Exercise 4.34
+
+theorem :: DICKSON:18 ::L_4_35: :: Lemma 4.35
+  for R, S being non empty RelStr, m being Function of R,S
+  st R is quasi_ordered & S is antisymmetric & S\~ is well_founded &
+  for a,b being Element of R holds
+  (a <= b implies m.a <= m.b) & (m.a = m.b implies [a,b] in EqRel R)
+  holds R\~ is well_founded;
+
+definition :: p. 158, restricted eq classes
+  let R be non empty RelStr, N be Subset of R;
+  func min-classes N -> Subset-Family of R means
+:: DICKSON:def 8
+
+  for x being set holds x in it iff ex y being Element of R\~
+  st y is_minimal_wrt N, the InternalRel of (R\~) & x = Class(EqRel R,y) /\ N;
+end;
+
+theorem :: DICKSON:19  :: Lemma 4.36
+  for R being non empty RelStr, N being Subset of R, x being set
+  st R is quasi_ordered & x in min-classes N
+  holds for y being Element of R\~ st y in x
+  holds y is_minimal_wrt N, the InternalRel of R\~;
+
+theorem :: DICKSON:20
+  for R being non empty RelStr holds R\~ is well_founded iff
+  for N being Subset of R st N <> {}
+   ex x being object st x in min-classes N;
+
+theorem :: DICKSON:21
+  for R being non empty RelStr, N being Subset of R, y being Element of R\~
+  st y is_minimal_wrt N, the InternalRel of (R\~)
+  holds min-classes N is non empty;
+
+theorem :: DICKSON:22
+  for R being non empty RelStr, N being Subset of R, x being set st
+  x in min-classes N holds x is non empty;
+
+theorem :: DICKSON:23  :: Lemma 4.37
+  for R being non empty RelStr st R is quasi_ordered
+  holds R is connected & R\~ is well_founded iff
+  for N being non empty Subset of R holds card min-classes N = 1;
+
+theorem :: DICKSON:24 :: Lemma 4.38
+  for R being non empty Poset
+  holds the InternalRel of R well_orders the carrier of R iff
+  for N being non empty Subset of R holds card min-classes N = 1;
+
+definition :: Def 4.39
+  let R be RelStr, N be Subset of R, B be set;
+  pred B is_Dickson-basis_of N,R means
+:: DICKSON:def 9
+
+  B c= N & for a being Element of R st a in N
+  ex b being Element of R st b in B & b <= a;
+end;
+
+theorem :: DICKSON:25
+  for R being RelStr holds {} is_Dickson-basis_of {} the carrier of R, R;
+
+theorem :: DICKSON:26
+  for R being non empty RelStr, N being non empty Subset of R, B being set
+  st B is_Dickson-basis_of N,R holds B is non empty;
+
+definition :: Def 4.39
+  let R be RelStr;
+  attr R is Dickson means
+:: DICKSON:def 10
+
+  for N being Subset of R
+  ex B being set st B is_Dickson-basis_of N,R & B is finite;
+end;
+
+theorem :: DICKSON:27  :: Lemma 4:40
+  for R being non empty RelStr
+  st R\~ is well_founded & R is connected holds R is Dickson;
+
+theorem :: DICKSON:28  :: Exercise 4.41
+  for R, S being RelStr st (the InternalRel of R) c= (the InternalRel of S) &
+  R is Dickson & (the carrier of R) = (the carrier of S) holds S is Dickson;
+
+definition
+  let f be Function, b be set such that
+ dom f = NAT and
+ b in rng f;
+  func f mindex b -> Element of NAT means
+:: DICKSON:def 11
+
+  f.it = b & for i being Element of NAT st f.i = b holds it <= i;
+end;
+
+definition
+  let R be non empty 1-sorted, f be sequence of R, b be set,
+  m be Element of NAT;
+  assume
+ ex j being Element of NAT st m < j & f.j = b;
+  func f mindex (b,m) -> Element of NAT means
+:: DICKSON:def 12
+
+  f.it = b & m < it & for i being Element of NAT st m < i & f.i = b
+  holds it <= i;
+end;
+
+theorem :: DICKSON:29  :: Prop 4.42 (i) -> (ii)
+  for R being non empty RelStr st R is Dickson
+  for f being sequence of R ex i,j being Nat st i < j & f.i <= f.j;
+
+theorem :: DICKSON:30
+  for R being RelStr, N being Subset of R, x being Element of R\~
+  st R is quasi_ordered & x in N &
+  ((the InternalRel of R)-Seg(x)) /\ N c= Class(EqRel R,x)
+  holds x is_minimal_wrt N, the InternalRel of R\~;
+
+theorem :: DICKSON:31  :: Prop 4.42 (ii) -> (iii)
+  for R being non empty RelStr st R is quasi_ordered &
+  (for f being sequence of R ex i,j being Nat st i < j & f.i <= f.j)
+  holds for N being non empty Subset of R
+  holds min-classes N is finite & min-classes N is non empty;
+
+theorem :: DICKSON:32  :: Prop (iii) -> (i)
+  for R being non empty RelStr st R is quasi_ordered &
+  (for N being non empty Subset of R
+  holds min-classes N is finite & min-classes N is non empty)
+  holds R is Dickson;
+
+theorem :: DICKSON:33  :: Corollary 4.44
+  for R being non empty RelStr st R is quasi_ordered & R is Dickson
+  holds R\~ is well_founded;
+
+theorem :: DICKSON:34 :: Corollary 4.43
+  for R being non empty Poset, N being non empty Subset of R st R is Dickson
+  holds ex B being set st B is_Dickson-basis_of N, R &
+  for C being set st C is_Dickson-basis_of N, R holds B c= C;
+
+definition
+  let R be non empty RelStr, N be Subset of R such that
+ R is Dickson;
+  func Dickson-bases (N,R) -> non empty Subset-Family of R means
+:: DICKSON:def 13
+
+  for B being set holds B in it iff B is_Dickson-basis_of N,R;
+end;
+
+theorem :: DICKSON:35  :: Proposition 4.45
+  for R being non empty RelStr, s being sequence of R st R is Dickson
+  ex t being sequence of R st t is subsequence of s & t is weakly-ascending;
+
+theorem :: DICKSON:36
+  for R being RelStr st R is empty holds R is Dickson;
+
+theorem :: DICKSON:37   :: Theorem 4.46
+  for M, N be RelStr
+  st M is Dickson & N is Dickson & M is quasi_ordered & N is quasi_ordered
+  holds [:M,N:] is quasi_ordered & [:M,N:] is Dickson;
+
+theorem :: DICKSON:38
+for R, S being RelStr st R,S are_isomorphic & R is Dickson & R is quasi_ordered
+  holds S is quasi_ordered & S is Dickson;
+
+theorem :: DICKSON:39
+  for p being RelStr-yielding ManySortedSet of {0}, z being Element of {0}
+  holds p.z, product p are_isomorphic;
+
+registration
+  let X be set, p be RelStr-yielding ManySortedSet of X, Y be Subset of X;
+  cluster p|Y -> RelStr-yielding;
+end;
+
+theorem :: DICKSON:40
+  for n being non zero Nat, p being RelStr-yielding ManySortedSet of n
+  holds product p is non empty iff p is non-Empty;
+
+theorem :: DICKSON:41
+  for n being non zero Nat,
+      p being RelStr-yielding ManySortedSet of Segm(n+1),
+  ns being Subset of Segm(n+1), ne being Element of Segm(n+1)
+  st ns = n & ne = n holds [:product(p|ns), p.ne:], product p are_isomorphic;
+
+theorem :: DICKSON:42  :: Corollary 4.47
+  for n being non zero Nat, p being RelStr-yielding ManySortedSet of Segm n
+  st for i being Element of Segm n holds p.i is Dickson & p.i is quasi_ordered
+  holds product p is quasi_ordered & product p is Dickson;
+
+registration
+  let p be RelStr-yielding ManySortedSet of {};
+  cluster product p -> non empty;
+  cluster product p -> antisymmetric;
+  cluster product p -> quasi_ordered;
+::$N Dickson Lemma
+  cluster product p -> Dickson;
+end;
+
+definition
+  func NATOrd -> Relation of NAT equals
+:: DICKSON:def 14
+  {[x,y] where x, y is Element of NAT : x <= y};
+end;
+
+theorem :: DICKSON:43
+  NATOrd is_reflexive_in NAT;
+
+theorem :: DICKSON:44
+  NATOrd is_antisymmetric_in NAT;
+
+theorem :: DICKSON:45
+  NATOrd is_strongly_connected_in NAT;
+
+theorem :: DICKSON:46
+  NATOrd is_transitive_in NAT;
+
+definition
+  func OrderedNAT -> non empty RelStr equals
+:: DICKSON:def 15
+  RelStr(# NAT, NATOrd #);
+end;
+
+registration
+  cluster OrderedNAT -> connected;
+  cluster OrderedNAT -> Dickson;
+  cluster OrderedNAT -> quasi_ordered;
+  cluster OrderedNAT -> antisymmetric;
+  cluster OrderedNAT -> transitive;
+  cluster OrderedNAT -> well_founded;
+end;
+
+registration :: 4.48 Dickson's Lemma
+  let n be Element of NAT;
+  cluster product (n --> OrderedNAT) -> non empty;
+  cluster product (n --> OrderedNAT) -> Dickson;
+  cluster product (n --> OrderedNAT) -> quasi_ordered;
+  cluster product (n --> OrderedNAT) -> antisymmetric;
+end;
+
+theorem :: DICKSON:47
+ :: Proposition 4.49, in B&W proven without axiom of choice (4.46)
+  for M be RelStr st M is Dickson & M is quasi_ordered
+  holds [:M,OrderedNAT:] is quasi_ordered & [:M,OrderedNAT:] is Dickson;
+
+:: Omitting Exercise 4.50
+
+theorem :: DICKSON:48  :: Lemma 4.51
+  for R, S being non empty RelStr st R is Dickson & S is quasi_ordered &
+  the InternalRel of R c= the InternalRel of S &
+  (the carrier of R) = (the carrier of S) holds S\~ is well_founded;
+
+theorem :: DICKSON:49 :: Lemma 4.52
+  for R being non empty RelStr st R is quasi_ordered holds R is Dickson iff
+  for S being non empty RelStr
+  st S is quasi_ordered & the InternalRel of R c= the InternalRel of S &
+  the carrier of R = the carrier of S holds S\~ is well_founded;

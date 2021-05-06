@@ -1,0 +1,393 @@
+:: Another { \bf times } Macro Instruction
+::  by Piotr Rudnicki
+::
+:: Received June 4, 1998
+:: Copyright (c) 1998-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FSM_1, SCMFSA_2, SF_MASTR, AMI_1, SCMFSA7B, SUBSET_1,
+      XBOOLE_0, CARD_1, SCMFSA6B, FUNCT_1, FUNCT_4, SCMFSA6A, TARSKI, RELAT_1,
+      ARYTM_3, GRAPHSP, MSUALG_1, SFMASTR1, SCMFSA_9, AMI_3, CARD_3, XXREAL_0,
+      ARYTM_1, SCMFSA9A, COMPLEX1, SFMASTR2, NAT_1, EXTPRO_1, SCMFSA6C,
+      COMPOS_1, MEMSTR_0, AMISTD_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, INT_2,
+      XXREAL_0, RELAT_1, FUNCT_1, FUNCT_2, FUNCT_4, PBOOLE, CARD_3, FUNCOP_1,
+      STRUCT_0, MEMSTR_0, AMISTD_1, COMPOS_1, EXTPRO_1, SCMFSA_2, SCMFSA6A,
+      SCMFSA6B, SF_MASTR, SCMFSA6C, SCMFSA7B, SCMFSA_9, SFMASTR1, SCMFSA9A,
+      NAT_1, SCMFSA_M, SCMFSA_X;
+ constructors XXREAL_0, INT_2, PRE_FF, SCMFSA6A, SCMFSA6B, SCMFSA6C, SCMFSA_9,
+      SFMASTR1, SCMFSA9A, RELSET_1, PRE_POLY, PBOOLE, SCMFSA8A, SCMFSA7B,
+      AMISTD_2, AMISTD_1, SCMFSA_7, FUNCT_4, MEMSTR_0, SCMFSA_1, SCMFSA_M,
+      SF_MASTR, SCMFSA_X, COMPOS_2;
+ registrations FUNCT_1, ORDINAL1, RELSET_1, FINSET_1, XXREAL_0, XREAL_0, NAT_1,
+      INT_1, CARD_3, SCMFSA_2, SF_MASTR, SCMFSA6B, SCMFSA6C, SCMFSA8A,
+      SCMFSA_9, SFMASTR1, COMPOS_1, FUNCT_4, MEMSTR_0, AMI_3, SCMFSA_M,
+      SCMFSA6A, SCMFSA8C, SCMFSA9A, SCMFSA10, SCMFSA_X, COMPOS_2;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin :: SCM+FSA preliminaries
+
+reserve s, s1, s2 for State of SCM+FSA,
+  p, p1 for Instruction-Sequence of SCM+FSA,
+  a, b for Int-Location,
+  d for read-write Int-Location,
+  f for FinSeq-Location,
+  I for MacroInstruction of SCM+FSA,
+  J for good MacroInstruction of SCM+FSA,
+  k, m for Nat;
+
+theorem :: SFMASTR2:1
+  for I being really-closed Program of SCM+FSA holds
+I is_halting_on Initialized s,p & not
+  b in UsedILoc I implies IExec(I,p,s).b = (Initialized s).b;
+
+theorem :: SFMASTR2:2
+  for I being really-closed Program of SCM+FSA holds
+I is_halting_on Initialized s,p & not f in
+  UsedI*Loc I implies IExec(I,p,s).f = (Initialized s).f;
+
+theorem :: SFMASTR2:3
+  for I being really-closed Program of SCM+FSA holds
+  (I is_halting_on Initialized s,p or I is parahalting ) &
+  (s.intloc 0 = 1 or a is read-write) & not a in UsedILoc I
+  implies IExec(I,p,s).a = s.a;
+
+::$CT 2
+
+begin :: Another times macro instruction
+
+definition
+  let a be Int-Location, I be MacroInstruction of SCM+FSA;
+  func times*(a, I) -> MacroInstruction of SCM+FSA equals
+:: SFMASTR2:def 1
+  while>0 ( 1-stRWNotIn ({a} \/ UsedILoc I),
+      I ";" SubFrom(1-stRWNotIn ({a} \/ UsedILoc I), intloc 0) );
+end;
+
+definition
+  let a be Int-Location, I be MacroInstruction of SCM+FSA;
+  func times(a, I) -> MacroInstruction of SCM+FSA equals
+:: SFMASTR2:def 2
+  (1-stRWNotIn ({a} \/ UsedILoc I)) := a ";" times*(a, I);
+end;
+
+registration
+  let a be Int-Location, I be really-closed MacroInstruction of SCM+FSA;
+  cluster times*(a,I) -> really-closed;
+end;
+
+registration
+  let a be Int-Location, I be really-closed MacroInstruction of SCM+FSA;
+  cluster times(a,I) -> really-closed;
+end;
+
+::$CT 2
+
+theorem :: SFMASTR2:8
+  {b} \/ UsedILoc I c= UsedILoc times(b, I);
+
+theorem :: SFMASTR2:9
+  UsedI*Loc times(b, I) = UsedI*Loc I;
+
+registration
+  let I be good MacroInstruction of SCM+FSA, a be Int-Location;
+  cluster times(a, I) -> good;
+end;
+
+definition let p;
+  let s be State of SCM+FSA, I be MacroInstruction of SCM+FSA,
+      a be Int-Location;
+  func StepTimes(a, I, p, s) ->
+   sequence of  product the_Values_of SCM+FSA equals
+:: SFMASTR2:def 3
+  StepWhile>0(1-stRWNotIn ({a} \/ UsedILoc I),
+    I ";" SubFrom(1-stRWNotIn ({a} \/ UsedILoc I), intloc 0), p,
+  Exec(1-stRWNotIn ({a} \/ UsedILoc I) := a, Initialized s));
+end;
+
+theorem :: SFMASTR2:10
+  StepTimes(a,J,p,s).0.intloc 0 = 1;
+
+theorem :: SFMASTR2:11
+  s.intloc 0 = 1 or a is read-write implies StepTimes(a,J,p,s).0.(
+  1-stRWNotIn ({a} \/ UsedILoc J)) = s.a;
+
+theorem :: SFMASTR2:12
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  StepTimes(a,J,p,s).k.intloc 0 = 1 &
+  J is_halting_on StepTimes(a,J,p,s).k, p+*times*(a,J) implies
+   StepTimes(a,J,p,s).(k+1).intloc 0 = 1 &
+  (StepTimes(a,J,p,s).k.(1-stRWNotIn ({a} \/ UsedILoc J)) > 0
+  implies StepTimes(a,J,p,s).(k+1).(1-stRWNotIn ({a} \/ UsedILoc J)) =
+  StepTimes(a,J,p,s).k.(1-stRWNotIn ({a} \/ UsedILoc J)) - 1);
+
+theorem :: SFMASTR2:13
+  s.intloc 0 = 1 or a is read-write implies StepTimes(a,I,p,s).0.a
+  = s.a;
+
+theorem :: SFMASTR2:14
+  StepTimes(a,I,p,s).0.f = s.f;
+
+definition let p;
+  let s be State of SCM+FSA, a be Int-Location,
+      I be MacroInstruction of SCM+FSA;
+  pred ProperTimesBody a, I, s, p means
+:: SFMASTR2:def 4
+  for k being Nat st k < s.a
+   holds I is_halting_on StepTimes(a,I,p,s).k,p+*times*(a,I);
+end;
+
+theorem :: SFMASTR2:15
+  I is parahalting implies ProperTimesBody a,I,s,p;
+
+theorem :: SFMASTR2:16
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  ProperTimesBody a,J,s,p implies for k st k <= s.a holds
+  StepTimes(a,J,p,s).k.intloc 0 = 1;
+
+theorem :: SFMASTR2:17
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  (s.intloc 0 = 1 or a is read-write) & ProperTimesBody a,J,s,p
+  implies for k st k <= s.a holds StepTimes(a,J,p,s).k.(1-stRWNotIn({a} \/
+  UsedILoc J))+k = s.a;
+
+theorem :: SFMASTR2:18
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  ProperTimesBody a,J,s,p & 0 <= s.a & (s.intloc 0 = 1 or a is
+read-write) implies
+ for k st k >= s.a holds StepTimes(a,J,p,s).k.(1-stRWNotIn({
+  a} \/ UsedILoc J)) = 0 & StepTimes(a,J,p,s).k.intloc 0 = 1;
+
+theorem :: SFMASTR2:19
+  s.intloc 0 = 1 implies StepTimes(a,I,p,s).0 | ((UsedILoc I) \/
+  FinSeq-Locations) = s | ((UsedILoc I) \/ FinSeq-Locations);
+
+theorem :: SFMASTR2:20
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  StepTimes(a,J,p,s).k.intloc 0 = 1 &
+  J is_halting_on Initialized StepTimes(a,J,p,s).k,p+*times*(a,J) &
+StepTimes(a,J,p,s).k.(1-stRWNotIn ({a} \/ UsedILoc J)) > 0
+ implies StepTimes(a,J,p,s).(k+1) | ((UsedILoc J) \/ FinSeq-Locations)
+  = IExec(J,p+*times*(a,J),StepTimes(a,J,p,s).k)
+       | ((UsedILoc J) \/ FinSeq-Locations);
+
+theorem :: SFMASTR2:21
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  (ProperTimesBody a,J,s,p or J is parahalting) & k < s.a & (s.
+  intloc 0 = 1 or a is read-write) implies StepTimes(a,J,p,s).(k+1) | ((
+  UsedILoc J) \/ FinSeq-Locations)
+   = IExec(J,p+*times*(a,J),StepTimes(a,J,p,s).k) | ((
+  UsedILoc J) \/ FinSeq-Locations);
+
+theorem :: SFMASTR2:22
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  s.a <= 0 & s.intloc 0 = 1 implies IExec(times(a, I),p,s) | ((UsedILoc
+  I) \/ FinSeq-Locations) = s | ((UsedILoc I) \/ FinSeq-Locations);
+
+theorem :: SFMASTR2:23
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  s.a = k & (ProperTimesBody a,J,s,p or J is parahalting) & (s.
+  intloc 0 = 1 or a is read-write) implies
+   DataPart IExec(times(a,J),p,s) =
+  DataPart StepTimes(a,J,p,s).k;
+
+theorem :: SFMASTR2:24
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  s.intloc 0 = 1 & (ProperTimesBody a,J,s,p or J is parahalting)
+  implies times(a, J) is_halting_on s,p;
+
+begin  :: A trivial example
+
+definition
+  let d be read-write Int-Location;
+  func triv-times(d) -> MacroInstruction of SCM+FSA equals
+:: SFMASTR2:def 5
+  times( d, while=0(d, Macro(d:= d)) ";" SubFrom(d, intloc 0) );
+end;
+
+registration
+  let d be read-write Int-Location;
+  cluster triv-times d -> really-closed;
+end;
+
+theorem :: SFMASTR2:25
+  s.d <= 0 implies IExec(triv-times(d),p,s).d = s.d;
+
+theorem :: SFMASTR2:26
+  0 <= s.d implies IExec(triv-times(d),p,s).d = 0;
+
+:: begin  :: A macro for the Fibonacci sequence
+
+:: definition
+::   let N, result be Int-Location;
+::   func Fib-macro (N, result) -> Program of SCM+FSA equals
+::   (1-stNotUsed times(N
+::   , AddTo(result, (1-stRWNotIn {N, result}))";" swap(result, 1-stRWNotIn {N,
+:: result}))) := N ";" (SubFrom(result, result)) ";" ((1-stRWNotIn {N, result}) :=
+:: intloc 0) ";" times(N, AddTo(result, (1-stRWNotIn {N, result})) ";" swap(result
+:: , (1-stRWNotIn {N, result})) ) ";" (N := (1-stNotUsed
+:: times(N, AddTo(result, 1
+::   -stRWNotIn {N, result})";"
+::  swap(result, 1-stRWNotIn {N, result})
+::   qua MacroInstruction of SCM+FSA
+::   )
+:: ));
+::   correctness;
+:: end;
+
+:: registration
+::   let N, result be Int-Location;
+::   cluster Fib-macro (N, result) -> really-closed;
+::   coherence;
+:: end;
+
+:: theorem
+::   for N, result being read-write Int-Location st N <> result for n being
+:: Element of NAT st n = s.N holds IExec(Fib-macro(N,result),p,s).result = Fib n &
+::   IExec(Fib-macro(N,result),p,s).N = s.N
+:: proof
+::   let N, result be read-write Int-Location such that
+:: A1: N <> result;
+::   let n be Element of NAT;
+::   set i1 = SubFrom(result, result);
+::   set next = 1-stRWNotIn {N, result};
+::   set Nsave = 1-stNotUsed times(N, AddTo(result, next)";"swap(result, next));
+::   set i0 = Nsave := N;
+::   set i2 = next := intloc 0;
+::   set i30 = AddTo (result, next);
+::   set I31 = swap(result, next);
+::   set I301 = i30 ";" I31;
+::   set i02 = i0 ";" i1 ";" i2;
+::   set s1 = IExec(i02,p,s);
+::   set I3 = times( N, I301 );
+::   set ST = StepTimes(N, I301,p,s1);
+::   assume
+:: A2: n = s.N;
+:: A3: not next in {N, result} by SCMFSA_M:25;
+::   then
+:: A4: next <> N by TARSKI:def 2;
+:: A5: {N} \/ UsedILoc I301 c= UsedILoc I3 by Th6;
+:: A6: Nsave = 1-stRWNotIn UsedILoc I3 by SFMASTR1:def 4;
+::   then
+:: A7: not Nsave in UsedILoc I3 by SCMFSA_M:25;
+::   N in {N} by TARSKI:def 1;
+::   then N in {N} \/ UsedILoc I301 by XBOOLE_0:def 3;
+::   then
+:: A8: Nsave <> N by A6,A5,SCMFSA_M:25;
+:: A9: s1.N = Exec(i2, IExec(i0 ";" i1,p,s)).N by SCMFSA6C:6
+::     .= IExec(i0 ";" i1,p,s).N by A4,SCMFSA_2:63
+::     .= Exec(i1, Exec(i0, Initialized s)).N by SCMFSA6C:8
+::     .= Exec(i0, Initialized s).N by A1,SCMFSA_2:65
+::     .= (Initialized s).N by A8,SCMFSA_2:63
+::     .= s.N by SCMFSA_M:37;
+::   then
+:: A10: DataPart IExec(I3,p,s1) = DataPart ST.n by A2,Th21;
+::   defpred P[Nat] means $1 <= s1.N implies ST.$1.result = Fib $1 &
+::   ST.$1.next = Fib ($1+1);
+::   set UIFS = UsedILoc I301 \/ FinSeq-Locations;
+::   set i4 = N := Nsave;
+:: A11: UsedILoc I301 = (UsedIntLoc i30) \/ UsedILoc I31 by SF_MASTR:29
+::     .= {result, next} \/ UsedILoc I31 by SF_MASTR:14;
+::   next in {result, next} by TARSKI:def 2;
+::   then
+:: A12: next in UsedILoc I301 by A11,XBOOLE_0:def 3;
+::   then next in {N} \/ UsedILoc I301 by XBOOLE_0:def 3;
+::   then
+:: A13: Nsave <> next by A6,A5,SCMFSA_M:25;
+::   result in {result, next} by TARSKI:def 2;
+::   then
+:: A14: result in UsedILoc I301 by A11,XBOOLE_0:def 3;
+::   then result in {N} \/ UsedILoc I301 by XBOOLE_0:def 3;
+::   then
+:: A15: Nsave <> result by A6,A5,SCMFSA_M:25;
+:: A16: next <> result by A3,TARSKI:def 2;
+:: A17: now
+::     let k be Nat such that
+:: A18: P[k];
+::     thus P[k+1]
+::     proof
+:: A19:  k < k+1 by NAT_1:13;
+::       assume
+:: A20:  k+1 <= s1.N;
+::       then k < s1.N by A19,XXREAL_0:2;
+::       then
+:: A21:  ST.(k+1) | UIFS = IExec(I301,p+*times*(N,I301),ST.k) | UIFS by Th19;
+::       hence ST.(k+1).result = IExec(I301,p+*times*(N,I301),ST.k).result
+::               by A14,SCMFSA_M:28
+::         .= IExec(I31,p+*times*(N,I301),Exec(i30, Initialized ST.k)).result
+::               by SCMFSA8B:9
+::         .= Exec(i30, Initialized ST.k).next by SCMFSA6C:10
+::         .= (Initialized ST.k).next by A16,SCMFSA_2:64
+::         .= Fib (k+1) by A18,A20,A19,SCMFSA_M:37,XXREAL_0:2;
+::       thus ST.(k+1).next
+::           = IExec(I301,p+*times*(N,I301),ST.k).next by A12,A21,SCMFSA_M:28
+::         .= IExec(I31,p+*times*(N,I301),Exec(i30, Initialized ST.k)).next
+::             by SCMFSA8B:9
+::         .= Exec(i30, Initialized ST.k).result by SCMFSA6C:10
+::         .= (Initialized ST.k).result + (Initialized ST.k).next by SCMFSA_2:64
+::         .= ST.k.result + (Initialized ST.k).next by SCMFSA_M:37
+::         .= ST.k.result + ST.k.next by SCMFSA_M:37
+::         .= Fib ((k+1)+1) by A18,A20,A19,PRE_FF:1,XXREAL_0:2;
+::     end;
+::   end;
+:: A22: s1.Nsave = Exec(i2, IExec(i0 ";" i1,p,s)).Nsave by SCMFSA6C:6
+::     .= IExec(i0 ";" i1,p,s).Nsave by A13,SCMFSA_2:63
+::     .= Exec(i1, Exec(i0, Initialized s)).Nsave by SCMFSA6C:8
+::     .= Exec(i0, Initialized s).Nsave by A15,SCMFSA_2:65
+::     .= (Initialized s).N by SCMFSA_2:63
+::     .= s.N by SCMFSA_M:37;
+:: A23: i02 is_halting_on Initialized s,p by SCMFSA7B:19;
+::   reconsider i02 as good Program of SCM+FSA;
+:: A24: s1.next = Exec(i2, IExec(i0 ";" i1,p,s)).next by SCMFSA6C:6
+::     .= IExec(i0 ";" i1,p,s).intloc 0 by SCMFSA_2:63
+::     .= Exec(i1, Exec(i0, Initialized s)).intloc 0 by SCMFSA6C:8
+::     .= Exec(i0, Initialized s).intloc 0 by SCMFSA_2:65
+::     .= (Initialized s).intloc 0 by SCMFSA_2:63
+::     .= Fib (0+1) by PRE_FF:1,SCMFSA_M:9;
+:: A25: s1.intloc 0 = Exec(i2, IExec(i0 ";" i1,p,s)).intloc 0 by SCMFSA6C:6
+::     .= IExec(i0 ";" i1,p,s).intloc 0 by SCMFSA_2:63
+::     .= Exec(i1, Exec(i0, Initialized s)).intloc 0 by SCMFSA6C:8
+::     .= Exec(i0, Initialized s).intloc 0 by SCMFSA_2:65
+::     .= (Initialized s).intloc 0 by SCMFSA_2:63
+::     .= 1 by SCMFSA_M:9;
+:: A27: s1.result = Exec(i2, IExec(i0 ";" i1,p,s)).result by SCMFSA6C:6
+::     .= IExec(i0 ";" i1,p,s).result by A16,SCMFSA_2:63
+::     .= Exec(i1, Exec(i0, Initialized s)).result by SCMFSA6C:8
+::     .= Exec(i0,Initialized s).result-Exec(i0, Initialized s).result by
+:: SCMFSA_2:65
+::     .= Fib 0 by PRE_FF:1;
+:: A28: P[0]
+::   proof
+::     assume 0 <= s1.N;
+:: A29: ST.0 | UIFS = s1 | UIFS by A25,Th17;
+::     hence ST.0.result = Fib 0 by A14,A27,SCMFSA_M:28;
+::     thus thesis by A12,A24,A29,SCMFSA_M:28;
+::   end;
+:: A30: for n being Nat holds P[n] from NAT_1:sch 2(A28, A17);
+:: A31: I3 is_halting_on s1,p by A25,Th22;
+::   then
+:: A32: I3 is_halting_on Initialized s1,p by A25,SCMFSA8B:42;
+::   thus
+::   IExec(Fib-macro(N,result),p,s).result
+::      = Exec(i4, IExec(i02 ";" I3,p,s)).result by A31,A23,SFMASTR1:3,11
+::     .= IExec(i02 ";" I3,p,s).result by A1,SCMFSA_2:63
+::     .= IExec(I3,p,s1).result by A31,SFMASTR1:7
+::     .= ST.n.result by A10,SCMFSA_M:2
+::     .= Fib n by A9,A30,A2;
+::   thus IExec(Fib-macro(N,result),p,s).N = Exec(i4, IExec(i02 ";" I3,p,s)).N by
+:: A31,A23,SFMASTR1:3,11
+::     .= IExec(i02 ";" I3,p,s).Nsave by SCMFSA_2:63
+::     .= IExec(I3,p,s1).Nsave by A31,SFMASTR1:7
+::     .= s.N by A7,A22,A32,Th3;
+:: end;
+

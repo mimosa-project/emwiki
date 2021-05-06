@@ -1,0 +1,384 @@
+:: The Construction and shiftability of Program Blocks for SCMPDS
+::  by JingChao Chen
+::
+:: Received June 15, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, AMI_1, SCMPDS_2, SCMFSA_7, CARD_1, FUNCOP_1,
+      RELAT_1, FUNCT_1, NAT_1, ARYTM_3, XBOOLE_0, TARSKI, VALUED_1, EXTPRO_1,
+      FSM_1, INT_1, FUNCT_4, GRAPHSP, AMI_3, AMI_2, STRUCT_0, COMPLEX1,
+      XXREAL_0, ARYTM_1, TURING_1, AMISTD_2, SCMFSA6B, MSUALG_1, CIRCUIT2,
+      SCMPDS_4, PARTFUN1, ORDINAL4, FINSET_1, COMPOS_1, GOBRD13, MEMSTR_0;
+ notations TARSKI, XBOOLE_0, ENUMSET1, XTUPLE_0, SUBSET_1, CARD_1, FINSET_1,
+      ORDINAL1, NUMBERS, XCMPLX_0, RELAT_1, FUNCT_1, PARTFUN1, AFINSQ_1,
+      VALUED_1, FUNCT_4, FUNCT_7, INT_1, NAT_1, INT_2, XXREAL_0, STRUCT_0,
+      MEMSTR_0, COMPOS_0, COMPOS_1, EXTPRO_1, AMI_2, SCMPDS_2;
+ constructors INT_2, SCMPDS_1, SCMPDS_3, DOMAIN_1, RELSET_1, PRE_POLY, AMI_3,
+      FUNCT_7;
+ registrations FUNCT_1, ORDINAL1, XREAL_0, NAT_1, INT_1, SCMPDS_2, FINSET_1,
+      FUNCT_4, PRE_POLY, AFINSQ_1, COMPOS_1, ORDINAL5, EXTPRO_1, FUNCT_7,
+      MEMSTR_0, AMI_3, COMPOS_0, CARD_3, STRUCT_0, RELSET_1, XTUPLE_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Definition of a program block and its basic properties
+
+reserve l, m, n for Nat,
+  i,j,k for Instruction of SCMPDS,
+  I,J,K for Program of SCMPDS,
+  p,q,r for PartState of SCMPDS;
+
+reserve a,b,c for Int_position,
+  s,s1,s2 for State of SCMPDS,
+  k1,k2 for Integer;
+
+
+
+theorem :: SCMPDS_4:1
+  InsCode i in {0,1,4,5,6,14} or Exec(i,s).IC SCMPDS = IC s + 1;
+
+theorem :: SCMPDS_4:2
+  for s1,s2 being State of SCMPDS st IC s1 = IC s2 & for a being
+  Int_position holds s1.a = s2.a holds  s1 =  s2;
+
+theorem :: SCMPDS_4:3
+  for k1,k2 be Nat st k1 <> k2 holds DataLoc(k1,0) <>
+  DataLoc(k2,0);
+
+theorem :: SCMPDS_4:4
+  for dl being Int_position ex i being Nat st dl =
+  DataLoc(i,0);
+
+scheme :: SCMPDS_4:sch 1
+  SCMPDSEx{ G(set) -> Integer, I() -> Element of NAT }:
+ ex S being State of SCMPDS st IC S = I() &
+  for i being Nat holds S.DataLoc(i,0) = G(i);
+
+theorem :: SCMPDS_4:5
+  for s being State of SCMPDS holds dom s = {IC SCMPDS} \/ SCM-Data-Loc;
+
+theorem :: SCMPDS_4:6
+  for s being State of SCMPDS, x being set st x in dom s holds x is
+  Int_position or x = IC SCMPDS;
+
+::$CT
+
+theorem :: SCMPDS_4:8
+  for s1,s2 being State of SCMPDS holds (for a being Int_position
+  holds s1.a = s2.a) iff DataPart s1 = DataPart s2;
+
+
+
+reserve x for set;
+
+begin :: Combining two consecutive blocks into one program block
+
+notation
+  let I,J be Program of SCMPDS;
+  synonym I ';' J for I ^ J;
+end;
+
+definition
+
+  let I,J be Program of SCMPDS;
+  redefine func I ';' J -> Program of SCMPDS equals
+:: SCMPDS_4:def 1
+  I +* Shift(J, card I);
+end;
+
+begin :: Combining a block and a instruction into one program block
+
+definition
+  let i, J;
+  func i ';' J -> Program of SCMPDS equals
+:: SCMPDS_4:def 2
+  Load i ';' J;
+end;
+
+definition
+  let I, j;
+  func I ';' j -> Program of SCMPDS equals
+:: SCMPDS_4:def 3
+  I ';' Load j;
+end;
+
+definition
+  let i,j;
+  func i ';' j -> Program of SCMPDS equals
+:: SCMPDS_4:def 4
+  Load i ';' Load j;
+end;
+
+
+
+theorem :: SCMPDS_4:9
+  i ';' j = Load i ';' j;
+
+theorem :: SCMPDS_4:10
+  i ';' j = i ';' Load j;
+
+
+
+theorem :: SCMPDS_4:11
+  I ';' J ';' k = I ';' (J ';' k);
+
+theorem :: SCMPDS_4:12
+  I ';' j ';' K = I ';' (j ';' K);
+
+theorem :: SCMPDS_4:13
+  I ';' j ';' k = I ';' (j ';' k);
+
+theorem :: SCMPDS_4:14
+  i ';' J ';' K = i ';' (J ';' K);
+
+theorem :: SCMPDS_4:15
+  i ';' J ';' k = i ';' (J ';' k);
+
+theorem :: SCMPDS_4:16
+  i ';' j ';' K = i ';' (j ';' K);
+
+theorem :: SCMPDS_4:17
+  i ';' j ';' k = i ';' (j ';' k);
+
+
+
+reserve l,l1,loc for Nat;
+
+theorem :: SCMPDS_4:18
+  not a in dom Start-At(l,SCMPDS);
+
+definition
+  let s be State of SCMPDS, li be Int_position, k be Integer;
+  redefine func s+*(li,k) -> PartState of SCMPDS;
+end;
+
+begin :: The notions of paraclosed,parahalting and their basic properties
+
+definition
+
+  let I be Program of SCMPDS, s be State of SCMPDS;
+  let P be Instruction-Sequence of SCMPDS;
+  func IExec(I,P,s) -> State of SCMPDS equals
+:: SCMPDS_4:def 5
+  Result(P+*stop I,s);
+end;
+
+definition
+  let I be Program of SCMPDS;
+  attr I is paraclosed means
+:: SCMPDS_4:def 6
+
+  for s being 0-started State of SCMPDS, n being Nat,
+      P being Instruction-Sequence of SCMPDS
+    st stop I c= P
+   holds IC Comput(P,s,n) in dom stop(I);
+  attr I is parahalting means
+:: SCMPDS_4:def 7
+
+  for s being 0-started State of SCMPDS,
+      P being Instruction-Sequence of SCMPDS
+    st stop I c= P
+    holds P halts_on s;
+end;
+
+registration
+  cluster parahalting for Program of SCMPDS;
+end;
+
+::$CT
+
+theorem :: SCMPDS_4:20
+ for P,Q being Instruction-Sequence of SCMPDS
+  st Q = P +*((IC s,IC s + 1) --> (goto 1, goto -1))
+ holds
+  not Q halts_on s;
+
+theorem :: SCMPDS_4:21
+ for P1,P2 being Instruction-Sequence of SCMPDS
+  st  s1 =  s2 & I c= P1 & I c= P2 & (for m st m < n
+  holds IC (Comput(P2,s2,m)) in dom I)
+ for m st m <= n
+holds
+   Comput(P1,s1,m) =  Comput(P2,s2,m);
+
+reserve l1,l2 for Nat,
+  i1,i2 for Instruction of SCMPDS;
+
+registration
+  cluster parahalting -> paraclosed for Program of SCMPDS;
+end;
+
+begin :: Shiftability of program blocks and instructions
+
+definition
+  let i be Instruction of SCMPDS;
+  let n be Nat;
+  pred i valid_at n means
+:: SCMPDS_4:def 8
+
+  (InsCode i= 14 implies ex k1 st i = goto k1 &
+  n+k1 >= 0) & (InsCode i= 4 implies ex a,k1,k2 st i = (a,k1)<>0_goto k2 & n+k2
+>= 0 ) & (InsCode i= 5 implies ex a,k1,k2 st i = (a,k1)<=0_goto k2 & n+k2 >= 0
+  ) & (InsCode i= 6 implies ex a,k1,k2 st i = (a,k1)>=0_goto k2 & n+k2 >= 0);
+end;
+
+reserve l for Nat;
+
+definition
+  let IT be finite (the InstructionsF of SCMPDS)-valued NAT-defined Function;
+  attr IT is shiftable means
+:: SCMPDS_4:def 9
+
+  for n,i st  n in dom IT & i=IT.(n)
+   holds InsCode i <> 1 & InsCode i <> 3 & i valid_at n;
+end;
+
+theorem :: SCMPDS_4:22
+  for i be Instruction of SCMPDS,m,n be Nat st i
+  valid_at m & m <= n holds i valid_at n;
+
+registration
+  cluster parahalting shiftable for Program of SCMPDS;
+end;
+
+definition
+  let i be Instruction of SCMPDS;
+  attr i is shiftable means
+:: SCMPDS_4:def 10
+
+  InsCode i = 2 or InsCode i <> 14 & InsCode i > 6;
+end;
+
+registration
+  cluster shiftable for Instruction of SCMPDS;
+end;
+
+registration
+  let a,k1;
+  cluster a := k1 -> shiftable;
+end;
+
+registration
+  let a,k1,k2;
+  cluster (a,k1) := k2 -> shiftable;
+end;
+
+registration
+  let a,k1,k2;
+  cluster AddTo(a,k1,k2) -> shiftable;
+end;
+
+registration
+  let a,b,k1,k2;
+  cluster AddTo(a,k1,b,k2) -> shiftable;
+  cluster SubFrom(a,k1,b,k2) -> shiftable;
+  cluster MultBy(a,k1,b,k2) -> shiftable;
+  cluster Divide(a,k1,b,k2) -> shiftable;
+  cluster (a,k1) := (b,k2) -> shiftable;
+end;
+
+registration
+  let I,J be shiftable Program of SCMPDS;
+  cluster I ';' J -> shiftable for Program of SCMPDS;
+end;
+
+registration
+  let i be shiftable Instruction of SCMPDS;
+  cluster Load i -> shiftable for Program of SCMPDS;
+end;
+
+registration
+  let i be shiftable Instruction of SCMPDS, J be shiftable Program of SCMPDS;
+  cluster i ';' J -> shiftable;
+end;
+
+registration
+  let I be shiftable Program of SCMPDS, j be shiftable Instruction of SCMPDS;
+  cluster I ';' j -> shiftable;
+end;
+
+registration
+  let i,j be shiftable Instruction of SCMPDS;
+  cluster i ';' j -> shiftable;
+end;
+
+registration
+  cluster Stop SCMPDS -> parahalting shiftable;
+end;
+
+registration
+  let I be shiftable Program of SCMPDS;
+  cluster stop I -> shiftable;
+end;
+
+theorem :: SCMPDS_4:23
+  for I being shiftable Program of SCMPDS,k1 be Integer st card I + k1
+  >= 0 holds I ';' goto k1 is shiftable;
+
+registration
+  let n be Nat;
+  cluster Load goto n -> shiftable for Program of SCMPDS;
+end;
+
+theorem :: SCMPDS_4:24
+  for I being shiftable Program of SCMPDS,k1,k2 be Integer,a be
+  Int_position st card I + k2 >= 0 holds I ';' (a,k1)<>0_goto k2 is shiftable;
+
+registration
+  let k1 be Integer,a be Int_position,n be Nat;
+  cluster Load (a,k1)<>0_goto n -> shiftable for Program of SCMPDS;
+end;
+
+theorem :: SCMPDS_4:25
+  for I being shiftable Program of SCMPDS,k1,k2 be Integer,a be
+  Int_position st card I + k2 >= 0 holds I ';' (a,k1)<=0_goto k2 is shiftable;
+
+registration
+  let k1 be Integer,a be Int_position,n be Nat;
+  cluster Load (a,k1)<=0_goto n -> shiftable for Program of SCMPDS;
+end;
+
+theorem :: SCMPDS_4:26
+  for I being shiftable Program of SCMPDS,k1,k2 be Integer,a be
+  Int_position st card I + k2 >= 0 holds I ';' (a,k1)>=0_goto k2 is shiftable;
+
+registration
+  let k1 be Integer,a be Int_position,n be Nat;
+  cluster Load (a,k1)>=0_goto n -> shiftable for Program of SCMPDS;
+end;
+
+theorem :: SCMPDS_4:27
+  for s1,s2 being State of SCMPDS, n,m being Nat,k1 be
+Integer st IC s1= m & m+k1>=0 & IC s1 + n = IC s2
+ holds ICplusConst(s1,k1) +n = ICplusConst(s2,k1);
+
+theorem :: SCMPDS_4:28
+  for s1,s2 being State of SCMPDS, n,m being Nat, i
+being Instruction of SCMPDS holds IC s1= m & i valid_at m & InsCode i <>
+  1 & InsCode i <> 3 & IC s1 + n = IC s2 & DataPart s1 = DataPart s2 implies
+  IC Exec(i,s1) + n = IC Exec(i,s2) & DataPart Exec(i,s1) = DataPart Exec(i,s2)
+;
+
+theorem :: SCMPDS_4:29
+  for P1,P2 being Instruction-Sequence of SCMPDS
+  for s1 being 0-started State of SCMPDS
+  for J being parahalting shiftable Program of SCMPDS st stop J c= P1
+  for n being Nat st Shift(stop J,n) c= P2 &
+    IC s2 = n & DataPart s1 = DataPart s2
+  for i being Nat holds
+   IC Comput(P1,s1,i) + n = IC Comput(P2,s2,i) &
+    CurInstr(P1,Comput(P1,s1,i)) =
+     CurInstr(P2,Comput(P2,s2,i)) &
+    DataPart Comput(P1,s1,i) = DataPart
+       Comput(P2,s2,i);
+

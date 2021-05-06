@@ -1,0 +1,636 @@
+:: Parity as a Property of Integers
+::  by Rafa{\l} Ziobro
+:: 
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ABIAN, NUMBERS, NAT_1, INT_1, ARYTM_3, XXREAL_0, CARD_1, ARYTM_1,
+      INT_2, COMPLEX1, RELAT_1, PYTHTRIP, SQUARE_1, REAL_1, XCMPLX_0, ORDINAL1,
+      NEWTON, POWER, NEWTON05, SUBSET_1, NAT_3, ZFMISC_1;
+ notations TARSKI, XBOOLE_0, ORDINAL1, XCMPLX_0, XREAL_0, NUMBERS, XXREAL_0,
+      CARD_1, RELAT_1, FUNCT_1, POWER, INT_1, INT_2, NAT_1, NEWTON, ABIAN,
+      ABSVALUE, RVSUM_1, FINSEQ_1, FINSEQ_3, TREES_4, IRRAT_1, COMPLEX1,
+      NEWTON03, PYTHTRIP, SQUARE_1, SUBSET_1, PARTFUN1, ZFMISC_1, NAT_D;
+ constructors SQUARE_1, NAT_1, NAT_D, NEWTON, RFINSEQ, WSIERP_1, EULER_1,
+      SEQ_1, RECDEF_1, CLASSES1, BINOP_2, RELSET_1, NUMBERS, COMPLEX1, POWER,
+      INT_1, PREPOWER, ABIAN, NEWTON02, NEWTON03, PYTHTRIP, ORDINAL1, PEPIN,
+      ABSVALUE, NAT_3, MOEBIUS1, XCMPLX_0, REAL_1;
+ registrations ABIAN, FUNCT_1, ORDINAL1, RELSET_1, NUMBERS, XXREAL_0, XREAL_0,
+      NAT_1, INT_1, INT_2, FINSEQ_1, SEQM_3, NEWTON, XBOOLE_0, XCMPLX_0,
+      REAL_1, VALUED_0, FINSET_1, CARD_1, WSIERP_1, POWER, SQUARE_1, NAT_6,
+      PYTHTRIP, PREPOWER, NEWTON01, NEWTON02, NEWTON03, COMPLEX1, ABSVALUE,
+      NAT_2, MOEBIUS1, RVSUM_1, RELAT_1, NAT_3, INT_6, LAGRA4SQ, REAL_3,
+      NUMPOLY1, TOPREALC, RVSUM_3, FINSEQ_2, PARTFUN3, FOMODEL0, MEMBERED,
+      RAT_1, INT_3;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+registration
+  let a be Integer;
+  cluster a mod a -> zero;
+  cluster a mod 2 -> natural;
+end;
+
+registration
+  let a,b be Integer;
+  reduce (a*b) gcd |.a.| to |.a.|;
+end;
+
+registration
+  let a be odd Nat;
+  cluster a mod 2 -> non zero;
+end;
+
+registration
+  let a be even Integer;
+  cluster a mod 2 -> zero;
+  reduce (a+1) mod 2 to 1;
+end;
+
+registration
+  let a,b be Real;
+  cluster max (a,b) - min (a,b) -> non negative;
+end;
+
+registration
+  let a be Nat,b be non zero Nat;
+  reduce a mod (a+b) to a;
+  cluster a div (a+b) -> zero;
+end;
+
+registration
+  let a be non trivial Nat;
+  cluster a |-count 1 -> zero;
+  cluster a |-count (-1) -> zero;
+end;
+
+registration
+  let a be non trivial Nat, b be Nat;
+  reduce a |-count a|^b to b;
+  reduce a |-count -a|^b to b;
+end;
+
+theorem :: NEWTON05:1
+  for a,b be Integer holds a divides b implies b/a is integer;
+
+registration
+  cluster non zero for even Integer;
+  cluster non zero trivial -> odd for Nat;
+end;
+
+registration
+  cluster non trivial for odd Nat;
+end;
+
+registration
+  let a be Integer, b be even Integer;
+  cluster a lcm b -> even;
+end;
+
+registration
+  let a,b be odd Integer;
+  cluster a lcm b -> odd;
+end;
+
+:: min, max, absolute value
+
+registration
+  let a,b be Integer;
+  cluster (a+b)/(a gcd b) -> integer;
+  cluster (a-b)/(a gcd b) -> integer;
+end;
+
+theorem :: NEWTON05:2
+  for a,b be Real holds |.a + b.| = |.a.| + |.b.| or |.a - b.| = |.a.| + |. b.|
+;
+
+theorem :: NEWTON05:3
+  for a,b be Real holds
+    |.|.a.| - |.b.|.| = |.a + b.| or |.|.a.| - |. b.|.| = |.a - b.|;
+
+theorem :: NEWTON05:4
+  for a,b be Real holds
+    |.|.a.| - |.b.|.| = |.a + b.| iff  |.a - b.| = |.a.| + |.b.|;
+
+theorem :: NEWTON05:5
+  for a,b be Real holds
+    |.a + b.| = |.a.| + |.b.| iff |.a - b.| = |.|.a.| - |.b.|.|;
+
+theorem :: NEWTON05:6
+  for a,b be non zero Real holds
+  (|.|.a.| - |.b.|.| = |.a + b.| & |.a - b.| = |.a.| + |. b.|)
+  iff not (|.|.a.| - |.b.|.| = |.a - b.| & |.a + b.| = |.a.| + |. b.|);
+
+theorem :: NEWTON05:7
+  for a,b be positive Real, n be Nat holds
+  min (a|^n,b|^n) = (min (a,b))|^n;
+
+theorem :: NEWTON05:8
+  for a,b be positive Real, n be Nat holds
+  max (a|^n,b|^n) = (max (a,b))|^n;
+
+theorem :: NEWTON05:9
+  for a be non zero Nat,m,n be Nat holds
+    min (a|^n,a|^m) = a|^(min (n,m));
+
+theorem :: NEWTON05:10
+  for a be non zero Nat,m,n be Nat holds
+  max (a|^n,a|^m) = a|^(max (n,m));
+
+:: modular arithmetic
+
+theorem :: NEWTON05:11
+   for a,b be Nat holds a mod b <= a;
+
+theorem :: NEWTON05:12
+for a be Nat, b,c be non zero Nat holds
+  (a mod c) + (b mod c) >= (a+b) mod c;
+
+theorem :: NEWTON05:13
+  for a be Nat, b,c be non zero Nat holds
+  (a mod c) * (b mod c) >= (a*b) mod c;
+
+theorem :: NEWTON05:14
+  for a be Nat, b,n be non zero Nat holds
+  (a mod b)|^n >= a|^n mod b;
+
+theorem :: NEWTON05:15
+  for a be Nat, b,n be non zero Nat holds
+  a mod b = 1 implies a|^n mod b = 1;
+
+theorem :: NEWTON05:16
+for a,b be Nat, c be non zero Nat holds
+  (a mod c)*(b mod c) < c iff (a*b) mod c = (a mod c)*(b mod c);
+
+theorem :: NEWTON05:17
+for a,b,c be Nat holds
+  (a mod c)*(b mod c) = c implies a*b mod c = 0;
+
+theorem :: NEWTON05:18
+  for a,b be Nat,c be non zero Nat holds
+  (a mod c)*(b mod c) >= c implies a mod c > 1;
+
+theorem :: NEWTON05:19
+  for a,b be Integer, c be non zero Nat holds
+  ((a+b) mod c = b mod c implies a mod c = 0) &
+  ((a+b) mod c <> b mod c implies a mod c > 0);
+
+theorem :: NEWTON05:20
+  for a be Nat, b,c be non zero Nat holds
+  (a*b) mod c = b implies (a*(b gcd c)) mod c = b gcd c;
+
+theorem :: NEWTON05:21
+for a,b be Integer holds a,b are_congruent_mod a gcd b;
+
+theorem :: NEWTON05:22
+  for k,l be odd square Integer holds (k-l) mod 8 = 0;
+
+theorem :: NEWTON05:23
+  for k,l be odd square Integer holds (k+l) mod 8 = 2;
+
+:: Two definitions of parity, denoted by small and capital letters are introduced.
+:: Both are defined according to a typical "even/odd" distinction, not the
+:: property itself (therefore 1 has non zero "parity"/"Parity").
+:: "Parity" denoted by a capital letter results in the largest power of 2
+:: which divides certain number (or zero if no such number could be given)
+:: At the same time "parity" denoted by a small letter refers only to the
+:: divisibility by 2 (therefore 2 has zero "parity", which could be misleading).
+:: Although "oddness" could be used here instead of "parity", it would not
+:: be compatible with "Parity" (moreover "even oddness" is also confusing),
+
+
+definition
+  let a be Integer;
+  func parity a -> trivial Nat equals
+:: NEWTON05:def 1
+  a mod 2;
+end;
+
+definition
+  let a be Integer;
+  redefine func parity a -> trivial Nat equals
+:: NEWTON05:def 2
+  2 - (a gcd 2);
+end;
+
+registration
+  let a be even Integer;
+  cluster parity a -> zero;
+end;
+
+registration
+  let a be odd Integer;
+  cluster parity a -> non zero;
+end;
+
+definition
+  let a be Integer;
+  func Parity a -> Nat equals
+:: NEWTON05:def 3
+
+  0 if a = 0 otherwise 2|^(2|-count a);
+end;
+
+registration
+  let a be non zero Integer;
+  cluster Parity a -> non zero;
+end;
+
+registration
+  let a be non zero even Integer;
+  cluster Parity a -> non trivial;
+  cluster Parity a -> even;
+end;
+
+registration
+  let a be even Integer;
+  cluster Parity a -> even;
+  cluster Parity (a+1) -> odd;
+end;
+
+registration
+  let a be odd Integer;
+  cluster Parity a -> trivial;
+end;
+
+registration
+  let n be Nat;
+  reduce Parity (2|^n) to 2|^n;
+end;
+
+registration
+  reduce Parity 1 to 1;
+  reduce Parity 2 to 2;
+end;
+
+theorem :: NEWTON05:24
+  for a be Integer holds Parity a divides a;
+
+theorem :: NEWTON05:25
+for a,b be Integer holds Parity (a*b) = (Parity a)*(Parity b);
+
+definition
+  let a be Integer;
+  func Oddity a -> Integer equals
+:: NEWTON05:def 4
+  a/Parity a;
+end;
+
+theorem :: NEWTON05:26
+  for a be non zero Integer holds  a/(Parity a) = a div (Parity a);
+
+registration
+  let a be Integer;
+  reduce (Parity a)*(Oddity a) to a;
+  reduce Parity (Parity a) to Parity a;
+  reduce Oddity (Oddity a) to Oddity a;
+  cluster Parity (Oddity a) -> trivial;
+  cluster a + Parity a -> even;
+  cluster a - Parity a -> even;
+  cluster a/(Parity a) -> integer;
+end;
+
+theorem :: NEWTON05:27
+  for a be non zero Integer holds Oddity (Parity a) = 1;
+
+theorem :: NEWTON05:28
+  for a,b be Integer holds Oddity (a*b) = (Oddity a)*(Oddity b);
+
+registration
+  let a be non zero Integer;
+  cluster a/(Parity a) -> odd;
+  cluster a div (Parity a) -> odd;
+end;
+
+theorem :: NEWTON05:29
+  for a,b be Integer holds
+    Parity a divides Parity b or Parity b divides Parity a;
+
+theorem :: NEWTON05:30
+for a,b be non zero Integer holds
+  Parity a divides Parity b iff Parity b >= Parity a;
+
+theorem :: NEWTON05:31
+  for a,b be non zero Integer st Parity a > Parity b holds
+  2*(Parity b) divides Parity a;
+
+theorem :: NEWTON05:32
+  for a be Integer holds Parity a = Parity (-a);
+
+theorem :: NEWTON05:33
+  for a be Integer holds Parity a = Parity |.a.|;
+
+theorem :: NEWTON05:34
+  for a be Integer holds Parity a <= |.a.|;
+
+theorem :: NEWTON05:35
+  for a,b be Integer st a,b are_coprime holds a is odd or b is odd;
+
+theorem :: NEWTON05:36
+  for a,b be odd Integer st |.a.| <> |.b.| holds
+    min (Parity(a-b),Parity(a+b)) = 2;
+
+theorem :: NEWTON05:37
+  for a,b be odd Integer holds min (Parity(a-b),Parity(a+b)) <= 2;
+
+theorem :: NEWTON05:38
+  for a,b be Integer st a,b are_coprime holds min
+    (Parity(a-b),Parity(a+b)) <= 2;
+
+theorem :: NEWTON05:39
+  for a,b be non zero Integer, c be non trivial Nat holds
+  c|-count (a gcd b) = min (c|-count a, c|-count b);
+
+theorem :: NEWTON05:40
+  for a,b be non zero Integer holds
+    Parity (a gcd b) = min (Parity a,Parity b);
+
+theorem :: NEWTON05:41
+  for a,b be Integer holds (Parity a) gcd (Parity b) = Parity (a gcd b);
+
+theorem :: NEWTON05:42
+  for a be Nat holds  Parity (2*a) = 2*(Parity a);
+
+theorem :: NEWTON05:43
+  for a,b be Integer holds (Parity a) lcm (Parity b) = Parity (a lcm b);
+
+theorem :: NEWTON05:44
+  for a,b be non zero Integer holds Parity (a lcm b) = max (Parity a,Parity b);
+
+theorem :: NEWTON05:45
+  for a,b be Integer holds
+    Parity (a + b) = Parity(a gcd b)*Parity ((a+b)/(a gcd b));
+
+theorem :: NEWTON05:46
+  for a be Integer, n be Nat holds Parity (a|^n) = (Parity a)|^n;
+
+theorem :: NEWTON05:47
+for a,b be non zero Integer, n be Nat holds
+  min (Parity (a|^n),Parity (b|^n)) = (min (Parity a,Parity b))|^n;
+
+registration
+  let a be odd Integer;
+  identify Parity a with parity a;
+  identify parity a with Parity a;
+  reduce a|^(parity a) to a;
+end;
+
+registration
+  let a be even Integer;
+  cluster a|^(parity a) -> trivial non zero;
+end;
+
+registration
+  let a be Integer;
+  reduce parity (parity a) to parity a;
+  reduce Parity (parity a) to parity a;
+end;
+
+theorem :: NEWTON05:48
+  for a be Integer holds
+    (a is even iff parity a is even) & (parity a is even iff Parity a is even);
+
+registration
+  let a be Integer;
+  cluster parity a + Parity a -> even;
+  cluster Parity a - parity a -> even;
+  cluster Parity a - parity a -> natural;
+  cluster a + parity a -> even;
+  cluster a - parity a -> even;
+end;
+
+:: Some obvious theorems on parity
+
+theorem :: NEWTON05:49
+  for a be Integer holds  parity (Parity a) = parity a;
+
+theorem :: NEWTON05:50
+for a be Integer holds parity a = parity (-a);
+
+theorem :: NEWTON05:51
+  for a,b be Integer holds parity (a-b) = |.(parity a) - (parity b).|;
+
+theorem :: NEWTON05:52
+for a,b be Integer holds parity (a+b) = parity ((parity a)+(parity b));
+
+theorem :: NEWTON05:53
+for a,b be Integer holds parity (a+b) = parity (a-b);
+
+theorem :: NEWTON05:54
+  for a,b be Integer holds parity (a+b) = |.(parity a) - (parity b).|;
+
+theorem :: NEWTON05:55
+  for a,b be Nat holds
+    (parity (a+b) = parity b implies parity a = 0) &
+      (parity (a+b) <> parity b implies parity a = 1);
+
+theorem :: NEWTON05:56
+for a,b be Integer holds
+  parity (a+b) = (parity a) + (parity b) - 2*(parity a)*(parity b) &
+  parity a - parity b = parity (a+b) - 2*(parity (a+b))*(parity b) &
+  parity a - parity b = 2*(parity a)*parity (a+b) - parity (a+b);
+
+theorem :: NEWTON05:57
+  for a,b be Integer holds  (a+b) is even iff parity a = parity b;
+
+theorem :: NEWTON05:58
+for a,b be Integer holds parity (a*b) = (parity a)*(parity b);
+
+theorem :: NEWTON05:59
+for a,b be Integer holds parity (a lcm b) = parity (a*b);
+
+theorem :: NEWTON05:60
+for a,b be Integer holds parity (a gcd b) = max (parity a, parity b);
+
+theorem :: NEWTON05:61
+for a,b be Integer holds parity (a*b) = min (parity a, parity b);
+
+theorem :: NEWTON05:62
+for a be Integer, n be non zero Nat holds parity (a|^n) = parity a;
+
+theorem :: NEWTON05:63
+  for a,b be non zero Integer holds
+    Parity (a+b) >= (Parity a)+(Parity b) implies
+    Parity a = Parity b;
+
+theorem :: NEWTON05:64
+  for a,b be Integer holds Parity (a+b) > (Parity a)+(Parity b) implies
+  Parity a = Parity b;
+
+theorem :: NEWTON05:65
+   for a,b be odd Integer, m be odd Nat holds
+   Parity (a|^m + b|^m) = Parity (a + b);
+
+theorem :: NEWTON05:66
+for a,b be odd Integer, m be even Nat holds
+  Parity (a|^m + b|^m) = 2;
+
+theorem :: NEWTON05:67
+  for a,b be non zero Integer st a + b <> 0 holds
+  Parity a = Parity b implies Parity (a+b) >= (Parity a) + (Parity b);
+
+theorem :: NEWTON05:68
+  for a,b be non zero Integer holds
+    Parity (a+b) = Parity b iff Parity a > Parity b;
+
+theorem :: NEWTON05:69
+  for a,b be non zero Nat holds Parity (a+b) < (Parity a)+(Parity b) implies
+  Parity (a+b) = min (Parity a, Parity b);
+
+theorem :: NEWTON05:70
+  for a,b be non zero Integer st a + b <> 0 holds
+  Parity (a+b) = Parity a implies Parity a < Parity b;
+
+theorem :: NEWTON05:71
+  for a be Integer holds
+  Parity(a + Parity a) = (Parity ((Oddity a) + 1)) * (Parity a) &
+  Parity(a - Parity a) = (Parity ((Oddity a) - 1)) * (Parity a);
+
+theorem :: NEWTON05:72
+for a be Integer holds 2*(Parity a) divides Parity (a + Parity a)
+  & 2*(Parity a) divides Parity (a - Parity a);
+
+theorem :: NEWTON05:73
+  for a,b be Integer st Parity a = Parity b holds
+  Parity (a+b) = Parity ((a+Parity a) + (b-Parity b));
+
+theorem :: NEWTON05:74
+  for a be Nat holds Parity (a + Parity a) >= 2*Parity a;
+
+theorem :: NEWTON05:75
+  for a be Nat holds Parity (a - Parity a) >= 2*Parity a or a = Parity a;
+
+theorem :: NEWTON05:76
+  for a,b be odd Integer holds Parity (a+b) <> Parity (a-b);
+
+theorem :: NEWTON05:77
+  for a,b be odd Integer holds Parity (a+1) = Parity (b-1) implies a <> b;
+
+theorem :: NEWTON05:78
+  for a be odd Nat, b be non trivial odd Nat holds
+    Parity (a+b) = min(Parity (a+1), Parity (b-1)) or
+      Parity (a+b) >= 2*Parity (a+1);
+
+theorem :: NEWTON05:79
+  for a,b be non zero Integer holds Parity a > Parity b implies
+  a div (Parity b) is even;
+
+theorem :: NEWTON05:80
+  for a,b be non zero Integer holds
+    Parity a > Parity b iff (Parity a) div (Parity b) is non zero even;
+
+theorem :: NEWTON05:81
+  for a be odd Nat holds Parity (a-1) = 2 * Parity(a div 2);
+
+theorem :: NEWTON05:82
+  for a,b be non zero Integer holds min(Parity a,Parity b) divides a &
+  min (Parity a,Parity b) divides b;
+
+registration
+  let a,b be non zero Integer;
+  cluster (a+b)/min(Parity a,Parity b) -> integer;
+end;
+
+registration
+  let p be non square Integer;
+  let n be odd Nat;
+  cluster p|^n -> non square;
+end;
+
+registration
+  let a be Integer;
+  let n be even Nat;
+  cluster a|^n -> square;
+end;
+
+registration
+  let p be prime Nat;
+  let a be non zero square Integer;
+  cluster p|-count a -> even;
+end;
+
+registration
+  let a be odd Integer;
+  cluster 2*a -> non square;
+end;
+
+registration
+  let a be square Integer;
+  cluster Parity a -> square;
+  cluster Oddity a -> square;
+end;
+
+registration
+  let a be non zero square Integer;
+  cluster 2|-count a -> even;
+end;
+
+theorem :: NEWTON05:83
+  for a,b be non negative Real holds
+  max(a,b) - min(a,b) = |.a - b.|;
+
+theorem :: NEWTON05:84
+  for a be even Integer st not 4 divides a holds a is non square;
+
+theorem :: NEWTON05:85
+for a,b be odd Integer holds a-b is square implies not a + b is square;
+
+theorem :: NEWTON05:86
+  for a,b be non zero Integer holds
+  Parity (a+b) = (min (Parity a,Parity b))*
+    Parity ((a+b)/min(Parity a,Parity b));
+
+theorem :: NEWTON05:87
+  for a,b be non zero Integer holds
+    Parity a, Oddity b are_coprime & (Parity a) gcd (Oddity b) = 1;
+
+theorem :: NEWTON05:88
+  for a be Integer holds |.Oddity a.| = Oddity |.a.|;
+
+theorem :: NEWTON05:89
+  for a,b be Integer holds (Oddity a) gcd (Oddity b) = Oddity (a gcd b);
+
+theorem :: NEWTON05:90
+  for a,b be non zero Integer holds
+    a gcd b = ((Parity a) gcd (Parity b))*((Oddity a) gcd (Oddity b));
+
+theorem :: NEWTON05:91
+  for a be odd Nat holds Parity (a+1) = 2 iff parity (a div 2) = 0;
+
+theorem :: NEWTON05:92
+for a be even Integer holds a div 2 = (a+1) div 2;
+
+theorem :: NEWTON05:93
+  for a,b be Integer holds
+  a + b = 2*((a div 2) + (b div 2)) + (parity a) + (parity b);
+
+theorem :: NEWTON05:94
+for a,b be odd Integer holds
+  Parity (a+b) = 2*Parity ((a div 2) + (b div 2) + 1);
+
+theorem :: NEWTON05:95
+  for a,b be odd Integer holds
+  Parity (a+b) = 2 iff parity (a div 2) = parity (b div 2);
+
+theorem :: NEWTON05:96
+  for a,b be non zero Integer holds Parity (a+b) = ((Parity a)+(Parity b)) iff
+  (Parity a = Parity b) & parity ((Oddity a) div 2) = parity ((Oddity b) div 2)
+;
+
+theorem :: NEWTON05:97
+for a,b be non zero Integer st
+  a+b <> 0 & Parity a = Parity b &
+  parity ((Oddity a) div 2) <> parity ((Oddity b) div 2) holds
+    Parity (a+b) > (Parity a)+(Parity b);

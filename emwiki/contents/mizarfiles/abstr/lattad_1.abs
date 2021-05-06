@@ -1,0 +1,637 @@
+:: Formalization of Generalized Almost Distributive Lattices
+::  by Adam Grabowski
+::
+:: Received September 26, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, XBOOLE_0, ZFMISC_1, SUBSET_1, EQREL_1, PBOOLE,
+      LATTICES, ROBBINS3, LATTAD_1, QUANTAL1, RELAT_1, RELAT_2, PARTFUN1,
+      TARSKI, ORDERS_1, ORDERS_2, WAYBEL_0, XXREAL_0, BINOP_1, FUNCT_1,
+      REALSET1, LATTICE4, FILTER_0;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, STRUCT_0, BINOP_1, RELAT_1,
+      RELAT_2, RELSET_1, PARTFUN1, ORDERS_1, ORDERS_2, LATTICES, ROBBINS3,
+      WAYBEL_0, REALSET1, FUNCT_1, ENUMSET1;
+ constructors BINOP_1, STRUCT_0, LATTICES, ROBBINS3, RELAT_1, RELAT_2,
+      RELSET_1, PARTFUN1, ORDERS_1, ORDERS_2, WAYBEL_0, REALSET1, ENUMSET1;
+ registrations XBOOLE_0, SUBSET_1, CARD_1, STRUCT_0, LATTICES, ROBBINS3,
+      RELSET_1, RELAT_1, RELAT_2, PARTFUN1, ORDERS_1, ORDERS_2;
+ requirements SUBSET, BOOLE, NUMERALS;
+
+
+begin :: Preliminaries
+
+theorem :: LATTAD_1:1
+  for L being non empty 1-sorted,
+      R being total Relation of the carrier of L holds
+    R is reflexive iff for x being Element of L holds [x,x] in R;
+
+registration
+  cluster trivial -> distributive for non empty LattStr;
+end;
+
+begin :: Almost Distributive Lattices
+
+:: Almost Distributive Lattices satisfy:
+:: a "/\" (b "\/" c) = (a "/\" b) "\/" (a "/\" c);
+:: (x \/ y) /\ z = (x /\ z) \/ (y /\ z)
+:: (x \/ y) /\ y = y
+:: (x \/ y) /\ x = x
+:: x \/ (x /\ y) = x (meet-Absorbing)
+
+definition let L be non empty LattStr;
+  attr L is Distributive means
+:: LATTAD_1:def 1
+    for x,y,z being Element of L holds
+      (x "\/" y) "/\" z = (x "/\" z) "\/" (y "/\" z);
+  attr L is Meet-absorbing means
+:: LATTAD_1:def 2
+    for x,y being Element of L holds
+      (x "\/" y) "/\" y = y;
+  attr L is Meet-Absorbing means
+:: LATTAD_1:def 3
+    for x,y being Element of L holds
+      (x "\/" y) "/\" x = x;
+end;
+
+registration
+  cluster trivial -> Distributive Meet-absorbing
+    Meet-Absorbing meet-Absorbing for non empty LattStr;
+  cluster trivial -> Lattice-like for non empty LattStr;
+end;
+
+registration
+  cluster trivial for Lattice;
+end;
+
+registration
+  cluster Distributive distributive Meet-absorbing
+    Meet-Absorbing meet-Absorbing for non empty LattStr;
+end;
+
+definition
+  mode AD_Lattice is Distributive distributive Meet-absorbing
+    Meet-Absorbing meet-Absorbing non empty LattStr;
+end;
+
+begin :: Properties of Almost Distributive Lattices
+
+ reserve L for AD_Lattice;
+ reserve x,y,z for Element of L;
+
+theorem :: LATTAD_1:2    :: Lemma 2.3. (1)
+  x "\/" y = x iff x "/\" y = y;
+
+theorem :: LATTAD_1:3    :: Lemma 2.3. (11)
+  x "\/" x = x;
+
+theorem :: LATTAD_1:4    :: Lemma 2.3. (11)
+  x "/\" x = x;
+
+theorem :: LATTAD_1:5    :: Lemma 2.3. (9)
+  (x "/\" y) "\/" y = y;
+
+theorem :: LATTAD_1:6    :: Lemma 2.3 (2)
+  x "\/" y = y iff x "/\" y = x;
+
+theorem :: LATTAD_1:7    :: Lemma 2.3. (9)
+  x "/\" (x "\/" y) = x;
+
+theorem :: LATTAD_1:8    :: Lemma 2.3. (9)
+  x "\/" (y "/\" x) = x;
+
+theorem :: LATTAD_1:9    :: Lemma 2.3. (10)
+  x [= x "\/" y & x "/\" y [= y;
+
+theorem :: LATTAD_1:10
+  x [= y iff x "/\" y = x;
+
+theorem :: LATTAD_1:11
+  x "/\" (y "/\" x) = y "/\" x;
+
+theorem :: LATTAD_1:12  :: Theorem 1.7. (1) <=> (2)
+  (x "/\" y) "\/" x = x iff x "/\" (y "\/" x) = x;
+
+theorem :: LATTAD_1:13  :: Theorem 1.7. (3) <=> (4)
+  (y "/\" x) "\/" y = y iff y "/\" (x "\/" y) = y;
+
+theorem :: LATTAD_1:14  :: Theorem 1.7. (1) => (5)
+  (x "/\" y) "\/" x = x implies x "/\" y = y "/\" x;
+
+theorem :: LATTAD_1:15   :: Theorem 1.7. (2) => (6)
+  x "/\" (y "\/" x) = x implies x "\/" y = y "\/" x;
+
+theorem :: LATTAD_1:16   :: Lemma 2.3. (13)
+  (ex z being Element of L st x [= z & y [= z) implies
+     x "\/" y = y "\/" x;
+
+theorem :: LATTAD_1:17   :: Lemma 2.3. (3)
+  x [= y implies x "\/" y = y "\/" x;
+
+begin :: Generalization of Almost Distributive Lattices
+
+:: A Generalized Almost Distributive Lattice satisfies:
+::
+:: (x /\ y) /\ z = x /\ (y /\ z)
+:: x /\ (y \/ z) = (x /\ y) \/ (x /\ z) (distributive)
+:: x \/ (y /\ z) = (x \/ y) /\ (x \/ z)
+:: x /\ (x \/ y) = x (join-absorbing)
+:: (x \/ y) /\ x = x (Meet-Absorbing)
+:: (x /\ y) \/ y = y (meet-absorbing)
+
+definition let L be non empty LattStr;
+  attr L is left-Distributive means
+:: LATTAD_1:def 4
+    for x,y,z being Element of L holds
+      x "\/" (y "/\" z) = (x "\/" y) "/\" (x "\/" z);
+  attr L is ADL-absorbing means
+:: LATTAD_1:def 5
+    for x,y being Element of L holds
+      x "/\" (y "\/" x) = x;
+end;
+
+registration
+  cluster trivial -> meet-associative distributive left-Distributive
+    Meet-Absorbing for non empty LattStr;
+end;
+
+registration
+  cluster meet-associative distributive left-Distributive
+    join-absorbing Meet-Absorbing meet-absorbing
+      for non empty LattStr;
+end;
+
+definition
+  mode GAD_Lattice is meet-associative distributive left-Distributive
+    join-absorbing Meet-Absorbing meet-absorbing non empty LattStr;
+end;
+
+ reserve L for GAD_Lattice;
+ reserve x,y,z for Element of L;
+
+theorem :: LATTAD_1:18    :: Lemma 3.4. (I \/)
+  x "\/" x = x;
+
+theorem :: LATTAD_1:19    :: Lemma 3.4. (I /\)
+  x "/\" x = x;
+
+theorem :: LATTAD_1:20    :: Lemma 3.4. (A4)
+  x "\/" (x "/\" y) = x;
+
+theorem :: LATTAD_1:21    :: Lemma 3.4. (A5)
+  x "\/" (y "/\" x) = x;
+
+theorem :: LATTAD_1:22    :: Lemma 3.5. (1)
+  x "/\" y = y implies x "\/" y = x;
+
+theorem :: LATTAD_1:23    :: Lemma 3.5. (2)
+  x "\/" y = y iff x "/\" y = x;
+
+begin :: Order Properties of the Generated Relation on GADLs
+
+theorem :: LATTAD_1:24
+  x [= x;
+
+theorem :: LATTAD_1:25
+  x [= y & y [= z implies x [= z;
+
+definition let L be non empty LattStr;
+::: LattRel could be used, if generalized - TODO
+  func LatOrder L -> Relation equals
+:: LATTAD_1:def 6
+    { [a,b] where a,b is Element of L : a [= b };
+end;
+
+theorem :: LATTAD_1:26
+  dom LatOrder L = the carrier of L &
+    rng LatOrder L = the carrier of L &
+    field LatOrder L = the carrier of L;
+
+definition let L;
+  redefine func LatOrder L -> Relation of the carrier of L;
+end;
+
+registration let L;
+  cluster LatOrder L -> total for Relation of the carrier of L;
+end;
+
+theorem :: LATTAD_1:27
+  [x,y] in LatOrder L iff x [= y;
+
+definition let L be non empty LattStr;
+  func ThetaOrder L -> Relation equals
+:: LATTAD_1:def 7
+    { [a,b] where a,b is Element of L : a "/\" b = b };
+end;
+
+theorem :: LATTAD_1:28
+  dom ThetaOrder L = the carrier of L &
+    rng ThetaOrder L = the carrier of L &
+    field ThetaOrder L = the carrier of L;
+
+definition let L;
+  redefine func ThetaOrder L -> Relation of the carrier of L;
+end;
+
+registration let L;
+  cluster ThetaOrder L -> total for Relation of the carrier of L;
+end;
+
+theorem :: LATTAD_1:29
+  [x,y] in ThetaOrder L iff x "/\" y = y;
+
+registration let L;
+  cluster LatOrder L -> reflexive;
+  cluster LatOrder L -> transitive;
+end;
+
+registration let L;
+  cluster ThetaOrder L -> reflexive;
+  cluster ThetaOrder L -> transitive;
+end;
+
+begin :: Formalization of Rao et al.'s paper
+
+theorem :: LATTAD_1:30    :: Lemma 3.6. (1)
+  x "\/" (x "\/" y) = x "\/" y;
+
+theorem :: LATTAD_1:31    :: Lemma 3.6. (3)
+  x "/\" (y "/\" x) = y "/\" x;
+
+theorem :: LATTAD_1:32    :: Lemma 3.6. (2)
+  y "/\" (x "/\" y) = x "/\" y;
+
+definition let L; let a,b be Element of L;
+  pred ex_lub_of a,b means
+:: LATTAD_1:def 8
+  ex c being Element of L st
+    a [= c & b [= c &
+      for x being Element of L st a [= x & b [= x holds c [= x;
+  pred ex_glb_of a,b means
+:: LATTAD_1:def 9
+  ex c being Element of L st
+    c [= a & c [= b &
+      for x being Element of L st x [= a & x [= b holds x [= c;
+end;
+
+definition let L; let a,b be Element of L;
+  assume
+  ex_lub_of a,b;
+  func lub (a,b) -> Element of L means
+:: LATTAD_1:def 10
+    a [= it & b [= it &
+      for x being Element of L st a [= x & b [= x holds it [= x;
+end;
+
+definition let L; let a,b be Element of L;
+  assume
+  ex_glb_of a,b;
+  func glb (a,b) -> Element of L means
+:: LATTAD_1:def 11
+    it [= a & it [= b &
+      for x being Element of L st x [= a & x [= b holds x [= it;
+end;
+
+:: Theorem 3.7.
+
+theorem :: LATTAD_1:33  :: Theorem 3.7. (1) <=> (2)
+  (x "/\" y) "\/" x = x iff x "/\" (y "\/" x) = x;
+
+theorem :: LATTAD_1:34  :: Theorem 3.7. (1) <=> (3)
+  (x "/\" y) "\/" x = x iff (y "/\" x) "\/" y = y;
+
+theorem :: LATTAD_1:35  :: Theorem 3.7. (1) <=> (4)
+  (x "/\" y) "\/" x = x iff y "/\" (x "\/" y) = y;
+
+theorem :: LATTAD_1:36  :: Theorem 3.7. (1) <=> (5)
+  (x "/\" y) "\/" x = x iff x "/\" y = y "/\" x;
+
+theorem :: LATTAD_1:37  :: Theorem 3.7. (1) <=> (6)
+  (x "/\" y) "\/" x = x iff x "\/" y = y "\/" x;
+
+theorem :: LATTAD_1:38
+  x [= y iff x "/\" y = x;
+
+:: Theorem 3.8.
+
+theorem :: LATTAD_1:39  :: Theorem 3.8. 1) <=> 2)
+  x "\/" y = y "\/" x iff y [= x "\/" y;
+
+theorem :: LATTAD_1:40  :: Theorem 3.8. 1) <=> 3)
+  x "\/" y = y "\/" x iff ex z st x [= z & y [= z;
+
+theorem :: LATTAD_1:41  :: Theorem 3.8. 1) <=> 4)
+  x "\/" y = y "\/" x iff ex_lub_of x,y & x "\/" y = lub (x,y);
+
+theorem :: LATTAD_1:42  :: Theorem 3.8. 1) <=> 5)
+  x "\/" y = y "\/" x iff x [= y "\/" x;
+
+theorem :: LATTAD_1:43  :: Theorem 3.8. 1) <=> 6)
+  x "\/" y = y "\/" x iff ex_lub_of x,y & y "\/" x = lub (x,y);
+
+:: Theorem 3.9.
+
+theorem :: LATTAD_1:44   :: Theorem 3.9.  (2) => (?)
+  x "/\" y [= x implies ex z st z [= x & z [= y;
+
+theorem :: LATTAD_1:45   :: Theorem 3.9. (1) <=> (4)
+  x "/\" y = y "/\" x iff y "/\" x [= y;
+
+theorem :: LATTAD_1:46   :: Theorem 3.9. (1) <=> (5)
+  x "/\" y = y "/\" x iff ex_glb_of x,y & y "/\" x = glb (x,y);
+
+theorem :: LATTAD_1:47   :: Theorem 3.9. (1) <=> (2)
+  x "/\" y = y "/\" x iff x "/\" y [= x;
+
+theorem :: LATTAD_1:48   :: Theorem 3.9. (1) <=> (3)
+  x "/\" y = y "/\" x iff ex_glb_of x,y & x "/\" y = glb (x,y);
+
+theorem :: LATTAD_1:49   :: Lemma 3.10.
+  x "/\" y "/\" z = y "/\" x "/\" z;
+
+definition
+  let L be GAD_Lattice;
+  func LatRelStr L -> strict RelStr equals
+:: LATTAD_1:def 12
+  RelStr (# the carrier of L, LatOrder L #);
+end;
+
+registration
+  let L be GAD_Lattice;
+  cluster LatRelStr L -> reflexive transitive;
+end;
+
+theorem :: LATTAD_1:50
+  for a,b being Element of L,
+      x,y being Element of LatRelStr L st
+    a = x & b = y holds
+    x <= y iff a [= b;
+
+theorem :: LATTAD_1:51  :: Theorem 3.11. (4) <=> (1)
+  L is join-commutative iff L is Lattice-like distributive;
+
+theorem :: LATTAD_1:52   :: Theorem 3.11. (4) <=> (2)
+  L is join-commutative iff LatRelStr L is directed;
+
+theorem :: LATTAD_1:53   :: Theorem 3.11. (4) <=> (3)
+  L is join-commutative iff L is ADL-absorbing;
+
+theorem :: LATTAD_1:54   :: Theorem 3.11. (4) <=> (5)
+  L is join-commutative iff L is meet-commutative;
+
+theorem :: LATTAD_1:55   :: Theorem 3.11. (4) <=> (6)
+  L is join-commutative iff ThetaOrder L is antisymmetric;
+
+theorem :: LATTAD_1:56   :: Theorem 3.11. (4) <=> (7)
+  L is join-commutative iff ThetaOrder L is being_partial-order;
+
+registration let L be join-commutative GAD_Lattice;
+  cluster ThetaOrder L -> antisymmetric;
+end;
+
+registration
+  cluster join-commutative -> ADL-absorbing for GAD_Lattice;
+  cluster ADL-absorbing -> join-commutative for GAD_Lattice;
+end;
+
+registration
+  cluster join-commutative -> meet-commutative for GAD_Lattice;
+  cluster meet-commutative -> join-commutative for GAD_Lattice;
+end;
+
+
+:: Theorem 3.13.
+
+theorem :: LATTAD_1:57   :: Theorem 3.13. (3) => (1)
+  (for a,b,c being Element of L holds
+      (a "\/" b) "/\" c = (b "\/" a) "/\" c) implies
+    for a,b,c being Element of L holds
+       (a "\/" b) "/\" c = (a "/\" c) "\/" (b "/\" c);
+
+theorem :: LATTAD_1:58   :: Theorem 3.13. (1) => (2)
+  (for a,b,c being Element of L holds
+    (a "\/" b) "/\" c = (a "/\" c) "\/" (b "/\" c)) implies
+    for a,b being Element of L holds (a "\/" b) "/\" b = b;
+
+theorem :: LATTAD_1:59   :: Theorem 3.13. (2) => (3)
+  (for a,b being Element of L holds (a "\/" b) "/\" b = b) implies
+    for a,b,c being Element of L holds
+      (a "\/" b) "/\" c = (b "\/" a) "/\" c;
+
+begin :: Generalized Almost Distributive Lattices with Zero
+
+definition let L;
+  attr L is with_zero means
+:: LATTAD_1:def 13
+    ex x being Element of L st
+    for a being Element of L holds x "/\" a = x;
+end;
+
+registration
+  cluster trivial -> with_zero for non empty GAD_Lattice;
+end;
+
+registration
+  cluster with_zero for non empty GAD_Lattice;
+end;
+
+definition let L; :: Definition 3.14.
+  assume
+  L is with_zero;
+  func bottom L -> Element of L means
+:: LATTAD_1:def 14
+    for a being Element of L holds it "/\" a = it;
+end;
+
+reserve L for with_zero GAD_Lattice,
+        x,y for Element of L;
+
+theorem :: LATTAD_1:60   :: Lemma 3.15. (2)
+  x "\/" bottom L = x;
+
+theorem :: LATTAD_1:61   :: Lemma 3.15. (3)
+  bottom L "\/" x = x;
+
+theorem :: LATTAD_1:62   :: Lemma 3.15. (4)
+  x "/\" bottom L = bottom L;
+
+theorem :: LATTAD_1:63   :: Lemma 3.16.
+  x "/\" y = bottom L iff y "/\" x = bottom L;
+
+theorem :: LATTAD_1:64   :: Lemma 3.17.
+  x "/\" y = bottom L implies x "\/" y = y "\/" x;
+
+begin
+
+definition
+  let x,y be Element of {1,2,3};
+  func x example32"/\" y -> Element of {1,2,3} equals
+:: LATTAD_1:def 15
+  1 if y = 1 or (y = 2 & (x = 1 or x = 3)),
+  2 if x = 2 & y = 2,
+  3 if y = 3;
+  func x example32"\/" y -> Element of {1,2,3} equals
+:: LATTAD_1:def 16
+  1 if x = 1 & (y = 1 or y = 3),
+  2 if x = 2 or (x = 1 & y = 2),
+  3 if x = 3;
+end;
+
+definition
+  func example32\/ -> BinOp of {1,2,3} means
+:: LATTAD_1:def 17
+  for x,y being Element of {1,2,3} holds it.(x,y) = x example32"\/" y;
+  func example32/\ -> BinOp of {1,2,3} means
+:: LATTAD_1:def 18
+  for x,y being Element of {1,2,3} holds it.(x,y) = x example32"/\" y;
+end;
+
+theorem :: LATTAD_1:65 :: Example 3.2
+  ex L being non empty LattStr st
+  (for x being Element of L holds x = 1 or x = 2 or x = 3) &
+  (for x,y being Element of L holds
+    (x "/\" y = 1 iff y = 1 or (y = 2 & (x = 1 or x = 3))) &
+    (x "/\" y = 2 iff x = 2 & y = 2) &
+    (x "/\" y = 3 iff y = 3)) &
+  (for x,y being Element of L holds
+    (x "\/" y = 1 iff x = 1 & (y = 1 or y = 3)) &
+    (x "\/" y = 2 iff x = 2 or (x = 1 & y = 2)) &
+    (x "\/" y = 3 iff x = 3)) &
+  L is GAD_Lattice & L is not AD_Lattice;
+
+definition
+  let x,y be Element of {1,2,3};
+  func x example33"/\" y -> Element of {1,2,3} equals
+:: LATTAD_1:def 19
+  1 if x = 1 & y = 1,
+  2 if y = 2 or (y = 1 & (x = 2 or x = 3)),
+  3 if y = 3;
+  func x example33"\/" y -> Element of {1,2,3} equals
+:: LATTAD_1:def 20
+  1 if x = 1 or (x = 2 & y = 1),
+  2 if x = 2 & (y = 2 or y = 3),
+  3 if x = 3;
+end;
+
+definition
+  func example33\/ -> BinOp of {1,2,3} means
+:: LATTAD_1:def 21
+  for x,y being Element of {1,2,3} holds it.(x,y) = x example33"\/" y;
+  func example33/\ -> BinOp of {1,2,3} means
+:: LATTAD_1:def 22
+  for x,y being Element of {1,2,3} holds it.(x,y) = x example33"/\" y;
+end;
+
+theorem :: LATTAD_1:66 :: Example 3.3
+  ex L being non empty LattStr st
+  (for x being Element of L holds x = 1 or x = 2 or x = 3) &
+  (for x,y being Element of L holds
+    (x "/\" y = 1 iff x = 1 & y = 1) &
+    (x "/\" y = 2 iff y = 2 or (y = 1 & (x = 2 or x = 3))) &
+    (x "/\" y = 3 iff y = 3)) &
+  (for x,y being Element of L holds
+    (x "\/" y = 1 iff x = 1 or (x = 2 & y = 1)) &
+    (x "\/" y = 2 iff x = 2 & (y = 2 or y = 3)) &
+    (x "\/" y = 3 iff x = 3)) &
+  L is GAD_Lattice;
+
+:: like NAT_LAT ::
+definition
+  let L be non empty LattStr;
+  mode SubLattStr of L -> LattStr means
+:: LATTAD_1:def 23
+    the carrier of it c= the carrier of L &
+    the L_join of it = (the L_join of L)||the carrier of it &
+    the L_meet of it = (the L_meet of L)||the carrier of it;
+end;
+
+registration
+  let L be non empty LattStr;
+  cluster strict for SubLattStr of L;
+end;
+
+:: like LATTICES ::
+definition
+  let L be non empty LattStr, S be Subset of L;
+  attr S is meet-closed means
+:: LATTAD_1:def 24
+  for p,q being Element of L st p in S & q in S holds p "/\" q in S;
+  attr S is join-closed means
+:: LATTAD_1:def 25
+  for p,q being Element of L st p in S & q in S holds p "\/" q in S;
+end;
+
+registration
+  let L be non empty LattStr;
+  cluster meet-closed join-closed non empty for Subset of L;
+end;
+
+definition
+  let L be non empty LattStr;
+  mode ClosedSubset of L is meet-closed join-closed Subset of L;
+end;
+
+definition
+  let L be non empty LattStr;
+  let P be ClosedSubset of L;
+  func latt(L,P) -> strict SubLattStr of L means
+:: LATTAD_1:def 26
+  the carrier of it = P;
+end;
+
+registration
+  let L be non empty LattStr;
+  let S be non empty ClosedSubset of L;
+  cluster latt(L,S) -> non empty;
+end;
+
+registration
+  let L be non empty LattStr;
+  cluster non empty for SubLattStr of L;
+end;
+
+theorem :: LATTAD_1:67
+  for L be non empty LattStr, S be non empty SubLattStr of L,
+      x1,x2 be Element of L, y1,y2 be Element of S
+  st x1 = y1 & x2 = y2 holds x1 "\/" x2 = y1 "\/" y2;
+
+theorem :: LATTAD_1:68
+  for L be non empty LattStr, S be non empty SubLattStr of L,
+      x1,x2 be Element of L, y1,y2 be Element of S
+  st x1 = y1 & x2 = y2 holds x1 "/\" x2 = y1 "/\" y2;
+
+theorem :: LATTAD_1:69
+  for L being non empty LattStr, S being non empty ClosedSubset of L holds
+  (L is meet-associative implies latt(L,S) is meet-associative) &
+  (L is meet-absorbing implies latt(L,S) is meet-absorbing) &
+  (L is meet-commutative implies latt(L,S) is meet-commutative) &
+  (L is join-associative implies latt(L,S) is join-associative) &
+  (L is join-absorbing implies latt(L,S) is join-absorbing) &
+  (L is join-commutative implies latt(L,S) is join-commutative) &
+  (L is Meet-Absorbing implies latt(L,S) is Meet-Absorbing) &
+  (L is distributive implies latt(L,S) is distributive) &
+  (L is left-Distributive implies latt(L,S) is left-Distributive);
+
+theorem :: LATTAD_1:70 :: Corollary 3.12
+  for a being Element of L, X being set st
+    X = the set of all x "/\" a where x is Element of L
+  holds
+    X = {x where x is Element of L: x [= a} & X is ClosedSubset of L;
+
+theorem :: LATTAD_1:71 :: Corollary 3.12
+ for a being Element of L, S being non empty ClosedSubset of L,
+     b being Element of latt(L,S) st b = a &
+    S = the set of all x "/\" a where x is Element of L
+  holds latt(L,S) is Lattice-like distributive &
+  (for c being Element of latt(L,S) holds b "\/" c = b & c "\/" b = b & c [= b)
+;
+
