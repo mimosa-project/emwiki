@@ -1,0 +1,230 @@
+:: Vertex sequences induced by chains
+::  by Yatsuka Nakamura and Piotr Rudnicki
+::
+:: Received May 13, 1995
+:: Copyright (c) 1995-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, XBOOLE_0, SUBSET_1, NAT_1, ARYTM_3, XXREAL_0,
+      ARYTM_1, RELAT_1, FUNCT_1, TARSKI, FINSET_1, CARD_1, ORDINAL4, GRAPH_1,
+      STRUCT_0, TREES_2, PARTFUN1, GLIB_000, FINSEQ_2, ZFMISC_1, FINSEQ_4,
+      FUNCT_4, GRAPH_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS, XCMPLX_0,
+      XXREAL_0, RELAT_1, RELSET_1, XXREAL_2, FINSEQ_1, FUNCT_1, PARTFUN1,
+      FUNCT_2, ZFMISC_1, FINSEQ_2, FINSEQ_4, FUNCT_7, FINSET_1, INT_1, NAT_1,
+      NAT_D, RECDEF_1, STRUCT_0, GRAPH_1, FINSEQ_6;
+ constructors WELLORD2, RECDEF_1, FINSEQ_4, FINSEQ_6, GRAPH_1, FUNCT_7,
+      XXREAL_2, NAT_D, RELSET_1, FINSEQ_2;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, FINSET_1, XXREAL_0, XREAL_0, NAT_1,
+      INT_1, CARD_1, FINSEQ_1, FINSEQ_6, GRAPH_1, NUMBERS, MEMBERED, VALUED_0,
+      XXREAL_2, STRUCT_0, RELSET_1, ORDINAL1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+::$CT 28
+::$CD 4
+
+reserve p, q for FinSequence,
+  X, Y, x, y, e for set,
+  D for non empty set,
+  i, j, k, l, m, n, r for Nat;
+reserve G for Graph;
+reserve v, v1, v2, v3, v4 for Element of G;
+
+theorem :: GRAPH_2:29
+  e joins v1,v2 implies e joins v2,v1;
+
+theorem :: GRAPH_2:30
+  e joins v1,v2 & e joins v3,v4 implies v1=v3 & v2=v4 or v1=v4 & v2=v3;
+
+reserve vs, vs1, vs2 for FinSequence of the carrier of G,
+  c, c1, c2 for Chain of G;
+
+definition
+  let G, X;
+  func G-VSet X -> set equals
+:: GRAPH_2:def 5
+  { v: ex e being Element of the carrier' of G st
+  e in X & (v = (the Source of G).e or v = (the Target of G).e) };
+end;
+
+definition
+  let G, vs;
+  let c be FinSequence;
+  pred vs is_vertex_seq_of c means
+:: GRAPH_2:def 6
+
+  len vs = len c + 1 & for n being Nat st 1<=n &
+  n<=len c holds c.n joins vs/.n, vs/.(n+1);
+end;
+
+theorem :: GRAPH_2:31
+  c <>{} & vs is_vertex_seq_of c implies G-VSet rng c = rng vs;
+
+theorem :: GRAPH_2:32
+  <*v*> is_vertex_seq_of {};
+
+theorem :: GRAPH_2:33
+  ex vs st vs is_vertex_seq_of c;
+
+theorem :: GRAPH_2:34
+  c <>{} & vs1 is_vertex_seq_of c & vs2 is_vertex_seq_of c & vs1
+<> vs2 implies vs1.1<>vs2.1 & for vs st vs is_vertex_seq_of c holds vs = vs1 or
+  vs = vs2;
+
+definition
+  let G;
+  let c be FinSequence;
+  pred c alternates_vertices_in G means
+:: GRAPH_2:def 7
+  len c>=1 & card (G-VSet rng c) = 2 &
+  for n st n in dom c holds (the Source of G).(c.n) <> (the Target of G).(c
+  .n);
+end;
+
+theorem :: GRAPH_2:35
+  c alternates_vertices_in G & vs is_vertex_seq_of c implies for k
+  st k in dom c holds vs.k <> vs.(k+1);
+
+theorem :: GRAPH_2:36
+  c alternates_vertices_in G & vs is_vertex_seq_of c implies rng
+  vs = {(the Source of G).(c.1), (the Target of G).(c.1)};
+
+theorem :: GRAPH_2:37
+  c alternates_vertices_in G & vs is_vertex_seq_of c implies vs is
+  TwoValued Alternating FinSequence;
+
+theorem :: GRAPH_2:38
+  c alternates_vertices_in G implies ex vs1,vs2 st vs1<>vs2 & vs1
+  is_vertex_seq_of c & vs2 is_vertex_seq_of c & for vs st vs is_vertex_seq_of c
+  holds vs=vs1 or vs=vs2;
+
+theorem :: GRAPH_2:39
+  vs is_vertex_seq_of c implies (card the carrier of G = 1 or c <>
+{} & not c alternates_vertices_in G iff for vs1 st vs1 is_vertex_seq_of c holds
+  vs1 = vs);
+
+definition
+  let G, c;
+  assume
+ card the carrier of G = 1 or c <>{} & not c alternates_vertices_in G;
+  func vertex-seq c -> FinSequence of the carrier of G means
+:: GRAPH_2:def 8
+  it is_vertex_seq_of c;
+end;
+
+theorem :: GRAPH_2:40
+  vs is_vertex_seq_of c & c1 = c|Seg n & vs1= vs|Seg (n+1) implies
+  vs1 is_vertex_seq_of c1;
+
+theorem :: GRAPH_2:41
+  1<=m & m<=n & n<=len c & q = (m,n)-cut c implies q is Chain of G;
+
+theorem :: GRAPH_2:42
+  1<=m & m<=n & n<=len c & c1 = (m,n)-cut c & vs is_vertex_seq_of
+  c & vs1 = (m,n+1)-cut vs implies vs1 is_vertex_seq_of c1;
+
+theorem :: GRAPH_2:43
+  vs1 is_vertex_seq_of c1 & vs2 is_vertex_seq_of c2 & vs1.len vs1
+  = vs2.1 implies c1^c2 is Chain of G;
+
+theorem :: GRAPH_2:44
+  vs1 is_vertex_seq_of c1 & vs2 is_vertex_seq_of c2 & vs1.len vs1
+  = vs2.1 & c = c1^c2 & vs = vs1^'vs2 implies vs is_vertex_seq_of c;
+
+begin
+
+definition
+  let G;
+  let IT be Chain of G;
+  attr IT is simple means
+:: GRAPH_2:def 9
+
+  ex vs st vs is_vertex_seq_of IT & for n,m st
+  1<=n & n<m & m<=len vs & vs.n=vs.m holds n=1 & m=len vs;
+end;
+
+registration
+  let G;
+  cluster simple for Chain of G;
+end;
+
+reserve sc for simple Chain of G;
+
+theorem :: GRAPH_2:45
+  sc|(Seg n) is simple Chain of G;
+
+theorem :: GRAPH_2:46
+  2<len sc & vs1 is_vertex_seq_of sc & vs2 is_vertex_seq_of sc implies vs1=vs2;
+
+theorem :: GRAPH_2:47
+  vs is_vertex_seq_of sc implies for n, m st 1<=n & n<m & m<=len vs & vs
+  .n = vs.m holds n=1 & m=len vs;
+
+:: A chain may have more than one simple chain spanning its endpoints.
+:: The following chain:
+::             .--->.
+::             ^    |
+::             |    v
+::        .--->.<---.--->.
+::             |    ^
+::             v    |
+::             .--->.
+:: is a case in point:
+
+theorem :: GRAPH_2:48
+  not c is simple Chain of G & vs is_vertex_seq_of c implies ex fc
+  being Subset of c, fvs being Subset of vs, c1, vs1 st len c1 < len c & vs1
+is_vertex_seq_of c1 & len vs1 < len vs & vs.1 = vs1.1 & vs.len vs = vs1.len vs1
+  & Seq fc = c1 & Seq fvs = vs1;
+
+theorem :: GRAPH_2:49
+  vs is_vertex_seq_of c implies ex fc being Subset of c, fvs being
+Subset of vs, sc, vs1 st Seq fc = sc & Seq fvs = vs1 & vs1 is_vertex_seq_of sc
+  & vs.1 = vs1.1 & vs.len vs = vs1.len vs1;
+
+registration
+  let G;
+  cluster empty -> one-to-one for Chain of G;
+end;
+
+theorem :: GRAPH_2:50
+  p is Path of G implies p|Seg(n) is Path of G;
+
+registration
+  let G;
+  cluster simple for Path of G;
+end;
+
+theorem :: GRAPH_2:51
+  2<len sc implies sc is Path of G;
+
+theorem :: GRAPH_2:52
+  sc is Path of G iff len sc = 0 or len sc = 1 or sc.1<>sc.2;
+
+registration
+  let G;
+  cluster empty -> oriented for Chain of G;
+end;
+
+definition
+  let G;
+  let oc be oriented Chain of G;
+  assume
+ oc <> {};
+  func vertex-seq oc -> FinSequence of the carrier of G means
+:: GRAPH_2:def 10
+  it is_vertex_seq_of oc & it.1 = (the Source of G).(oc.1);
+end;
+

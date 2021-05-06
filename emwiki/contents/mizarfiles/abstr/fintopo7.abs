@@ -1,0 +1,359 @@
+:: Topology from Neighbourhoods
+::  by Roland Coghetto
+::
+:: Received August 14, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSET_1, CARD_1, XBOOLE_0, SUBSET_1, SETFAM_1, TARSKI, ZFMISC_1,
+      FUNCT_1, RELAT_1, FUNCOP_1, CARD_FIL, PCOMPS_1, STRUCT_0, ORDERS_2,
+      YELLOW_1, CONNSP_2, YELLOW_6, NAT_1, ARYTM_3, PARTFUN1, PRE_TOPC,
+      FINTOPO2, RCOMP_1, RLVECT_3, CANTOR_1, FILTER_0, XXREAL_1, YELLOW19,
+      CARDFIL2, FINTOPO7;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, SETFAM_1, FINSET_1, CARD_1,
+      RELSET_1, CARD_FIL, STRUCT_0, DOMAIN_1, NUMBERS, ORDERS_2, YELLOW_1,
+      NAT_1, CANTOR_1, FUNCT_2, FUNCOP_1, PARTFUN1, FINTOPO2, PRE_TOPC,
+      CONNSP_2, CARDFIL2;
+ constructors FINTOPO2, CANTOR_1, NAT_LAT, NAT_1, BORSUK_1, CARDFIL2, XXREAL_2,
+      SIMPLEX0;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, CARD_1, STRUCT_0, MEMBERED,
+      FUNCT_2, ZFMISC_1, FINTOPO2, PRE_TOPC;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve X for non empty set;
+
+theorem :: FINTOPO7:1
+  for B,Y being Subset-Family of X st Y c= UniCl B holds union Y in UniCl B;
+
+theorem :: FINTOPO7:2
+  for B being empty Subset-Family of X st (for B1,B2 being Element of B holds
+    ex BB being Subset of B st B1 /\ B2 = union BB) & X = union B
+  holds FinMeetCl B c= UniCl B;
+
+theorem :: FINTOPO7:3
+  for B being non empty Subset-Family of X st
+  (for B1,B2 being Element of B holds
+    ex BB being Subset of B st B1/\B2 = union BB) & X = union B
+  holds FinMeetCl B c= UniCl B;
+
+theorem :: FINTOPO7:4
+  for B being Subset-Family of X st (for B1,B2 being Element of B holds
+  ex BB being Subset of B st B1 /\ B2 = union BB) & X = union B
+  holds UniCl B = UniCl FinMeetCl B & TopStruct(#X,UniCl B#) is TopSpace-like;
+
+theorem :: FINTOPO7:5
+  for FMT being non empty FMT_Space_Str holds ex S being RelStr st
+  for x being Element of FMT holds U_FMT x is Subset of S;
+
+registration
+  let T be non empty TopSpace;
+  cluster NeighSp T -> Fo_filled;
+end;
+
+begin :: Open and Neighborhood in FMT_Space_Str
+
+definition
+  let ET be non empty strict FMT_Space_Str, O be Subset of ET;
+  attr O is open means
+:: FINTOPO7:def 1
+
+  for x being Element of ET st x in O holds O in U_FMT x;
+end;
+
+definition
+  let ET being non empty strict FMT_Space_Str;
+  attr ET is U_FMT_filter means
+:: FINTOPO7:def 2
+
+  for x being Element of ET holds U_FMT x is Filter of the carrier of ET;
+
+  attr ET is U_FMT_with_point means
+:: FINTOPO7:def 3
+
+  for x being Element of ET, V being Element of U_FMT x holds x in V;
+
+  attr ET is U_FMT_local means
+:: FINTOPO7:def 4
+
+  for x being Element of ET,V being Element of U_FMT x
+  ex W being Element of U_FMT x st for y being Element of ET st
+    y is Element of W holds V is Element of U_FMT y;
+end;
+
+theorem :: FINTOPO7:6
+  for ET being non empty strict FMT_Space_Str st ET is U_FMT_filter holds
+  for x being Element of ET holds U_FMT x is non empty;
+
+theorem :: FINTOPO7:7
+  for ET being non empty strict FMT_Space_Str st ET is U_FMT_with_point
+  holds ET is Fo_filled;
+
+theorem :: FINTOPO7:8
+  for ET being non empty strict FMT_Space_Str st ET is Fo_filled &
+  for x being Element of ET holds U_FMT x is non empty holds
+  ET is U_FMT_with_point;
+
+theorem :: FINTOPO7:9
+  for ET being non empty strict FMT_Space_Str st ET is Fo_filled &
+  ET is U_FMT_filter holds ET is U_FMT_with_point;
+
+registration
+  cluster U_FMT_local U_FMT_with_point U_FMT_filter for non empty
+    strict FMT_Space_Str;
+end;
+
+theorem :: FINTOPO7:10
+  for ET being U_FMT_filter non empty strict FMT_Space_Str,
+  x being Element of ET holds the carrier of ET in U_FMT x;
+
+definition
+  let ET being U_FMT_filter non empty strict FMT_Space_Str;
+  let x being Element of ET;
+  mode a_neighborhood of x -> Subset of ET means
+:: FINTOPO7:def 5
+
+  it in U_FMT x;
+end;
+
+registration
+  let ET being U_FMT_filter non empty strict FMT_Space_Str;
+  let x being Element of ET;
+  cluster open for a_neighborhood of x;
+end;
+
+definition
+  let ET being U_FMT_filter non empty strict FMT_Space_Str;
+  let A being Subset of ET;
+  mode a_neighborhood of A -> Subset of ET means
+:: FINTOPO7:def 6
+
+  for x being Element of ET st x in A holds it in U_FMT x;
+end;
+
+registration
+  let ET being U_FMT_filter non empty strict FMT_Space_Str;
+  let A being Subset of ET;
+  cluster open for a_neighborhood of A;
+end;
+
+theorem :: FINTOPO7:11
+  for ET being U_FMT_filter non empty strict FMT_Space_Str,
+  A being Subset of ET holds for NA being a_neighborhood of A,
+  B being Subset of ET st NA c= B holds B is a_neighborhood of A;
+
+definition
+  let ET being U_FMT_filter non empty strict FMT_Space_Str;
+  let A being Subset of ET;
+  func Neighborhood A -> Subset-Family of ET equals
+:: FINTOPO7:def 7
+  the set of all N where N is a_neighborhood of A;
+end;
+
+theorem :: FINTOPO7:12
+  for ET being U_FMT_filter non empty strict FMT_Space_Str,
+  A being non empty Subset of ET holds
+  Neighborhood A is Filter of the carrier of ET;
+
+definition
+  let ET being non empty strict FMT_Space_Str;
+  attr ET is U_FMT_filter_base means
+:: FINTOPO7:def 8
+  for x being Element of the carrier of ET holds
+  U_FMT x is filter_base of the carrier of ET;
+end;
+
+definition
+  let ET being non empty FMT_Space_Str;
+  func <.ET.] -> Function of the carrier of ET,
+  bool bool the carrier of ET means
+:: FINTOPO7:def 9
+
+  for x be Element of the carrier of ET holds it.x=<.(U_FMT x).];
+end;
+
+definition
+  let ET being non empty strict FMT_Space_Str;
+  func gen_filter(ET) -> non empty strict FMT_Space_Str equals
+:: FINTOPO7:def 10
+  FMT_Space_Str(#the carrier of ET,<.ET.] #);
+end;
+
+theorem :: FINTOPO7:13
+  for ET being non empty strict FMT_Space_Str st ET is U_FMT_filter_base
+  holds gen_filter(ET) is U_FMT_filter;
+
+begin :: Topology from Neighbourhoods
+
+definition
+  mode FMT_TopSpace is U_FMT_local
+    U_FMT_with_point U_FMT_filter non empty strict FMT_Space_Str;
+end;
+
+notation
+  let ET being FMT_TopSpace,x being Element of ET;
+  synonym NeighborhoodSystem x for U_FMT x;
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster open for Subset of ET;
+end;
+
+definition
+  let ET being FMT_TopSpace;
+  func Family_open_set(ET) -> non empty Subset-Family
+    of the carrier of ET equals
+:: FINTOPO7:def 11
+  the set of all O where O is open Subset of ET;
+end;
+
+theorem :: FINTOPO7:14
+  for ET being FMT_TopSpace holds
+  {} in Family_open_set(ET) &
+  the carrier of ET in Family_open_set(ET) &
+  (for a being Subset-Family of ET st a c= Family_open_set(ET) holds
+    union a in Family_open_set(ET)) &
+  (for a, b being Subset of ET st a in Family_open_set(ET) &
+    b in Family_open_set(ET) holds a /\ b in Family_open_set(ET));
+
+theorem :: FINTOPO7:15
+  for ET being FMT_TopSpace,a being Element of ET,
+  V being a_neighborhood of a holds
+  ex O being open Subset of ET st a in O & O c= V;
+
+theorem :: FINTOPO7:16
+  for ET being FMT_TopSpace, A being non empty Subset of ET holds
+  for V being Subset of ET holds V is a_neighborhood of A iff
+  ex O being open Subset of ET st A c= O & O c= V;
+
+theorem :: FINTOPO7:17
+  for ET being FMT_TopSpace, A being non empty Subset of ET
+  holds Neighborhood A is Filter of the carrier of ET;
+
+definition
+  let ET being FMT_TopSpace, A being non empty Subset of ET;
+  func OpenNeighborhoods A -> Subset-Family of the carrier of ET equals
+:: FINTOPO7:def 12
+  the set of all N where N is open a_neighborhood of A;
+end;
+
+theorem :: FINTOPO7:18
+  for ET being FMT_TopSpace, cF being Filter of the carrier of ET,
+  cS being non empty Subset of cF holds for A being non empty Subset of ET
+  st cF = Neighborhood A & cS = OpenNeighborhoods A holds cS is filter_basis;
+
+theorem :: FINTOPO7:19
+  for T being non empty TopSpace holds ex ET being FMT_TopSpace st
+  the carrier of T = the carrier of ET &
+  Family_open_set(ET) = the topology of T;
+
+theorem :: FINTOPO7:20
+  for T being non empty TopSpace, ET being FMT_TopSpace st
+  the carrier of T = the carrier of ET &
+  Family_open_set(ET) = the topology of T holds
+  for x being Element of ET holds
+  U_FMT x = {V where V is Subset of ET:
+  ex O being Subset of T st O in the topology of T & x in O & O c= V};
+
+begin :: Basis
+
+definition
+  let ET being FMT_TopSpace, F being Subset-Family of ET;
+  attr F is quasi_basis means
+:: FINTOPO7:def 13
+
+  Family_open_set(ET) c= UniCl F;
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster Family_open_set(ET) -> quasi_basis;
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster quasi_basis for Subset-Family of ET;
+end;
+
+definition
+  let ET being FMT_TopSpace;
+  let S being Subset-Family of ET;
+  attr S is open means
+:: FINTOPO7:def 14
+S c= Family_open_set(ET);
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster open for Subset-Family of ET;
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster open quasi_basis for Subset-Family of ET;
+end;
+
+definition
+  let ET being FMT_TopSpace;
+  mode Basis of ET is open quasi_basis Subset-Family of ET;
+end;
+
+theorem :: FINTOPO7:21
+  for ET being FMT_TopSpace, B being Basis of ET holds
+  Family_open_set(ET) = UniCl B;
+
+theorem :: FINTOPO7:22
+  for B being non empty Subset-Family of X st
+  (for B1,B2 being Element of B holds
+  ex BB being Subset of B st B1/\B2=union BB) & X = union B
+  holds
+    ex ET being FMT_TopSpace st the carrier of ET = X & B is Basis of ET;
+
+theorem :: FINTOPO7:23
+  for ET being FMT_TopSpace, B being Basis of ET holds
+  (for B1,B2 being Element of B holds
+  ex BB being Subset of B st B1 /\ B2 = union BB) &
+  (the carrier of ET = union B);
+
+begin :: Bijection between TopSpace and FMT_TopSpace
+
+definition
+  let T being non empty TopSpace;
+  func TopSpace2FMT T -> FMT_TopSpace means
+:: FINTOPO7:def 15
+
+  the carrier of it = the carrier of T &
+  Family_open_set(it) = the topology of T;
+end;
+
+definition
+  let ET being FMT_TopSpace;
+  func FMT2TopSpace ET -> strict TopSpace means
+:: FINTOPO7:def 16
+
+  the carrier of it = the carrier of ET &
+  Family_open_set(ET) = the topology of it;
+end;
+
+registration
+  let ET being FMT_TopSpace;
+  cluster FMT2TopSpace ET -> non empty;
+end;
+
+theorem :: FINTOPO7:24
+  for T being non empty strict TopSpace holds T = FMT2TopSpace TopSpace2FMT T;
+
+theorem :: FINTOPO7:25
+  for ET being FMT_TopSpace holds ET = TopSpace2FMT FMT2TopSpace ET;

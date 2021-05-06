@@ -1,0 +1,1135 @@
+:: About Quotient Orders and Ordering Sequences
+::  by Sebastian Koch
+::
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, REAL_1, PARTFUN1, RELAT_1, ARYTM_1, FUNCT_1,
+      ARYTM_3, TARSKI, XBOOLE_0, CARD_1, NAT_1, FUNCOP_1, XXREAL_0, CARD_3,
+      FUNCT_2, RELAT_2, EQREL_1, STRUCT_0, ORDERS_2, REARRAN1, WELLFND1,
+      FINSEQ_5, WAYBEL20, REALALG1, FINSEQ_2, PARTFUN3, ORDINAL4, CLASSES1,
+      PRE_POLY, FINSET_1, DICKSON, FINSEQ_1, ORDERS_1, PETERSON, XCMPLX_0,
+      ZFMISC_1, UPROOTS, ORDERS_5;
+ notations ORDINAL1, XCMPLX_0, XREAL_0, XXREAL_0, TARSKI, XBOOLE_0, SUBSET_1,
+      NUMBERS, FUNCOP_1, RELAT_1, RELAT_2, CARD_1, CLASSES1, RELSET_1,
+      VALUED_0, VALUED_1, FUNCT_1, PARTFUN1, FUNCT_2, PARTFUN3, FINSET_1,
+      FINSEQ_2, FINSEQOP, RVSUM_1, FINSEQ_1, DICKSON, ORDERS_1, FINSEQ_3,
+      FINSEQ_5, EQREL_1, STRUCT_0, NECKLACE, PRE_POLY, ORDERS_2;
+ constructors NAT_D, FINSEQ_5, PARTFUN3, RELSET_1, RVSUM_1, CLASSES1, PRE_POLY,
+      MATRPROB, FINSEQOP, NECKLACE, DICKSON;
+ registrations XBOOLE_0, ORDINAL1, NUMBERS, XREAL_0, MEMBERED, RELAT_1,
+      RELAT_2, RELSET_1, EQREL_1, JORDAN23, VALUED_0, VALUED_1, FUNCT_1,
+      FUNCT_2, PARTFUN3, STRUCT_0, ORDERS_2, NAT_1, FINSET_1, FINSEQ_1,
+      PARTFUN1, RVSUM_1, PRE_POLY, CARD_1, SUBSET_1, FINSEQ_5;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+:: into SUBSET_1 ?
+theorem :: ORDERS_5:1
+  for A, B being set, x being object holds
+    A = B \ {x} & x in B implies B \ A = {x};
+
+:: into RELAT_1 ? present in FOMODEL0
+registration
+  let Y be set, X be Subset of Y;
+  cluster X-defined -> Y-defined for Relation;
+::  cluster X-valued -> Y-valued for Relation;
+::  coherence by RELAT_1:183;
+end;
+
+:: placement in CARD_2 also seems appropriate because of CARD_2:60
+theorem :: ORDERS_5:2
+  for X being set, x being object st x in X & card X = 1 holds {x} = X;
+
+:: into FINSEQ_1 ?
+:: interesting enough, trivdemo didn't recognized this one as trivial
+theorem :: ORDERS_5:3
+  for X being set, k being Nat st X c= Seg k holds rng Sgm X c= Seg k;
+
+:: into FINSEQ_1 ?
+registration
+  let s be FinSequence;
+  let N be Subset of dom s;
+  cluster s * Sgm(N) -> FinSequence-like;
+end;
+
+:: into FINSEQ_2 ?
+:: compare FINSEQ_2:32
+registration
+  let A be set, B be Subset of A, C be non empty set,
+  f be FinSequence of B, g be Function of A, C;
+  cluster g*f -> FinSequence-like;
+end;
+
+:: into FINSEQ_2 ?
+registration
+  let s be FinSequence;
+  cluster s * idseq len(s) -> FinSequence-like;
+end;
+
+:: into FINSEQ_5 ?
+registration
+  let s be FinSequence;
+  reduce Rev(Rev(s)) to s;
+end;
+
+:: into FINSET_1 ?
+:: last registration before Addenda there only covers non empty version
+registration
+  let X be set;
+  cluster finite for Subset of X;
+end;
+
+:: into FINSET_1 ?
+scheme :: ORDERS_5:sch 1
+ Finite2{A()->set, B()->Subset of A(), P[set]} : P[A()]
+provided
+ A() is finite and
+ P[B()] and
+ for x,C being set st x in A()\B() & B() c= C & C c= A() & P[C] holds
+      P[C \/ {x}];
+
+:: into EQREL ?
+::: EQREL_1:45 is a corollary from this
+registration
+  let A be empty set;
+  cluster -> empty for a_partition of A;
+end;
+
+::: into EQREL ?
+registration
+  let A be empty set;
+  cluster empty for a_partition of A;
+end;
+
+:: into STRUCT_0 ?
+:: actually, I'm not sure why this redefinition is even needed by the analyzer
+definition
+  let S, T be 1-sorted, f be Function of S, T;
+  let B be Subset of S;
+  redefine func f.:B -> Subset of T;
+end;
+
+:: compare BAGORDER:11
+:: this proof actually doesn't need the assumption "R linearly_orders B"
+theorem :: ORDERS_5:4
+  for X being set, R being Order of X, B being finite Subset of X,
+    x being object st B = {x} holds
+      SgmX(R,B) = <*x*>;
+
+:: into RVSUM_1 ?
+theorem :: ORDERS_5:5
+  for s being FinSequence of REAL st Sum s <> 0 holds
+    ex i being Nat st i in dom s & s.i <> 0;
+
+:: into RVSUM_1 ?
+:: similar to RVSUM_1:85
+theorem :: ORDERS_5:6
+  for s being FinSequence of REAL st s is nonnegative-yielding &
+    ex i being Nat st i in dom s & s.i <> 0 holds
+      Sum s > 0;
+
+:: into RVSUM_1 ?
+:: used the preceeding proof to proof this one, which seemed to be both:
+:: a good exercise and a demonstration of symmetry
+:: However, a copy and paste proof would need less article references
+theorem :: ORDERS_5:7
+  for s being FinSequence of REAL st s is nonpositive-yielding &
+    ex i being Nat st i in dom s & s.i <> 0 holds
+      Sum s < 0;
+
+:: into RFINSEQ ?
+theorem :: ORDERS_5:8
+  for X being set, s,t being FinSequence of X, f being Function of X, REAL st
+    s is one-to-one & t is one-to-one & rng t c= rng s &
+    for x being Element of X st x in rng s \ rng t holds f.x = 0 holds
+      Sum (f * s) = Sum (f * t);
+
+:: into PARTFUN3 ?
+registration
+  let X be set;
+  let f be Function, g be positive-yielding Function of X,REAL;
+  cluster g*f -> positive-yielding;
+end;
+
+:: into PARTFUN3 ?
+registration
+  let X be set;
+  let f be Function, g be negative-yielding Function of X,REAL;
+  cluster g*f -> negative-yielding;
+end;
+
+:: into PARTFUN3 ?
+registration
+  let X be set;
+  let f be Function, g be nonpositive-yielding Function of X,REAL;
+  cluster g*f -> nonpositive-yielding;
+end;
+
+:: into PARTFUN3 ?
+registration
+  let X be set;
+  let f be Function, g be nonnegative-yielding Function of X,REAL;
+  cluster g*f -> nonnegative-yielding;
+end;
+
+:: into PRE_POLY ?
+definition
+  let s be Function;
+  redefine func support s -> Subset of dom s;
+end;
+
+::: into PRE_POLY ?
+registration
+  let X be set;
+  cluster finite-support nonnegative-yielding for Function of X, REAL;
+end;
+
+::: into PRE_POLY ?
+registration
+  let X be set;
+  cluster nonnegative-yielding finite-support for Function of X, COMPLEX;
+end;
+
+:: into CFUNCT_1 ?
+theorem :: ORDERS_5:9
+  for A being set, f being Function of A, COMPLEX holds
+    support f = support -f;
+
+:: into CFUNCT_1 ?
+registration
+  let A be set, f be finite-support Function of A, COMPLEX;
+  cluster -f -> finite-support;
+end;
+
+:: into CFUNCT_1 as a consequence?
+registration
+  let A be set, f be finite-support Function of A, REAL;
+  cluster -f -> finite-support;
+end;
+
+begin :: Orders
+
+theorem :: ORDERS_5:10
+  for X being set, R being Relation, Y being Subset of X st
+    R is_irreflexive_in X holds R is_irreflexive_in Y;
+
+theorem :: ORDERS_5:11
+  for X being set, R being Relation, Y being Subset of X st
+    R is_symmetric_in X holds R is_symmetric_in Y;
+
+theorem :: ORDERS_5:12
+  for X being set, R being Relation, Y being Subset of X st
+    R is_asymmetric_in X holds R is_asymmetric_in Y;
+
+definition
+  let A be RelStr;
+  attr A is connected means
+:: ORDERS_5:def 1
+  the InternalRel of A is_connected_in the carrier of A;
+  attr A is strongly_connected means
+:: ORDERS_5:def 2
+  the InternalRel of A is_strongly_connected_in the carrier of A;
+end;
+
+registration
+  cluster non empty reflexive transitive antisymmetric connected
+    strongly_connected strict total for RelStr;
+end;
+
+registration
+  cluster strongly_connected -> reflexive connected for RelStr;
+end;
+
+registration
+  cluster reflexive connected -> strongly_connected for RelStr;
+end;
+
+registration
+  cluster empty -> reflexive antisymmetric transitive connected
+    strongly_connected for RelStr;
+end;
+
+definition
+  let A be RelStr;
+  let a1, a2 be Element of A;
+  pred a1 =~ a2 means
+:: ORDERS_5:def 3
+
+  a1 <= a2 & a2 <= a1;
+end;
+
+theorem :: ORDERS_5:13
+  for A being reflexive non empty RelStr, a being Element of A holds a =~ a;
+
+definition
+  let A be reflexive non empty RelStr;
+  let a1, a2 be Element of A;
+  redefine pred a1 =~ a2;
+  reflexivity;
+end;
+
+definition
+  let A be RelStr;
+  let a1, a2 be Element of A;
+  pred a1 <~ a2 means
+:: ORDERS_5:def 4
+  a1 <= a2 & not a2 <= a1;
+  irreflexivity;
+end;
+
+notation
+  let A be RelStr;
+  let a1, a2 be Element of A;
+  synonym a2 >~ a1 for a1 <~ a2;
+end;
+
+definition
+  let A be connected RelStr;
+  let a1, a2 be Element of A;
+  redefine pred a1 <~ a2;
+  asymmetry;
+end;
+
+theorem :: ORDERS_5:14
+  for A being non empty RelStr,
+    a1, a2 being Element of A st A is strongly_connected holds
+      a1 <~ a2 or a1 =~ a2 or a1 >~ a2;
+
+theorem :: ORDERS_5:15
+  for A being transitive RelStr, a1,a2,a3 being Element of A holds
+    (a1 <~ a2 & a2 <= a3 implies a1 <~ a3) &
+    (a1 <= a2 & a2 <~ a3 implies a1 <~ a3);
+
+theorem :: ORDERS_5:16
+  for A being non empty RelStr, a1,a2 being Element of A st
+    A is strongly_connected holds
+      a1 <= a2 or a2 <= a1;
+
+theorem :: ORDERS_5:17
+  for A being non empty RelStr, B being Subset of A,
+    a1,a2 being Element of A st
+      the InternalRel of A is_connected_in B & a1 in B & a2 in B & a1 <> a2
+      holds
+        a1 <= a2 or a2 <= a1;
+
+theorem :: ORDERS_5:18
+  for A being non empty RelStr, a1,a2 being Element of A st
+    A is connected & a1 <> a2 holds
+      a1 <= a2 or a2 <= a1;
+
+theorem :: ORDERS_5:19
+  for A being non empty RelStr, a1,a2 being Element of A st
+    A is strongly_connected holds
+      a1 = a2 or a1 < a2 or a2 < a1;
+
+theorem :: ORDERS_5:20
+  for A being RelStr, a1, a2 being Element of A
+    st a1 <= a2 holds a1 in the carrier of A & a2 in the carrier of A;
+
+theorem :: ORDERS_5:21
+  for A being RelStr, a1, a2 being Element of A
+    st a1 <= a2 holds A is non empty;
+
+theorem :: ORDERS_5:22
+  for A being transitive RelStr, B being finite Subset of A
+    st B is non empty & the InternalRel of A is_connected_in B holds
+      ex x being Element of A st x in B &
+        for y being Element of A st y in B & x <> y holds
+          x <= y;
+
+theorem :: ORDERS_5:23
+  for A being connected transitive RelStr, B being finite Subset of A
+    st B is non empty holds
+      ex x being Element of A st x in B &
+        for y being Element of A st y in B & x <> y holds
+          x <= y;
+
+theorem :: ORDERS_5:24
+  for A being transitive RelStr, B being finite Subset of A
+    st B is non empty & the InternalRel of A is_connected_in B holds
+      ex x being Element of A st x in B &
+        for y being Element of A st y in B & x <> y holds
+          y <= x;
+
+theorem :: ORDERS_5:25
+  for A being connected transitive RelStr, B being finite Subset of A
+    st B is non empty holds
+      ex x being Element of A st x in B &
+        for y being Element of A st y in B & x <> y holds
+          y <= x;
+
+:: I repeated some definitions here to have them all in one place
+
+definition
+  mode Preorder is reflexive transitive RelStr;
+  mode LinearPreorder is strongly_connected transitive RelStr;
+  mode Order is reflexive antisymmetric transitive RelStr;
+  mode LinearOrder is strongly_connected antisymmetric transitive RelStr;
+end;
+
+registration
+  cluster -> quasi_ordered for Preorder;
+end;
+
+registration
+  cluster empty for LinearOrder;
+end;
+
+theorem :: ORDERS_5:26
+  for A being Preorder holds
+    the InternalRel of A quasi_orders the carrier of A;
+
+theorem :: ORDERS_5:27
+  for A being Order holds
+    the InternalRel of A partially_orders the carrier of A;
+
+theorem :: ORDERS_5:28
+  for A being LinearOrder holds
+    the InternalRel of A linearly_orders the carrier of A;
+
+theorem :: ORDERS_5:29
+  for A being RelStr st the InternalRel of A quasi_orders the carrier of A
+  holds A is reflexive transitive;
+
+theorem :: ORDERS_5:30
+  for A being RelStr st the InternalRel of A partially_orders the carrier of A
+  holds A is reflexive transitive antisymmetric;
+
+theorem :: ORDERS_5:31
+  for A being RelStr st the InternalRel of A linearly_orders the carrier of A
+  holds A is reflexive transitive antisymmetric connected;
+
+scheme :: ORDERS_5:sch 2
+  RelStrMin{A()->transitive connected RelStr, B()->finite Subset of A(),
+    P[Element of A()]} :
+    ex x being Element of A() st x in B() & P[x] &
+      for y being Element of A() st y in B() & y <~ x holds not P[y]
+provided
+   ex x being Element of A() st x in B() & P[x];
+
+scheme :: ORDERS_5:sch 3
+  RelStrMax{A()->transitive connected RelStr, B()->finite Subset of A(),
+    P[Element of A()]} :
+    ex x being Element of A() st x in B() & P[x] &
+      for y being Element of A() st y in B() & x <~ y holds not P[y]
+provided
+   ex x being Element of A() st x in B() & P[x];
+
+begin :: Quotient Order
+
+definition
+  let A be set, D be a_partition of A;
+  func EqRelOf D -> Equivalence_Relation of A means
+:: ORDERS_5:def 5
+
+  D = Class it;
+end;
+
+definition
+  let A be Preorder;
+  func EqRelOf A -> Equivalence_Relation of the carrier of A means
+:: ORDERS_5:def 6
+
+  for x, y being Element of A holds [x,y] in it iff x <= y & y <= x;
+end;
+
+theorem :: ORDERS_5:32
+  for A being Preorder holds EqRelOf A = EqRel A;
+
+registration
+  let A be empty Preorder;
+  cluster EqRelOf A -> empty;
+end;
+
+registration
+  let A be non empty Preorder;
+  cluster EqRelOf A -> non empty;
+end;
+
+theorem :: ORDERS_5:33
+  for A being Order holds
+    EqRelOf A = id the carrier of A;
+
+definition
+  let A be Preorder;
+  func QuotientOrder(A) -> strict RelStr means
+:: ORDERS_5:def 7
+
+    the carrier of it = Class EqRelOf A &
+    for X, Y being Element of Class EqRelOf A holds
+       [X, Y] in the InternalRel of it iff
+         ex x, y being Element of A st
+           X = Class(EqRelOf A, x) & Y = Class(EqRelOf A, y) & x <= y;
+end;
+
+registration
+  let A be empty Preorder;
+  cluster QuotientOrder(A) -> empty;
+end;
+
+theorem :: ORDERS_5:34
+  for A being non empty Preorder, x being Element of A holds
+    Class(EqRelOf A, x) in the carrier of QuotientOrder(A);
+
+registration
+  let A be non empty Preorder;
+  cluster QuotientOrder(A) -> non empty;
+end;
+
+theorem :: ORDERS_5:35
+  for A being Preorder holds the InternalRel of QuotientOrder(A) = <=E A;
+
+registration
+  let A be Preorder;
+  cluster QuotientOrder(A) -> reflexive total antisymmetric transitive;
+end;
+
+:: this generalizes DICKSON:10 to possibly empty RelStr
+registration
+  let A be LinearPreorder;
+  cluster QuotientOrder(A) -> connected strongly_connected;
+end;
+
+definition
+  let A be Preorder;
+  func proj A -> Function of A, QuotientOrder(A) means
+:: ORDERS_5:def 8
+
+  for x being Element of A holds it.x = Class(EqRelOf A, x);
+end;
+
+registration
+  let A be empty Preorder;
+  cluster proj A -> empty;
+end;
+
+registration
+  let A be non empty Preorder;
+  cluster proj A -> non empty;
+end;
+
+theorem :: ORDERS_5:36
+  for A being non empty Preorder, x, y being Element of A st x <= y holds
+   (proj A).x <= (proj A).y;
+
+theorem :: ORDERS_5:37
+  for A being Preorder,
+    x,y being Element of A holds
+      x =~ y implies (proj A).x = (proj A).y;
+
+definition
+  let A be Preorder, R be Equivalence_Relation of the carrier of A;
+  attr R is EqRelOf-like means
+:: ORDERS_5:def 9
+  R = EqRelOf A;
+end;
+
+registration
+  let A be Preorder;
+  cluster EqRelOf A -> EqRelOf-like;
+end;
+
+registration
+  let A be Preorder;
+  cluster EqRelOf-like for Equivalence_Relation of the carrier of A;
+end;
+
+definition
+  let A be Preorder,
+    R be EqRelOf-like Equivalence_Relation of the carrier of A;
+  let x be Element of A;
+  redefine func Class(R, x) -> Element of QuotientOrder(A);
+end;
+
+theorem :: ORDERS_5:38
+  for A being Preorder holds
+    the carrier of QuotientOrder(A) is a_partition of the carrier of A;
+
+theorem :: ORDERS_5:39
+  for A being non empty Preorder,
+    D being non empty a_partition of the carrier of A
+  st D = the carrier of QuotientOrder(A) holds
+    proj A = proj D;
+
+definition
+  let A be set, D be a_partition of A;
+  func PreorderFromPartition(D) -> strict RelStr equals
+:: ORDERS_5:def 10
+  RelStr(#A, EqRelOf D#);
+end;
+
+registration
+  let A be non empty set, D be a_partition of A;
+  cluster PreorderFromPartition(D) -> non empty;
+end;
+
+registration
+  let A be set, D be a_partition of A;
+  cluster PreorderFromPartition(D) -> reflexive transitive;
+  cluster PreorderFromPartition(D) -> symmetric;
+end;
+
+theorem :: ORDERS_5:40
+  for A being set, D being a_partition of A holds
+    EqRelOf D = EqRelOf PreorderFromPartition(D);
+
+theorem :: ORDERS_5:41
+  for A being set, D being a_partition of A holds
+    D = Class EqRelOf PreorderFromPartition(D);
+
+theorem :: ORDERS_5:42
+  for A being set, D being a_partition of A holds
+    D = the carrier of QuotientOrder(PreorderFromPartition(D));
+
+definition
+  let A be set, D be a_partition of A, X be Element of D, f be Function;
+  func eqSupport(f, X) -> Subset of A equals
+:: ORDERS_5:def 11
+  support f /\ X;
+end;
+
+definition
+  let A be Preorder, X be Element of QuotientOrder(A),
+  f be Function;
+  func eqSupport(f, X) -> Subset of A means
+:: ORDERS_5:def 12
+  ex D being a_partition of the carrier of A, Y being Element of D st
+  D = the carrier of QuotientOrder(A) & Y = X & it = eqSupport(f, Y);
+end;
+
+definition
+  let A be Preorder, X be Element of QuotientOrder(A),
+  f be Function;
+  redefine func eqSupport(f, X) equals
+:: ORDERS_5:def 13
+  support f /\ X;
+end;
+
+registration
+  let A be set, D be a_partition of A, f be finite-support Function,
+  X be Element of D;
+  cluster eqSupport(f, X) -> finite;
+end;
+
+registration
+  let A be Preorder, f be finite-support Function,
+  X be Element of QuotientOrder(A);
+  cluster eqSupport(f, X) -> finite;
+end;
+
+registration
+  let A be Order;
+  let X be Element of the carrier of QuotientOrder(A);
+  let f be finite-support Function of A, REAL;
+  cluster eqSupport(f, X) -> trivial;
+end;
+
+theorem :: ORDERS_5:43
+  for A being set, D being a_partition of A, X being Element of D,
+    f being Function of A, REAL
+  holds
+    eqSupport(f, X) = eqSupport(-f, X);
+
+theorem :: ORDERS_5:44
+  for A being Preorder, X being Element of QuotientOrder(A),
+    f being Function of A, REAL
+  holds
+    eqSupport(f, X) = eqSupport(-f, X);
+
+definition
+  let A be set, D be a_partition of A, f be finite-support Function of A, REAL;
+  func D eqSumOf f -> Function of D, REAL means
+:: ORDERS_5:def 14
+
+  for X being Element of D st X in D holds
+    it.X = Sum (f * (canFS (eqSupport(f, X))) );
+end;
+
+definition
+  let A be Preorder, f be finite-support Function of A, REAL;
+  func eqSumOf f -> Function of QuotientOrder(A), REAL means
+:: ORDERS_5:def 15
+  ex D being a_partition of the carrier of A st
+  D = the carrier of QuotientOrder(A) & it = D eqSumOf f;
+end;
+
+definition
+  let A be Preorder, f be finite-support Function of A, REAL;
+  redefine func eqSumOf f means
+:: ORDERS_5:def 16
+
+  for X being Element of QuotientOrder(A) st X in the carrier of
+    QuotientOrder(A) holds
+      it.X = Sum (f * (canFS (eqSupport(f, X))) );
+end;
+
+theorem :: ORDERS_5:45
+  for A being set, D being a_partition of A,
+    f being finite-support Function of A, REAL
+  holds
+    (D eqSumOf -f) = -(D eqSumOf f);
+
+theorem :: ORDERS_5:46
+  for A being Preorder,
+    f being finite-support Function of A, REAL
+  holds
+    eqSumOf -f = -eqSumOf f;
+
+registration
+  let A be Preorder,
+      f be nonnegative-yielding finite-support Function of A, REAL;
+  cluster eqSumOf f -> nonnegative-yielding;
+end;
+
+registration
+  let A be set, D be a_partition of A;
+  let f be nonnegative-yielding finite-support Function of A, REAL;
+  cluster D eqSumOf f -> nonnegative-yielding;
+end;
+
+theorem :: ORDERS_5:47
+  for A being set, D being a_partition of A,
+    f being finite-support Function of A, REAL
+      st f is nonpositive-yielding
+  holds
+    D eqSumOf f is nonpositive-yielding;
+
+theorem :: ORDERS_5:48
+  for A being Preorder, f being finite-support Function of A, REAL
+    st f is nonpositive-yielding
+  holds
+    eqSumOf f is nonpositive-yielding;
+
+theorem :: ORDERS_5:49
+  for A being Preorder, f being finite-support Function of A, REAL,
+    x being Element of A st
+      (for y being Element of A st x =~ y holds x = y) holds
+    ((eqSumOf f)*(proj A)).x = f.x;
+
+theorem :: ORDERS_5:50
+  for A being Order, f being finite-support Function of A, REAL holds
+    (eqSumOf f)*(proj A) = f;
+
+theorem :: ORDERS_5:51
+  for A being Order, f1, f2 being finite-support Function of A, REAL holds
+    eqSumOf f1 = eqSumOf f2 implies f1 = f2;
+
+theorem :: ORDERS_5:52
+  for A being Preorder,
+    f being finite-support Function of A, REAL
+  holds
+    support eqSumOf f c= (proj A).:support f;
+
+theorem :: ORDERS_5:53
+  for A being non empty set, D being non empty a_partition of A,
+    f being finite-support Function of A, REAL
+  holds
+    support (D eqSumOf f) c= (proj D).:support f;
+
+:: more general:
+::  for x holds (for y in (proj A).x holds f.y >= 0) or
+::    (for y in (proj A).x holds f.y <= 0)
+theorem :: ORDERS_5:54
+  for A being Preorder,
+    f being finite-support Function of A, REAL
+  st
+    f is nonnegative-yielding
+  holds
+    (proj A).:support f = support eqSumOf f;
+
+theorem :: ORDERS_5:55
+  for A being non empty set, D being non empty a_partition of A,
+    f being finite-support Function of A, REAL
+  st
+    f is nonnegative-yielding
+  holds
+    (proj D).:support f = support (D eqSumOf f);
+
+theorem :: ORDERS_5:56
+  for A being Preorder,
+    f being finite-support Function of A, REAL
+  st
+    f is nonpositive-yielding
+  holds
+    (proj A).:support f = support eqSumOf f;
+
+theorem :: ORDERS_5:57
+  for A being non empty set, D being non empty a_partition of A,
+    f being finite-support Function of A, REAL
+  st
+    f is nonpositive-yielding
+  holds
+    (proj D).:support f = support (D eqSumOf f);
+
+registration
+  let A be Preorder,
+      f be finite-support Function of A, REAL;
+  cluster eqSumOf f -> finite-support;
+end;
+
+registration
+  let A be set, D be a_partition of A,
+  f be finite-support Function of A, REAL;
+  cluster D eqSumOf f -> finite-support;
+end;
+
+theorem :: ORDERS_5:58
+  for A being non empty set, D being non empty a_partition of A,
+    f being finite-support Function of A, REAL,
+    s1 being one-to-one FinSequence of A,
+    s2 being one-to-one FinSequence of D
+  st
+    rng s2 = (proj D).:rng s1 &
+    (for X being Element of D st X in rng s2 holds eqSupport(f, X) c= rng s1)
+  holds
+    Sum((D eqSumOf f) * s2) = Sum(f * s1);
+
+theorem :: ORDERS_5:59
+  for A being non empty set, D being non empty a_partition of A,
+    f being finite-support Function of A, REAL,
+    s1 being one-to-one FinSequence of A,
+    s2 being one-to-one FinSequence of D
+  st
+    rng s1 = support f & rng s2 = support(D eqSumOf f)
+  holds
+    Sum((D eqSumOf f) * s2) = Sum(f * s1);
+
+theorem :: ORDERS_5:60
+  for A being Preorder, f being finite-support Function of A, REAL,
+    s1 being one-to-one FinSequence of A,
+    s2 being one-to-one FinSequence of QuotientOrder(A)
+  st
+    rng s1 = support f & rng s2 = support (eqSumOf f)
+  holds
+    Sum((eqSumOf f)*s2) = Sum(f*s1);
+
+begin :: Ordering Finite Sequences
+
+definition
+  let A be RelStr;
+  let s be FinSequence of A;
+  attr s is weakly-ascending means
+:: ORDERS_5:def 17
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.n <= s/.m;
+end;
+
+definition
+  let A be RelStr;
+  let s be FinSequence of A;
+  attr s is ascending means
+:: ORDERS_5:def 18
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.n <~ s/.m;
+end;
+
+:: it is surprising that this isn't a trivial proof by Def4
+registration
+  let A be RelStr;
+  cluster ascending -> weakly-ascending for FinSequence of A;
+end;
+
+definition
+  let A be antisymmetric RelStr;
+  let s be FinSequence of A;
+  redefine attr s is ascending means
+:: ORDERS_5:def 19
+
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.n < s/.m;
+end;
+
+definition
+  let A be RelStr;
+  let s be FinSequence of A;
+  attr s is weakly-descending means
+:: ORDERS_5:def 20
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.m <= s/.n;
+end;
+
+definition
+  let A be RelStr;
+  let s be FinSequence of A;
+  attr s is descending means
+:: ORDERS_5:def 21
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.m <~ s/.n;
+end;
+
+registration
+  let A be RelStr;
+  cluster descending -> weakly-descending for FinSequence of A;
+end;
+
+definition
+  let A be antisymmetric RelStr;
+  let s be FinSequence of A;
+  redefine attr s is descending means
+:: ORDERS_5:def 22
+  for n,m being Nat st n in dom s & m in dom s & n < m holds
+    s/.m < s/.n;
+end;
+
+registration
+  let A be antisymmetric RelStr;
+  cluster one-to-one weakly-ascending -> ascending for FinSequence of A;
+  cluster one-to-one weakly-descending -> descending for FinSequence of A;
+end;
+
+registration
+  let A be antisymmetric RelStr;
+  cluster weakly-ascending weakly-descending -> constant for FinSequence of A;
+end;
+
+registration
+  let A be reflexive RelStr;
+  cluster constant -> weakly-ascending weakly-descending for FinSequence of A;
+end;
+
+registration
+  let A be RelStr;
+  cluster <*>the carrier of A -> ascending weakly-ascending
+    descending weakly-descending;
+end;
+
+registration
+  let A be RelStr;
+  cluster empty ascending weakly-ascending descending weakly-descending
+    for FinSequence of A;
+end;
+
+registration
+  let A be non empty RelStr;
+  let x be Element of A;
+  cluster <* x *> -> ascending weakly-ascending
+    descending weakly-descending for FinSequence of A;
+end;
+
+registration
+  let A be non empty RelStr;
+  cluster non empty one-to-one ascending weakly-ascending
+    descending weakly-descending for FinSequence of A;
+end;
+
+definition
+  let A be RelStr;
+  let s be FinSequence of A;
+  attr s is asc_ordering means
+:: ORDERS_5:def 23
+  s is one-to-one & s is weakly-ascending;
+  attr s is desc_ordering means
+:: ORDERS_5:def 24
+  s is one-to-one & s is weakly-descending;
+end;
+
+registration
+  let A be RelStr;
+  cluster asc_ordering -> one-to-one weakly-ascending for FinSequence of A;
+  cluster one-to-one weakly-ascending -> asc_ordering for FinSequence of A;
+  cluster desc_ordering -> one-to-one weakly-descending for FinSequence of A;
+  cluster one-to-one weakly-descending -> desc_ordering for FinSequence of A;
+end;
+
+:: I thought the following registration would only work with trasitivity
+:: but apparently ascending implies asc_ordering
+registration
+  let A be RelStr;
+  cluster ascending -> asc_ordering for FinSequence of A;
+  cluster descending -> desc_ordering for FinSequence of A;
+end;
+
+definition
+  let A be RelStr;
+  let B be Subset of A;
+  let s be FinSequence of A;
+  attr s is B-asc_ordering means
+:: ORDERS_5:def 25
+  s is asc_ordering & rng s = B;
+  attr s is B-desc_ordering means
+:: ORDERS_5:def 26
+  s is desc_ordering & rng s = B;
+end;
+
+registration
+  let A be RelStr, B be Subset of A;
+  cluster B-asc_ordering -> asc_ordering for FinSequence of A;
+  cluster B-desc_ordering -> desc_ordering for FinSequence of A;
+end;
+
+registration
+  let A be RelStr, B be empty Subset of A;
+  cluster B-asc_ordering -> empty for FinSequence of A;
+  cluster B-desc_ordering -> empty for FinSequence of A;
+end;
+
+theorem :: ORDERS_5:61
+  for A being RelStr, s being FinSequence of A holds
+    s is weakly-ascending iff Rev(s) is weakly-descending;
+
+theorem :: ORDERS_5:62
+  for A being RelStr, s being FinSequence of A holds
+    s is ascending iff Rev(s) is descending;
+
+theorem :: ORDERS_5:63
+  for A being RelStr, B being Subset of A, s being FinSequence of A holds
+    s is B-asc_ordering iff Rev(s) is B-desc_ordering;
+
+:: this seems trivial, I'm unsure why
+theorem :: ORDERS_5:64
+  for A being RelStr, B being Subset of A,
+    s being FinSequence of A holds
+      s is B-asc_ordering or s is B-desc_ordering implies B is finite;
+
+registration
+  let A be antisymmetric RelStr;
+  cluster asc_ordering -> ascending for FinSequence of A;
+  cluster desc_ordering -> descending for FinSequence of A;
+end;
+
+theorem :: ORDERS_5:65
+  for A being antisymmetric RelStr, B being Subset of A,
+    s1, s2 being FinSequence of A st
+      s1 is B-asc_ordering & s2 is B-asc_ordering holds s1 = s2;
+
+theorem :: ORDERS_5:66
+  for A being antisymmetric RelStr, B being Subset of A,
+    s1, s2 being FinSequence of A st
+      s1 is B-desc_ordering & s2 is B-desc_ordering holds s1 = s2;
+
+theorem :: ORDERS_5:67
+  for A being LinearOrder, B being finite Subset of A,
+    s being FinSequence of A holds
+      s is B-asc_ordering iff s = SgmX(the InternalRel of A, B);
+
+registration
+  let A be LinearOrder, B be finite Subset of A;
+  cluster SgmX(the InternalRel of A, B) -> B-asc_ordering;
+end;
+
+theorem :: ORDERS_5:68
+  for A being RelStr, B, C being Subset of A,
+    s being FinSequence of A
+      st s is B-asc_ordering & C c= B
+    holds
+      ex s2 being FinSequence of A st s2 is C-asc_ordering;
+
+theorem :: ORDERS_5:69
+  for A being RelStr, B, C being Subset of A,
+    s being FinSequence of A
+  st s is B-desc_ordering & C c= B holds
+    ex s2 being FinSequence of A st s2 is C-desc_ordering;
+
+theorem :: ORDERS_5:70
+  for A being RelStr, B being Subset of A,
+    s being FinSequence of A, x being Element of A
+  st B = {x} & s = <*x*> holds
+    s is B-asc_ordering & s is B-desc_ordering;
+
+theorem :: ORDERS_5:71
+  for A being RelStr, B being Subset of A, s being FinSequence of A
+    st s is B-asc_ordering holds
+      the InternalRel of A is_connected_in B;
+
+theorem :: ORDERS_5:72
+  for A being RelStr, B being Subset of A, s being FinSequence of A
+    st s is B-desc_ordering holds
+      the InternalRel of A is_connected_in B;
+
+theorem :: ORDERS_5:73
+  for A being transitive RelStr, B, C being Subset of A,
+    s1 being FinSequence of A, x being Element of A
+  st
+    s1 is C-asc_ordering & not x in C & B = C \/ {x} &
+      for y being Element of A st y in C holds x <= y
+  holds
+    ex s2 being FinSequence of A st
+      s2 = <*x*> ^ s1 & s2 is B-asc_ordering;
+
+theorem :: ORDERS_5:74
+  for A being transitive RelStr, B, C being Subset of A,
+      s1 being FinSequence of A, x being Element of A
+  st s1 is C-asc_ordering & not x in C & B = C \/ {x} &
+    for y being Element of A st y in C holds y <= x
+  holds ex s2 being FinSequence of A st
+    s2 = s1 ^ <*x*> & s2 is B-asc_ordering;
+
+theorem :: ORDERS_5:75
+  for A being transitive RelStr, B, C being Subset of A,
+    s1 being FinSequence of A, x being Element of A
+  st s1 is C-desc_ordering & not x in C & B = C \/ {x} &
+    for y being Element of A st y in C holds x <= y
+  holds
+    ex s2 being FinSequence of A st
+      s2 = s1 ^ <*x*> & s2 is B-desc_ordering;
+
+theorem :: ORDERS_5:76
+  for A being transitive RelStr, B, C being Subset of A,
+    s1 being FinSequence of A, x being Element of A
+  st s1 is C-desc_ordering & not x in C & B = C \/ {x} &
+    for y being Element of A st y in C holds y <= x
+  holds
+    ex s2 being FinSequence of A st
+      s2 = <*x*> ^ s1 & s2 is B-desc_ordering;
+
+theorem :: ORDERS_5:77
+  for A being transitive RelStr, B being finite Subset of A st
+    the InternalRel of A is_connected_in B holds
+      ex s being FinSequence of A st s is B-asc_ordering;
+
+theorem :: ORDERS_5:78
+  for A being transitive RelStr, B being finite Subset of A st
+    the InternalRel of A is_connected_in B holds
+      ex s being FinSequence of A st s is B-desc_ordering;
+
+theorem :: ORDERS_5:79
+  for A being connected transitive RelStr, B being finite Subset of A holds
+    ex s being FinSequence of A st s is B-asc_ordering;
+
+theorem :: ORDERS_5:80
+  for A being connected transitive RelStr, B being finite Subset of A holds
+    ex s being FinSequence of A st s is B-desc_ordering;
+
+registration
+  let A be connected transitive RelStr;
+  let B be finite Subset of A;
+  cluster B-asc_ordering for FinSequence of A;
+  cluster B-desc_ordering for FinSequence of A;
+end;
+
+theorem :: ORDERS_5:81
+  for A being Preorder, B being Subset of A st
+      the InternalRel of A is_connected_in B
+    holds
+      the InternalRel of QuotientOrder(A) is_connected_in (proj A).:B;
+
+theorem :: ORDERS_5:82
+  for A being Preorder, B being Subset of A,
+    s1 being FinSequence of A
+  st
+    s1 is B-asc_ordering
+  holds
+    ex s2 being FinSequence of QuotientOrder(A) st
+      s2 is ((proj A).:B)-asc_ordering;
+
+theorem :: ORDERS_5:83
+  for A being Preorder, B being Subset of A,
+    s1 being FinSequence of A
+  st
+    s1 is B-desc_ordering
+  holds
+    ex s2 being FinSequence of QuotientOrder(A) st
+      s2 is ((proj A).:B)-desc_ordering;

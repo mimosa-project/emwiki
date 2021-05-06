@@ -1,0 +1,775 @@
+:: Ordered Rings and Fields
+::  by Christoph Schwarzweller
+:: 
+:: Received March 17, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, FUNCT_1, RELAT_1, RLVECT_1, VECTSP_1, ALGSTR_0, TARSKI,
+      STRUCT_0, SUBSET_1, SUPINF_2, NAT_1, PYTHTRIP, REALSET1, GLIB_000,
+      VECTSP_2, CARD_1, MESFUNC1, INT_3, LATTICES, ORDINAL4, INT_1, ALGSEQ_1,
+      COMPLFLD, BINOP_1, NUMBERS, IDEAL_1, C0SP1, SQUARE_1, RATFUNC1, FUNCSDOM,
+      XXREAL_0, HURWITZ, GROUP_1, FINSEQ_1, CARD_3, ZFMISC_1, COMPLEX1,
+      POLYNOM1, POLYNOM3, XBOOLE_0, ARYTM_1, GAUSSINT, XCMPLX_0, RING_3,
+      INTERVA1, RELAT_2, PARTFUN1, REALALG1, QMAX_1, ARROW, O_RING_1;
+ notations TARSKI, ZFMISC_1, XBOOLE_0, SUBSET_1, DOMAIN_1, RELAT_1, RELAT_2,
+      FUNCT_1, FINSEQ_1, REALSET1, RELSET_1, PARTFUN1, ORDINAL1, FUNCT_2,
+      BINOP_1, XCMPLX_0, SQUARE_1, XXREAL_0, XREAL_0, CARD_1, XXREAL_2,
+      COMPLEX1, NAT_1, INT_1, NAT_D, RAT_1, INT_3, NUMBERS, STRUCT_0, BINOM,
+      ALGSTR_0, GROUP_1, GROUP_2, O_RING_1, VFUNCT_1, RATFUNC1, POLYNOM1,
+      ALGSEQ_1, POLYNOM3, HURWITZ, RLVECT_1, VECTSP_2, VECTSP_1, COMPLFLD,
+      GAUSSINT, IDEAL_1, C0SP1, RING_3, ALG_1, UPROOTS, ARROW;
+ constructors BINOM, REALSET1, BINOP_2, RINGCAT1, ARYTM_2, ARYTM_3, XXREAL_2,
+      RING_3, GAUSSINT, NAT_D, TOPALG_7, RATFUNC1, FINSEQ_1, GROUP_4, COMPLEX1,
+      FVSUM_1, XXREAL_0, XREAL_0, SQUARE_1, POLYNOM3, ALGSEQ_1, VFUNCT_1,
+      HURWITZ, UPROOTS, ARROW, O_RING_1, GROUP_2;
+ registrations ORDINAL1, XXREAL_0, XREAL_0, RELSET_1, VECTSP_1, STRUCT_0,
+      MEMBERED, NUMBERS, RLVECT_1, INT_1, INT_3, COMPLFLD, RATFUNC1, POLYNOM4,
+      POLYNOM3, RAT_1, REALSET1, GAUSSINT, NAT_1, ALGSTR_1, SUBSET_1, RELAT_1,
+      RELAT_2, FUNCT_2, ALGSTR_0, C0SP1, RING_3, COMPLEX1, XCMPLX_0, FINSEQ_1,
+      NAT_2, FUNCT_1, CARD_1, XXREAL_2, VFUNCT_1, POLYNOM1, INT_6, FUNCT_7,
+      PRE_POLY, POLYNOM5, SQUARE_1, RING_4, XBOOLE_0, VALUED_0, NEWTON,
+      FINSEQ_2;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: On Order Relations
+
+definition
+  let X be set;
+  let R be Relation of X;
+  attr R is strongly_reflexive means
+:: REALALG1:def 1
+    R is_reflexive_in X;
+  attr R is totally_connected means
+:: REALALG1:def 2
+    R is_strongly_connected_in X;
+end;
+
+registration
+let X be set;
+cluster strongly_reflexive for Relation of X;
+cluster totally_connected for Relation of X;
+end;
+
+registration
+let X be set;
+cluster strongly_reflexive -> reflexive for Relation of X;
+cluster totally_connected -> strongly_connected for Relation of X;
+end;
+
+registration
+let X be non empty set;
+cluster strongly_reflexive -> non empty for Relation of X;
+cluster totally_connected -> non empty for Relation of X;
+end;
+
+theorem :: REALALG1:1
+for X being non empty set
+for R being strongly_reflexive Relation of X
+for x being Element of X holds x <=_R,x;
+
+theorem :: REALALG1:2
+for X being non empty set
+for R being antisymmetric Relation of X
+for x,y being Element of X st x <=_R,y & y <=_R,x holds x = y;
+
+theorem :: REALALG1:3
+for X being non empty set
+for R being transitive Relation of X
+for x,y,z being Element of X st x <=_R,y & y <=_R,z holds x <=_R,z;
+
+theorem :: REALALG1:4
+for X being non empty set
+for R being totally_connected Relation of X
+for x,y being Element of X holds x <=_R,y or y <=_R,x;
+
+definition
+let L be addLoopStr;
+let R be Relation of L;
+attr R is respecting_addition means
+:: REALALG1:def 3
+  for a,b,c being Element of L st a <=_R,b holds a+c <=_R,b+c;
+end;
+
+definition
+let L be multLoopStr_0;
+let R be Relation of L;
+attr R is respecting_multiplication means
+:: REALALG1:def 4
+  for a,b,c being Element of L st a <=_R,b & 0.L <=_R,c holds a*c <=_R,b*c;
+end;
+
+
+begin
+
+theorem :: REALALG1:5
+for R being degenerated Ring,
+    p being Polynomial of R
+holds {i where i is Nat : p.i <> 0.R} = {};
+
+theorem :: REALALG1:6
+for R being Ring,
+    p being Polynomial of R
+holds p = 0_.(R) iff {i where i is Nat : p.i <> 0.R} = {};
+
+theorem :: REALALG1:7
+for R being Ring,
+    p being Polynomial of R
+holds min* {i where i is Nat : (p+0_.R).i <> 0.R}
+                                   = min* {i where i is Nat : p.i <> 0.R};
+
+theorem :: REALALG1:8
+for R being non degenerated Ring,
+    p being Polynomial of R holds
+min* {i where i is Nat : (-p).i <> 0.R}
+                                = min* {i where i is Nat : p.i <> 0.R};
+
+theorem :: REALALG1:9
+for R being non degenerated Ring,
+    p,q being non zero Polynomial of R
+st min* {i where i is Nat : p.i <> 0.R} > min* {i where i is Nat : q.i <> 0.R}
+holds min* {i where i is Nat : (p+q).i <> 0.R} =
+                                          min* {i where i is Nat : q.i <> 0.R};
+
+theorem :: REALALG1:10
+for R being non degenerated Ring,
+    p,q being non zero Polynomial of R
+st p + q <> 0_.(R) &
+   min* {i where i is Nat : p.i <> 0.R} = min* {i where i is Nat : q.i <> 0.R}
+holds min* {i where i is Nat : (p+q).i <> 0.R} >=
+                                          min* {i where i is Nat : p.i <> 0.R};
+
+theorem :: REALALG1:11
+for R being non degenerated Ring,
+    p,q being non zero Polynomial of R
+st p.(min* {i where i is Nat : p.i <> 0.R}) +
+   q.(min* {i where i is Nat : q.i <> 0.R}) <> 0.R
+holds min* {i where i is Nat : (p+q).i <> 0.R} =
+                        min( min* {i where i is Nat : p.i <> 0.R},
+                             min* {i where i is Nat : q.i <> 0.R});
+
+theorem :: REALALG1:12
+for R being non degenerated Ring,
+    p,q being non zero Polynomial of R
+st p *' q <> 0_.(R)
+holds min* {i where i is Nat : (p*'q).i <> 0.R} >=
+                   min* {i where i is Nat : p.i <> 0.R} +
+                   min* {i where i is Nat : q.i <> 0.R};
+
+theorem :: REALALG1:13
+for R being domRing,
+    p,q being non zero Polynomial of R
+holds min* {i where i is Nat : (p*'q).i <> 0.R} =
+                   min* {i where i is Nat : p.i <> 0.R} +
+                   min* {i where i is Nat : q.i <> 0.R};
+
+begin :: Preliminaries
+
+definition
+let L be non empty multLoopStr;
+let S be Subset of L;
+attr S is mult-closed means
+:: REALALG1:def 5
+  for s1,s2 being Element of L st s1 in S & s2 in S holds s1 * s2 in S;
+end;
+
+definition  ::: compare GROUP_1A
+let L be non empty addLoopStr;
+let S be Subset of L;
+func -S -> Subset of L equals
+:: REALALG1:def 6
+   { -s where s is Element of L : s in S };
+end;
+
+registration
+let L be add-associative right_zeroed right_complementable
+         non empty addLoopStr;
+let S be Subset of L;
+reduce -(-S) to S;
+end;
+
+theorem :: REALALG1:14
+for L being add-associative right_zeroed right_complementable
+            non empty addLoopStr
+for S being Subset of L
+for a being Element of L holds a in S iff -a in -S;
+
+theorem :: REALALG1:15
+for L being add-associative right_zeroed right_complementable
+            non empty addLoopStr
+for S1,S2 being Subset of L holds -(S1 /\ S2) = (-S1) /\ (-S2);
+
+theorem :: REALALG1:16
+for L being add-associative right_zeroed right_complementable
+            non empty addLoopStr
+for S1,S2 being Subset of L holds -(S1 \/ S2) = (-S1) \/ (-S2);
+
+definition
+let L be non empty addLoopStr;
+let S be Subset of L;
+attr S is negative-disjoint means
+:: REALALG1:def 7
+  S /\ (-S) = {0.L};
+end;
+
+definition
+let L be non empty addLoopStr;
+let S be Subset of L;
+attr S is spanning means
+:: REALALG1:def 8
+  S \/ (-S) = the carrier of L;
+end;
+
+begin :: Squares and Sums of Squares
+
+notation
+let R be Ring;
+let a be Element of R;
+synonym a is square for a is being_a_square;
+end;
+
+registration
+let R be Ring;
+cluster 0.R -> square;
+cluster 1.R -> square;
+end;
+
+registration
+let R be Ring;
+cluster square for Element of R;
+end;
+
+definition ::: should be unified with O_RING_1; definition there should be
+           ::: tuned accordingly
+let R be Ring;
+let a be Element of R;
+attr a is sum_of_squares means
+:: REALALG1:def 9
+  ex f being FinSequence of R st Sum f = a &
+  for i being Nat st i in dom f ex a being Element of R st f.i = a^2;
+end;
+
+registration
+let R be Ring;
+cluster square -> sum_of_squares for Element of R;
+end;
+
+registration
+let R be commutative Ring;
+let a,b be square Element of R;
+cluster a * b -> square;
+end;
+
+registration
+let R be Ring;
+let a,b be sum_of_squares Element of R;
+cluster a + b -> sum_of_squares;
+end;
+
+registration
+let R be commutative Ring;
+let a,b be sum_of_squares Element of R;
+cluster a * b -> sum_of_squares;
+end;
+
+definition
+let R be Ring;
+func Squares_of R -> Subset of R equals
+:: REALALG1:def 10
+  { a where a is Element of R : a is square };
+func Quadratic_Sums_of R -> Subset of R equals
+:: REALALG1:def 11
+  { a where a is Element of R : a is sum_of_squares };
+end;
+
+notation
+let R be Ring;
+synonym SQ R for Squares_of R;
+synonym QS R for Quadratic_Sums_of R;
+end;
+
+registration
+let R be Ring;
+cluster SQ R -> non empty;
+cluster QS R -> non empty;
+end;
+
+definition
+let R be Ring;
+let S be Subset of R;
+attr S is with_squares means
+:: REALALG1:def 12
+  SQ R c= S;
+attr S is with_sums_of_squares means
+:: REALALG1:def 13
+  QS R c= S;
+end;
+
+registration
+let R be Ring;
+cluster with_squares for Subset of R;
+cluster with_sums_of_squares for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster with_squares -> non empty for Subset of R;
+cluster with_sums_of_squares -> non empty for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster with_sums_of_squares -> with_squares for Subset of R;
+cluster with_squares add-closed -> with_sums_of_squares for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster SQ R -> with_squares;
+cluster QS R -> with_sums_of_squares;
+end;
+
+theorem :: REALALG1:17
+for R being Ring holds 0.R in SQ R & 1.R in SQ R;
+
+theorem :: REALALG1:18
+for R being Ring holds SQ R c= QS R;
+
+registration
+let R be Ring;
+cluster QS R -> add-closed;
+end;
+
+registration
+let R be commutative Ring;
+cluster QS R -> mult-closed;
+end;
+
+theorem :: REALALG1:19
+for R being Ring
+for S being Subring of R holds SQ S c= SQ R;
+
+theorem :: REALALG1:20
+for R being Ring
+for S being Subring of R holds QS S c= QS R;
+
+
+begin :: Positive Cones and Orderings
+
+definition
+let R be Ring,
+    S be Subset of R;
+attr S is prepositive_cone means
+:: REALALG1:def 14
+  S + S c= S & S * S c= S & S /\ (-S) = {0.R} & SQ R c= S;
+attr S is positive_cone means
+:: REALALG1:def 15
+  S + S c= S & S * S c= S & S /\ (-S) = {0.R} & S \/ (-S) = the carrier of R;
+end;
+
+registration
+let R be Ring;
+cluster prepositive_cone -> non empty for Subset of R;
+cluster positive_cone -> non empty for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster prepositive_cone -> add-closed mult-closed negative-disjoint
+                                                  with_squares for Subset of R;
+cluster add-closed mult-closed negative-disjoint with_squares
+                                          -> prepositive_cone for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster positive_cone ->
+            add-closed mult-closed negative-disjoint spanning for Subset of R;
+cluster add-closed mult-closed negative-disjoint spanning
+                                             -> positive_cone for Subset of R;
+end;
+
+registration
+let R be Ring;
+cluster positive_cone -> prepositive_cone for Subset of R;
+end;
+
+theorem :: REALALG1:21
+for F being Field
+for S being Subset of F st S * S c= S & SQ F c= S
+holds S /\ (-S) = {0.F} iff not -1.F in S;
+
+theorem :: REALALG1:22
+for F being Field
+for S being Subset of F st S * S c= S & S \/ (-S) = the carrier of F
+holds S /\ (-S) = {0.F} iff not -1.F in S;
+
+definition
+let R be Ring;
+attr R is preordered means
+:: REALALG1:def 16
+  ex P being Subset of R st P is prepositive_cone;
+attr R is ordered means
+:: REALALG1:def 17
+  ex P being Subset of R st P is positive_cone;
+end;
+
+registration
+cluster preordered for Field;
+cluster ordered for Field;
+end;
+
+registration
+cluster ordered -> preordered for Ring;
+end;
+
+registration
+let R be preordered Ring;
+cluster prepositive_cone for Subset of R;
+end;
+
+registration
+let R be ordered Ring;
+cluster positive_cone for Subset of R;
+end;
+
+definition
+let R be preordered Ring;
+mode Preordering of R is prepositive_cone Subset of R;
+end;
+
+definition
+let R be ordered Ring;
+mode Ordering of R is positive_cone Subset of R;
+end;
+
+theorem :: REALALG1:23
+for R being preordered Ring
+for P being Preordering of R
+for a being Element of R holds a^2 in P;
+
+theorem :: REALALG1:24
+for R being preordered Ring
+for P being Preordering of R holds QS R c= P;
+
+theorem :: REALALG1:25
+for R being preordered Ring
+for P being Preordering of R holds 0.R in P & 1.R in P;
+
+theorem :: REALALG1:26
+for R being preordered non degenerated Ring
+for P being Preordering of R holds not -1.R in P;
+
+theorem :: REALALG1:27
+for F being preordered Field
+for P being Preordering of F
+for a being non zero Element of F st a in P holds a" in P;
+
+theorem :: REALALG1:28
+for R being preordered non degenerated Ring holds Char R = 0;
+
+theorem :: REALALG1:29
+for R being ordered Ring
+for O,P being Ordering of R st O c= P holds O = P;
+
+
+begin :: Orderings vs. Order Relations
+
+definition
+let R be preordered Ring,
+    P be Preordering of R;
+let a,b be Element of R;
+pred a <= P,b means
+:: REALALG1:def 18
+  b - a in P;
+end;
+
+definition
+let R be preordered Ring,
+    P be Preordering of R;
+func OrdRel P -> Relation of R equals
+:: REALALG1:def 19
+  { [a,b] where a,b is Element of R : a <= P,b };
+end;
+
+registration
+let R be preordered Ring;
+let P be Preordering of R;
+cluster OrdRel P -> non empty;
+end;
+
+registration
+let R be preordered Ring,
+    P be Preordering of R;
+cluster OrdRel P -> strongly_reflexive antisymmetric transitive;
+end;
+
+registration
+let R be preordered Ring,
+    P be Preordering of R;
+cluster OrdRel P -> respecting_addition respecting_multiplication;
+end;
+
+registration
+let R be ordered Ring,
+    O be Ordering of R;
+cluster OrdRel O -> totally_connected;
+end;
+
+registration
+let R be preordered Ring;
+cluster strongly_reflexive antisymmetric transitive respecting_addition
+                               respecting_multiplication for Relation of R;
+end;
+
+registration
+let R be ordered Ring;
+cluster strongly_reflexive antisymmetric transitive respecting_addition
+            respecting_multiplication totally_connected for Relation of R;
+end;
+
+definition
+let R be preordered Ring;
+mode OrderRelation of R is
+  strongly_reflexive antisymmetric transitive respecting_addition
+                                   respecting_multiplication Relation of R;
+end;
+
+definition
+let R be ordered Ring;
+mode total_OrderRelation of R is
+  strongly_reflexive antisymmetric transitive respecting_addition
+                respecting_multiplication totally_connected Relation of R;
+end;
+
+definition
+let R be Ring;
+let Q be Relation of R;
+func Positives Q -> Subset of R equals
+:: REALALG1:def 20
+  { a where a is Element of R : 0.R <=_Q,a };
+end;
+
+registration
+let R be preordered Ring;
+let Q be strongly_reflexive Relation of R;
+cluster Positives Q -> non empty;
+end;
+
+registration
+let R be preordered Ring;
+let Q be OrderRelation of R;
+cluster Positives Q -> add-closed mult-closed negative-disjoint;
+end;
+
+registration
+let R be ordered Ring;
+let Q be total_OrderRelation of R;
+cluster Positives Q -> spanning;
+end;
+
+theorem :: REALALG1:30
+for R being preordered Ring
+for P being Preordering of R holds OrdRel P is OrderRelation of R;
+
+theorem :: REALALG1:31
+for R being ordered Ring
+for P being Ordering of R holds OrdRel P is total_OrderRelation of R;
+
+theorem :: REALALG1:32
+for R being ordered Ring
+for Q being total_OrderRelation of R holds Positives Q is Ordering of R;
+
+
+begin
+
+registration
+let R be preordered Ring;
+cluster -> preordered for Subring of R;
+end;
+
+registration
+let R be ordered Ring;
+cluster -> ordered for Subring of R;
+end;
+
+theorem :: REALALG1:33
+for R being preordered Ring
+for P being Preordering of R
+for S being Subring of R holds P /\ (the carrier of S) is Preordering of S;
+
+theorem :: REALALG1:34
+for R being ordered Ring
+for O being Ordering of R
+for S being Subring of R holds O /\ (the carrier of S) is Ordering of S;
+
+registration
+cluster F_Complex -> non preordered;
+end;
+
+registration
+let n be non trivial Nat;
+cluster Z/n -> non preordered;
+end;
+
+definition
+func Positives(F_Real) -> Subset of F_Real equals
+:: REALALG1:def 21
+  { r where r is Element of REAL : 0 <= r };
+end;
+
+registration
+cluster Positives(F_Real) -> add-closed mult-closed negative-disjoint spanning;
+end;
+
+registration
+cluster F_Real -> ordered;
+end;
+
+theorem :: REALALG1:35
+Positives(F_Real) is Ordering of F_Real;
+
+theorem :: REALALG1:36
+for O being Ordering of F_Real holds O = Positives(F_Real);
+
+definition
+func Positives(F_Rat) -> Subset of F_Rat equals
+:: REALALG1:def 22
+  { r where r is Element of RAT : 0 <= r };
+end;
+
+registration
+cluster Positives(F_Rat) -> add-closed mult-closed negative-disjoint spanning;
+end;
+
+registration
+cluster F_Rat -> ordered;
+end;
+
+theorem :: REALALG1:37
+Positives(F_Rat) is Ordering of F_Rat;
+
+theorem :: REALALG1:38
+for O being Ordering of F_Rat holds O = Positives(F_Rat);
+
+definition
+func Positives(INT.Ring) -> Subset of INT.Ring equals
+:: REALALG1:def 23
+  { i where i is Element of INT : 0 <= i };
+end;
+
+registration
+cluster Positives(INT.Ring)
+               -> add-closed mult-closed negative-disjoint spanning;
+end;
+
+registration
+cluster INT.Ring -> ordered;
+end;
+
+theorem :: REALALG1:39
+Positives(INT.Ring) is Ordering of INT.Ring;
+
+theorem :: REALALG1:40
+for O being Ordering of INT.Ring holds O = Positives(INT.Ring);
+
+
+begin :: Ordered Polynomial Rings
+
+definition
+let R be preordered Ring;
+let P be Preordering of R;
+func Positives(Poly) P -> Subset of Polynom-Ring R equals
+:: REALALG1:def 24
+  { p where p is Polynomial of R : LC p in P };
+end;
+
+registration
+let R be preordered non degenerated Ring;
+let P be Preordering of R;
+cluster Positives(Poly) P -> add-closed negative-disjoint;
+end;
+
+registration
+let R be preordered domRing;
+let P be Preordering of R;
+cluster Positives(Poly) P -> mult-closed with_sums_of_squares;
+end;
+
+registration
+let R be ordered Ring;
+let O be Ordering of R;
+cluster Positives(Poly) O -> spanning;
+end;
+
+registration
+let R be preordered domRing;
+cluster Polynom-Ring R -> preordered;
+end;
+
+registration
+let R be ordered domRing;
+cluster Polynom-Ring R -> ordered;
+end;
+
+theorem :: REALALG1:41
+for R being preordered domRing
+for P being Preordering of R
+holds Positives(Poly) P is Preordering of Polynom-Ring R;
+
+theorem :: REALALG1:42
+for R being ordered domRing
+for O being Ordering of R
+holds Positives(Poly) O is Ordering of Polynom-Ring R;
+
+definition
+let R be preordered Ring;
+let P be Preordering of R;
+func LowPositives(Poly) P -> Subset of Polynom-Ring R equals
+:: REALALG1:def 25
+  { p where p is Polynomial of R :
+       p.(min*{i where i is Nat : p.i <> 0.R}) in P };
+end;
+
+registration
+let R be preordered non degenerated Ring;
+let P be Preordering of R;
+cluster LowPositives(Poly) P -> add-closed negative-disjoint;
+end;
+
+registration
+let R be preordered domRing;
+let P be Preordering of R;
+cluster LowPositives(Poly) P -> mult-closed with_sums_of_squares;
+end;
+
+registration
+let R be ordered non degenerated Ring;
+let O be Ordering of R;
+cluster LowPositives(Poly) O -> spanning;
+end;
+
+theorem :: REALALG1:43
+for R being preordered domRing
+for P being Preordering of R
+holds LowPositives(Poly) P is Preordering of Polynom-Ring R;
+
+theorem :: REALALG1:44
+for R being ordered domRing
+for O being Ordering of R
+holds LowPositives(Poly) O is Ordering of Polynom-Ring R;
+
+theorem :: REALALG1:45
+for R being preordered non degenerated Ring
+for P being Preordering of R
+holds Positives(Poly) P <> LowPositives(Poly) P;

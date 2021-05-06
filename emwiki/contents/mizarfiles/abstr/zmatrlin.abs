@@ -1,0 +1,1157 @@
+:: Matrix of $\mathbb Z$-module
+::  by Yuichi Futa , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received February 18, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, RLVECT_1, STRUCT_0, FUNCT_1,
+      XBOOLE_0, ALGSTR_0, RELAT_1, PARTFUN1, ARYTM_3, CARD_3, ORDINAL4,
+      BINOP_2, RLSUB_2, PRELAMB, XXREAL_0, TARSKI, CARD_1, SUPINF_2, MSSUBFAM,
+      ARYTM_1, NAT_1, FUNCT_2, FINSET_1, FUNCOP_1, VALUED_1, RLSUB_1, QC_LANG1,
+      ZFMISC_1, INT_1, RLVECT_2, INCSP_1, FINSEQ_2, FVSUM_1, ZMODUL01,
+      ZMODUL03, FINSEQ_4, RLVECT_3, RANKNULL, UNIALG_1, FUNCT_7, GROUP_1,
+      COMPLEX1, VECTSP_1, MESFUNC1, MATRLIN, FINSEQ_3, RVSUM_1, MATRIX_1,
+      MATRIX_3, LAPLACE, TREES_1, PRE_POLY, BILINEAR, FUNCT_5, HAHNBAN,
+      HAHNBAN1, ZMATRLIN, BORSUK_1, INT_3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, FUNCT_3, BINOP_1, DOMAIN_1, FUNCOP_1,
+      FUNCSDOM, VFUNCT_1, FINSET_1, CARD_1, FUNCT_5, NUMBERS, XCMPLX_0, INT_1,
+      XREAL_0, REAL_1, XXREAL_0, COMPLEX1, NAT_D, BINOP_2, FINSEQ_1, FINSEQ_2,
+      FINSEQOP, FINSEQ_3, MATRIX_0, STRUCT_0, ALGSTR_0, RLVECT_1, MATRIX_1,
+      FVSUM_1, GROUP_1, VECTSP_1, GR_CY_1, PRE_POLY, MATRLIN, VECTSP_2, MOD_2,
+      RLVECT_2, HAHNBAN, VECTSP_4, VECTSP_5, MATRIX_3, VECTSP_7, INT_3,
+      HAHNBAN1, ZMODUL01, ZMODUL03, ZMODUL05, VECTSP_6, LAPLACE, BILINEAR,
+      RANKNULL;
+ constructors BINOP_2, DOMAIN_1, REAL_1, GR_CY_1, EUCLID, VECTSP_9, FUNCT_3,
+      FVSUM_1, ALGSTR_1, ZMODUL05, MATRIXR2, LAPLACE, INT_3, VECTSP_2,
+      ZMODUL01, RLVECT_2, HAHNBAN1, VFUNCT_1, FUNCSDOM, VECTSP_4, VECTSP_6,
+      VECTSP_7, VECTSP_5, HAHNBAN, MOD_2, VECTSP_1, MATRIX_3, RELSET_1,
+      RANKNULL;
+ registrations SUBSET_1, FUNCT_1, RELSET_1, FUNCT_2, FINSET_1, NUMBERS,
+      XREAL_0, STRUCT_0, RLVECT_1, VALUED_0, MEMBERED, FINSEQ_1, CARD_1,
+      VECTSP_2, INT_1, XBOOLE_0, ORDINAL1, FUNCOP_1, XXREAL_0, NAT_1, RELAT_1,
+      VECTSP_1, ZFMISC_1, PRE_POLY, FUNCT_3, XCMPLX_0, ZMODUL01, ZMODUL03,
+      MATRIX_0, VECTSP_7, INT_3, MATRIX_6, HAHNBAN1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+ reserve x,y,z for object,
+   i,j,k,l,n,m for Nat,
+   D,E for non empty set;
+ reserve M for Matrix of D;
+ reserve L for Matrix of E;
+
+theorem :: ZMATRLIN:1
+  for i, j being Nat st M = L & [i,j] in Indices M
+  holds M*(i,j) = L*(i,j);
+
+theorem :: ZMATRLIN:2
+  for i being Nat st M = L & i in dom M
+  holds Line(M,i) = Line(L,i);
+
+theorem :: ZMATRLIN:3
+  for i being Nat st M = L & i in Seg width M
+  holds Col(M,i) = Col(L,i);
+
+theorem :: ZMATRLIN:4
+  len M = len L & width M = width L &
+  (for i, j being Nat st [i,j] in Indices M holds M*(i,j) = L*(i,j))
+  implies M = L;
+
+theorem :: ZMATRLIN:5
+  for M being Matrix of D
+  st for i, j being Nat st [i, j] in Indices M holds M*(i,j) in E
+  holds M is Matrix of E;
+
+theorem :: ZMATRLIN:6
+  M = L implies M@ = L@;
+
+theorem :: ZMATRLIN:7
+  for M being Matrix of INT
+  holds M is Matrix of REAL;
+
+definition
+  let M be Matrix of INT;
+  func inttorealM(M) -> Matrix of REAL equals
+:: ZMATRLIN:def 1
+  M;
+end;
+
+definition
+  let n, m be Nat;
+  let M be Matrix of n,m,INT;
+  redefine func inttorealM(M) -> Matrix of n,m,REAL;
+end;
+
+definition
+  let n be Nat;
+  let M be Matrix of n,INT;
+  redefine func inttorealM(M) -> Matrix of n,REAL;
+end;
+
+definition
+  let M be Matrix of REAL;
+  attr M is integer means
+:: ZMATRLIN:def 2
+  M is Matrix of INT;
+end;
+
+registration
+  cluster integer for Matrix of REAL;
+end;
+
+registration
+  let n, m be Nat;
+  cluster integer for Matrix of n,m, REAL;
+end;
+
+definition
+  let M be integer Matrix of REAL;
+  func realtointM(M) -> Matrix of INT equals
+:: ZMATRLIN:def 3
+  M;
+end;
+
+definition
+  let n, m be Nat;
+  let M be integer Matrix of n,m, REAL;
+  redefine func realtointM(M) -> Matrix of n,m,INT;
+end;
+
+definition
+  let n be Nat;
+  let M be integer Matrix of n, REAL;
+  redefine func realtointM(M) -> Matrix of n,INT;
+end;
+
+definition
+  let n, m be Nat;
+  func 0.(n,m) -> Matrix of n,m,INT.Ring equals
+:: ZMATRLIN:def 4
+  n |-> (m |-> 0.INT.Ring);
+end;
+
+begin :: Sequences and Matrices Concerning Linear Transformations
+
+ reserve k,t,i,j,m,n for Nat,
+   D for non empty set;
+ reserve V for free Z_Module;
+ reserve a for Element of INT.Ring,
+   W for Element of V;
+ reserve KL1,KL2,KL3 for Linear_Combination of V,
+   X for Subset of V;
+
+theorem :: ZMATRLIN:8
+  X is linearly-independent & Carrier KL1 c= X & Carrier KL2 c= X
+  & Carrier KL3 c= X & Sum KL1 = Sum KL2 + Sum KL3 implies KL1 = KL2 + KL3;
+
+theorem :: ZMATRLIN:9
+  X is linearly-independent & Carrier KL1 c= X & Carrier KL2 c= X
+  & a <> 0.INT.Ring & Sum KL1 = a * Sum KL2 implies KL1 = a * KL2;
+
+ reserve V for finite-rank free Z_Module,
+   W for Element of V;
+ reserve KL1,KL2,KL3 for Linear_Combination of V,
+   X for Subset of V;
+
+theorem :: ZMATRLIN:10
+  for b2 be Basis of V ex KL be Linear_Combination of V
+  st W = Sum KL & Carrier KL c= b2;
+
+definition
+  let V be finite-rank free Z_Module;
+  mode OrdBasis of V -> FinSequence of V means
+:: ZMATRLIN:def 5
+
+  it is one-to-one & rng it is Basis of V;
+end;
+
+ reserve s for FinSequence,
+   V1,V2,V3 for finite-rank free Z_Module,
+   f,f1,f2 for Function of V1,V2,
+   g for Function of V2,V3,
+   b1 for OrdBasis of V1,
+   b2 for OrdBasis of V2,
+   b3 for OrdBasis of V3,
+   v1,v2 for Vector of V2,
+   v,w for Element of V1;
+ reserve p2,F for FinSequence of V1,
+   p1,d for FinSequence of INT.Ring,
+   KL for Linear_Combination of V1;
+
+theorem :: ZMATRLIN:11
+  for a being Element of V1, F being FinSequence of V1,
+  G being FinSequence of INT.Ring st len F = len G &
+  for k for v being Element of INT.Ring st
+  k in dom F & v = G.k holds F.k = v * a
+  holds Sum(F) = Sum(G) * a;
+
+theorem :: ZMATRLIN:12
+  for a being Element of V1, F being FinSequence of INT.Ring,
+  G being FinSequence of V1 st len F = len G &
+  for k st k in dom F holds G.k = (F/.k) * a
+  holds Sum(G) = Sum(F) * a;
+
+definition
+  let V1, p1, p2;
+  func lmlt(p1,p2) -> FinSequence of V1 equals
+:: ZMATRLIN:def 6
+  (the lmult of V1).:(p1,p2);
+end;
+
+theorem :: ZMATRLIN:13
+  dom p1 = dom p2 implies dom lmlt(p1,p2) = dom p1;
+
+theorem :: ZMATRLIN:14
+  for M being Matrix of the carrier of V1 st len M = 0 holds Sum Sum M = 0.V1;
+
+theorem :: ZMATRLIN:15
+  for M being Matrix of m+1,0,the carrier of V1 holds Sum Sum M = 0.V1;
+
+theorem :: ZMATRLIN:16
+  for V1, V2 being Z_Module, f being Function of V1, V2,
+  p being FinSequence of V1 st f is additive homogeneous holds
+  f.Sum p = Sum(f*p);
+
+theorem :: ZMATRLIN:17
+  for a being FinSequence of INT.Ring, p being FinSequence of V1
+  st len p = len a holds f is additive homogeneous
+  implies f*lmlt(a,p) = lmlt(a,f*p);
+
+theorem :: ZMATRLIN:18
+  for a being FinSequence of INT.Ring
+  st len a = len b2 & g is additive homogeneous holds
+  g.Sum(lmlt(a,b2)) = Sum(lmlt(a,g*b2));
+
+theorem :: ZMATRLIN:19
+  for F, F1 being FinSequence of V1, KL being Linear_Combination of V1,
+  p being Permutation of dom F st F1 = F * p holds KL (#) F1 = (KL (#) F) * p;
+
+theorem :: ZMATRLIN:20
+  F is one-to-one & Carrier KL c= rng F implies Sum(KL (#) F) = Sum KL;
+
+theorem :: ZMATRLIN:21
+  for A being set, p being FinSequence of V1 st rng p c= A holds
+  f1 is additive homogeneous & f2 is additive homogeneous &
+  (for v st v in A holds f1.v = f2.v) implies f1.Sum p = f2.Sum p;
+
+theorem :: ZMATRLIN:22
+  f1 is additive homogeneous & f2 is additive homogeneous implies
+  for b1 being OrdBasis of V1 st len b1 > 0 holds f1*b1 = f2*b1
+  implies f1 = f2;
+
+theorem :: ZMATRLIN:23
+  for M1 being Matrix of n,k,the carrier of V,
+  M2 being Matrix of m,k,the carrier of V
+  holds Sum(M1^M2) = (Sum M1)^(Sum M2);
+
+theorem :: ZMATRLIN:24
+  for M1,M2 being Matrix of the carrier of V1 holds
+  Sum M1 + Sum M2 = Sum(M1 ^^ M2);
+
+theorem :: ZMATRLIN:25
+  for P1,P2 being FinSequence of V1 st len P1 = len P2 holds
+  Sum(P1 + P2) = (Sum P1) + (Sum P2);
+
+theorem :: ZMATRLIN:26
+  for M1, M2 being Matrix of the carrier of V1 st len M1 = len M2
+  holds Sum Sum M1 + Sum Sum M2 = Sum Sum(M1 ^^ M2);
+
+theorem :: ZMATRLIN:27
+  for M being Matrix of the carrier of V1 holds Sum Sum M = Sum Sum (M@);
+
+theorem :: ZMATRLIN:28
+  for M being Matrix of n,m,INT.Ring st n > 0 & m > 0
+  for p, d being FinSequence of INT.Ring st len p = n & len d = m &
+  for j st j in dom d holds d/.j = Sum mlt(p,Col(M,j))
+  for b,c being FinSequence of V1 st len b = m & len c = n &
+  for i st i in dom c holds c/.i = Sum lmlt(Line(M,i),b) holds
+  Sum lmlt(p,c) = Sum lmlt(d,b);
+
+begin :: Decomposition of a Vector in Basis
+
+definition
+  let V be finite-rank free Z_Module;
+  let b1 be OrdBasis of V;
+  let W be Element of V;
+  func W|--b1 -> FinSequence of INT.Ring means
+:: ZMATRLIN:def 7
+
+  len it = len b1 &
+  ex KL be Linear_Combination of V st W = Sum(KL) & Carrier KL c= rng b1 &
+  for k st 1 <= k & k <= len it holds it/.k = KL.(b1/.k);
+end;
+
+theorem :: ZMATRLIN:29
+  v1|--b2 = v2|--b2 implies v1 = v2;
+
+theorem :: ZMATRLIN:30
+  v = Sum lmlt(v|--b1,b1);
+
+theorem :: ZMATRLIN:31
+  len d = len b1 implies d = Sum(lmlt(d,b1)) |-- b1;
+
+theorem :: ZMATRLIN:32
+  for a, d being FinSequence of INT.Ring st len a = len b1
+  for j being Nat st j in dom b2 & len d = len b1 &
+  for k st k in dom b1 holds d.k = (f.((b1/.k)) |-- b2)/.j holds
+  len b1 > 0 implies (Sum(lmlt(a,f*b1)) |-- b2)/.j = Sum(mlt(a,d));
+
+begin :: Matrices of Linear Transformations
+
+definition
+  let V1, V2 be finite-rank free Z_Module;
+  let f be Function of V1, V2;
+  let b1 be FinSequence of V1;
+  let b2 be OrdBasis of V2;
+  func AutMt(f,b1,b2) -> Matrix of INT.Ring means
+:: ZMATRLIN:def 8
+  len it = len b1 & for k st k in dom b1 holds it/.k = f.(b1/.k) |-- b2;
+end;
+
+theorem :: ZMATRLIN:33
+  len b1 = 0 implies AutMt(f,b1,b2) = {};
+
+theorem :: ZMATRLIN:34
+  len b1 > 0 implies width AutMt(f,b1,b2) = len b2;
+
+theorem :: ZMATRLIN:35
+  f1 is additive homogeneous & f2 is additive homogeneous &
+  AutMt(f1,b1,b2) = AutMt(f2,b1,b2) & len b1 > 0 implies f1 = f2;
+
+theorem :: ZMATRLIN:36
+  for F being FinSequence of F_Real,
+  G being FinSequence of INT.Ring
+  st F = G
+  holds Sum F = Sum G;
+
+theorem :: ZMATRLIN:37
+  for p, q being FinSequence of INT.Ring,
+  p1,q1 being FinSequence of F_Real
+  st p = p1 & q = q1
+  holds p "*" q = p1 "*" q1;
+
+theorem :: ZMATRLIN:38
+  g is additive homogeneous & len b1 > 0 & len b2 > 0 implies
+  AutMt(g*f,b1,b3) = AutMt(f,b1,b2) * AutMt(g,b2,b3);
+
+theorem :: ZMATRLIN:39
+  AutMt(f1+f2,b1,b2) = (AutMt(f1,b1,b2)) + (AutMt(f2,b1,b2));
+
+theorem :: ZMATRLIN:40
+  a <> 0.INT.Ring implies AutMt(a*f,b1,b2) = a * (AutMt(f,b1,b2));
+
+theorem :: ZMATRLIN:41
+  for D, E being non empty set, n, m, i, j being Nat, M being Matrix of n,m,D
+  st 0 < n & M is Matrix of n,m,E & [i, j] in Indices M
+  holds M*(i,j) is Element of E;
+
+theorem :: ZMATRLIN:42
+  for F be FinSequence of F_Real
+  st for i being Nat st i in dom F holds F.i in INT
+  holds Sum F in INT;
+
+theorem :: ZMATRLIN:43
+  for i be Nat, j be Element of F_Real st j in INT
+  holds power(F_Real).(-1_F_Real,i)*j in INT;
+
+theorem :: ZMATRLIN:44
+  for n, i, j, k, m being Nat, M being Matrix of n+1, F_Real
+  st 0 < n & M is Matrix of n+1, INT &
+  [i, j] in Indices M & [k, m] in Indices (Delete(M,i,j))
+  holds (Delete(M,i,j))*(k,m) is Element of INT;
+
+theorem :: ZMATRLIN:45
+  for n, i, j being Nat, M being Matrix of n+1, F_Real
+  st 0 < n & M is Matrix of n+1,INT & [i, j] in Indices M
+  holds Delete(M,i,j) is Matrix of n, INT;
+
+theorem :: ZMATRLIN:46
+  for n being Nat, M being Matrix of n, F_Real
+  st M is Matrix of n, INT
+  holds Det M in INT;
+
+theorem :: ZMATRLIN:47
+  for n being Nat, M being Matrix of n, F_Real
+  st M is Matrix of n, INT.Ring
+  holds Det M in INT;
+
+theorem :: ZMATRLIN:48
+  for V being finite-rank free Z_Module, I being Basis of V holds
+  ex J being OrdBasis of V st rng J = I;
+
+registration
+  let V be Z_Module;
+  cluster id V -> additive homogeneous;
+end;
+
+theorem :: ZMATRLIN:49
+  for V being finite-rank free Z_Module, b being OrdBasis of V
+  holds len b = rank V;
+
+theorem :: ZMATRLIN:50
+  for V being finite-rank free Z_Module,
+  b1, b2 being OrdBasis of V holds
+  AutMt(id(V), b1, b2) is Matrix of rank V,INT.Ring;
+
+theorem :: ZMATRLIN:51
+  for V being finite-rank free Z_Module, b1, b2 being OrdBasis of V,
+  M being Matrix of rank(V),F_Real st M = AutMt(id(V), b1, b2)
+  holds Det M in INT;
+
+theorem :: ZMATRLIN:52
+  for V1 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1 holds
+  for i,j be Nat
+  st i in dom b1 & j in dom b1 holds
+  ( i = j implies ((b1/.i) |-- b1).j = 1 )
+  & ( i <> j implies ((b1/.i) |-- b1).j = 0 );
+
+theorem :: ZMATRLIN:53
+  for V being finite-rank free Z_Module, b1 being OrdBasis of V
+  st rank(V) > 0 holds
+  AutMt(id(V), b1, b1) = 1.(INT.Ring,rank(V));
+
+theorem :: ZMATRLIN:54
+  for V being finite-rank free Z_Module, b1, b2 being OrdBasis of V
+  st rank(V) > 0
+  holds (AutMt(id(V), b1, b2)) * (AutMt(id(V), b2, b1)) = 1.(INT.Ring,rank(V));
+
+theorem :: ZMATRLIN:55
+  for V being finite-rank free Z_Module, b1, b2 being OrdBasis of V,
+  M being Matrix of rank(V),INT.Ring st M = AutMt(id(V), b1, b2)
+  holds |. Det M .| = 1;
+
+begin :: Real-valued Function of Z_Module
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster additive homogeneous 0-preserving for Functional of V;
+end;
+
+definition
+  let V be non empty ModuleStr over INT.Ring;
+  mode linear-Functional of V is additive homogeneous Functional of V;
+end;
+
+theorem :: ZMATRLIN:56
+  for a being Element of INT.Ring, V being add-associative right_zeroed
+  right_complementable vector-distributive scalar-distributive
+  scalar-associative scalar-unital non empty ModuleStr over INT.Ring,
+      v being Vector of V
+  holds (0.INT.Ring)*v = 0.V & a*(0.V) = 0.V;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster additive 0-preserving for Functional of V;
+end;
+
+registration
+  let V be right_zeroed non empty ModuleStr over INT.Ring;
+  cluster additive -> 0-preserving for Functional of V;
+end;
+
+registration
+  let V be add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring;
+  cluster homogeneous -> 0-preserving for Functional of V;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster 0Functional(V) -> constant;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring;
+  cluster constant for Functional of V;
+end;
+
+definition
+  let V be right_zeroed non empty ModuleStr over INT.Ring;
+  let f be 0-preserving Functional of V;
+  redefine attr f is constant means
+:: ZMATRLIN:def 9
+  f = 0Functional(V);
+end;
+
+registration
+  let V be right_zeroed non empty ModuleStr over INT.Ring;
+  cluster constant additive 0-preserving for Functional of V;
+end;
+
+definition
+  let V be free Z_Module,
+  A,B be Subset of V;
+  assume  A c= B & B is Basis of V;
+  func Proj(A,B) -> linear-transformation of V, V means
+:: ZMATRLIN:def 10
+  ( for v being Vector of V holds
+  ex vA, vB being Vector of V st
+  vA in Lin A & vB in Lin (B \ A) & v = vA+vB & it.v = vA )
+  & for v, vA, vB being Vector of V
+  st vA in Lin A & vB in Lin (B \ A) & v = vA + vB
+  holds it.v = vA;
+end;
+
+definition
+  let V be free Z_Module,
+  B be Basis of V,
+  u be Vector of V;
+  func Coordinate(u,B) -> Function of V, INT.Ring means
+:: ZMATRLIN:def 11
+
+  ( for v being Vector of V holds
+  ex Lu being Linear_Combination of B st v = Sum Lu & it.v = Lu.u )
+  & (for v being Vector of V, Lv being Linear_Combination of B
+  st v = Sum Lv holds it.v = Lv.u )
+  & ( for v1, v2 being Vector of V holds it.(v1+v2) = it.v1 + it.v2 )
+  & ( for v being Vector of V, r being Element of INT.Ring holds
+  it.(r*v) = r*it.v );
+end;
+
+theorem :: ZMATRLIN:57
+  for V being free Z_Module, B being Basis of V, u being Vector of V
+  holds Coordinate(u,B).(0.V) = 0;
+
+theorem :: ZMATRLIN:58
+  for V being free Z_Module, X being Basis of V, v being Vector of V
+  st v in X & v <> 0.V holds Coordinate(v,X).v = 1;
+
+registration
+  let V be non trivial free Z_Module;
+  cluster additive homogeneous non constant non trivial for Functional of V;
+end;
+
+theorem :: ZMATRLIN:59
+  for V being non trivial free Z_Module,
+  f being non constant 0-preserving Functional of V
+  ex v being Vector of V st v <> 0.V & f.v <> 0.INT.Ring;
+
+begin :: Bilinear form of Z_Module
+
+definition
+  let V,W be ModuleStr over INT.Ring;
+  func NulForm(V,W) -> Form of V,W equals
+:: ZMATRLIN:def 12
+  [:the carrier of V,the carrier of W:] --> 0.INT.Ring;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be Form of V,W;
+  func f+g -> Form of V,W means
+:: ZMATRLIN:def 13
+
+  for v being Vector of V, w being Vector of W holds
+    it.(v,w) = f.(v,w)+g.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W;
+  let a be Element of INT.Ring;
+  func a*f -> Form of V,W means
+:: ZMATRLIN:def 14
+
+  for v being Vector of V, w being Vector of W holds it.(v,w) = a*f.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W;
+  func -f -> Form of V,W means
+:: ZMATRLIN:def 15
+
+  for v being Vector of V, w being Vector of W holds it.(v,w) = -f.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W;
+  redefine func -f equals
+:: ZMATRLIN:def 16
+  (- 1.INT.Ring) * f;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be Form of V,W;
+  func f-g -> Form of V,W equals
+:: ZMATRLIN:def 17
+  f + -g;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be Form of V,W;
+  redefine func f - g means
+:: ZMATRLIN:def 18
+  for v being Vector of V, w being Vector of W holds
+  it.(v,w) = f.(v,w) - g.(v,w);
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be Form of V,W;
+  redefine func f+g;
+  commutativity;
+end;
+
+theorem :: ZMATRLIN:60
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W
+  holds f + NulForm(V,W) = f;
+
+theorem :: ZMATRLIN:61
+  for V, W being non empty ModuleStr over INT.Ring, f, g, h being Form of V,W
+  holds f+g+h = f+(g+h);
+
+theorem :: ZMATRLIN:62
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W
+  holds f - f = NulForm(V,W);
+
+theorem :: ZMATRLIN:63
+  for V, W being non empty ModuleStr over INT.Ring,
+      a being Element of INT.Ring,
+  f, g being Form of V,W holds a*(f+g) = a*f+a*g;
+
+theorem :: ZMATRLIN:64
+  for V, W being non empty ModuleStr over INT.Ring,
+      a, b being Element of INT.Ring,
+  f being Form of V,W holds (a+b)*f = a*f+b*f;
+
+theorem :: ZMATRLIN:65
+  for V, W being non empty ModuleStr over INT.Ring,
+      a, b being Element of INT.Ring,
+  f being Form of V,W holds (a*b)*f = a*(b*f);
+
+theorem :: ZMATRLIN:66
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W holds
+  (1.INT.Ring)*f = f;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W, v be Vector of V;
+  func FunctionalFAF(f,v) -> Functional of W equals
+:: ZMATRLIN:def 19
+  (curry f).v;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W, w be Vector of W;
+  func FunctionalSAF(f,w) -> Functional of V equals
+:: ZMATRLIN:def 20
+  (curry' f).w;
+end;
+
+theorem :: ZMATRLIN:67
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  v being Vector of V
+  holds dom (FunctionalFAF(f,v)) = the carrier of W &
+  rng (FunctionalFAF(f,v)) c= the carrier of INT.Ring &
+  for w be Vector of W holds (FunctionalFAF(f,v)).w = f.(v,w);
+
+theorem :: ZMATRLIN:68
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  w being Vector of W holds
+  dom (FunctionalSAF(f,w)) = the carrier of V &
+  rng (FunctionalSAF(f,w)) c= the carrier of INT.Ring & for v be Vector of V
+  holds (FunctionalSAF(f,w)).v = f.(v,w);
+
+theorem :: ZMATRLIN:69
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V holds
+  FunctionalFAF(NulForm(V,W),v) = 0Functional(W);
+
+theorem :: ZMATRLIN:70
+  for V, W being non empty ModuleStr over INT.Ring, w being Vector of W holds
+  FunctionalSAF(NulForm(V,W),w) = 0Functional(V);
+
+theorem :: ZMATRLIN:71
+  for V, W being non empty ModuleStr over INT.Ring, f, g being Form of V,W,
+  w being Vector of W holds
+  FunctionalSAF(f+g,w) = FunctionalSAF(f,w) + FunctionalSAF(g,w);
+
+theorem :: ZMATRLIN:72
+  for V, W being non empty ModuleStr over INT.Ring, f,g being Form of V,W,
+  v being Vector of V holds
+  FunctionalFAF(f+g,v) = FunctionalFAF(f,v) + FunctionalFAF(g,v);
+
+theorem :: ZMATRLIN:73
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  a being Element of INT.Ring, w be Vector of W
+  holds FunctionalSAF(a*f,w) = a*FunctionalSAF(f,w);
+
+theorem :: ZMATRLIN:74
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  a being Element of INT.Ring, v being Vector of V holds
+  FunctionalFAF(a*f,v) = a*FunctionalFAF(f,v);
+
+theorem :: ZMATRLIN:75
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  w being Vector of W
+  holds FunctionalSAF(-f,w) = -FunctionalSAF(f,w);
+
+theorem :: ZMATRLIN:76
+  for V, W being non empty ModuleStr over INT.Ring, f being Form of V,W,
+  v being Vector of V
+  holds FunctionalFAF(-f,v) = -FunctionalFAF(f,v);
+
+theorem :: ZMATRLIN:77
+  for V, W being non empty ModuleStr over INT.Ring, f, g being Form of V,W,
+  w being Vector of W
+  holds FunctionalSAF(f-g,w) = FunctionalSAF(f,w) - FunctionalSAF(g,w);
+
+theorem :: ZMATRLIN:78
+  for V, W being non empty ModuleStr over INT.Ring, f,g being Form of V,W,
+  v being Vector of V
+  holds FunctionalFAF(f-g,v) = FunctionalFAF(f,v) - FunctionalFAF(g,v);
+
+:: Two Form generated by Functionals
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Functional of V;
+  let g be Functional of W;
+  func FormFunctional(f,g) -> Form of V,W means
+:: ZMATRLIN:def 21
+
+  for v being Vector of V, w being Vector of W holds it.(v,w)= f.v * g.w;
+end;
+
+theorem :: ZMATRLIN:79
+  for V, W being non empty ModuleStr over INT.Ring, f being Functional of V,
+  v being Vector of V, w being Vector of W holds
+  FormFunctional(f,0Functional(W)).(v,w) = 0;
+
+theorem :: ZMATRLIN:80
+  for V, W being non empty ModuleStr over INT.Ring, g being Functional of W,
+  v being Vector of V, w be Vector of W holds
+  FormFunctional(0Functional(V),g).(v,w) = 0;
+
+theorem :: ZMATRLIN:81
+  for V, W being non empty ModuleStr over INT.Ring, f being Functional of V
+    holds
+  FormFunctional(f,0Functional(W)) = NulForm(V,W);
+
+theorem :: ZMATRLIN:82
+  for V, W being non empty ModuleStr over INT.Ring, g being Functional of W
+    holds
+  FormFunctional(0Functional(V),g) = NulForm(V,W);
+
+theorem :: ZMATRLIN:83
+  for V, W being non empty ModuleStr over INT.Ring,
+  f being Functional of V,
+  g being Functional of W, v being Vector of V
+  holds FunctionalFAF(FormFunctional(f,g),v) = f.v * g;
+
+theorem :: ZMATRLIN:84
+  for V, W being non empty ModuleStr over INT.Ring, f being Functional of V,
+  g being Functional of W, w being Vector of W
+  holds FunctionalSAF(FormFunctional(f,g),w) = g.w * f;
+
+:: Bilinear Forms and Their Properties
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W;
+  attr f is additiveFAF means
+:: ZMATRLIN:def 22
+
+  for v being Vector of V holds FunctionalFAF (f,v) is additive;
+  attr f is additiveSAF means
+:: ZMATRLIN:def 23
+
+  for w being Vector of W holds FunctionalSAF (f,w) is additive;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Form of V,W;
+  attr f is homogeneousFAF means
+:: ZMATRLIN:def 24
+
+  for v being Vector of V holds FunctionalFAF(f,v) is homogeneous;
+  attr f is homogeneousSAF means
+:: ZMATRLIN:def 25
+
+  for w being Vector of W holds FunctionalSAF(f,w) is homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster NulForm(V,W) -> additiveFAF;
+  cluster NulForm(V,W) -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster NulForm(V,W) -> homogeneousFAF;
+  cluster NulForm(V,W) -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  cluster additiveFAF homogeneousFAF additiveSAF homogeneousSAF
+  for Form of V,W;
+end;
+
+definition
+  let V, W be non empty ModuleStr over INT.Ring;
+  mode bilinear-Form of V,W is additiveSAF homogeneousSAF additiveFAF
+  homogeneousFAF Form of V,W;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF Form of V,W, v be Vector of V;
+  cluster FunctionalFAF(f,v) -> additive;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF Form of V,W, w be Vector of W;
+  cluster FunctionalSAF(f,w) -> additive;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF Form of V,W, v be Vector of V;
+  cluster FunctionalFAF(f,v) -> homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF Form of V,W, w be Vector of W;
+  cluster FunctionalSAF(f,w) -> homogeneous;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Functional of V, g be additive Functional of W;
+  cluster FormFunctional(f,g) -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additive Functional of V, g be Functional of W;
+  cluster FormFunctional(f,g) -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be Functional of V, g be homogeneous Functional of W;
+  cluster FormFunctional(f,g) -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneous Functional of V, g be Functional of W;
+  cluster FormFunctional(f,g) -> homogeneousSAF;
+end;
+
+registration
+  let V be non trivial ModuleStr over INT.Ring, W be Z_Module;
+  let f be Functional of V, g be Functional of W;
+  cluster FormFunctional(f,g) -> non trivial;
+end;
+
+registration
+  let V be non empty ModuleStr over INT.Ring, W be non trivial Z_Module;
+  let f be Functional of V, g be Functional of W;
+  cluster FormFunctional(f,g) -> non trivial;
+end;
+
+registration
+  let V, W be non trivial free Z_Module;
+  let f be non constant 0-preserving Functional of V, g be non constant
+  0-preserving Functional of W;
+  cluster FormFunctional(f,g) -> non constant;
+end;
+
+registration
+  let V, W be non trivial free Z_Module;
+  cluster non trivial non constant additiveFAF homogeneousFAF additiveSAF
+  homogeneousSAF for Form of V,W;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f,g be additiveSAF Form of V,W;
+  cluster f+g -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveFAF Form of V,W;
+  cluster f+g -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF Form of V,W;
+  let a be Element of INT.Ring;
+  cluster a*f -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF Form of V,W;
+  let a be Element of INT.Ring;
+  cluster a*f -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveSAF Form of V,W;
+  cluster -f -> additiveSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be additiveFAF Form of V,W;
+  cluster -f -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveSAF Form of V,W;
+  cluster f-g -> additiveSAF;
+end;
+
+registration
+  let V,W be non empty ModuleStr over INT.Ring;
+  let f, g be additiveFAF Form of V,W;
+  cluster f-g -> additiveFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousSAF Form of V,W;
+  cluster f+g -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f, g be homogeneousFAF Form of V,W;
+  cluster f+g -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF Form of V,W;
+  let a be Element of INT.Ring;
+  cluster a*f -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF Form of V,W;
+  let a be Element of INT.Ring;
+  cluster a*f -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousSAF Form of V,W;
+  cluster -f -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f be homogeneousFAF Form of V,W;
+  cluster -f -> homogeneousFAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f,g be homogeneousSAF Form of V,W;
+  cluster f-g -> homogeneousSAF;
+end;
+
+registration
+  let V, W be non empty ModuleStr over INT.Ring;
+  let f,g be homogeneousFAF Form of V,W;
+  cluster f-g -> homogeneousFAF;
+end;
+
+theorem :: ZMATRLIN:85
+  for V, W being non empty ModuleStr over INT.Ring, v, u being Vector of V,
+  w being Vector of W, f being Form of V,W st f is additiveSAF
+  holds f.(v+u,w) = f.(v,w) + f.(u,w);
+
+theorem :: ZMATRLIN:86
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  u, w being Vector of W, f being Form of V,W st f is additiveFAF
+  holds f.(v,u+w) = f.(v,u) + f.(v,w);
+
+theorem :: ZMATRLIN:87
+  for V, W being non empty ModuleStr over INT.Ring, v, u being Vector of V,
+  w, t being Vector of W, f being additiveSAF additiveFAF Form of V,W
+  holds f.(v+u,w+t) = f.(v,w) + f.(v,t) + (f.(u,w) + f.(u,t));
+
+theorem :: ZMATRLIN:88
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+  f being additiveFAF Form of V,W,
+  v being Vector of V holds f.(v,0.W) = 0;
+
+theorem :: ZMATRLIN:89
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+  f being additiveSAF Form of V,W,
+  w being Vector of W holds f.(0.V,w) = 0;
+
+theorem :: ZMATRLIN:90
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  w being Vector of W, a being Element of INT.Ring, f being Form of V,W
+  st f is homogeneousSAF
+  holds f.(a*v,w) = a*f.(v,w);
+
+theorem :: ZMATRLIN:91
+  for V, W being non empty ModuleStr over INT.Ring, v being Vector of V,
+  w being Vector of W, a being Element of INT.Ring, f being Form of V,W
+  st f is homogeneousFAF
+  holds f.(v,a*w) = a*f.(v,w);
+
+theorem :: ZMATRLIN:92
+  for V, W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, f being homogeneousSAF Form of V,W,
+  w being Vector of W holds f.(0.V,w) = 0.INT.Ring;
+
+theorem :: ZMATRLIN:93
+  for V, W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, f being homogeneousFAF Form of V,W,
+  v being Vector of V holds f.(v,0.W) = 0.INT.Ring;
+
+theorem :: ZMATRLIN:94
+  for V, W being Z_Module, v, u being Vector of V, w being Vector of W,
+  f being additiveSAF homogeneousSAF Form of V,W
+  holds f.(v-u,w) = f.(v,w) - f.(u,w);
+
+theorem :: ZMATRLIN:95
+  for V, W being Z_Module, v being Vector of V, w, t being Vector of W,
+  f being additiveFAF homogeneousFAF Form of V,W
+  holds f.(v,w-t) = f.(v,w) - f.(v,t);
+
+theorem :: ZMATRLIN:96
+  for V, W being Z_Module, v, u being Vector of V, w, t being Vector of W,
+  f being bilinear-Form of V,W
+  holds f.(v-u,w-t) = f.(v,w) - f.(v,t) -(f.(u,w) - f.(u,t));
+
+theorem :: ZMATRLIN:97
+  for V, W being add-associative right_zeroed right_complementable
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  non empty ModuleStr over INT.Ring, v, u being Vector of V,
+     w, t being Vector of W,
+  a, b being Element of INT.Ring, f being bilinear-Form of V,W
+  holds f.(v+a*u,w+b*t) = f.(v,w) + b*f.(v,t) + (a*f.(u,w) + a*(b*f.(u,t)));
+
+theorem :: ZMATRLIN:98
+  for V, W being Z_Module, v, u being Vector of V, w, t being Vector of W,
+  a, b being Element of INT.Ring, f being bilinear-Form of V,W
+  holds f.(v-a*u,w-b*t) = f.(v,w) - b*f.(v,t) - (a*f.(u,w) - a*(b*f.(u,t)));
+
+theorem :: ZMATRLIN:99
+  for V, W being right_zeroed non empty ModuleStr over INT.Ring,
+      f being Form of V,W
+  st f is additiveFAF or f is additiveSAF
+  holds f is constant iff
+  for v be Vector of V, w be Vector of W holds f.(v,w)=0;
+
+begin :: Matrix of bilinear-form
+
+definition
+  let V1, V2 be finite-rank free Z_Module;
+  let b1 be OrdBasis of V1, b2 be OrdBasis of V2;
+  let f be bilinear-Form of V1,V2;
+  func BilinearM(f, b1, b2) -> Matrix of len b1, len b2, INT.Ring means
+:: ZMATRLIN:def 26
+
+  for i, j being Nat st i in dom b1 & j in dom b2
+  holds it*(i,j) = f.(b1/.i, b2/.j);
+end;
+
+theorem :: ZMATRLIN:100
+  for V being finite-rank free Z_Module,
+  i being Nat,
+  a1 being Element of INT.Ring,
+  a2 being Element of V,
+  p1 being FinSequence of INT.Ring,
+  p2 being FinSequence of V
+  st i in dom (lmlt (p1,p2)) & a1 = p1 . i & a2 = p2 . i holds
+  (lmlt (p1,p2)).i = a1 * a2;
+
+theorem :: ZMATRLIN:101
+  for V being finite-rank free Z_Module,
+  F being linear-Functional of V,
+  y being FinSequence of V,
+  x being FinSequence of INT.Ring,
+  X, Y being FinSequence of INT.Ring
+  st X = x & len y = len x & len X = len Y &
+  (for k being Nat st k in Seg len x holds Y.k = F.(y/.k))
+  holds X "*" Y = F.(Sum lmlt (x,y));
+
+theorem :: ZMATRLIN:102
+  for V1, V2 being finite-rank free Z_Module,
+  b2 being OrdBasis of V2, b3 being OrdBasis of V2,
+  f being bilinear-Form of V1, V2,
+  v1 being Vector of V1,
+  v2 being Vector of V2,
+  X, Y being FinSequence of INT.Ring
+  st len X = len b2 & len Y = len b2 &
+  ( for k being Nat st k in Seg len b2 holds Y.k = f.(v1, b2/.k)) &
+  X = (v2|-- b2)
+  holds Y "*" X = f.(v1, v2);
+
+theorem :: ZMATRLIN:103
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1,
+  f being bilinear-Form of V1, V2,
+  v1 being Vector of V1,
+  v2 being Vector of V2,
+  X,Y being FinSequence of INT.Ring
+  st len X = len b1 & len Y = len b1 &
+  ( for k being Nat st k in Seg len b1 holds Y.k = f.(b1/.k, v2) ) &
+  X = (v1 |-- b1)
+  holds X "*" Y = f.(v1, v2);
+
+theorem :: ZMATRLIN:104
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1, b2 being OrdBasis of V2, b3 being OrdBasis of V2,
+  f being bilinear-Form of V1, V2
+  st 0 < rank V1 holds
+  BilinearM(f, b1, b3) =
+  BilinearM(f, b1, b2) * (AutMt(id(V2), b3, b2)@);
+
+theorem :: ZMATRLIN:105
+  for V1, V2 being finite-rank free Z_Module,
+  b1 being OrdBasis of V1, b2 being OrdBasis of V2, b3 being OrdBasis of V1,
+  f being bilinear-Form of V1, V2 st 0 < rank V1 holds
+  BilinearM(f, b3, b2) =
+    (AutMt(id(V1), b3, b1)) * BilinearM(f, b1, b2);
+
+theorem :: ZMATRLIN:106
+  for V being finite-rank free Z_Module,
+  b1, b2 being OrdBasis of V, f being bilinear-Form of V, V
+  st 0 < rank V holds
+  BilinearM(f, b2, b2) = (AutMt(id(V), b2, b1))
+  * BilinearM(f, b1, b1) * (AutMt(id(V), b2, b1)@);
+
+theorem :: ZMATRLIN:107
+  for V being finite-rank free Z_Module,
+  b1, b2 being OrdBasis of V, f being bilinear-Form of V, V
+  holds |. Det BilinearM(f, b2, b2) .| = |. Det BilinearM(f, b1, b1) .|;

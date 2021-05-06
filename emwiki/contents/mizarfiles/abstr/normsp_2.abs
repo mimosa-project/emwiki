@@ -1,0 +1,291 @@
+:: Baire's Category Theorem and Some Spaces Generated from Real Normed Space
+::  by Noboru Endou , Yasunari Shidama and Katsumasa Okamura
+::
+:: Received November 21, 2006
+:: Copyright (c) 2006-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, METRIC_1, PROB_1, REWRITE1, TARSKI, RELAT_1,
+      STRUCT_0, SUBSET_1, FUNCT_1, PCOMPS_1, REAL_1, PRE_TOPC, CARD_1, ARYTM_3,
+      NEWTON, XXREAL_0, NAT_1, SEQ_1, ZFMISC_1, MCART_1, ARYTM_1, BHSP_3,
+      SEQ_2, ORDINAL2, NORMSP_1, RELAT_2, ORDINAL1, METRIC_6, RCOMP_1,
+      COMPTS_1, WAYBEL_3, YELLOW_8, FRECHET, CONNSP_2, PARTFUN1, FCONT_1,
+      TMAP_1, CFCONT_1, RLTOPSP1, SUPINF_2, ALGSTR_0, RLVECT_1, SETFAM_1,
+      COMPLEX1, RLVECT_3, CARD_3, NORMSP_2, FUNCT_7;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FUNCT_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, XREAL_0, XXREAL_0, SETFAM_1, RELSET_1, PARTFUN1, FUNCT_2,
+      BINOP_1, COMPLEX1, REAL_1, NAT_1, STRUCT_0, ALGSTR_0, PRE_TOPC, FRECHET,
+      NEWTON, FRECHET2, YELLOW_8, DOMAIN_1, WAYBEL_3, RLVECT_1, CONVEX1,
+      COMPTS_1, TBSP_1, TMAP_1, CONNSP_2, CARD_3, METRIC_1, METRIC_6, PCOMPS_1,
+      RUSUB_4, RLTOPSP1, NFCONT_1, SEQ_1, KURATO_2, NORMSP_0, NORMSP_1;
+ constructors SETFAM_1, DOMAIN_1, REAL_1, SQUARE_1, NEWTON, CONNSP_2, TBSP_1,
+      RUSUB_4, CONVEX1, TMAP_1, METRIC_6, WAYBEL_3, YELLOW_8, FRECHET,
+      FRECHET2, NFCONT_1, RLTOPSP1, RELSET_1, TOPS_2, BINOP_1, VFUNCT_1;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, NUMBERS, XREAL_0,
+      STRUCT_0, TOPS_1, METRIC_1, PCOMPS_1, HAUSDORF, KURATO_2, RLTOPSP1,
+      FRECHET, NEWTON, NAT_1, XTUPLE_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Baire's Category Theorem
+
+theorem :: NORMSP_2:1
+  for X be non empty MetrSpace, Y be SetSequence of X st X is complete &
+  union rng Y = the carrier of X & for n be Nat holds (Y.n)` in
+Family_open_set X holds ex n0 be Nat,
+    r be Real, x0 be Point of X st
+  0 < r & Ball(x0,r) c= Y.n0;
+
+begin :: Metric Space generated from Real Normed Space
+
+reserve X for RealNormSpace;
+
+definition
+  let X be RealNormSpace;
+  func distance_by_norm_of X -> Function of [:the carrier of X,the carrier of
+  X:],REAL means
+:: NORMSP_2:def 1
+
+  for x, y be Point of X holds it.(x,y) = ||.x-y.||;
+end;
+
+definition
+  let X be RealNormSpace;
+  func MetricSpaceNorm X -> non empty MetrSpace equals
+:: NORMSP_2:def 2
+  MetrStruct(# the
+    carrier of X,distance_by_norm_of X #);
+end;
+
+theorem :: NORMSP_2:2
+  for X be RealNormSpace, z be Element of MetricSpaceNorm X, r be
+Real holds ex x be Point of X st x = z & Ball(z,r) = {y where y is Point
+  of X:||.x-y.|| < r};
+
+theorem :: NORMSP_2:3
+  for X be RealNormSpace, z be Element of MetricSpaceNorm X, r be
+  Real holds ex x be Point of X st x = z & cl_Ball(z,r) = {y where y is
+  Point of X: ||.x-y.|| <= r};
+
+theorem :: NORMSP_2:4
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+MetricSpaceNorm X, x be Point of X, xt be Point of MetricSpaceNorm X st S = St
+  & x = xt holds St is_convergent_in_metrspace_to xt iff
+  for r be Real st 0 < r
+  ex m be Nat st for n be Nat st m <= n holds ||. S.n - x
+  .|| < r;
+
+theorem :: NORMSP_2:5
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+  MetricSpaceNorm X st S = St holds St is convergent iff S is convergent;
+
+theorem :: NORMSP_2:6
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+  MetricSpaceNorm X st S = St & St is convergent holds lim St = lim S;
+
+begin :: Topological Space generated from Real Normed Space
+
+definition
+  let X be RealNormSpace;
+  func TopSpaceNorm X -> non empty TopSpace equals
+:: NORMSP_2:def 3
+  TopSpaceMetr
+  MetricSpaceNorm X;
+end;
+
+theorem :: NORMSP_2:7
+  for X be RealNormSpace, V be Subset of TopSpaceNorm X holds V is
+  open iff for x be Point of X st x in V
+ ex r be Real st r>0 & {y where y
+  is Point of X: ||.x-y.|| < r} c= V;
+
+theorem :: NORMSP_2:8
+  for X be RealNormSpace, x be Point of X,
+      r be Real holds {y where
+  y is Point of X:||.x-y.|| < r} is open Subset of TopSpaceNorm X;
+
+theorem :: NORMSP_2:9
+  for X be RealNormSpace, x be Point of X, r be Real
+  holds {y where y is
+  Point of X: ||.x-y.|| <= r} is closed Subset of TopSpaceNorm X;
+
+::$N Baire Category Theorem (Hausdorff spaces)
+theorem :: NORMSP_2:10
+  for X be Hausdorff non empty TopSpace st X is locally-compact holds X
+  is Baire;
+
+theorem :: NORMSP_2:11
+  for X be RealNormSpace holds TopSpaceNorm(X) is sequential;
+
+registration
+  let X be RealNormSpace;
+  cluster TopSpaceNorm(X) -> sequential;
+end;
+
+theorem :: NORMSP_2:12
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+TopSpaceNorm X, x be Point of X, xt be Point of TopSpaceNorm X st S = St & x =
+  xt holds St is_convergent_to xt iff
+ for r be Real st 0 < r ex m be Nat
+   st for n be Nat st m <= n holds ||. S.n - x.|| < r;
+
+theorem :: NORMSP_2:13
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+  TopSpaceNorm X st S = St holds St is convergent iff S is convergent;
+
+theorem :: NORMSP_2:14
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+TopSpaceNorm X st S = St & St is convergent holds Lim St = {lim S} & lim St=lim
+  S;
+
+theorem :: NORMSP_2:15
+  for X be RealNormSpace, V be Subset of X, Vt be Subset of
+  TopSpaceNorm X st V = Vt holds V is closed iff Vt is closed;
+
+theorem :: NORMSP_2:16
+  for X be RealNormSpace, V be Subset of X, Vt be Subset of
+  TopSpaceNorm X st V = Vt holds V is open iff Vt is open;
+
+theorem :: NORMSP_2:17
+  for X be RealNormSpace, U be Subset of X, Ut be Subset of
+TopSpaceNorm X, x be Point of X, xt be Point of TopSpaceNorm X st U = Ut & x =
+  xt holds U is Neighbourhood of x iff Ut is a_neighborhood of xt;
+
+theorem :: NORMSP_2:18
+  for X,Y be RealNormSpace, f be PartFunc of X,Y, ft be Function
+of TopSpaceNorm X,TopSpaceNorm Y, x be Point of X, xt be Point of TopSpaceNorm
+  X st f = ft & x = xt holds f is_continuous_in x iff ft is_continuous_at xt;
+
+theorem :: NORMSP_2:19
+  for X,Y be RealNormSpace, f be PartFunc of X,Y, ft be Function of
+TopSpaceNorm X,TopSpaceNorm Y st f = ft holds f is_continuous_on the carrier of
+  X iff ft is continuous;
+
+begin :: Linear Topological Space generated from Real Normed Space
+
+definition
+  let X be RealNormSpace;
+  func LinearTopSpaceNorm X -> strict non empty RLTopStruct means
+:: NORMSP_2:def 4
+
+  the
+carrier of it = the carrier of X & 0.it = 0.X & the addF of it = the addF of X
+  & the Mult of it = the Mult of X & the topology of it = the topology of
+  TopSpaceNorm X;
+end;
+
+registration
+  let X be RealNormSpace;
+  cluster LinearTopSpaceNorm X -> add-continuous Mult-continuous TopSpace-like
+Abelian add-associative right_zeroed right_complementable vector-distributive
+scalar-distributive scalar-associative scalar-unital;
+end;
+
+theorem :: NORMSP_2:20
+  for X be RealNormSpace, V be Subset of TopSpaceNorm X, Vt be
+  Subset of LinearTopSpaceNorm X st V=Vt holds V is open iff Vt is open;
+
+theorem :: NORMSP_2:21
+  for X be RealNormSpace, V be Subset of TopSpaceNorm X, Vt be
+  Subset of LinearTopSpaceNorm X st V=Vt holds V is closed iff Vt is closed;
+
+theorem :: NORMSP_2:22
+  for X be RealNormSpace, V be Subset of LinearTopSpaceNorm X holds V is
+  open iff for x be Point of X st x in V
+ ex r be Real st r>0 & {y where y
+  is Point of X:||.x-y.|| < r} c= V;
+
+theorem :: NORMSP_2:23
+  for X be RealNormSpace, x be Point of X, r be Real, V be Subset of
+LinearTopSpaceNorm X st V = {y where y is Point of X:||.x-y.|| < r} holds V is
+  open;
+
+theorem :: NORMSP_2:24
+  for X be RealNormSpace, x be Point of X, r be Real, V be Subset of
+  TopSpaceNorm X st V = {y where y is Point of X:||.x-y.|| <= r} holds V is
+  closed;
+
+registration
+  let X be RealNormSpace;
+  cluster LinearTopSpaceNorm X -> T_2;
+  cluster LinearTopSpaceNorm X -> sober;
+end;
+
+theorem :: NORMSP_2:25
+  for X be RealNormSpace, S be Subset-Family of TopSpaceNorm X, St
+  be Subset-Family of LinearTopSpaceNorm X, x be Point of TopSpaceNorm X, xt be
+  Point of LinearTopSpaceNorm X st S=St & x=xt holds St is Basis of xt iff S is
+  Basis of x;
+
+registration
+  let X be RealNormSpace;
+  cluster LinearTopSpaceNorm X -> first-countable;
+  cluster LinearTopSpaceNorm X -> Frechet;
+  cluster LinearTopSpaceNorm X -> sequential;
+end;
+
+theorem :: NORMSP_2:26
+  for X be RealNormSpace, S be sequence of TopSpaceNorm X, St be
+sequence of LinearTopSpaceNorm X, x be Point of TopSpaceNorm X, xt be Point of
+  LinearTopSpaceNorm X st S=St & x=xt holds St is_convergent_to xt iff S
+  is_convergent_to x;
+
+theorem :: NORMSP_2:27
+  for X be RealNormSpace, S be sequence of TopSpaceNorm X, St be
+  sequence of LinearTopSpaceNorm X st S=St holds St is convergent iff S is
+  convergent;
+
+theorem :: NORMSP_2:28
+  for X be RealNormSpace, S be sequence of TopSpaceNorm X, St be
+  sequence of LinearTopSpaceNorm X st S=St & St is convergent holds Lim S = Lim
+  St & lim S = lim St;
+
+theorem :: NORMSP_2:29
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+LinearTopSpaceNorm X, x be Point of X, xt be Point of LinearTopSpaceNorm X st S
+  =St & x=xt holds St is_convergent_to xt iff
+ for r be Real st 0 < r ex m be
+  Nat st for n be Nat st m <= n holds ||.(S.n) - x.|| < r;
+
+theorem :: NORMSP_2:30
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+  LinearTopSpaceNorm X st S=St holds St is convergent iff S is convergent;
+
+theorem :: NORMSP_2:31
+  for X be RealNormSpace, S be sequence of X, St be sequence of
+LinearTopSpaceNorm X st S=St & St is convergent holds Lim St = {lim S} & lim St
+  =lim S;
+
+theorem :: NORMSP_2:32
+  for X be RealNormSpace, V be Subset of X, Vt be Subset of
+  LinearTopSpaceNorm X st V=Vt holds V is closed iff Vt is closed;
+
+theorem :: NORMSP_2:33
+  for X be RealNormSpace, V be Subset of X, Vt be Subset of
+  LinearTopSpaceNorm X st V=Vt holds V is open iff Vt is open;
+
+theorem :: NORMSP_2:34
+  for X be RealNormSpace, U be Subset of TopSpaceNorm X, Ut be
+  Subset of LinearTopSpaceNorm X, x be Point of TopSpaceNorm X, xt be Point of
+  LinearTopSpaceNorm X st U=Ut & x=xt holds U is a_neighborhood of x iff Ut is
+  a_neighborhood of xt;
+
+theorem :: NORMSP_2:35
+  for X,Y be RealNormSpace, f be Function of TopSpaceNorm X,
+TopSpaceNorm Y, ft be Function of LinearTopSpaceNorm X,LinearTopSpaceNorm Y, x
+be Point of TopSpaceNorm X, xt be Point of LinearTopSpaceNorm X st f=ft & x=xt
+  holds f is_continuous_at x iff ft is_continuous_at xt;
+
+theorem :: NORMSP_2:36
+  for X,Y be RealNormSpace, f be Function of TopSpaceNorm X,TopSpaceNorm
+Y, ft be Function of LinearTopSpaceNorm X,LinearTopSpaceNorm Y st f=ft holds f
+  is continuous iff ft is continuous;

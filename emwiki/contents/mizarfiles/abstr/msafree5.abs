@@ -1,0 +1,1614 @@
+:: Term Context
+::  by Grzegorz Bancerek
+::
+:: Received June 13, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, STRUCT_0, RELAT_1, FUNCT_1, PBOOLE, MSUALG_1, MSAFREE4,
+      MSAFREE, CIRCUIT2, REWRITE1, MSUALG_4, ZF_MODEL, MSUALG_6, SUBSET_1,
+      NAT_1, FUNCOP_1, MARGREL1, PARTFUN1, FUNCT_4, MOD_4, FINSEQ_1, FUNCT_7,
+      ARYTM_3, XXREAL_0, RLTOPSP1, NUMBERS, CARD_1, TARSKI, TREES_4, MSATERM,
+      CARD_3, HURWITZ, MSAFREE5, ZFMISC_1, FINSET_1, QC_LANG1, GLIB_000,
+      PROB_2, FINSEQ_4, TREES_2, ABCMIZ_A, ABCMIZ_1, PRE_POLY, FINSEQ_2,
+      TREES_3, AOFA_000, ORDINAL1, TREES_1, MEMBERED, MEMBER_1, FUNCT_6, CAT_1,
+      REALSET1, AOFA_A01, VALUED_2, MSUALG_2, MCART_1, ORDINAL4, MSUALG_3,
+      MATRIX_7, CARD_2, MATROID0, ORDINAL6, GROUP_6, TREES_A, AOFA_A00,
+      ZF_LANG1, FACIRC_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XTUPLE_0, DOMAIN_1, FINSET_1,
+      RELAT_1, RELSET_1, FUNCT_1, PARTFUN1, FUNCT_2, STRUCT_0, FUNCOP_1,
+      ORDINAL1, FINSEQ_1, FINSEQ_2, FINSEQ_4, FUNCT_7, FUNCT_4, MCART_1,
+      CARD_2, TREES_1, TREES_2, FUNCT_6, TREES_3, TREES_4, CARD_3, MATRIX_7,
+      XXREAL_0, XXREAL_2, XCMPLX_0, NUMBERS, WSIERP_1, MEMBERED, ORDINAL6,
+      REWRITE1, PBOOLE, MSUALG_1, MSUALG_2, MSUALG_3, MSUALG_4, MSUALG_6,
+      MSAFREE, MSAFREE1, MSATERM, CATALG_1, ABCMIZ_1, ABCMIZ_A, AOFA_A00,
+      AOFA_A01, MSAFREE3, CARD_1, MSAFREE4;
+ constructors RELSET_1, FINSEQ_4, DOMAIN_1, CARD_2, WSIERP_1, MSAFREE1,
+      AOFA_A01, CATALG_1, ABCMIZ_A, ORDINAL6, RECDEF_1, XFAMILY, SEQ_4,
+      MSUALG_3;
+ registrations RELSET_1, FUNCOP_1, FINSEQ_1, FINSEQ_2, XCMPLX_0, SUBSET_1,
+      CARD_1, XXREAL_0, RELAT_1, FUNCT_1, FUNCT_7, PBOOLE, STRUCT_0, MSUALG_1,
+      MSUALG_3, MSUALG_9, INSTALG1, CATALG_1, XBOOLE_0, MSAFREE, MSAFREE1,
+      MSAFREE3, MSAFREE4, ZFMISC_1, FINSET_1, TREES_2, TREES_3, CARD_3,
+      XXREAL_2, MEMBERED, XTUPLE_0, FOMODEL0, RAMSEY_1, REWRITE1, INT_1,
+      ABCMIZ_1, MSUALG_2, ALGSPEC1, VALUED_0, NAT_1, ORDINAL6, FINSEQ_6;
+ requirements BOOLE, SUBSET, NUMERALS, REAL, ARITHM;
+
+
+begin :: Preliminary
+
+definition
+  let S be non empty non void ManySortedSign;
+  let A be non-empty MSAlgebra over S;
+  let s be SortSymbol of S;
+  mode Element of A,s is Element of (the Sorts of A).s;
+end;
+
+reserve
+  a,b for object, I,J for set, f for Function, R for Relation,
+  i,j,n for Nat, m for (Element of NAT),
+  S for non empty non void ManySortedSign,
+  s,s1,s2 for SortSymbol of S,
+  o for OperSymbol of S,
+  X for non-empty ManySortedSet of the carrier of S,
+  x,x1,x2 for (Element of X.s), x11 for (Element of X.s1),
+  T for all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms MSAlgebra over S,
+  g for Translation of Free(S,X),s1,s2,
+  h for Endomorphism of Free(S,X);
+
+definition
+ let S,X; let T be all_vars_including (X,S)-terms MSAlgebra over S;
+ let r be Element of T;
+ func @r -> Element of Free(S,X) equals
+:: MSAFREE5:def 1
+r;
+end;
+
+registration
+  let S,X,T;
+  cluster -> finite for Element of T;
+end;
+
+registration
+  cluster natural-membered -> c=-linear for set;
+end;
+
+reserve
+  r,r1,r2 for (Element of T),
+  t,t1,t2 for (Element of Free(S,X));
+
+definition
+  let S;
+  let A be MSAlgebra over S;
+  let a;
+  pred a in A means
+:: MSAFREE5:def 2
+a in Union the Sorts of A;
+end;
+
+definition
+  let a,b;
+  attr b is a-different means
+:: MSAFREE5:def 3
+b <> a;
+end;
+
+registration
+  let I be non trivial set;
+  let a;
+  cluster a-different for Element of I;
+end;
+
+theorem :: MSAFREE5:1
+  for t,t1 being Tree, p,q being FinSequence of NAT st p in t &
+  q in t with-replacement(p,t1) holds (not p is_a_prefix_of q implies q in t) &
+  for r being FinSequence of NAT st q = p^r holds r in t1;
+
+theorem :: MSAFREE5:2
+  for p,q,r being FinSequence st p^q is_a_prefix_of r holds p is_a_prefix_of r;
+
+theorem :: MSAFREE5:3
+  for p,q,r being FinSequence st p^q is_a_prefix_of p^r holds
+  q is_a_prefix_of r;
+
+theorem :: MSAFREE5:4
+  for p,q being FinSequence st i <= len p holds (p^q)|Seg i = p|Seg i;
+
+theorem :: MSAFREE5:5
+  for p,q,r being FinSequence st q is_a_prefix_of p^r holds
+  q is_a_prefix_of p or p is_a_prefix_of q;
+
+definition
+  let S;
+  attr S is sufficiently_rich means
+:: MSAFREE5:def 4
+  for s ex o st s in rng the_arity_of o;
+  attr S is growable means
+:: MSAFREE5:def 5
+  for X,n ex t st height dom t = n;
+end;
+
+definition
+  let n,S;
+  attr S is n-ary_oper_including means
+:: MSAFREE5:def 6
+  ex o st len the_arity_of o = n;
+end;
+
+registration
+  let n;
+  cluster n-ary_oper_including for non empty non void ManySortedSign;
+end;
+
+registration
+  cluster sufficiently_rich for non empty non void ManySortedSign;
+end;
+
+definition
+  let R;
+  attr R is non-trivial means
+:: MSAFREE5:def 7
+  I in rng R implies I is non trivial;
+  attr R is infinite-yielding means
+:: MSAFREE5:def 8
+  I in rng R implies I is infinite;
+end;
+
+registration
+  cluster non-trivial -> non-empty for Relation;
+  cluster infinite-yielding -> non-trivial for Relation;
+end;
+
+registration
+  let I be set;
+  cluster infinite-yielding for ManySortedSet of I;
+end;
+
+registration
+  cluster infinite-yielding for FinSequence;
+end;
+
+registration
+  let I be non empty set;
+  let f be non-trivial ManySortedSet of I;
+  let a be Element of I;
+  cluster f.a -> non trivial;
+end;
+
+registration
+  let I be non empty set;
+  let f be infinite-yielding ManySortedSet of I;
+  let a be Element of I;
+  cluster f.a -> infinite;
+end;
+
+registration
+  let S,X,o;
+  cluster -> DTree-yielding for Element of Args(o,Free(S,X));
+end;
+
+reserve
+  Y for infinite-yielding ManySortedSet of the carrier of S,
+  y,y1 for (Element of Y.s), y11 for (Element of Y.s1),
+  Q for all_vars_including inheriting_operations free_in_itself
+  (Y,S)-terms MSAlgebra over S,
+  q,q1 for (Element of Args(o,Free(S,Y))),
+  u,u1,u2 for (Element of Q),
+  v,v1,v2 for (Element of Free(S,Y)),
+  Z for non-trivial ManySortedSet of the carrier of S,
+  z,z1 for (Element of Z.s),
+  l,l1 for (Element of Free(S,Z)),
+  R for all_vars_including inheriting_operations free_in_itself
+  (Z,S)-terms MSAlgebra over S,
+  k,k1 for Element of Args(o,Free(S,Z));
+
+registration
+  let p be FinSequence;
+  reduce p ^ {} to p;
+  reduce {} ^ p to p;
+end;
+
+definition
+  let I be FinSequence-membered set;
+  let p be FinSequence;
+  func p^^I -> set equals
+:: MSAFREE5:def 9
+{p^q where q is Element of I: q in I};
+end;
+
+registration
+  let I be FinSequence-membered set;
+  let p be FinSequence;
+  cluster p^^I -> FinSequence-membered;
+end;
+
+registration
+  let f be FinSequence, E be empty set;
+  reduce f^^E to E;
+end;
+
+registration
+  let p be DTree-yielding FinSequence;
+  let a;
+  cluster p.a -> Relation-like;
+end;
+
+registration
+  cluster Tree-like -> FinSequence-membered for set;
+end;
+
+registration
+  let p be DTree-yielding FinSequence;
+  let a;
+  cluster dom (p.a) -> FinSequence-membered;
+end;
+
+registration
+  let t,t1 be Tree;
+  reduce t1 with-replacement(<*>NAT, t) to t;
+end;
+
+registration
+  let d,d1 be DecoratedTree;
+  reduce d1 with-replacement(<*>NAT, d) to d;
+end;
+
+theorem :: MSAFREE5:6
+  for xi,w being FinSequence of NAT
+  for p,q being Tree-yielding FinSequence
+  for d,t being Tree
+  st i < len p & xi = <*i*>^w & d = p.(i+1) &
+     q = p+*(i+1,d with-replacement (w, t)) & xi in tree p
+  holds (tree p) with-replacement (xi, t) = tree q;
+
+registration
+  let F be Function-yielding Function;
+  let f be Function;
+  let a;
+  cluster F+*(a,f) -> Function-yielding;
+end;
+
+theorem :: MSAFREE5:7
+  for F being Function-yielding Function, f being Function holds
+  doms(F+*(a,f)) = (doms F)+*(a, dom f);
+
+theorem :: MSAFREE5:8
+  for xi,w being FinSequence of NAT
+  for p,q being DTree-yielding FinSequence
+  for d,t being DecoratedTree
+  st i < len p & xi = <*i*>^w & d = p.(i+1) &
+     q = p+*(i+1,d with-replacement (w, t)) & xi in tree doms p
+  holds (a-tree p) with-replacement (xi, t) = a-tree q;
+
+theorem :: MSAFREE5:9
+  for a being set, w being DTree-yielding FinSequence holds
+  dom (a-tree w) = {{}} \/ union {<*i*>^^dom (w.(i+1)): i < len w};
+
+registration
+  let p be DTree-yielding FinSequence;
+  let a,I;
+  cluster (p.a)"I -> FinSequence-membered;
+end;
+
+theorem :: MSAFREE5:10
+  for I being FinSequence-membered set, p being FinSequence holds
+  card (p^^I) = card I;
+
+registration
+  let I be finite FinSequence-membered set;
+  let p be FinSequence;
+  cluster p^^I -> finite;
+end;
+
+theorem :: MSAFREE5:11
+  for I,J being FinSequence-membered set, p,q being FinSequence
+  st len p = len q & p <> q holds p^^I misses q^^J;
+
+registration
+  let i;
+  reduce card i to i;
+  let j;
+  identify i +` j with i+j;
+end;
+
+scheme :: MSAFREE5:sch 1
+ CardUnion {I(object) -> set, f() -> FinSequence of NAT}:
+  card union {I(i): i < len f()} = Sum f()
+  provided
+ for i,j st i < len f() & j < len f() & i <> j holds I(i) misses I(j) and
+ for i st i < len f() holds card I(i) = f().(i+1);
+
+registration
+  let f be FinSequence;
+  cluster {f} -> FinSequence-membered;
+end;
+
+theorem :: MSAFREE5:12
+  for f,g being FinSequence holds f^^{g} = {f^g};
+
+theorem :: MSAFREE5:13
+  for I,J being FinSequence-membered set
+  for f being FinSequence holds I c= J iff f^^I c= f^^J;
+
+reserve c,c1,c2 for set, d,d1 for DecoratedTree;
+
+theorem :: MSAFREE5:14
+  Leaves elementary_tree 0 = {{}};
+
+registration
+  sethood of Tree;
+end;
+
+theorem :: MSAFREE5:15
+  for p being non empty Tree-yielding FinSequence holds
+  Leaves tree p = {<*i*>^q where i where q is FinSequence of NAT,
+  d is Tree: q in Leaves d & i+1 in dom p & d = p.(i+1)};
+
+theorem :: MSAFREE5:16
+  Leaves root-tree c = {c};
+
+theorem :: MSAFREE5:17
+  dom d c= dom((d,c)<-d1);
+
+registration
+  let c,d;
+  reduce (root-tree c,c)<-d to d;
+end;
+
+theorem :: MSAFREE5:18
+  c1 <> c2 implies (root-tree c1,c2)<-d = root-tree c1;
+
+registration
+  let f be non empty Function-yielding Function;
+  cluster doms f -> non empty;
+  cluster rngs f -> non empty;
+end;
+
+theorem :: MSAFREE5:19
+  for p,q being non empty DTree-yielding FinSequence st
+  dom q = dom p & (for i,d1 st i in dom p & d1 = p.i holds q.i = (d1,c)<-d)
+  holds (b-tree p,c)<-d = b-tree q;
+
+definition
+  let S,s;
+  let A be non empty MSAlgebra over S;
+  let a be Element of A;
+  attr a is s-sort means
+:: MSAFREE5:def 10
+  a in (the Sorts of A).s;
+end;
+
+registration
+  let S,s;
+  let A be non-empty MSAlgebra over S;
+  cluster s-sort for Element of A;
+  cluster -> s-sort for Element of (the Sorts of A).s;
+end;
+
+definition
+  let S;
+  let A be non empty MSAlgebra over S such that
+ A is disjoint_valued;
+  let a be Element of A;
+  func the_sort_of a -> SortSymbol of S means
+:: MSAFREE5:def 11
+  a in (the Sorts of A).it;
+end;
+
+theorem :: MSAFREE5:20
+  for A being disjoint_valued non-empty MSAlgebra over S
+  for a being s-sort Element of A
+  holds the_sort_of a = s;
+
+theorem :: MSAFREE5:21
+  for A being disjoint_valued non empty MSAlgebra over S
+  for a being Element of A
+  holds a is (the_sort_of a)-sort;
+
+theorem :: MSAFREE5:22
+  the_sort_of @r = the_sort_of r;
+
+theorem :: MSAFREE5:23
+  for r being Element of (the Sorts of T).s holds the_sort_of r = s;
+
+theorem :: MSAFREE5:24
+  for u being Term of S,X st t = u holds the_sort_of t = the_sort_of u;
+
+registration
+  let S,X,o,T;
+  cluster -> (Union the Sorts of T)-valued for Element of Args(o,T);
+end;
+
+theorem :: MSAFREE5:25
+  for q being Element of Args(o,T) holds
+  i in dom q implies the_sort_of (q/.i) = (the_arity_of o)/.i;
+
+definition
+  let S;
+  let A,B be non-empty MSAlgebra over S;
+  let f be ManySortedFunction of A,B such that
+ A is disjoint_valued;
+  let a be Element of A;
+  func f.a -> Element of B equals
+:: MSAFREE5:def 12
+f.(the_sort_of a).a;
+end;
+
+theorem :: MSAFREE5:26
+  for A being disjoint_valued non-empty MSAlgebra over S
+  for B being non-empty MSAlgebra over S
+  for f being ManySortedFunction of A,B
+  for a being Element of (the Sorts of A).s holds f.a = f.s.a;
+
+theorem :: MSAFREE5:27
+  for A being disjoint_valued non-empty MSAlgebra over S
+  for B being non-empty MSAlgebra over S
+  for f being ManySortedFunction of A,B
+  for a being Element of (the Sorts of A).s holds
+  f.a is Element of (the Sorts of B).s;
+
+theorem :: MSAFREE5:28
+  for A,B being disjoint_valued non-empty MSAlgebra over S
+  for f being ManySortedFunction of A,B
+  for a being Element of A holds
+  the_sort_of (f.a) = the_sort_of a;
+
+theorem :: MSAFREE5:29
+  for A,B being disjoint_valued non-empty MSAlgebra over S
+  for C being non-empty MSAlgebra over S
+  for f being ManySortedFunction of A,B
+  for g being ManySortedFunction of B,C
+  for a being Element of A
+  holds (g**f).a = g.(f.a);
+
+theorem :: MSAFREE5:30
+  for A being disjoint_valued non-empty MSAlgebra over S
+  for B being non-empty MSAlgebra over S
+  for f1,f2 being ManySortedFunction of A,B st
+    for a being Element of A holds f1.a = f2.a
+    holds f1 = f2;
+
+definition
+  let S;
+  let A,B be MSAlgebra over S such that
+ ex h being ManySortedFunction of A,B st h is_homomorphism A,B;
+  mode Homomorphism of A,B -> ManySortedFunction of A,B means
+:: MSAFREE5:def 13
+  it is_homomorphism A,B;
+end;
+
+theorem :: MSAFREE5:31
+  for h being ManySortedFunction of Free(S,X), T holds
+  h is Homomorphism of Free(S,X),T iff h is_homomorphism Free(S,X), T;
+
+definition
+  let S,X,T;
+  redefine func canonical_homomorphism T -> Homomorphism of Free(S,X), T;
+end;
+
+registration
+  let S,X,T,r;
+  reduce (canonical_homomorphism T).@r to r;
+end;
+
+theorem :: MSAFREE5:32
+  for t1,t2 st t2 = (canonical_homomorphism T).t1 holds
+  (canonical_homomorphism T).t1 = (canonical_homomorphism T).t2;
+
+begin :: Constructing terms
+
+reserve
+  w for (Element of Args(o,T)),
+  p,p1 for Element of Args(o,Free(S,X));
+
+definition
+  let S,X,s,x;
+  func x-term -> Element of (the Sorts of Free(S,X)).s equals
+:: MSAFREE5:def 14
+root-tree [x,s];
+end;
+
+definition
+  let S,X,o,p;
+  func o-term p -> Element of Free(S,X), the_result_sort_of o equals
+:: MSAFREE5:def 15
+  [o,the carrier of S]-tree p;
+end;
+
+theorem :: MSAFREE5:33
+  the_sort_of (x-term) = s;
+
+theorem :: MSAFREE5:34
+  the_sort_of (o-term p) = the_result_sort_of o;
+
+theorem :: MSAFREE5:35
+  for i being object holds i in (FreeGen T).s iff ex x st i = x-term;
+
+registration
+  let S,X,s,x;
+  cluster x-term -> non compound;
+end;
+
+registration
+  let S,X,o,p;
+  cluster o-term p -> compound (the_result_sort_of o)-sort;
+end;
+
+theorem :: MSAFREE5:36
+  (ex s,x st t = x-term) or ex o,p st t = o-term p;
+
+theorem :: MSAFREE5:37
+  t is not compound implies ex s,x st t = x-term;
+
+theorem :: MSAFREE5:38
+  t is compound implies ex o,p st t = o-term p;
+
+theorem :: MSAFREE5:39
+  x-term <> o-term p;
+
+registration
+  let S;
+  let X be non-empty ManySortedSet of the carrier of S;
+  cluster compound for Element of Free(S,X);
+end;
+
+definition
+  let S,X;
+  let e be compound Element of Free(S,X);
+  redefine func main-constr e -> OperSymbol of S;
+end;
+
+definition
+  let S,X;
+  let e be compound Element of Free(S,X);
+  redefine func args e -> Element of Args(main-constr e, Free(S, X));
+end;
+
+theorem :: MSAFREE5:40
+  args (x-term) = {};
+
+theorem :: MSAFREE5:41
+  for t being compound Element of Free(S,X) holds
+  t = (main-constr t)-term args t;
+
+theorem :: MSAFREE5:42
+  x-term in T;
+
+registration
+  let S,X,T,s,x;
+  reduce (canonical_homomorphism T).(x-term) to x-term;
+end;
+
+scheme :: MSAFREE5:sch 2
+ TermInd{P[set], S() -> non empty non void ManySortedSign,
+  X() -> non-empty ManySortedSet of the carrier of S(),
+  t() -> Element of Free(S(),X())}:
+  P[t()]
+  provided
+ for s being SortSymbol of S(), x being Element of X().s holds P[x-term] and
+ for o being OperSymbol of S(), p being Element of Args(o,Free(S(),X())) st
+      for t being Element of Free(S(),X()) st t in rng p holds P[t]
+    holds P[o-term p];
+
+scheme :: MSAFREE5:sch 3
+ TermAlgebraInd{P[set], S() -> non empty non void ManySortedSign,
+  X() -> non-empty ManySortedSet of the carrier of S(),
+  A() -> all_vars_including inheriting_operations free_in_itself
+  (X(),S())-terms MSAlgebra over S(),
+  t() -> Element of A()}:
+  P[t()]
+  provided
+ for s being SortSymbol of S(), x being Element of X().s
+    for r being Element of A() st r = x-term holds P[r] and
+ for o being OperSymbol of S(), p being Element of Args(o,Free(S(),X()))
+    for r being Element of A() st r = o-term p &
+      for t being Element of A() st t in rng p holds P[t]
+    holds P[r];
+
+begin :: Construction Degree
+
+definition
+  let S,X,T,r;
+  func construction_degree r -> Nat equals
+:: MSAFREE5:def 16
+  card (r"[:the carrier' of S, {the carrier of S}:]);
+  func height r -> Nat equals
+:: MSAFREE5:def 17
+height dom r;
+end;
+
+notation
+  let S,X,T,r;
+  synonym deg r for construction_degree r;
+end;
+
+theorem :: MSAFREE5:43
+deg @r = deg r;
+
+theorem :: MSAFREE5:44
+height @r = height r;
+
+theorem :: MSAFREE5:45
+  height (x-term) = 0;
+
+registration
+  cluster natural-membered -> ordinal-membered finite-membered for set;
+end;
+
+registration
+  let I be finite natural-membered set;
+  cluster union I -> natural;
+end;
+
+registration
+  let I be non empty finite natural-membered set;
+  identify max I with union I;
+end;
+
+theorem :: MSAFREE5:46
+  for S,X,o,p holds {height t1: t1 in rng p} is natural-membered finite &
+  union {height t: t in rng p} is Nat;
+
+theorem :: MSAFREE5:47
+  the_arity_of o <> {} & n = union {height t1: t1 in rng p}
+  implies height (o-term p) = n+1;
+
+theorem :: MSAFREE5:48
+  the_arity_of o = {} implies height (o-term p) = 0;
+
+theorem :: MSAFREE5:49
+  deg (x-term) = 0;
+
+theorem :: MSAFREE5:50
+  deg t <> 0 iff ex o,p st t = o-term p;
+
+registration
+  let t be DecoratedTree;
+  let I;
+  cluster t"I -> FinSequence-membered;
+end;
+
+definition
+  let a,I;
+  let J,K be set;
+  redefine func IFIN(a,I,J,K) -> set;
+end;
+
+theorem :: MSAFREE5:51
+  J = [o,the carrier of S] implies (o-term p)"I = IFIN(J,I,{{}},{}) \/
+  union {<*i*>^^((p.(i+1))"I): i < len p};
+
+theorem :: MSAFREE5:52
+  (ex f being FinSequence of NAT st i = Sum f & dom f = dom the_arity_of o &
+  for i,t st i in dom the_arity_of o & t = p.i holds f.i = deg t)
+  implies deg (o-term p) = i+1;
+
+definition
+  let S,X,T,i;
+  func T deg<= i -> Subset of T equals
+:: MSAFREE5:def 18
+  {r: deg r <= i};
+end;
+
+definition
+  let S,X,T,i;
+  func T height<= i -> Subset of T equals
+:: MSAFREE5:def 19
+  {t: t in T & height t <= i};
+end;
+
+theorem :: MSAFREE5:53
+  r in T deg<= i iff deg r <= i;
+
+theorem :: MSAFREE5:54
+  T deg<= 0 = the set of all x-term;
+
+theorem :: MSAFREE5:55
+  T height<= 0 = (the set of all x-term) \/
+  {o-term p: o-term p in T & the_arity_of o = {}};
+
+theorem :: MSAFREE5:56
+  T deg<= 0 = Union FreeGen T;
+
+theorem :: MSAFREE5:57
+  r in T height<= i iff height r <= i;
+
+registration
+  let S,X,T,i;
+  cluster T deg<= i -> non empty;
+  cluster T height<= i -> non empty;
+end;
+
+theorem :: MSAFREE5:58
+  i <= j implies T deg<= i c= T deg<= j;
+
+theorem :: MSAFREE5:59
+  i <= j implies T height<= i c= T height<= j;
+
+theorem :: MSAFREE5:60
+  T deg<= (i+1) = T deg<= 0 \/ {o-term p:
+    ex f being FinSequence of NAT st i >= Sum f & dom f = dom the_arity_of o &
+    for i,t st i in dom the_arity_of o & t = p.i holds f.i = deg t}
+    /\ Union the Sorts of T;
+
+theorem :: MSAFREE5:61
+  T height<= (i+1) = T height<= 0 \/ {o-term p:
+    union {height t: t in rng p} c= i}
+  /\ Union the Sorts of T;
+
+theorem :: MSAFREE5:62
+  deg t >= height t;
+
+theorem :: MSAFREE5:63
+  Union the Sorts of T = union {T deg<= i: not contradiction};
+
+theorem :: MSAFREE5:64
+  Union the Sorts of T = union {T height<= i: not contradiction};
+
+theorem :: MSAFREE5:65
+  for i holds T deg<= i c= Free(S,X) deg<= i;
+
+begin :: Context
+
+definition
+  let S,X,T,s,x,r;
+  attr r is x-context means
+:: MSAFREE5:def 20
+  card Coim(r,[x,s]) = 1;
+  attr r is x-omitting means
+:: MSAFREE5:def 21
+  Coim(r,[x,s]) = {};
+end;
+
+definition
+  let S,X,T,r;
+  func vf r -> set equals
+:: MSAFREE5:def 22
+proj1(rng r /\ [:Union X,the carrier of S:]);
+end;
+
+theorem :: MSAFREE5:66
+  vf r = Union (X variables_in r);
+
+theorem :: MSAFREE5:67
+  vf (x-term) = {x};
+
+theorem :: MSAFREE5:68
+  vf (o-term p) = union {vf t: t in rng p};
+
+registration
+  let S,X,T,r;
+  cluster vf r -> finite;
+end;
+
+theorem :: MSAFREE5:69
+  x nin vf r implies r is x-omitting;
+
+definition
+  let S,X,s,t;
+  attr t is s-context means
+:: MSAFREE5:def 23
+  ex x st t is x-context;
+end;
+
+registration
+  let S,X,s,x;
+  cluster x-context -> s-context for Element of Free(S,X);
+end;
+
+registration
+  let S,X,s,x;
+  cluster x-term -> x-context;
+end;
+
+registration
+  let S,X,s,x;
+  cluster x-context non compound for Element of Free(S,X);
+  cluster x-omitting -> non x-context for Element of Free(S,X);
+end;
+
+theorem :: MSAFREE5:70
+  for s1,s2 being SortSymbol of S
+  for x1 being Element of X.s1
+  for x2 being Element of X.s2
+  holds s1 <> s2 or x1 <> x2 iff x1-term is x2-omitting;
+
+registration
+  let S,s,s1,Z,z;
+  let z9 be z-different Element of Z.s1;
+  cluster z9-term -> z-omitting;
+end;
+
+registration
+  let S,s,Z,z;
+  cluster z-omitting for Element of Free(S,Z);
+end;
+
+registration
+  let S,s,s1,Z,z;
+  let z1 be z-different Element of Z.s1;
+  cluster z-omitting z1-context for Element of Free(S,Z);
+end;
+
+definition
+  let S,X,s,x;
+  mode context of x is x-context Element of Free(S,X);
+end;
+
+theorem :: MSAFREE5:71
+  for r being SortSymbol of S, y being Element of X.r holds
+  x-term is context of y iff r = s & x = y;
+
+definition
+  let S,X,s;
+  mode context of s,X is s-context Element of Free(S,X);
+end;
+
+reserve C for (context of x), C1 for (context of y), C9 for (context of z),
+  C11 for (context of x11), C12 for (context of y11), D for context of s,X;
+
+theorem :: MSAFREE5:72
+  C is context of s,X;
+
+theorem :: MSAFREE5:73
+  x in vf C;
+
+definition
+  let S,o,s,X,x,p;
+  attr p is x-context_including means
+:: MSAFREE5:def 24
+  ex i st i in dom p & p.i is context of x &
+  for j,t st j in dom p & j <> i & t = p.j
+  holds t is x-omitting;
+end;
+
+registration
+  let S,o,s,X,x;
+  cluster x-context_including -> non empty for Element of Args(o,Free(S,X));
+end;
+
+theorem :: MSAFREE5:74
+  p is x-context_including iff o-term p is context of x;
+
+theorem :: MSAFREE5:75
+  (for i st i in dom p holds p/.i is x-omitting) iff o-term p is x-omitting;
+
+theorem :: MSAFREE5:76
+  (for t st t in rng p holds t is x-omitting) iff o-term p is x-omitting;
+
+definition
+  let S,s,o;
+  attr o is s-dependent means
+:: MSAFREE5:def 25
+s in rng the_arity_of o;
+end;
+
+registration
+  let S be sufficiently_rich non void non empty ManySortedSign;
+  let s be SortSymbol of S;
+  cluster s-dependent for OperSymbol of S;
+end;
+
+reserve
+  S9 for sufficiently_rich non empty non void ManySortedSign,
+  s9 for SortSymbol of S9,
+  o9 for s9-dependent OperSymbol of S9,
+  X9 for non-trivial ManySortedSet of the carrier of S9,
+  x9 for (Element of X9.s9);
+
+registration
+  let S9,s9,o9,X9,x9;
+  cluster x9-context_including for Element of Args(o9,Free(S9,X9));
+end;
+
+registration
+  let S9,X9,s9,x9,o9;
+  let p9 be x9-context_including Element of Args(o9,Free(S9,X9));
+  cluster o9-term p9 -> x9-context;
+end;
+
+definition
+  let S,o,s,X,x,p such that
+ p is x-context_including;
+  func x-context_pos_in p -> Nat means
+:: MSAFREE5:def 26
+  p.it is context of x;
+  func x-context_in p -> context of x means
+:: MSAFREE5:def 27
+  it in rng p;
+end;
+
+theorem :: MSAFREE5:77
+  p is x-context_including implies x-context_pos_in p in dom p &
+  x-context_in p = p.(x-context_pos_in p);
+
+theorem :: MSAFREE5:78
+  p is x-context_including & x-context_pos_in p <> i in dom p implies
+  p/.i is x-omitting;
+
+theorem :: MSAFREE5:79
+  p is x-context_including implies p just_once_values x-context_in p;
+
+theorem :: MSAFREE5:80
+  p is x-context_including implies p<-(x-context_in p) = x-context_pos_in p;
+
+theorem :: MSAFREE5:81
+  C = x-term or
+  ex o,p st p is x-context_including & C = o-term p;
+
+registration
+  let S9,X9,s9,x9;
+  cluster x9-context compound for Element of Free(S9,X9);
+end;
+
+scheme :: MSAFREE5:sch 4
+ ContextInd{P[set],
+  S() -> non empty non void ManySortedSign,
+  s() -> SortSymbol of S(),
+  X() -> non-empty ManySortedSet of the carrier of S(),
+  x() -> (Element of X().s()),
+  C() -> context of x()}:
+  P[C()]
+  provided
+ P[x()-term] and
+ for o being OperSymbol of S()
+    for w being Element of Args(o, Free(S(),X()))
+    st w is x()-context_including
+    holds P[x()-context_in w] implies
+    for C being context of x() st C = o-term w holds P[C];
+
+theorem :: MSAFREE5:82
+  t is x-omitting implies (t,[x,s])<-t1 = t;
+
+theorem :: MSAFREE5:83
+  the_sort_of t1 = s implies
+  (t,[x,s])<-t1 in (the Sorts of Free(S,X)).the_sort_of t;
+
+definition
+  let S,X,s,x,C,t such that
+ the_sort_of t = s;
+  func C-sub(t) -> Element of (the Sorts of Free(S,X)).the_sort_of C equals
+:: MSAFREE5:def 28
+
+  (C,[x,s])<-t;
+end;
+
+theorem :: MSAFREE5:84
+  the_sort_of t = s implies (x-term)-sub(t) = t;
+
+registration
+  let S,X,s,x,C;
+  reduce C-sub(x-term) to C;
+end;
+
+theorem :: MSAFREE5:85
+  for w being Element of Args(o,Free(S,Z)) for t being Element of Free(S,Z)
+  st w is z-context_including &
+  the_sort_of t = (the_arity_of o).(z-context_pos_in w)
+  holds w+*(z-context_pos_in w,t) in Args(o,Free(S,Z));
+
+theorem :: MSAFREE5:86
+  the_sort_of C9 = s1 implies
+  for z1 being z-different Element of Z.s1
+  for C1 being z-omitting context of z1 holds C1-sub(C9) is context of z;
+
+theorem :: MSAFREE5:87
+  for w,p being Element of Args(o,Free(S,Z)) for t being Element of Free(S,Z)
+  st w is z-context_including & C9 = o-term w &
+  p = w+*(z-context_pos_in w, (z-context_in w)-sub(t)) &
+  the_sort_of t = s
+  holds C9-sub(t) = o-term p;
+
+theorem :: MSAFREE5:88
+  the_sort_of (C-sub t) = the_sort_of C;
+
+theorem :: MSAFREE5:89
+  t.a = [x,s] implies a in Leaves dom t;
+
+theorem :: MSAFREE5:90
+  for s0 being SortSymbol of S, x0 being Element of X.s0 holds
+  the_sort_of t = s & C is x0-omitting & t is x0-omitting implies
+  C-sub t is x0-omitting;
+
+theorem :: MSAFREE5:91
+  p is x-context_including implies
+  the_sort_of (x-context_in p) = (the_arity_of o).(x-context_pos_in p);
+
+theorem :: MSAFREE5:92
+  for A being disjoint_valued non-empty MSAlgebra over S
+  for B being non-empty MSAlgebra over S
+  for o being OperSymbol of S, p,q being Element of Args(o,A)
+  for h being ManySortedFunction of A,B, a being Element of A
+  for i st i in dom p & q = p+*(i,a) holds h#q = (h#p)+*(i,h.a);
+
+theorem :: MSAFREE5:93
+  for t being Element of Free(S,Z) holds
+  the_sort_of t = s implies
+  (canonical_homomorphism R).(C9-sub(t))
+  = (canonical_homomorphism R).(C9-sub @((canonical_homomorphism R).t));
+
+definition
+  let S,X,T,s,x;
+  let h be ManySortedFunction of Free(S,X), T;
+  attr h is x-constant means
+:: MSAFREE5:def 29
+  h.(x-term) = x-term &
+  for s1 for x1 being Element of X.s1 st x1 <> x or s <> s1
+  holds h.(x1-term) is x-omitting;
+end;
+
+theorem :: MSAFREE5:94
+ canonical_homomorphism T is x-constant;
+
+registration
+  let S,X,T,s,x;
+  cluster x-constant for Homomorphism of Free(S,X), T;
+end;
+
+reserve h1 for x-constant Homomorphism of Free(S,X), T,
+  h2 for y-constant Homomorphism of Free(S,Y), Q;
+
+definition
+  let x,y be object;
+  func x<->y -> Function equals
+:: MSAFREE5:def 30
+  {[x,y],[y,x]};
+  commutativity;
+end;
+
+theorem :: MSAFREE5:95
+  dom (a<->b) = {a,b} & (a<->b).a = b & (a<->b).b = a & rng (a<->b) = {a,b};
+
+registration
+  let A be non empty set;
+  let a,b be Element of A;
+  cluster a<->b -> A-valued A-defined;
+end;
+
+definition
+  let A be set, B be non empty set;
+  let f be Function of A,B;
+  let g be A-defined B-valued Function;
+  redefine func f+*g -> Function of A,B;
+end;
+
+definition
+  let I be non empty set;
+  let A,B be ManySortedSet of I;
+  let f be ManySortedFunction of A,B;
+  let x be Element of I;
+  let g be Function of A.x,B.x;
+  redefine func f+*(x,g) -> ManySortedFunction of A,B;
+end;
+
+definition
+  let S,X, T;
+  let s,x1,x2;
+  func Hom(T,x1,x2) -> Endomorphism of T means
+:: MSAFREE5:def 31
+  it.s.(x1-term) = x2-term & it.s.(x2-term) = x1-term &
+  for s1 for y being Element of X.s1 st s1 <> s or y <> x1 & y <> x2
+  holds it.s1.(y-term) = y-term;
+end;
+
+theorem :: MSAFREE5:96
+  for h being Endomorphism of T st
+  (for s,x holds h.s.(x-term) = x-term) holds h = id the Sorts of T;
+
+theorem :: MSAFREE5:97
+  Hom(T,x,x) = id the Sorts of T;
+
+theorem :: MSAFREE5:98
+  Hom(T,x1,x2) = Hom(T,x2,x1);
+
+theorem :: MSAFREE5:99
+  Hom(T,x1,x2)**Hom(T,x1,x2) = id the Sorts of T;
+
+theorem :: MSAFREE5:100
+  r is x1-omitting x2-omitting implies Hom(T,x1,x2).r = r;
+
+registration
+  let S,X,T,s,x;
+  reduce (canonical_homomorphism T).s.(x-term) to x-term;
+end;
+
+theorem :: MSAFREE5:101
+  (canonical_homomorphism T)**Hom(Free(S,X),x,x1) =
+  Hom(T,x,x1)**canonical_homomorphism T;
+
+theorem :: MSAFREE5:102
+  for r being Element of T,s holds
+  Hom(T,x1,x2).s.r = ((canonical_homomorphism T)**Hom(Free(S,X),x1,x2)).s.r;
+
+theorem :: MSAFREE5:103
+   x1 <> x2 & t is x2-omitting implies  Hom(Free(S,X),x1,x2).t is x1-omitting;
+
+theorem :: MSAFREE5:104
+  for A being finite Subset of Union the Sorts of Free(S,Y)
+  ex y st for v st v in A holds v is y-omitting;
+
+definition
+  let S,X,T;
+  attr T is struct-invariant means
+:: MSAFREE5:def 32
+  for o for p being Element of Args(o,T) st Den(o,T).p = Den(o,Free(S,X)).p
+  for s,x1,x2 holds
+  Den(o,T).(Hom(T,x1,x2)#p) = Den(o,Free(S,X)).(Hom(T,x1,x2)#p);
+end;
+
+theorem :: MSAFREE5:105
+  T is struct-invariant implies for r being Element of T,s holds
+  Hom(T,x1,x2).s.r = Hom(Free(S,X),x1,x2).s.r;
+
+theorem :: MSAFREE5:106
+  T is struct-invariant & x1 <> x2 & r is x2-omitting implies
+  Hom(T,x1,x2).r is x1-omitting;
+
+theorem :: MSAFREE5:107
+  Q is struct-invariant & v is y-omitting implies
+  (canonical_homomorphism Q).v is y-omitting;
+
+theorem :: MSAFREE5:108
+  Q is struct-invariant implies
+  for p being Element of Args(o,Q) st
+  for t being Element of Q st t in rng p holds t is y-omitting
+  for t being Element of Q st t = Den(o,Q).p holds t is y-omitting;
+
+theorem :: MSAFREE5:109
+  Q is struct-invariant & v is y-omitting implies h2.v is y-omitting;
+
+theorem :: MSAFREE5:110
+  for R being NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  holds
+  (for t being Element of NFAlgebra R holds
+  Hom(Free(S,X),x1,x2).(the_sort_of t).t = Hom(NFAlgebra R, x1,x2).t) &
+  Hom(Free(S,X),x1,x2)||NForms R = Hom(NFAlgebra R, x1,x2);
+
+theorem :: MSAFREE5:111
+  for R being NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X) holds
+  i in dom p & R.((the_arity_of o)/.i) reduces t1,t2 implies
+  R.the_result_sort_of o reduces Den(o,Free(S,X)).(p+*(i,t1)),
+  Den(o,Free(S,X)).(p+*(i,t2));
+
+theorem :: MSAFREE5:112
+  for R being NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for t holds R.the_sort_of t reduces t, (canonical_homomorphism NFAlgebra R).t
+;
+
+theorem :: MSAFREE5:113
+  for R being NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for o,p holds R.the_result_sort_of o reduces o-term p,
+  Den(o,NFAlgebra R).((canonical_homomorphism NFAlgebra R)#p);
+
+theorem :: MSAFREE5:114
+  for R being NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for o,p for q being Element of Args(o, NFAlgebra R) st p = q
+  holds R.the_result_sort_of o reduces o-term p, Den(o,NFAlgebra R).q;
+
+registration
+  let S,X;
+  let R be NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X);
+  cluster NFAlgebra R -> struct-invariant;
+end;
+
+registration
+  let S,X;
+  cluster struct-invariant for all_vars_including inheriting_operations
+  free_in_itself (X,S)-terms MSAlgebra over S;
+end;
+
+begin :: Context vs translations
+
+definition
+  let S,s1,s2;
+  attr s2 is s1-reachable means
+:: MSAFREE5:def 33
+TranslationRel S reduces s1,s2;
+end;
+
+registration
+  let S,s1;
+  cluster s1-reachable for SortSymbol of S;
+end;
+
+reserve
+  s2 for s1-reachable SortSymbol of S,
+  g1 for Translation of Free(S,Y),s1,s2;
+
+theorem :: MSAFREE5:115
+  TranslationRel S reduces s,the_sort_of C9;
+
+registration
+  let S,X,s,x,C;
+  cluster the_sort_of C -> s-reachable;
+end;
+
+definition
+  let S,X,s1,s2,g;
+  let t be Element of (the Sorts of Free(S,X)).s1;
+  redefine func g.t -> Element of (the Sorts of Free(S,X)).s2;
+end;
+
+definition
+  let S,X,s,x,C;
+  attr C is basic means
+:: MSAFREE5:def 34
+  ex o,p st C = o-term p & x-context_in p = x-term;
+end;
+
+definition
+  let S,X,s,x,C;
+  func transl C -> Function of (the Sorts of Free(S,X)).s,
+  (the Sorts of Free(S,X)).the_sort_of C means
+:: MSAFREE5:def 35
+  the_sort_of t = s implies it.t = C-sub(t);
+end;
+
+theorem :: MSAFREE5:116
+  for S,s,X,x,C st C = x-term holds
+  transl C = id((the Sorts of Free(S,X)).s);
+
+theorem :: MSAFREE5:117
+  C9 = o-term k & z-context_in k = z-term & k1 = k+*(z-context_pos_in k,l)
+  implies C9-sub l = o-term k1;
+
+theorem :: MSAFREE5:118
+  C9 is basic implies transl C9 is_e.translation_of Free(S,Z),s,the_sort_of C9;
+
+theorem :: MSAFREE5:119
+  for V being finite set holds
+  m in dom q & (the_arity_of o)/.m = s implies
+  ex y,C1,q1 st y nin V & C1 = o-term q1 & q1 = q+*(m,y-term) &
+  q1 is y-context_including &
+  m = y-context_pos_in q1 & y-context_in q1 = y-term;
+
+theorem :: MSAFREE5:120
+  for s1,s2 being SortSymbol of S, V being finite set holds
+  m in dom q & s1 = (the_arity_of o)/.m implies
+  ex y being (Element of Y.s1), C being (context of y), q1 st
+  y nin V & q1 = q+*(m,y-term) &
+  q1 is y-context_including & y-context_in q1 = y-term & C = o-term q1 &
+  m = y-context_pos_in q1 & transl C = transl(o,m,q,Free(S,Y));
+
+registration
+  let S,X,t;
+  let a;
+  cluster Coim(t,a) -> FinSequence-membered;
+end;
+
+theorem :: MSAFREE5:121
+  X is non-trivial & the_sort_of t = s implies
+  card Coim(t,a) c= card Coim(C-sub t,a);
+
+theorem :: MSAFREE5:122
+  p is x-context_including & i in dom p implies
+  (p/.i is non x-omitting iff p/.i is x-context);
+
+theorem :: MSAFREE5:123
+  X is non-trivial & the_sort_of C = s1 implies
+  for x1 being Element of X.s1
+  for C1 being (context of x1), C2 being context of x st C2 = C1-sub(C)
+  for t st the_sort_of t = s holds C2-sub t = C1-sub(C-sub t);
+
+theorem :: MSAFREE5:124
+  X is non-trivial & the_sort_of C = s1 implies
+  for x1 being Element of X.s1
+  for C1 being (context of x1), C2 being context of x st C2 = C1-sub(C)
+  holds transl C2 = (transl C1)*(transl C);
+
+theorem :: MSAFREE5:125
+  ex y11,C12 st the_sort_of C12 = s2 & g1 = transl C12;
+
+scheme :: MSAFREE5:sch 5
+ LambdaTerm {S() -> non empty non void ManySortedSign,
+  X() -> non-empty ManySortedSet of the carrier of S(),
+  T1,T2() -> all_vars_including inheriting_operations X(),S()-terms
+  MSAlgebra over S(),
+  F(object) -> Element of T2()}:
+  ex f being ManySortedFunction of T1(),T2() st
+  for t being Element of T1() holds f.t = F(t)
+provided
+ for t being Element of T1() holds the_sort_of t = the_sort_of F(t);
+
+theorem :: MSAFREE5:126
+  ex g being Endomorphism of T st
+  (canonical_homomorphism T)**h = g**canonical_homomorphism T &
+  for t being Element of T holds g.t = (canonical_homomorphism T).(h.@t);
+
+theorem :: MSAFREE5:127
+  (canonical_homomorphism T).(h.t) =
+  (canonical_homomorphism T).(h.@((canonical_homomorphism T).t));
+
+begin :: Context vs endomorphism
+
+definition
+  let S;
+  let B be non empty FinSequence of the carrier of S;
+  let i being Element of dom B;
+  redefine func B.i -> SortSymbol of S;
+end;
+
+definition
+  let S,X;
+  let B be FinSequence of the carrier of S;
+  let V be FinSequence of Union X;
+  attr V is B-sorts means
+:: MSAFREE5:def 36 :: Element of product (X*B)
+  dom V = dom B & for i st i in dom B holds V.i in X.(B.i);
+end;
+
+registration
+  let S,X;
+  let B be FinSequence of the carrier of S;
+  cluster B-sorts for FinSequence of Union X;
+end;
+
+registration
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  cluster B-sorts -> non empty for FinSequence of Union X;
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union X;
+  let i being Element of dom B;
+  redefine func V.i -> Element of X.(B.i);
+end;
+
+definition
+  let S,X;
+  let B be FinSequence of the carrier of S;
+  let D be FinSequence of Free(S,X);
+  attr D is B-sorts means
+:: MSAFREE5:def 37 :: Element of product ((the Sorts of Free(S,X))*B)
+  dom D = dom B &
+  for i st i in dom B holds D.i in (the Sorts of Free(S,X)).(B.i);
+end;
+
+registration
+  let S,X;
+  let B be FinSequence of the carrier of S;
+  cluster B-sorts for FinSequence of Free(S,X);
+end;
+
+registration
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  cluster B-sorts -> non empty for FinSequence of Free(S,X);
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let D be B-sorts FinSequence of Free(S,X);
+  let i being Element of dom B;
+  redefine func D.i -> Element of (the Sorts of Free(S,X)).(B.i);
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union X;
+  let F be FinSequence of Free(S,X);
+  attr F is V-context-sequence means
+:: MSAFREE5:def 38
+  dom F = dom B &
+  for i being Element of dom B holds F.i is context of V.i;
+end;
+
+registration
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union X;
+  cluster V-context-sequence -> non empty for FinSequence of Free(S,X);
+end;
+
+scheme :: MSAFREE5:sch 6
+ FinSeqLambda{B() -> non empty FinSequence, F(set) -> object}:
+  ex p being non empty FinSequence st dom p = dom B() &
+  for i being Element of dom B() holds p.i = F(i);
+
+scheme :: MSAFREE5:sch 7
+ FinSeqRecLambda{B() -> non empty FinSequence, A() -> object,
+  F(object,object) -> set}:
+  ex p being non empty FinSequence st dom p = dom B() & p.1 = A() &
+  for i,j being Element of dom B() st j = i+1 holds p.j = F(i,p.i);
+
+scheme :: MSAFREE5:sch 8
+ FinSeqRec2Lambda{B() -> non empty FinSequence, A() -> DecoratedTree,
+  F(object,DecoratedTree) -> DecoratedTree}:
+  ex p being non empty DTree-yielding FinSequence st
+  dom p = dom B() & p.1 = A() &
+  for i,j being Element of dom B() st j = i+1
+  for d being DecoratedTree st d = p.i holds p.j = F(i,d);
+
+registration
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union X;
+  cluster V-context-sequence for FinSequence of Free(S,X);
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union X;
+  let F be V-context-sequence FinSequence of Free(S,X);
+  let i being Element of dom B;
+  redefine func F.i -> context of V.i;
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let V1,V2 be B-sorts FinSequence of Union X;
+  attr V2 is V1-omitting means
+:: MSAFREE5:def 39
+rng V1 misses rng V2;
+  let D be B-sorts FinSequence of Free(S,X);
+  let F be V2-context-sequence FinSequence of Free(S,X);
+  attr F is (V1,V2,D)-consequent-context-sequence means
+:: MSAFREE5:def 40
+  for i,j being Element of dom B st i+1 = j
+  holds (F.j)-sub((V1.j)-term) = (F.i)-sub(D.i);
+end;
+
+definition
+  let S,X;
+  let B be non empty FinSequence of the carrier of S;
+  let D be B-sorts FinSequence of Free(S,X);
+  let V be B-sorts FinSequence of Union X;
+  attr V is D-omitting means
+:: MSAFREE5:def 41
+t in rng D implies vf t misses rng V;
+end;
+
+theorem :: MSAFREE5:128
+  for S,X for B being non empty FinSequence of the carrier of S
+  for D being B-sorts FinSequence of Free(S,X)
+  for V being B-sorts FinSequence of Union X st V is D-omitting
+  for b1,b2 being Element of dom B holds D.b1 is V.b2-omitting;
+
+registration
+  let S,Y;
+  let B be non empty FinSequence of the carrier of S;
+  let V be B-sorts FinSequence of Union Y;
+  let D be B-sorts FinSequence of Free(S,Y);
+  cluster one-to-one V-omitting D-omitting for B-sorts FinSequence of Union Y;
+end;
+
+definition
+  let S,X,t;
+  mode vf-sequence of t -> FinSequence means
+:: MSAFREE5:def 42
+  ex f being one-to-one FinSequence st
+  rng f = {xi where xi is Element of dom t: ex s,x st t.xi = [x,s]} &
+  dom it = dom f & for i st i in dom it holds it.i = t.(f.i);
+end;
+
+registration
+  let f be FinSequence;
+  cluster pr1 f -> FinSequence-like;
+  cluster pr2 f -> FinSequence-like;
+end;
+
+theorem :: MSAFREE5:129
+  for f being vf-sequence of t holds pr2 f is FinSequence of the carrier of S;
+
+theorem :: MSAFREE5:130
+  for f being vf-sequence of t, B being FinSequence of the carrier of S
+  st B = pr2 f holds pr1 f is B-sorts FinSequence of Union X;
+
+registration
+  let f be non empty FinSequence;
+  reduce In(1, dom f) to 1;
+  reduce In(len f, dom f) to len f;
+end;
+
+theorem :: MSAFREE5:131
+  for xi being Element of dom t st t.xi = [x,s]
+  holds the_sort_of t1 = s implies
+  t with-replacement (xi,t1) is Element of Free(S,X), the_sort_of t;
+
+theorem :: MSAFREE5:132
+  X is non-trivial implies
+  for xi being Element of dom C st C.xi = [x,s]
+  holds the_sort_of t = s implies C-sub t = C with-replacement (xi,t);
+
+theorem :: MSAFREE5:133
+  for xi1,xi2 being FinSequence st xi1 <> xi2 & xi1 in dom t & xi2 in dom t
+  for s1,s2 being SortSymbol of S, x1 being Element of X.s1
+  for x2 being Element of X.s2 st t.xi1 = [x1,s1]
+  holds not xi1 is_a_prefix_of xi2;
+
+theorem :: MSAFREE5:134
+  for t,t1 for xi being Element of dom t st
+  t1 = t with-replacement(xi,x-term) & t is x-omitting holds t1 is context of x
+;
+
+theorem :: MSAFREE5:135
+  for t,t1 for xi being Element of dom t st t.xi = [x,s]
+  holds dom t c= dom (t with-replacement(xi,t1));
+
+theorem :: MSAFREE5:136
+  for t for xi being Element of dom t st t.xi = [x,s]
+  holds dom t = dom (t with-replacement(xi,x1-term));
+
+theorem :: MSAFREE5:137
+  for t,t1 being Tree, xi being Element of t holds
+  (t with-replacement(xi,t1))|xi = t1;
+
+theorem :: MSAFREE5:138
+  for t,t1 being DecoratedTree, xi being Node of t holds
+  (t with-replacement(xi,t1))|xi = t1;
+
+theorem :: MSAFREE5:139
+  for xi being Node of t st t1 = t|xi holds (h.t)|xi = h.t1;
+
+theorem :: MSAFREE5:140
+  for xi being Node of t st t.xi = [x,s] holds t|xi = x-term;
+
+theorem :: MSAFREE5:141
+  for t,t1 being Tree, xi,nu being Element of t st not xi c= nu &
+  not nu c= xi holds (t with-replacement(xi,t1))|nu = t|nu;
+
+theorem :: MSAFREE5:142
+  for t,t1 being DecoratedTree, xi,nu being Node of t st not xi c= nu &
+  not nu c= xi holds (t with-replacement(xi,t1))|nu = t|nu;
+
+theorem :: MSAFREE5:143
+  t c= t1 implies t = t1;
+
+theorem :: MSAFREE5:144
+  for t
+  for h being Endomorphism of Free(S,X) holds dom t c= dom (h.t) &
+  for I st
+  I = {xi where xi is Element of dom t: ex s,x st t.xi = [x,s]}
+  holds t|((dom t) \ I) = (h.t)|((dom t) \ I);
+
+theorem :: MSAFREE5:145
+  for t st I = {xi where xi is Element of dom t: ex s,x st t.xi = [x,s]}
+  for xi being Node of h.t holds
+  xi in (dom t)\I or ex nu being Element of dom t st nu in I &
+  ex mu being Node of (h.t)|nu st xi = nu^mu;
+
+theorem :: MSAFREE5:146
+  for v,v1
+  for h being Endomorphism of Free(S,Y)
+  for g being one-to-one FinSequence of dom v st
+  rng g = {xi where xi is Element of dom v: ex s,y st v.xi = [y,s]} &
+  dom v c= dom v1 & v|((dom v) \ rng g) = v1|((dom v) \ rng g) &
+  for i st i in dom g holds (h.v)|(g/.i qua Node of v)=v1|(g/.i qua Node of v)
+  holds h.v = v1;
+
+theorem :: MSAFREE5:147
+  for h being Endomorphism of Free(S,Y)
+  for f being vf-sequence of v st f <> {}
+  ex B being non empty FinSequence of the carrier of S st
+  ex V1 be B-sorts FinSequence of Union Y
+  st dom B = dom f & B = pr2 f & V1 = pr1 f &
+  ex D being B-sorts FinSequence of Free(S,Y) st
+  ex V2 being V1-omitting D-omitting B-sorts FinSequence of Union Y
+  st (for i being Element of dom B holds D.i = h.((V1.i)-term)) &
+  ex F be V2-context-sequence FinSequence of Free(S,Y) st
+  F is (V1,V2,D)-consequent-context-sequence &
+  (F.In(1,dom B))-sub((V1.In(1,dom B))-term) = v &
+  h.v = (F.In(len B,dom B))-sub(D.In(len B,dom B));

@@ -1,0 +1,66 @@
+:: Fix Point Theorem for Compact Spaces
+::  by Alicia de la Cruz
+::
+:: Received July 17, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, METRIC_1, FUNCT_1, REAL_1, CARD_1, ARYTM_3,
+      PRE_TOPC, XXREAL_0, RELAT_1, STRUCT_0, FUNCOP_1, PCOMPS_1, RCOMP_1,
+      SUBSET_1, POWER, SETFAM_1, TARSKI, ARYTM_1, FINSET_1, ORDINAL1, SEQ_1,
+      VALUED_1, ORDINAL2, SEQ_2, ALI2, NAT_1, ASYMPT_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0,
+      FINSET_1, SETFAM_1, RELAT_1, FUNCT_1, FUNCT_2, FUNCOP_1, STRUCT_0,
+      METRIC_1, PRE_TOPC, POWER, COMPTS_1, PCOMPS_1, TOPS_2, VALUED_1, SEQ_1,
+      SEQ_2, XXREAL_0, REAL_1, NAT_1;
+ constructors SETFAM_1, FUNCOP_1, FINSET_1, XXREAL_0, REAL_1, NAT_1, SEQ_2,
+      POWER, TOPS_2, COMPTS_1, PCOMPS_1, VALUED_1, PARTFUN1, BINOP_2, RVSUM_1,
+      COMSEQ_2, SEQ_1, RELSET_1;
+ registrations SUBSET_1, ORDINAL1, NUMBERS, XXREAL_0, MEMBERED, STRUCT_0,
+      METRIC_1, PCOMPS_1, VALUED_1, FUNCT_2, XREAL_0, SEQ_1, SEQ_2, RELSET_1,
+      FUNCOP_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+definition
+  let M be non empty MetrSpace;
+  let f be Function of M, M;
+  attr f is contraction means
+:: ALI2:def 1
+
+  ex L being Real st 0 < L & L < 1 &
+   for x,y being Point of M holds dist(f.x,f.y) <= L * dist(x,y);
+end;
+
+registration
+  let M be non empty MetrSpace;
+  cluster constant -> contraction for Function of M,M;
+end;
+
+registration
+  let M be non empty MetrSpace;
+  cluster constant for Function of M, M;
+end;
+
+definition
+  let M be non empty MetrSpace;
+  mode Contraction of M is contraction Function of M, M;
+end;
+
+::$N Banach fixed-point theorem
+theorem :: ALI2:1
+  for M being non empty MetrSpace
+  for f being Contraction of M st TopSpaceMetr(M) is compact
+  ex c being Point of M st f.c = c &
+    for x being Point of M st f.x = x holds x = c;

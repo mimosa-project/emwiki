@@ -1,0 +1,202 @@
+:: A Representation of Integers by Binary Arithmetics
+:: and Addition of Integers
+::  by Hisayoshi Kunimune and Yatsuka Nakamura
+::
+:: Received January 30, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, NAT_1, INT_1, XXREAL_0, CARD_1, RELAT_1,
+      ARYTM_3, POWER, EUCLID, FINSEQ_1, BINOP_2, ZFMISC_1, TARSKI, FUNCT_1,
+      FINSEQ_2, MARGREL1, BINARITH, ARYTM_1, SUBSET_1, PARTFUN1, XBOOLEAN,
+      BINARI_2, BINARI_3, FUNCOP_1, ORDINAL4, COMPLEX1, NEWTON, BINARI_4,
+      XCMPLX_0;
+ notations INT_1, SUBSET_1, XBOOLEAN, MARGREL1, FUNCOP_1, XCMPLX_0, POWER,
+      BINARITH, BINARI_2, BINARI_3, SERIES_1, ORDINAL1, NUMBERS, XXREAL_0,
+      XBOOLE_0, NAT_D, BINOP_2, EUCLID, TARSKI, PARTFUN1, FUNCT_1, RELAT_1,
+      ZFMISC_1, INT_2, FINSEQOP, NEWTON, FINSEQ_1, FINSEQ_2;
+ constructors REAL_1, NAT_D, FINSEQOP, NEWTON, SERIES_1, BINARITH, BINARI_2,
+      EUCLID, BINARI_3, RVSUM_1, RELSET_1, BINOP_2, TREES_3;
+ registrations XBOOLE_0, NUMBERS, XXREAL_0, XREAL_0, NAT_1, INT_1, XBOOLEAN,
+      MARGREL1, VALUED_0, FINSEQ_1, FINSEQ_2, RELAT_1, FUNCT_1, CARD_1,
+      XCMPLX_0, ORDINAL1;
+ requirements REAL, BOOLE, SUBSET, NUMERALS, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve n for non zero Nat,
+  j,k,l,m for Nat,
+  g,h,i for Integer;
+
+theorem :: BINARI_4:1
+  for m being Nat st m > 0 holds m * 2 >= m + 1;
+
+theorem :: BINARI_4:2
+  for m being Nat holds 2 to_power m >= m;
+
+theorem :: BINARI_4:3
+  for m be Nat holds 0*m + 0*m = 0*m;
+
+theorem :: BINARI_4:4
+  for k,m,l be Nat holds k <= l & l <= m implies k = l or k + 1 <= l & l <= m;
+
+theorem :: BINARI_4:5
+  for n be non zero Nat holds for x,y be Tuple of n,BOOLEAN st x =
+  0*n & y = 0*n holds carry(x,y) = 0*n;
+
+theorem :: BINARI_4:6
+  for n be non zero Nat holds for x,y be Tuple of n,BOOLEAN st x = 0*n
+  & y = 0*n holds x + y = 0*n;
+
+theorem :: BINARI_4:7
+  for n be non zero Nat for F be Tuple of n,BOOLEAN st F = 0*n holds
+  Intval F = 0;
+
+theorem :: BINARI_4:8
+  l + m <= k - 1 implies l < k & m < k;
+
+theorem :: BINARI_4:9
+  g <= h + i & h < 0 & i < 0 implies g < h & g < i;
+
+theorem :: BINARI_4:10
+  l + m <= 2 to_power n - 1 implies add_ovfl(n-BinarySequence(l),n
+  -BinarySequence(m)) = FALSE;
+
+theorem :: BINARI_4:11
+  for n be non zero Nat, l,m be Nat st l + m <= 2 to_power n - 1
+  holds Absval(n-BinarySequence(l) + n-BinarySequence(m)) = l + m;
+
+theorem :: BINARI_4:12
+  for n be non zero Nat holds for z be Tuple of n,BOOLEAN st z/.n
+  = TRUE holds Absval(z) >= 2 to_power (n-'1);
+
+theorem :: BINARI_4:13
+  l + m <= 2 to_power (n-'1) - 1 implies carry(n-BinarySequence(l)
+  ,n-BinarySequence(m))/.n = FALSE;
+
+theorem :: BINARI_4:14
+  for n be non zero Nat st l + m <= 2 to_power (n-'1) - 1 holds
+  Intval(n-BinarySequence(l) + n-BinarySequence(m)) = l + m;
+
+theorem :: BINARI_4:15
+  for z be Tuple of 1,BOOLEAN st z=<*TRUE*> holds Intval(z) = -1;
+
+theorem :: BINARI_4:16
+  for z be Tuple of 1,BOOLEAN st z=<*FALSE*> holds Intval(z) = 0;
+
+theorem :: BINARI_4:17
+  for x be boolean object holds TRUE 'or' x = TRUE;
+
+theorem :: BINARI_4:18
+  for n be non zero Nat holds 0 <= 2 to_power (n-'1) - 1 & -(2 to_power
+  (n-'1)) <= 0;
+
+theorem :: BINARI_4:19
+  for x,y be Tuple of n,BOOLEAN st x = 0*n & y = 0*n holds x,y are_summable;
+
+theorem :: BINARI_4:20
+  (i*n) mod n = 0;
+
+begin :: Majorant Power
+
+definition
+  let m, j be Nat;
+  func MajP(m, j) -> Nat means
+:: BINARI_4:def 1
+
+  2 to_power it >= j & it >= m & for k be
+  Nat st 2 to_power k >= j & k >= m holds k >= it;
+end;
+
+theorem :: BINARI_4:21
+  j >= k implies MajP(m, j) >= MajP(m, k);
+
+theorem :: BINARI_4:22
+  l >= m implies MajP(l,j) >= MajP(m,j);
+
+theorem :: BINARI_4:23
+  m >= 1 implies MajP(m, 1) = m;
+
+theorem :: BINARI_4:24
+  j <= 2 to_power m implies MajP(m, j) = m;
+
+theorem :: BINARI_4:25
+  j > 2 to_power m implies MajP(m, j) > m;
+
+begin :: 2's Complement
+
+definition
+  let m be Nat;
+  let i be Integer;
+  func 2sComplement( m, i ) -> Tuple of m, BOOLEAN equals
+:: BINARI_4:def 2
+
+  m
+-BinarySequence( |.(2 to_power MajP(m,|.i.|)) + i .| ) if i < 0 otherwise m
+  -BinarySequence( |.i.| );
+end;
+
+theorem :: BINARI_4:26
+  for m be Nat holds 2sComplement(m,0) = 0*m;
+
+theorem :: BINARI_4:27
+  for i be Integer st i <= 2 to_power (n-'1) - 1 & -(2 to_power (n-'1))
+  <= i holds Intval( 2sComplement( n, i ) ) = i;
+
+theorem :: BINARI_4:28
+  for h,i be Integer st ( h >= 0 & i >= 0 or h < 0 & i < 0 ) & h mod 2
+to_power n = i mod 2 to_power n holds 2sComplement(n,h) = 2sComplement(n,i);
+
+theorem :: BINARI_4:29
+  for h,i be Integer st ( h >= 0 & i >= 0 or h < 0 & i < 0 ) & h,i
+  are_congruent_mod 2 to_power n holds 2sComplement(n,h) = 2sComplement(n,i);
+
+theorem :: BINARI_4:30
+  for l,m be Nat st l mod 2 to_power n = m mod 2 to_power n holds
+  n-BinarySequence(l) = n-BinarySequence(m);
+
+theorem :: BINARI_4:31
+  for l,m be Nat st l,m are_congruent_mod 2 to_power n holds n
+  -BinarySequence(l) = n-BinarySequence(m);
+
+theorem :: BINARI_4:32
+  for j be Nat st 1 <= j & j <= n holds 2sComplement(n+1,i)/.j =
+  2sComplement(n,i)/.j;
+
+theorem :: BINARI_4:33
+  ex x be Element of BOOLEAN st 2sComplement(m+1,i) = 2sComplement (m,i)^<*x*>;
+
+theorem :: BINARI_4:34
+  ex x be Element of BOOLEAN st (m+1)-BinarySequence(l) = (m
+  -BinarySequence(l))^<*x*>;
+
+theorem :: BINARI_4:35
+  for n be non zero Nat holds -2 to_power n <= h+i & h < 0 & i <
+  0 & -2 to_power (n-'1) <= h & -2 to_power (n-'1) <= i implies carry(
+  2sComplement(n+1,h),2sComplement(n+1,i))/.(n+1) = TRUE;
+
+theorem :: BINARI_4:36
+  for n be non zero Nat st h + i <= 2 to_power (n-'1) - 1 & h >= 0 & i
+  >= 0 holds Intval(2sComplement(n,h) + 2sComplement(n,i)) = h+i;
+
+theorem :: BINARI_4:37
+  for n be non zero Nat st -2 to_power ((n+1)-'1) <= h + i & h < 0 & i
+  < 0 & -2 to_power (n-'1) <= h & -2 to_power (n-'1) <= i holds Intval(
+  2sComplement(n+1,h) + 2sComplement(n+1,i)) = h+i;
+
+theorem :: BINARI_4:38
+  for n be non zero Nat holds -(2 to_power (n-'1)) <= h & h <= 2
+to_power (n-'1) - 1 & -(2 to_power (n-'1)) <= i & i <= 2 to_power (n-'1) - 1 &
+  -(2 to_power (n-'1)) <= h+i & h+i <= 2 to_power (n-'1) - 1 & ( h >= 0 & i < 0
+or h < 0 & i >= 0 ) implies Intval(2sComplement(n,h) + 2sComplement(n,i)) = h+i
+;

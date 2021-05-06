@@ -1,0 +1,319 @@
+:: Continuity of Bounded Linear Operators on Normed Linear Spaces
+::  by Kazuhisa Nakasho , Yuichi Futa and Yasunari Shidama
+:: 
+:: Received September 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, REAL_1, ZFMISC_1, NORMSP_1, PRE_TOPC, PARTFUN1, FUNCT_1,
+      NAT_1, SUBSET_1, RELAT_1, LOPBAN_1, MSSUBFAM, TARSKI, ARYTM_3, VALUED_1,
+      FUNCT_2, ARYTM_1, SEQ_2, ORDINAL2, SUPINF_2, FCONT_1, STRUCT_0, CARD_1,
+      NFCONT_1, NFCONT_2, DUALSP01, FUNCT_5, UNIALG_1, FUNCOP_1, SEQ_4,
+      XXREAL_2, XXREAL_0, XBOOLE_0, RLVECT_1, CFCONT_1, REWRITE1, METRIC_1,
+      COMPLEX1, TOPS_1, LOPBAN_8;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1,
+      PARTFUN1, FUNCT_2, FUNCT_5, BINOP_1, FUNCOP_1, NUMBERS, XCMPLX_0,
+      XXREAL_0, XXREAL_2, XREAL_0, NAT_1, COMPLEX1, VALUED_1, SEQ_2, SEQ_4,
+      STRUCT_0, PRE_TOPC, RLVECT_1, VECTSP_1, NORMSP_0, NORMSP_1, NORMSP_3,
+      LOPBAN_1, LOPBAN_5, NFCONT_1, NFCONT_2, PRVECT_3, DUALSP01;
+ constructors SEQ_2, SEQ_4, NFCONT_1, NFCONT_2, COMSEQ_2, RELSET_1, NAT_D,
+      RSSPACE3, NDIFF_7, REALSET1, NORMSP_3, LOPBAN_5;
+ registrations RELSET_1, STRUCT_0, XREAL_0, MEMBERED, FUNCT_1, VALUED_0,
+      VALUED_1, FUNCT_2, NUMBERS, XBOOLE_0, RELAT_1, ORDINAL1, LOPBAN_1,
+      PRVECT_3, NORMSP_0, NAT_1, NORMSP_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Uniform Continuity and Lipschitz Continuity of
+      :: Bounded Linear Operators
+
+reserve S,T,W,Y for RealNormSpace;
+reserve f,f1,f2 for PartFunc of S,T;
+reserve Z for Subset of S;
+reserve i,n for Nat;
+
+theorem :: LOPBAN_8:1
+  for E,F be RealNormSpace,
+       E1 be Subset of E,
+        f be PartFunc of E,F
+  st E1 is dense & F is complete & dom f = E1
+   & f is_uniformly_continuous_on E1
+  holds
+  (ex g be Function of E,F
+   st g|E1 = f
+    & g is_uniformly_continuous_on the carrier of E
+    & ( for x be Point of E holds
+        ex seq be sequence of E
+        st rng seq c= E1 & seq is convergent
+         & lim seq = x
+         & f/*seq is convergent
+         & g.x = lim f/*seq )
+    & ( for x be Point of E,
+          seq be sequence of E
+        st rng seq c= E1 & seq is convergent
+         & lim seq = x
+        holds
+           f/*seq is convergent
+         & g.x = lim f/*seq )
+  )
+  &
+  (for g1,g2 be Function of E,F
+    st g1|E1 = f
+     & g1 is_continuous_on the carrier of E
+     & g2|E1 = f
+     & g2 is_continuous_on the carrier of E
+   holds g1 = g2);
+
+theorem :: LOPBAN_8:2
+  for E,F,G be RealNormSpace,
+          f be Point of R_NormSpace_of_BoundedLinearOperators (E,F),
+          g be Point of R_NormSpace_of_BoundedLinearOperators (F,G)
+  holds
+    ex h be Point of R_NormSpace_of_BoundedLinearOperators (E,G)
+    st h = g*f
+     & ||.h.|| <= ||.g.||*||.f.||;
+
+theorem :: LOPBAN_8:3
+  for E,F be RealNormSpace,
+        L be Lipschitzian LinearOperator of E,F
+  holds
+    L is_Lipschitzian_on the carrier of E &
+    L is_uniformly_continuous_on the carrier of E;
+
+theorem :: LOPBAN_8:4
+  for E,F be RealNormSpace,
+       E1 be SubRealNormSpace of E,
+        f be Point of R_NormSpace_of_BoundedLinearOperators (E1,F)
+  st F is complete
+   & ex E0 be Subset of E st E0 = the carrier of E1 & E0 is dense
+  holds
+    (ex g be Point of R_NormSpace_of_BoundedLinearOperators (E,F)
+     st dom g = the carrier of E
+      & g| the carrier of E1 = f
+      & ||.g.|| = ||.f.||
+      & ex Lf be PartFunc of E,F st Lf = f
+      & (for x be Point of E
+         holds ex seq be sequence of E
+         st rng seq c= the carrier of E1
+          & seq is convergent
+          & lim seq = x
+          & Lf/*seq is convergent
+          & g.x = lim Lf/*seq)
+      & (for x be Point of E, seq be sequence of E
+         st rng seq c= the carrier of E1
+          & seq is convergent
+          & lim seq = x
+         holds Lf/*seq is convergent & g.x = lim Lf/*seq)
+    )
+    &
+    (for g1,g2 be Point of R_NormSpace_of_BoundedLinearOperators (E,F)
+      st g1| the carrier of E1 = f
+       & g2| the carrier of E1 = f
+     holds g1 = g2);
+
+begin :: Basic Properties of Currying
+
+theorem :: LOPBAN_8:5
+  for E,F,G be non empty set,
+          f be Function of [:E,F:],G,
+          x be object st x in E
+  holds
+    (curry f).x is Function of F,G;
+
+theorem :: LOPBAN_8:6
+  for E,F,G be non empty set,
+          f be Function of [:E,F:],G,
+          y be object st y in F
+  holds
+    (curry' f).y is Function of E,G;
+
+theorem :: LOPBAN_8:7
+  for E,F,G be non empty set,
+          f be Function of [:E,F:],G,
+       x,y be object
+  st x in E & y in F holds
+    ( (curry f).x ).y = f.(x,y);
+
+theorem :: LOPBAN_8:8
+  for E,F,G be non empty set,
+          f be Function of [:E,F:],G,
+       x,y be object
+  st x in E & y in F holds
+    ( (curry' f).y ).x = f.(x,y);
+
+definition ::: probably better define it for general modules
+  let E,F,G be RealLinearSpace;
+  let f be Function of [:the carrier of E,the carrier of F:],the carrier of G;
+  attr f is Bilinear means
+:: LOPBAN_8:def 1
+  ( for v being Point of E st v in dom (curry f)
+    holds (curry f).v is additive homogeneous Function of F,G )
+  &
+  ( for v being Point of F st v in dom (curry' f)
+    holds (curry' f).v is additive homogeneous Function of E,G );
+end;
+
+begin :: Equivalence of Some Definitions of Continuity of Bounded
+      :: Bilinear Operators
+
+theorem :: LOPBAN_8:9  ::: functorial registration
+  for E,F,G be RealLinearSpace
+  holds ( [:the carrier of E,the carrier of F:] ) --> 0.G is Bilinear;
+
+registration
+  let E,F,G be RealLinearSpace;
+  cluster Bilinear for Function of
+    [: the carrier of E, the carrier of F:], the carrier of G;
+end;
+
+theorem :: LOPBAN_8:10
+  for E,F,G be RealLinearSpace,
+          L be Function of
+                [:the carrier of E,the carrier of F:], the carrier of G
+  holds
+    L is Bilinear
+  iff
+    ( ( for x1,x2 be Point of E,
+                y be Point of F
+          holds L.(x1+x2,y) = L.(x1,y) + L.(x2,y) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L.(a * x, y) = a * L.(x,y) )
+      &
+      ( for x be Point of E, y1,y2 be Point of F
+        holds L.(x,y1+y2) = L.(x,y1) + L.(x,y2) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L.(x, a*y) = a * L.(x,y) )
+    );
+
+definition
+  let E,F,G be RealLinearSpace;
+  let f be Function of [:E,F:],G;
+  attr f is Bilinear means
+:: LOPBAN_8:def 2
+  ex g be Function of [:the carrier of E,the carrier of F:], the carrier of G
+  st f = g & g is Bilinear;
+end;
+
+registration
+  let E,F,G be RealLinearSpace;
+  cluster Bilinear for Function of [:E,F:],G;
+end;
+
+definition
+  let E,F,G be RealLinearSpace;
+  let f be Function of [:E,F:],G;
+  let x be Point of E;
+  let y be Point of F;
+  redefine func f.(x,y) -> Point of G;
+end;
+
+theorem :: LOPBAN_8:11
+  for E,F,G be RealLinearSpace,
+          L be Function of [:E,F:],G holds
+    L is Bilinear
+  iff
+    ( ( for x1,x2 be Point of E, y be Point of F
+        holds L.(x1+x2,y) = L.(x1,y) + L.(x2,y) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L.(a*x,y) = a * L.(x,y) )
+      &
+      ( for x be Point of E, y1,y2 be Point of F
+        holds L.(x,y1+y2) = L.(x,y1) + L.(x,y2) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L. (x, a*y) = a * L.(x,y) ) );
+
+definition
+  let E,F,G be RealLinearSpace;
+  mode BilinearOperator of E,F,G is Bilinear Function of [:E,F:],G;
+end;
+
+definition
+  let E,F,G be RealNormSpace;
+  let f be Function of [:E,F:],G;
+  attr f is Bilinear means
+:: LOPBAN_8:def 3
+  ex g be Function of
+      [:the carrier of E, the carrier of F:], the carrier of G
+  st f = g & g is Bilinear;
+end;
+
+registration
+  let E,F,G be RealNormSpace;
+  cluster Bilinear for Function of [:E,F:],G;
+end;
+
+definition
+  let E,F,G be RealNormSpace;
+  mode BilinearOperator of E,F,G is Bilinear Function of [:E,F:],G;
+end;
+
+reserve E,F,G for RealNormSpace;
+reserve L for BilinearOperator of E,F,G;
+reserve x for Element of E;
+reserve y for Element of F;
+
+definition
+  let E,F,G be RealNormSpace;
+  let f be Function of [:E,F:], G;
+  let x be Point of E;
+  let y be Point of F;
+  redefine func f.(x,y) -> Point of G;
+end;
+
+theorem :: LOPBAN_8:12
+  for E,F,G be RealNormSpace,
+          L be Function of [:E,F:],G
+  holds
+    L is Bilinear
+  iff
+    ( ( for x1,x2 be Point of E, y be Point of F
+        holds L.(x1+x2,y) = L.(x1,y) + L.(x2,y) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L.(a*x, y) = a * L.(x,y) )
+      &
+      ( for x be Point of E, y1,y2 be Point of F
+        holds L.(x,y1+y2) = L.(x,y1) + L.(x,y2) )
+      &
+      ( for x be Point of E,
+            y be Point of F,
+            a be Real
+        holds L.(x,a*y) = a * L.(x,y) ) );
+
+theorem :: LOPBAN_8:13
+  for E,F,G be RealNormSpace,
+          f be BilinearOperator of E,F,G
+  holds
+    ( f is_continuous_on the carrier of [:E,F:]
+        iff
+      f is_continuous_in 0.( [:E,F:] ) )
+    &
+    ( f is_continuous_on the carrier of [:E,F:]
+        iff
+      ex K be Real
+      st 0 <= K
+       & for x be Point of E,y be Point of F
+         holds ||. f.(x,y) .|| <= K * ||.x.|| * ||.y.|| );

@@ -1,0 +1,321 @@
+:: Basel Problem -- Preliminaries
+::  by Artur Korni{\l}owicz and Karol P\kak
+:: 
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XCMPLX_0, SUBSET_1, FUNCT_1, ARYTM_3, ORDINAL4, COMPLEX1, SEQ_4,
+      ORDINAL2, NUMBERS, REAL_1, RELAT_1, NAT_1, CARD_3, SQUARE_1, SIN_COS,
+      CARD_1, XXREAL_0, SEQ_1, VALUED_0, SEQ_2, VALUED_1, PARTFUN1, XBOOLE_0,
+      ARYTM_1, XXREAL_2, FINSEQ_1, RVSUM_1, INT_1, TARSKI, XXREAL_1, SIN_COS4,
+      ABIAN, RCOMP_1, MEASURE5, REALSET1, INTEGRA1, PREPOWER, POLYEQ_1,
+      COMSEQ_1, FINSEQ_2, BASEL_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, RELAT_1, FUNCT_1, RELSET_1,
+      PARTFUN1, FUNCT_2, NUMBERS, XXREAL_0, XCMPLX_0, COMPLEX1, XREAL_0, INT_1,
+      SQUARE_1, CARD_1, FINSEQ_1, VALUED_0, VALUED_1, RVSUM_1, SEQ_1, SEQ_2,
+      SEQ_4, RFUNCT_1, FCONT_1, RCOMP_1, SERIES_1, PREPOWER, ABIAN, TAYLOR_1,
+      SIN_COS, SIN_COS4, INTEGRA1, MEASURE5, INTEGRA5, POLYEQ_1, FINSEQ_2,
+      COMSEQ_1, COMSEQ_3;
+ constructors SEQ_2, SIN_COS, SQUARE_1, COMSEQ_2, RELSET_1, COMSEQ_3, SIN_COS4,
+      RFUNCT_1, ABIAN, INTEGRA1, INTEGRA5, FCONT_1, TAYLOR_1, PREPOWER, SEQ_4,
+      WSIERP_1, POLYEQ_1;
+ registrations XCMPLX_0, XREAL_0, NAT_1, ORDINAL1, SQUARE_1, VALUED_0,
+      RELSET_1, VALUED_1, MEMBERED, FUNCT_2, INT_1, NUMBERS, SIN_COS, SEQ_2,
+      SIN_COS6, RCOMP_1, FCONT_1, MEASURE5, LEIBNIZ1, DBLSEQ_2, XBOOLE_0,
+      XXREAL_0, RELAT_1, FINSEQ_1, CARD_1, RVSUM_1, NEWTON04, POLYEQ_1, NEWTON;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve X for set;
+reserve k,m,n for Nat;
+reserve i for Integer;
+reserve a,b,c,d,e,g,p,r,x,y for Real;
+reserve z for Complex;
+
+theorem :: BASEL_1:1
+  0 < a implies ex m st 0 < a*m+b;
+
+registration
+  let f be real-valued FinSequence;
+  let n;
+  cluster f|n -> REAL-valued;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster f^2 -> len f-element;
+  cluster f" -> len f-element;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  let c be Complex;
+  cluster c+f -> len f-element;
+end;
+
+theorem :: BASEL_1:2
+  for c,z being Complex holds c + <*z*> = <*c+z*>;
+
+theorem :: BASEL_1:3
+  for f,g being complex-valued FinSequence, c being Complex holds
+  c+(f^g) = (c+f)^(c+g);
+
+theorem :: BASEL_1:4
+  for f being complex-valued FinSequence, c being Complex holds
+  Sum(c+f) = (c*len f) + Sum f;
+
+begin :: Limits of sequences $\frac{an+b}{cn+d}$
+
+definition
+  let a,b,c,d be Complex;
+  func Rat_Exp_Seq(a,b,c,d) -> Complex_Sequence means
+:: BASEL_1:def 1
+     it.n = Polynom(a,b,n)/Polynom(c,d,n);
+end;
+
+definition
+  let a,b,c,d;
+  func rseq(a,b,c,d) -> Real_Sequence equals
+:: BASEL_1:def 2
+    Re (Rat_Exp_Seq(a,b,c,d));
+end;
+
+theorem :: BASEL_1:5
+  rseq(a,b,c,d).n = (a*n+b)/(c*n+d);
+
+theorem :: BASEL_1:6
+  rseq(0,b,0,d).n = b/d;
+
+registration
+  let a,b;
+  cluster rseq(a,b,0,0) -> constant;
+end;
+
+registration
+  let b,d;
+  cluster rseq(0,b,0,d) -> constant;
+end;
+
+theorem :: BASEL_1:7
+  rseq(0,b,c,d) = b(#)rseq(0,1,c,d) &
+  rseq(0,b,c,d) = (-b)(#)rseq(0,1,-c,-d);
+
+theorem :: BASEL_1:8
+  rseq(a,0,c,d) = a(#)rseq(1,0,c,d) &
+  rseq(a,0,c,d) = (-a)(#)rseq(1,0,-c,-d);
+
+registration
+  let b,c,d;
+  cluster rseq(0,b,c,d) -> convergent;
+end;
+
+theorem :: BASEL_1:9
+  lim(rseq(0,b,0,d)) = b/d;
+
+theorem :: BASEL_1:10
+  for c being non zero Real holds lim(rseq(0,b,c,d)) = 0;
+
+registration
+  let c be non zero Real;
+  let a,b,d;
+  cluster rseq(a,b,c,d) -> convergent;
+end;
+
+registration
+  let a,d be positive Real;
+  let b be Real;
+  cluster rseq(a,b,0,d) -> non bounded_above;
+end;
+
+registration
+  let a,d be negative Real;
+  let b;
+  cluster rseq(a,b,0,d) -> non bounded_above;
+end;
+
+registration
+  let a be positive Real;
+  let b;
+  let d be negative Real;
+  cluster rseq(a,b,0,d) -> non bounded_below;
+ end;
+
+registration
+  let a be negative Real;
+  let b;
+  let d be positive Real;
+  cluster rseq(a,b,0,d) -> non bounded_below;
+end;
+
+registration
+  let a,d be non zero Real;
+  let b;
+  cluster rseq(a,b,0,d) -> non bounded;
+end;
+
+registration
+  let a,d be non zero Real;
+  let b;
+  cluster rseq(a,b,0,d) -> non convergent;
+end;
+
+theorem :: BASEL_1:11
+  for c being non zero Real holds lim(rseq(a,b,c,d)) = a/c;
+
+theorem :: BASEL_1:12
+  for a being non zero Real holds lim(rseq(a,b,a,d)) = 1;
+
+begin :: Trigonometry
+
+theorem :: BASEL_1:13
+  sin(PI*i) = 0;
+
+theorem :: BASEL_1:14
+  cos(PI/2+PI*i) = 0;
+
+theorem :: BASEL_1:15
+  tan r = (cot r)" & cot r = (tan r)";
+
+theorem :: BASEL_1:16
+  dom tan = union the set of all ]. -PI/2+PI*i,PI/2+PI*i .[ where i is Integer;
+
+registration
+  cluster dom tan -> open for Subset of REAL;
+end;
+
+theorem :: BASEL_1:17
+  0 <= r implies sin.r <= r;
+
+theorem :: BASEL_1:18
+  0 <= r < PI/2 implies r <= tan.r;
+
+begin :: Some special functions and sequences
+
+definition
+  let f be real-valued Function;
+  func cot(f) -> Function means
+:: BASEL_1:def 3
+    dom it = dom f &
+    for x being object st x in dom f holds it.x = cot(f.x);
+  func cosec(f) -> Function means
+:: BASEL_1:def 4
+    dom it = dom f &
+    for x being object st x in dom f holds it.x = cosec(f.x);
+end;
+
+registration
+  let f be real-valued Function;
+  cluster cot(f) -> REAL-valued;
+  cluster cosec(f) -> REAL-valued;
+end;
+
+registration
+  let f be real-valued FinSequence;
+  cluster cot(f) -> FinSequence-like;
+  cluster cosec(f) -> FinSequence-like;
+end;
+
+theorem :: BASEL_1:19
+  for f being real-valued FinSequence holds len cot f = len f;
+
+theorem :: BASEL_1:20
+  for f being real-valued FinSequence holds len cosec f = len f;
+
+registration
+  let f be real-valued FinSequence;
+  cluster cot(f) -> len f-element;
+  cluster cosec(f) -> len f-element;
+end;
+
+definition
+  let m;
+  func x_r-seq(m) -> FinSequence equals
+:: BASEL_1:def 5
+    (PI/(2*m+1))(#)(idseq m);
+end;
+
+theorem :: BASEL_1:21
+  len (x_r-seq m) = m &
+  for k st 1 <= k <= m holds x_r-seq(m).k = k*PI/(2*m+1);
+
+theorem :: BASEL_1:22
+  rng x_r-seq(m) c= ].0,PI/2.[;
+
+registration
+  let m;
+  cluster x_r-seq(m) -> REAL-valued;
+end;
+
+theorem :: BASEL_1:23
+  1 <= k <= m implies 0 < x_r-seq(m).k < PI/2;
+
+registration
+  cluster x_r-seq(0) -> empty;
+end;
+
+theorem :: BASEL_1:24
+  1 <= k <= m implies 2/(k*PI) + (x_r-seq(m))".k = (x_r-seq(m+1))".k;
+
+theorem :: BASEL_1:25
+  1 <= k <= m implies (2*m+1)*x_r-seq(m).k = k*PI;
+
+theorem :: BASEL_1:26
+  sqr cosec x_r-seq(m) = 1 + sqr cot x_r-seq(m);
+
+theorem :: BASEL_1:27
+  x_r-seq(n) is one-to-one;
+
+theorem :: BASEL_1:28
+  sqr cot x_r-seq(n) is one-to-one;
+
+theorem :: BASEL_1:29
+  Sum sqr cot x_r-seq(m) <= Sum ((sqr x_r-seq(m))");
+
+theorem :: BASEL_1:30
+  Sum ((sqr x_r-seq(m))") <= Sum sqr cosec x_r-seq(m);
+
+definition
+  func Basel-seq -> Real_Sequence equals
+:: BASEL_1:def 6
+    rseq(0,1,1,0) (#) rseq(0,1,1,0);
+  func Basel-seq1 -> Real_Sequence equals
+:: BASEL_1:def 7
+    (PI^2/6) (#) rseq(2,0,2,1) (#) rseq(2,-1,2,1);
+  func Basel-seq2 -> Real_Sequence equals
+:: BASEL_1:def 8
+    (PI^2/6) (#) rseq(2,0,2,1) (#) rseq(2,2,2,1);
+end;
+
+theorem :: BASEL_1:31
+  Basel-seq.n = 1 / (n^2);
+
+theorem :: BASEL_1:32
+  Basel-seq1.n = (PI^2/6) * (2*n/(2*n+1)) * ((2*n-1)/(2*n+1));
+
+theorem :: BASEL_1:33
+  Basel-seq2.n = (PI^2/6) * (2*n/(2*n+1)) * ((2*n+2)/(2*n+1));
+
+registration
+  cluster Basel-seq -> convergent;
+  cluster Basel-seq1 -> convergent;
+  cluster Basel-seq2 -> convergent;
+end;
+
+theorem :: BASEL_1:34
+  lim Basel-seq1 = PI^2/6 = lim Basel-seq2;
+
+theorem :: BASEL_1:35
+  Sum ((sqr x_r-seq(m))") = (2*m+1)^2 / (PI^2) * Sum(Basel-seq,m);
+

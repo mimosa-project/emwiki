@@ -1,0 +1,550 @@
+:: Homography in $\mathbbRP^2$
+::  by Roland Coghetto
+:: 
+:: Received October 18, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies SETWISEO, MSSUBFAM, REAL_1, XCMPLX_0, ANPROJ_1, ZFMISC_1,
+      PENCIL_1, MCART_1, EUCLID_5, ALGSTR_0, ARYTM_1, ARYTM_3, CARD_1, CARD_3,
+      CLASSES1, EUCLID, FINSEQ_1, FUNCT_1, FVSUM_1, INCSP_1, LMOD_7, MATRIX_1,
+      MATRIX_3, MATRIX13, MATRLIN2, NAT_1, NUMBERS, PRE_TOPC, QC_LANG1,
+      RANKNULL, RELAT_1, RLSUB_1, RLVECT_1, RLVECT_3, RVSUM_1, STRUCT_0,
+      SUBSET_1, SUPINF_2, TARSKI, TREES_1, VECTSP_1, VECTSP10, XBOOLE_0,
+      XXREAL_0, DUALSP01, BINOP_1, ANPROJ_2, EUCLID_8, COMPLEX1, SQUARE_1,
+      MATRIX_0, MATRIX_6, MESFUNC1, MATRIXR1, MATRIXR2, FINSEQ_2, ANPROJ_8,
+      FUNCSDOM;
+ notations XBOOLE_0, RELSET_1, ENUMSET1, ZFMISC_1, SQUARE_1, SUBSET_1,
+      ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0, FUNCT_1, BINOP_1, FINSEQ_1,
+      FINSEQ_4, FINSEQOP, PRE_TOPC, RVSUM_1, EUCLID, DOMAIN_1, ANPROJ_1,
+      TARSKI, CARD_1, XXREAL_0, FUNCT_2, RLVECT_3, VECTSP_1, MATRIX_0,
+      MATRIX_1, MATRIX_3, VECTSP_4, VECTSP_7, MATRIX13, FVSUM_1, RANKNULL,
+      GROUP_1, MATRTOP1, DUALSP01, STRUCT_0, ALGSTR_0, RLVECT_1, SETWOP_2,
+      ANPROJ_2, COLLSP, EUCLID_8, EUCLID_5, FINSEQ_2, LAPLACE, MATRIXR1,
+      MATRIXR2, MATRIX_6;
+ constructors RELSET_1, SQUARE_1, BINOP_2, FINSEQ_4, MONOID_0, EUCLID_5,
+      ANPROJ_1, FVSUM_1, MATRIX13, MATRTOP1, RANKNULL, REALSET1, RLVECT_3,
+      VECTSP10, NORMSP_3, FINSOP_1, ANPROJ_2, EUCLID_8, MATRIX_6, LAPLACE,
+      MATRIXR2;
+ registrations XBOOLE_0, ANPROJ_1, FUNCT_1, MATRTOP1, PRVECT_1, STRUCT_0,
+      VECTSP_1, REVROT_1, MATRIX_0, RELSET_1, NUMBERS, XREAL_0, MEMBERED,
+      MONOID_0, EUCLID, VALUED_0, FINSEQ_2, RVSUM_1, FINSEQ_1, ANPROJ_2,
+      MATRIX_6;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve a,b,c,d,e,f for Real,
+        k,m for Nat,
+        D for non empty set,
+        V for non trivial RealLinearSpace,
+        u,v,w for Element of V,
+        p,q,r for Element of ProjectiveSpace(V);
+
+theorem :: ANPROJ_8:1
+  [1,1] in [:Seg 3,Seg 3:] & [1,2] in [:Seg 3,Seg 3:] &
+  [1,3] in [:Seg 3,Seg 3:] & [2,1] in [:Seg 3,Seg 3:] &
+  [2,2] in [:Seg 3,Seg 3:] & [2,3] in [:Seg 3,Seg 3:] &
+  [3,1] in [:Seg 3,Seg 3:] & [3,2] in [:Seg 3,Seg 3:] &
+  [3,3] in [:Seg 3,Seg 3:];
+
+theorem :: ANPROJ_8:2
+  [1,1] in [:Seg 3,Seg 1:] & [2,1] in [:Seg 3,Seg 1:] &
+  [3,1] in [:Seg 3,Seg 1:];
+
+theorem :: ANPROJ_8:3
+  [1,1] in [:Seg 1,Seg 3:] & [1,2] in [:Seg 1,Seg 3:] &
+  [1,3] in [:Seg 1,Seg 3:];
+
+theorem :: ANPROJ_8:4
+  <* <* a *>, <* b *>, <* c *> *> is Matrix of 3,1,F_Real;
+
+theorem :: ANPROJ_8:5
+  for N being Matrix of 3,1,F_Real st N = <* <* a *>, <* b *>, <* c *> *>
+  holds Col(N,1) = <* a,b,c *>;
+
+theorem :: ANPROJ_8:6
+  for K being non empty multMagma
+  for a1,a2,a3,b1,b2,b3 being Element of K holds
+  mlt(<*a1,a2,a3*>,<*b1,b2,b3*>) = <*a1*b1,a2*b2,a3*b3*>;
+
+theorem :: ANPROJ_8:7
+  for K being commutative associative left_unital Abelian
+  add-associative right_zeroed right_complementable non empty doubleLoopStr for
+  a1,a2,a3,b1,b2,b3 being Element of K holds
+  <*a1,a2,a3*> "*" <*b1,b2,b3*> = a1*b1 + a2*b2 + a3*b3;
+
+theorem :: ANPROJ_8:8
+  for M being Matrix of 3,F_Real
+  for N being Matrix of 3,1,F_Real st N = <* <* 0 *>, <* 0 *>, <* 0 *> *> holds
+  M * N = <* <* 0 *>, <* 0 *>, <* 0 *> *>;
+
+theorem :: ANPROJ_8:9
+  u,v,w are_LinDep iff
+  (u = v or u = w or v = w or {u,v,w} is linearly-dependent);
+
+theorem :: ANPROJ_8:10
+  p,q,r are_collinear iff ex u,v,w st p = Dir(u) & q = Dir(v) & r = Dir(w) &
+  u is not zero & v is not zero & w is not zero & (u = v or u = w or v = w or
+  {u,v,w} is linearly-dependent);
+
+theorem :: ANPROJ_8:11
+  p,q,r are_collinear iff ex u,v,w st p = Dir(u) & q = Dir(v) & r = Dir(w) &
+  u is not zero & v is not zero & w is not zero & ex a,b,c st
+  a*u + b*v + c*w = 0.V & (a<>0 or b<>0 or c <>0);
+
+theorem :: ANPROJ_8:12
+  for u,v,w being Element of V st a <> 0 &
+  a * u + b * v + c * w = 0.V holds u = ((-b)/a) * v + ((-c)/a) * w;
+
+theorem :: ANPROJ_8:13
+  a <> 0 & a * b + c * d + e * f = 0 implies b = - (c/a) * d - (e/a) * f;
+
+theorem :: ANPROJ_8:14
+  for u,v,w being Point of TOP-REAL 3 st
+  ex a,b,c st a*u + b*v + c*w = 0.(TOP-REAL 3) & a<>0 holds |{u,v,w}| = 0;
+
+theorem :: ANPROJ_8:15
+  for n being Nat holds dom 1_Rmatrix(n) = Seg n;
+
+theorem :: ANPROJ_8:16
+   for A being Matrix of F_Real holds MXR2MXF MXF2MXR A = A;
+
+theorem :: ANPROJ_8:17
+  for A,B being Matrix of F_Real for RA,RB being Matrix of REAL st
+  A = RA & B = RB holds A * B = RA * RB;
+
+theorem :: ANPROJ_8:18
+  for n being Nat for M being Matrix of n,REAL
+  for N being Matrix of n,F_Real st M = N holds
+  M is invertible iff N is invertible;
+
+reserve o,p,q,r,s,t for Point of TOP-REAL 3,
+        M for Matrix of 3,F_Real;
+
+theorem :: ANPROJ_8:19
+  for p1,p2,p3,q1,q2,q3,r1,r2,r3 being Real holds
+  <*<*p1,p2,p3*>,<*q1,q2,q3*>,<*r1,r2,r3*>*> is Matrix of 3,F_Real;
+
+theorem :: ANPROJ_8:20
+  for p1,p2,p3,q1,q2,q3,r1,r2,r3 being Real holds
+  M = <*<*p1,q1,r1*>,<*p2,q2,r2*>,<*p3,q3,r3*>*> implies
+  M*(1,1) = p1 & M*(1,2) = q1 & M*(1,3) = r1 &
+  M*(2,1) = p2 & M*(2,2) = q2 & M*(2,3) = r2 &
+  M*(3,1) = p3 & M*(3,2) = q3 & M*(3,3) = r3;
+
+theorem :: ANPROJ_8:21
+  M = <*p,q,r*> implies
+  M*(1,1) = p`1 & M*(1,2) = p`2 & M*(1,3) = p`3 &
+  M*(2,1) = q`1 & M*(2,2) = q`2 & M*(2,3) = q`3 &
+  M*(3,1) = r`1 & M*(3,2) = r`2 & M*(3,3) = r`3;
+
+theorem :: ANPROJ_8:22
+  for p1,p2,p3,q1,q2,q3,r1,r2,r3 being Real holds
+  M = <*<*p1,q1,r1*>,<*p2,q2,r2*>,<*p3,q3,r3*>*> implies
+  M@ = <*<*p1,p2,p3*>,<*q1,q2,q3*>,<*r1,r2,r3*>*>;
+
+theorem :: ANPROJ_8:23
+  M = <* p,q,r *> implies
+  M@ = <*<*p`1,q`1,r`1*>,<*p`2,q`2,r`2*>,<*p`3,q`3,r`3*>*>;
+
+theorem :: ANPROJ_8:24
+  lines M = {Line(M,1),Line(M,2),Line(M,3)};
+
+theorem :: ANPROJ_8:25
+  M = <*<*p`1,p`2,p`3*>,<*q`1,q`2,q`3*>,<*r`1,r`2,r`3*>*> implies
+  Line(M,1) = p & Line(M,2) = q & Line(M,3) = r;
+
+theorem :: ANPROJ_8:26
+  for x be object holds x in lines M@ iff
+  ex i be Nat st i in Seg 3 & x = Col(M,i);
+
+begin :: Grassman-Pl\{?}ucker relation
+
+theorem :: ANPROJ_8:27
+  |{ p,q,r }| = p`1 * q`2 * r`3 - p`3*q`2*r`1 - p`1*q`3*r`2 + p`2*q`3*r`1 -
+    p`2*q`1*r`3 + p`3*q`1*r`2;
+
+::$N Grassmann-Pl\{?}ucker-Relation in rank 3
+theorem :: ANPROJ_8:28
+  |{p,q,r}| * |{p,s,t}| - |{p,q,s}| * |{p,r,t}| + |{p,q,t}| * |{p,r,s}| = 0;
+
+theorem :: ANPROJ_8:29
+  |{ p,q,r }| = - |{ p,r,q }|;
+
+theorem :: ANPROJ_8:30
+  |{ p,q,r }| = - |{ q,p,r }|;
+
+theorem :: ANPROJ_8:31
+  |{ a * p, q, r }| = a * |{ p, q, r }|;
+
+theorem :: ANPROJ_8:32
+  |{ p, a * q, r }| = a * |{ p, q, r }|;
+
+theorem :: ANPROJ_8:33
+  |{ p, q, a * r }| = a * |{ p, q, r }|;
+
+theorem :: ANPROJ_8:34
+  M = <*<*p`1,q`1,r`1*>,<*p`2,q`2,r`2*>,<*p`3,q`3,r`3*>*> implies
+  |{ p,q,r }| = Det M;
+
+theorem :: ANPROJ_8:35
+  M = <*<*p`1,p`2,p`3*>,<*q`1,q`2,q`3*>,<*r`1,r`2,r`3*>*> implies
+  |{ p,q,r }| = Det M;
+
+theorem :: ANPROJ_8:36
+  for M being Matrix of k,F_Real holds
+  Det M = 0.F_Real iff the_rank_of M < k;
+
+theorem :: ANPROJ_8:37
+  for M being Matrix of k,F_Real holds
+  the_rank_of M < k iff
+  lines M is linearly-dependent or not M is without_repeated_line;
+
+theorem :: ANPROJ_8:38
+  for M being Matrix of k,m,F_Real holds
+  Mx2Tran M is Function of RLSp2RVSp(TOP-REAL k),RLSp2RVSp(TOP-REAL m);
+
+theorem :: ANPROJ_8:39
+  for M being Matrix of k,F_Real holds
+  Mx2Tran M is linear-transformation of
+  RLSp2RVSp(TOP-REAL k),RLSp2RVSp(TOP-REAL k);
+
+theorem :: ANPROJ_8:40
+  M = <*<*p`1,p`2,p`3*>,<*q`1,q`2,q`3*>,<*r`1,r`2,r`3*>*> &
+  the_rank_of M < 3 implies ex a,b,c st a*p + b*q + c*r = 0.(TOP-REAL 3) &
+  (a<>0 or b<>0 or c <>0);
+
+theorem :: ANPROJ_8:41
+  (a*p + b*q + c*r = 0.(TOP-REAL 3) & (a <> 0 or b <> 0 or c <> 0))
+  implies |{p,q,r}| = 0;
+
+theorem :: ANPROJ_8:42
+  |{p,q,r}| = 0 implies ex a,b,c st a*p + b*q + c*r = 0.(TOP-REAL 3) &
+  (a<>0 or b<>0 or c <>0);
+
+theorem :: ANPROJ_8:43
+  p,q,r are_LinDep iff |{p,q,r}| = 0;
+
+begin :: Some properties about the cross product
+
+theorem :: ANPROJ_8:44
+  |(p,p <X> q)| = 0;
+
+theorem :: ANPROJ_8:45
+  |(p,q <X> p)| = 0;
+
+theorem :: ANPROJ_8:46
+  |{ o, p, (o <X> p) <X> (q <X> r) }| = 0 &
+  |{ q, r, (o <X> p) <X> (q <X> r) }| = 0;
+
+theorem :: ANPROJ_8:47
+  o,p, (o <X> p) <X> (q <X> r) are_LinDep &
+  q,r, (o <X> p) <X> (q <X> r) are_LinDep;
+
+theorem :: ANPROJ_8:48
+  0.TOP-REAL 3 <X> p = 0.TOP-REAL 3 & p <X> 0.TOP-REAL 3 = 0.TOP-REAL 3;
+
+theorem :: ANPROJ_8:49
+  |{p,q,0.TOP-REAL 3}| = 0;
+
+theorem :: ANPROJ_8:50
+  p <X> q = 0.TOP-REAL 3 & r = |[1,1,1]| implies p,q,r are_LinDep;
+
+theorem :: ANPROJ_8:51
+  p is not zero & q is not zero &
+  p <X> q = 0.TOP-REAL 3 implies are_Prop p,q;
+
+theorem :: ANPROJ_8:52
+  for p,q,r,s be non zero Point of TOP-REAL 3 st
+  (p <X> q) <X> (r <X> s) is zero holds
+  are_Prop p,q or are_Prop r,s or are_Prop p <X> q,r <X> s;
+
+theorem :: ANPROJ_8:53
+  |{ p, q, p <X> q }| = |(q,q)| * |(p,p)| - |(q,p)| * |(p,q)|;
+
+theorem :: ANPROJ_8:54
+  |(p <X> q, p <X> q)| = |(q,q)| * |(p,p)| - |(q,p)| * |(p,q)|;
+
+theorem :: ANPROJ_8:55
+  p is non zero & |(p,q)| = 0 & |(p,r)| = 0 & |(p,s)| = 0 implies |{q,r,s}| = 0
+;
+
+theorem :: ANPROJ_8:56
+  |{ p, q, p <X> q }| = |. p <X> q .|^2;
+
+theorem :: ANPROJ_8:57
+  ProjectiveSpace TOP-REAL 3 is CollProjectivePlane;
+
+begin :: Real projective plane and homography
+
+theorem :: ANPROJ_8:58
+  for u,v,w,x being Element of TOP-REAL 3 st
+  u is not zero & x is not zero &
+  Dir u = Dir x holds |{u,v,w}| = 0 iff |{x,v,w}| = 0;
+
+theorem :: ANPROJ_8:59
+  for u,v,w,x being Element of TOP-REAL 3 st
+  v is not zero & x is not zero & Dir v = Dir x holds
+  |{u,v,w}| = 0 iff |{u,x,w}| = 0;
+
+theorem :: ANPROJ_8:60
+  for u,v,w,x being Element of TOP-REAL 3 st
+  w is not zero & x is not zero & Dir w = Dir x holds
+  |{u,v,w}| = 0 iff |{u,v,x}| = 0;
+
+theorem :: ANPROJ_8:61
+  (1_Rmatrix(3)).1 = <e1> & (1_Rmatrix(3)).2 = <e2> &
+  (1_Rmatrix(3)).3 = <e3>;
+
+theorem :: ANPROJ_8:62
+  Base_FinSeq(3,1) = <e1> & Base_FinSeq(3,2) = <e2> &
+  Base_FinSeq(3,3) = <e3>;
+
+theorem :: ANPROJ_8:63
+  for pr being FinSequence of D st len pr = 3 holds
+  Col(<*pr*>,1) = <* pr.1 *> &
+  Col(<*pr*>,2) = <* pr.2 *> & Col(<*pr*>,3) = <* pr.3 *>;
+
+theorem :: ANPROJ_8:64
+  Col(<*<e1>*>,1) = <* 1 *> &
+  Col(<*<e1>*>,2) = <* 0 *> &
+  Col(<*<e1>*>,3) = <* 0 *>;
+
+theorem :: ANPROJ_8:65
+  Col(<*<e2>*>,1) = <* 0 *> &
+  Col(<*<e2>*>,2) = <* 1 *> &
+  Col(<*<e2>*>,3) = <* 0 *>;
+
+theorem :: ANPROJ_8:66
+  Col(<*<e3>*>,1) = <* 0 *> &
+  Col(<*<e3>*>,2) = <* 0 *> &
+  Col(<*<e3>*>,3) = <* 1 *>;
+
+theorem :: ANPROJ_8:67
+  Col(1.(F_Real,3),1) = <* 1,0,0 *> &
+  Col(1.(F_Real,3),2) = <* 0,1,0 *> &
+  Col(1.(F_Real,3),3) = <* 0,0,1 *>;
+
+theorem :: ANPROJ_8:68
+  Line(1.(F_Real,3),1) = <* 1,0,0 *> &
+  Line(1.(F_Real,3),2) = <* 0,1,0 *> &
+  Line(1.(F_Real,3),3) = <* 0,0,1 *>;
+
+theorem :: ANPROJ_8:69
+  <*<e1>*>@ = <* <* 1 *>, <* 0 *> , <* 0 *> *> &
+  <*<e2>*>@ = <* <* 0 *>, <* 1 *> , <* 0 *> *> &
+  <*<e3>*>@ = <* <* 0 *>, <* 0 *> , <* 1 *> *>;
+
+reserve pf for FinSequence of D;
+
+theorem :: ANPROJ_8:70
+  for pf being FinSequence of D holds
+  k in dom pf implies <*pf*>*(1,k) = pf.k;
+
+theorem :: ANPROJ_8:71
+  k in dom pf implies Col(<*pf*>,k) = <*pf.k*>;
+
+theorem :: ANPROJ_8:72
+  for pr being Element of REAL 3 st
+  pf = pr holds MXR2MXF ColVec2Mx pr = <*pf*>@;
+
+reserve PQR for Matrix of 3,F_Real;
+
+theorem :: ANPROJ_8:73
+  PQR = <*<*p`1,p`2,p`3*>,<*q`1,q`2,q`3*>,<*r`1,r`2,r`3*>*> implies
+  Line(PQR,1) = p & Line(PQR,2) = q & Line(PQR,3) = r;
+
+theorem :: ANPROJ_8:74
+  PQR = <*<*p`1,p`2,p`3*>,<*q`1,q`2,q`3*>,<*r`1,r`2,r`3*>*> implies
+  Col(PQR,1) = <*p`1,q`1,r`1*> & Col(PQR,2) = <*p`2,q`2,r`2*> &
+  Col(PQR,3) = <*p`3,q`3,r`3*>;
+
+theorem :: ANPROJ_8:75
+  width <*pf*> = len pf;
+
+theorem :: ANPROJ_8:76
+  len pf = 3 implies Line(<*pf*>@,1) = <* pf.1 *> &
+  Line(<*pf*>@,2) = <* pf.2 *> & Line(<*pf*>@,3) = <* pf.3 *>;
+
+theorem :: ANPROJ_8:77
+  len pf = 3 implies <*pf*>@ = <* <* pf.1 *>, <* pf.2 *>, <* pf.3 *> *>;
+
+definition
+  let D;
+  let p be FinSequence of D;
+  assume
+ len p = 3;
+  func F2M p -> FinSequence of 1-tuples_on D equals
+:: ANPROJ_8:def 1
+
+  <* <*p.1*>, <*p.2*> , <*p.3*> *>;
+end;
+
+theorem :: ANPROJ_8:78
+  for p being FinSequence of REAL st len p = 3 holds len F2M p = 3;
+
+theorem :: ANPROJ_8:79
+  for p being FinSequence of REAL st len p = 3 holds
+  p is 3-element FinSequence of REAL;
+
+theorem :: ANPROJ_8:80
+  for p being FinSequence of REAL st p = |[0,0,0]| holds
+  F2M p = <* <* 0 *>, <* 0 *>, <* 0 *> *>;
+
+theorem :: ANPROJ_8:81
+  len pf = 3 implies
+  <* Col(<*pf*>,1), Col(<*pf*>,2), Col(<*pf*>,3) *> = F2M pf;
+
+definition
+   let D;
+   let p be FinSequence of 1-tuples_on D;
+   assume
+ len p = 3;
+   func M2F p -> FinSequence of D equals
+:: ANPROJ_8:def 2
+   <* (p.1).1, (p.2).1, (p.3).1 *>;
+end;
+
+theorem :: ANPROJ_8:82
+  for p being FinSequence of 1-tuples_on REAL st len p = 3 holds
+  M2F p is Point of TOP-REAL 3;
+
+definition
+  let p be FinSequence of 1-tuples_on REAL;
+  let a be Real;
+  assume
+ len p = 3;
+  func a * p -> FinSequence of 1-tuples_on REAL means
+:: ANPROJ_8:def 3
+
+  ex p1,p2,p3 be Real st p1 = (p.1).1 & p2 = (p.2).1 & p3 = (p.3).1 &
+  it = <* <* a * p1 *>, <* a * p2 *> , <* a * p3 *> *>;
+end;
+
+theorem :: ANPROJ_8:83
+  for p being FinSequence of 1-tuples_on REAL st
+  len p = 3 holds M2F (a * p) = a * (M2F p);
+
+theorem :: ANPROJ_8:84
+  for p being FinSequence of 1-tuples_on REAL st len p = 3 holds
+  <* <*(p.1).1*>, <*(p.2).1*> , <*(p.3).1*> *> = p;
+
+theorem :: ANPROJ_8:85
+  for p being FinSequence of 1-tuples_on REAL st len p = 3 holds
+  F2M M2F p = p;
+
+theorem :: ANPROJ_8:86
+  for p being FinSequence of REAL st len p = 3 holds M2F F2M p = p;
+
+theorem :: ANPROJ_8:87
+  <*<e1>*>@ = F2M <e1> & <*<e2>*>@ = F2M <e2> & <*<e3>*>@ = F2M <e3>;
+
+theorem :: ANPROJ_8:88
+  for p being FinSequence of D st len p = 3 holds
+  <*p*>@ = F2M p;
+
+theorem :: ANPROJ_8:89
+  Line(<*pf*>,1) = pf;
+
+theorem :: ANPROJ_8:90
+  for M being Matrix of 3,1,D holds Line(M,1) = <* M*(1,1) *> &
+  Line(M,2) = <* M*(2,1) *> & Line(M,3) = <* M*(3,1) *>;
+
+reserve R for Ring;
+
+theorem :: ANPROJ_8:91
+  for N being Matrix of 3,R
+  for p being FinSequence of R st len p = 3 holds
+  N * (<*p*>@) is (3,1)-size;
+
+theorem :: ANPROJ_8:92
+  for pf being FinSequence of R
+  for N being Matrix of 3,R st
+  len pf = 3 holds
+  Line(N * (<*pf*>@),1) = <* (N * (<*pf*>@))*(1,1) *> &
+  Line(N * (<*pf*>@),2) = <* (N * (<*pf*>@))*(2,1) *> &
+  Line(N * (<*pf*>@),3) = <* (N * (<*pf*>@))*(3,1) *>;
+
+theorem :: ANPROJ_8:93
+  Col(<*pf*>@,1) = pf;
+
+theorem :: ANPROJ_8:94
+  for pf,qf,rf being FinSequence of F_Real st p = pf & q = qf & r = rf &
+  |{p,q,r}| <> 0 holds ex M being Matrix of 3,F_Real st M is invertible &
+  M * pf = F2M <e1> & M * qf = F2M <e2> & M * rf = F2M <e3>;
+
+theorem :: ANPROJ_8:95
+  for pf,qf,rf being FinSequence of F_Real
+  for pt,qt,rt being FinSequence of 1-tuples_on REAL
+  st PQR = <*<*p`1,q`1,r`1*>,<*p`2,q`2,r`2*>,<*p`3,q`3,r`3*>*> &
+  p = pf & q = qf & r = rf &
+  pt = M * pf & qt = M * qf & rt = M * rf
+  holds (M * PQR)@ = <* M2F pt,M2F qt, M2F rt *>;
+
+theorem :: ANPROJ_8:96
+  for pt,qt,rt being FinSequence of 1-tuples_on REAL
+  st M = <* M2F pt,M2F qt,M2F rt*> & Det M = 0 & M2F pt = p &
+  M2F qt = q & M2F rt = r holds |{ p,q,r }| = 0;
+
+theorem :: ANPROJ_8:97
+  for pm,qm,rm being Point of TOP-REAL 3
+  for pt,qt,rt being FinSequence of 1-tuples_on REAL
+  for pf,qf,rf being FinSequence of F_Real st
+  M is invertible &
+  p = pf & q = qf & r = rf &
+  pt = M * pf & qt = M * qf & rt = M * rf &
+  M2F pt = pm & M2F qt = qm & M2F rt = rm holds
+  |{ p,q,r }| = 0 iff |{ pm,qm,rm }| = 0;
+
+theorem :: ANPROJ_8:98
+  0 < m implies
+  for M being Matrix of m,1,F_Real holds M is FinSequence of 1-tuples_on REAL;
+
+theorem :: ANPROJ_8:99
+  for uf being FinSequence of F_Real st len uf = 3 holds
+  <*uf*>@ = 1.(F_Real,3) * (<*uf*>@);
+
+theorem :: ANPROJ_8:100
+  for u being Element of TOP-REAL 3
+  for uf being FinSequence of F_Real
+  st u = uf & <*uf*>@ = <* <* 0 *>, <* 0 *>, <* 0 *> *>
+  holds u = 0.TOP-REAL 3;
+
+theorem :: ANPROJ_8:101
+  for N being invertible Matrix of 3,F_Real
+  for u,mu being Element of TOP-REAL 3
+  for uf being FinSequence of F_Real
+  for ut being FinSequence of 1-tuples_on REAL st
+  u is non zero & u = uf & ut = N * uf & mu = M2F ut holds
+  mu is non zero;
+
+definition
+  let N be invertible Matrix of 3,F_Real;
+  func homography(N) -> Function of ProjectiveSpace TOP-REAL 3,
+    ProjectiveSpace TOP-REAL 3 means
+:: ANPROJ_8:def 4
+
+  for x being Point of ProjectiveSpace TOP-REAL 3 holds
+  ex u,v being Element of TOP-REAL 3,
+     uf being FinSequence of F_Real,
+     p being FinSequence of 1-tuples_on REAL
+  st x = Dir u & u is not zero & u = uf & p = N * uf & v = M2F p &
+     v is not zero & it.x = Dir v;
+end;
+
+theorem :: ANPROJ_8:102
+  for N being invertible Matrix of 3,F_Real
+  for p,q,r being Point of ProjectiveSpace TOP-REAL 3 holds
+  p,q,r are_collinear iff
+  homography(N).p, homography(N).q, homography(N).r are_collinear;

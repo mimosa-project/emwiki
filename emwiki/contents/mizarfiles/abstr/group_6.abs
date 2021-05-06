@@ -1,0 +1,542 @@
+:: Homomorphisms and Isomorphisms of Groups. Quotient Group
+::  by Wojciech A. Trybulec and Micha{\l} J. Trybulec
+::
+:: Received October 3, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, FUNCT_1, SUBSET_1, GROUP_1, GROUP_2, PRE_TOPC, RLSUB_1,
+      NUMBERS, INT_1, STRUCT_0, RELAT_1, TARSKI, NEWTON, XXREAL_1, GROUP_4,
+      GROUP_5, ALGSTR_0, NATTRA_1, ZFMISC_1, CARD_1, FINSET_1, BINOP_1,
+      QC_LANG1, CQC_SIM1, REALSET1, MSSUBFAM, FUNCOP_1, ARYTM_3, XXREAL_0,
+      COMPLEX1, FUNCT_2, WELLORD1, EQREL_1, GROUP_6, NAT_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, REALSET1, CARD_1, ORDINAL1,
+      NUMBERS, XXREAL_0, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2,
+      FUNCOP_1, FINSET_1, BINOP_1, INT_1, STRUCT_0, ALGSTR_0, GROUP_1, GROUP_2,
+      GROUP_3, NAT_1, GROUP_4, GROUP_5, INT_2;
+ constructors RELAT_2, PARTFUN1, BINOP_1, FUNCOP_1, FINSUB_1, XXREAL_0, NAT_1,
+      REAL_1, INT_2, REALSET2, GROUP_4, GROUP_5, RELSET_1, BINOP_2;
+ registrations FUNCT_1, PARTFUN1, FUNCT_2, FINSET_1, XREAL_0, INT_1, STRUCT_0,
+      GROUP_1, GROUP_2, GROUP_3, ORDINAL1, RELSET_1;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin
+
+theorem :: GROUP_6:1
+  for A,B being non empty set, f being Function of A,B holds f is
+  one-to-one iff for a,b being Element of A st f.a = f.b holds a = b;
+
+definition
+  let G be Group, A be Subgroup of G;
+  redefine mode Subgroup of A -> Subgroup of G;
+end;
+
+registration
+  let G be Group;
+  cluster (1).G -> normal;
+  cluster (Omega).G -> normal;
+end;
+
+reserve n for Element of NAT;
+reserve i for Integer;
+reserve G,H,I for Group;
+reserve A,B for Subgroup of G;
+reserve N for normal Subgroup of G;
+reserve a,a1,a2,a3,b,b1 for Element of G;
+reserve c,d for Element of H;
+reserve f for Function of the carrier of G, the carrier of H;
+reserve x,y,y1,y2,z for set;
+reserve A1,A2 for Subset of G;
+
+theorem :: GROUP_6:2
+  for X being Subgroup of A, x being Element of A st x = a holds x
+  * X = a * (X qua Subgroup of G) & X * x = (X qua Subgroup of G) * a;
+
+theorem :: GROUP_6:3
+  for X,Y being Subgroup of A holds (X qua Subgroup of G) /\ (Y qua
+  Subgroup of G) = X /\ Y;
+
+theorem :: GROUP_6:4
+  a * b * a" = b |^ a" & a * (b * a") = b |^ a";
+
+theorem :: GROUP_6:5
+  a * A * A = a * A & a * (A * A) = a * A & A * A * a = A * a & A *
+  (A * a) = A *a;
+
+theorem :: GROUP_6:6
+  for G being Group, A1 being Subset of G holds A1 = the set of all
+[.a,b.] where
+  a is Element of G, b is Element of G  implies G` = gr A1;
+
+theorem :: GROUP_6:7
+  for G being strict Group, B being strict Subgroup of G holds G`
+  is Subgroup of B iff for a,b being Element of G holds [.a,b.] in B;
+
+theorem :: GROUP_6:8
+  for N being normal Subgroup of G holds N is Subgroup of B implies
+  N is normal Subgroup of B;
+
+definition
+  let G,B;
+  let M be normal Subgroup of G;
+  assume
+ the multMagma of M is Subgroup of B;
+  func (B,M)`*` -> strict normal Subgroup of B equals
+:: GROUP_6:def 1
+
+  the multMagma of
+  M;
+end;
+
+theorem :: GROUP_6:9
+  B /\ N is normal Subgroup of B & N /\ B is normal Subgroup of B;
+
+definition
+  let G,B;
+  let N be normal Subgroup of G;
+  redefine func B /\ N -> strict normal Subgroup of B;
+end;
+
+definition
+  let G;
+  let N be normal Subgroup of G;
+  let B;
+  redefine func N /\ B -> strict normal Subgroup of B;
+end;
+
+definition
+  let G be non empty 1-sorted;
+  redefine attr G is trivial means
+:: GROUP_6:def 2
+
+  ex x being object st the carrier of G = {x};
+end;
+
+theorem :: GROUP_6:10
+  (1).G is trivial;
+
+registration
+  let G;
+  cluster (1).G -> trivial;
+end;
+
+registration
+  cluster strict trivial for Group;
+end;
+
+theorem :: GROUP_6:11
+  (for G being trivial Group holds card G = 1 & G is finite) & for
+  G being finite Group st card G = 1 holds G is trivial;
+
+theorem :: GROUP_6:12
+  for G being strict trivial Group holds (1).G = G;
+
+notation
+  let G,N;
+  synonym Cosets N for Left_Cosets N;
+end;
+
+registration
+  let G,N;
+  cluster Cosets N -> non empty;
+end;
+
+theorem :: GROUP_6:13
+  for x being object holds
+  for N being normal Subgroup of G holds x in Cosets N implies ex
+  a st x = a * N & x = N * a;
+
+theorem :: GROUP_6:14
+  for N being normal Subgroup of G holds a * N in Cosets N & N * a in Cosets N;
+
+theorem :: GROUP_6:15
+  for N being normal Subgroup of G holds x in Cosets N implies x
+  is Subset of G;
+
+theorem :: GROUP_6:16
+  for N being normal Subgroup of G holds A1 in Cosets N & A2 in
+  Cosets N implies A1 * A2 in Cosets N;
+
+definition
+  let G;
+  let N be normal Subgroup of G;
+  func CosOp N -> BinOp of Cosets N means
+:: GROUP_6:def 3
+
+  for W1,W2 being Element of
+  Cosets N for A1,A2 st W1 = A1 & W2 = A2 holds it.(W1,W2) = A1 * A2;
+end;
+
+definition
+  let G;
+  let N be normal Subgroup of G;
+  func G./.N -> multMagma equals
+:: GROUP_6:def 4
+  multMagma (# Cosets N, CosOp N #);
+end;
+
+registration
+  let G;
+  let N be normal Subgroup of G;
+  cluster G./.N -> strict non empty;
+end;
+
+theorem :: GROUP_6:17
+  for N being normal Subgroup of G holds the carrier of G./.N = Cosets N;
+
+theorem :: GROUP_6:18
+  for N being normal Subgroup of G holds the multF of G./.N = CosOp N;
+
+reserve N for normal Subgroup of G;
+reserve S,T1,T2 for Element of G./.N;
+
+definition
+  let G,N,S;
+  func @S -> Subset of G equals
+:: GROUP_6:def 5
+  S;
+end;
+
+theorem :: GROUP_6:19
+  for N being normal Subgroup of G, T1,T2 being Element of G./.N holds @
+  T1 * @T2 = T1 * T2;
+
+theorem :: GROUP_6:20
+  @(T1 * T2) = @T1 * @T2;
+
+registration
+  let G;
+  let N be normal Subgroup of G;
+  cluster G./.N -> associative Group-like;
+end;
+
+theorem :: GROUP_6:21
+  for N being normal Subgroup of G, S being Element of G./.N
+  ex a st S = a * N & S = N * a;
+
+theorem :: GROUP_6:22
+  N * a is Element of G./.N & a * N is Element of G./.N &
+  carr N is Element of G./.N;
+
+theorem :: GROUP_6:23
+  for x being object holds
+  for N being normal Subgroup of G holds x in G./.N iff
+  ex a st x = a * N & x = N * a;
+
+theorem :: GROUP_6:24
+  for N being normal Subgroup of G holds 1_(G./.N) = carr N;
+
+theorem :: GROUP_6:25
+  for N being normal Subgroup of G, S being Element of G./.N st S
+  = a * N holds S" = a" * N;
+
+theorem :: GROUP_6:26
+  for N being normal Subgroup of G holds card(G./.N) = Index N;
+
+theorem :: GROUP_6:27
+  for N being normal Subgroup of G holds Left_Cosets N is finite implies
+  card(G./.N) = index N;
+
+theorem :: GROUP_6:28
+  for M being strict normal Subgroup of G holds M is Subgroup of B
+  implies B./.(B,M)`*` is Subgroup of G./.M;
+
+theorem :: GROUP_6:29
+  for N,M being strict normal Subgroup of G holds M is Subgroup of N
+  implies N./.(N,M)`*` is normal Subgroup of G./.M;
+
+theorem :: GROUP_6:30
+  for G being strict Group, N be strict normal Subgroup of G holds G./.N
+  is commutative Group iff G` is Subgroup of N;
+
+definition
+  let G, H be non empty multMagma;
+  let f be Function of G, H;
+  attr f is multiplicative means
+:: GROUP_6:def 6
+
+  for a, b being Element of G holds f.(a * b) = f.a * f.b;
+end;
+
+registration
+  let G, H be unital non empty multMagma;
+  cluster multiplicative for Function of G, H;
+end;
+
+definition
+  let G,H;
+  mode Homomorphism of G,H is multiplicative Function of G, H;
+end;
+
+reserve g,h for Homomorphism of G,H;
+reserve h1 for Homomorphism of H,I;
+
+theorem :: GROUP_6:31
+  g.(1_G) = 1_H;
+
+registration
+  let G,H;
+  cluster -> unity-preserving for Homomorphism of G,H;
+end;
+
+theorem :: GROUP_6:32
+  g.(a") = (g.a)";
+
+theorem :: GROUP_6:33
+  g.(a |^ b) = (g.a) |^ (g.b);
+
+theorem :: GROUP_6:34
+  g. [.a,b.] = [.g.a,g.b.];
+
+theorem :: GROUP_6:35
+  g. [.a1,a2,a3.] = [.g.a1,g.a2,g.a3.];
+
+theorem :: GROUP_6:36
+  g.(a |^ n) = (g.a) |^ n;
+
+theorem :: GROUP_6:37
+  g.(a |^ i) = (g.a) |^ i;
+
+theorem :: GROUP_6:38
+  for G being non empty multMagma holds
+  id the carrier of G is multiplicative;
+
+theorem :: GROUP_6:39
+  for G,H,I being unital non empty multMagma,
+      h being multiplicative Function of G,H,
+      h1 being multiplicative Function of H,I holds
+  h1 * h is multiplicative;
+
+registration
+  let G,H,I be unital non empty multMagma,
+      h be multiplicative Function of G,H,
+      h1 be multiplicative Function of H,I;
+  cluster h1 * h -> multiplicative for Function of G,I;
+end;
+
+definition
+  let G,H be non empty multMagma;
+  func 1:(G,H) -> Function of G,H equals
+:: GROUP_6:def 7
+  G --> 1_H;
+end;
+
+registration
+  let G,H be unital non empty multMagma;
+  cluster 1:(G,H) -> multiplicative;
+end;
+
+theorem :: GROUP_6:40
+  h1 * 1:(G,H) = 1:(G,I) & 1:(H,I) * h = 1:(G,I);
+
+definition
+  let G;
+  let N be normal Subgroup of G;
+  func nat_hom N -> Function of G,G./.N means
+:: GROUP_6:def 8
+
+  for a holds it.a = a * N;
+end;
+
+registration
+  let G;
+  let N be normal Subgroup of G;
+  cluster nat_hom N -> multiplicative;
+end;
+
+definition
+  let G,H,g;
+  func Ker g -> strict Subgroup of G means
+:: GROUP_6:def 9
+
+  the carrier of it = {a : g. a = 1_H};
+end;
+
+registration
+  let G,H,g;
+  cluster Ker g -> normal;
+end;
+
+theorem :: GROUP_6:41
+  a in Ker h iff h.a = 1_H;
+
+theorem :: GROUP_6:42
+  for G,H being strict Group holds Ker 1:(G,H) = G;
+
+theorem :: GROUP_6:43
+  for N being strict normal Subgroup of G holds Ker nat_hom N = N;
+
+definition
+  let G,H,g;
+  func Image g -> strict Subgroup of H means
+:: GROUP_6:def 10
+
+  the carrier of it = g .: (the carrier of G);
+end;
+
+theorem :: GROUP_6:44
+  rng g = the carrier of Image g;
+
+theorem :: GROUP_6:45
+ for x being object holds x in Image g iff ex a st x = g.a;
+
+theorem :: GROUP_6:46
+  Image g = gr rng g;
+
+theorem :: GROUP_6:47
+  Image 1:(G,H) = (1).H;
+
+theorem :: GROUP_6:48
+  for N being normal Subgroup of G holds Image nat_hom N = G./.N;
+
+theorem :: GROUP_6:49
+  h is Homomorphism of G,Image h;
+
+theorem :: GROUP_6:50
+  G is finite implies Image g is finite;
+
+registration
+  let G be finite Group;
+  let H be Group;
+  let g be Homomorphism of G,H;
+  cluster Image g -> finite;
+end;
+
+theorem :: GROUP_6:51
+  G is commutative Group implies Image g is commutative;
+
+theorem :: GROUP_6:52
+  card Image g c= card G;
+
+theorem :: GROUP_6:53
+  for G being finite Group, H being Group, g being Homomorphism of G,H
+  holds card Image g <= card G;
+
+theorem :: GROUP_6:54
+  h is one-to-one & c in Image h implies h.(h".c) = c;
+
+theorem :: GROUP_6:55
+  h is one-to-one implies h" is Homomorphism of Image h,G;
+
+theorem :: GROUP_6:56
+  h is one-to-one iff Ker h = (1).G;
+
+theorem :: GROUP_6:57
+  for H being strict Group, h being Homomorphism of G,H holds
+  h is onto iff Image h = H;
+
+theorem :: GROUP_6:58
+  for G,H being non empty set, h being Function of G,H st
+  h is onto for c being Element of H ex a being Element of G st h.a = c;
+
+theorem :: GROUP_6:59
+  for N being normal Subgroup of G holds nat_hom N is onto;
+
+theorem :: GROUP_6:60
+  for G,H being set for h being Function of G,H holds
+  h is bijective iff rng h = H & h is one-to-one;
+
+theorem :: GROUP_6:61
+  for G being set, H being non empty set for h being Function of G,H holds
+  h is bijective implies dom h = G & rng h = H;
+
+theorem :: GROUP_6:62
+  for H being Group, h being Homomorphism of G,H st
+  h is bijective holds h" is Homomorphism of H,G;
+
+theorem :: GROUP_6:63
+  for G being set, H being non empty set for h being Function of G,H holds
+  for g1 being Function of H,G holds
+  h is bijective & g1 = h" implies g1 is bijective;
+
+theorem :: GROUP_6:64
+  for G being set, H,I being non empty set for h being Function of G,H holds
+  for h1 being Function of H,I holds
+  h is bijective & h1 is bijective implies h1 * h is bijective;
+
+theorem :: GROUP_6:65
+  for G being Group holds nat_hom (1).G is bijective;
+
+definition
+  let G,H;
+  pred G,H are_isomorphic means
+:: GROUP_6:def 11
+
+  ex h st h is bijective;
+  reflexivity;
+end;
+
+theorem :: GROUP_6:66
+  for G,H being Group holds G,H are_isomorphic implies
+  H,G are_isomorphic;
+
+definition
+  let G,H be Group;
+  redefine pred G,H are_isomorphic;
+  symmetry;
+end;
+
+theorem :: GROUP_6:67
+  G,H are_isomorphic & H,I are_isomorphic implies G,I are_isomorphic;
+
+theorem :: GROUP_6:68
+  h is one-to-one implies G,Image h are_isomorphic;
+
+theorem :: GROUP_6:69
+  for G,H being strict Group holds G is trivial & H is trivial
+  implies G,H are_isomorphic;
+
+theorem :: GROUP_6:70
+  (1).G,(1).H are_isomorphic;
+
+theorem :: GROUP_6:71
+  for G being Group holds G,G./.(1).G are_isomorphic;
+
+theorem :: GROUP_6:72
+  for G being Group holds G./.(Omega).G is trivial;
+
+theorem :: GROUP_6:73
+  for G,H being strict Group holds G,H are_isomorphic implies card G = card H;
+
+theorem :: GROUP_6:74
+  G,H are_isomorphic & G is finite implies H is finite;
+
+theorem :: GROUP_6:75
+  for G,H being strict Group holds G,H are_isomorphic implies card G = card H;
+
+theorem :: GROUP_6:76
+  for G being strict trivial Group, H being strict Group holds
+  G,H are_isomorphic implies H is trivial;
+
+theorem :: GROUP_6:77
+  for H being Group st G,H are_isomorphic & G is commutative
+  holds H is commutative;
+
+theorem :: GROUP_6:78
+  G./.Ker g, Image g are_isomorphic;
+
+::$N First isomorphism theorem for groups
+theorem :: GROUP_6:79
+  ex h being Homomorphism of G./.Ker g,Image g st h is bijective & g = h
+  * nat_hom Ker g;
+
+::$N Third isomorphism theorem for groups
+theorem :: GROUP_6:80
+  for M being strict normal Subgroup of G for J being strict normal
+Subgroup of G./.M st J = N./.(N,M)`*` & M is Subgroup of N holds (G./.M)./.J,G
+  ./.N are_isomorphic;
+
+::$N Second isomorphism theorem for groups
+theorem :: GROUP_6:81
+  for N being strict normal Subgroup of G holds (B "\/" N)./.(B "\/" N,N
+  )`*`, B./.(B /\ N) are_isomorphic;

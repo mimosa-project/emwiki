@@ -1,0 +1,359 @@
+:: The Properties of Instructions of { \bf SCM } over Ring
+::  by Artur Korni{\l}owicz
+::
+:: Received April 14, 2000
+:: Copyright (c) 2000-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FUNCSDOM, SUBSET_1, AMI_3, AMI_1, FSM_1, STRUCT_0,
+      AMI_2, TARSKI, ZFMISC_1, RELAT_1, FUNCOP_1, XBOOLE_0, CAT_1, FUNCT_1,
+      CARD_1, GRAPHSP, FINSEQ_1, AMISTD_2, CARD_3, AMISTD_1, CIRCUIT2, FUNCT_4,
+      SETFAM_1, SUPINF_2, ARYTM_3, XXREAL_0, GOBOARD5, ARYTM_1, GROUP_1,
+      FRECHET, PARTFUN1, COMPOS_1, NAT_1, GOBRD13, MEMSTR_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ENUMSET1, XTUPLE_0, MCART_1, SETFAM_1,
+      RELAT_1, FUNCT_1, XXREAL_0, VALUED_1, STRUCT_0, ALGSTR_0, VECTSP_1,
+      ORDINAL1, CARD_1, NUMBERS, XCMPLX_0, NAT_1, FUNCOP_1, FINSEQ_1, PARTFUN1,
+      FUNCT_4, CARD_3, FUNCT_7, GROUP_1, MEMSTR_0, COMPOS_0, COMPOS_1,
+      EXTPRO_1, AMI_2, AMI_3, SCMRING1, SCMRING2, AMISTD_1, AMISTD_2, SCMRINGI;
+ constructors FINSEQ_4, REALSET2, AMI_3, SCMRING2, AMISTD_2, RELSET_1,
+      AMISTD_1, FUNCT_7, PRE_POLY, SCMRING1, XTUPLE_0;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, XREAL_0, CARD_3,
+      STRUCT_0, VECTSP_1, FINSET_1, AMI_3, SCMRING2, AMISTD_2, FUNCT_4,
+      VALUED_0, EXTPRO_1, NAT_1, FUNCT_7, PRE_POLY, MEMSTR_0, CARD_1, COMPOS_0,
+      XTUPLE_0, FINSEQ_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve R for Ring,
+  r for Element of R,
+  a, b, d1, d2 for Data-Location of R,
+  il, i1, i2 for Nat,
+  I for Instruction of SCM R,
+  s,s1, s2 for State of SCM R,
+  T for InsType of the InstructionsF of SCM R,
+  k for Nat;
+
+theorem :: SCMRING3:1
+  Values a = the carrier of R;
+
+definition
+  let R be Ring;
+  let la, lb be Data-Location of R;
+  let a, b be Element of R;
+  redefine func (la,lb) --> (a,b) -> FinPartState of SCM R;
+end;
+
+theorem :: SCMRING3:2
+  a <> IC SCM R;
+
+theorem :: SCMRING3:3
+  for o being Object of SCM R
+   holds o = IC SCM R or o is Data-Location of R;
+
+::$CT
+
+theorem :: SCMRING3:5
+  InsCode (a:=b) = 1;
+
+theorem :: SCMRING3:6
+  InsCode AddTo(a,b) = 2;
+
+theorem :: SCMRING3:7
+  InsCode SubFrom(a,b) = 3;
+
+theorem :: SCMRING3:8
+  InsCode MultBy(a,b) = 4;
+
+theorem :: SCMRING3:9
+  InsCode (a:=r) = 5;
+
+theorem :: SCMRING3:10
+  InsCode goto(i1,R) = 6;
+
+theorem :: SCMRING3:11
+  InsCode (a=0_goto i1) = 7;
+
+theorem :: SCMRING3:12
+  InsCode I = 0 implies I = halt SCM R;
+
+theorem :: SCMRING3:13
+  InsCode I = 1 implies ex a, b st I = a:=b;
+
+theorem :: SCMRING3:14
+  InsCode I = 2 implies ex a, b st I = AddTo(a,b);
+
+theorem :: SCMRING3:15
+  InsCode I = 3 implies ex a, b st I = SubFrom(a,b);
+
+theorem :: SCMRING3:16
+  InsCode I = 4 implies ex a, b st I = MultBy(a,b);
+
+theorem :: SCMRING3:17
+  InsCode I = 5 implies ex a, r st I = a:=r;
+
+theorem :: SCMRING3:18
+  InsCode I = 6 implies ex i2 st I = goto(i2,R);
+
+theorem :: SCMRING3:19
+  InsCode I = 7 implies ex a, i1 st I = a=0_goto i1;
+
+theorem :: SCMRING3:20
+  T = 0 implies JumpParts T = {0};
+
+theorem :: SCMRING3:21
+  T = 1 implies JumpParts T = {{}};
+
+theorem :: SCMRING3:22
+  T = 2 implies JumpParts T = {{}};
+
+theorem :: SCMRING3:23
+  T = 3 implies JumpParts T = {{}};
+
+theorem :: SCMRING3:24
+  T = 4 implies JumpParts T = {{}};
+
+theorem :: SCMRING3:25
+  T = 5 implies JumpParts T = {{}};
+
+theorem :: SCMRING3:26
+  T = 6 implies dom product" JumpParts T = {1};
+
+theorem :: SCMRING3:27
+  T = 7 implies dom product" JumpParts T = {1};
+
+theorem :: SCMRING3:28
+  (product" JumpParts InsCode goto(i1,R)).1 = NAT;
+
+theorem :: SCMRING3:29
+  (product" JumpParts InsCode (a =0_goto i1)).1 = NAT;
+
+registration
+  let R;
+  cluster JUMP halt SCM R -> empty;
+end;
+
+registration
+  let R, a, b;
+  cluster a:=b -> sequential;
+  cluster AddTo(a,b) -> sequential;
+  cluster SubFrom(a,b) -> sequential;
+  cluster MultBy(a,b) -> sequential;
+end;
+
+registration
+  let R, a, r;
+  cluster a:=r -> sequential;
+end;
+
+registration
+  let R, a, b;
+  cluster JUMP (a := b) -> empty;
+end;
+
+registration
+  let R, a, b;
+  cluster JUMP AddTo(a, b) -> empty;
+end;
+
+registration
+  let R, a, b;
+  cluster JUMP SubFrom(a, b) -> empty;
+end;
+
+registration
+  let R, a, b;
+  cluster JUMP MultBy(a,b) -> empty;
+end;
+
+registration
+  let R, a, r;
+  cluster JUMP (a := r) -> empty;
+end;
+
+theorem :: SCMRING3:30
+  NIC(goto(i1,R), il) = {i1};
+
+theorem :: SCMRING3:31
+  JUMP goto(i1,R) = {i1};
+
+registration
+  let R, i1;
+  cluster JUMP goto(i1,R) -> 1-element;
+end;
+
+theorem :: SCMRING3:32
+  i1 in NIC(a=0_goto i1, il) & NIC(a=0_goto i1, il) c= {i1, il + 1};
+
+theorem :: SCMRING3:33
+  for R being non trivial Ring, a being Data-Location of R, il, i1
+being Element of NAT holds NIC(a=0_goto i1, il) = {i1, il + 1};
+
+theorem :: SCMRING3:34
+  JUMP (a=0_goto i1) = {i1};
+
+registration
+  let R, a, i1;
+  cluster JUMP (a =0_goto i1) -> 1-element;
+end;
+
+theorem :: SCMRING3:35
+  SUCC(il,SCM R) = {il, il + 1};
+
+theorem :: SCMRING3:36
+for k being Nat holds k+1 in SUCC(k,SCM R) &
+ for j being Nat st j in SUCC(k,SCM R) holds k <= j;
+
+registration
+  let R;
+  cluster SCM R -> standard;
+end;
+
+definition
+  let R be Ring, k be Nat;
+  func dl.(R,k) -> Data-Location of R equals
+:: SCMRING3:def 1
+  dl.k;
+end;
+
+registration
+  let R;
+  cluster InsCode halt SCM R -> jump-only
+  for InsType of the InstructionsF of SCM R;
+end;
+
+registration
+  let R;
+  cluster halt SCM R -> jump-only;
+end;
+
+registration
+  let R, i1;
+  cluster InsCode goto(i1,R) -> jump-only
+  for InsType of the InstructionsF of SCM R;
+end;
+
+registration
+  let R, i1;
+  cluster goto(i1,R) -> jump-only;
+end;
+
+registration
+  let R, a, i1;
+  cluster InsCode (a =0_goto i1) -> jump-only
+  for InsType of the InstructionsF of SCM R;
+end;
+
+registration
+  let R, a, i1;
+  cluster a =0_goto i1 -> jump-only;
+end;
+
+reserve S for non trivial Ring,
+  p, q for Data-Location of S,
+  w for Element of S;
+
+registration
+  let S, p, q;
+  cluster InsCode (p:=q) -> non jump-only
+  for InsType of the InstructionsF of SCM S;
+end;
+
+registration
+  let S, p, q;
+  cluster p:=q -> non jump-only;
+end;
+
+registration
+  let S, p, q;
+  cluster InsCode AddTo(p,q) -> non jump-only
+  for InsType of the InstructionsF of SCM S;
+end;
+
+registration
+  let S, p, q;
+  cluster AddTo(p, q) -> non jump-only;
+end;
+
+registration
+  let S, p, q;
+  cluster InsCode SubFrom(p,q) -> non jump-only
+  for InsType of the InstructionsF of SCM S;
+end;
+
+registration
+  let S, p, q;
+  cluster SubFrom(p, q) -> non jump-only;
+end;
+
+registration
+  let S, p, q;
+  cluster InsCode MultBy(p,q) -> non jump-only
+  for InsType of the InstructionsF of SCM S;
+end;
+
+registration
+  let S, p, q;
+  cluster MultBy(p, q) -> non jump-only;
+end;
+
+registration
+  let S, p, w;
+  cluster InsCode (p:=w) -> non jump-only
+  for InsType of the InstructionsF of SCM S;
+end;
+
+registration
+  let S, p, w;
+  cluster p:=w -> non jump-only;
+end;
+
+registration
+  let R, i1;
+  cluster goto(i1,R) -> non sequential;
+end;
+
+registration
+  let R, a, i1;
+  cluster a =0_goto i1 -> non sequential;
+end;
+
+registration
+  let R, i1;
+  cluster goto(i1,R) -> non ins-loc-free;
+end;
+
+registration
+  let R, a, i1;
+  cluster a =0_goto i1 -> non ins-loc-free;
+end;
+
+registration
+  let R;
+  cluster SCM R -> with_explicit_jumps;
+end;
+
+theorem :: SCMRING3:37
+  IncAddr(goto(i1,R),k) = goto(i1 + k,R);
+
+theorem :: SCMRING3:38
+  IncAddr(a=0_goto i1,k) = a=0_goto (i1 + k);
+
+registration
+  let R;
+  cluster SCM R -> IC-relocable;
+end;
+
+theorem :: SCMRING3:39
+  InsCode I <= 7;
+

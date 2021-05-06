@@ -1,0 +1,699 @@
+:: Concatenation of Finite Sequences
+::  by Rafa{\l} Ziobro
+:: 
+:: Received February 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, FUNCT_1, NAT_1, TARSKI, ORDINAL1, FINSET_1,
+      RELAT_1, AFINSQ_1, ARYTM_1, ARYTM_3, FINSEQ_1, XXREAL_0, CARD_1,
+      XBOOLE_0, ORDINAL4, FINSEQ_5, RFINSEQ, CARD_3, XCMPLX_0, FUNCOP_1,
+      VALUED_0, PRGCOR_2, XREAL_0, SEQ_1, SERIES_1, VALUED_1, SQUARE_1,
+      COMPLEX1, REAL_1, NEWTON, COMSEQ_1, FUNCT_4, RVSUM_4, ASYMPT_1, SEQ_2,
+      BINOP_2, FINSOP_1, SERIES_3, FUNCT_7;
+ notations TARSKI, XBOOLE_0, SUBSET_1, XREAL_0, ORDINAL1, CARD_1, NUMBERS,
+      RELAT_1, FUNCT_1, XCMPLX_0, NAT_1, FINSET_1, XXREAL_0, AFINSQ_1, SEQ_1,
+      VALUED_1, RELSET_1, PARTFUN1, FUNCOP_1, BINOP_1, FINSEQ_1, VALUED_0,
+      SERIES_1, AFINSQ_2, NEWTON, COMSEQ_1, FUNCT_4, RFINSEQ, RVSUM_1,
+      COMSEQ_3, COMSEQ_2, COMPLEX1, BINOP_2, SERIES_3;
+ constructors NAT_D, RELSET_1, AFINSQ_2, REAL_1, FUNCT_4, SQUARE_1, RFINSEQ,
+      RVSUM_1, FOMODEL0, COMSEQ_3, COMSEQ_2, SEQ_1, RVSUM_2, WELLORD2, BINOP_2,
+      SETWISEO, SERIES_3;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCT_2, FINSET_1,
+      NUMBERS, XXREAL_0, XREAL_0, NAT_1, BINOP_2, CARD_1, FINSEQ_1, AFINSQ_1,
+      RELSET_1, ORDINAL3, VALUED_1, VALUED_0, MEMBERED, FINSEQ_2, AFINSQ_2,
+      NEWTON02, NEWTON04, NEWTON, NAT_6, XCMPLX_0, INT_1, FUNCOP_1, FUNCT_4,
+      COMSEQ_3, FOMODEL0, COMPLEX1, RVSUM_1, RFINSEQ, FINSEQ_5, RVSUM_2, SEQ_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+registration
+  let a be Real, b be non negative Real;
+  cluster a -' (a+b) -> zero;
+  reduce (a + b) -' a to b;
+end;
+
+registration
+  let n,m be Nat;
+  identify min(m,n) with n /\ m;
+  identify n/\m with min (m,n);
+  identify n\/m with max (m,n);
+end;
+
+registration
+  let n,m be non negative Real;
+  reduce min (n+m,n) to n;
+  reduce max (n+m,n) to n+m;
+end;
+
+theorem :: RVSUM_4:1
+  for f be Relation, n,m be Nat holds (f|(n+m))|n = f|n;
+
+theorem :: RVSUM_4:2
+  for f be Function, n be Nat, m be non zero Nat holds (f|(n+m)).n = f.n;
+
+registration ::: ORDINAL1?
+  let D be non empty set, x be sequence of D, n be Nat;
+  reduce dom (x|n) to n;
+  cluster x|n -> finite Sequence-like;
+  cluster x|n -> n-element;
+end;
+
+begin :: Complex-Valued Sequences
+
+theorem :: RVSUM_4:3
+  for f,g be complex-valued Function, X be set holds
+    (f(#)g)|X = f|X (#) g|X;
+
+registration let D be non empty set; :::
+  let f,g be sequence of D;
+  cluster f +* g -> Sequence-like;
+end;
+
+registration
+  let f be constant Complex_Sequence, n be Nat;
+  cluster f^\n -> constant;
+end;
+
+registration
+  cluster empty-yielding for Complex_Sequence;
+  cluster empty-yielding for Real_Sequence;
+  cluster empty-yielding -> natural-valued for Complex_Sequence;
+  cluster constant real-valued for Complex_Sequence;
+end;
+
+:: seq <-> FinSeq in DBLSEQ_2:49 -- etc.
+theorem :: RVSUM_4:4 :: DBLSEQ_2:49 -- for FinSequence
+  for s being Real_Sequence, n being Nat holds
+  (Partial_Sums s).n = Sum(s|Segm(n+1));
+
+definition
+  let c be Complex;
+  func seq_const c -> Complex_Sequence equals
+:: RVSUM_4:def 1
+    NAT --> c;
+end;
+
+registration
+  let c be Complex, n be Nat;
+  reduce (seq_const c).n to c;
+end;
+
+theorem :: RVSUM_4:5
+  for f,g be complex-valued Function, X be set holds
+  (f+g)|X = f|X + g|X;
+
+registration
+  let f be 1-element FinSequence;
+  reduce <*f.1*> to f;
+end;
+
+registration
+  let f be 2-element FinSequence;
+  reduce <*f.1,f.2*> to f;
+end;
+
+registration
+  let f be 3-element FinSequence;
+  reduce <*f.1,f.2,f.3*> to f;
+end;
+
+theorem :: RVSUM_4:6
+  for f be complex-valued FinSequence holds Sum f = f.1 + Sum (f/^1);
+
+theorem :: RVSUM_4:7
+  for f be non empty complex-valued FinSequence holds
+    Product f = f.1 * Product (f/^1);
+
+theorem :: RVSUM_4:8
+  for n be Nat, m be non zero Nat, f be (n+m)-element FinSequence holds
+    f|(n+1) = (f|n)^<*f.(n+1)*>;
+
+theorem :: RVSUM_4:9
+  for f be complex-valued FinSequence, n be Nat holds
+    Product f = (Product (f|n)) * (Product (f/^n));
+
+theorem :: RVSUM_4:10
+  for f,g be complex-valued FinSequence holds
+    Product (f^g) = (Product f) * (Product g);
+
+begin :: On Product and Sum of Complex Sequences
+:: FINSOP_1 -- +*
+
+definition :: copied from SERIES_3:def 1
+  let s be Complex_Sequence;
+  func Partial_Product(s) -> Complex_Sequence means
+:: RVSUM_4:def 2
+  it.0 = s.0 & for n be Nat holds it.(n+1) = it.n * s.(n+1);
+end;
+
+theorem :: RVSUM_4:11
+  for f be Complex_Sequence, n be Nat st f.n = 0 holds
+    (Partial_Product f).n = 0;
+
+theorem :: RVSUM_4:12
+  for f be Complex_Sequence, n,m be Nat st f.n = 0 holds
+    (Partial_Product f).(n+m) = 0;
+
+definition
+  let c be Complex, n be non zero Nat;
+  redefine func c|^n equals
+:: RVSUM_4:def 3
+  (Partial_Product (seq_const c)).(n-1);
+end;
+
+theorem :: RVSUM_4:13
+  for n be Nat holds Partial_Product (seq_const 0c).n = 0;
+
+registration
+  let k be Nat;
+  reduce (Partial_Product (seq_const 0)).k to 0;
+end;
+
+registration
+  cluster empty-yielding -> absolutely_summable for Complex_Sequence;
+  cluster empty-yielding -> absolutely_summable for Real_Sequence;
+end;
+
+registration
+  reduce Partial_Sums (NAT --> 0) to (NAT --> 0);
+  reduce Partial_Product (seq_const 0) to (seq_const 0);
+  cluster -> Sequence-like for Complex_Sequence;
+  cluster summable for sequence of COMPLEX;
+end;
+
+registration
+  let seq be empty-yielding Complex_Sequence;
+  cluster Sum seq -> zero;
+end;
+
+registration ::: to RSSPACE
+  let seq be empty-yielding Real_Sequence;
+  cluster Sum seq -> zero;
+end;
+
+begin :: XFinSequences
+
+registration ::: move to AFINSQ_1 and AFINSQ_2
+  let c be Complex;
+  cluster <%c%> -> complex-valued;
+  reduce Sum <%c%> to c;
+end;
+
+registration
+  let n be Nat;
+  cluster n-element for natural-valued XFinSequence;
+  let k be object;
+  cluster (n --> k) -> n-element;
+end;
+
+registration
+  let n be Nat;
+  cluster n-element for XFinSequence;
+  let f be n-element XFinSequence;
+  reduce f|n to f;
+end;
+
+registration
+  let n,m be Nat, f be n-element XFinSequence;
+  reduce f|(n+m) to f;
+end;
+
+registration
+  let f be 1-element XFinSequence;
+  reduce <%f.0%> to f;
+end;
+
+registration
+  let f be 2-element XFinSequence;
+  reduce <%f.0,f.1%> to f;
+end;
+
+registration
+  let f be 3-element XFinSequence;
+  reduce <%f.0,f.1,f.2%> to f;
+end;
+
+:: Segm
+
+theorem :: RVSUM_4:14
+  for n,k be Nat st k in Segm (n+1) holds n - k is Nat;
+
+theorem :: RVSUM_4:15
+  for a,b be Complex, n,k be Nat st k in Segm (n+1)
+   ex c be object, l be Nat st l = n-k & c = a|^l*b|^k;
+
+:: Extending XFinSequence
+
+definition
+  let f be complex-valued XFinSequence, seq be Complex_Sequence;
+  func f^seq -> Complex_Sequence equals
+:: RVSUM_4:def 4
+  f \/ Shift (seq,len f);
+end;
+
+definition :: equivalent to f null g
+  let seq be Complex_Sequence, f be Function;
+  func seq^f -> sequence of COMPLEX equals
+:: RVSUM_4:def 5
+    seq;
+end;
+
+theorem :: RVSUM_4:16
+  for x be object holds
+    x is real-valued Complex_Sequence iff x is Real_Sequence;
+
+theorem :: RVSUM_4:17 ::R2C:
+  for rseq be Real_Sequence, cseq be Complex_Sequence st cseq = rseq
+  holds Partial_Product rseq = Partial_Product cseq;
+
+definition
+  let f be complex-valued XFinSequence, seq be Real_Sequence;
+  func f^seq -> Complex_Sequence equals
+:: RVSUM_4:def 6
+  f \/ Shift (seq,len f);
+end;
+
+theorem :: RVSUM_4:18
+  for rseq be Real_Sequence holds
+    <%>REAL^rseq is real-valued Complex_Sequence;
+
+:: may be used for conversion of Real_Sequences into Complex_Sequences
+
+definition
+  let f be Real_Sequence, g be Function;
+  func f^g -> real-valued sequence of COMPLEX equals
+:: RVSUM_4:def 7
+  f;
+end;
+
+registration
+  let f be complex-valued XFinSequence, seq be Complex_Sequence;
+  reduce (f^seq)|(dom f) to f;
+end;
+
+registration
+  let f be complex-valued XFinSequence, seq be Real_Sequence;
+  reduce (f^seq)|(dom f) to f;
+end;
+
+theorem :: RVSUM_4:19
+  for f be complex-valued XFinSequence, x be Nat holds
+    (f^(seq_const 0)).x = f.x;
+
+theorem :: RVSUM_4:20
+  for f be Real_Sequence holds f^f is real-valued Complex_Sequence;
+
+registration
+  let f be real-valued Complex_Sequence;
+  cluster Im f -> empty-yielding;
+  reduce Re f to f;
+end;
+
+registration
+  cluster empty-yielding for Real_Sequence;
+  cluster -> Sequence-like for Real_Sequence;
+end;
+
+registration
+  let r be Real;
+  cluster Re (r*<i>) -> zero;
+  reduce Im (r*<i>) to r;
+end;
+
+registration
+  let f be complex-valued XFinSequence;
+  cluster Re f -> real-valued finite Sequence-like;
+  cluster Im f -> real-valued finite Sequence-like;
+  cluster Re f -> (len f)-element;
+  cluster Im f -> (len f)-element;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster Re f -> real-valued FinSequence-like;
+  cluster Im f -> real-valued FinSequence-like;
+end;
+
+registration
+  let f be complex-valued Function;
+  reduce Re Re f to Re f;
+  reduce Re(Im f) to Im f;
+  cluster Im(Re f) -> empty-yielding;
+  cluster Im(Im f) -> empty-yielding;
+  reduce Re((Re f) + <i>(#)(Im f)) to Re f;
+  reduce Im((Re f) + <i>(#)(Im f)) to Im f;
+  reduce ((Re f) + <i>(#)(Im f)) to f;
+end;
+
+registration
+  let n be Nat;
+  cluster n-element for finite Function;
+end;
+
+registration
+  let f be finite complex-valued Sequence, n be Nat;
+  cluster Shift (f,n) -> finite;
+  cluster Shift (f,n) -> (len f)-element;
+end;
+
+registration
+  cluster seq_const 0 -> empty-yielding;
+end;
+
+definition
+  let f be complex-valued XFinSequence;
+  func Sequel f -> Complex_Sequence equals
+:: RVSUM_4:def 8
+    (NAT --> 0) +* f;
+end;
+
+theorem :: RVSUM_4:21
+  for f be complex-valued XFinSequence, x be Nat holds (Sequel f).x = f.x;
+
+theorem :: RVSUM_4:22
+  for f be complex-valued XFinSequence holds Sequel f = f^(seq_const 0);
+
+theorem :: RVSUM_4:23
+  for seq be Complex_Sequence holds seq = Re (seq) + <i>(#)Im (seq);
+
+theorem :: RVSUM_4:24
+  for f be complex-valued XFinSequence holds
+   Re (Sequel f) = Sequel (Re f);
+
+theorem :: RVSUM_4:25
+  for f be complex-valued XFinSequence holds
+   Im (Sequel f) = Sequel (Im f);
+
+theorem :: RVSUM_4:26
+  for c be Complex holds 0 (#) (NAT --> c) = NAT --> 0;
+
+theorem :: RVSUM_4:27
+  for seq be Complex_Sequence, x be Nat holds
+  (for k be Nat st k >= x holds seq.k = 0) implies seq is summable;
+
+theorem :: RVSUM_4:28
+  for seq be Real_Sequence, x be Nat holds
+    (for k be Nat st k >= x holds seq.k = 0) implies seq is summable;
+
+registration
+  let f be complex-valued XFinSequence;
+  cluster Sequel f -> summable;
+end;
+
+:: Concatenation of (X)FinSequences
+
+definition
+  let f be XFinSequence, g be FinSequence;
+  func f ^ g -> XFinSequence means
+:: RVSUM_4:def 9
+  dom it = (len f) + (len g) &
+  (for k be Nat st k in dom f holds it.k = f.k) &
+  for k be Nat st k in dom g holds it.(len f + k - 1) = g.k;
+end;
+
+definition
+  let f be FinSequence, g be XFinSequence;
+  func f ^ g -> FinSequence means
+:: RVSUM_4:def 10
+  dom it = Seg ((len f) + (len g)) &
+    (for k be Nat st k in dom f holds it.k = f.k) &
+  for k be Nat st k in dom g holds it.(len f + k + 1) = g.k;
+end;
+
+theorem :: RVSUM_4:29
+  for f be XFinSequence, g be FinSequence holds
+    len (f^g) = len f + len g & len (g^f) = len f + len g;
+
+registration
+  let n,m be Nat;
+  let f be n-element XFinSequence, g be m-element FinSequence;
+  cluster f^g -> (n+m)-element;
+  cluster g^f -> (n+m)-element;
+end;
+
+theorem :: RVSUM_4:30
+  for f be XFinSequence, g be FinSequence, x be Nat holds
+    x in dom (f^g) iff (x in dom f or x + 1 - len f in dom g);
+
+theorem :: RVSUM_4:31
+  for f be FinSequence, g be XFinSequence, x be Nat holds
+  x in dom (f^g) iff (x in dom f or x - (len f + 1) in dom g);
+
+theorem :: RVSUM_4:32
+  for f be FinSequence, g be XFinSequence holds
+  rng (f^g) = rng f \/ rng g & rng (g^f) = rng f \/ rng g;
+
+theorem :: RVSUM_4:33 ::VALUED146:
+  for f be non empty XFinSequence,g be FinSequence holds
+  dom(f \/ (Shift(g,len f - 1))) = Segm (len f + len g);
+
+theorem :: RVSUM_4:34 ::VALUED146:
+  for f be FinSequence,g be XFinSequence holds
+  dom(f \/ (Shift(g,len f + 1))) = Seg (len f + len g);
+
+registration
+  let f be complex-valued FinSequence;
+  cluster <%>COMPLEX^f -> complex-valued;
+end;
+
+registration
+  let f be complex-valued XFinSequence;
+  cluster <*>COMPLEX^f -> complex-valued;
+end;
+
+registration
+  let f be XFinSequence, g be FinSequence;
+  reduce (f^g)|(len f) to f;
+  reduce (g^f)|(len g) to g;
+end;
+
+theorem :: RVSUM_4:35
+  for D be set, f be XFinSequence, g be FinSequence of D holds
+  (f^g)/^(len f) = FS2XFS g;
+
+theorem :: RVSUM_4:36 ::see NEWTON04:2
+  for f be XFinSequence holds
+    f is XFinSequence of rng f \/ {1};
+
+theorem :: RVSUM_4:37
+  for D be set, f be FinSequence, g be XFinSequence of D holds
+    (f^g)/^(len f) = XFS2FS g;
+
+definition
+  let D be set, f be XFinSequence of D;
+  redefine func XFS2FS f equals
+:: RVSUM_4:def 11
+  <*>D ^ f;
+end;
+
+theorem :: RVSUM_4:38
+  for D be set, f be XFinSequence of D holds dom Shift (f,1) = Seg len f;
+
+definition
+  let D be set, f be XFinSequence of D;
+  redefine func XFS2FS f equals
+:: RVSUM_4:def 12
+  Shift (f,1);
+end;
+
+definition
+  let D be set, f be FinSequence of D;
+  redefine func FS2XFS f equals
+:: RVSUM_4:def 13
+  <%>D ^ f;
+end;
+
+theorem :: RVSUM_4:39
+  for D be set, f,g be XFinSequence of D holds f^g = f^(XFS2FS g);
+
+theorem :: RVSUM_4:40
+  for D be set, f,g be FinSequence of D holds f^g = f^(FS2XFS g);
+
+registration
+  let f be XFinSequence of REAL;
+  reduce (Sequel f)|(dom f) to f;
+  cluster Shift (f,1) -> FinSequence-like;
+  cluster (Sequel f)^\(dom f) -> empty-yielding;
+end;
+
+theorem :: RVSUM_4:41
+  for D be set, f be FinSequence of D, g be XFinSequence of D holds
+  f^g = f^(XFS2FS g);
+
+theorem :: RVSUM_4:42
+  for D be set, f be XFinSequence of D, g be FinSequence of D holds
+  f^g = f^(FS2XFS g);
+
+theorem :: RVSUM_4:43
+  for D be set, f,g be FinSequence of D holds
+  FS2XFS (f^g) = (FS2XFS f)^(FS2XFS g);
+
+definition
+  let D be set, f be FinSequence of D, g be XFinSequence of D;
+  redefine func f^g -> FinSequence of D;
+end;
+
+theorem :: RVSUM_4:44
+  for D be set, f be FinSequence of D, g be XFinSequence of D holds
+  FS2XFS (f^g) = (FS2XFS f) ^ g;
+
+theorem :: RVSUM_4:45
+  for D be set, f,g be XFinSequence of D holds
+    XFS2FS (f^g) = (XFS2FS f)^(XFS2FS g);
+
+definition
+  let D be set, f be XFinSequence of D, g be FinSequence of D;
+  redefine func f^g -> XFinSequence of D;
+end;
+
+theorem :: RVSUM_4:46
+  for D be set, f be XFinSequence of D, g be FinSequence of D holds
+    XFS2FS(f^g) = (XFS2FS f)^g;
+
+theorem :: RVSUM_4:47
+   for D be set, f,g be XFinSequence of D, h be FinSequence of D holds
+   (f^g)^h = f^(g^h) & (f^h)^g = f^(h^g) & (h^f)^g = h^(f^g);
+
+:: Sums
+
+theorem :: RVSUM_4:48
+  for f be complex-valued XFinSequence holds Sum (f|1) = f.0;
+
+registration
+  let n,m be Nat, f be (n+m)-element XFinSequence;
+  cluster f|n -> n-element;
+end;
+
+registration :: see AFINSQ_2
+  let n be Nat, p be n-element complex-valued XFinSequence;
+  cluster -p -> n-element;
+  cluster p" -> n-element;
+  cluster p^2 -> n-element;
+  cluster abs p -> n-element;
+  cluster Rev p -> n-element;
+  let m be Nat;
+  let q be (n+m)-element complex-valued XFinSequence;
+  reduce dom p /\ dom q to dom p;
+  cluster p+q -> n-element;
+  cluster p-q -> n-element;
+  cluster p(#)q -> n-element;
+  cluster p/"q -> n-element;
+end;
+
+registration
+  let n be Nat, p,q be n-element complex-valued XFinSequence;
+  cluster p+q -> n-element;
+  cluster p-q -> n-element;
+  cluster p(#)q -> n-element;
+  cluster p/"q -> n-element;
+end;
+
+theorem :: RVSUM_4:49
+  for n be Nat, f1,f2 be n-element complex-valued XFinSequence holds
+  Sum (f1 + f2) = Sum f1 + Sum f2;
+
+theorem :: RVSUM_4:50
+  for c be Complex holds XFS2FS <%c%> = <*c*>;
+
+begin :: Product of XFinSequences
+
+definition
+  let f be XFinSequence;
+  func XProduct f -> Element of COMPLEX equals
+:: RVSUM_4:def 14
+  multcomplex "**" f;
+end;
+
+theorem :: RVSUM_4:51
+  for f be empty XFinSequence holds XProduct f = 1;
+
+registration
+  let c be Complex;
+  reduce XProduct <%c%> to c;
+end;
+
+theorem :: RVSUM_4:52
+  for n be Nat, f be complex-valued XFinSequence st
+    n in dom f holds XProduct (f|n) * f.n = XProduct (f|(n+1));
+
+theorem :: RVSUM_4:53
+  for n be Nat, f be Complex_Sequence holds
+    XProduct (f|n) * f.n = XProduct (f|(n+1));
+
+theorem :: RVSUM_4:54
+  for f be non empty complex-valued XFinSequence holds XProduct (f|1) = f.0;
+
+theorem :: RVSUM_4:55
+  for n be Nat, f1,f2 be n-element complex-valued XFinSequence holds
+    XProduct (f1 (#) f2) = (XProduct f1) * (XProduct f2);
+
+theorem :: RVSUM_4:56
+  for f be Complex_Sequence, n be Nat holds
+    XProduct (f|(n+1)) = (Partial_Product f).n;
+
+theorem :: RVSUM_4:57
+  for f be complex-valued XFinSequence holds Product XFS2FS f = XProduct f;
+
+theorem :: RVSUM_4:58
+  for f be FinSequence of COMPLEX holds XProduct FS2XFS f = Product f;
+
+theorem :: RVSUM_4:59
+  for f be XFinSequence of COMPLEX, g be FinSequence of COMPLEX holds
+  XProduct (f^g) = XProduct f * Product g &
+  Product (g^f) = Product g * XProduct f;
+
+begin :: Sum of XFinSequences
+
+theorem :: RVSUM_4:60
+  for f be XFinSequence of REAL holds Sum XFS2FS f = Sum f;
+
+theorem :: RVSUM_4:61
+  for f be complex-valued XFinSequence holds
+    Sum f = (Sum Re f) + <i>*(Sum Im f);
+
+theorem :: RVSUM_4:62
+  for f be complex-valued Sequence, n be Nat holds
+  Re Shift (f,n) = Shift (Re f,n) & Im Shift (f,n) = Shift (Im f,n);
+
+theorem :: RVSUM_4:63
+  for f be complex-valued XFinSequence holds XFS2FS Re f = Re XFS2FS f &
+    XFS2FS Im f = Im XFS2FS f;
+
+theorem :: RVSUM_4:64
+  for f be complex-valued XFinSequence holds Sum XFS2FS f = Sum f;
+
+theorem :: RVSUM_4:65
+  for f be FinSequence of COMPLEX holds Sum FS2XFS f = Sum f;
+
+theorem :: RVSUM_4:66
+  for f be real-valued XFinSequence holds Sum f = Sum Sequel f;
+
+registration
+  cluster summable for real-valued Complex_Sequence;
+end;
+
+definition
+  let f be summable Complex_Sequence;
+  redefine func Re f -> summable real-valued Complex_Sequence;
+  redefine func Im f -> summable real-valued Complex_Sequence;
+end;
+
+theorem :: RVSUM_4:67
+  for f be complex-valued XFinSequence holds Sum f = Sum Sequel f;
+
+theorem :: RVSUM_4:68
+  for f be XFinSequence of COMPLEX, g be FinSequence of COMPLEX holds
+    Sum (f^g) = Sum f + Sum g & Sum (g^f) = Sum g + Sum f;
+

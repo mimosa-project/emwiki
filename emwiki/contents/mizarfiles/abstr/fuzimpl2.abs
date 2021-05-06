@@ -1,0 +1,199 @@
+:: Fundamental Properties of Fuzzy Implications
+::  by Adam Grabowski
+:: 
+:: Received September 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_1, REAL_1, XXREAL_0, FUZIMPL1, SUBSET_1, CARD_1,
+      TARSKI, ARYTM_1, ARYTM_3, POWER, FUNCT_1, XBOOLE_0, RELAT_1, BINOP_1,
+      FUZIMPL2, PREPOWER, LIMFUNC1, FDIFF_1, ORDINAL2, JGRAPH_2, RCOMP_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, XCMPLX_0, XXREAL_0, NUMBERS, BINOP_1,
+      VALUED_0, VALUED_1, XREAL_0, RELAT_1, FUNCT_1, RCOMP_1, PARTFUN1,
+      FUZNORM1, FCONT_1, PREPOWER, POWER, FDIFF_1, FUZIMPL1, LIMFUNC1,
+      TAYLOR_1;
+ constructors REAL_1, SEQ_4, TOPMETR, PREPOWER, POWER, FUZNORM1, FUZIMPL1,
+      TAYLOR_1, LIMFUNC1, FDIFF_1, FCONT_1;
+ registrations XBOOLE_0, RELSET_1, XXREAL_0, XREAL_0, MEMBERED, ORDINAL1,
+      FUZNORM1, VALUED_0, RCOMP_1, NUMBERS, FCONT_3, TAYLOR_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+notation
+  synonym I_LK for Lukasiewicz_implication;
+  synonym I_GD for Goedel_implication;
+  synonym I_RC for Reichenbach_implication;
+  synonym I_KD for Kleene-Dienes_implication;
+  synonym I_GG for Goguen_implication;
+  synonym I_RS for Rescher_implication;
+  synonym I_YG for Yager_implication;
+  synonym I_WB for Weber_implication;
+  synonym I_FD for Fodor_implication;
+end;
+
+ reserve x,y for Element of [.0,1.];
+
+theorem :: FUZIMPL2:1
+  #R 1 = AffineMap (1,0) | right_open_halfline 0;
+
+theorem :: FUZIMPL2:2
+  for a,b being Real holds
+    AffineMap (a,b) is_differentiable_on REAL &
+   for x being Real holds diff (AffineMap (a,b), x) = a;
+
+theorem :: FUZIMPL2:3
+  0 < x < 1 & 0 < y < 1 implies
+    ( #R x + AffineMap (-x, x-1)) | ].0,1.[ is increasing;
+
+theorem :: FUZIMPL2:4
+  for u being Real st u in ].0,1.] holds
+    ( #R x + AffineMap (-x, x-1)).u = u to_power x - 1 + x - x * u;
+
+begin :: On the Ordering of Fuzzy Implications
+
+theorem :: FUZIMPL2:5
+  (x <= y implies I_LK.(x,y) = 1) &
+  (x > y implies I_LK.(x,y) = 1 - x + y);
+
+theorem :: FUZIMPL2:6
+  (x = 0 implies I_GG.(x,y) = 1) &
+  (x > 0 implies I_GG.(x,y) = min (1, y / x));
+
+theorem :: FUZIMPL2:7 :: Example 1.1.6 (1.1) p. 3
+  I_KD <= I_RC <= I_LK <= I_WB;
+
+theorem :: FUZIMPL2:8 :: Example 1.1.6 (1.2) p. 3
+  I_RS <= I_GD <= I_GG <= I_LK <= I_WB;
+
+theorem :: FUZIMPL2:9 :: Example 1.1.6 (1.3) p. 3
+  :::I_YG <=
+  I_RC <= I_LK <= I_WB;
+
+theorem :: FUZIMPL2:10 :: Example 1.1.6 (1.4) p. 3
+  I_KD <= I_FD <= I_LK <= I_WB;
+
+theorem :: FUZIMPL2:11 :: Example 1.1.6 (1.5) p. 3
+  I_RS <= I_GD <= I_FD <= I_LK <= I_WB;
+
+begin :: Additional Properties of Fuzzy Implications
+
+definition
+  let I be BinOp of [.0,1.];
+  attr I is satisfying_(NP) means
+:: FUZIMPL2:def 1
+    for y being Element of [.0,1.] holds I.(1,y) = y;
+  attr I is satisfying_(EP) means
+:: FUZIMPL2:def 2
+    for x,y,z being Element of [.0,1.] holds I.(x,I.(y,z)) = I.(y,I.(x,z));
+  attr I is satisfying_(IP) means
+:: FUZIMPL2:def 3
+    for x being Element of [.0,1.] holds I.(x,x) = 1;
+  attr I is satisfying_(OP) means
+:: FUZIMPL2:def 4
+    for x,y being Element of [.0,1.] holds
+      I.(x,y) = 1 iff x <= y;
+end;
+
+ reserve I for BinOp of [.0,1.];
+
+notation
+  let I be BinOp of [.0,1.];
+  synonym I is satisfying_(NC) for I is 01-dominant;
+  synonym I is satisfying_(I1) for I is decreasing_on_1st;
+  synonym I is satisfying_(I2) for I is increasing_on_2nd;
+  synonym I is satisfying_(I3) for I is 00-dominant;
+  synonym I is satisfying_(I4) for I is 11-dominant;
+  synonym I is satisfying_(I5) for I is 10-weak;
+end;
+
+theorem :: FUZIMPL2:12
+  I is satisfying_(LB) implies I is satisfying_(I3) satisfying_(NC);
+
+registration
+  cluster satisfying_(LB) -> satisfying_(I3) satisfying_(NC)
+      for BinOp of [.0,1.];
+end;
+
+theorem :: FUZIMPL2:13
+  I is satisfying_(RB) implies I is satisfying_(I4) satisfying_(NC);
+
+registration
+  cluster satisfying_(RB) -> satisfying_(I4) satisfying_(NC)
+      for BinOp of [.0,1.];
+end;
+
+theorem :: FUZIMPL2:14
+  I is satisfying_(NP) implies I is satisfying_(I4) satisfying_(I5);
+
+registration
+  cluster satisfying_(NP) -> satisfying_(I4) satisfying_(I5)
+      for BinOp of [.0,1.];
+end;
+
+theorem :: FUZIMPL2:15
+  I is satisfying_(IP) implies I is satisfying_(I3) satisfying_(I4);
+
+registration
+  cluster satisfying_(IP) -> satisfying_(I3) satisfying_(I4)
+      for BinOp of [.0,1.];
+end;
+
+theorem :: FUZIMPL2:16
+  I is satisfying_(OP) implies I is satisfying_(I3) satisfying_(I4)
+    satisfying_(NC) satisfying_(LB) satisfying_(RB) satisfying_(IP);
+
+registration
+  cluster satisfying_(OP) -> satisfying_(I3) satisfying_(I4)
+    satisfying_(NC) satisfying_(LB) satisfying_(RB) satisfying_(IP)
+      for BinOp of [.0,1.];
+end;
+
+theorem :: FUZIMPL2:17
+  I is satisfying_(EP) satisfying_(OP) implies
+     I is satisfying_(I1) satisfying_(I3) satisfying_(I4) satisfying_(I5)
+      satisfying_(LB) satisfying_(RB) satisfying_(NC) satisfying_(NP)
+        satisfying_(IP);
+
+registration
+  cluster satisfying_(EP) satisfying_(OP) -> satisfying_(I1)
+     satisfying_(I5) satisfying_(NP) for BinOp of [.0,1.];
+end;
+
+registration
+  cluster I_LK -> satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     satisfying_(OP);
+  cluster I_GD -> satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     satisfying_(OP);
+  cluster I_RC -> satisfying_(NP) satisfying_(EP) non satisfying_(IP)
+     non satisfying_(OP);
+  cluster I_KD -> satisfying_(NP) satisfying_(EP) non satisfying_(IP)
+     non satisfying_(OP);
+  cluster I_GG -> satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     satisfying_(OP);
+  cluster I_RS -> non satisfying_(NP) non satisfying_(EP) satisfying_(IP)
+     satisfying_(OP);
+  cluster I_YG -> satisfying_(NP) satisfying_(EP) non satisfying_(IP)
+     non satisfying_(OP);
+  cluster I_WB -> satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     non satisfying_(OP);
+  cluster I_FD -> satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     satisfying_(OP);
+end;
+
+registration
+  cluster I_{0} -> non satisfying_(NP) satisfying_(EP) non satisfying_(IP)
+     non satisfying_(OP);
+  cluster I_{1} -> non satisfying_(NP) satisfying_(EP) satisfying_(IP)
+     non satisfying_(OP);
+end;

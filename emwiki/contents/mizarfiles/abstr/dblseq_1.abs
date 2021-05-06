@@ -1,0 +1,313 @@
+:: Double Sequences and Limits
+::  by Noboru Endou , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received August 31, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, FUNCT_1, RELAT_1, XBOOLE_0, ARYTM_3, ARYTM_1,
+      XXREAL_0, CARD_1, TARSKI, NAT_1, ZFMISC_1, VALUED_0, ORDINAL2, SEQ_2,
+      XREAL_0, COMPLEX1, XCMPLX_0, XXREAL_2, FINSET_1, MEMBERED, MESFUNC9,
+      BHSP_3, SEQ_1, VALUED_1, DBLSEQ_1, FUNCOP_1, BINOP_1, BINOP_2, REAL_1;
+ notations ZFMISC_1, SUBSET_1, ORDINAL1, XXREAL_2, RELAT_1, PARTFUN1, RELSET_1,
+      FUNCT_1, FUNCT_2, NUMBERS, BINOP_1, XCMPLX_0, TARSKI, XBOOLE_0, FUNCOP_1,
+      FUNCT_3, FINSEQOP, MEMBERED, COMPLEX1, XXREAL_0, XREAL_0, SEQ_1, NAT_1,
+      MESFUNC9, VALUED_1, SEQ_2, FINSET_1, BINOP_2;
+ constructors TOPMETR, NAT_D, MESFUNC9, SEQ_2, COMSEQ_2, SEQ_4, REAL_1,
+      FINSEQOP, FUNCT_3, BINOP_2;
+ registrations ORDINAL1, XXREAL_0, XREAL_0, XBOOLE_0, NUMBERS, XCMPLX_0,
+      FINSET_1, SUBSET_1, MEMBERED, VALUED_0, XXREAL_2, RELSET_1, MEASURE6,
+      SEQ_4, FUNCT_1, FUNCT_2, VALUED_1, BINOP_2, NAT_1, SEQ_2, SEQ_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin
+
+reserve Rseq, Rseq1, Rseq2 for Function of [:NAT,NAT:],REAL;
+reserve rseq1,rseq2 for convergent Real_Sequence;
+reserve n,m,N,M for Nat;
+reserve e,r for Real;
+
+:: Convergence in the Pringsheim sense
+definition let Rseq;
+ attr Rseq is P-convergent means
+:: DBLSEQ_1:def 1
+   ex p be Real st
+    for e be Real st 0<e
+     ex N be Nat st
+      for n,m be Nat st n>=N & m>=N holds
+       |.Rseq.(n,m) - p.| < e;
+end;
+
+definition let Rseq;
+ assume  Rseq is P-convergent;
+ func P-lim Rseq -> Real means
+:: DBLSEQ_1:def 2
+  for e be Real st 0<e
+   ex N be Nat st
+    for n,m be Nat st n>=N & m>=N holds
+     |. Rseq.(n,m) - it .| < e;
+end;
+
+definition let Rseq;
+ attr Rseq is convergent_in_cod1 means
+:: DBLSEQ_1:def 3
+  for m be Element of NAT holds ProjMap2(Rseq,m) is convergent;
+ attr Rseq is convergent_in_cod2 means
+:: DBLSEQ_1:def 4
+  for n be Element of NAT holds ProjMap1(Rseq,n) is convergent;
+end;
+
+definition let Rseq;
+ func lim_in_cod1 Rseq -> Function of NAT,REAL means
+:: DBLSEQ_1:def 5
+  for m be Element of NAT holds it.m = lim ProjMap2(Rseq,m);
+end;
+
+definition let Rseq;
+ func lim_in_cod2 Rseq -> Function of NAT,REAL means
+:: DBLSEQ_1:def 6
+  for n be Element of NAT holds it.n = lim ProjMap1(Rseq,n);
+end;
+
+definition let Rseq;
+ assume  lim_in_cod1 Rseq is convergent;
+ func cod1_major_iterated_lim Rseq -> Real means
+:: DBLSEQ_1:def 7
+  for e be Real st 0<e
+   ex M be Nat st
+    for m be Nat st m>=M holds
+     |.(lim_in_cod1 Rseq).m - it.| < e;
+end;
+
+definition let Rseq;
+ assume  lim_in_cod2 Rseq is convergent;
+ func cod2_major_iterated_lim Rseq -> Real means
+:: DBLSEQ_1:def 8
+  for e be Real st 0<e
+   ex N be Nat st
+    for n be Nat st n>=N holds
+     |.(lim_in_cod2 Rseq).n - it.| < e;
+end;
+
+definition
+ let Rseq be Function of [:NAT,NAT:],REAL;
+ attr Rseq is uniformly_convergent_in_cod1 means
+:: DBLSEQ_1:def 9
+  Rseq is convergent_in_cod1 &
+  for e be Real st e>0
+   ex M be Nat st
+    for m be Nat st m>=M holds
+     for n be Nat holds
+      |. Rseq.(n,m) - (lim_in_cod1 Rseq).n .| < e;
+end;
+
+definition
+ let Rseq be Function of [:NAT,NAT:],REAL;
+ attr Rseq is uniformly_convergent_in_cod2 means
+:: DBLSEQ_1:def 10
+  Rseq is convergent_in_cod2 &
+  for e be Real st e>0
+   ex N be Nat st
+    for n be Nat st n>=N holds
+     for m be Nat holds
+      |. Rseq.(n,m) - (lim_in_cod2 Rseq).m .| < e;
+end;
+
+definition let Rseq;
+ attr Rseq is non-decreasing means
+:: DBLSEQ_1:def 11
+  for n1,m1,n2,m2 be Nat st
+   n1>=n2 & m1>=m2 holds Rseq.(n1,m1) >= Rseq.(n2,m2);
+ attr Rseq is non-increasing means
+:: DBLSEQ_1:def 12
+  for n1,m1,n2,m2 be Nat st
+   n1>=n2 & m1>=m2 holds Rseq.(n1,m1) <= Rseq.(n2,m2);
+end;
+
+theorem :: DBLSEQ_1:1
+for a,b,c be Real st a <= b & b <= c holds
+ |.b.| <= |.a.| or |.b.| <= |.c.|;
+
+registration
+ cluster non-decreasing P-convergent -> bounded_below bounded_above
+        for Function of [:NAT,NAT:],REAL;
+end;
+
+registration
+ cluster non-increasing P-convergent -> bounded_below bounded_above
+        for Function of [:NAT,NAT:],REAL;
+end;
+
+registration
+  let r be Element of REAL;
+  cluster [:NAT,NAT:] --> r -> P-convergent convergent_in_cod1
+    convergent_in_cod2 for Function of [:NAT,NAT:],REAL;
+end;
+
+theorem :: DBLSEQ_1:2
+for r be Element of REAL holds P-lim ([:NAT,NAT:] --> r) = r;
+
+registration
+  cluster P-convergent convergent_in_cod1 convergent_in_cod2
+    for Function of [:NAT,NAT:],REAL;
+end;
+
+reserve Pseq for P-convergent Function of [:NAT,NAT:],REAL;
+
+registration
+  let Pseq2 be P-convergent convergent_in_cod2 Function of [:NAT,NAT:],REAL;
+  cluster lim_in_cod2 Pseq2 -> convergent;
+end;
+
+theorem :: DBLSEQ_1:3
+Rseq is P-convergent convergent_in_cod2 implies
+ P-lim Rseq = cod2_major_iterated_lim Rseq;
+
+registration
+  let Pseq1 be P-convergent convergent_in_cod1 Function of [:NAT,NAT:],REAL;
+  cluster lim_in_cod1 Pseq1 -> convergent;
+end;
+
+theorem :: DBLSEQ_1:4
+Rseq is P-convergent convergent_in_cod1 implies
+ P-lim Rseq = cod1_major_iterated_lim Rseq;
+
+registration
+  cluster non-decreasing bounded_above ->
+    P-convergent convergent_in_cod1 convergent_in_cod2
+      for Function of [:NAT,NAT:],REAL;
+end;
+
+registration
+  cluster non-increasing bounded_below ->
+    P-convergent convergent_in_cod1 convergent_in_cod2
+      for Function of [:NAT,NAT:],REAL;
+end;
+
+theorem :: DBLSEQ_1:5
+Rseq is uniformly_convergent_in_cod1 & lim_in_cod1 Rseq is convergent implies
+ Rseq is P-convergent & P-lim Rseq = cod1_major_iterated_lim Rseq;
+
+theorem :: DBLSEQ_1:6
+Rseq is uniformly_convergent_in_cod2 & lim_in_cod2 Rseq is convergent implies
+ Rseq is P-convergent & P-lim Rseq = cod2_major_iterated_lim Rseq;
+
+definition
+  let Rseq;
+  attr Rseq is Cauchy means
+:: DBLSEQ_1:def 13
+   for e be Real st e>0
+    ex N be Nat st
+     for n1,n2,m1,m2 be Nat st N<=n1 & n1<=n2 & N<=m1 & m1<=m2
+       holds |.Rseq.(n2,m2) - Rseq.(n1,m1).| < e;
+end;
+
+theorem :: DBLSEQ_1:7
+Rseq is P-convergent iff Rseq is Cauchy;
+
+theorem :: DBLSEQ_1:8
+for Rseq be Function of [:NAT,NAT:],REAL st
+ Rseq is non-decreasing or Rseq is non-increasing holds
+  Rseq is P-convergent iff Rseq is bounded_below bounded_above;
+
+definition
+  let X,Y be non empty set;
+  let H be BinOp of Y;
+  let f,g be Function of X,Y;
+  redefine func H*(f,g) -> Function of [:X,X:],Y;
+end;
+
+theorem :: DBLSEQ_1:9
+multreal*(rseq1,rseq2) is convergent_in_cod1 convergent_in_cod2
+& lim_in_cod1 (multreal*(rseq1,rseq2)) is convergent
+& cod1_major_iterated_lim (multreal*(rseq1,rseq2)) = lim rseq1 * lim rseq2
+& lim_in_cod2 (multreal*(rseq1,rseq2)) is convergent
+& cod2_major_iterated_lim (multreal*(rseq1,rseq2)) = lim rseq1 * lim rseq2
+& multreal*(rseq1,rseq2) is P-convergent
+& P-lim (multreal*(rseq1,rseq2)) = lim rseq1 * lim rseq2;
+
+theorem :: DBLSEQ_1:10
+addreal*(rseq1,rseq2) is convergent_in_cod1 convergent_in_cod2
+& lim_in_cod1 (addreal*(rseq1,rseq2)) is convergent
+& cod1_major_iterated_lim (addreal*(rseq1,rseq2)) = lim rseq1 + lim rseq2
+& lim_in_cod2 (addreal*(rseq1,rseq2)) is convergent
+& cod2_major_iterated_lim (addreal*(rseq1,rseq2)) = lim rseq1 + lim rseq2
+& addreal*(rseq1,rseq2) is P-convergent
+& P-lim (addreal*(rseq1,rseq2)) = lim rseq1 + lim rseq2;
+
+theorem :: DBLSEQ_1:11
+Rseq1 is P-convergent & Rseq2 is P-convergent implies
+ Rseq1+Rseq2 is P-convergent & P-lim(Rseq1+Rseq2) = P-lim Rseq1 + P-lim Rseq2;
+
+theorem :: DBLSEQ_1:12
+Rseq1 is P-convergent & Rseq2 is P-convergent implies
+ Rseq1-Rseq2 is P-convergent & P-lim(Rseq1-Rseq2) = P-lim Rseq1 - P-lim Rseq2;
+
+theorem :: DBLSEQ_1:13
+for Rseq be Function of [:NAT,NAT:],REAL, r be Real st
+  Rseq is P-convergent holds
+ r(#)Rseq is P-convergent & P-lim (r(#)Rseq) = r * P-lim Rseq;
+
+theorem :: DBLSEQ_1:14
+Rseq is P-convergent &(for n,m be Nat holds Rseq.(n,m) >= r)
+ implies P-lim Rseq >= r;
+
+theorem :: DBLSEQ_1:15
+Rseq1 is P-convergent & Rseq2 is P-convergent &
+(for n,m be Nat holds Rseq1.(n,m) <= Rseq2.(n,m)) implies
+  P-lim Rseq1 <= P-lim Rseq2;
+
+theorem :: DBLSEQ_1:16
+Rseq1 is P-convergent & Rseq2 is P-convergent & P-lim Rseq1 = P-lim Rseq2 &
+(for n,m be Nat holds
+   Rseq1.(n,m) <= Rseq.(n,m) & Rseq.(n,m) <= Rseq2.(n,m) )
+ implies Rseq is P-convergent & P-lim Rseq = P-lim Rseq1;
+
+definition
+  let X be non empty set, seq be Function of [:NAT,NAT:],X;
+  mode subsequence of seq -> Function of [:NAT,NAT:],X means
+:: DBLSEQ_1:def 14
+   ex N,M be increasing sequence of NAT st
+    for n,m be Nat holds it.(n,m) = seq.(N.n,M.m);
+end;
+
+registration
+  let Pseq;
+  cluster -> P-convergent for subsequence of Pseq;
+end;
+
+theorem :: DBLSEQ_1:17
+for Psubseq be subsequence of Pseq holds
+  P-lim Psubseq = P-lim Pseq;
+
+registration
+  let Rseq be convergent_in_cod1 Function of [:NAT,NAT:],REAL;
+  cluster -> convergent_in_cod1 for subsequence of Rseq;
+end;
+
+theorem :: DBLSEQ_1:18
+for Rseq1 be subsequence of Rseq st
+ Rseq is convergent_in_cod1 & lim_in_cod1 Rseq is convergent holds
+   lim_in_cod1 Rseq1 is convergent &
+   cod1_major_iterated_lim Rseq1 = cod1_major_iterated_lim Rseq;
+
+registration
+  let Rseq be convergent_in_cod2 Function of [:NAT,NAT:],REAL;
+  cluster -> convergent_in_cod2 for subsequence of Rseq;
+end;
+
+theorem :: DBLSEQ_1:19
+for Rseq1 be subsequence of Rseq st
+ Rseq is convergent_in_cod2 & lim_in_cod2 Rseq is convergent holds
+   lim_in_cod2 Rseq1 is convergent &
+   cod2_major_iterated_lim Rseq1 = cod2_major_iterated_lim Rseq;

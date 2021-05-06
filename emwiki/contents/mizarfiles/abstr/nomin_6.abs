@@ -1,0 +1,332 @@
+:: Partial Correctness of a Power Algorithm
+::  by Adrian Jaszczak
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NOMIN_1, ZFMISC_1, SUBSET_1, XBOOLE_0, RELAT_1, FUNCT_1,
+      FINSEQ_1, NAT_1, ARYTM_3, PARTFUN1, XBOOLEAN, TARSKI, NEWTON, NOMIN_3,
+      NOMIN_4, XCMPLX_0, NOMIN_2, PARTPR_1, PARTPR_2, NOMIN_5, NOMIN_6, CARD_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, ENUMSET1, SUBSET_1, ORDINAL1, NUMBERS,
+      MARGREL1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, FINSEQ_1,
+      FUNCOP_1, BINOP_1, XXREAL_0, XCMPLX_0, FUNCT_3, INT_2, NEWTON, NOMIN_1,
+      PARTPR_1, PARTPR_2, NOMIN_2, NOMIN_3, NOMIN_4, NOMIN_5;
+ constructors RELSET_1, INT_2, BINOP_1, FUNCOP_1, FUNCT_3, NEWTON, NOMIN_2,
+      NOMIN_3, NOMIN_4, NOMIN_5, ENUMSET1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, RELSET_1, INT_1,
+      NOMIN_3, NOMIN_1, MARGREL1, XCMPLX_0, NEWTON02, NUMBERS, NOMIN_2, NAT_1,
+      NOMIN_4;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+definition
+  let D be set;
+  let f1,f2,f3,f4,f5 be BinominativeFunction of D;
+  func PP_composition(f1,f2,f3,f4,f5) -> BinominativeFunction of D equals
+:: NOMIN_6:def 1
+  PP_composition(PP_composition(f1,f2,f3,f4),f5);
+end;
+
+reserve D for non empty set;
+reserve f1,f2,f3,f4,f5 for BinominativeFunction of D;
+reserve p,q,r,t,w,u for PartialPredicate of D;
+
+::$N unconditional composition rule for 5 programs
+theorem :: NOMIN_6:1
+  <*p,f1,q*> is SFHT of D & <*q,f2,r*> is SFHT of D &
+  <*r,f3,w*> is SFHT of D & <*w,f4,t*> is SFHT of D &
+  <*t,f5,u*> is SFHT of D &
+  <*PP_inversion(q),f2,r*> is SFHT of D &
+  <*PP_inversion(r),f3,w*> is SFHT of D &
+  <*PP_inversion(w),f4,t*> is SFHT of D &
+  <*PP_inversion(t),f5,u*> is SFHT of D
+  implies <*p,PP_composition(f1,f2,f3,f4,f5),u*> is SFHT of D;
+
+reserve d,v,v1 for object;
+reserve V,A for set;
+reserve i,j,b,n,s,z for Element of V;
+reserve i1,j1,b1,n1,s1 for object;
+reserve d1,Li,Lj,Lb,Ln,Ls for NonatomicND of V,A;
+reserve Di,Dj,Db,Dn,Ds for SCBinominativeFunction of V,A;
+
+theorem :: NOMIN_6:2
+  V is non empty & A is_without_nonatomicND_wrt V &
+  Di = denaming(V,A,i1) & Dj = denaming(V,A,j1) &
+  Db = denaming(V,A,b1) & Dn = denaming(V,A,n1) &
+  Ds = denaming(V,A,s1) &
+  Li = local_overlapping(V,A,d1,Di.d1,i) &
+  Lj = local_overlapping(V,A,Li,Dj.Li,j) &
+  Lb = local_overlapping(V,A,Lj,Db.Lj,b) &
+  Ln = local_overlapping(V,A,Lb,Dn.Lb,n) &
+  Ls = local_overlapping(V,A,Ln,Ds.Ln,s) &
+  j1 in dom d1 & b1 in dom d1 & n1 in dom d1 & s1 in dom d1 &
+  d1 in dom Di & s <> n implies Ls.n = Ln.n;
+
+theorem :: NOMIN_6:3
+  V is non empty & A is_without_nonatomicND_wrt V &
+  Di = denaming(V,A,i1) & Dj = denaming(V,A,j1) &
+  Db = denaming(V,A,b1) & Dn = denaming(V,A,n1) &
+  Ds = denaming(V,A,s1) &
+  Li = local_overlapping(V,A,d1,Di.d1,i) &
+  Lj = local_overlapping(V,A,Li,Dj.Li,j) &
+  Lb = local_overlapping(V,A,Lj,Db.Lj,b) &
+  Ln = local_overlapping(V,A,Lb,Dn.Lb,n) &
+  Ls = local_overlapping(V,A,Ln,Ds.Ln,s) &
+  j1 in dom d1 & b1 in dom d1 &  n1 in dom d1 & s1 in dom d1 &
+  d1 in dom Di & s <> i implies Ls.i = Ln.i;
+
+reserve f for SCBinominativeFunction of V,A;
+reserve T for TypeSCNominativeData of V,A;
+
+:: Pseudocode of b|^n
+::
+:: i := val.1
+:: j := val.2
+:: b := val.3
+:: n := val.4
+:: s := val.5
+::   { s == b|^i }
+:: while ( i <> n )
+::  i := i + j
+::  s := s * b
+:: return s
+::   { n == i && s == b|^i }
+::
+:: where
+::   val.1 = 0,
+::   val.2 = 1,
+::   val.3, val.4 - the input base and exponent, respectively,
+::   val.5 = 1
+:: are input data from the environment,
+:: and loc/.1 = i, loc/.2 = j, loc/.3 = b, loc/.4 = n, loc/.5 = s.
+
+reserve loc for V-valued Function;
+reserve val for Function;
+
+definition
+  let V,A,loc;
+  func power_loop_body(A,loc) -> SCBinominativeFunction of V,A equals
+:: NOMIN_6:def 2
+    PP_composition(
+      SC_assignment(addition(A,loc/.1,loc/.2),loc/.1),
+      SC_assignment(multiplication(A,loc/.5,loc/.3),loc/.5)
+    );
+end;
+
+definition
+  let V,A,loc;
+  func power_main_loop(A,loc) -> SCBinominativeFunction of V,A equals
+:: NOMIN_6:def 3
+  PP_while(PP_not(Equality(A,loc/.1,loc/.4)),power_loop_body(A,loc));
+end;
+
+definition
+  let V,A,loc,val;
+  func power_var_init(A,loc,val)
+       -> SCBinominativeFunction of V,A equals
+:: NOMIN_6:def 4
+   PP_composition(
+      SC_assignment(denaming(V,A,val.1), loc/.1),
+      SC_assignment(denaming(V,A,val.2), loc/.2),
+      SC_assignment(denaming(V,A,val.3), loc/.3),
+      SC_assignment(denaming(V,A,val.4), loc/.4),
+      SC_assignment(denaming(V,A,val.5), loc/.5)
+    );
+end;
+
+definition
+  let V,A,loc,val;
+  func power_main_part(A,loc,val)
+       -> SCBinominativeFunction of V,A equals
+:: NOMIN_6:def 5
+    PP_composition(
+       power_var_init(A,loc,val),
+       power_main_loop(A,loc)
+    );
+end;
+
+definition
+  let V,A,loc,val,z;
+  func power_program(A,loc,val,z)
+       -> SCBinominativeFunction of V,A equals
+:: NOMIN_6:def 6
+    PP_composition(
+      power_main_part(A,loc,val),
+      SC_assignment(denaming(V,A,loc/.5),z)
+    );
+end;
+
+reserve n0 for Nat;
+reserve b0 for Complex;
+
+definition
+  let V,A,val,b0,n0,d;
+  pred valid_power_input_pred V,A,val,b0,n0,d means
+:: NOMIN_6:def 7
+  ex d1 being NonatomicND of V,A st d = d1 &
+   { val.1, val.2, val.3, val.4, val.5 } c= dom d1 &
+    d1.(val.1) = 0 & d1.(val.2) = 1 &
+    d1.(val.3) = b0 & d1.(val.4) = n0 & d1.(val.5) = 1;
+end;
+
+definition
+  let V,A,val,b0,n0;
+  func valid_power_input(V,A,val,b0,n0)
+       -> SCPartialNominativePredicate of V,A
+  means
+:: NOMIN_6:def 8
+  dom it = ND(V,A) &
+  for d being object st d in dom it holds
+   (valid_power_input_pred V,A,val,b0,n0,d implies it.d = TRUE) &
+   (not valid_power_input_pred V,A,val,b0,n0,d implies it.d = FALSE);
+end;
+
+registration
+  let V,A,val,b0,n0;
+  cluster valid_power_input(V,A,val,b0,n0) -> total;
+end;
+
+definition
+  let V,A,z,b0,n0,d;
+  pred valid_power_output_pred A,z,b0,n0,d means
+:: NOMIN_6:def 9
+  ex d1 being NonatomicND of V,A st d = d1 & z in dom d1 & d1.z = b0|^n0;
+end;
+
+definition
+  let V,A,z,b0,n0;
+  func valid_power_output(A,z,b0,n0) -> SCPartialNominativePredicate of V,A
+  means
+:: NOMIN_6:def 10
+  dom it = {d where d is TypeSCNominativeData of V,A:
+       d in dom denaming(V,A,z)} &
+   for d being object st d in dom it holds
+    (valid_power_output_pred A,z,b0,n0,d implies it.d = TRUE) &
+    (not valid_power_output_pred A,z,b0,n0,d implies it.d = FALSE);
+end;
+
+definition
+  let V,A,loc,b0,n0,d;
+  pred power_inv_pred A,loc,b0,n0,d means
+:: NOMIN_6:def 11
+  ex d1 being NonatomicND of V,A st
+   d = d1 & { loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 } c= dom d1 &
+   d1.(loc/.2) = 1 & d1.(loc/.3) = b0 & d1.(loc/.4) = n0 &
+   ex S being Complex, I being Nat st
+    I = d1.(loc/.1) & S = d1.(loc/.5) & S = b0|^I;
+end;
+
+definition
+  let V,A,loc,b0,n0;
+  func power_inv(A,loc,b0,n0) ->
+    SCPartialNominativePredicate of V,A means
+:: NOMIN_6:def 12
+
+  dom it = ND(V,A) &
+  for d being object st d in dom it holds
+   (power_inv_pred A,loc,b0,n0,d implies it.d = TRUE) &
+   (not power_inv_pred A,loc,b0,n0,d implies it.d = FALSE);
+end;
+
+registration
+  let V,A,loc,b0,n0;
+  cluster power_inv(A,loc,b0,n0) -> total;
+end;
+
+definition
+  let V,loc,val;
+  pred loc,val are_compatible_wrt_5_locs means
+:: NOMIN_6:def 13
+  val.5 <> loc/.4 & val.5 <> loc/.3 & val.5 <> loc/.2 & val.5 <> loc/.1 &
+  val.4 <> loc/.3 & val.4 <> loc/.2 & val.4 <> loc/.1 &
+  val.3 <> loc/.2 & val.3 <> loc/.1 & val.2 <> loc/.1;
+end;
+
+theorem :: NOMIN_6:4
+  V is non empty & A is_without_nonatomicND_wrt V &
+  loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 are_mutually_distinct &
+  loc,val are_compatible_wrt_5_locs
+ implies
+  <* valid_power_input(V,A,val,b0,n0),
+     power_var_init(A,loc,val),
+     power_inv(A,loc,b0,n0) *> is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:5
+  V is non empty & A is complex-containing & A is_without_nonatomicND_wrt V &
+  loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 are_mutually_distinct
+  implies
+  <* power_inv(A,loc,b0,n0),
+     power_loop_body(A,loc),
+     power_inv(A,loc,b0,n0) *> is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:6
+  <* PP_inversion(power_inv(A,loc,b0,n0)),
+     power_loop_body(A,loc),
+     power_inv(A,loc,b0,n0) *> is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:7
+  V is non empty & A is complex-containing & A is_without_nonatomicND_wrt V &
+  loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 are_mutually_distinct
+  implies
+  <* power_inv(A,loc,b0,n0),
+     power_main_loop(A,loc),
+     PP_and(Equality(A,loc/.1,loc/.4),power_inv(A,loc,b0,n0)) *>
+  is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:8
+  V is non empty & A is complex-containing & A is_without_nonatomicND_wrt V &
+  loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 are_mutually_distinct &
+  loc,val are_compatible_wrt_5_locs
+  implies
+  <* valid_power_input(V,A,val,b0,n0),
+     power_main_part(A,loc,val),
+     PP_and(Equality(A,loc/.1,loc/.4),power_inv(A,loc,b0,n0)) *>
+     is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:9
+  V is non empty & A is_without_nonatomicND_wrt V &
+  (for T holds loc/.1 is_a_value_on T) & (for T holds loc/.4 is_a_value_on T)
+  implies
+  PP_and(Equality(A,loc/.1,loc/.4),power_inv(A,loc,b0,n0))
+  ||=
+  SC_Psuperpos(valid_power_output(A,z,b0,n0),denaming(V,A,loc/.5),z);
+
+theorem :: NOMIN_6:10
+  V is non empty & A is_without_nonatomicND_wrt V &
+  (for T holds loc/.1 is_a_value_on T) & (for T holds loc/.4 is_a_value_on T)
+  implies
+  <* PP_and(Equality(A,loc/.1,loc/.4),power_inv(A,loc,b0,n0)),
+     SC_assignment(denaming(V,A,loc/.5),z),
+     valid_power_output(A,z,b0,n0) *> is SFHT of ND(V,A);
+
+theorem :: NOMIN_6:11
+  (for T holds loc/.1 is_a_value_on T) & (for T holds loc/.4 is_a_value_on T)
+  implies
+  <* PP_inversion(PP_and(Equality(A,loc/.1,loc/.4),power_inv(A,loc,b0,n0))),
+     SC_assignment(denaming(V,A,loc/.5),z),
+     valid_power_output(A,z,b0,n0) *> is SFHT of ND(V,A);
+
+::$N Partial correctness of a POWER algorithm
+theorem :: NOMIN_6:12
+  V is non empty & A is complex-containing & A is_without_nonatomicND_wrt V &
+  loc/.1, loc/.2, loc/.3, loc/.4, loc/.5 are_mutually_distinct &
+  loc,val are_compatible_wrt_5_locs &
+  (for T holds loc/.1 is_a_value_on T) & (for T holds loc/.4 is_a_value_on T)
+  implies
+  <* valid_power_input(V,A,val,b0,n0),
+     power_program(A,loc,val,z),
+     valid_power_output(A,z,b0,n0) *>
+  is SFHT of ND(V,A);
+

@@ -1,0 +1,1656 @@
+:: Properties of Number-Valued Functions
+::  by Library Committee
+::
+:: Received December 18, 2007
+:: Copyright (c) 2007-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, FUNCT_1, RELAT_1, XBOOLE_0, ORDINAL1,
+      XXREAL_0, VALUED_0, RAT_1, COMPLEX1, ARYTM_1, ARYTM_3, MEMBERED,
+      PARTFUN1, TARSKI, SUBSET_1, CARD_1, XCMPLX_0, INT_1, SQUARE_1, FUNCT_4,
+      FINSET_1, NAT_1, ORDINAL2, VALUED_1, AMISTD_1, FUNCOP_1, AMISTD_2,
+      AMISTD_3, ORDINAL4, REAL_1, XREAL_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, FINSET_1, CARD_1, XCMPLX_0,
+      NUMBERS, COMPLEX1, XXREAL_0, XXREAL_2, FUNCOP_1, XREAL_0, RAT_1, INT_1,
+      INT_2, SQUARE_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, FUNCT_4,
+      FINSEQ_1, MEMBERED, NAT_1, VALUED_0;
+ constructors PARTFUN1, RAT_1, VALUED_0, SQUARE_1, MEMBERED, INT_2, FINSEQ_1,
+      NAT_1, FUNCT_4, NAT_D, RELSET_1, XXREAL_2, FUNCOP_1, DOMAIN_1, WELLORD2,
+      FINSEQ_3, REAL_1;
+ registrations ORDINAL1, RELSET_1, FUNCT_2, NUMBERS, XREAL_0, MEMBERED,
+      VALUED_0, RAT_1, INT_1, NAT_1, FUNCT_1, FINSET_1, XXREAL_0, RELAT_1,
+      XXREAL_2, FUNCOP_1, FUNCT_4, CARD_1, FINSEQ_1;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin
+
+registration
+  cluster complex-valued for FinSequence;
+end;
+:: move somewhere
+
+registration
+  let r be Rational;
+  cluster |. r .| -> rational;
+end;
+
+definition
+  let f1,f2 be complex-valued Function;
+  func f1 + f2 -> Function means
+:: VALUED_1:def 1
+
+  dom it = dom f1 /\ dom f2 &
+  for c being object st c in dom it holds it.c = f1.c + f2.c;
+  commutativity;
+end;
+
+registration
+  let f1,f2 be complex-valued Function;
+  cluster f1+f2 -> complex-valued;
+end;
+
+registration
+  let f1,f2 be real-valued Function;
+  cluster f1+f2 -> real-valued;
+end;
+
+registration
+  let f1,f2 be RAT-valued Function;
+  cluster f1+f2 -> RAT-valued;
+end;
+
+registration
+  let f1,f2 be INT-valued Function;
+  cluster f1+f2 -> INT-valued;
+end;
+
+registration
+  let f1,f2 be natural-valued Function;
+  cluster f1+f2 -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be complex-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1+f2 -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be real-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1+f2 -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be rational-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1+f2 -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be integer-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1+f2 -> PartFunc of C,INT;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be natural-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1+f2 -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be complex-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1+f2 -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be real-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1+f2 -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be rational-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1+f2 -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be integer-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1+f2 -> total for PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be natural-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1+f2 -> total for PartFunc of C,NAT;
+end;
+
+theorem :: VALUED_1:1
+  for C being set, D1,D2 being complex-membered non empty set for f1
+  being Function of C,D1, f2 being Function of C,D2 for c being Element of C
+  holds (f1+f2).c = f1.c + f2.c;
+
+registration
+  let f1, f2 be complex-valued FinSequence;
+  cluster f1+f2 -> FinSequence-like;
+end;
+
+begin :: r + f
+
+definition
+  let f be complex-valued Function, r be Complex;
+  func r + f -> Function means
+:: VALUED_1:def 2
+
+  dom it = dom f &
+  for c being object st c in dom it holds it.c = r + f.c;
+end;
+
+notation
+  let f be complex-valued Function, r be Complex;
+  synonym f + r for r + f;
+end;
+
+registration
+  let f be complex-valued Function, r be Complex;
+  cluster r+f -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function, r be Real;
+  cluster r+f -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function, r be Rational;
+  cluster r+f -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function, r be Integer;
+  cluster r+f -> INT-valued;
+end;
+
+registration
+  let f be natural-valued Function, r be Nat;
+  cluster r+f -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  let r be Complex;
+  redefine func r+f -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  let r be Real;
+  redefine func r+f -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  let r be Rational;
+  redefine func r+f -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  let r be Integer;
+  redefine func r+f -> PartFunc of C,INT;
+end;
+
+definition
+  let C be set;
+  let D be natural-membered set;
+  let f be PartFunc of C,D;
+  let r be Nat;
+  redefine func r+f -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  let r be Complex;
+  cluster r+f -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  let r be Real;
+  cluster r+f -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  let r be Rational;
+  cluster r+f -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  let r be Integer;
+  cluster r+f -> total for PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D be natural-membered non empty set;
+  let f be Function of C,D;
+  let r be Nat;
+  cluster r+f -> total for PartFunc of C,NAT;
+end;
+
+theorem :: VALUED_1:2
+  for C being non empty set, D being complex-membered non empty set
+  for f being Function of C,D, r being Complex
+  for c being Element of C holds
+  (r+f).c = r + f.c;
+
+registration
+  let f be complex-valued FinSequence, r be Complex;
+  cluster r+f -> FinSequence-like;
+end;
+
+begin :: f - r
+
+definition
+  let f be complex-valued Function, r be Complex;
+  func f - r -> Function equals
+:: VALUED_1:def 3
+  -r + f;
+end;
+
+theorem :: VALUED_1:3
+  for f being complex-valued Function, r being Complex holds dom
+  (f-r) = dom f & for c being object st c in dom f holds (f-r).c = f.c - r;
+
+registration
+  let f be complex-valued Function, r be Complex;
+  cluster f-r -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function, r be Real;
+  cluster f-r -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function, r be Rational;
+  cluster f-r -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function, r be Integer;
+  cluster f-r -> INT-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  let r be Complex;
+  redefine func f-r -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  let r be Real;
+  redefine func f-r -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  let r be Rational;
+  redefine func f-r -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  let r be Integer;
+  redefine func f-r -> PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  let r be Complex;
+  cluster f-r -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  let r be Real;
+  cluster f-r -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  let r be Rational;
+  cluster f-r -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  let r be Integer;
+  cluster f-r -> total for PartFunc of C,INT;
+end;
+
+theorem :: VALUED_1:4
+  for C being non empty set, D being complex-membered non empty set for
+f being Function of C,D, r being Complex for c being Element of C holds
+  (f-r).c = f.c - r;
+
+registration
+  let f be complex-valued FinSequence, r be Complex;
+  cluster f-r -> FinSequence-like;
+end;
+
+begin :: f1 (#) f2
+
+definition
+  let f1,f2 be complex-valued Function;
+  func f1 (#) f2 -> Function means
+:: VALUED_1:def 4
+
+  dom it = dom f1 /\ dom f2 & for c
+  being object st c in dom it holds it.c = f1.c * f2.c;
+  commutativity;
+end;
+
+theorem :: VALUED_1:5
+  for f1,f2 being complex-valued Function
+   for c being object holds (f1(#)f2).c = f1.c * f2.c;
+
+registration
+  let f1,f2 be complex-valued Function;
+  cluster f1(#)f2 -> complex-valued;
+end;
+
+registration
+  let f1,f2 be real-valued Function;
+  cluster f1(#)f2 -> real-valued;
+end;
+
+registration
+  let f1,f2 be RAT-valued Function;
+  cluster f1(#)f2 -> RAT-valued;
+end;
+
+registration
+  let f1,f2 be INT-valued Function;
+  cluster f1(#)f2 -> INT-valued;
+end;
+
+registration
+  let f1,f2 be natural-valued Function;
+  cluster f1(#)f2 -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be complex-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1(#)f2 -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be real-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1(#)f2 -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be rational-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1(#)f2 -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be integer-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1(#)f2 -> PartFunc of C,INT;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be natural-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1(#)f2 -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be complex-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1(#)f2 -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be real-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1(#)f2 -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be rational-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1(#)f2 -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be integer-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1(#)f2 -> total for PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be natural-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1(#)f2 -> total for PartFunc of C,NAT;
+end;
+
+registration
+  let f1, f2 be complex-valued FinSequence;
+  cluster f1(#)f2 -> FinSequence-like;
+end;
+
+begin :: r (#) f
+
+definition
+  let f be complex-valued Function, r be Complex;
+  func r (#) f -> Function means
+:: VALUED_1:def 5
+
+  dom it = dom f & for c being object st c
+  in dom it holds it.c = r * f.c;
+end;
+
+notation
+  let f be complex-valued Function, r be Complex;
+  synonym f (#) r for r (#) f;
+end;
+
+theorem :: VALUED_1:6
+  for f being complex-valued Function, r being Complex for c
+  being object holds (r(#)f).c = r * f.c;
+
+registration
+  let f be complex-valued Function, r be Complex;
+  cluster r(#)f -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function, r be Real;
+  cluster r(#)f -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function, r be Rational;
+  cluster r(#)f -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function, r be Integer;
+  cluster r(#)f -> INT-valued;
+end;
+
+registration
+  let f be natural-valued Function, r be Nat;
+  cluster r(#)f -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  let r be Complex;
+  redefine func r(#)f -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  let r be Real;
+  redefine func r(#)f -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  let r be Rational;
+  redefine func r(#)f -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  let r be Integer;
+  redefine func r(#)f -> PartFunc of C,INT;
+end;
+
+definition
+  let C be set;
+  let D be natural-membered set;
+  let f be PartFunc of C,D;
+  let r be Nat;
+  redefine func r(#)f -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  let r be Complex;
+  cluster r(#)f -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  let r be Real;
+  cluster r(#)f -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  let r be Rational;
+  cluster r(#)f -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  let r be Integer;
+  cluster r(#)f -> total for PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D be natural-membered non empty set;
+  let f be Function of C,D;
+  let r be Nat;
+  cluster r(#)f -> total for PartFunc of C,NAT;
+end;
+
+theorem :: VALUED_1:7
+  for C being non empty set, D being complex-membered non empty set for
+  f being Function of C,D, r being Complex for g being Function of C,
+  COMPLEX st for c being Element of C holds g.c = r * f.c holds g = r(#)f;
+
+registration
+  let f be complex-valued FinSequence, r be Complex;
+  cluster r(#)f -> FinSequence-like;
+end;
+
+begin :: -f
+
+definition
+  let f be complex-valued Function;
+  func -f -> complex-valued Function equals
+:: VALUED_1:def 6
+  (-1) (#) f;
+  involutiveness;
+end;
+
+theorem :: VALUED_1:8
+  for f being complex-valued Function holds dom -f = dom f & for c
+  being object holds (-f).c = -(f.c);
+
+theorem :: VALUED_1:9
+  for f being complex-valued Function, g being Function st dom f = dom g
+  & for c being object st c in dom f holds g.c = -(f.c) holds g = -f;
+
+registration
+  let f be complex-valued Function;
+  cluster -f -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function;
+  cluster -f -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function;
+  cluster -f -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function;
+  cluster -f -> INT-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  redefine func -f -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  redefine func -f -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  redefine func -f -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  redefine func -f -> PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  cluster -f -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  cluster -f -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  cluster -f -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  cluster -f -> total for PartFunc of C,INT;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster -f -> FinSequence-like;
+end;
+
+begin :: f"
+
+definition
+  let f be complex-valued Function;
+  func f" -> complex-valued Function means
+:: VALUED_1:def 7
+
+  dom it = dom f & for c being
+  object st c in dom it holds it.c = (f.c)";
+  involutiveness;
+end;
+::better name
+
+theorem :: VALUED_1:10
+  for f being complex-valued Function for c being object holds
+  f".c = (f.c)";
+
+registration
+  let f be real-valued Function;
+  cluster f" -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function;
+  cluster f" -> RAT-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  redefine func f" -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  redefine func f" -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  redefine func f" -> PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  cluster f" -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  cluster f" -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  cluster f" -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster f" -> FinSequence-like;
+end;
+
+begin :: f^2
+
+definition
+  let f be complex-valued Function;
+  func f^2 -> Function equals
+:: VALUED_1:def 8
+  f (#) f;
+end;
+
+theorem :: VALUED_1:11
+  for f being complex-valued Function holds dom (f^2) = dom f &
+  for c being object holds f^2.c = (f.c)^2;
+
+registration
+  let f be complex-valued Function;
+  cluster f^2 -> complex-valued;
+end;
+
+registration
+  let f be real-valued Function;
+  cluster f^2 -> real-valued;
+end;
+
+registration
+  let f be RAT-valued Function;
+  cluster f^2 -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function;
+  cluster f^2 -> INT-valued;
+end;
+
+registration
+  let f be natural-valued Function;
+  cluster f^2 -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  redefine func f^2 -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D be real-membered set;
+  let f be PartFunc of C,D;
+  redefine func f^2 -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  redefine func f^2 -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  redefine func f^2 -> PartFunc of C,INT;
+end;
+
+definition
+  let C be set;
+  let D be natural-membered set;
+  let f be PartFunc of C,D;
+  redefine func f^2 -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  cluster f^2 -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D be real-membered non empty set;
+  let f be Function of C,D;
+  cluster f^2 -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  cluster f^2 -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  cluster f^2 -> total for PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D be natural-membered non empty set;
+  let f be Function of C,D;
+  cluster f^2 -> total for PartFunc of C,NAT;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster f^2 -> FinSequence-like;
+end;
+
+begin :: f1 - f2
+
+definition
+  let f1,f2 be complex-valued Function;
+  func f1 - f2 -> Function equals
+:: VALUED_1:def 9
+  f1 + - f2;
+end;
+
+registration
+  let f1,f2 be complex-valued Function;
+  cluster f1-f2 -> complex-valued;
+end;
+
+registration
+  let f1,f2 be real-valued Function;
+  cluster f1-f2 -> real-valued;
+end;
+
+registration
+  let f1,f2 be RAT-valued Function;
+  cluster f1-f2 -> RAT-valued;
+end;
+
+registration
+  let f1,f2 be INT-valued Function;
+  cluster f1-f2 -> INT-valued;
+end;
+
+theorem :: VALUED_1:12
+  for f1,f2 being complex-valued Function holds dom (f1-f2) = dom
+  f1 /\ dom f2;
+
+theorem :: VALUED_1:13
+  for f1,f2 being complex-valued Function
+for c being object st c in dom (f1-f2) holds (f1-f2).c = f1.c - f2.c;
+
+theorem :: VALUED_1:14
+  for f1,f2 being complex-valued Function, f being Function st dom f =
+  dom (f1-f2) & for c being object st c in dom f holds f.c = f1.c - f2.c
+   holds f = f1-f2;
+
+definition
+  let C be set;
+  let D1,D2 be complex-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1-f2 -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be real-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1-f2 -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be rational-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1-f2 -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be integer-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1-f2 -> PartFunc of C,INT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be complex-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1-f2 -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be real-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1-f2 -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be rational-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1-f2 -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be integer-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1-f2 -> total for PartFunc of C,INT;
+end;
+
+theorem :: VALUED_1:15
+  for C being set, D1,D2 being complex-membered non empty set for f1
+  being Function of C,D1, f2 being Function of C,D2 for c being Element of C
+  holds (f1-f2).c = f1.c - f2.c;
+
+registration
+  let f1, f2 be complex-valued FinSequence;
+  cluster f1-f2 -> FinSequence-like;
+end;
+
+begin :: f1 /" f2
+
+definition
+  let f1,f2 be complex-valued Function;
+  func f1 /" f2 -> Function equals
+:: VALUED_1:def 10
+  f1 (#) (f2");
+end;
+
+theorem :: VALUED_1:16
+  for f1,f2 being complex-valued Function holds dom (f1/"f2) = dom
+  f1 /\ dom f2;
+
+theorem :: VALUED_1:17
+  for f1,f2 being complex-valued Function
+   for c being object holds (f1/"f2).c = f1.c / f2.c;
+
+registration
+  let f1,f2 be complex-valued Function;
+  cluster f1/"f2 -> complex-valued;
+end;
+
+registration
+  let f1,f2 be real-valued Function;
+  cluster f1/"f2 -> real-valued;
+end;
+
+registration
+  let f1,f2 be RAT-valued Function;
+  cluster f1/"f2 -> RAT-valued;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be complex-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1/"f2 -> PartFunc of C,COMPLEX;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be real-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1/"f2 -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D1,D2 be rational-membered set;
+  let f1 be PartFunc of C,D1;
+  let f2 be PartFunc of C,D2;
+  redefine func f1/"f2 -> PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be complex-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1/"f2 -> total for PartFunc of C,COMPLEX;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be real-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1/"f2 -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D1,D2 be rational-membered non empty set;
+  let f1 be Function of C,D1;
+  let f2 be Function of C,D2;
+  cluster f1/"f2 -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let f1, f2 be complex-valued FinSequence;
+  cluster f1/"f2 -> FinSequence-like;
+end;
+
+begin :: abs f
+
+definition
+  let f be complex-valued Function;
+  func |. f .| -> real-valued Function means
+:: VALUED_1:def 11
+
+  dom it = dom f & for c
+  being object st c in dom it holds it.c = |. f.c .|;
+  projectivity;
+end;
+
+notation
+  let f be complex-valued Function;
+  synonym abs f for |. f .|;
+end;
+
+theorem :: VALUED_1:18
+  for f being complex-valued Function
+   for c being object holds |.f.|.c = |.f.c.|;
+
+registration
+  let f be RAT-valued Function;
+  cluster |.f.| -> RAT-valued;
+end;
+
+registration
+  let f be INT-valued Function;
+  cluster |.f.| -> natural-valued;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  redefine func |.f.| -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be complex-membered set;
+  let f be PartFunc of C,D;
+  redefine func abs(f) -> PartFunc of C,REAL;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  redefine func |.f.| -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be rational-membered set;
+  let f be PartFunc of C,D;
+  redefine func abs(f) -> PartFunc of C,RAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  redefine func |.f.| -> PartFunc of C,NAT;
+end;
+
+definition
+  let C be set;
+  let D be integer-membered set;
+  let f be PartFunc of C,D;
+  redefine func abs(f) -> PartFunc of C,NAT;
+end;
+
+registration
+  let C be set;
+  let D be complex-membered non empty set;
+  let f be Function of C,D;
+  cluster |.f.| -> total for PartFunc of C,REAL;
+end;
+
+registration
+  let C be set;
+  let D be rational-membered non empty set;
+  let f be Function of C,D;
+  cluster |.f.| -> total for PartFunc of C,RAT;
+end;
+
+registration
+  let C be set;
+  let D be integer-membered non empty set;
+  let f be Function of C,D;
+  cluster |.f.| -> total for PartFunc of C,NAT;
+end;
+
+registration
+  let f be complex-valued FinSequence;
+  cluster |.f.| -> FinSequence-like;
+end;
+
+theorem :: VALUED_1:19
+  for f, g being FinSequence, h being Function st dom h = dom f /\ dom g
+  holds h is FinSequence;
+
+begin :: Addenda
+
+:: from RELOC, 2008.02.14, A.T.
+
+reserve m,j,p,q,n,l for Element of NAT;
+
+definition
+  let p be Function, k be Nat;
+  func Shift(p,k) -> Function means
+:: VALUED_1:def 12
+
+  dom it = { m+k where m is Nat:m in dom p } &
+  for m being Nat st m in dom p holds it.(m+k) = p.m;
+end;
+
+registration
+  let p be Function, k be Nat;
+  cluster Shift(p,k) -> NAT-defined;
+end;
+
+theorem :: VALUED_1:20 :: SCMFSA8C:11
+  for P,Q being Function, k being Nat st P c= Q holds Shift(P
+  ,k) c= Shift(Q,k);
+
+theorem :: VALUED_1:21 :: SCMFSA_4:32
+  for n,m being Nat
+  for I being Function holds Shift(Shift(I,m),n) = Shift(I,m+n);
+
+theorem :: VALUED_1:22 :: SCMFSA_4:33
+  for s,f be Function for n being Nat holds Shift(f*s,n) = f*Shift(s,n);
+
+theorem :: VALUED_1:23 :: SCMFSA_4:34
+  for I,J being Function, n being Nat
+   holds Shift(I +* J, n) = Shift(I,n) +* Shift(J,n);
+
+:: from SCMPDS_4, 2008.03.16, A.T.
+
+theorem :: VALUED_1:24
+  for p being Function,k,il being Nat st il in dom p
+  holds il+k in dom Shift(p,k);
+
+:: missing, 2008.03.16, A.T.
+
+theorem :: VALUED_1:25
+  for p being Function, k being Nat holds rng Shift(p,k) c= rng p;
+
+theorem :: VALUED_1:26
+  for p being Function st dom p c= NAT for k being Nat holds
+  rng Shift(p,k) = rng p;
+
+registration
+  let p be finite Function, k be Nat;
+  cluster Shift(p,k) -> finite;
+end;
+
+reserve e1,e2 for ExtReal;
+
+definition
+  let X be non empty ext-real-membered set, s be sequence of X;
+  redefine attr s is increasing means
+:: VALUED_1:def 13
+  for n being Nat holds s.n < s.(n+1);
+  redefine attr s is decreasing means
+:: VALUED_1:def 14
+  for n being Nat holds s.n > s.(n+1);
+  redefine attr s is non-decreasing means
+:: VALUED_1:def 15
+  for n being Nat holds s.n <= s.(n+1);
+  redefine attr s is non-increasing means
+:: VALUED_1:def 16
+  for n being Nat holds s.n >= s.(n+1);
+end;
+
+:: from KURATO_2, 2008.09.05, A.T.
+
+scheme :: VALUED_1:sch 1
+  SubSeqChoice { X() -> non empty set, S() -> sequence of X(), P[set]} :
+   ex S1 being subsequence of S() st for n being Element of NAT holds P[S1.n]
+provided
+ for n being Element of NAT ex m being Element of NAT st n <= m & P[S
+().m];
+
+:: from AMISTD_2, 2010.02.05, A.T.
+
+theorem :: VALUED_1:27
+  for k being Nat
+  for F being NAT-defined Function
+  holds dom F,dom Shift(F,k) are_equipotent;
+
+registration
+ let F be NAT-defined Function;
+ reduce Shift(F,0) to F;
+end;
+
+registration
+  let X be non empty set;
+  let F be X-valued Function, k be Nat;
+  cluster Shift(F,k) -> X-valued;
+end;
+
+registration  :: move somewhere !!!
+ cluster non empty NAT-defined for Function;
+end;
+
+registration
+  let F be empty Function, k be Nat;
+  cluster Shift(F,k) -> empty;
+end;
+
+registration
+  let F be non empty NAT-defined Function, k be Nat;
+  cluster Shift(F,k) -> non empty;
+end;
+
+::$CT
+
+theorem :: VALUED_1:29
+  for F being Function, k being Nat st k > 0
+  holds not 0 in dom Shift(F,k);
+
+registration
+ cluster NAT-defined finite non empty for Function;
+end;
+
+registration
+  let F be NAT-defined Relation;
+  cluster dom F -> natural-membered;
+end;
+
+definition
+  let F be non empty NAT-defined finite Function;
+  func LastLoc F -> Element of NAT equals
+:: VALUED_1:def 17
+   max dom F;
+end;
+
+definition
+  let F be non empty NAT-defined finite Function;
+  func CutLastLoc F -> Function equals
+:: VALUED_1:def 18
+  F \ ( LastLoc F .--> F.LastLoc F );
+end;
+
+registration
+ let F be non empty NAT-defined finite Function;
+ cluster CutLastLoc F -> NAT-defined finite;
+end;
+
+theorem :: VALUED_1:30
+  for F being non empty NAT-defined finite Function holds
+  LastLoc F in dom F;
+
+theorem :: VALUED_1:31
+  for F, G being non empty NAT-defined finite Function st F c= G holds
+  LastLoc F <= LastLoc G;
+
+theorem :: VALUED_1:32
+  for F being non empty NAT-defined finite Function, l being
+  Element of NAT st l in dom F holds l <= LastLoc F;
+
+definition
+  let F be non empty NAT-defined Function;
+  func FirstLoc F -> Element of NAT equals
+:: VALUED_1:def 19
+   min dom F;
+end;
+
+theorem :: VALUED_1:33
+  for F being non empty NAT-defined finite Function holds
+  FirstLoc F in dom F;
+
+theorem :: VALUED_1:34
+  for F, G being non empty NAT-defined finite Function st F c= G holds
+  FirstLoc G <= FirstLoc F;
+
+theorem :: VALUED_1:35
+  for l1 being Element of NAT
+  for F being non empty NAT-defined finite Function st l1 in dom
+  F holds FirstLoc F <= l1;
+
+theorem :: VALUED_1:36
+  for F being non empty NAT-defined finite Function
+  holds dom CutLastLoc F = (dom F) \ {LastLoc F};
+
+theorem :: VALUED_1:37
+  for F being non empty NAT-defined finite Function
+  holds dom F = dom CutLastLoc F \/ {LastLoc F};
+
+registration
+ cluster 1-element NAT-defined finite for Function;
+end;
+
+registration
+  let F be 1-element NAT-defined finite Function;
+  cluster CutLastLoc F -> empty;
+end;
+
+theorem :: VALUED_1:38
+  for F being non empty NAT-defined finite Function
+  holds card CutLastLoc F = card F - 1;
+
+begin :: 2011.04.20, A.T.
+
+registration let X be set, f be X-defined complex-valued Function;
+ cluster -f -> X-defined;
+ cluster f" -> X-defined;
+ cluster f^2 -> X-defined;
+ cluster |.f.| -> X-defined;
+end;
+
+registration let X be set;
+ cluster total for X-defined natural-valued Function;
+end;
+
+registration let X be set,
+   f be total X-defined complex-valued Function;
+ cluster -f -> total;
+ cluster f" -> total;
+ cluster f^2 -> total;
+ cluster |.f.| -> total;
+end;
+
+registration
+ let X be set, f be X-defined complex-valued Function,
+     r be Complex;
+ cluster r+f -> X-defined;
+ cluster f-r -> X-defined;
+ cluster r(#)f -> X-defined;
+end;
+
+registration let X be set,
+   f be total X-defined complex-valued Function,
+     r be Complex;
+ cluster r+f -> total;
+ cluster f-r -> total;
+ cluster r(#)f -> total;
+end;
+
+registration
+ let X be set, f1 be complex-valued Function;
+ let f2 be X-defined complex-valued Function;
+ cluster f1 + f2 -> X-defined;
+ cluster f1 - f2 -> X-defined;
+ cluster f1(#)f2 -> X-defined;
+ cluster f1/"f2 -> X-defined;
+end;
+
+registration let X be set;
+ let f1,f2 be total X-defined complex-valued Function;
+ cluster f1 + f2 -> total;
+ cluster f1 - f2 -> total;
+ cluster f1(#)f2 -> total;
+ cluster f1/"f2 -> total;
+end;
+
+registration let X be non empty set;
+ let F be X-valued non empty NAT-defined finite Function;
+ cluster CutLastLoc F -> X-valued;
+end;
+
+theorem :: VALUED_1:39
+ for f being Function
+ for i,n being Nat st i in dom Shift(f,n)
+  ex j being Nat st j in dom f & i = j + n;
+
+:: from PNPROC_1, 2012.02.20, A.T.
+
+registration
+  let p be FinSubsequence;
+  let i be Nat;
+  cluster Shift(p,i) -> FinSubsequence-like;
+end;
+
+reserve i for Nat,
+        k,k1,k2,j1 for Element of NAT,
+        x,x1,x2,y for set;
+
+theorem :: VALUED_1:40
+  for p being FinSequence
+  holds  dom Shift(p,i) = {j1 where j1 is Nat: i+1 <= j1 & j1 <= i+(len p)};
+
+theorem :: VALUED_1:41
+  for q being FinSubsequence ex ss being FinSubsequence st
+  dom ss = dom q & rng ss = dom Shift(q,i) &
+  (for k st k in dom q holds ss.k = i+k) & ss is one-to-one;
+
+theorem :: VALUED_1:42
+  for q being FinSubsequence holds card q = card Shift(q,i);
+
+theorem :: VALUED_1:43
+  for p being FinSequence holds dom p = dom Seq Shift(p,i);
+
+theorem :: VALUED_1:44
+  for p being FinSequence st k in dom p holds (Sgm dom Shift(p,i)).k = i + k;
+
+theorem :: VALUED_1:45
+  for p being FinSequence st k in dom p holds (Seq Shift(p,i)).k = p.k;
+
+theorem :: VALUED_1:46
+  for p being FinSequence holds Seq Shift(p,i) = p;
+
+reserve p1,p2 for FinSequence;
+
+theorem :: VALUED_1:47
+  dom (p1 \/ Shift(p2,len p1)) = Seg (len p1 + len p2);
+
+theorem :: VALUED_1:48
+  for p1 being FinSequence, p2 being FinSubsequence st len p1 <= i holds
+  dom p1 misses dom Shift(p2,i);
+
+theorem :: VALUED_1:49
+  for p1,p2 being FinSequence holds p1^p2 = p1 \/ (Shift(p2,len p1));
+
+theorem :: VALUED_1:50
+  for p1 being FinSequence, p2 being FinSubsequence st i >= len p1
+  holds p1 misses Shift(p2,i);
+
+theorem :: VALUED_1:51
+ for F being total NAT-defined Function, p be NAT-defined Function,
+     n be Element of NAT st Shift(p,n) c= F
+ for i being Element of NAT st i in dom p holds F.(n+i) = p.i;
+
+theorem :: VALUED_1:52
+  for p,q being FinSubsequence st q c= p holds Shift(q,i) c= Shift(p,i);
+
+theorem :: VALUED_1:53
+  for p1,p2 being FinSequence holds Shift(p2,len p1) c= p1^p2;
+
+reserve q,q1,q2,q3,q4 for FinSubsequence,
+        p1,p2 for FinSequence;
+
+theorem :: VALUED_1:54
+  dom q1 misses dom q2 implies dom Shift(q1,i) misses dom Shift(q2,i);
+
+theorem :: VALUED_1:55
+  for q,q1,q2 being FinSubsequence st q = q1 \/ q2 & q1 misses q2 holds
+  Shift(q1,i) \/ Shift(q2,i) = Shift(q,i);
+
+theorem :: VALUED_1:56
+  for q being FinSubsequence holds dom Seq q = dom Seq Shift(q,i);
+
+reserve l1 for Nat,
+        j2 for Element of NAT;
+
+theorem :: VALUED_1:57
+  for q being FinSubsequence st k in dom Seq q
+  ex j st j = (Sgm dom q).k & (Sgm dom Shift(q,i)).k = i + j;
+
+theorem :: VALUED_1:58
+  for q being FinSubsequence st
+  k in dom Seq q holds (Seq Shift(q,i)).k = (Seq q).k;
+
+theorem :: VALUED_1:59
+  for q being FinSubsequence holds Seq q = Seq Shift(q,i);
+
+theorem :: VALUED_1:60
+  for q being FinSubsequence st
+  dom q c= Seg k holds dom Shift(q,i) c= Seg (i+k);
+
+theorem :: VALUED_1:61
+  for p being FinSequence, q1,q2 being FinSubsequence st q1 c= p
+  ex ss being FinSubsequence st ss = q1 \/ Shift(q2,len p);
+
+theorem :: VALUED_1:62
+for p1,p2 being FinSequence, q1,q2 being FinSubsequence st q1 c= p1 & q2 c= p2
+  ex ss being FinSubsequence st ss = q1 \/ Shift(q2,len p1) &
+  dom Seq ss = Seg (len Seq q1 + len Seq q2);
+
+theorem :: VALUED_1:63
+for p1,p2 being FinSequence, q1,q2 being FinSubsequence st q1 c= p1 & q2 c= p2
+  ex ss being FinSubsequence st ss = q1 \/ Shift(q2,len p1) &
+  dom Seq ss = Seg (len Seq q1 + len Seq q2) &
+  Seq ss = Seq q1 \/ Shift(Seq q2,len Seq q1);
+
+theorem :: VALUED_1:64
+for p1,p2 being FinSequence, q1,q2 being FinSubsequence st q1 c= p1 & q2 c= p2
+  ex ss being FinSubsequence st
+  ss = q1 \/ Shift(q2,len p1) & (Seq q1)^(Seq q2) = Seq ss;
+
+theorem :: VALUED_1:65
+  for F being non empty NAT-defined finite Function
+  holds card CutLastLoc F = card F -' 1;
+
+theorem :: VALUED_1:66
+  for F,G being non empty NAT-defined finite Function
+    st dom F = dom G
+  holds LastLoc F = LastLoc G;
+
+theorem :: VALUED_1:67
+ for f being non empty NAT-defined finite Function
+ holds Shift(f +~ (x,y),i) = Shift(f,i) +~ (x,y);
+
+theorem :: VALUED_1:68
+  for F, G being non empty NAT-defined finite Function st dom F c= dom G
+   holds LastLoc F <= LastLoc G;

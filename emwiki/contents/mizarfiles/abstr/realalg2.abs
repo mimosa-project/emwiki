@@ -1,0 +1,759 @@
+:: Formally Real Fields
+::  by Christoph Schwarzweller
+:: 
+:: Received November 29, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, FUNCT_1, RELAT_1, RLVECT_1, VECTSP_1, ALGSTR_0, TARSKI,
+      STRUCT_0, SUBSET_1, SUPINF_2, NAT_1, PYTHTRIP, GLIB_000, VECTSP_2,
+      CARD_1, MESFUNC1, INT_1, WELLORD2, RELAT_2, ORDERS_1, GROUP_1, BINOP_1,
+      NUMBERS, FUNCSDOM, XXREAL_0, WELLORD1, IDEAL_1, COMPLEX1, FINSEQ_1,
+      CARD_3, ZFMISC_1, XBOOLE_0, ARYTM_1, GAUSSINT, INT_3, SQUARE_1, XCMPLX_0,
+      RING_3, NEWTON, INTERVA1, REALALG1, MEMBERED, RAT_1, GROUP_4, REALALG2,
+      FUNCT_7, PARTFUN1, POLYNOM5, POLYNOM2, QMAX_1, ARROW, ORDINAL4, HURWITZ,
+      RING_5, CAT_7, FUNCOP_1;
+ notations TARSKI, ZFMISC_1, XBOOLE_0, SUBSET_1, RELAT_1, RELAT_2, WELLORD1,
+      ORDERS_1, FUNCT_1, FINSEQ_1, ALGSEQ_1, PARTFUN1, ORDINAL1, FINSEQ_7,
+      FUNCOP_1, SQUARE_1, XCMPLX_0, XXREAL_0, XXREAL_2, NAT_1, INT_1, RAT_1,
+      INT_3, NUMBERS, MEMBERED, STRUCT_0, BINOM, ALGSTR_0, GROUP_1, GROUP_2,
+      O_RING_1, RLVECT_1, VECTSP_1, VECTSP_2, POLYNOM4, POLYNOM5, HURWITZ,
+      GAUSSINT, IDEAL_1, RING_2, RING_3, ARROW, REALALG1, RING_5;
+ constructors BINOM, BINOP_2, O_RING_1, XXREAL_2, RING_3, TOPALG_7, ORDERS_1,
+      SQUARE_1, ALGSEQ_1, FINSEQ_7, ARROW, POLYNOM5, RING_5, HURWITZ, POLYNOM4,
+      REALALG1;
+ registrations ORDINAL1, XXREAL_0, XREAL_0, VECTSP_1, STRUCT_0, MEMBERED,
+      RLVECT_1, INT_1, VECTSP_2, XXREAL_2, NAT_1, INT_3, RELAT_1, ALGSTR_0,
+      RING_3, REALALG1, GAUSSINT, CARD_1, FINSEQ_1, RING_5, FUNCOP_1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+registration
+let X,Y be non empty set;
+cluster non empty X-defined Y-valued for Function;
+end;
+
+registration
+cluster the carrier of F_Rat -> rational-membered;
+end;
+
+theorem :: REALALG2:1
+for L being right_zeroed non empty addLoopStr,
+    S,T being Subset of L
+st 0.L in T holds S c= S + T;
+
+theorem :: REALALG2:2
+for L being right_unital non empty multLoopStr,
+    S,T being Subset of L
+st 1.L in T holds S c= S * T;
+
+theorem :: REALALG2:3
+for L being add-associative right_zeroed right_complementable
+            right-distributive non empty doubleLoopStr,
+    S being Subset of L st 0.L in S
+for a being Element of L holds S c= S + a * S;
+
+theorem :: REALALG2:4
+for L being add-associative right_zeroed right_complementable
+            right_unital right-distributive non empty doubleLoopStr,
+    S being Subset of L st 0.L in S & 1.L in S
+for a being Element of L holds a in S + a * S;
+
+theorem :: REALALG2:5
+for R being add-associative right_zeroed right_complementable
+            Abelian left-distributive non empty doubleLoopStr,
+    a,b being Element of R,
+    i being Integer holds i '*' (a * b) = (i '*' a) * b;
+
+theorem :: REALALG2:6
+for R being add-associative right_zeroed right_complementable
+            Abelian left-distributive non empty doubleLoopStr,
+    a being Element of R,
+    i being Integer holds i '*' (-a) = -(i '*' a);
+
+registration
+let R be Ring;
+let a be Element of R;
+cluster a^2 -> square;
+cluster a|^2 -> square;
+end;
+
+theorem :: REALALG2:7
+for R being commutative Ring,
+    a,b being Element of R holds (a + b)^2 = a^2 + 2 '*' a * b + b^2;
+
+theorem :: REALALG2:8
+for R being commutative Ring,
+    a,b being Element of R holds (a - b)^2 = a^2 - 2 '*' a * b + b^2;
+
+theorem :: REALALG2:9
+for R being commutative Ring,
+    a,b being Element of R holds (a + b) * (a - b) = a^2 - b^2;
+
+theorem :: REALALG2:10
+for R being domRing,
+    a,b being Element of R holds a^2 = b^2 iff (a = b or a = -b);
+
+theorem :: REALALG2:11
+for F being Field, a being non zero Element of F holds (-a)" = -(a");
+
+theorem :: REALALG2:12
+for F being Field, a being non zero Element of F holds (-a")" = -a;
+
+theorem :: REALALG2:13
+for F being Field, a being non zero Element of F holds -((-a)") = a";
+
+theorem :: REALALG2:14
+for F being Field,
+    a being Element of F,
+    b being non zero Element of F holds (a / b)^2 = (a^2) / (b^2);
+
+theorem :: REALALG2:15
+for F being Field st Char F <> 2
+for a being Element of F
+holds ((a + 1.F) / (2 '*' 1.F))^2 - ((a - 1.F) / (2 '*' 1.F))^2 = a;
+
+registration
+cluster preordered -> 0-characteristic for non degenerated Ring;
+end;
+
+theorem :: REALALG2:16
+for R being preordered Ring,
+    P being Preordering of R holds (-P) * P = P * (-P);
+
+theorem :: REALALG2:17
+for R being preordered Ring,
+    P being Preordering of R holds (-P) + (-P) c= -P & (-P) * (-P) c= P;
+
+theorem :: REALALG2:18
+for R being preordered Ring,
+    P being Preordering of R holds (-P) * P c= -P & P * (-P) c= -P;
+
+theorem :: REALALG2:19
+for R being preordered Ring,
+    P being Preordering of R for n being Nat holds n '*' 1.R in P;
+
+registration
+cluster -> spanning for Preordering of INT.Ring;
+cluster -> spanning for Preordering of F_Rat;
+cluster -> spanning for Preordering of F_Real;
+end;
+
+theorem :: REALALG2:20
+for P being Preordering of INT.Ring holds P = Positives(INT.Ring);
+
+theorem :: REALALG2:21
+for P being Preordering of F_Rat holds P = Positives(F_Rat);
+
+theorem :: REALALG2:22
+for P being Preordering of F_Real holds P = Positives(F_Real);
+
+
+begin :: More on Ring Characteristics
+
+theorem :: REALALG2:23
+for R being Ring holds Char R = 1 iff R is degenerated;
+
+theorem :: REALALG2:24
+for R being non degenerated Ring holds Char R = 2 iff 2 '*' 1.R = 0.R;
+
+theorem :: REALALG2:25
+for R being domRing
+holds Char R = 0 iff
+      for a being non zero Element of R,
+          n being non zero Nat holds n '*' a <> 0.R;
+
+theorem :: REALALG2:26
+for R being 0-characteristic domRing,
+    a being Element of R
+holds -a = a iff a = 0.R;
+
+
+begin :: Maximal Preorderings
+
+definition
+let R be preordered Ring,
+    P be Preordering of R;
+attr P is maximal means
+:: REALALG2:def 1
+  for Q being Preordering of R st P c= Q holds P = Q;
+end;
+
+theorem :: REALALG2:27  :: Serre
+for F being preordered Field,
+    P being Preordering of F,
+    a being Element of F
+st not -a in P holds P + a * P is Preordering of F;
+
+theorem :: REALALG2:28
+for F being preordered Field,
+    P being Preordering of F holds P is maximal iff P is positive_cone;
+
+registration
+let F be preordered Field;
+cluster spanning -> maximal for Preordering of F;
+cluster maximal -> spanning for Preordering of F;
+end;
+
+theorem :: REALALG2:29
+for F being preordered Field,
+    P being Preordering of F
+ex Q being Preordering of F st P c= Q & Q is maximal;
+
+registration
+cluster -> ordered for preordered Field;
+end;
+
+theorem :: REALALG2:30
+for F being preordered Field,
+    P being Preordering of F holds P is maximal iff P is Ordering of F;
+
+theorem :: REALALG2:31
+for F being preordered Field,
+    P being Preordering of F ex O being Ordering of F st P c= O;
+
+definition
+let R be ordered Ring;
+let P be Preordering of R;
+func /\(P,R) -> Subset of R equals
+:: REALALG2:def 2
+  {x where x is Element of R :
+           for O being Ordering of R st P c= O holds x in O};
+end;
+
+registration
+let R be ordered Ring;
+let P be Preordering of R;
+cluster /\(P,R) -> non empty;
+end;
+
+registration
+let R be ordered Ring;
+let P be Preordering of R;
+cluster /\(P,R) -> add-closed mult-closed with_squares;
+end;
+
+registration
+let F be ordered Field;
+let P be Preordering of F;
+cluster /\(P,F) -> negative-disjoint;
+end;
+
+theorem :: REALALG2:32
+for F being ordered Field,
+    P being Preordering of F holds /\(P,F) is Preordering of F;
+
+theorem :: REALALG2:33
+for F being ordered Field,
+    P being Preordering of F holds /\(P,F) = P;
+
+
+begin  :: Formally Real Fields
+
+definition
+let R be Ring;
+attr R is formally_real means
+:: REALALG2:def 3
+  not -1.R in QS R;
+end;
+
+theorem :: REALALG2:34
+for F being Field st Char F <> 2 holds
+F is formally_real iff QS F is prepositive_cone;
+
+theorem :: REALALG2:35
+for F being Field st Char F <> 2
+holds F is formally_real iff ex P being Subset of F st P is prepositive_cone;
+
+theorem :: REALALG2:36
+for F being Field st Char F <> 2
+holds F is formally_real iff ex P being Subset of F st P is positive_cone;
+
+theorem :: REALALG2:37
+for F being Field st Char F <> 2
+holds F is formally_real iff QS F <> the carrier of F;
+
+registration
+cluster formally_real -> ordered for Field;
+cluster ordered -> formally_real for Field;
+end;
+
+registration
+cluster preordered -> formally_real for non degenerated Ring;
+end;
+
+registration
+cluster formally_real for Field;
+end;
+
+registration
+let F be formally_real Field;
+cluster QS F -> negative-disjoint;
+end;
+
+theorem :: REALALG2:38
+for F being formally_real Field holds QS F is Preordering of F;
+
+theorem :: REALALG2:39 :: Artin
+for F being formally_real Field,
+    a being Element of F
+holds (for O being Ordering of F holds a in O) iff a in QS F;
+
+theorem :: REALALG2:40
+for r being Element of F_Rat st 0 <= r holds r is sum_of_squares;
+
+definition
+let R be ZeroStr;
+let f be (the carrier of R)-valued Function;
+attr f is trivial means
+:: REALALG2:def 4
+  for i being object st i in dom f holds f.i = 0.R;
+end;
+
+definition
+let R be Ring;
+let f be non empty FinSequence of R;
+attr f is quadratic means
+:: REALALG2:def 5
+  for i being Element of dom f holds f.i is square;
+end;
+
+registration
+let R be non degenerated Ring;
+cluster <*1.R*> -> quadratic non trivial for non empty FinSequence of R;
+end;
+
+registration
+let R be non degenerated Ring;
+cluster quadratic non trivial for non empty FinSequence of R;
+end;
+
+theorem :: REALALG2:41 :: Artin-Schreier
+for F being Field holds
+F is formally_real iff
+for f being quadratic non empty FinSequence of F
+                                     st Sum f = 0.F holds f is trivial;
+
+registration
+cluster -> non algebraic-closed for formally_real Field;
+end;
+
+
+begin
+
+theorem :: REALALG2:42
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b being Element of R holds a <=P, b iff (-b) <=P, (-a);
+
+theorem :: REALALG2:43
+for R being preordered Ring,
+    P being Preordering of R,
+    a being Element of R holds a <=P, a;
+
+theorem :: REALALG2:44
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b being Element of R st a <=P, b & b <=P, a holds a = b;
+
+theorem :: REALALG2:45
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <=P, b & b <=P, c holds a <=P, c;
+
+theorem :: REALALG2:46
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <=P, b holds a+c <=P, b+c;
+
+theorem :: REALALG2:47
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <= P,b & 0.R <=P, c holds a*c <= P, b*c;
+
+theorem :: REALALG2:48
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <= P,b & c <=P, 0.R holds b*c <= P, a*c;
+
+theorem :: REALALG2:49
+for R being ordered Ring,
+    O being Ordering of R,
+    a,b being Element of R holds a <=O, b or b <=O ,a;
+
+theorem :: REALALG2:50
+for F being preordered Field,
+    P being Preordering of F,
+    a,b being non zero Element of F
+st 0.F <=P, a & 0.F <=P, b holds a <=P, b iff b" <=P, a";
+
+theorem :: REALALG2:51
+for F being preordered Field,
+    P being Preordering of F,
+    a,b being non zero Element of F
+st a <=P, 0.F & b <=P, 0.F holds a <=P, b iff b" <=P, a";
+
+definition
+let R be preordered Ring;
+let P be Preordering of R;
+let a,b be Element of R;
+pred a <P, b means
+:: REALALG2:def 6
+  a <=P, b & a <> b;
+end;
+
+theorem :: REALALG2:52
+for R being preordered non degenerated Ring,
+    P being Preordering of R holds 0.R <P, 1.R & -1.R <P, 0.R;
+
+theorem :: REALALG2:53
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b being Element of R holds a <P, b iff (-b) <P, (-a);
+
+theorem :: REALALG2:54
+for R being ordered Ring,
+    O being Ordering of R,
+    a,b being Element of R holds a <O, b or b <O ,a or a = b;
+
+theorem :: REALALG2:55
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <P, b & b <=P, c holds a <P, c;
+
+theorem :: REALALG2:56
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <=P, b & b <P, c holds a <P, c;
+
+theorem :: REALALG2:57
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b,c being Element of R st a <P, b holds a + c <P, b + c;
+
+theorem :: REALALG2:58
+for R being preordered domRing,
+    P being Preordering of R,
+    a,b,c being Element of R st a <P, b & 0.R <P, c holds a * c <P, b * c;
+
+theorem :: REALALG2:59
+for R being preordered domRing,
+    P being Preordering of R,
+    a,b,c being Element of R st a <P, b & c <P, 0.R holds b * c <P, a * c;
+
+theorem :: REALALG2:60
+for F being preordered Field,
+    P being Preordering of F,
+    a,b being non zero Element of F
+st 0.F <=P, a & 0.F <=P, b holds a <P, b iff b" <P, a";
+
+theorem :: REALALG2:61
+for F being preordered Field,
+    P being Preordering of F,
+    a,b being non zero Element of F
+st a <=P, 0.F & b <=P, 0.F holds a <P, b iff b" <P, a";
+
+definition
+let R be preordered Ring;
+let P be Preordering of R;
+let a be Element of R;
+attr a is P-ordered means
+:: REALALG2:def 7
+  a in P \/ (-P);
+attr a is P-positive means
+:: REALALG2:def 8
+  a in P \ {0.R};
+attr a is P-negative means
+:: REALALG2:def 9
+  a in (-P) \ {0.R};
+end;
+
+registration
+let R be preordered Ring;
+let P be Preordering of R;
+cluster P-ordered for Element of R;
+end;
+
+registration
+let R be preordered Ring;
+let P be Preordering of R;
+cluster P-positive -> P-ordered for Element of R;
+cluster P-negative -> P-ordered for Element of R;
+end;
+
+registration
+let R be preordered non degenerated Ring;
+let P be Preordering of R;
+cluster P-positive for Element of R;
+cluster P-negative for Element of R;
+cluster non P-positive for Element of R;
+cluster non P-negative for Element of R;
+end;
+
+registration
+let R be preordered non degenerated Ring;
+let P be Preordering of R;
+cluster P-positive -> non zero non P-negative for Element of R;
+cluster P-negative -> non zero non P-positive for Element of R;
+end;
+
+registration
+let R be preordered non degenerated Ring;
+let P be Preordering of R;
+let a be P-ordered Element of R;
+cluster -a -> P-ordered;
+end;
+
+registration
+let F be Field;
+let a be non zero Element of F;
+cluster a" -> non zero;
+end;
+
+registration
+let F be preordered Field;
+let P be Preordering of F;
+let a be non zero P-ordered Element of F;
+cluster a" -> P-ordered;
+end;
+
+registration
+let R be ordered non degenerated Ring;
+let O be Ordering of R;
+cluster non zero non O-positive -> O-negative for Element of R;
+cluster non zero non O-negative -> O-positive for Element of R;
+end;
+
+theorem :: REALALG2:62
+for R being preordered Ring,
+    P being Preordering of R,
+    a being Element of R holds a is P-positive iff 0.R <P, a;
+
+theorem :: REALALG2:63
+for R being preordered Ring,
+    P being Preordering of R,
+    a being Element of R holds a is P-negative iff a <P, 0.R;
+
+theorem :: REALALG2:64
+for R being preordered Ring,
+    P being Preordering of R
+for a being P-ordered Element of R holds a is non P-negative iff 0.R <=P, a;
+
+theorem :: REALALG2:65
+for R being preordered Ring,
+    P being Preordering of R
+for a being P-ordered Element of R holds a is non P-positive iff a <=P, 0.R;
+
+
+begin :: Absolute Values
+
+definition
+let R be preordered Ring;
+let P be Preordering of R;
+let a be Element of R;
+func absolute_value(P,a) -> Element of R equals
+:: REALALG2:def 10
+  a if a in P,
+ -a if a in -P
+  otherwise -1.R;
+end;
+
+definition
+let R be ordered Ring;
+let O be Ordering of R;
+let a be Element of R;
+redefine func absolute_value(O,a) -> Element of R equals
+:: REALALG2:def 11
+  a if a in O
+  otherwise -a;
+end;
+
+notation
+let R be preordered Ring;
+let P be Preordering of R;
+let a be Element of R;
+synonym abs(P,a) for absolute_value(P,a);
+end;
+
+theorem :: REALALG2:66
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a being Element of R holds 0.R <=P, abs(P,a) iff a is P-ordered;
+
+theorem :: REALALG2:67
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a being Element of R holds not a is P-ordered iff abs(P,a) = -1.R;
+
+theorem :: REALALG2:68
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a being Element of R holds abs(P,a) = 0.R iff a = 0.R;
+
+theorem :: REALALG2:69
+for R being preordered domRing,
+    P being Preordering of R,
+    a being Element of R holds abs(P,a) = a iff 0.R <=P, a;
+
+theorem :: REALALG2:70
+for R being preordered domRing,
+    P being Preordering of R,
+    a being Element of R holds abs(P,a) = -a iff a <=P, 0.R;
+
+theorem :: REALALG2:71
+for R being preordered Ring,
+    P being Preordering of R,
+    a being Element of R holds abs(P,a) = abs(P,-a);
+
+theorem :: REALALG2:72
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a being Element of R
+holds -abs(P,a) <=P, a & a <=P, abs(P,a) iff a is P-ordered;
+
+theorem :: REALALG2:73
+for F being preordered Field,
+    P being Preordering of F,
+    a being non zero P-ordered Element of F holds abs(P,a") = abs(P,a)";
+
+theorem :: REALALG2:74
+for R being preordered Ring,
+    P being Preordering of R,
+    a,b being Element of R holds abs(P,a-b) = abs(P,b-a);
+
+theorem :: REALALG2:75
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a being Element of R
+holds (-abs(P,a) <=P, a & a <=P, abs(P,a)) iff a is P-ordered;
+
+theorem :: REALALG2:76
+for R being preordered non degenerated Ring,
+    P being Preordering of R,
+    a,b being P-ordered Element of R holds abs(P,a*b) = abs(P,a) * abs(P,b);
+
+theorem :: REALALG2:77
+for F being preordered Field,
+    P being Preordering of F
+for a being non zero P-ordered Element of F,
+    b being P-ordered Element of F holds abs(P,b*a") = abs(P,b) * abs(P,a)";
+
+theorem :: REALALG2:78
+for R being preordered domRing,
+    P being Preordering of R,
+    a being P-ordered Element of R,
+    p being P-ordered non P-negative Element of R
+holds abs(P,a) <=P, p iff (-p <=P, a & a <=P, p);
+
+theorem :: REALALG2:79 :: triangle inequality
+for R being preordered domRing,
+    P being Preordering of R,
+    a,b being P-ordered Element of R holds abs(P,a+b) <=P, abs(P,a) + abs(P,b);
+
+
+begin :: Squares and square roots
+
+definition
+let R be Ring;
+let a be square Element of R;
+mode SquareRoot of a -> Element of R means
+:: REALALG2:def 12
+  it^2 = a;
+end;
+
+notation
+let R be Ring;
+let a be square Element of R;
+synonym Sqrt of a for SquareRoot of a;
+end;
+
+registration
+let R be non degenerated Ring;
+cluster non zero square for Element of R;
+end;
+
+theorem :: REALALG2:80
+for R being ordered domRing,
+    O being Ordering of R,
+    a,b being non O-negative Element of R holds a <=O, b iff a^2 <=O, b^2;
+
+theorem :: REALALG2:81
+for R being ordered domRing,
+    O being Ordering of R,
+    a,b being non O-negative Element of R holds a <O, b iff a^2 <O, b^2;
+
+theorem :: REALALG2:82
+for R being preordered domRing,
+    P being Preordering of R,
+    a being P-ordered Element of R holds abs(P,a)^2 = a^2;
+
+theorem :: REALALG2:83
+for R being preordered Ring,
+    P being Preordering of R,
+    a being Element of R st a in -P \ {0.R} holds a is non square;
+
+theorem :: REALALG2:84
+for R being preordered Ring,
+    P being Preordering of R holds (-P) /\ (SQ R) = {0.R};
+
+theorem :: REALALG2:85
+for R being preordered domRing,
+    P being Preordering of R,
+    a being square Element of R
+for b1,b2 being Sqrt of a st 0.R <=P, b1 & 0.R <=P, b2 holds b1 = b2;
+
+registration
+let R be preordered Ring;
+let P be Preordering of R;
+cluster P-negative -> non square for Element of R;
+cluster non P-positive square -> zero for Element of R;
+end;
+
+registration
+let R be ordered domRing;
+let O be Ordering of R;
+let a be square Element of R;
+cluster non O-negative for Sqrt of a;
+end;
+
+registration
+let R be ordered domRing;
+let O be Ordering of R;
+let a be non zero square Element of R;
+cluster O-positive for Sqrt of a;
+cluster O-negative for Sqrt of a;
+end;
+
+definition
+let R be ordered domRing;
+let O be Ordering of R;
+let a be square Element of R;
+func sqrt(O,a) -> non O-negative Sqrt of a means
+:: REALALG2:def 13
+  it^2 = a;
+end;
+
+theorem :: REALALG2:86
+for R being ordered domRing,
+    O being Ordering of R,
+    a being square Element of R,
+    b being Element of R
+holds b is Sqrt of a iff (b = sqrt(O,a) or b = -sqrt(O,a));
+
+registration
+let R be ordered domRing;
+let O be Ordering of R;
+let a be non zero square Element of R;
+cluster sqrt(O,a) -> non zero;
+end;

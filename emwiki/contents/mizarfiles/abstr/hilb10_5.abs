@@ -1,0 +1,330 @@
+:: Formalization of the {MRDP } Theorem in the {M}izar System
+::  by Karol P\kak
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, RELAT_1, ORDINAL4, FINSEQ_1, XBOOLE_0,
+      FUNCT_1, XXREAL_0, TARSKI, NAT_1, INT_1, ARYTM_3, ZFMISC_1, CARD_1,
+      ORDINAL1, ARYTM_1, PRE_POLY, QC_LANG1, GROUP_1, ALGSTR_0, RLVECT_1,
+      VECTSP_1, POLYNOM1, POLYNOM2, AFINSQ_1, COMPLEX1, SQUARE_1, NEWTON,
+      HILB10_2, INT_2, PARTFUN3, REWRITE2, REAL_1, VALUED_0, FINSEQ_2, CARD_3,
+      REALSET1, STRUCT_0, SGRAPH1, BINOP_2, PARTFUN1, INT_6, ORDERS_1,
+      FINSET_1, SUPINF_2, FUNCOP_1, WELLORD2, ALGSEQ_1, UPROOTS, MEMBERED,
+      RFINSEQ, JORDAN3, FUNCT_2, HILBASIS, FUNCT_4, HILB10_5;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1, RELSET_1,
+      FUNCT_1, FINSET_1, XCMPLX_0, PARTFUN1, FUNCT_2, BINOP_1, FUNCT_4, NAT_1,
+      ORDERS_1, FINSEQ_1, STRUCT_0, ALGSTR_0, RLVECT_1, FUNCOP_1, VECTSP_1,
+      GROUP_1, GROUP_4, XXREAL_0, RECDEF_1, PRE_POLY, POLYNOM1, XREAL_0, INT_1,
+      POLYNOM2, AFINSQ_1, AFINSQ_2, COMPLEX1, SQUARE_1, NEWTON, HILB10_2,
+      XXREAL_2, VALUED_0, FINSEQ_2, RVSUM_1, VALUED_1, BINOP_2, MEMBERED,
+      INT_2, REWRITE2, INT_6, WSIERP_1, FINSEQOP, UPROOTS, PARTFUN3, CARD_1,
+      NAT_D, HILBASIS, POLYNOM7, HILB10_4;
+ constructors NAT_D, RECDEF_1, BINOP_2, RELSET_1, GROUP_4, POLYNOM2, AFINSQ_2,
+      SQUARE_1, NEWTON, HILB10_2, XXREAL_2, WSIERP_1, INT_6, TRIANG_1,
+      FINSEQOP, FINSOP_1, UPROOTS, REWRITE2, ALGSTR_1, HILBASIS, POLYNOM7,
+      HILB10_4;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, NAT_1, CARD_1,
+      VALUED_0, VALUED_1, RELSET_1, INT_1, PEPIN, STRUCT_0, VECTSP_1, PRE_POLY,
+      MEMBERED, POLYNOM2, AFINSQ_1, HILB10_2, XXREAL_2, XXREAL_0, FINSET_1,
+      XCMPLX_0, NEWTON, NEWTON02, NAT_6, FINSEQ_1, FINSEQ_2, RVSUM_1, NEWTON04,
+      MOEBIUS2, EUCLID_9, OSALG_1, REWRITE2, INT_6, FOMODEL0, FOMODEL2,
+      AFINSQ_2, FUNCOP_1, WSIERP_1, ALGSTR_1, ALGSTR_0, HILBASIS, POLYNOM7,
+      HILB10_3, FUNCT_2, HILB10_4;
+ requirements NUMERALS, SUBSET, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve i,j,n,n1,n2,m,k,l,u for Nat,
+        i1,i2,i3,i4,i5,i6 for Element of n,
+        p,q for n-element XFinSequence of NAT,
+        a,b,c,d,e,f for Integer;
+
+registration
+  let n be Nat;
+  cluster idseq n -> INT -valued;
+  let x be n-element natural-valued XFinSequence;
+  let p be INT -valued Polynomial of n,F_Real;
+  cluster eval(p,@x) -> integer;
+end;
+
+theorem :: HILB10_5:1
+  for p being INT -valued Polynomial of n, F_Real
+    for x,y being n-element XFinSequence of NAT st k<>0 &
+      for i st i in n holds k divides (x.i - y.i) holds
+  k divides (eval(p,@x) qua Integer) - (eval(p,@y) qua Integer);
+
+registration
+  let f be INT -valued Function;
+  cluster - f -> INT -valued;
+end;
+
+scheme :: HILB10_5:sch 1
+ SCH1{P[object,object],f() -> XFinSequence-yielding XFinSequence}:
+  {f().i.j where i,j is Nat:P[i,j]} is finite;
+
+theorem :: HILB10_5:2
+   m >= n > 0 implies
+     1+(m! * idseq n) is CR_Sequence;
+
+theorem :: HILB10_5:3
+  for p being Prime
+    for f being FinSequence of NAT st
+      f is positive-yielding & p divides Product f
+  ex i st i in dom f & p divides f.i;
+
+begin :: Selected operations on polynomials
+
+definition
+  let n be set, p be Series of n, F_Real;
+  func |. p .| -> Series of n,F_Real means
+:: HILB10_5:def 1
+    for b being bag of n holds it.b = |. p.b .|;
+end;
+
+theorem :: HILB10_5:4
+  for n being set, p being Series of n, F_Real holds
+    Support p = Support |. p .|;
+
+registration
+  let n be Ordinal;
+  let p be Polynomial of n, F_Real;
+  cluster |. p .| -> finite-Support;
+end;
+
+registration
+  let n be set;
+  let S be non empty ZeroStr;
+  let p be finite-Support Series of n, S;
+  cluster Support p -> finite;
+end;
+
+definition
+  let n be Ordinal;
+  let L be add-associative right_zeroed right_complementable
+           non empty addLoopStr;
+  let p be Polynomial of n, L;
+  func sum_of_coefficients p -> Element of L equals
+:: HILB10_5:def 2
+    Sum (p * SgmX(BagOrder n,Support p));
+end;
+
+definition
+  let n be Ordinal;
+  let L be add-associative right_zeroed right_complementable
+  non empty addLoopStr;
+  let  p be Polynomial of n, L;
+  func degree p -> Nat means
+:: HILB10_5:def 3
+    (ex s being bag of n st s in Support p &
+        it = degree s) &
+    for s1 being bag of n st s1 in Support p holds
+         degree s1 <= it
+    if p <> 0_(n,L) otherwise it = 0;
+end;
+
+theorem :: HILB10_5:5
+  for n being Ordinal, b being bag of n holds
+   degree b = Sum (b * SgmX(RelIncl n, support b));
+
+theorem :: HILB10_5:6
+  for n being Ordinal,L being add-associative right_zeroed right_complementable
+                              non empty addLoopStr,
+      p being Polynomial of n, L holds
+  degree p = 0 iff Support p c= {EmptyBag n};
+
+theorem :: HILB10_5:7
+  for n being Ordinal,L being add-associative right_zeroed right_complementable
+                              non empty addLoopStr,
+      p being Polynomial of n, L, b being bag of n st b in Support p holds
+  degree p >= degree b;
+
+theorem :: HILB10_5:8
+  for n being Ordinal,p being Polynomial of n, F_Real st
+    |.p.| = 0_(n,F_Real) holds p = 0_(n,F_Real);
+
+registration
+  let n be set;
+  reduce |. 0_(n,F_Real) .| to 0_(n,F_Real);
+end;
+
+theorem :: HILB10_5:9
+  for n being Ordinal,p being Polynomial of n, F_Real holds
+    degree p = degree |. p .|;
+
+theorem :: HILB10_5:10
+  for n being Ordinal,b being bag of n,r being Real st r >= 1
+    for x being Function of n, the carrier of F_Real st
+      for i being object st i in dom x holds |. x.i .| <= r holds
+  |. eval(b,x).| <= r |^ (degree b);
+
+theorem :: HILB10_5:11
+  for n being Ordinal,p being Polynomial of n, F_Real,
+      r being Real st r >= 1
+    for x being Function of n, the carrier of F_Real st
+           for i being object st i in dom x holds |. x.i .| <= r
+    holds
+      |. eval(p,x).| <= (sum_of_coefficients |.p.|) * (r|^ degree p);
+
+registration
+  let n be Ordinal,p be INT -valued Polynomial of n, F_Real;
+  cluster |.p.| -> natural-valued;
+end;
+
+registration
+  let n be Ordinal;
+  cluster natural-valued for Polynomial of n, F_Real;
+end;
+
+registration
+  let O be Ordinal,p be natural-valued Polynomial of O, F_Real;
+  cluster sum_of_coefficients p -> natural;
+end;
+
+begin :: Selected subsets of zero based finite sequences of NAT
+      :: as diophantine sets
+
+scheme :: HILB10_5:sch 2
+  SubsetDioph{n()->Nat, P[Nat,Nat,Nat,Nat],S() ->set}:
+    for i2,i3,i4 be Element of n() holds
+     {p where p is n()-element XFinSequence of NAT:
+       for i being Nat st i in S() holds P[p.i,p.i2,p.i3,p.i4]}
+       is diophantine Subset of n() -xtuples_of NAT
+provided
+ for i1,i2,i3,i4 being Element of n() holds
+      {p where p is n()-element XFinSequence of NAT: P[p.i1,p.i2,p.i3,p.i4]}
+    is diophantine Subset of n() -xtuples_of NAT
+  and
+ S() c= Segm n();
+
+theorem :: HILB10_5:12
+  for k,n1,n2,i,j,l,m,n,i1,i2,i3,i4 st n1+n2 <= n holds
+    {p: p.i1 >= k *
+      (((p.i2)^2+1)* (Product (1+((p/^n1)|n2) ))*(l*p.i3+m)) |^
+        (i*(p.i4)+j)}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_5:13
+  for P being INT -valued Polynomial of k,F_Real, a being Integer,
+      perm being Permutation of n,i1 st k <= n
+  holds
+    {p: for q be k-element XFinSequence of NAT st q = (p*perm)|k holds
+           a * (p.i1) = eval(P,@q)}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_5:14
+  for P being INT -valued Polynomial of k+1,F_Real,a being Integer,
+    n,i1,i2 st k+1 <= n & k in i2
+  holds
+    {p: for q being k+1-element XFinSequence of NAT st q = <%p.i2%>^(p|k) holds
+            a* p.i1 = eval(P,@q)}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_5:15
+  for P being INT -valued Polynomial of k+1,F_Real,n,i1,i2 st
+    k+1 <= n & k in i1
+  holds
+    {p: for q be k+1-element XFinSequence of NAT st q = <%p.i1%>^(p|k) holds
+         eval(P,@q),0 are_congruent_mod p.i2}
+     is diophantine Subset of n -xtuples_of NAT;
+
+begin :: Bounded quantifier theorem and its variant
+
+theorem :: HILB10_5:16
+  for p being INT -valued Polynomial of 2+n+k,F_Real,
+      X being n-element XFinSequence of NAT,
+      x be Element of NAT holds
+( for z being Element of NAT st z <= x
+   ex y being k-element XFinSequence of NAT st
+        eval(p,@(<%z,x%>^X^y)) = 0) iff
+    ex Y being k-element XFinSequence of NAT,
+       Z,e,K being Element of NAT st
+          K > x & K >= (sum_of_coefficients |.p.|)*
+              ((x^2+1) * (Product (1+X))*e)|^degree p &
+          (for i being Nat st i in k holds Y.i > e) &
+           e > x &
+            1+(Z+1)*(K!) = Product (1+(K! * idseq (x+1)))&
+    eval(p,@(<%Z,x%>^X^Y)),0 are_congruent_mod (1+(Z+1)*(K!)) &
+     (for i being Nat st i in k holds
+         Product ((Y.i + 1)+(-idseq e)),0 are_congruent_mod (1+(Z+1)*(K!)));
+
+theorem :: HILB10_5:17
+  for p being INT -valued Polynomial of 2+n+k,F_Real,
+      X being n-element XFinSequence of NAT,
+      x being Element of NAT holds
+   ( for z being Element of NAT st z <= x
+       ex y being k-element XFinSequence of NAT st
+         (for i st i in k holds y.i <= x)&
+        eval(p,@(<%z,x%>^X^y)) = 0)
+  iff
+    ex Y being k-element XFinSequence of NAT,
+       Z,K being Element of NAT st
+          K > x & K >= (sum_of_coefficients |.p.|)*
+             ((x^2+1) * (Product (1+X)))|^degree p &
+          (for i being Nat st i in k holds Y.i > (x+1)) &
+            1+(Z+1)*(K!) = Product (1+(K! * idseq (x+1)))&
+    eval(p,@(<%Z,x%>^X^Y)),0 are_congruent_mod (1+(Z+1)*(K!)) &
+     (for i being Nat st i in k holds
+         Product ((Y.i + 1)+(-idseq (x+1))),
+                  0 are_congruent_mod (1+(Z+1)*(K!)));
+
+theorem :: HILB10_5:18
+  for p being INT -valued Polynomial of 2+n+k,F_Real holds
+    {X where X is n-element XFinSequence of NAT:
+       ex x being Element of NAT st
+          for z being Element of NAT st z <= x
+             ex y being k-element XFinSequence of NAT st
+           eval(p,@(<%z,x%>^X^y)) = 0}
+   is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_5:19
+  for p being INT -valued Polynomial of 2+n+k,F_Real holds
+   {X where X is n-element XFinSequence of NAT:
+      ex x being Element of NAT st
+         for z being Element of NAT st z <= x
+         ex y being k-element XFinSequence of NAT st
+           (for i being Nat st i in k holds y.i <= x) &
+           eval(p,@(<%z,x%>^X^y)) = 0}
+  is diophantine Subset of n -xtuples_of NAT;
+
+::$N Davis Normal Form
+
+definition
+  let n be Nat;
+  let A be Subset of n -xtuples_of NAT;
+  attr A is recursively_enumerable means
+:: HILB10_5:def 4
+    ex m being Nat, P being INT -valued Polynomial of 2+n+m,F_Real st
+      for X being n -element XFinSequence of NAT holds
+  X in A
+   iff
+  ex x being Element of NAT st
+    for z being Element of NAT st z <= x
+      ex Y being m-element XFinSequence of NAT st
+        (for i being object st i in dom Y holds Y.i <= x) &
+           eval(P,@(<%z,x%>^X^Y)) = 0;
+end;
+
+theorem :: HILB10_5:20
+  for n being Nat
+    for A being Subset of n -xtuples_of NAT holds
+  A is diophantine implies A is recursively_enumerable;
+
+begin :: MRDP Theorem
+::$N Yuri Matiyasevich, Julia Robinson, Martin Davis, Hilary Putnam Theorem
+
+theorem :: HILB10_5:21
+  for n being Nat
+    for A being Subset of n -xtuples_of NAT holds
+  A is recursively_enumerable implies A is diophantine;

@@ -1,0 +1,507 @@
+:: Basic Notions and Properties of Orthoposets
+::  by Markus Moschner
+::
+:: Received February 11, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, RELAT_1, SUBSET_1, TARSKI, FUNCT_5, FUNCT_1, RELAT_2,
+      ORDERS_2, XXREAL_0, ORDINAL2, LATTICE3, BINOP_1, QMAX_1, STRUCT_0,
+      ROBBINS1, WAYBEL_0, YELLOW_0, EQREL_1, WAYBEL_1, LATTICES, OPOSET_1,
+      CARD_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, RELAT_1, RELAT_2, FUNCT_2,
+      RELSET_1, PARTFUN1, BINOP_1, DOMAIN_1, FUNCT_5, ORDINAL1, CARD_1,
+      STRUCT_0, ORDERS_2, LATTICE3, ROBBINS1, WAYBEL_0, WAYBEL_1, YELLOW_0,
+      NECKLACE, QMAX_1, PARTIT_2;
+ constructors REALSET2, LATTICE3, WAYBEL_1, NECKLACE, QMAX_1, FUNCT_5,
+      PARTIT_2;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, STRUCT_0,
+      YELLOW_0, WAYBEL24, PARTIT_2, CARD_1, RELAT_2;
+ requirements BOOLE, SUBSET, NUMERALS;
+
+
+begin
+
+reserve  X for non empty set,
+  R for Relation of X;
+
+:: Some basic definitions and theorems for later examples;
+
+theorem :: OPOSET_1:1
+  for L being non empty reflexive antisymmetric RelStr for x,y being
+  Element of L holds x <= y implies sup {x,y} = y & inf {x,y} = x;
+
+:: for various types of relations needed for Posets
+
+:: Some existence conditions on non-empty relations
+
+registration
+  let X be set;
+  cluster irreflexive asymmetric transitive for Relation of X;
+end;
+
+registration
+  let X, R;
+  let C be UnOp of X;
+  cluster OrthoRelStr(#X,R,C#) -> non empty;
+end;
+
+registration
+  cluster non empty strict for OrthoRelStr;
+end;
+
+:: Double negation property of the internal Complement
+
+registration
+  let O be set;
+  cluster involutive for Function of O,O;
+end;
+
+:: Small example structures
+
+definition
+  func TrivOrthoRelStr -> strict OrthoRelStr equals
+:: OPOSET_1:def 1
+
+  OrthoRelStr (#{0}, id{0}, op1 #);
+end;
+
+notation
+  synonym TrivPoset for TrivOrthoRelStr;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> 1-element;
+end;
+
+definition
+  func TrivAsymOrthoRelStr -> strict OrthoRelStr equals
+:: OPOSET_1:def 2
+  OrthoRelStr (#{0},{}({0},{0}), op1 #);
+end;
+
+registration
+  cluster TrivAsymOrthoRelStr -> non empty;
+end;
+
+definition
+  let O be non empty OrthoRelStr;
+  attr O is Dneg means
+:: OPOSET_1:def 3
+
+  ex f being Function of O,O st f = the Compl of O & f is involutive;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> Dneg;
+end;
+
+registration
+  cluster Dneg for non empty OrthoRelStr;
+end;
+
+:: InternalRel based properties
+
+definition
+  let O be non empty RelStr;
+  attr O is SubReFlexive means
+:: OPOSET_1:def 4
+
+  the InternalRel of O is reflexive;
+end;
+
+reserve O for non empty RelStr;
+
+theorem :: OPOSET_1:2
+  O is reflexive implies O is SubReFlexive;
+
+theorem :: OPOSET_1:3
+  TrivOrthoRelStr is reflexive;
+
+registration
+  cluster TrivOrthoRelStr -> reflexive;
+end;
+
+registration
+  cluster reflexive strict for non empty OrthoRelStr;
+end;
+
+definition
+  let O;
+
+  redefine attr O is irreflexive means
+:: OPOSET_1:def 5
+
+  the InternalRel of O is irreflexive;
+  redefine attr O is irreflexive means
+:: OPOSET_1:def 6
+
+  the InternalRel of O is_irreflexive_in the carrier of O;
+end;
+
+theorem :: OPOSET_1:4
+  TrivAsymOrthoRelStr is irreflexive;
+
+registration
+  cluster TrivAsymOrthoRelStr -> irreflexive;
+end;
+
+registration
+  cluster irreflexive strict for non empty OrthoRelStr;
+end;
+
+:: Symmetry
+
+definition
+  let O be non empty RelStr;
+  redefine attr O is symmetric means
+:: OPOSET_1:def 7
+
+  the InternalRel of O is symmetric Relation of the carrier of O;
+end;
+
+theorem :: OPOSET_1:5
+  TrivOrthoRelStr is symmetric;
+
+registration
+  cluster symmetric strict for non empty OrthoRelStr;
+end;
+
+:: Antisymmetry
+
+definition
+  let O;
+
+  redefine attr O is antisymmetric means
+:: OPOSET_1:def 8
+  the InternalRel of O is antisymmetric Relation of the carrier of O;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> symmetric;
+end;
+
+registration
+  cluster symmetric antisymmetric strict for non empty OrthoRelStr;
+end;
+
+:: Asymmetry
+
+definition
+  let O;
+
+  redefine attr O is asymmetric means
+:: OPOSET_1:def 9
+
+  the InternalRel of O is_asymmetric_in the carrier of O;
+end;
+
+theorem :: OPOSET_1:6
+  TrivAsymOrthoRelStr is asymmetric;
+
+registration
+  cluster TrivAsymOrthoRelStr -> asymmetric;
+end;
+
+registration
+  cluster asymmetric strict for non empty OrthoRelStr;
+end;
+
+:: Transitivity
+
+definition
+  let O;
+  redefine attr O is transitive means
+:: OPOSET_1:def 10
+
+  the InternalRel of O is transitive Relation of the carrier of O;
+end;
+
+registration
+  cluster reflexive symmetric antisymmetric transitive strict for non empty
+    OrthoRelStr;
+end;
+
+theorem :: OPOSET_1:7
+  TrivAsymOrthoRelStr is transitive;
+
+registration
+  cluster TrivAsymOrthoRelStr -> irreflexive asymmetric transitive;
+end;
+
+registration
+  cluster irreflexive asymmetric transitive strict for non empty OrthoRelStr;
+end;
+
+theorem :: OPOSET_1:8
+  O is symmetric transitive implies O is SubReFlexive;
+
+theorem :: OPOSET_1:9
+  O is irreflexive transitive implies O is asymmetric;
+
+theorem :: OPOSET_1:10
+  O is asymmetric implies O is irreflexive;
+
+begin
+
+:: Quasiorder (Preorder)
+
+definition
+  let O;
+
+  attr O is SubQuasiOrdered means
+:: OPOSET_1:def 11
+
+  O is SubReFlexive transitive;
+end;
+
+notation
+  let O;
+  synonym O is SubPreOrdered for O is SubQuasiOrdered;
+end;
+
+definition
+  let O;
+  attr O is QuasiOrdered means
+:: OPOSET_1:def 12
+
+  O is reflexive transitive;
+end;
+
+notation
+  let O;
+  synonym O is PreOrdered for O is QuasiOrdered;
+end;
+
+theorem :: OPOSET_1:11
+  O is QuasiOrdered implies O is SubQuasiOrdered;
+
+registration
+  cluster QuasiOrdered -> SubQuasiOrdered for non empty OrthoRelStr;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> QuasiOrdered;
+end;
+
+reserve O for non empty OrthoRelStr;
+
+:: QuasiPure means complementation-order-like combination of properties
+
+definition
+  let O;
+  attr O is QuasiPure means
+:: OPOSET_1:def 13
+
+  O is Dneg QuasiOrdered;
+end;
+
+registration
+  cluster QuasiPure Dneg QuasiOrdered strict for non empty OrthoRelStr;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> QuasiPure;
+end;
+
+definition
+  mode QuasiPureOrthoRelStr is QuasiPure non empty OrthoRelStr;
+end;
+
+:: Partial Order ---> Poset
+
+definition
+
+  let O;
+  attr O is PartialOrdered means
+:: OPOSET_1:def 14
+
+  O is reflexive antisymmetric transitive;
+end;
+
+registration
+  cluster PartialOrdered -> reflexive antisymmetric transitive for non empty
+    OrthoRelStr;
+  cluster reflexive antisymmetric transitive -> PartialOrdered for non empty
+    OrthoRelStr;
+end;
+
+:: Pureness for partial orders
+
+definition
+  let O;
+  attr O is Pure means
+:: OPOSET_1:def 15
+
+  O is Dneg PartialOrdered;
+end;
+
+registration
+  cluster Pure Dneg PartialOrdered strict for non empty OrthoRelStr;
+end;
+
+registration
+  cluster TrivOrthoRelStr -> Pure;
+end;
+
+definition
+  mode PureOrthoRelStr is Pure non empty OrthoRelStr;
+end;
+
+:: Strict Poset
+
+definition
+
+  let O;
+  attr O is StrictPartialOrdered means
+:: OPOSET_1:def 16
+
+  O is asymmetric transitive;
+end;
+
+notation
+  let O;
+  synonym O is StrictOrdered for O is StrictPartialOrdered;
+end;
+
+theorem :: OPOSET_1:12
+  O is StrictPartialOrdered implies O is irreflexive;
+
+registration
+  cluster StrictPartialOrdered -> irreflexive for non empty OrthoRelStr;
+end;
+
+registration
+  cluster StrictPartialOrdered -> irreflexive for non empty OrthoRelStr;
+end;
+
+registration
+  cluster TrivAsymOrthoRelStr -> irreflexive StrictPartialOrdered;
+end;
+
+registration
+  cluster irreflexive StrictPartialOrdered for non empty strict OrthoRelStr;
+end;
+
+:: Quasiorder to Partial Order
+
+reserve QO for QuasiOrdered non empty OrthoRelStr;
+
+theorem :: OPOSET_1:13
+  QO is antisymmetric implies QO is PartialOrdered;
+
+registration
+  cluster PartialOrdered -> reflexive transitive antisymmetric for non empty
+    OrthoRelStr;
+end;
+
+definition
+  let PO be non empty RelStr;
+  let f be UnOp of the carrier of PO;
+
+  attr f is Orderinvolutive means
+:: OPOSET_1:def 17
+
+   f is involutive antitone;
+end;
+
+definition
+  let PO be non empty OrthoRelStr;
+  attr PO is OrderInvolutive means
+:: OPOSET_1:def 18
+
+   the Compl of PO is Orderinvolutive;
+end;
+
+theorem :: OPOSET_1:14
+  the Compl of TrivOrthoRelStr is Orderinvolutive;
+
+registration
+  cluster TrivOrthoRelStr -> OrderInvolutive;
+end;
+
+registration
+  cluster OrderInvolutive Pure PartialOrdered for non empty OrthoRelStr;
+end;
+
+definition
+  mode PreOrthoPoset is OrderInvolutive Pure PartialOrdered non empty
+    OrthoRelStr;
+end;
+
+definition
+  let PO be non empty RelStr;
+  let f be UnOp of the carrier of PO;
+  pred f QuasiOrthoComplement_on PO means
+:: OPOSET_1:def 19
+
+  f is Orderinvolutive & for y
+  being Element of PO holds ex_sup_of {y,f.y},PO & ex_inf_of {y,f.y},PO;
+end;
+
+definition
+  let PO be non empty OrthoRelStr;
+  attr PO is QuasiOrthocomplemented means
+:: OPOSET_1:def 20
+
+  ex f being Function of PO,PO
+  st f = the Compl of PO & f QuasiOrthoComplement_on PO;
+end;
+
+theorem :: OPOSET_1:15
+  TrivOrthoRelStr is QuasiOrthocomplemented;
+
+definition
+  let PO be non empty RelStr;
+  let f be UnOp of the carrier of PO;
+  pred f OrthoComplement_on PO means
+:: OPOSET_1:def 21
+
+  f is Orderinvolutive & for y
+being Element of PO holds ex_sup_of {y,f.y},PO & ex_inf_of {y,f.y},PO & "\/"({y
+,f.y},PO) is_maximum_of the carrier of PO & "/\"({y,f.y},PO) is_minimum_of the
+  carrier of PO;
+end;
+
+definition
+  let PO be non empty OrthoRelStr;
+  attr PO is Orthocomplemented means
+:: OPOSET_1:def 22
+
+  ex f being Function of PO,PO st f
+  = the Compl of PO & f OrthoComplement_on PO;
+end;
+
+theorem :: OPOSET_1:16
+  for PO being non empty OrthoRelStr, f being UnOp of the carrier of PO
+  st f OrthoComplement_on PO holds f QuasiOrthoComplement_on PO;
+
+:: PartialOrdered (non empty OrthoRelStr)
+
+theorem :: OPOSET_1:17
+  TrivOrthoRelStr is Orthocomplemented;
+
+registration
+  cluster TrivOrthoRelStr -> QuasiOrthocomplemented Orthocomplemented;
+end;
+
+registration
+  cluster Orthocomplemented QuasiOrthocomplemented PartialOrdered for
+non empty
+    OrthoRelStr;
+end;
+
+definition
+  mode QuasiOrthoPoset is QuasiOrthocomplemented PartialOrdered non empty
+    OrthoRelStr;
+  mode OrthoPoset is Orthocomplemented PartialOrdered non empty OrthoRelStr;
+end;

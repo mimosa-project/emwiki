@@ -1,0 +1,219 @@
+:: The Inner Product of Finite Sequences and of Points of $n$-dimensional
+:: Topological Space
+::  by Kanchun and Yatsuka Nakamura
+::
+:: Received February 3, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, SUBSET_1, FINSEQ_2, PRE_TOPC, EUCLID, RVSUM_1,
+      FUNCT_1, CARD_1, FINSEQ_1, RELAT_1, VALUED_0, ARYTM_3, COMPLEX1,
+      SQUARE_1, ARYTM_1, CARD_3, XXREAL_0, TARSKI, FUNCT_3, SUPINF_2, REAL_1;
+ notations TARSKI, FUNCT_1, ORDINAL1, NUMBERS, XCMPLX_0, XREAL_0, COMPLEX1,
+      FINSEQ_1, FINSEQ_2, VALUED_0, QUIN_1, STRUCT_0, PRE_TOPC, RVSUM_1,
+      RLVECT_1, EUCLID, SQUARE_1, XXREAL_0;
+ constructors REAL_1, SQUARE_1, BINOP_2, COMPLEX1, QUIN_1, FINSEQOP, MONOID_0,
+      TOPRNS_1, RELSET_1, BINOP_1;
+ registrations FUNCT_1, RELSET_1, NUMBERS, XREAL_0, SQUARE_1, BINOP_2,
+      MEMBERED, FINSEQ_2, MONOID_0, EUCLID, VALUED_0, FINSEQ_1, QUIN_1;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+reserve i, n for Nat,
+  x, y, a for Real,
+  v for Element of n-tuples_on REAL,
+  p, p1, p2, p3, q, q1, q2 for Point of TOP-REAL n;
+
+theorem :: EUCLID_2:1
+  mlt(v, 0*n).i = 0;
+
+theorem :: EUCLID_2:2
+  mlt(v, 0*n) = 0*n;
+
+begin :: Inner Product of Finite Sequences
+
+theorem :: EUCLID_2:3
+  for y1,y2 being real-valued FinSequence, x1,x2 being Element of REAL
+  n st x1=y1 & x2=y2 holds |(y1,y2)|=1/4*((|.(x1+x2).|)^2-(|.(x1-x2).|)^2);
+
+theorem :: EUCLID_2:4
+  for x being real-valued FinSequence holds |.x.|^2 = |(x,x)|;
+
+theorem :: EUCLID_2:5
+  for x being real-valued FinSequence holds |.x.| = sqrt |(x,x)|;
+
+::$CT
+
+theorem :: EUCLID_2:7
+  for x being real-valued FinSequence holds |(x,x)|=0 iff x=0*(len x);
+
+theorem :: EUCLID_2:8
+  for x being real-valued FinSequence holds |(x,x)| = 0 iff |.x.| = 0;
+
+theorem :: EUCLID_2:9
+  for x being real-valued FinSequence holds |(x, 0*(len x))| = 0;
+
+theorem :: EUCLID_2:10
+  for x being real-valued FinSequence holds |(0*(len x),x)| = 0;
+
+theorem :: EUCLID_2:11
+  for x,y being real-valued FinSequence st len x=len y holds |.x+y.|^2
+  = |.x.|^2 + 2*|(y, x)| + |.y.|^2;
+
+theorem :: EUCLID_2:12
+  for x,y being real-valued FinSequence st len x=len y holds |.x-y.|^2
+  = |.x.|^2 - 2*|(y, x)| + |.y.|^2;
+
+theorem :: EUCLID_2:13
+  for x,y being real-valued FinSequence st len x=len y holds |.x+y.|^2 + |.x
+  -y.|^2 = 2*(|.x.|^2 + |.y.|^2);
+
+theorem :: EUCLID_2:14
+  for x,y being real-valued FinSequence st len x=len y holds |.x+y.|^2 - |.x
+  -y.|^2 = 4* |(x,y)|;
+
+theorem :: EUCLID_2:15  :: Schwartz
+  for x,y being real-valued FinSequence st len x=len y holds
+  |.|(x,y)|.| <= |.x.|*|.y.|;
+
+theorem :: EUCLID_2:16  :: Triangle
+  for x,y being real-valued FinSequence st len x=len y holds
+  |.x+y.| <= |.x.| + |.y.|;
+
+begin  :: Inner Product of Points of TOP-REAL n
+
+::$CT
+
+theorem :: EUCLID_2:18
+  |(p1 + p2, p3)| = |(p1, p3)| + |(p2, p3)|;
+
+theorem :: EUCLID_2:19
+  for x being Real holds |(x*p1, p2)| = x*|(p1, p2)|;
+
+theorem :: EUCLID_2:20
+  for x being Real holds |(p1, x*p2)| = x*|(p1, p2)|;
+
+theorem :: EUCLID_2:21
+  |(-p1, p2)| = -|(p1, p2)|;
+
+theorem :: EUCLID_2:22
+  |(p1, -p2)| = -|(p1, p2)|;
+
+theorem :: EUCLID_2:23
+  |(-p1, -p2)| = |(p1, p2)|;
+
+theorem :: EUCLID_2:24
+  |(p1-p2, p3)| = |(p1, p3)| - |(p2, p3)|;
+
+theorem :: EUCLID_2:25
+  |((x*p1+y*p2), p3)| = x*|(p1,p3)| + y*|(p2,p3)|;
+
+theorem :: EUCLID_2:26
+  |(p, q1+q2)| = |(p, q1)| + |(p, q2)|;
+
+theorem :: EUCLID_2:27
+  |(p, q1-q2)| = |(p, q1)| - |(p, q2)|;
+
+theorem :: EUCLID_2:28
+  |(p1+p2, q1+q2)| = |(p1, q1)| + |(p1, q2)| + |(p2, q1)| + |(p2, q2)|;
+
+theorem :: EUCLID_2:29
+  |(p1-p2, q1-q2)| = |(p1, q1)| - |(p1, q2)| - |(p2, q1)| + |(p2, q2)|;
+
+theorem :: EUCLID_2:30
+  |(p+q, p+q)| = |(p, p)| + 2*|(p, q)| + |(q, q)|;
+
+theorem :: EUCLID_2:31
+  |(p-q, p-q)| = |(p, p)| - 2*|(p, q)| + |(q, q)|;
+
+theorem :: EUCLID_2:32
+  |(p, 0.TOP-REAL n)| = 0;
+
+theorem :: EUCLID_2:33
+  |(0.TOP-REAL n, p)| = 0;
+
+theorem :: EUCLID_2:34
+  |(0.TOP-REAL n, 0.TOP-REAL n)| = 0;
+
+theorem :: EUCLID_2:35
+  |(p,p)| >= 0;
+
+theorem :: EUCLID_2:36
+  |(p,p)| = |.p.|^2;
+
+theorem :: EUCLID_2:37
+  |.p.| = sqrt |(p,p)|;
+
+theorem :: EUCLID_2:38
+  0 <= |.p.|;
+
+theorem :: EUCLID_2:39
+  |. 0.TOP-REAL n .| = 0;
+
+theorem :: EUCLID_2:40
+  |(p,p)| = 0 iff |.p.| = 0;
+
+theorem :: EUCLID_2:41
+  |(p,p)| = 0 iff p = 0.TOP-REAL n;
+
+theorem :: EUCLID_2:42
+  |.p.|=0 iff p = 0.TOP-REAL n;
+
+theorem :: EUCLID_2:43
+  p <> 0.TOP-REAL n iff |(p, p)| > 0;
+
+theorem :: EUCLID_2:44
+  p <> 0.TOP-REAL n iff |.p.| > 0;
+
+theorem :: EUCLID_2:45
+  |.p+q.|^2 = |.p.|^2 + 2*|(q, p)| + |.q.|^2;
+
+theorem :: EUCLID_2:46
+  |.p-q.|^2 = |.p.|^2 - 2*|(q, p)| + |.q.|^2;
+
+theorem :: EUCLID_2:47
+  |.p+q.|^2 + |.p-q.|^2 = 2*(|.p.|^2 + |.q.|^2);
+
+theorem :: EUCLID_2:48
+  |.p+q.|^2 - |.p-q.|^2 = 4* |(p,q)|;
+
+theorem :: EUCLID_2:49
+  |(p,q)| = (1/4)*(|.p+q.|^2 - |.p-q.|^2);
+
+theorem :: EUCLID_2:50
+  |(p,q)| <= |(p,p)| + |(q,q)|;
+
+theorem :: EUCLID_2:51 :: Schwartz
+  |.|(p,q)|.| <= |.p.|*|.q.|;
+
+theorem :: EUCLID_2:52 :: Triangle
+  |.p+q.| <= |.p.| + |.q.|;
+
+theorem :: EUCLID_2:53
+  p,0.TOP-REAL n are_orthogonal;
+
+theorem :: EUCLID_2:54
+  0.TOP-REAL n,p are_orthogonal;
+
+theorem :: EUCLID_2:55
+  p,p are_orthogonal iff p=0.TOP-REAL n;
+
+theorem :: EUCLID_2:56
+  p, q are_orthogonal implies a*p,q are_orthogonal;
+
+theorem :: EUCLID_2:57
+  p, q are_orthogonal implies p,a*q are_orthogonal;
+
+theorem :: EUCLID_2:58
+  (for q holds p,q are_orthogonal) implies p=0.TOP-REAL n;

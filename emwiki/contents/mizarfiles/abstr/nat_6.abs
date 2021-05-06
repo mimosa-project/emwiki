@@ -1,0 +1,489 @@
+:: Proth Numbers
+::  by Christoph Schwarzweller
+::
+:: Received June 4, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ORDINAL1, CARD_1, XXREAL_0, RELAT_1, ARYTM_3, NEWTON,
+      INT_1, SUBSET_1, ARYTM_1, ABIAN, TARSKI, XBOOLE_0, INT_2, NAT_1, EC_PF_2,
+      INT_7, INT_5, INT_3, PEPIN, SQUARE_1, ZFMISC_1, GRAPH_1, GROUP_1,
+      ALGSTR_0, FUNCT_7, FUNCT_1, BINOP_2, XCMPLX_0, NAT_6;
+ notations SUBSET_1, TARSKI, XBOOLE_0, ORDINAL1, STRUCT_0, NUMBERS, CARD_1,
+      XCMPLX_0, XREAL_0, ALGSTR_0, GR_CY_1, INT_5, INT_1, ABIAN, SQUARE_1,
+      GROUP_1, PEPIN, NAT_3, BINOP_1, MEMBERED, INT_2, INT_3, EC_PF_2, INT_7,
+      NAT_D, XXREAL_0, NEWTON;
+ constructors REAL_1, NAT_D, POWER, DOMAIN_1, ABIAN, PEPIN, NAT_3, NUMBERS,
+      NAT_4, NEWTON, EC_PF_2, SUBSET_1, ALGSTR_0, INT_5, INT_7, XXREAL_0,
+      GROUP_1, GR_CY_1, BINOP_2, RELSET_1, XTUPLE_0, BINOP_1, INT_3;
+ registrations ORDINAL1, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, INT_1, MEMBERED,
+      NEWTON, NAT_2, NAT_3, SQUARE_1, INT_7, ABIAN, STRUCT_0, RELSET_1,
+      WSIERP_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+registration
+  let n be positive natural number;
+  cluster n - 1 -> natural;
+end;
+
+registration
+  let n be non trivial natural number;
+  cluster n - 1 -> positive;
+end;
+
+registration
+  let n be natural number;
+  reduce 1|^n to 1;
+end;
+
+registration
+  let n be even natural number;
+  reduce (-1)|^n to 1;
+end;
+
+registration
+  let n be odd natural number;
+  reduce (-1)|^n to -1;
+end;
+
+theorem :: NAT_6:1
+  for a being positive natural number,
+      n,m being natural number st n >= m holds a|^n >= a|^m;
+
+theorem :: NAT_6:2
+  for a being non trivial natural number,
+      n,m being natural number st n > m holds a|^n > a|^m;
+
+theorem :: NAT_6:3
+  for n being non zero natural number
+   ex k being natural number,
+      l being odd natural number st n = l * 2|^k;
+
+theorem :: NAT_6:4
+  for n being even natural number holds n div 2 = n/2;
+
+theorem :: NAT_6:5
+  for n being odd natural number holds n div 2 = (n-1)/2;
+
+registration
+  let n be even integer number;
+  cluster n/2 -> integer;
+end;
+
+registration
+  let n be even natural number;
+  cluster n/2 -> natural;
+end;
+
+begin :: Congruences and Prime Numbers
+
+registration
+  cluster prime -> non trivial for natural number;
+end;
+
+theorem :: NAT_6:6
+  for p being prime natural number,
+      a being integer number holds a gcd p <> 1 iff p divides a;
+
+theorem :: NAT_6:7
+  for i,j being integer number,
+      p being prime natural number
+  st p divides i * j holds p divides i or p divides j;
+
+theorem :: NAT_6:8
+  for x,p being prime natural number,
+      k being non zero natural number holds x divides (p|^k) iff x = p;
+
+theorem :: NAT_6:9
+  for x,y,n being integer number
+  holds x,y are_congruent_mod n iff ex k being Integer st x = k * n + y;
+
+theorem :: NAT_6:10
+  for i being integer number,
+      j being non zero integer number holds i, i mod j are_congruent_mod j;
+
+theorem :: NAT_6:11
+  for x,y being integer number,
+      n being positive integer number
+  holds x,y are_congruent_mod n iff x mod n = y mod n;
+
+theorem :: NAT_6:12
+  for i,j being integer number,
+      n being natural number
+  st n < j & i,n are_congruent_mod j holds i mod j = n;
+
+theorem :: NAT_6:13
+  for n being non zero natural number, x being integer number
+  holds x,0 are_congruent_mod n or ... or x,(n-1) are_congruent_mod n;
+
+theorem :: NAT_6:14
+  for n being non zero natural number,
+      x being integer number,
+      k,l being natural number
+  st k < n & l < n & x,k are_congruent_mod n & x,l are_congruent_mod n
+  holds k = l;
+
+theorem :: NAT_6:15
+  for x being integer number
+  holds x|^2, 0 are_congruent_mod 3 or x|^2, 1 are_congruent_mod 3;
+
+theorem :: NAT_6:16
+  for p being prime natural number,
+      x,y being Element of Z/Z*(p),
+      i,j being integer number
+  st x = i & y = j holds x * y = (i * j) mod p;
+
+theorem :: NAT_6:17
+  for p being prime natural number,
+      x being Element of Z/Z*(p),
+      i being integer number,
+      n being natural number
+  st x = i holds x |^ n = (i |^ n) mod p;
+
+theorem :: NAT_6:18
+  for p being prime natural number,
+      x being integer number
+  holds x|^2, 1 are_congruent_mod p iff
+        (x, 1 are_congruent_mod p or x, -1 are_congruent_mod p);
+
+theorem :: NAT_6:19
+  for n being natural number holds
+    -1,1 are_congruent_mod n iff (n = 2 or n = 1);
+
+theorem :: NAT_6:20
+  for i being integer Number
+    holds -1,1 are_congruent_mod i iff (i = 2 or i = 1 or i = -2 or i = -1);
+
+begin :: n_greater
+
+definition
+  let n,x be natural number;
+  attr x is n_greater means
+:: NAT_6:def 1
+    x > n;
+end;
+
+notation
+  let n,x be natural number;
+  antonym x is n_smaller for x is n_or_greater;
+  antonym x is n_or_smaller for x is n_greater;
+end;
+
+registration
+  let n be natural number;
+  cluster n_greater odd for natural number;
+  cluster n_greater even for natural number;
+end;
+
+registration
+  let n be natural number;
+  cluster n_greater -> n_or_greater for natural number;
+end;
+
+registration
+  let n be natural number;
+  cluster (n+1)_or_greater -> n_or_greater for natural number;
+  cluster (n+1)_greater -> n_greater for natural number;
+  cluster n_greater -> (n+1)_or_greater for natural number;
+end;
+
+registration
+  let m be non trivial natural number;
+  cluster m_or_greater-> non trivial for natural number;
+end;
+
+registration
+  let a be positive natural number;
+  let m be natural number;
+  let n be m_or_greater natural number;
+  cluster a|^n -> (a|^m)_or_greater;
+end;
+
+registration
+  let a be non trivial natural number;
+  let m be natural number;
+  let n be m_greater natural number;
+  cluster a|^n -> (a|^m)_greater;
+end;
+
+registration
+  cluster 2_or_greater -> non trivial for natural number;
+  cluster non trivial -> 2_or_greater for natural number;
+  cluster non trivial odd -> 2_greater for natural number;
+end;
+
+registration
+  let n be 2_greater natural number;
+  cluster n - 1 -> non trivial;
+end;
+
+registration
+  let n be 2_or_greater natural number;
+  cluster n - 2 -> natural;
+end;
+
+registration
+  let m be non zero natural number;
+  let n be m_or_greater natural number;
+  cluster n - 1 -> natural;
+end;
+
+registration
+  cluster 2_greater -> odd for prime natural number;
+end;
+
+registration
+  let n be natural number;
+  cluster n_greater prime for natural number;
+end;
+
+begin :: Pocklington's theorem revisited
+
+definition
+  let n be natural number;
+  mode Divisor of n -> natural number means
+:: NAT_6:def 2
+    it divides n;
+end;
+
+registration
+  let n be non trivial natural number;
+  cluster non trivial for Divisor of n;
+end;
+
+registration
+  let n be non zero natural number;
+  cluster -> non zero for Divisor of n;
+end;
+
+registration
+  let n be positive natural number;
+  cluster -> positive for Divisor of n;
+end;
+
+registration
+  let n be non zero natural number;
+  cluster -> n_or_smaller for Divisor of n;
+end;
+
+registration let n be non trivial natural number;
+  cluster prime for Divisor of n;
+end;
+
+registration
+  let n be natural number;
+  let q be Divisor of n;
+  cluster n / q -> natural;
+end;
+
+registration
+  let n be natural number;
+  let s be Divisor of n;
+  let q be Divisor of s;
+  cluster n / q -> natural;
+end;
+
+::$N Pocklington's theorem
+
+theorem :: NAT_6:21
+  for n being 2_greater natural number,
+      s being non trivial Divisor of n - 1 st s > sqrt(n) &
+   ex a being natural number
+   st a|^(n-1),1 are_congruent_mod n &
+     for q being prime Divisor of s holds a|^((n-1)/q) - 1 gcd n = 1
+   holds n is prime;
+
+begin  :: Euler's criterion
+
+notation
+  let a be integer number, p be natural number;
+  antonym a is_quadratic_non_residue_mod p for a is_quadratic_residue_mod p;
+end;
+
+theorem :: NAT_6:22
+  for p being positive natural number,
+      a being integer number holds
+    a is_quadratic_residue_mod p iff
+      ex x being integer number st x|^2, a are_congruent_mod p;
+
+theorem :: NAT_6:23
+  2 is_quadratic_non_residue_mod 3;
+
+::$N Legendre symbol
+
+definition
+  let p be natural number;
+  let a be integer number;
+  func LegendreSymbol(a,p) -> integer Number equals
+:: NAT_6:def 3
+   1 if a gcd p = 1 & a is_quadratic_residue_mod p & p <> 1,
+   0 if p divides a,
+  -1 if a gcd p = 1 & a is_quadratic_non_residue_mod p & p <> 1;
+end;
+
+definition
+  let p be prime natural number;
+  let a be integer number;
+  redefine func LegendreSymbol(a,p) equals
+:: NAT_6:def 4
+   1 if a gcd p = 1 & a is_quadratic_residue_mod p,
+   0 if p divides a,
+  -1 if a gcd p = 1 & a is_quadratic_non_residue_mod p;
+end;
+
+notation
+  let p be natural number;
+  let a be integer number;
+  synonym Leg(a,p) for LegendreSymbol(a,p);
+end;
+
+theorem :: NAT_6:24
+  for p be prime natural number,
+      a be integer number
+  holds Leg(a,p) = 1 or Leg(a,p) = 0 or Leg(a,p) = -1;
+
+theorem :: NAT_6:25
+  for p being prime natural number,
+      a being integer number holds
+  (Leg(a,p) =  1 iff a gcd p = 1 & a is_quadratic_residue_mod p) &
+  (Leg(a,p) =  0 iff p divides a) &
+  (Leg(a,p) = -1 iff a gcd p = 1 & a is_quadratic_non_residue_mod p);
+
+theorem :: NAT_6:26
+  for p being natural number holds Leg(p,p) = 0;
+
+theorem :: NAT_6:27
+  for a being integer number holds Leg(a,2) = a mod 2;
+
+theorem :: NAT_6:28
+  for p being 2_greater prime natural number,
+      a,b being integer number
+  st a gcd p = 1 & b gcd p = 1 & a,b are_congruent_mod p
+  holds Leg(a,p) = Leg(b,p);
+
+theorem :: NAT_6:29
+  for p being 2_greater prime natural number,
+      a,b being integer number
+  st a gcd p = 1 & b gcd p = 1 holds Leg(a*b,p) = Leg(a,p) * Leg(b,p);
+
+theorem :: NAT_6:30
+  for p,q being 2_greater prime natural number
+  st p <> q
+  holds Leg(p,q) * Leg(q,p) = (-1)|^( ((p-1)/2) * ((q-1)/2) );
+
+::$N Euler's criterion
+
+theorem :: NAT_6:31
+  for p being 2_greater prime natural number,
+      a being integer number
+  st a gcd p = 1
+  holds a|^((p-1)/2), LegendreSymbol(a,p) are_congruent_mod p;
+
+begin  :: Proth Numbers
+
+::$N Proth numbers
+
+definition
+  let p be natural number;
+  attr p is Proth means
+:: NAT_6:def 5
+    ex k being odd natural number,
+       n being positive natural number
+    st 2|^n > k & p = k * (2|^n) + 1;
+end;
+
+registration
+  cluster Proth prime for natural number;
+  cluster Proth non prime for natural number;
+end;
+
+registration
+  cluster Proth -> non trivial odd for natural number;
+end;
+
+theorem :: NAT_6:32
+  3 is Proth;
+
+theorem :: NAT_6:33
+  5 is Proth;
+
+theorem :: NAT_6:34
+  9 is Proth;
+
+theorem :: NAT_6:35
+  13 is Proth;
+
+theorem :: NAT_6:36
+  17 is Proth;
+
+theorem :: NAT_6:37
+  641 is Proth;
+
+theorem :: NAT_6:38
+  11777 is Proth;
+
+theorem :: NAT_6:39
+  13313 is Proth;
+
+::$N Proth's theorem
+
+theorem :: NAT_6:40  :: Proth
+  for n being Proth natural number holds
+  n is prime iff
+  ex a being natural number st a|^((n-1)/2), -1 are_congruent_mod n;
+
+theorem :: NAT_6:41  :: Proth
+  for l being 2_or_greater natural number,
+      k being positive natural number
+  st not(3 divides k) & k <= 2|^l - 1
+  holds k * 2|^l + 1 is prime iff
+     3|^(k*2|^(l-1)), -1 are_congruent_mod k* 2|^l + 1;
+
+theorem :: NAT_6:42
+  641 is prime;
+
+begin   :: Fermat Numbers
+
+registration
+  let l be natural number;
+  cluster Fermat l -> Proth;
+end;
+
+::$N Pepin's theorem
+
+theorem :: NAT_6:43  :: Pepin
+  for l being non zero natural number
+  holds Fermat l is prime iff
+      3|^((Fermat l - 1)/2), -1 are_congruent_mod Fermat l;
+
+theorem :: NAT_6:44
+  Fermat 5 is non prime;
+
+begin :: Cullen numbers
+
+::$N Cullen numbers
+
+definition
+  let n be natural number;
+  func CullenNumber n -> natural number equals
+:: NAT_6:def 6
+    n * 2|^n + 1;
+end;
+
+registration
+  let n be non zero natural number;
+  cluster CullenNumber n -> Proth;
+end;
+

@@ -1,0 +1,830 @@
+:: Zero Based Finite Sequences
+::  by Tetsuya Tsunetou , Grzegorz Bancerek and Yatsuka Nakamura
+::
+:: Received September 28, 2001
+:: Copyright (c) 2001-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, FUNCT_1, ARYTM_3, XXREAL_0, XBOOLE_0, TARSKI,
+      NAT_1, ORDINAL1, FINSEQ_1, CARD_1, FINSET_1, RELAT_1, PARTFUN1, FUNCOP_1,
+      ORDINAL4, ORDINAL2, ARYTM_1, REAL_1, ZFMISC_1, FUNCT_4, VALUED_0,
+      AFINSQ_1, PRGCOR_2, CAT_1, AMISTD_1, AMISTD_3, AMISTD_2, VALUED_1,
+      CONNSP_3, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      CARD_1, ORDINAL2, NUMBERS, ORDINAL4, XCMPLX_0, XREAL_0, NAT_1, PARTFUN1,
+      BINOP_1, FINSOP_1, NAT_D, FINSET_1, FINSEQ_1, FUNCOP_1, FUNCT_4, FUNCT_7,
+      XXREAL_0, VALUED_0, VALUED_1;
+ constructors WELLORD2, FUNCT_4, XXREAL_0, ORDINAL4, FUNCT_7, ORDINAL3,
+      VALUED_1, ENUMSET1, NAT_D, XXREAL_2, BINOP_1, FINSOP_1, RELSET_1, CARD_1,
+      NUMBERS;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1,
+      XXREAL_0, XREAL_0, NAT_1, CARD_1, ORDINAL2, NUMBERS, VALUED_1, XXREAL_2,
+      MEMBERED, FINSET_1, FUNCT_4, FINSEQ_1, INT_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve k,n for Nat,
+  x,y,z,y1,y2 for object,X,Y for set,
+  f,g for Function;
+
+:: Extended Segments of Natural Numbers
+
+theorem :: AFINSQ_1:1  ::: CHORD:1 moved eventually from there -> go to INT_1
+  for n being non zero Nat holds n-1 is Nat & 1 <= n;
+
+theorem :: AFINSQ_1:2
+  Segm n \/ { n } = Segm(n+1);
+
+theorem :: AFINSQ_1:3
+  Seg n c= Segm(n+1);
+
+theorem :: AFINSQ_1:4
+  n+1 = {0} \/ Seg n;
+
+::  Finite ExFinSequences
+
+theorem :: AFINSQ_1:5
+  for r being Function holds r is finite Sequence-like iff
+  ex n st dom r = n;
+
+definition
+  mode XFinSequence is finite Sequence;
+end;
+
+reserve p,q,r,s,t for XFinSequence;
+
+registration let p;
+  cluster dom p -> natural;
+end;
+
+notation let p;
+  synonym len p for card p;
+end;
+
+registration let p;
+  identify len p with dom p;
+  identify dom p with len p;
+end;
+
+definition let p;
+  redefine func len p -> Element of NAT;
+end;
+
+definition let p;
+  redefine func dom p -> Subset of NAT;
+end;
+
+theorem :: AFINSQ_1:6
+  (ex k st dom f c= k) implies ex p st f c= p;
+
+scheme :: AFINSQ_1:sch 1
+ XSeqEx{A()->Nat,P[object,object]}:
+  ex p st dom p = A() & for k st k in A() holds P[k,p.k]
+provided
+ for k st k in A() ex x being object st P[k,x];
+
+scheme :: AFINSQ_1:sch 2
+  XSeqLambda{A()->Nat,F(object) -> object}:
+ex p being XFinSequence st len p = A() &
+  for k st k in A() holds p.k=F(k);
+
+theorem :: AFINSQ_1:7
+  z in p implies ex k st k in dom p & z=[k,p.k];
+
+theorem :: AFINSQ_1:8
+  dom p = dom q & (for k st k in dom p holds p.k = q.k) implies p = q;
+
+theorem :: AFINSQ_1:9
+  ( len p = len q & for k st k < len p holds p.k=q.k ) implies p=q;
+
+registration let p,n;
+  cluster p|n -> finite;
+end;
+
+theorem :: AFINSQ_1:10
+  rng p c= dom f implies f*p is XFinSequence;
+
+theorem :: AFINSQ_1:11
+  k <= len p implies dom(p|k) = k;
+
+:: XFinSequences of D
+
+registration let D be set;
+  cluster finite for Sequence of D;
+end;
+
+definition let D be set;
+  mode XFinSequence of D is finite Sequence of D;
+end;
+
+theorem :: AFINSQ_1:12
+  for D being set, f being XFinSequence of D holds f is PartFunc of NAT,D;
+
+registration
+  cluster empty -> Sequence-like for Function;
+end;
+
+reserve D for set;
+
+registration
+ let k be Nat, a be object;
+ cluster Segm k --> a -> finite Sequence-like;
+end;
+
+::$CT
+
+theorem :: AFINSQ_1:14
+  for D being non empty set ex p being XFinSequence of D st len p = k;
+
+::                                ::
+::    The Empty XFinSequence      ::
+::                                ::
+
+theorem :: AFINSQ_1:15
+  len p = 0 iff p = {};
+
+theorem :: AFINSQ_1:16
+  for D be set holds {} is XFinSequence of D;
+
+registration let D be set;
+  cluster empty for XFinSequence of D;
+end;
+
+registration
+  let D be non empty set;
+  cluster non empty for XFinSequence of D;
+end;
+
+definition let x;
+  func <%x%> -> set equals
+:: AFINSQ_1:def 1
+  0 .--> x;
+end;
+
+registration let x;
+  cluster <%x%> -> non empty;
+end;
+
+definition let D be set;
+  func <%>D -> XFinSequence of D equals
+:: AFINSQ_1:def 2
+  {};
+end;
+
+registration
+  let D be set;
+  cluster <%>D -> empty;
+end;
+
+definition let p,q;
+  redefine func p^q means
+:: AFINSQ_1:def 3
+ dom it = len p + len q & (for k st k in dom p
+  holds it.k=p.k) & for k st k in dom q holds it.(len p + k) = q.k;
+end;
+
+registration
+  let p,q;
+  cluster p^q -> finite;
+end;
+
+theorem :: AFINSQ_1:17
+  len(p^q) = len p + len q;
+
+theorem :: AFINSQ_1:18
+  len p <= k & k < len p + len q implies (p^q).k=q.(k-len p);
+
+theorem :: AFINSQ_1:19
+  len p <= k & k < len(p^q) implies (p^q).k = q.(k - len p);
+
+theorem :: AFINSQ_1:20
+  k in dom (p^q) implies (k in dom p or ex n st n in dom q & k=len
+  p + n );
+
+theorem :: AFINSQ_1:21
+  for p,q being Sequence holds dom p c= dom(p^q);
+
+theorem :: AFINSQ_1:22
+  x in dom q implies ex k st k=x & len p + k in dom(p^q);
+
+theorem :: AFINSQ_1:23
+  k in dom q implies len p + k in dom(p^q);
+
+theorem :: AFINSQ_1:24
+  rng p c= rng(p^q);
+
+theorem :: AFINSQ_1:25
+  rng q c= rng(p^q);
+
+theorem :: AFINSQ_1:26  ::: ORDINAL4:2
+  rng(p^q) = rng p \/ rng q;
+
+theorem :: AFINSQ_1:27
+  p^q^r = p^(q^r);
+
+theorem :: AFINSQ_1:28
+  p^r = q^r or r^p = r^q implies p = q;
+
+registration let p;
+ reduce p^{} to p;
+ reduce {}^p to p;
+end;
+
+::$CT
+
+theorem :: AFINSQ_1:30
+  p^q = {} implies p={} & q={};
+
+registration
+  let D be set;
+  let p,q be XFinSequence of D;
+  cluster p^q -> D-valued;
+end;
+
+definition
+  let x;
+  redefine func <%x%> -> Function means
+:: AFINSQ_1:def 4
+
+  dom it = 1 & it.0 = x;
+end;
+
+registration
+  let x;
+  cluster <%x%> -> Function-like Relation-like;
+end;
+
+registration
+  let x;
+  cluster <%x%> -> finite Sequence-like;
+end;
+
+theorem :: AFINSQ_1:31
+  p^q is XFinSequence of D implies p is XFinSequence of D & q is
+  XFinSequence of D;
+
+definition
+  let x,y;
+  func <%x,y%> -> set equals
+:: AFINSQ_1:def 5
+  <%x%>^<%y%>;
+  let z;
+  func <%x,y,z%> -> set equals
+:: AFINSQ_1:def 6
+  <%x%>^<%y%>^<%z%>;
+end;
+
+registration
+  let x,y;
+  cluster <%x,y%> -> Function-like Relation-like;
+  let z;
+  cluster <%x,y,z%> -> Function-like Relation-like;
+end;
+
+registration
+  let x,y;
+  cluster <%x,y%> -> finite Sequence-like;
+  let z;
+  cluster <%x,y,z%> -> finite Sequence-like;
+end;
+
+theorem :: AFINSQ_1:32
+  <%x%> = { [0,x] };
+
+theorem :: AFINSQ_1:33
+  p=<%x%> iff dom p = Segm 1 & rng p = {x};
+
+theorem :: AFINSQ_1:34
+  p = <%x%> iff len p = 1 & p.0 = x;
+
+registration
+  let x;
+  reduce <%x%>.0 to x;
+end;
+
+theorem :: AFINSQ_1:35
+  (<%x%>^p).0 = x;
+
+theorem :: AFINSQ_1:36
+  (p^<%x%>).(len p)=x;
+
+theorem :: AFINSQ_1:37
+  <%x,y,z%>=<%x%>^<%y,z%> & <%x,y,z%>=<%x,y%>^<%z%>;
+
+theorem :: AFINSQ_1:38
+  p = <%x,y%> iff len p = 2 & p.0=x & p.1=y;
+
+registration
+  let x,y;
+  reduce <%x,y%>.0 to x;
+  reduce <%x,y%>.1 to y;
+end;
+
+theorem :: AFINSQ_1:39
+  p = <%x,y,z%> iff len p = 3 & p.0 = x & p.1 = y & p.2 = z;
+
+registration
+  let x,y,z;
+  reduce <%x,y,z%>.0 to x;
+  reduce <%x,y,z%>.1 to y;
+  reduce <%x,y,z%>.2 to z;
+end;
+
+registration
+  let x;
+  cluster <%x%> -> 1-element;
+  let y;
+  cluster <%x,y%> -> 2-element;
+  let z;
+  cluster <%x,y,z%> -> 3-element;
+end;
+
+registration let n be Nat;
+ cluster n-element -> n-defined for XFinSequence;
+end;
+
+registration let n be Nat, x be object;
+ cluster n --> x -> finite Sequence-like;
+end;
+
+registration let n be Nat;
+ cluster n-element for XFinSequence;
+end;
+
+registration let n be Nat;
+ cluster -> total for n-element n-defined XFinSequence;
+end;
+
+theorem :: AFINSQ_1:40
+  p <> {} implies ex q,x st p=q^<%x%>;
+
+registration
+  let D be non empty set;
+  let d1 be Element of D;
+  cluster <%d1%> -> D -valued;
+  let d2 be Element of D;
+  cluster <%d1,d2%> -> D -valued;
+  let d3 be Element of D;
+  cluster <%d1,d2,d3%> -> D -valued;
+end;
+
+:: Scheme of induction for extended finite sequences
+
+scheme :: AFINSQ_1:sch 3
+  IndXSeq{P[XFinSequence]}: for p holds P[p]
+provided
+ P[{}] and
+ for p,x st P[p] holds P[p^<%x%>];
+
+theorem :: AFINSQ_1:41
+  for p,q,r,s being XFinSequence st p^q = r^s & len p <= len r ex t
+  being XFinSequence st p^t = r;
+
+definition
+  let D be set;
+  func D^omega -> set means
+:: AFINSQ_1:def 7
+
+  x in it iff x is XFinSequence of D;
+end;
+
+registration
+  let D be set;
+  cluster D^omega -> non empty;
+end;
+
+theorem :: AFINSQ_1:42
+  x in D^omega iff x is XFinSequence of D;
+
+theorem :: AFINSQ_1:43
+  {} in D^omega;
+
+scheme :: AFINSQ_1:sch 4
+  SepXSeq{D()->non empty set, P[XFinSequence]}:
+ ex X st for x holds x in X iff
+  ex p st p in D()^omega & P[p] & x=p;
+
+notation
+  let p be XFinSequence;
+  let i,x be set;
+  synonym Replace(p,i,x) for p+*(i,x);
+end;
+
+registration
+  let p be XFinSequence;
+  let i,x be object;
+  cluster p+*(i,x) -> finite Sequence-like;
+end;
+
+theorem :: AFINSQ_1:44
+  for p being XFinSequence, i being Element of NAT, x being set holds
+  len Replace(p,i,x) = len p & (i < len p implies Replace(p,i,x).i = x) & for j
+  being Element of NAT st j <> i holds Replace(p,i,x).j = p.j;
+
+registration
+  let D be non empty set;
+  let p be XFinSequence of D;
+  let i be Element of NAT, a be Element of D;
+  cluster Replace(p,i,a) -> D -valued;
+end;
+
+:: missing, 2008.02.02, A.K.
+
+registration
+  cluster -> real-valued for XFinSequence of REAL;
+end;
+
+registration
+  cluster -> natural-valued for XFinSequence of NAT;
+end;
+
+registration
+  cluster non empty natural-valued for XFinSequence;
+end;
+
+:: 2009.0929, A.T.
+
+theorem :: AFINSQ_1:45
+  for x1, x2, x3, x4 being set st
+   p = <%x1%>^<%x2%>^<%x3%>^<%x4%>
+  holds len p = 4 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4;
+
+theorem :: AFINSQ_1:46
+  for x1, x2, x3, x4, x5 being set st
+     p = <%x1%>^<%x2%>^<%x3%>^<%x4%>^<%x5%>
+  holds len p = 5 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4 & p.4 = x5;
+
+theorem :: AFINSQ_1:47
+  for x1, x2, x3, x4, x5, x6 being set st
+     p = <%x1%>^<%x2%>^<%x3%>^<%x4%>^<%x5%>^<%x6%>
+  holds len p = 6 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4 & p.4 = x5 &
+  p.5 = x6;
+
+theorem :: AFINSQ_1:48
+  for x1, x2, x3, x4, x5, x6, x7 being set st
+     p = <%x1%>^<%x2%>^<%x3%>^<%x4%>^<%x5%>^<%x6%>^<%x7%>
+  holds len p = 7 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4 & p.4 = x5 &
+  p.5 = x6 & p.6 = x7;
+
+theorem :: AFINSQ_1:49
+  for x1,x2,x3,x4, x5, x6, x7, x8 being set st
+    p = <%x1%>^<%x2%>^<%x3%>^<%x4%>^<%x5%>^<%x6%>^<%x7%>^<%x8%>
+  holds len p = 8 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4 & p.4 = x5 &
+  p.5 = x6 & p.6 = x7 & p.7 = x8;
+
+theorem :: AFINSQ_1:50
+  for x1,x2,x3,x4,x5,x6,x7, x8, x9 being set st
+     p = <%x1%>^<%x2%>^<%x3%>^<%x4%>^<%x5%>^<%x6%>^<%x7%>^<%x8%>^<%x9%>
+  holds len p = 9 & p.0 = x1 & p.1 = x2 & p.2 = x3 & p.3 = x4 & p.4 = x5 &
+  p.5 = x6 & p.6 = x7 & p.7 = x8 & p.8 = x9;
+
+:: K.P. 12.2009
+
+theorem :: AFINSQ_1:51 :: FINSEQ_2:7
+   n <len p implies (p^q).n=p.n;
+
+theorem :: AFINSQ_1:52 :: FINSEQ_2:10
+  len p <= n implies (p|n) = p;
+
+theorem :: AFINSQ_1:53  :: FINSEQ_1:11
+  n <=len p & k in n
+  implies (p|n).k = p.k & k in dom p;
+
+theorem :: AFINSQ_1:54  :: FINSEQ_1:12
+  n <= len p implies len(p|n) = n;
+
+theorem :: AFINSQ_1:55 :: FINSEQ_1:13
+  len(p|n) <= n;
+
+theorem :: AFINSQ_1:56  :: FINSEQ_1:14
+  len p = n+1 implies p = (p|n) ^ <% p.n %>;
+
+theorem :: AFINSQ_1:57  :: CATALAN2:1
+  (p^q)|dom p = p;
+
+theorem :: AFINSQ_1:58 :: CATALAN2:2
+  n <= dom p implies (p^q)|n = p|n;
+
+theorem :: AFINSQ_1:59 :: CATALAN2:3
+  n = dom p + k implies (p^q)|n = p^(q|k);
+
+theorem :: AFINSQ_1:60 :: CATALAN2:4
+  ex q st p = (p|n)^q;
+
+theorem :: AFINSQ_1:61 :: FLANG_1:10
+ len p = n + k implies ex q1, q2 being
+   XFinSequence st len q1 = n & len q2 = k & p = q1 ^ q2;
+
+theorem :: AFINSQ_1:62 :: FSM_3:6
+  <%x%>^p = <%y%>^q implies x = y & p = q;
+
+definition
+  let D be set,q be FinSequence of D;
+  func FS2XFS q -> XFinSequence of D means
+:: AFINSQ_1:def 8
+  len it=len q & for i being Nat st i < len q holds q.(i+1)=it.i;
+end;
+
+reserve i for Nat;
+
+definition
+  let D be set,q be XFinSequence of D;
+  func XFS2FS q -> FinSequence of D means
+:: AFINSQ_1:def 9
+  len it=len q & for i be Nat st 1<=i & i<= len q holds q.(i-'1)=it.i;
+end;
+
+theorem :: AFINSQ_1:63
+  for D being set, n being Nat, r being set st r in D holds
+    (n-->r) is XFinSequence of D;
+
+definition
+  let D be non empty set;
+  let q be FinSequence of D, n be Nat;
+  assume that
+ n>len q and
+ NAT c= D;
+  func FS2XFS*(q,n) -> non empty XFinSequence of D means
+:: AFINSQ_1:def 10
+  len q = it.0 &
+  len it=n & (for i be Nat st 1<=i & i<= len q holds it.i=q.i)&
+  for j being Nat st len q
+  <j & j<n holds it.j=0;
+end;
+
+reserve m for Nat,
+        D for non empty set;
+
+definition
+  let D be non empty set;
+  let p be XFinSequence of D;
+  assume that
+ p.0 is Nat and
+ p.0 in len p;
+  func XFS2FS*(p) -> FinSequence of D means
+:: AFINSQ_1:def 11
+  for m be Nat st m = p.0 holds
+  len it =m & for i st 1<=i & i<= m holds it.i=p.i;
+end;
+
+theorem :: AFINSQ_1:64
+  for p being XFinSequence of D st p.0=0 & 0<len p holds
+  XFS2FS*(p)={};
+
+:: from EXTPRO_1, 2010.01.11, A.T.
+
+definition
+  let F be Function;
+  attr F is initial means
+:: AFINSQ_1:def 12
+
+  for m,n being Nat st n in dom F & m < n holds m in dom F;
+end;
+
+registration
+  cluster empty -> initial for Function;
+end;
+
+registration
+  cluster -> initial for XFinSequence;
+end;
+
+:: following, 2010.01.11, A.T.
+
+registration
+ cluster -> NAT-defined for XFinSequence;
+end;
+
+theorem :: AFINSQ_1:65
+  for F being non empty initial NAT-defined Function holds 0 in dom F;
+
+registration
+  cluster initial finite NAT-defined -> Sequence-like for Function;
+end;
+
+theorem :: AFINSQ_1:66
+ for F being finite initial NAT-defined Function
+ for n being Nat holds
+  n in dom F iff n < card F;
+
+:: from AMISTD_2, 2010.04.16, A.T.
+
+theorem :: AFINSQ_1:67
+  for F being initial NAT-defined Function,
+  G being NAT-defined Function st dom F = dom G holds G is initial;
+
+theorem :: AFINSQ_1:68
+  for F being initial NAT-defined finite Function
+  holds dom F = { k where k is Element of NAT: k < card F };
+
+theorem :: AFINSQ_1:69
+  for F being non empty XFinSequence,
+      G be non empty NAT-defined finite Function
+   st F c= G & LastLoc F = LastLoc G
+  holds F = G;
+
+theorem :: AFINSQ_1:70
+  for F being non empty XFinSequence holds
+  LastLoc F = card F -' 1;
+
+theorem :: AFINSQ_1:71
+  for F being initial non empty NAT-defined finite Function holds
+  FirstLoc F = 0;
+
+registration
+  let F be initial non empty NAT-defined finite Function;
+  cluster CutLastLoc F -> initial;
+end;
+
+reserve l for Nat;
+
+theorem :: AFINSQ_1:72
+ for I being finite initial NAT-defined Function, J being Function
+ holds dom I misses dom Shift(J,card I);
+
+:: from SCMPDS_4, 2010.05.14, A.T.
+
+theorem :: AFINSQ_1:73
+  not m in dom p implies not m+1 in dom p;
+
+:: from SCM_COMP, 2010.05.16, A.T.
+
+registration let D be set;
+ cluster D^omega -> functional;
+end;
+
+registration let D be set;
+  cluster -> finite Sequence-like for Element of D^omega;
+end;
+
+definition let D be set;
+ let f be XFinSequence of D;
+ func Down f -> Element of D^omega equals
+:: AFINSQ_1:def 13
+ f;
+end;
+
+definition let D be set;
+ let f be XFinSequence of D, g be Element of D^omega;
+ redefine func f^g -> Element of D^omega;
+end;
+
+definition let D be set;
+ let f, g be Element of D^omega;
+ redefine func f^g -> Element of D^omega;
+end;
+
+:: missing, 2010.05.15, A.T.
+
+theorem :: AFINSQ_1:74
+ p c= p^q;
+
+theorem :: AFINSQ_1:75
+  len(p^<%x%>) = len p + 1;
+
+theorem :: AFINSQ_1:76
+ <%x,y%> = (0,1) --> (x,y);
+
+reserve M for Nat;
+
+theorem :: AFINSQ_1:77
+ p^q = p +* Shift(q, card p);
+
+theorem :: AFINSQ_1:78
+  p +* (p ^ q) = p ^ q & (p ^ q) +* p = p ^ q;
+
+reserve m,n for Nat;
+
+theorem :: AFINSQ_1:79
+ for I being finite initial NAT-defined Function, J being Function
+ holds dom Shift(I,n) misses dom Shift(J,n+card I);
+
+theorem :: AFINSQ_1:80
+  Shift(p,n) c= Shift(p^q,n);
+
+theorem :: AFINSQ_1:81
+  Shift(q,n+card p) c= Shift(p^q,n);
+
+theorem :: AFINSQ_1:82
+ Shift(p^q,n) c= X implies Shift(p,n) c= X;
+
+theorem :: AFINSQ_1:83
+ Shift(p^q,n) c= X implies Shift(q,n+card p) c= X;
+
+registration let F be initial non empty NAT-defined finite Function;
+ cluster CutLastLoc F -> initial;
+end;
+
+definition let x1,x2,x3,x4 be object;
+ func <%x1,x2,x3,x4%> -> set equals
+:: AFINSQ_1:def 14
+  <%x1%>^<%x2%>^<%x3%>^<%x4%>;
+end;
+
+registration let x1,x2,x3,x4 be object;
+ cluster <%x1,x2,x3,x4%> -> Function-like Relation-like;
+end;
+
+registration let x1,x2,x3,x4 be object;
+ cluster <%x1,x2,x3,x4%> -> finite Sequence-like;
+end;
+
+reserve x1,x2,x3,x4 for object;
+
+theorem :: AFINSQ_1:84
+ len<%x1,x2,x3,x4%> = 4;
+
+registration
+  let x1,x2,x3,x4 be object;
+  reduce <%x1,x2,x3,x4%>.0 to x1;
+  reduce <%x1,x2,x3,x4%>.1 to x2;
+  reduce <%x1,x2,x3,x4%>.2 to x3;
+  reduce <%x1,x2,x3,x4%>.3 to x4;
+end;
+
+::$CT
+
+theorem :: AFINSQ_1:86
+ k < len p iff k in dom p;
+
+reserve e,u for object;
+
+theorem :: AFINSQ_1:87
+ Segm(n+1) --> e = (Segm n --> e)^<%e%>;
+
+theorem :: AFINSQ_1:88
+ dom Shift(<%e%>,card p) = {card p};
+
+theorem :: AFINSQ_1:89
+ dom(p^<%e%>) = dom p \/ {card p};
+
+theorem :: AFINSQ_1:90
+ <%x%> +~ (x,y) = <%y%>;
+
+theorem :: AFINSQ_1:91
+ for I being non empty XFinSequence
+ holds LastLoc I = card I - 1;
+
+begin ::: Addenda by Sebastian Koch
+
+:: this holds more basically for any Sequence A, but since
+:: the properties of Sequences of the form A ^ <%x%> are not in Mizar yet
+:: I have no desire to formally introduce everything of that here, too
+theorem :: AFINSQ_1:92
+  for p being XFinSequence, x being object holds last(p^<%x%>) = x;
+
+:: the mirror theorem of BALLOT_1:5, but also for empty D
+theorem :: AFINSQ_1:93
+  for D being set, p being XFinSequence of D holds FS2XFS (XFS2FS p) = p;
+
+registration
+  let D be set, f be XFinSequence of D;
+  reduce FS2XFS XFS2FS f to f;
+end;
+
+theorem :: AFINSQ_1:94
+  for D being set, p being FinSequence of D, n being Nat
+  holds n+1 in dom p iff n in dom FS2XFS p;
+
+theorem :: AFINSQ_1:95
+  for D being set, p being XFinSequence of D, n being Nat
+  holds n in dom p iff n+1 in dom XFS2FS p;
+
+registration
+  let D be set, p be one-to-one FinSequence of D;
+  cluster FS2XFS p -> one-to-one;
+end;
+
+registration
+  let D be set, p be one-to-one XFinSequence of D;
+  cluster XFS2FS p -> one-to-one;
+end;
+
+theorem :: AFINSQ_1:96
+  for D being set, p being FinSequence of D holds rng p = rng FS2XFS p;
+
+:: generalizes BALLOT_1:2 to empty D
+theorem :: AFINSQ_1:97
+  for D being set, p being XFinSequence of D holds rng p = rng XFS2FS p;
+
+registration
+  let D be set, p be empty XFinSequence of D;
+  cluster XFS2FS p -> empty;
+end;
+
+registration
+  let D be set, p be empty FinSequence of D;
+  cluster FS2XFS p -> empty;
+end;
+

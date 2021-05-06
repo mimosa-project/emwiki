@@ -1,0 +1,434 @@
+:: Algebra of Polynomially Bounded Sequences and Negligible Functions
+::  by Hiroyuki Okazaki
+::
+:: Received August 15, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, SEQ_1, FUNCT_2, TARSKI, REAL_1, BINOP_1,
+      SUBSET_1, FUNCT_1, ARYTM_3, ZFMISC_1, VALUED_1, CARD_1, NAT_1, RLVECT_1,
+      RELAT_1, SUPINF_2, ARYTM_1, STRUCT_0, ALGSTR_0, REALSET1, XXREAL_0,
+      CARD_3, COMPLEX1, SEQ_2, ORDINAL2, RSSPACE, ASYMPT_1, FUNCSDOM, FINSET_1,
+      POWER, ORDINAL4, FUNCOP_1, VECTSP_1, PARTFUN3, PRE_TOPC, FINSEQ_1,
+      MESFUNC1, ASYMPT_2, ASYMPT_3, ASYMPT_0, ORDINAL1, INT_1, AFINSQ_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCOP_1, REALSET1,
+      FINSET_1, CARD_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, REAL_1, NAT_1,
+      INT_1, COMPLEX1, VALUED_1, SEQ_1, SEQ_2, RVSUM_1, POWER, SERIES_1,
+      ASYMPT_0, ASYMPT_1, AFINSQ_1, PARTFUN3, AFINSQ_2, STRUCT_0, ALGSTR_0,
+      PRE_TOPC, GROUP_1, RLVECT_1, VECTSP_1, FUNCSDOM, RSSPACE, ASYMPT_2;
+ constructors REAL_1, SEQ_2, SERIES_1, REALSET1, RLSUB_1, RELSET_1, COMSEQ_2,
+      SEQ_1, FUNCSDOM, INTEGRA2, XXREAL_2, RECDEF_1, FCONT_1, PREPOWER,
+      ASYMPT_0, ASYMPT_1, PARTFUN3, AFINSQ_2, FUNCT_4, PARTFUN2, RSSPACE4,
+      PROB_1, NEWTON, VALUED_2, ASYMPT_2, GROUP_1, RVSUM_1, RFINSEQ2, METRIC_1,
+      MATRPROB;
+ registrations ORDINAL1, RELSET_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1,
+      MEMBERED, VALUED_0, FUNCSDOM, RLVECT_1, STRUCT_0, FUNCOP_1, VALUED_1,
+      FUNCT_2, AFINSQ_1, AFINSQ_2, XBOOLE_0, SUBSET_1, RELAT_1, INT_1,
+      ASYMPT_0, POWER, ASYMPT_1, RSSPACE, PARTFUN3, REALSET1, NEWTON, COMPLEX1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: ASYMPT_3:1
+  for r be Real holds r < |. r .| + 1;
+
+theorem :: ASYMPT_3:2
+   for r be Real ex N be Nat
+  st for n be Nat st N <=n holds r < n /log(2,n);
+
+theorem :: ASYMPT_3:3
+  for k be Nat
+  ex N be Nat st
+  for x be Nat st N <= x holds x to_power k < 2 to_power x;
+
+theorem :: ASYMPT_3:4
+  for k be Nat
+  ex N be Nat st
+  for x be Nat st N <= x holds 1/ (2 to_power x) < 1/ (x to_power k);
+
+theorem :: ASYMPT_3:5
+  for z be Nat st 2 <= z holds
+  for k be Nat
+  ex N be Nat st
+  for x be Nat st N <= x holds 1/ (z to_power x) < 1/ (x to_power k);
+
+registration
+  cluster positive-yielding for XFinSequence of REAL;
+end;
+
+registration
+  cluster non empty for positive-yielding XFinSequence of REAL;
+end;
+
+theorem :: ASYMPT_3:6
+  for c be XFinSequence of REAL,
+  a be Real
+  holds a (#) c is XFinSequence of REAL;
+
+registration
+  let c be XFinSequence of REAL,
+  a be Real;
+  cluster a (#) c -> finite for Sequence of REAL;
+end;
+
+theorem :: ASYMPT_3:7
+  for c be non empty positive-yielding XFinSequence of REAL,
+  a be Real
+  st 0 < a
+  holds a (#) c is non empty positive-yielding XFinSequence of REAL;
+
+registration
+  let c be non empty positive-yielding XFinSequence of REAL,
+  a be positive Real;
+  cluster a (#) c -> non empty positive-yielding for XFinSequence of REAL;
+end;
+
+notation
+  let c be XFinSequence of REAL;
+  synonym polynom(c) for seq_p(c);
+end;
+
+theorem :: ASYMPT_3:8
+  for c be non empty positive-yielding XFinSequence of REAL,
+  x be Nat
+  holds 0 < (polynom(c)).x;
+
+theorem :: ASYMPT_3:9
+  for c,c1 be non empty positive-yielding XFinSequence of REAL,
+  a be Real
+  st c1=a(#)c holds
+  for x be Nat
+  holds (polynom(c1)).x = a* ( (polynom(c)).x);
+
+begin :: Algebra of polynomially bounded functions
+
+definition
+  let p be Real_Sequence;
+  attr p is polynomially-abs-bounded means
+:: ASYMPT_3:def 1
+
+  ex k be Nat st |.p.| in Big_Oh(seq_n^(k));
+end;
+
+registration
+  cluster polynomially-bounded -> polynomially-abs-bounded for Real_Sequence;
+end;
+
+theorem :: ASYMPT_3:10
+  for r be Element of NAT holds
+  for s be Real_Sequence
+  st s = NAT --> r
+  holds s is polynomially-abs-bounded;
+
+registration
+  cluster polynomially-abs-bounded for Function of NAT,REAL;
+end;
+
+registration
+  let f,g be polynomially-abs-bounded Function of NAT,REAL;
+  cluster f + g -> polynomially-abs-bounded for Function of NAT,REAL;
+  cluster f (#) g -> polynomially-abs-bounded for Function of NAT,REAL;
+end;
+
+registration
+  let f be polynomially-abs-bounded Function of NAT,REAL;
+  let a be Element of REAL;
+  cluster a (#) f -> polynomially-abs-bounded for Function of NAT,REAL;
+end;
+
+definition
+  func Big_Oh_poly -> Subset of RAlgebra (NAT) means
+:: ASYMPT_3:def 2
+
+  for x being object holds x in it
+  iff x is polynomially-abs-bounded Function of NAT,REAL;
+end;
+
+registration
+  cluster Big_Oh_poly -> non empty;
+end;
+
+definition
+  func R_Algebra_of_Big_Oh_poly -> strict AlgebraStr means
+:: ASYMPT_3:def 3
+
+  the carrier of it = Big_Oh_poly
+  & the multF of it = (RealFuncMult(NAT)) || Big_Oh_poly
+  & the addF of it = (RealFuncAdd(NAT)) || Big_Oh_poly
+  & the Mult of it = (RealFuncExtMult(NAT)) | [:REAL,Big_Oh_poly:]
+  & the OneF of it = RealFuncUnit(NAT)
+  & the ZeroF of it = RealFuncZero(NAT);
+end;
+
+registration
+  cluster R_Algebra_of_Big_Oh_poly -> non empty;
+end;
+
+theorem :: ASYMPT_3:11
+  the carrier of R_Algebra_of_Big_Oh_poly c= the carrier of RAlgebra (NAT);
+
+theorem :: ASYMPT_3:12
+  for f be object holds
+  f in R_Algebra_of_Big_Oh_poly
+  iff f is polynomially-abs-bounded Function of NAT,REAL;
+
+theorem :: ASYMPT_3:13
+  for f,g be Point of R_Algebra_of_Big_Oh_poly,
+  f1,g1 be Point of RAlgebra NAT st f=f1 & g=g1 holds
+  f*g = f1*g1;
+
+theorem :: ASYMPT_3:14
+  for f,g be Point of R_Algebra_of_Big_Oh_poly,
+  f1,g1 be Point of RAlgebra NAT
+  st f=f1 & g=g1 holds
+  f+g = f1+g1;
+
+theorem :: ASYMPT_3:15
+  for f be Point of R_Algebra_of_Big_Oh_poly,
+  f1 be Point of RAlgebra NAT,
+  a be Element of REAL st f=f1 holds
+  a*f = a*f1;
+
+theorem :: ASYMPT_3:16
+  0.R_Algebra_of_Big_Oh_poly = 0.(RAlgebra NAT);
+
+theorem :: ASYMPT_3:17
+  1. (R_Algebra_of_Big_Oh_poly) = 1. (RAlgebra NAT);
+
+registration
+  cluster R_Algebra_of_Big_Oh_poly
+  -> strict Abelian add-associative right_zeroed
+  right_complementable commutative associative right_unital
+  right-distributive vector-associative scalar-associative
+  vector-distributive scalar-distributive;
+end;
+
+theorem :: ASYMPT_3:18
+  R_Algebra_of_Big_Oh_poly is Algebra;
+
+theorem :: ASYMPT_3:19
+  for f,g,h be VECTOR of R_Algebra_of_Big_Oh_poly
+  for f9,g9,h9 be Function of NAT,REAL
+  st f9=f & g9=g & h9=h holds
+  (h = f+g iff for x be Nat holds h9.x = f9.x + g9.x);
+
+theorem :: ASYMPT_3:20
+  for f,g,h be VECTOR of R_Algebra_of_Big_Oh_poly
+  for f9,g9,h9 be Function of NAT,REAL
+  st f9=f & g9=g & h9=h holds
+  (h = f*g iff for x be Nat holds h9.x = f9.x * g9.x );
+
+theorem :: ASYMPT_3:21
+  for f,h be VECTOR of R_Algebra_of_Big_Oh_poly
+  for f9,h9 be Function of NAT,REAL
+  st f9=f & h9=h
+  for a be Real holds h = a*f iff
+  for x be Nat holds h9.x = a*f9.x;
+
+begin :: negligible functions
+
+definition
+  let f be Function of NAT,REAL;
+  attr f is negligible means
+:: ASYMPT_3:def 4
+
+  for c be non empty positive-yielding XFinSequence of REAL holds
+  ex N be Nat st
+  for x be Nat st N <=x holds |. f.x .| < 1/((polynom(c)).x);
+end;
+
+theorem :: ASYMPT_3:22
+  for r be Real st 0 < r holds
+  ex c be non empty positive-yielding XFinSequence of REAL st
+  for x be Nat holds (polynom(c)).x = r;
+
+theorem :: ASYMPT_3:23
+  for f be Function of NAT,REAL
+  st f is negligible
+  holds for r be Real st 0 < r
+  holds
+  ex N be Nat st for x be Nat st N <=x holds |. f.x .| < r;
+
+theorem :: ASYMPT_3:24
+  for f be Function of NAT,REAL
+  st f is negligible
+  holds f is convergent & lim f = 0;
+
+registration
+  cluster seq_const 0 -> negligible;
+end;
+
+registration
+  cluster negligible for Function of NAT,REAL;
+end;
+
+registration
+  let f be negligible Function of NAT,REAL;
+  cluster |.f.| -> negligible for Function of NAT,REAL;
+end;
+
+registration
+  let f be negligible Function of NAT,REAL,
+  a be Real;
+  cluster a(#)f -> negligible for Function of NAT,REAL;
+end;
+
+registration
+  let f,g be negligible Function of NAT,REAL;
+  cluster f+g -> negligible for Function of NAT,REAL;
+end;
+
+registration
+  let f,g be negligible Function of NAT,REAL;
+  cluster f(#)g -> negligible for Function of NAT,REAL;
+end;
+
+theorem :: ASYMPT_3:25
+  for f be Function of NAT,REAL
+  st for x be Nat holds f.x = 1/ (2 to_power x)
+  holds f is negligible;
+
+theorem :: ASYMPT_3:26
+  for f,g be Function of NAT,REAL
+  st f is negligible &
+  for x be Nat holds |. g.x .| <= |. f.x .| holds
+  g is negligible;
+
+registration
+  cluster negligible -> polynomially-abs-bounded for Function of NAT,REAL;
+end;
+
+definition
+  func negligibleFuncs -> Subset of Big_Oh_poly means
+:: ASYMPT_3:def 5
+
+  for x being object holds x in it
+  iff x is negligible Function of NAT,REAL;
+end;
+
+registration
+  cluster negligibleFuncs -> non empty;
+end;
+
+theorem :: ASYMPT_3:27
+  for v, w being VECTOR of R_Algebra_of_Big_Oh_poly,
+  v1,w1 being Function of NAT,REAL
+  st v=v1 & w1=w
+  holds v + w = v1 + w1;
+
+theorem :: ASYMPT_3:28
+  for v, w being VECTOR of R_Algebra_of_Big_Oh_poly,
+  v1,w1 being Function of NAT,REAL
+  st v=v1 & w1=w
+  holds v * w = v1 (#) w1;
+
+theorem :: ASYMPT_3:29
+  for a be Real,v being VECTOR of R_Algebra_of_Big_Oh_poly,
+  v1 be Function of NAT,REAL
+  st v=v1
+  holds a*v= a (#) v1;
+
+theorem :: ASYMPT_3:30
+  for a be Real
+  for v be VECTOR of R_Algebra_of_Big_Oh_poly
+  st v in negligibleFuncs
+  holds a * v in negligibleFuncs;
+
+theorem :: ASYMPT_3:31
+  for v,u be VECTOR of R_Algebra_of_Big_Oh_poly
+  st v in negligibleFuncs & u in negligibleFuncs
+  holds v + u in negligibleFuncs;
+
+theorem :: ASYMPT_3:32
+  for v,u be VECTOR of R_Algebra_of_Big_Oh_poly
+  st v in negligibleFuncs & u in negligibleFuncs
+  holds v * u in negligibleFuncs;
+
+definition
+  let f,g be Function of NAT,REAL;
+  pred f negligibleEQ g means
+:: ASYMPT_3:def 6
+  ex h be Function of NAT,REAL
+  st h is negligible
+  &
+  for x be Nat holds |. f.x - g.x .| <= |.h.x.|;
+  reflexivity;
+  symmetry;
+end;
+
+theorem :: ASYMPT_3:33
+  for f,g,h be Function of NAT,REAL
+  st f negligibleEQ g & g negligibleEQ h
+  holds f negligibleEQ h;
+
+theorem :: ASYMPT_3:34
+  for f,g be Function of NAT,REAL
+  holds f negligibleEQ g iff f-g is negligible;
+
+theorem :: ASYMPT_3:35
+  for c be non empty positive-yielding XFinSequence of REAL
+  ex a be Real, k,N be Nat
+  st 0 < a & 0 < k
+  & for x be Nat st N<= x holds (polynom(c)).x <=a* (x to_power k);
+
+registration
+  let a be nonnegative-yielding XFinSequence of REAL,
+  b be nonnegative-yielding Real_Sequence;
+  cluster a (#) b -> nonnegative-yielding;
+end;
+
+registration
+  let a,b be nonnegative-yielding XFinSequence of REAL;
+  cluster a ^ b -> nonnegative-yielding;
+end;
+
+registration
+  let a,b,c be non negative Real;
+  cluster seq_a^(a,b,c) -> nonnegative-yielding;
+end;
+
+theorem :: ASYMPT_3:36
+  for a be Real, k be Nat holds
+  ex c be non empty positive-yielding XFinSequence of REAL
+  st for x be Nat holds a* (x to_power k) <= (polynom(c)).x;
+
+theorem :: ASYMPT_3:37
+  for c,s be non empty positive-yielding XFinSequence of REAL
+  ex d be non empty positive-yielding XFinSequence of REAL,
+  N be Nat
+  st for x be Nat st N<= x holds
+  (polynom(c)).x * (polynom(s)).x <= (polynom(d)).x;
+
+registration
+  let f be negligible Function of NAT,REAL,
+  c be non empty positive-yielding XFinSequence of REAL;
+  cluster (polynom(c)) (#) f -> negligible for Function of NAT,REAL;
+end;
+
+theorem :: ASYMPT_3:38
+  for g be polynomially-abs-bounded Function of NAT,REAL
+  ex d be non empty positive-yielding XFinSequence of REAL,
+  N be Nat st for x be Nat
+  st N<= x holds |. g.x .| <= (polynom(d)).x;
+
+registration
+  let f be negligible Function of NAT,REAL,
+  g be polynomially-abs-bounded Function of NAT,REAL;
+  cluster g(#)f -> negligible for Function of NAT,REAL;
+end;
+
+theorem :: ASYMPT_3:39
+  for v,w be VECTOR of R_Algebra_of_Big_Oh_poly
+  st w in negligibleFuncs
+  holds v * w in negligibleFuncs;

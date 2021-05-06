@@ -1,0 +1,354 @@
+:: Basic Petri Net Concepts.
+:: Place/Transition Net Structure, Deadlocks, Traps, Dual Nets
+::  by Pauline N. Kawamoto, Yasushi Fuwa and Yatsuka Nakamura
+::
+:: Received November 27, 1992
+:: Copyright (c) 1992-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, RELAT_1, SUBSET_1, ZFMISC_1, MCART_1, ARYTM_3, TARSKI,
+      PETRI, STRUCT_0, PNPROC_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, XTUPLE_0, SUBSET_1, RELAT_1, RELSET_1,
+      MCART_1, DOMAIN_1, PARTIT_2, STRUCT_0;
+ constructors RELSET_1, DOMAIN_1, STRUCT_0, PARTIT_2, XTUPLE_0;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, STRUCT_0, XTUPLE_0;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+:: Redefinition of Element for Non-empty Relation
+
+definition
+  let A, B be non empty set;
+  let r be non empty Relation of A, B;
+  redefine mode Element of r -> Element of [:A,B:];
+end;
+
+:: Place/Transition Net Structure
+
+definition
+  struct(2-sorted) PT_net_Str (# carrier, carrier' -> set,
+       S-T_Arcs -> Relation of the carrier, the carrier',
+       T-S_Arcs -> Relation of the carrier', the carrier #);
+end;
+
+definition let N be PT_net_Str;
+ attr N is with_S-T_arc means
+:: PETRI:def 1
+ the S-T_Arcs of N is non empty;
+ attr N is with_T-S_arc means
+:: PETRI:def 2
+ the T-S_Arcs of N is non empty;
+end;
+
+definition
+ func TrivialPetriNet -> PT_net_Str equals
+:: PETRI:def 3
+  PT_net_Str (# {{}}, {{}}, [#]({{}},{{}}), [#]({{}},{{}}) #);
+end;
+
+registration
+ cluster TrivialPetriNet ->
+  with_S-T_arc with_T-S_arc strict non empty non void;
+end;
+
+registration
+ cluster non empty non void with_S-T_arc with_T-S_arc strict for PT_net_Str;
+end;
+
+registration let N be with_S-T_arc PT_net_Str;
+ cluster the S-T_Arcs of N -> non empty;
+end;
+
+registration let N be with_T-S_arc PT_net_Str;
+ cluster the T-S_Arcs of N -> non empty;
+end;
+
+definition
+ mode Petri_net
+  is non empty non void with_S-T_arc with_T-S_arc PT_net_Str;
+end;
+
+reserve PTN for Petri_net;
+
+:: Place, Transition, and Arc (s->t, t->s) Elements
+
+definition
+  let PTN;
+  mode place of PTN is Element of the carrier of PTN;
+  mode places of PTN is Element of the carrier of PTN;
+  mode transition of PTN is Element of the carrier' of PTN;
+  mode transitions of PTN is Element of the carrier' of PTN;
+  mode S-T_arc of PTN is Element of the S-T_Arcs of PTN;
+  mode T-S_arc of PTN is Element of the T-S_Arcs of PTN;
+end;
+
+:: Redefinition of Relation for s->t Arcs
+
+definition
+  let PTN;
+  let x be S-T_arc of PTN;
+  redefine func x`1 -> place of PTN;
+  redefine func x`2 -> transition of PTN;
+end;
+
+:: Redefinition of Relation for t->s Arcs
+
+definition
+  let PTN;
+  let x be T-S_arc of PTN;
+  redefine func x`1 -> transition of PTN;
+  redefine func x`2 -> place of PTN;
+end;
+
+:: *S, S* Definitions and Theorems
+
+reserve S0 for Subset of the carrier of PTN;
+
+definition
+  let PTN, S0;
+  func *'S0 -> Subset of the carrier' of PTN equals
+:: PETRI:def 4
+  { t where t is
+transition of PTN : ex f being T-S_arc of PTN, s being place of PTN st s in S0
+  & f = [t,s] };
+  func S0*' -> Subset of the carrier' of PTN equals
+:: PETRI:def 5
+  { t where t is
+transition of PTN : ex f being S-T_arc of PTN, s being place of PTN st s in S0
+  & f = [s,t] };
+end;
+
+theorem :: PETRI:1
+  *'S0 = {f`1 where f is T-S_arc of PTN : f`2 in S0};
+
+theorem :: PETRI:2
+  for x being object holds x in *'S0 iff ex f being T-S_arc of PTN, s
+  being place of PTN st s in S0 & f = [x,s];
+
+theorem :: PETRI:3
+  S0*' = {f`2 where f is S-T_arc of PTN : f`1 in S0};
+
+theorem :: PETRI:4
+  for x being object holds x in S0*' iff ex f being S-T_arc of PTN, s
+  being place of PTN st s in S0 & f = [s,x];
+
+:: *T, T* Definitions and Theorems
+
+reserve T0 for Subset of the carrier' of PTN;
+
+definition
+  let PTN, T0;
+  func *'T0 -> Subset of the carrier of PTN equals
+:: PETRI:def 6
+  { s where s is place of PTN
+: ex f being S-T_arc of PTN, t being transition of PTN st t in T0 & f = [s,t] }
+  ;
+  func T0*' -> Subset of the carrier of PTN equals
+:: PETRI:def 7
+  { s where s is place of PTN
+: ex f being T-S_arc of PTN, t being transition of PTN st t in T0 & f = [t,s] }
+  ;
+end;
+
+theorem :: PETRI:5
+  *'T0 = {f`1 where f is S-T_arc of PTN : f`2 in T0};
+
+theorem :: PETRI:6
+  for x being set holds x in *'T0 iff ex f being S-T_arc of PTN, t
+  being transition of PTN st t in T0 & f = [x,t];
+
+theorem :: PETRI:7
+  T0*' = {f`2 where f is T-S_arc of PTN : f`1 in T0};
+
+theorem :: PETRI:8
+  for x being set holds x in T0*' iff ex f being T-S_arc of PTN, t
+  being transition of PTN st t in T0 & f = [t,x];
+
+theorem :: PETRI:9
+  *'{}the carrier of PTN = {};
+
+theorem :: PETRI:10
+  ({}the carrier of PTN)*' = {};
+
+theorem :: PETRI:11
+  *'{}the carrier' of PTN = {};
+
+theorem :: PETRI:12
+  ({}the carrier' of PTN)*' = {};
+
+begin
+
+:: Deadlock-like Attribute for Place Sets
+
+definition
+  let PTN;
+  let IT be Subset of the carrier of PTN;
+  attr IT is Deadlock-like means
+:: PETRI:def 8
+  *'IT is Subset of IT*';
+end;
+
+:: With_Deadlocks Mode for Place\Transition Nets
+
+definition
+  let IT be Petri_net;
+  attr IT is With_Deadlocks means
+:: PETRI:def 9
+  ex S being Subset of the carrier of IT st S is Deadlock-like;
+end;
+
+registration
+  cluster With_Deadlocks for Petri_net;
+end;
+
+begin
+
+:: Trap-like Attribute for Place Sets
+
+definition
+  let PTN;
+  let IT be Subset of the carrier of PTN;
+  attr IT is Trap-like means
+:: PETRI:def 10
+  IT*' is Subset of *'IT;
+end;
+
+:: With_Traps Mode for Place\Transition Nets
+
+definition
+  let IT be Petri_net;
+  attr IT is With_Traps means
+:: PETRI:def 11
+  ex S being Subset of the carrier of IT st S is Trap-like;
+end;
+
+registration
+  cluster With_Traps for Petri_net;
+end;
+
+definition
+  let A, B be non empty set;
+  let r be non empty Relation of A, B;
+  redefine func r~ -> non empty Relation of B, A;
+end;
+
+begin
+
+:: Duality Definitions and Theorems for Place/Transition Nets
+
+definition
+  let PTN be PT_net_Str;
+  func PTN.: -> strict PT_net_Str equals
+:: PETRI:def 12
+  PT_net_Str(# the carrier of PTN, the
+    carrier' of PTN, (the T-S_Arcs of PTN)~, (the S-T_Arcs of PTN)~ #);
+end;
+
+registration let PTN be Petri_net;
+ cluster PTN.: -> with_S-T_arc with_T-S_arc non empty non void;
+end;
+
+theorem :: PETRI:13
+  PTN.:.: = the PT_net_Str of PTN;
+
+theorem :: PETRI:14
+  the carrier of PTN = the carrier of PTN.: & the carrier' of PTN = the
+  carrier' of PTN.: & (the S-T_Arcs of PTN)~ = the T-S_Arcs of PTN.: & (the
+  T-S_Arcs of PTN)~ = the S-T_Arcs of PTN.:;
+
+definition
+  let PTN;
+  let S0 be Subset of the carrier of PTN;
+  func S0.: -> Subset of the carrier of PTN.: equals
+:: PETRI:def 13
+  S0;
+end;
+
+definition
+  let PTN;
+  let s be place of PTN;
+  func s.: -> place of PTN.: equals
+:: PETRI:def 14
+  s;
+end;
+
+definition
+  let PTN;
+  let S0 be Subset of the carrier of PTN.:;
+  func .:S0 -> Subset of the carrier of PTN equals
+:: PETRI:def 15
+  S0;
+end;
+
+definition
+  let PTN;
+  let s be place of PTN.:;
+  func .:s -> place of PTN equals
+:: PETRI:def 16
+  s;
+end;
+
+definition
+  let PTN;
+  let T0 be Subset of the carrier' of PTN;
+  func T0.: -> Subset of the carrier' of PTN.: equals
+:: PETRI:def 17
+  T0;
+end;
+
+definition
+  let PTN;
+  let t be transition of PTN;
+  func t.: -> transition of PTN.: equals
+:: PETRI:def 18
+  t;
+end;
+
+definition
+  let PTN;
+  let T0 be Subset of the carrier' of PTN.:;
+  func .:T0 -> Subset of the carrier' of PTN equals
+:: PETRI:def 19
+  T0;
+end;
+
+definition
+  let PTN;
+  let t be transition of PTN.:;
+  func .:t -> transition of PTN equals
+:: PETRI:def 20
+  t;
+end;
+
+reserve S for Subset of the carrier of PTN;
+
+theorem :: PETRI:15
+  S.:*' = *'S;
+
+theorem :: PETRI:16
+  *'(S.:) = S*';
+
+theorem :: PETRI:17
+  S is Deadlock-like iff S.: is Trap-like;
+
+theorem :: PETRI:18
+  S is Trap-like iff S.: is Deadlock-like;
+
+theorem :: PETRI:19
+  for PTN being Petri_net, t being transition of PTN, S0 being Subset
+  of the carrier of PTN holds t in S0*' iff *'{t} meets S0;
+
+theorem :: PETRI:20
+  for PTN being Petri_net, t being transition of PTN, S0 being Subset
+  of the carrier of PTN holds t in *'S0 iff {t}*' meets S0;

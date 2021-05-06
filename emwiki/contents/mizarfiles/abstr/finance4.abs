@@ -1,0 +1,157 @@
+:: Introduction to Stopping Time in Stochastic Finance Theory
+::  by Peter Jaeger
+:: 
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, PROB_1, SUBSET_1, RELAT_1, FUNCT_1, TARSKI,
+      ARYTM_3, XXREAL_0, ARYTM_1, NAT_1, CARD_1, RPR_1, FINANCE3, MATRIX_7,
+      FUNCOP_1, FINANCE4, FUNCT_7, MEMBERED, RANDOM_1;
+ notations TARSKI, SUBSET_1, XBOOLE_0, SERIES_1, SETFAM_1, ENUMSET1, RELAT_1,
+      RANDOM_3, NUMBERS, XREAL_0, XXREAL_0, XCMPLX_0, SUPINF_1, FUNCT_1,
+      VALUED_1, NAT_1, FUNCT_2, PROB_1, SEQ_4, RELSET_1, MEMBERED, MATRIX_7,
+      FUNCOP_1, KOLMOG01, FINANCE3, RANDOM_1;
+ constructors SERIES_1, REAL_1, RELSET_1, SEQ_4, FINANCE2, ENUMSET1, RANDOM_2,
+      KOLMOG01, RANDOM_3, FINANCE3, SUPINF_1, SUBSET_1, MATRIX_7, NUMBERS,
+      XXREAL_0, XREAL_0, MEMBERED, RANDOM_1;
+ registrations PROB_1, FINANCE1, SUBSET_1, NAT_1, XREAL_0, MEMBERED, ORDINAL1,
+      FUNCT_2, NUMBERS, VALUED_0, VALUED_1, RELSET_1, INT_1, XBOOLE_0,
+      FINANCE3, XXREAL_0, ZFMISC_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve Omega for non empty set;
+reserve Sigma for SigmaField of Omega;
+reserve T for Nat;
+
+theorem :: FINANCE4:1
+  for X being non empty set
+  for t being object
+  for f being Function st dom f = X holds
+  {w where w is Element of X: f.w = t} = Coim(f,t);
+
+definition
+  let I be ext-real-membered set;
+  func StoppingSetExt(I) -> Subset of ExtREAL equals
+:: FINANCE4:def 1
+    I \/ {+infty};
+end;
+
+registration
+  let I be ext-real-membered set;
+  cluster StoppingSetExt(I) -> non empty;
+end;
+
+:: Definition of stopping time
+definition
+  let T be Nat; ::: Segm (T+1)
+  func StoppingSet(T) -> Subset of REAL equals
+:: FINANCE4:def 2
+  {t where t is Element of NAT: 0<=t<=T};
+end;
+
+registration
+  let T be Nat;
+  cluster StoppingSet(T) -> non empty;
+end;
+
+definition
+  let T be Nat;
+  func StoppingSetExt(T) -> Subset of ExtREAL equals
+:: FINANCE4:def 3
+    StoppingSet T \/ {+infty};
+end;
+
+registration
+  let T be Nat;
+  cluster StoppingSetExt(T) -> non empty;
+end;
+
+ reserve TFix for Element of StoppingSetExt(T);
+ reserve MyFunc for Filtration of StoppingSet(T),Sigma;
+ reserve k,k1,k2 for Function of Omega,StoppingSetExt(T);
+
+definition
+  let T be Nat;
+  let F be Function;
+  let R be Relation;
+  pred R is_StoppingTime_wrt F,T means
+:: FINANCE4:def 4
+  for t being Element of StoppingSet(T) holds Coim(R,t) in F.t;
+end;
+
+definition
+  let Omega be non empty set;
+  let T be Nat;
+  let MyFunc be Function;
+  let k be Function of Omega,StoppingSetExt(T);
+  redefine pred k is_StoppingTime_wrt MyFunc,T means
+:: FINANCE4:def 5
+  for t being Element of StoppingSet(T) holds
+    {w where w is Element of Omega: k.w=t} in MyFunc.t;
+end;
+
+:: Alternative definition for stopping time
+theorem :: FINANCE4:2
+  k is_StoppingTime_wrt MyFunc,T iff
+   for t being Element of StoppingSet(T) holds
+     {w where w is Element of Omega: k.w<=t} in MyFunc.t;
+
+:: Examples of stopping times
+theorem :: FINANCE4:3
+  Omega-->TFix is_StoppingTime_wrt MyFunc,T;
+
+definition
+  let Omega,T,k1,k2;
+  func max(k1,k2) -> Function of Omega,ExtREAL means
+:: FINANCE4:def 6
+    for w being Element of Omega holds it.w = max(k1.w,k2.w);
+end;
+
+definition
+  let Omega,T,k1,k2;
+  func min(k1,k2) -> Function of Omega,ExtREAL means
+:: FINANCE4:def 7
+    for w being Element of Omega holds it.w=min(k1.w,k2.w);
+end;
+
+theorem :: FINANCE4:4
+  k1 is_StoppingTime_wrt MyFunc,T & k2 is_StoppingTime_wrt MyFunc,T implies
+  ex k3 being Function of Omega,StoppingSetExt(T) st k3=max(k1,k2) &
+     k3 is_StoppingTime_wrt MyFunc,T;
+
+theorem :: FINANCE4:5
+  k1 is_StoppingTime_wrt MyFunc,T & k2 is_StoppingTime_wrt MyFunc,T implies
+  ex k3 being Function of Omega,StoppingSetExt(T) st k3=min(k1,k2) &
+     k3 is_StoppingTime_wrt MyFunc,T;
+
+definition let t be object;
+  func Special_StoppingSet(t) -> Element of StoppingSetExt(2) equals
+:: FINANCE4:def 8
+  IFIN(t,{1,2},1,2);
+end;
+
+theorem :: FINANCE4:6
+  Omega = {1,2,3,4} implies
+  for MyFunc being Filtration of StoppingSet(2),Sigma st
+      MyFunc.0 = Special_SigmaField1 &
+      MyFunc.1 = Special_SigmaField2 &
+      MyFunc.2 = Trivial-SigmaField (Omega)
+    ex ST being Function of Omega,StoppingSetExt(2) st
+      ST is_StoppingTime_wrt MyFunc,2 &
+       ST.1=1 & ST.2=1 & ST.3=2 & ST.4=2 &
+       {w where w is Element of Omega: ST.w=0} = {} &
+       {w where w is Element of Omega: ST.w=1} = {1,2} &
+       {w where w is Element of Omega: ST.w=2} = {3,4};

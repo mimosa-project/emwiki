@@ -1,0 +1,1475 @@
+:: About Supergraphs, Part {I}
+::  by Sebastian Koch
+::
+:: Received June 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, RELAT_1, FUNCT_1, XXREAL_0, TARSKI,
+      ORDINAL4, ARYTM_3, CARD_1, XBOOLE_0, NAT_1, ARYTM_1, GLIB_000, PBOOLE,
+      FINSET_1, ZFMISC_1, RELAT_2, GLIB_002, FUNCOP_1, TREES_1, GLIB_001,
+      FUNCT_4, GLIB_006, ABIAN, REWRITE1, CHORD, RCOMP_1, WAYBEL_0, FINSEQ_8,
+      GRAPH_1, JORDAN3, RFINSEQ, XCMPLX_0, INT_1, MSAFREE2, CARD_2;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCT_3, FUNCOP_1,
+      FUNCT_4, FINSET_1, CARD_1, PBOOLE, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0,
+      NAT_1, INT_1, VALUED_0, NAT_D, CARD_2, FINSEQ_1, RVSUM_1, RFINSEQ,
+      FUNCT_7, ABIAN, FINSEQ_6, GLIB_000, FINSEQ_8, GRAPH_2, GRAPH_5, GLIB_001,
+      GLIB_002, CHORD;
+ constructors DOMAIN_1, BINOP_1, BINOP_2, FINSOP_1, RVSUM_1, FINSEQ_5, GRAPH_5,
+      ABIAN, WELLORD2, FUNCT_2, FIB_NUM2, FINSEQ_8, GLIB_001, GLIB_002,
+      RELSET_1, FUNCT_3, CHORD, NAT_D, GRAPH_2, RFINSEQ, FINSEQ_6, CARD_2,
+      FUNCT_7, FINSEQ_1, SUBSET_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1, FINSET_1, ABIAN,
+      NUMBERS, XREAL_0, NAT_1, MEMBERED, FINSEQ_1, GLIB_000, GLIB_001, HELLY,
+      GLIB_002, CHORD, INT_1, VALUED_0, CARD_1, FUNCT_2, PARTFUN1, HURWITZ2,
+      RELSET_1, RAMSEY_1, FUNCT_4, SUBSET_1;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin :: general preliminaries
+
+:: into ABIAN ?
+theorem :: GLIB_006:1
+  for n being even Integer, m being odd Integer st n <= m holds n+1 <= m;
+
+:: into ABIAN ?
+theorem :: GLIB_006:2
+  for n being even Integer, m being odd Integer st m <= n holds m+1 <= n;
+
+:: into NAT_D ?
+theorem :: GLIB_006:3
+  for i, j being Nat st i > i -' 1 + j holds j = 0;
+
+:: BEGIN into FINSEQ_6 or JORDAN4 ?
+
+theorem :: GLIB_006:4
+  for f, g being FinSequence, i being Nat
+  st i <= len f & mid(f,i,i-'1+len g) = g
+  holds i-'1+len g <= len f;
+
+theorem :: GLIB_006:5
+  for p being FinSequence, n being Nat st n in dom p & n+1 <= len p
+  holds mid(p,n,n+1) = <*p.n, p.(n+1)*>;
+
+theorem :: GLIB_006:6
+  for p being FinSequence, n being Nat st n in dom p & n+2 <= len p
+  holds mid(p,n,n+2) = <*p.n, p.(n+1),p.(n+2)*>;
+
+:: END into FINSEQ_6 or JORDAN 4 ?
+
+:: during research the author noticed the strong similiariy between
+:: (m,n)-cut p and smid(p,m,n) (from GRAPH_2 and FINSEQ_8)
+:: but no theorems about that will be made here
+:: SOLVED: added theorem at the end of FINSEQ_8
+
+:: BEGIN into FINSEQ_8 ?
+
+theorem :: GLIB_006:7
+  for D being non empty set, f,g being FinSequence of D, n being Nat
+  st g is_substring_of f,n holds len g = 0 or
+    (1 <= n-'1+len g & n-'1+len g <= len f & n <= n-'1+len g);
+
+definition
+  let D be non empty set, f,g be FinSequence of D, n be Nat;
+  pred g is_odd_substring_of f,n means
+:: GLIB_006:def 1
+  len g > 0 implies ex i being odd Nat
+    st n <= i & i <= len f & mid(f,i,(i-'1)+len g) = g;
+  pred g is_even_substring_of f,n means
+:: GLIB_006:def 2
+  len g > 0 implies ex i being even Nat
+    st n <= i & i <= len f & mid(f,i,(i-'1)+len g) = g;
+end;
+
+theorem :: GLIB_006:8
+  for D being non empty set, f,g being FinSequence of D, n being Nat
+  holds g is_odd_substring_of f,n implies g is_substring_of f,n;
+
+theorem :: GLIB_006:9
+  for D being non empty set, f,g being FinSequence of D, n being Nat
+  holds g is_even_substring_of f,n implies g is_substring_of f,n;
+
+theorem :: GLIB_006:10
+  for D being non empty set, f,g being FinSequence of D,
+    n,m being Nat st m >= n
+  holds (g is_odd_substring_of f,m implies g is_odd_substring_of f,n) &
+    (g is_even_substring_of f,m implies g is_even_substring_of f,n);
+
+theorem :: GLIB_006:11
+  for D being non empty set, f being FinSequence of D
+  st 1 <= len f holds f is_odd_substring_of f,0;
+
+theorem :: GLIB_006:12
+  for D being non empty set, f,g being FinSequence of D,
+    n being even Element of NAT
+  st g is_odd_substring_of f,n holds g is_odd_substring_of f,n+1;
+
+theorem :: GLIB_006:13
+  for D being non empty set, f,g being FinSequence of D,
+    n being odd Element of NAT
+  st g is_even_substring_of f,n holds g is_even_substring_of f,n+1;
+
+theorem :: GLIB_006:14
+  for D being non empty set, f,g being FinSequence of D
+  st g is_odd_substring_of f,0 holds g is_odd_substring_of f,1;
+
+:: There are plenty theorems regarding predicate is_substring_of and
+:: its even/odd equivalents that could be written here.
+:: Many of them regard if the predicate holds with certain FinSequence
+:: functors, e.g.
+:: theorem for D being non empty set, f being FinSequence of D, m,n being Nat
+::   st 1 <= m & m <= n & n <= len f holds (m,n)-cut p is_substring_of p,m
+:: theorem for D being non empty set, f being FinSequence of D, m,n being Nat
+::   holds (m,n)-cut p is_substring_of p,0
+:: However, these theorems will not be proven here. Another set of theorems
+:: deals with the transitivity properties of the predicate, e.g.
+:: theorem for D being non empty set, f,g,h being FinSequence of D,
+::     n,m being Element of NAT
+::   st g is_substring_of f,n & h is_substring_of g,m
+::   holds h is_substring_of f,n+m-'1
+:: theorem for D being non empty set, f,g,h being FinSequence of D,
+::     n,m being Element of NAT
+::   st g is_even_substring_of f,n & h is_even_substring_of g,m
+::   holds h is_odd_substring_of f,n+m-'1
+:: These theorems will not be further investigated here either.
+:: However, the author proposes the writing of an article that
+:: deals with these properties along with the aforementioned
+:: -cut/smid similiarity (maybe as FINSEQ_9 or add it to FINSEQ_8).
+
+:: END into FINSEQ_8 ?
+
+begin :: graph preliminaries
+
+:: into GLIB_000 ?
+registration
+  let G be non-Dmulti _Graph;
+  cluster -> non-Dmulti for Subgraph of G;
+end;
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:15
+  for G being _Graph holds G is inducedSubgraph of G, the_Vertices_of G;
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:16
+  for G1,G3 being _Graph, V,E being set, G2 being inducedSubgraph of G1,V,E
+  st G2 == G3 holds G3 is inducedSubgraph of G1,V,E;
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:17
+  for G being _Graph, X being set, e,y being object st e SJoins X,{y},G
+  ex x being object st x in X & e Joins x,y,G;
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:18
+  for G being _Graph, X being set st X /\ the_Vertices_of G = {}
+  holds G.edgesInto(X) = {} & G.edgesOutOf(X) = {} &
+    G.edgesInOut(X) = {} & G.edgesBetween(X) = {};
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:19
+  for G being _Graph, X1, X2 being set, y being object st X1 misses X2
+  holds G.edgesBetween(X1,{y}) misses G.edgesBetween(X2,{y});
+
+:: into GLIB_000 ?
+theorem :: GLIB_006:20
+  for G being _Graph, X1, X2 being set, y being object
+  holds G.edgesBetween(X1 \/ X2,{y})
+    = G.edgesBetween(X1,{y}) \/ G.edgesBetween(X2,{y});
+
+:: into GLIB_000 ?
+:: generalization of GLIB_000:22, uses it for simplification of proof
+theorem :: GLIB_006:21
+  for G being trivial _Graph ex v being Vertex of G st the_Vertices_of G = {v}
+    & the_Source_of G = the_Edges_of G --> v
+    & the_Target_of G = the_Edges_of G --> v;
+
+:: definitely into GLIB_001
+registration
+  let G be _Graph;
+  cluster closed Trail-like non trivial -> Circuit-like for Walk of G;
+  cluster closed Path-like non trivial -> Cycle-like for Walk of G;
+end;
+
+:: generalizes part of GLIB_001:175 and GLIB_001:176
+:: into GLIB_001 ?
+theorem :: GLIB_006:22
+  for G1, G2 being _Graph, W1 being Walk of G1, W2 being Walk of G2
+  st W1 = W2 holds W1 is Trail-like implies W2 is Trail-like;
+
+:: generalizes part of GLIB_001:175 and GLIB_001:176
+:: into GLIB_001 ?
+theorem :: GLIB_006:23
+  for G1, G2 being _Graph, W1 being Walk of G1, W2 being Walk of G2
+  st W1 = W2 holds W1 is Path-like implies W2 is Path-like;
+
+:: generalizes part of GLIB_001:175 and GLIB_001:176
+:: more general version of CHORD:24
+:: into GLIB_001 ?
+theorem :: GLIB_006:24
+  for G1, G2 being _Graph, W1 being Walk of G1, W2 being Walk of G2
+  st W1 = W2 holds W1 is Cycle-like implies W2 is Cycle-like;
+
+:: generalizes part of GLIB_001:175 and GLIB_001:176
+:: into GLIB_001 ?
+theorem :: GLIB_006:25
+  for G1, G2 being _Graph, W1 being Walk of G1, W2 being Walk of G2
+  st W1 = W2 holds W1 is vertex-distinct implies W2 is vertex-distinct;
+
+:: BEGIN into GLIB_001 ?
+
+:: Four theorems have been left out, as they need more theorems
+:: about is_substring_of (and the even/odd equivalents),
+:: and that is not part of this article.
+:: The theorems left out here are:
+:: theorem  for G being _Graph, W being Walk of G, m,n being odd Nat,
+::   m2 being Element of NAT
+::   st m <= n & n <= len W & m = m2 holds W.cut(m,n) is_odd_substring_of W,m2
+:: theorem for G being _Graph, W being Walk of G, m,n being Nat holds
+::   W.cut(m,n) is_odd_substring_of W,0
+:: theorem for G being _Graph, W1, W2 being Walk of G st W1.last() = W2.first()
+::   holds W2 is_odd_substring_of W1.append(W2),len W1
+:: theorem for G being _Graph, W1, W2 being Walk of G
+::   holds W1 is_odd_substring_of W1.append(W2),0
+
+theorem :: GLIB_006:26
+  for G being _Graph, W being Walk of G, v being Vertex of G
+  st v in W.vertices() holds G.walkOf(v) is_substring_of W, 0;
+
+theorem :: GLIB_006:27
+  for G being _Graph, W being Walk of G, n being odd Element of NAT
+  st n+2 <= len W holds G.walkOf(W.n,W.(n+1),W.(n+2)) is_odd_substring_of W, 0;
+
+theorem :: GLIB_006:28
+  for G being _Graph, W being Walk of G, u,e,v being object
+  st e Joins u,v,G & e in W.edges()
+  holds G.walkOf(u,e,v) is_odd_substring_of W, 0
+    or G.walkOf(v,e,u) is_odd_substring_of W, 0;
+
+theorem :: GLIB_006:29
+  for G being _Graph, W being Walk of G, u,e,v being object
+  st e Joins u,v,G & G.walkOf(u,e,v) is_odd_substring_of W, 0
+  holds e in W.edges() & u in W.vertices() & v in W.vertices();
+
+definition
+  let G be _Graph, W1, W2 be Walk of G;
+  func W1.findFirstVertex(W2) -> odd Element of NAT means
+:: GLIB_006:def 3
+
+  it <= len W1 & ex k being even Nat st it = k+1 &
+    (for n being Nat st 1 <= n & n <= len W2 holds W1.(k+n) = W2.n) &
+    for l being even Nat
+      st for n being Nat st 1 <= n & n <= len W2 holds W1.(l+n) = W2.n
+      holds k <= l
+  if W2 is_odd_substring_of W1, 0
+  otherwise it = len W1;
+  func W1.findLastVertex(W2) -> odd Element of NAT means
+:: GLIB_006:def 4
+
+  it <= len W1 & ex k being even Nat st it = k+len W2 &
+    (for n being Nat st 1 <= n & n <= len W2 holds W1.(k+n) = W2.n) &
+    for l being even Nat
+      st for n being Nat st 1 <= n & n <= len W2 holds W1.(l+n) = W2.n
+      holds k <= l
+  if W2 is_odd_substring_of W1, 0
+  otherwise it = len W1;
+end;
+
+theorem :: GLIB_006:30
+  for G being _Graph, W1, W2 being Walk of G st W2 is_odd_substring_of W1, 0
+  holds W1.(W1.findFirstVertex(W2)) = W2.first() &
+    W1.(W1.findLastVertex(W2)) = W2.last();
+
+theorem :: GLIB_006:31
+  for G being _Graph, W1, W2 being Walk of G st W2 is_odd_substring_of W1, 0
+  holds 1 <= W1.findFirstVertex(W2) & W1.findFirstVertex(W2) <= len W1 &
+    1 <= W1.findLastVertex(W2) & W1.findLastVertex(W2) <= len W1;
+
+theorem :: GLIB_006:32
+  for G being _Graph, W being Walk of G
+  holds 1 = W.findFirstVertex(W) & W.findLastVertex(W) = len W;
+
+theorem :: GLIB_006:33
+  for G being _Graph, W1, W2 being Walk of G st W2 is_odd_substring_of W1, 0
+  holds W1.findFirstVertex(W2) <= W1.findLastVertex(W2);
+
+definition
+  let G be _Graph, W1, W2, W3 be Walk of G;
+  func W1.replaceWith(W2, W3) -> Walk of G equals
+:: GLIB_006:def 5
+
+  W1.cut(1,W1.findFirstVertex(W2)
+    ).append(W3
+    ).append(W1.cut(W1.findLastVertex(W2), len W1))
+  if W2 is_odd_substring_of W1, 0 &
+    W2.first() = W3.first() & W2.last() = W3.last()
+  otherwise W1;
+end;
+
+definition
+  let G be _Graph, W1, W3 be Walk of G;
+  let e be object;
+  func W1.replaceEdgeWith(e, W3) -> Walk of G equals
+:: GLIB_006:def 6
+
+  W1.replaceWith(G.walkOf(W3.first(),e,W3.last()),W3)
+  if e Joins W3.first(),W3.last(),G &
+    G.walkOf(W3.first(),e,W3.last()) is_odd_substring_of W1, 0
+  otherwise W1;
+end;
+
+definition
+  let G be _Graph, W1, W2 be Walk of G;
+  let e be object;
+  func W1.replaceWithEdge(W2, e) -> Walk of G equals
+:: GLIB_006:def 7
+
+  W1.replaceWith(W2,G.walkOf(W2.first(),e,W2.last()))
+  if W2 is_odd_substring_of W1, 0 &
+    e Joins W2.first(),W2.last(),G
+  otherwise W1;
+end;
+
+theorem :: GLIB_006:34
+  for G being _Graph, W1, W2, W3 being Walk of G
+  st W2 is_odd_substring_of W1, 0 &
+    W2.first() = W3.first() & W2.last() = W3.last()
+  holds
+    W1.cut(1,W1.findFirstVertex(W2)).first() = W1.first() &
+    W1.cut(1,W1.findFirstVertex(W2)).last() = W3.first() &
+    W1.cut(1,W1.findFirstVertex(W2)).append(W3).first() =
+      W1.first() &
+    W1.cut(1,W1.findFirstVertex(W2)).append(W3).last() =
+      W3.last() &
+    W1.cut(W1.findLastVertex(W2), len W1).first() = W3.last() &
+    W1.cut(W1.findLastVertex(W2), len W1).last() = W1.last();
+
+theorem :: GLIB_006:35
+  for G being _Graph, W1, W2, W3 being Walk of G holds
+    W1.first() = W1.replaceWith(W2, W3).first() &
+    W1.last() = W1.replaceWith(W2, W3).last();
+
+theorem :: GLIB_006:36
+  for G being _Graph, W1, W2, W3 being Walk of G
+  st W2 is_odd_substring_of W1, 0 &
+    W2.first() = W3.first() & W2.last() = W3.last()
+  holds W1.replaceWith(W2, W3).vertices() =
+    W1.cut(1,W1.findFirstVertex(W2)).vertices() \/ W3.vertices() \/
+      W1.cut(W1.findLastVertex(W2), len W1).vertices();
+
+theorem :: GLIB_006:37
+  for G being _Graph, W1, W2, W3 being Walk of G
+  st W2 is_odd_substring_of W1, 0 &
+    W2.first() = W3.first() & W2.last() = W3.last()
+  holds W1.replaceWith(W2, W3).edges() =
+    W1.cut(1,W1.findFirstVertex(W2)).edges() \/ W3.edges() \/
+      W1.cut(W1.findLastVertex(W2), len W1).edges();
+
+theorem :: GLIB_006:38
+  for G being _Graph, W1, W3 being Walk of G, e being object
+  st e Joins W3.first(),W3.last(),G &
+    G.walkOf(W3.first(),e,W3.last()) is_odd_substring_of W1, 0
+  holds e in W1.replaceEdgeWith(e, W3).edges() iff
+    e in W1.cut(1,W1.findFirstVertex(G.walkOf(W3.first(),e,W3.last()))).edges()
+      or e in W3.edges() or e in W1.cut(W1.findLastVertex(
+        G.walkOf(W3.first(),e,W3.last())), len W1).edges();
+
+:: The Proof got surprisingly long. Maybe there's a shorter way?
+theorem :: GLIB_006:39
+  for G being _Graph, W1, W3 being Walk of G, e being object
+  st e Joins W3.first(),W3.last(),G & not e in W3.edges() &
+    G.walkOf(W3.first(),e,W3.last()) is_odd_substring_of W1, 0 &
+    for n, m being even Nat st n in dom W1 & m in dom W1 & W1.n = e & W1.m = e
+    holds n = m
+  holds not e in W1.replaceEdgeWith(e, W3).edges();
+
+:: this is the important theorem from this whole preliminary theory
+:: on replacement of parts of walks that will be used in the main part
+theorem :: GLIB_006:40
+  for G being _Graph, T1 being Trail of G, W3 being Walk of G, e being object
+  st e Joins W3.first(),W3.last(),G & not e in W3.edges() &
+    G.walkOf(W3.first(),e,W3.last()) is_odd_substring_of T1, 0
+  holds not e in T1.replaceEdgeWith(e, W3).edges();
+
+theorem :: GLIB_006:41
+  for G being _Graph, W1, W2 being Walk of G
+  st W1.first() = W2.first() & W1.last() = W2.last()
+  holds W1.replaceWith(W1,W2) = W2;
+
+:: The following theorem has been left out
+:: theorem ThExtra: for G being _Graph, W1, W2 being Walk of G
+::   holds W1.replaceWith(W2,W2) = W1
+:: as it needs
+:: theorem for G being _Graph, W1, W2 being Walk of G
+::   st W2 is_odd_substring_of W1,0 holds ex m,n being Element of NAT
+::     st 1 <= m & m <= n & n <= len W2 & W1.cut(m,n) = W2
+:: which in turn relies on unproven theorems about is_odd_substring_of
+:: and -cut/smid.
+
+:: the assumption in the following theorem could be dropped
+:: if the theorems above would be available
+theorem :: GLIB_006:42
+  for G being _Graph, W1, W3 being Walk of G, e being object
+  st e Joins W3.first(),W3.last(),G &
+    G.walkOf(W3.first(),e,W3.last()) is_odd_substring_of W1, 0
+  holds ex W2 being Walk of G
+    st W1.replaceEdgeWith(e,W3) = W1.replaceWith(W2,W3);
+
+:: same as theorem above
+theorem :: GLIB_006:43
+  for G being _Graph, W1, W2 being Walk of G, e being object
+  st W2 is_odd_substring_of W1, 0 & e Joins W2.first(),W2.last(),G
+  holds ex W3 being Walk of G
+    st W1.replaceWithEdge(W2,e) = W1.replaceWith(W2,W3);
+
+theorem :: GLIB_006:44
+  for G being _Graph, W1, W3 being Walk of G, e being object holds
+    W1.first() = W1.replaceEdgeWith(e, W3).first() &
+    W1.last() = W1.replaceEdgeWith(e, W3).last();
+
+theorem :: GLIB_006:45
+  for G being _Graph, W1, W2 being Walk of G, e being object holds
+    W1.first() = W1.replaceWithEdge(W2, e).first() &
+    W1.last() = W1.replaceWithEdge(W2, e).last();
+
+theorem :: GLIB_006:46
+  for G being _Graph, W1, W2, W3 being Walk of G, u,v being object holds
+    W1 is_Walk_from u,v iff W1.replaceWith(W2, W3) is_Walk_from u,v;
+
+theorem :: GLIB_006:47
+  for G being _Graph, W1, W3 being Walk of G, e,u,v being object holds
+    W1 is_Walk_from u,v iff W1.replaceEdgeWith(e, W3) is_Walk_from u,v;
+
+theorem :: GLIB_006:48
+  for G being _Graph, W1, W2 being Walk of G, e,u,v being object holds
+    W1 is_Walk_from u,v iff W1.replaceWithEdge(W2, e) is_Walk_from u,v;
+
+:: END into GLIB_001 ?
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:49
+  for G being _Graph, v1, v2 being Vertex of G st v1 is isolated & v1 <> v2
+  holds not v2 in G.reachableFrom v1;
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:50
+  for G being _Graph, v1, v2 being Vertex of G
+  holds v1 in G.reachableFrom v2 implies v2 in G.reachableFrom v1;
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:51
+  for G being _Graph, v being Vertex of G
+  st v is isolated holds {v} = G.reachableFrom(v);
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:52
+  for G being _Graph, v being Vertex of G, C being inducedSubgraph of G, {v}
+  st v is isolated holds C is Component of G;
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:53
+  for G1 being non trivial _Graph, v being Vertex of G1,
+    G2 being removeVertex of G1, v
+  st v is isolated holds G1.componentSet() = G2.componentSet() \/ {{v}} &
+    G1.numComponents() = G2.numComponents() +` 1;
+
+:: into GLIB_002 ?
+registration
+  let G be _Graph;
+  cluster isolated -> non cut-vertex for Vertex of G;
+end;
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:54
+  for G1 being _Graph, G2 being Subgraph of G1,
+    W1 being Walk of G1, W2 being Walk of G2 st W1 = W2
+  holds W1 is Cycle-like iff W2 is Cycle-like;
+
+:: into GLIB_002 ?
+theorem :: GLIB_006:55
+  for G1 being connected _Graph, G2 being Component of G1 holds G1 == G2;
+
+:: into CHORD ?
+registration
+  cluster complete -> connected for _Graph;
+end;
+
+registration
+  cluster non non-Dmulti non non-multi non loopless non Dsimple non simple
+    non acyclic non finite for _Graph;
+end;
+
+reserve G for _Graph;
+
+definition
+  let G;
+  func Endvertices(G) -> Subset of the_Vertices_of G means
+:: GLIB_006:def 8
+
+  for v being object holds v in it iff
+    ex w being Vertex of G st v = w & w is endvertex;
+end;
+
+theorem :: GLIB_006:56
+  for v being Vertex of G holds v in Endvertices(G) iff v is endvertex;
+
+begin :: Supergraphs
+
+:: analogue to GLIB_000:def 32
+definition
+  let G;
+  mode Supergraph of G -> _Graph means
+:: GLIB_006:def 9
+
+  the_Vertices_of G c= the_Vertices_of it &
+  the_Edges_of G c= the_Edges_of it &
+  for e being set st e in the_Edges_of G holds
+    (the_Source_of G).e = (the_Source_of it).e &
+    (the_Target_of G).e = (the_Target_of it).e;
+end;
+
+:: Now we show some handy trivialities. Most of them have a
+:: Subgraph equivalent in e.g. GLIB_000 and are shown through it and
+:: the following theorem
+:: Hence not all Subgraph theorems are reproduced here as they can be easily
+:: shown.
+
+theorem :: GLIB_006:57
+  for G1, G2 being _Graph
+  holds G2 is Subgraph of G1 iff G1 is Supergraph of G2;
+
+theorem :: GLIB_006:58
+  for G1, G2 being _Graph
+  holds G2 is Subgraph of G1 & G2 is Supergraph of G1 iff G1 == G2;
+
+theorem :: GLIB_006:59
+  for G1, G2 being _Graph
+  holds G1 is Supergraph of G2 & G2 is Supergraph of G1 iff G1 == G2;
+
+theorem :: GLIB_006:60
+  for G1, G2 being _Graph holds G1 is Supergraph of G2 iff G2 c= G1;
+
+theorem :: GLIB_006:61
+  G is Supergraph of G;
+
+theorem :: GLIB_006:62
+  for G3 being _Graph, G2 being Supergraph of G3, G1 being Supergraph of G2
+  holds G1 is Supergraph of G3;
+
+reserve G2 for _Graph, G1 for Supergraph of G2;
+
+:: the following 4 Supergraph theorems have no Subgraph analogon in the MML yet
+theorem :: GLIB_006:63
+  for G1, G2 being _Graph st the_Vertices_of G2 c= the_Vertices_of G1 &
+    the_Source_of G2 c= the_Source_of G1 &
+    the_Target_of G2 c= the_Target_of G1
+  holds G1 is Supergraph of G2;
+
+theorem :: GLIB_006:64
+  for G2, G1 holds the_Source_of G2 c= the_Source_of G1 &
+    the_Target_of G2 c= the_Target_of G1;
+
+theorem :: GLIB_006:65
+  for G2, G1 st the_Vertices_of G2 = the_Vertices_of G1 &
+    the_Edges_of G2 = the_Edges_of G1 holds G1 == G2;
+
+theorem :: GLIB_006:66
+  for G1, G2 being _Graph st the_Vertices_of G2 = the_Vertices_of G1 &
+    the_Edges_of G2 = the_Edges_of G1 &
+    the_Source_of G2 c= the_Source_of G1 &
+    the_Target_of G2 c= the_Target_of G1
+  holds G1 == G2;
+
+theorem :: GLIB_006:67
+  for G2, G1 for x being set holds
+    (x in the_Vertices_of G2 implies x in the_Vertices_of G1) &
+    (x in the_Edges_of G2 implies x in the_Edges_of G1);
+
+theorem :: GLIB_006:68
+  for G2, G1 for v being Vertex of G2 holds v is Vertex of G1;
+
+theorem :: GLIB_006:69
+  for G2, G1 holds
+    the_Source_of G2 = (the_Source_of G1) | the_Edges_of G2 &
+    the_Target_of G2 = (the_Target_of G1) | the_Edges_of G2;
+
+theorem :: GLIB_006:70
+  for G2, G1 for x,y being set, e being object holds
+    (e Joins x,y,G2 implies e Joins x,y,G1) &
+    (e DJoins x,y,G2 implies e DJoins x,y,G1) &
+    (e SJoins x,y,G2 implies e SJoins x,y,G1) &
+    (e DSJoins x,y,G2 implies e DSJoins x,y,G1);
+
+theorem :: GLIB_006:71
+  for G2, G1 for e,v1,v2 being object st e DJoins v1,v2,G1
+    holds e DJoins v1,v2,G2 or not e in the_Edges_of G2;
+
+theorem :: GLIB_006:72
+  for G2, G1 for e,v1,v2 being object st e Joins v1,v2,G1
+    holds e Joins v1,v2,G2 or not e in the_Edges_of G2;
+
+registration
+  let G be finite _Graph;
+  cluster finite for Supergraph of G;
+end;
+
+:: no equivalent in GLIB_000
+theorem :: GLIB_006:73
+  for G2, G1 holds G2.order() c= G1.order() & G2.size() c= G1.size();
+
+theorem :: GLIB_006:74
+  for G2 being finite _Graph, G1 being finite Supergraph of G2 holds
+    G2.order() <= G1.order() & G2.size() <= G1.size();
+
+theorem :: GLIB_006:75
+  for G2, G1 for W being Walk of G2 holds W is Walk of G1;
+
+theorem :: GLIB_006:76
+  for G2, G1 for W2 being Walk of G2, W1 being Walk of G1 st W1 = W2 holds
+    (W1 is closed iff W2 is closed) &
+    (W1 is directed iff W2 is directed) &
+    (W1 is trivial iff W2 is trivial) &
+    (W1 is Trail-like iff W2 is Trail-like) &
+    (W1 is Path-like iff W2 is Path-like) &
+    (W1 is vertex-distinct iff W2 is vertex-distinct) &
+    (W1 is Cycle-like iff W2 is Cycle-like);
+
+registration
+  let G be non trivial _Graph;
+  cluster -> non trivial for Supergraph of G;
+end;
+
+registration
+  let G be non non-Dmulti _Graph;
+  cluster -> non non-Dmulti for Supergraph of G;
+end;
+
+registration
+  let G be non non-multi _Graph;
+  cluster -> non non-multi for Supergraph of G;
+end;
+
+registration
+  let G be non loopless _Graph;
+  cluster -> non loopless for Supergraph of G;
+end;
+
+registration
+  let G be non Dsimple _Graph;
+  cluster -> non Dsimple for Supergraph of G;
+end;
+
+registration
+  let G be non simple _Graph;
+  cluster -> non simple for Supergraph of G;
+end;
+
+registration
+  let G be non acyclic _Graph;
+  cluster -> non acyclic for Supergraph of G;
+end;
+
+registration
+  let G be non finite _Graph;
+  cluster -> non finite for Supergraph of G;
+end;
+
+reserve V for set;
+
+definition
+  let G, V;
+  mode addVertices of G, V -> Supergraph of G means
+:: GLIB_006:def 10
+
+  the_Vertices_of it = the_Vertices_of G \/ V &
+  the_Edges_of it = the_Edges_of G &
+  the_Source_of it = the_Source_of G &
+  the_Target_of it = the_Target_of G;
+end;
+
+theorem :: GLIB_006:77
+  for G, V for G1, G2 being addVertices of G, V holds G1 == G2;
+
+theorem :: GLIB_006:78
+  for G2, V for G1 being addVertices of G2, V
+  holds G1 == G2 iff V c= the_Vertices_of G2;
+
+theorem :: GLIB_006:79
+  for G1, G2 being _Graph, V being set st G1 == G2 & V c= the_Vertices_of G2
+  holds G1 is addVertices of G2, V;
+
+theorem :: GLIB_006:80
+  for G, G2, V for G1 being addVertices of G, V st G1 == G2
+  holds G2 is addVertices of G, V;
+
+theorem :: GLIB_006:81
+  for G2, V for G1 being addVertices of G2, V
+  holds G1.edgesBetween(the_Vertices_of G2) = the_Edges_of G1;
+
+theorem :: GLIB_006:82
+  for G3 being _Graph, V1, V2 being set, G2 being addVertices of G3, V2,
+    G1 being addVertices of G2, V1
+  holds G1 is addVertices of G3, V1 \/ V2;
+
+theorem :: GLIB_006:83
+  for G3 being _Graph, V1, V2 being set, G1 being addVertices of G3, V1 \/ V2
+  holds ex G2 being addVertices of G3, V2 st G1 is addVertices of G2, V1;
+
+theorem :: GLIB_006:84
+  for G2, V for G1 being addVertices of G2, V
+  holds G2 is inducedSubgraph of G1, the_Vertices_of G2;
+
+theorem :: GLIB_006:85
+  for G2, V for G1 being addVertices of G2, V
+  for x,y,e being object holds e DJoins x,y,G1 iff e DJoins x,y,G2;
+
+theorem :: GLIB_006:86
+  for G2, V for G1 being addVertices of G2, V, v being object
+  st v in V holds v is Vertex of G1;
+
+theorem :: GLIB_006:87
+  for G2, V for G1 being addVertices of G2, V
+  for x,y,e being object holds e Joins x,y,G1 iff e Joins x,y,G2;
+
+theorem :: GLIB_006:88
+  for G2, V for G1 being addVertices of G2, V, v being Vertex of G1
+  st v in V \ the_Vertices_of G2 holds v is isolated non cut-vertex;
+
+theorem :: GLIB_006:89
+  for G2, V for G1 being addVertices of G2, V
+  st V \ the_Vertices_of G2 <> {}
+  holds G1 is non trivial non connected non Tree-like non complete;
+
+registration
+  let G be non-Dmulti _Graph;
+  let V be set;
+  cluster -> non-Dmulti for addVertices of G, V;
+end;
+
+registration
+  let G be non-multi _Graph;
+  let V be set;
+  cluster -> non-multi for addVertices of G, V;
+end;
+
+registration
+  let G be loopless _Graph;
+  let V be set;
+  cluster -> loopless for addVertices of G, V;
+end;
+
+registration
+  let G be Dsimple _Graph;
+  let V be set;
+  cluster -> Dsimple for addVertices of G, V;
+end;
+
+registration
+  let G be Dsimple _Graph;
+  let V be set;
+  cluster -> Dsimple for addVertices of G, V;
+end;
+
+theorem :: GLIB_006:90
+  for G2, V for G1 being addVertices of G2, V, W being Walk of G1
+  holds W.vertices() misses V \ the_Vertices_of G2 or W is trivial;
+
+theorem :: GLIB_006:91
+  for G2, V for G1 being addVertices of G2, V, W being Walk of G1
+  st W.vertices() misses V \ the_Vertices_of G2 holds W is Walk of G2;
+
+registration
+  let G be acyclic _Graph;
+  let V be set;
+  cluster -> acyclic for addVertices of G, V;
+end;
+
+theorem :: GLIB_006:92
+  for G2, V for G1 being addVertices of G2, V
+  holds G2 is chordal iff G1 is chordal;
+
+:: "non"-version of this cluster has to wait
+:: because non chordal existence will be proven with cycle graphs
+registration
+  let G be chordal _Graph;
+  let V be set;
+  cluster -> chordal for addVertices of G, V;
+end;
+
+reserve v for object;
+
+definition
+  let G, v;
+  mode addVertex of G, v is addVertices of G, {v};
+end;
+
+theorem :: GLIB_006:93
+  for G2, v for G1 being addVertex of G2, v
+  holds G1 == G2 iff v in the_Vertices_of G2;
+
+theorem :: GLIB_006:94
+  for G2, v for G1 being addVertex of G2, v holds v is Vertex of G1;
+
+registration
+  let G;
+  cluster -> non trivial non connected non complete
+    for addVertex of G, the_Vertices_of G;
+end;
+
+:: the prime example of how to use the new modes to show existences
+:: of certain graphs
+registration
+  cluster non trivial non connected non complete for _Graph;
+end;
+
+registration
+  let G be non connected _Graph, V be set;
+  cluster -> non connected for addVertices of G, V;
+end;
+
+:: In general, non finite versions of cardinalities are missing in the
+:: graph construction modes of GLIB_000 (e.g. removeVertex) and should
+:: be added.
+theorem :: GLIB_006:95
+  for G2, V for G1 being addVertices of G2, V
+  holds G1.size() = G2.size() &
+    G1.order() = G2.order() +` card (V \ the_Vertices_of G2);
+
+theorem :: GLIB_006:96
+  for G2 being finite _Graph, V being finite set, G1 being addVertices of G2,V
+  holds G1.order() = G2.order() + card (V \ the_Vertices_of G2);
+
+theorem :: GLIB_006:97
+  for G2 being _Graph, v being object, G1 being addVertex of G2,v
+  st not v in the_Vertices_of G2 holds G1.order() = G2.order() +` 1;
+
+theorem :: GLIB_006:98
+  for G2 being finite _Graph, v being object, G1 being addVertex of G2,v
+  st not v in the_Vertices_of G2 holds G1.order() = G2.order() + 1;
+
+registration
+  let G be finite _Graph, V be finite set;
+  cluster -> finite for addVertices of G, V;
+end;
+
+registration
+  let G be finite _Graph, v be object;
+  cluster -> finite for addVertex of G, v;
+end;
+
+registration
+  let G be _Graph, V be non finite set;
+  cluster -> non finite for addVertices of G,V;
+end;
+
+:: we explicitly add an edge only if it is not used already
+:: to ensure getting a Supergraph
+definition
+  let G;
+  let v1,e,v2 be object;
+  mode addEdge of G,v1,e,v2 -> Supergraph of G means
+:: GLIB_006:def 11
+
+  the_Vertices_of it = the_Vertices_of G &
+  the_Edges_of it = the_Edges_of G \/ {e} &
+  the_Source_of it = the_Source_of G +* (e .--> v1) &
+  the_Target_of it = the_Target_of G +* (e .--> v2)
+  if v1 in the_Vertices_of G & v2 in the_Vertices_of G &
+    not e in the_Edges_of G
+  otherwise it == G;
+end;
+
+theorem :: GLIB_006:99
+  for G for v1,e,v2 being object, G1, G2 being addEdge of G,v1,e,v2
+  holds G1 == G2;
+
+theorem :: GLIB_006:100
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  holds G1 == G2 iff e in the_Edges_of G2;
+
+theorem :: GLIB_006:101
+  for G, G2 for v1,e,v2 being object, G1 being addEdge of G,v1,e,v2
+  st G1 == G2 holds G2 is addEdge of G,v1,e,v2;
+
+theorem :: GLIB_006:102
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  holds the_Vertices_of G1 = the_Vertices_of G2;
+
+theorem :: GLIB_006:103
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  holds G1.edgesBetween(the_Vertices_of G2) = the_Edges_of G1;
+
+theorem :: GLIB_006:104
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  for v being Vertex of G1 holds v is Vertex of G2;
+
+theorem :: GLIB_006:105
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  holds not e in the_Edges_of G2 implies e DJoins v1,v2,G1;
+
+theorem :: GLIB_006:106
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  for e1,w1,w2 being object
+  holds e1 Joins w1,w2,G1 & not e1 in the_Edges_of G2 implies e1 = e;
+
+theorem :: GLIB_006:107
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  for e1,w1,w2 being object
+  holds e1 Joins w1,w2,G1 & not e1 in the_Edges_of G2
+    implies (w1 = v1 & w2 = v2) or (w1 = v2 & w2 = v1);
+
+theorem :: GLIB_006:108
+  for G2 for v1, v2 being Vertex of G2, e being set
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  holds G2 is removeEdge of G1,e;
+
+theorem :: GLIB_006:109
+  for G2 for v1, v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2, W being Walk of G1
+  st (e in W.edges() implies e in the_Edges_of G2)
+  holds W is Walk of G2;
+
+registration
+  let G be trivial _Graph;
+  let v1,e,v2 be object;
+  cluster -> trivial for addEdge of G,v1,e,v2;
+end;
+
+registration
+  let G be connected _Graph;
+  let v1,e,v2 be object;
+  cluster -> connected for addEdge of G,v1,e,v2;
+end;
+
+registration
+  let G be complete _Graph;
+  let v1,e,v2 be object;
+  cluster -> complete for addEdge of G,v1,e,v2;
+end;
+
+theorem :: GLIB_006:110
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  holds G1.order() = G2.order() & G1.size() = G2.size() +` 1;
+
+theorem :: GLIB_006:111
+  for G2 being finite _Graph, v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st not e in the_Edges_of G2
+  holds G1.size() = G2.size() + 1;
+
+registration
+  let G be finite _Graph;
+  let v1,e,v2 be object;
+  cluster -> finite for addEdge of G,v1,e,v2;
+end;
+
+theorem :: GLIB_006:112
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2 st G2 is loopless & v1 <> v2
+  holds G1 is loopless;
+
+theorem :: GLIB_006:113
+  for G2 for v being Vertex of G2, e being object
+  for G1 being addEdge of G2,v,e,v
+  st G2 is non loopless or not e in the_Edges_of G2
+  holds G1 is non loopless;
+
+registration
+  let G;
+  let v be Vertex of G;
+  cluster -> non loopless for addEdge of G,v,the_Edges_of G,v;
+end;
+
+theorem :: GLIB_006:114
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st G2 is non-Dmulti & not ex e3 being object st e3 DJoins v1,v2,G2
+  holds G1 is non-Dmulti;
+
+theorem :: GLIB_006:115
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G2 & ex e2 being object st e2 DJoins v1,v2,G2
+  holds G1 is non non-Dmulti;
+
+theorem :: GLIB_006:116
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st G2 is non-multi & not v1,v2 are_adjacent
+  holds G1 is non-multi;
+
+theorem :: GLIB_006:117
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G2 & v1,v2 are_adjacent
+  holds G1 is non non-multi;
+
+theorem :: GLIB_006:118
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st G2 is acyclic & not v2 in G2.reachableFrom v1
+  holds G1 is acyclic;
+
+theorem :: GLIB_006:119
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G2 & v2 in G2.reachableFrom v1
+  holds G1 is non acyclic;
+
+:: this is the theorem that spawned most of the preliminaries,
+:: although it carries a seemingly obvious meaning.
+:: it basically states that adding an edge within a component of a graph
+:: doesn't connect it to other components
+theorem :: GLIB_006:120
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st G2 is non connected & v2 in G2.reachableFrom v1
+  holds G1 is non connected;
+
+:: this theorem means there is at most one edge missing to completion
+theorem :: GLIB_006:121
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G2 &
+    (for v3, v4 being Vertex of G2 st not v3,v4 are_adjacent holds
+      (v3 = v4 or (v1 = v3 & v2 = v4) or (v1 = v4 & v2 = v3)))
+  holds G1 is complete;
+
+theorem :: GLIB_006:122
+  for G2 for v1,v2 being Vertex of G2, e being object
+  for G1 being addEdge of G2,v1,e,v2
+  st G2 is non complete & v1, v2 are_adjacent holds G1 is non complete;
+
+definition
+  let G;
+  let v1,e,v2 be object;
+  mode addAdjVertex of G,v1,e,v2 -> Supergraph of G means
+:: GLIB_006:def 12
+
+  the_Vertices_of it = the_Vertices_of G \/ {v2} &
+  the_Edges_of it = the_Edges_of G \/ {e} &
+  the_Source_of it = the_Source_of G +* (e .--> v1) &
+  the_Target_of it = the_Target_of G +* (e .--> v2)
+  if v1 in the_Vertices_of G & not v2 in the_Vertices_of G &
+    not e in the_Edges_of G,
+  the_Vertices_of it = the_Vertices_of G \/ {v1} &
+  the_Edges_of it = the_Edges_of G \/ {e} &
+  the_Source_of it = the_Source_of G +* (e .--> v1) &
+  the_Target_of it = the_Target_of G +* (e .--> v2)
+  if not v1 in the_Vertices_of G & v2 in the_Vertices_of G &
+    not e in the_Edges_of G
+  otherwise it == G;
+end;
+
+definition
+  let G;
+  let v1 be Vertex of G;
+  let e, v2 be object;
+  redefine mode addAdjVertex of G,v1,e,v2 means
+:: GLIB_006:def 13
+
+  the_Vertices_of it = the_Vertices_of G \/ {v2} &
+  the_Edges_of it = the_Edges_of G \/ {e} &
+  the_Source_of it = the_Source_of G +* (e .--> v1) &
+  the_Target_of it = the_Target_of G +* (e .--> v2)
+  if not v2 in the_Vertices_of G & not e in the_Edges_of G
+  otherwise it == G;
+end;
+
+definition
+  let G;
+  let v1,e be object;
+  let v2 be Vertex of G;
+  redefine mode addAdjVertex of G,v1,e,v2 means
+:: GLIB_006:def 14
+
+  the_Vertices_of it = the_Vertices_of G \/ {v1} &
+  the_Edges_of it = the_Edges_of G \/ {e} &
+  the_Source_of it = the_Source_of G +* (e .--> v1) &
+  the_Target_of it = the_Target_of G +* (e .--> v2)
+  if not v1 in the_Vertices_of G & not e in the_Edges_of G
+  otherwise it == G;
+end;
+
+theorem :: GLIB_006:123
+  for G for v1,e,v2 being object, G1, G2 being addAdjVertex of G,v1,e,v2
+  holds G1 == G2;
+
+theorem :: GLIB_006:124
+  for G, G2 for v1,e,v2 being object, G1 being addAdjVertex of G,v1,e,v2
+  st G1 == G2 holds G2 is addAdjVertex of G,v1,e,v2;
+
+theorem :: GLIB_006:125
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2
+  holds ex G3 being addVertex of G2,v2 st G1 is addEdge of G3,v1,e,v2;
+
+theorem :: GLIB_006:126
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2
+  holds ex G3 being addVertex of G2,v1 st G1 is addEdge of G3,v1,e,v2;
+
+theorem :: GLIB_006:127
+  for G3 being _Graph, v1 being Vertex of G3, e,v2 being object
+  for G2 being addVertex of G3,v2, G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G3 & not v2 in the_Vertices_of G3
+  holds G1 is addAdjVertex of G3,v1,e,v2;
+
+theorem :: GLIB_006:128
+  for G3 being _Graph, v1, e being object, v2 being Vertex of G3
+  for G2 being addVertex of G3,v1, G1 being addEdge of G2,v1,e,v2
+  st not e in the_Edges_of G3 & not v1 in the_Vertices_of G3
+  holds G1 is addAdjVertex of G3,v1,e,v2;
+
+theorem :: GLIB_006:129
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v2 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds v2 is Vertex of G1;
+
+theorem :: GLIB_006:130
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v1 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds v1 is Vertex of G1;
+
+theorem :: GLIB_006:131
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v2 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds e DJoins v1,v2,G1 & e Joins v1,v2,G1;
+
+theorem :: GLIB_006:132
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v1 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds e DJoins v1,v2,G1 & e Joins v1,v2,G1;
+
+theorem :: GLIB_006:133
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v2 in the_Vertices_of G2 & not e in the_Edges_of G2
+  for e1, w being object st (w <> v1 or e1 <> e)
+  holds not e1 Joins w,v2,G1;
+
+theorem :: GLIB_006:134
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v1 in the_Vertices_of G2 & not e in the_Edges_of G2
+  for e1, w being object st (w <> v2 or e1 <> e)
+  holds not e1 Joins v1,w,G1;
+
+theorem :: GLIB_006:135
+  for G2 for v1, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  holds G1.edgesBetween(the_Vertices_of G2) = the_Edges_of G2;
+
+theorem :: GLIB_006:136
+  for G2 for v1, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  holds G2 is inducedSubgraph of G1, the_Vertices_of G2;
+
+theorem :: GLIB_006:137
+  for G2 for v1 being Vertex of G2, e being object, v2 being set
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2
+  holds G2 is removeVertex of G1, v2;
+
+theorem :: GLIB_006:138
+  for G2 for v1 being set, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2
+  holds G2 is removeVertex of G1, v1;
+
+theorem :: GLIB_006:139
+  for G being non trivial _Graph, v1 being Vertex of G, e,v2 being object
+  for G1 being addAdjVertex of G,v1,e,v2
+  for G2 being removeVertex of G1,v1
+  for G3 being removeVertex of G,v1
+  st not e in the_Edges_of G & not v2 in the_Vertices_of G
+  holds G2 is addVertex of G3, v2;
+
+theorem :: GLIB_006:140
+  for G being non trivial _Graph, v1,e being object, v2 being Vertex of G
+  for G1 being addAdjVertex of G,v1,e,v2
+  for G2 being removeVertex of G1,v2
+  for G3 being removeVertex of G,v2
+  st not e in the_Edges_of G & not v1 in the_Vertices_of G
+  holds G2 is addVertex of G3, v1;
+
+:: What has been left out here is the Proof that the vertex to which
+:: a new vertex with edge is added becomes a cut-vertex in the
+:: resulting supergraph. A sketch of the Proof is commented below.
+:: This theorem would be the easy way to show that any vertex in a (non
+:: trivial) path graph that isn't an endvertex is a cut-vertex.
+::
+:: The difficulty of my Proofs lies in the difficulty of the Proofs of
+:: the theorems my Proof would need. First there is
+:: theorem (1) for G2 being non trivial _Graph, v1, e,v2 being object,
+::    G1 being addAdjVertex of G2,v1,e,v2
+::  holds G1.numComponents() = G2.numComponents();
+:: which is not hard, just cumbersome. Then
+:: theorem (2) for G being _Graph, v being Vertex of G,
+::    G2 being removeVertex of G, v
+::  st G2.numComponents() in G.numComponents()
+::  holds v is isolated;
+:: which is harder than it looks, especially since the converse has
+:: already been proven in the preliminaries. I found it to need
+:: theorem (3) for G being _Graph, u,v,w being Vertex of G
+::  st v is non cut-vertex & u in G.reachableFrom(w)
+::  holds ex W being Walk st W is_Walk_from w,u & not v in W.vertices();
+:: for a contradiction Proof (take v to be non isolated, let w be a
+::  neighbour of v; v is non cut-vertex by assumption, so use (3)
+::  to show G2.reachableFrom(w) = G1.reachableFrom(w) \ {v},
+::  deduce a bijection between component sets of G1 and G2 leading
+::  to the contradiction).
+:: Last theorem is
+:: theorem (4) for G1 being non trivial _Graph, v being Vertex of G,
+::    G2 being removeVertex of G1, v
+::  st v is non isolated non cut-vertex
+::  holds G1.numComponents() = G2.numComponents();
+:: which is just a corrolary of (2) and the definition of cut-vertex.
+:: Of course (2), (3) and (4) would belong into GLIB_002 to ease theorem
+:: finding for future articles.
+::
+:: The dedicated reader is welcome to prove these theorems and the main one
+:: below, or even find a shorter Proof (nevertheless theorems (1)-(3)
+:: should be added to the MML because they are stating obvious facts).
+::
+::theorem
+::  for G2 being non trivial _Graph, v1 being Vertex of G2, e,v2 being object,
+::    G1 being addAdjVertex of G2,v1,e,v2, w being Vertex of G1
+::  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2 & w = v1
+::    & v1 is non isolated
+::  holds w is cut-vertex;
+::proof
+::  let G2 be non trivial _Graph, v1 be Vertex of G2, e,v2 be object;
+::  let G1 be addAdjVertex of G2,v1,e,v2, w be Vertex of G1;
+::  assume A1: not e in the_Edges_of G2 & not v2 in the_Vertices_of G2 & w=v1
+::    & v1 is non isolated;
+::  for G4 being removeVertex of G1,w holds
+::    G1.numComponents() in G4.numComponents()
+::  proof
+::    let G4 be removeVertex of G1,w;
+::    set G3 = the removeVertex of G2,v1;
+::    G4 is removeVertex of G1,v1 by A1;
+    :: G4 is addVertex of G3, v2
+    :: C(G1) = C(G2) by (1)
+    :: C(G4) = C(G3)+1
+    :: if v1 is cut-vertex in G2:
+    ::  ==> C(G2) in C(G3)
+    ::  if C(G4) = C(G1)
+    ::    ==> C(G1) = C(G4) = C(G3)+1
+    ::    but C(G1)+1 = C(G2)+1 in C(G3)+1, hence contradiction
+    ::  so C(G4) <> C(G1)
+    ::  also C(G4) < C(G1) implies w is isolated by (2)
+    ::  so C(G4) > C(G1) qed
+    :: if not v1 is cut-vertex in G2:
+    ::  v1 is non isolated
+    ::  ==> C(G3) = C(G2) by (4)
+    ::  ==> C(G4) = C(G1)+1
+    ::  ==> C(G1) in C(G4) qed
+::    thus thesis;
+::  end;
+::  hence thesis by GLIB_002:def 10;
+::end;
+
+:: also don't forget the symmetric analogon
+:: (for v1, e being object, v2 being Vertex of G2)
+
+theorem :: GLIB_006:141
+  for G2 for v1 being Vertex of G2, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  for w being Vertex of G1
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2 & w = v2
+  holds w is endvertex;
+
+theorem :: GLIB_006:142
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  for w being Vertex of G1
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2 & w = v1
+  holds w is endvertex;
+
+theorem :: GLIB_006:143
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v2 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds G1 is non trivial;
+
+theorem :: GLIB_006:144
+  for G2 for v1,e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not v1 in the_Vertices_of G2 & not e in the_Edges_of G2
+  holds G1 is non trivial;
+
+registration
+  let G be _Graph;
+  let v be Vertex of G;
+  cluster -> non trivial
+    for addAdjVertex of G,v,the_Edges_of G, the_Vertices_of G;
+  cluster -> non trivial
+    for addAdjVertex of G,the_Vertices_of G,the_Edges_of G, v;
+end;
+
+registration
+  let G be trivial _Graph;
+  let v be Vertex of G;
+  cluster -> complete
+    for addAdjVertex of G,v,the_Edges_of G,the_Vertices_of G;
+  cluster -> complete
+    for addAdjVertex of G,the_Vertices_of G,the_Edges_of G,v;
+end;
+
+registration
+  let G be loopless _Graph;
+  let v1,e,v2 be object;
+  cluster -> loopless for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be non-Dmulti _Graph;
+  let v1,e,v2 be object;
+  cluster -> non-Dmulti for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be non-multi _Graph;
+  let v1,e,v2 be object;
+  cluster -> non-multi for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be Dsimple _Graph;
+  let v1,e,v2 be object;
+  cluster -> Dsimple for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be simple _Graph;
+  let v1,e,v2 be object;
+  cluster -> simple for addAdjVertex of G,v1,e,v2;
+end;
+
+theorem :: GLIB_006:145
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2, W being Walk of G1
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2 &
+    ((not e in W.edges() & W is non trivial) or not v2 in W.vertices())
+  holds W is Walk of G2;
+
+theorem :: GLIB_006:146
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2, W being Walk of G1
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2 &
+    ((not e in W.edges() & W is non trivial) or not v1 in W.vertices())
+  holds W is Walk of G2;
+
+theorem :: GLIB_006:147
+  for G2 for v1, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2, T being Trail of G1
+  st not e in the_Edges_of G2 & T.first() in the_Vertices_of G2 &
+    T.last() in the_Vertices_of G2
+  holds not e in T.edges();
+
+registration
+  let G be connected _Graph;
+  let v1,e,v2 be object;
+  cluster -> connected for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be non connected _Graph;
+  let v1,e,v2 be object;
+  cluster -> non connected for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be acyclic _Graph;
+  let v1,e,v2 be object;
+  cluster -> acyclic for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be Tree-like _Graph;
+  let v1,e,v2 be object;
+  cluster -> Tree-like for addAdjVertex of G,v1,e,v2;
+end;
+
+theorem :: GLIB_006:148
+  for G2 for v1 being Vertex of G2, e,v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2
+    & G2 is non trivial
+  holds G1 is non complete;
+
+theorem :: GLIB_006:149
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2
+    & G2 is non trivial
+  holds G1 is non complete;
+
+registration
+  let G be non complete _Graph;
+  let v1,e,v2 be object;
+  cluster -> non complete for addAdjVertex of G,v1,e,v2;
+end;
+
+registration
+  let G be non trivial _Graph;
+  let v be Vertex of G;
+  cluster -> non complete
+    for addAdjVertex of G,v,the_Edges_of G,the_Vertices_of G;
+  cluster -> non complete
+    for addAdjVertex of G,the_Vertices_of G,the_Edges_of G,v;
+end;
+
+theorem :: GLIB_006:150
+  for G2 for v1 being Vertex of G2, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2
+  holds G1.order() = G2.order() +` 1 & G1.size() = G2.size() +` 1;
+
+theorem :: GLIB_006:151
+  for G2 for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2
+  holds G1.order() = G2.order() +` 1 & G1.size() = G2.size() +` 1;
+
+theorem :: GLIB_006:152
+  for G2 being finite _Graph, v1 being Vertex of G2, e, v2 being object
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v2 in the_Vertices_of G2
+  holds G1.order() = G2.order() + 1 & G1.size() = G2.size() + 1;
+
+theorem :: GLIB_006:153
+  for G2 being finite _Graph for v1, e being object, v2 being Vertex of G2
+  for G1 being addAdjVertex of G2,v1,e,v2
+  st not e in the_Edges_of G2 & not v1 in the_Vertices_of G2
+  holds G1.order() = G2.order() + 1 & G1.size() = G2.size() + 1;
+
+registration
+  let G be finite _Graph;
+  let v1,e,v2 be object;
+  cluster -> finite for addAdjVertex of G,v1,e,v2;
+end;

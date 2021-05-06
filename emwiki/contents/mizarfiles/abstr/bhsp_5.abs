@@ -1,0 +1,237 @@
+:: Bessel's Inequality
+::  by Hiroshi Yamazaki , Yasunari Shidama and Yatsuka Nakamura
+::
+:: Received January 30, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, BHSP_1, PRE_TOPC, SUBSET_1, FINSEQ_1, FUNCT_1, RELAT_1,
+      FUNCT_2, CARD_1, TARSKI, XBOOLE_0, BINOP_1, SETWISEO, FINSET_1, MEMBER_1,
+      FINSOP_1, ALGSTR_0, SUPINF_2, NAT_1, DECOMP_1, REAL_1, STRUCT_0, BINOP_2,
+      PROB_2, NORMSP_1, ARYTM_3, SQUARE_1, ARYTM_1, XXREAL_0, RVSUM_1,
+      RLVECT_1, ORDINAL4, BHSP_5;
+ notations TARSKI, SUBSET_1, XBOOLE_0, CARD_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      XXREAL_0, STRUCT_0, ALGSTR_0, REAL_1, XREAL_0, FUNCT_2, FINSET_1, NAT_1,
+      RELAT_1, BINOP_2, PRE_TOPC, RLVECT_1, BHSP_1, SQUARE_1, BINOP_1,
+      SETWISEO, FUNCT_1, FINSEQ_1, FINSOP_1;
+ constructors BINOP_1, DOMAIN_1, SETWISEO, REAL_1, SQUARE_1, NAT_1, BINOP_2,
+      MEMBERED, FINSOP_1, BHSP_1, RELSET_1, INT_1;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, FUNCT_2, FINSET_1,
+      NUMBERS, BINOP_2, MEMBERED, STRUCT_0, CARD_1, XREAL_0, SQUARE_1, NAT_1,
+      INT_1;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Sum of the result of operation with each element of a set
+
+reserve X for RealUnitarySpace;
+reserve x, y, y1, y2 for Point of X;
+reserve xd for set;
+reserve i, j, n for Nat;
+
+theorem :: BHSP_5:1
+  for D being set, p1, p2 being FinSequence of D holds
+  p1 is one-to-one & p2 is one-to-one & rng p1 = rng p2 implies
+  dom p1 = dom p2 & ex P being Permutation of dom p1 st
+  p2 = p1*P & dom P = dom p1 & rng P = dom p1;
+
+definition
+  let DX be non empty set;
+  let f be BinOp of DX such that
+ f is commutative associative and
+ f is having_a_unity;
+  let Y be finite Subset of DX;
+  func f ++ Y -> Element of DX means
+:: BHSP_5:def 1
+  ex p being FinSequence of DX st p is one-to-one & rng p = Y & it = f "**" p;
+end;
+
+definition
+  let X;
+  let Y be finite Subset of X;
+  func setop_SUM(Y,X) -> set equals
+:: BHSP_5:def 2
+  (the addF of X) ++ Y if Y <> {} otherwise 0.X;
+end;
+
+definition
+  let X, x;
+  let p be FinSequence;
+  let i be Nat;
+  func PO(i,p,x) -> set equals
+:: BHSP_5:def 3
+  (the scalar of X).[x,p.i];
+end;
+
+definition
+  let DK, DX be non empty set;
+  let F be Function of DX, DK;
+  let p be FinSequence of DX;
+  func Func_Seq(F,p) -> FinSequence of DK equals
+:: BHSP_5:def 4
+  F*p;
+end;
+
+definition
+  let DK, DX be non empty set;
+  let f be BinOp of DK such that
+ f is commutative associative and
+ f is having_a_unity;
+  let Y be finite Subset of DX;
+  let F be Function of DX,DK;
+  func setopfunc(Y,DX,DK,F,f) -> Element of DK means
+:: BHSP_5:def 5
+
+  ex p being FinSequence of DX st p is one-to-one &
+  rng p = Y & it = f "**" Func_Seq(F,p);
+end;
+
+definition
+  let X, x;
+  let Y be finite Subset of X;
+  func setop_xPre_PROD(x,Y,X) -> Real means
+:: BHSP_5:def 6
+  ex p being FinSequence of the carrier of X st p is one-to-one & rng p = Y
+  & ex q being FinSequence of REAL st dom(q) = dom(p) &
+  (for i st i in dom q holds q.i = PO(i,p,x)) & it = addreal "**" q;
+end;
+
+definition
+  let X, x;
+  let Y be finite Subset of X;
+  func setop_xPROD(x,Y,X) -> Real equals
+:: BHSP_5:def 7
+  setop_xPre_PROD(x,Y,X) if Y <> {}
+  otherwise 0;
+end;
+
+begin :: Orthogonal Family & Orthonormal Family
+
+definition
+  let X;
+  mode OrthogonalFamily of X -> Subset of X means
+:: BHSP_5:def 8
+
+    for x, y st x in it & y in it & x <> y holds x.|.y = 0;
+end;
+
+theorem :: BHSP_5:2
+  {} is OrthogonalFamily of X;
+
+registration
+  let X;
+  cluster finite for OrthogonalFamily of X;
+end;
+
+definition
+  let X;
+  mode OrthonormalFamily of X -> Subset of X means
+:: BHSP_5:def 9
+
+    it is OrthogonalFamily of X & for x st x in it holds x.|.x = 1;
+end;
+
+theorem :: BHSP_5:3
+  {} is OrthonormalFamily of X;
+
+registration
+  let X;
+  cluster finite for OrthonormalFamily of X;
+end;
+
+theorem :: BHSP_5:4
+  x = 0.X iff for y holds x.|.y = 0;
+
+begin :: Bessel's inequality
+:: parallelogram law
+
+theorem :: BHSP_5:5
+  ||.x+y.||^2 + ||.x-y.||^2 = 2*||.x.||^2 + 2*||.y.||^2;
+
+:: The Pythagorean theorem
+
+theorem :: BHSP_5:6
+  x, y are_orthogonal implies ||.x+y.||^2 = ||.x.||^2 + ||.y.||^2;
+
+theorem :: BHSP_5:7
+  for p be FinSequence of the carrier of X st (len p >=1 &
+  for i,j st i in dom p & j in dom p & i <> j
+  holds (the scalar of X).[p.i,p.j]=0) for q be FinSequence of REAL
+  st dom p = dom q &
+  (for i st i in dom q holds q.i = (the scalar of X).[(p.i),(p.i)])
+  holds ((the addF of X) "**" p).|. ((the addF of X) "**" p) = addreal "**" q;
+
+theorem :: BHSP_5:8
+  for p be FinSequence of the carrier of X st len p >= 1
+  for q be FinSequence of REAL st dom p = dom q &
+  (for i st i in dom q holds q.i = (the scalar of X).[x,p.i])
+  holds x.|.((the addF of X) "**" p) = addreal "**" q;
+
+theorem :: BHSP_5:9
+  for S be finite non empty Subset of X
+  for F be Function of the carrier of X, the carrier of X
+  st S c= dom F & (for y1,y2 st y1 in S & y2 in S & y1 <> y2
+  holds (the scalar of X).[F.y1,F.y2] = 0)
+  for H be Function of the carrier of X, REAL
+  st S c= dom H & (for y st y in S holds H.y= (the scalar of X).[F.y,F.y])
+  for p be FinSequence of the carrier of X
+  st p is one-to-one & rng p = S holds
+  (the scalar of X).[(the addF of X) "**" Func_Seq(F,p),
+  (the addF of X) "**" Func_Seq(F,p)] = addreal "**" Func_Seq(H,p);
+
+theorem :: BHSP_5:10
+  for S be finite non empty Subset of X
+  for F be Function of the carrier of X, the carrier of X st S c= dom F
+  for H be Function of the carrier of X, REAL
+  st S c= dom H & (for y st y in S holds H.y = (the scalar of X).[x,F.y])
+  for p be FinSequence of the carrier of X st p is one-to-one & rng p = S
+  holds (the scalar of X).[x,(the addF of X) "**" Func_Seq(F,p) ]
+  = addreal "**" Func_Seq(H,p);
+
+theorem :: BHSP_5:11
+  for X st the addF of X is commutative associative &
+  the addF of X is having_a_unity for x
+  for S be finite OrthonormalFamily of X st S is non empty
+  for H be Function of the carrier of X, REAL st
+  S c= dom H & (for y st y in S holds H.y= (x.|.y)^2)
+  for F be Function of the carrier of X, the carrier of X st
+  S c= dom F & (for y st y in S holds F.y = (x.|.y)*y) holds
+  x.|.setopfunc(S, the carrier of X, the carrier of X, F, the addF of X)
+  = setopfunc(S, the carrier of X, REAL, H, addreal);
+
+theorem :: BHSP_5:12
+  for X st the addF of X is commutative associative &
+  the addF of X is having_a_unity
+  for x for S be finite OrthonormalFamily of X st S is non empty
+  for F be Function of the carrier of X, the carrier of X
+  st S c= dom F & (for y st y in S holds F.y = (x.|.y)*y)
+  for H be Function of the carrier of X, REAL
+  st S c= dom H & (for y st y in S holds H.y= (x.|.y)^2) holds
+  setopfunc(S, the carrier of X, the carrier of X, F, the addF of X)
+  .|. setopfunc(S, the carrier of X, the carrier of X, F, the addF of X)
+  = setopfunc(S, the carrier of X, REAL, H, addreal);
+
+theorem :: BHSP_5:13
+  for X st the addF of X is commutative associative &
+  the addF of X is having_a_unity for x
+  for S be finite OrthonormalFamily of X st S is non empty
+  for H be Function of the carrier of X, REAL
+  st S c= dom H & (for y st y in S holds H.y = (x.|.y)^2) holds
+  setopfunc(S, the carrier of X, REAL, H, addreal) <= ||.x.||^2;
+
+theorem :: BHSP_5:14
+  for DK, DX be non empty set
+  for f be BinOp of DK st f is commutative associative & f is having_a_unity
+  for Y1, Y2 be finite Subset of DX st Y1 misses Y2
+  for F be Function of DX, DK st Y1 c= dom F & Y2 c= dom F
+  for Z be finite Subset of DX st Z = Y1 \/ Y2 holds setopfunc(Z,DX,DK,F,f)
+  = f.(setopfunc(Y1,DX,DK,F,f), setopfunc(Y2,DX,DK,F,f));

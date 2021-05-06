@@ -1,0 +1,227 @@
+:: Introduction to {D}iophantine Approximation
+::  by Yasushige Watase
+::
+:: Received April 19, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_1, ARYTM_3, CARD_1, COMPLEX1, FINANCE1, FINSEQ_1, FUNCT_1,
+      INT_1, IRRAT_1, NAT_1, NEWTON, NUMBERS, PROB_1, PROB_3, RAT_1, REAL_1,
+      REAL_3, RELAT_1, SUBSET_1, TARSKI, XBOOLE_0, XXREAL_0, XXREAL_1, INT_2,
+      ORDINAL1, SQUARE_1, ABIAN, FINSET_1, SEQ_1, ORDINAL2, SEQ_2, VALUED_1,
+      DIOPHAN1, NAT_6;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, RELSET_1, FUNCT_2, CARD_1,
+      ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0, NAT_1, INT_1, XREAL_0, COMPLEX1,
+      FINSEQ_1, XXREAL_1, PROB_1, FINANCE1, PROB_3, IRRAT_1, REAL_3, NEWTON,
+      SQUARE_1, REAL_1, ABIAN, INT_2, FINSET_1, RAT_1, COMSEQ_2, SEQ_1, SEQ_2,
+      VALUED_1, NAT_D, FUNCOP_1, NAT_6;
+ constructors REAL_1, SQUARE_1, SEQ_2, NEWTON, RELSET_1, COMSEQ_2, ABIAN,
+      REAL_3, PROB_3, FINANCE1, NAT_6;
+ registrations XREAL_0, NAT_1, INT_1, FINSET_1, XXREAL_0, NEWTON, CARD_1,
+      VALUED_0, RELSET_1, NUMBERS, XCMPLX_0, FUNCT_2, ABIAN, NAT_3, SQUARE_1,
+      REAL_3, ZFMISC_1, FINANCE1, RAT_1, MEMBERED, VALUED_1, SEQ_1, SEQ_2,
+      NAT_6;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Irrational & Continued Fraction
+
+ reserve i,j,k,m,n,m1,n1 for Nat;
+ reserve a,r,r1,r2 for Real;
+ reserve m0,cn,cd for Integer;
+ reserve x1,x2,o for object;
+
+:: Approximation an irrational by its simple continued fraction
+
+theorem :: DIOPHAN1:1
+  r = rfs(r).0 & r = scf(r).0 + 1/rfs(r).1 &
+    rfs(r).n = scf(r).n + 1/rfs(r).(n+1);
+
+theorem :: DIOPHAN1:2
+  r is irrational implies
+    rfs(r).n is irrational;
+
+theorem :: DIOPHAN1:3
+  r is irrational implies rfs(r).n <> 0 &
+  rfs(r).1*rfs(r).2 <> 0 &
+  scf(r).1*rfs(r).2 + 1 <> 0;
+
+theorem :: DIOPHAN1:4
+  r is irrational implies
+    scf(r).n < rfs(r).n & rfs(r).n < scf(r).n + 1 & 1 < rfs(r).(n+1);
+
+theorem :: DIOPHAN1:5
+  r is irrational implies 0 < scf(r).(n+1);
+
+registration let r,n;
+  cluster c_n(r).n -> integer;
+end;
+
+theorem :: DIOPHAN1:6
+:: [Hardy&Wright] Ch.10 Th155
+  r is irrational implies for n holds c_d(r).(n+1) >= c_d(r).n;
+
+theorem :: DIOPHAN1:7
+  r is irrational implies c_d(r).n >=1;
+
+::[Hardy&Wright] Irrational case of Ch. 10 Th155
+theorem :: DIOPHAN1:8
+  r is irrational implies c_d(r).(n+2) > c_d(r).(n+1);
+
+::[Hardy&Wright] Ch.10 Th156
+theorem :: DIOPHAN1:9
+  r is irrational implies c_d(r).n >= n;
+
+::[Hardy&Wright] Ch.10 Th157
+theorem :: DIOPHAN1:10
+  cn = c_n(r).n & cd = c_d(r).n & cn <> 0 implies
+    cn,cd are_coprime;
+
+theorem :: DIOPHAN1:11
+  r is irrational implies
+    (c_d(r).(n+1)*rfs(r).(n+2) + c_d(r).n) > 0 &
+    (c_d(r).(n+1)*rfs(r).(n+2) - c_d(r).n) > 0;
+
+theorem :: DIOPHAN1:12
+  r is irrational implies
+    (c_d(r).(n+1)*(c_d(r).(n+1)*rfs(r).(n+2) + c_d(r).n)) > 0;
+
+theorem :: DIOPHAN1:13
+  r is irrational implies
+    r = (c_n(r).(n+1)*rfs(r).(n+2)+c_n(r).n)/
+      (c_d(r).(n+1)*rfs(r).(n+2)+c_d(r).n);
+
+::[Hardy&Wright] Ch.10 Th158
+theorem :: DIOPHAN1:14
+  r is irrational implies
+    c_n(r).(n+1)/c_d(r).(n+1) - r
+  = (-1)|^n /(c_d(r).(n+1)*(c_d(r).(n+1)*rfs(r).(n+2) + c_d(r).n));
+
+theorem :: DIOPHAN1:15
+  r is irrational & n is even & n > 0 implies
+    r > c_n(r).n/c_d(r).n;
+
+theorem :: DIOPHAN1:16
+  r is irrational & n is odd implies
+    r < c_n(r).n/c_d(r).n;
+
+theorem :: DIOPHAN1:17
+  r is irrational & n > 0 implies
+    |. r - c_n(r).n/c_d(r).n .| + |. r - c_n(r).(n+1)/c_d(r).(n+1) .|
+       = |. c_n(r).n/c_d(r).n - c_n(r).(n+1)/c_d(r).(n+1) .|;
+
+theorem :: DIOPHAN1:18
+  r is irrational implies |. r - c_n(r).n/c_d(r).n .| > 0;
+
+theorem :: DIOPHAN1:19
+  r is irrational implies c_d(r).(n+2) >= 2*c_d(r).n;
+
+theorem :: DIOPHAN1:20
+  r is irrational implies
+    |. r - c_n(r).(n+1)/c_d(r).(n+1) .| < 1/(c_d(r).(n+1)*c_d(r).(n+2));
+
+theorem :: DIOPHAN1:21
+  r is irrational implies
+    |. r*c_d(r).(n+1) - c_n(r).(n+1) .| < |. r*c_d(r).n - c_n(r).n .|
+  & |. r - c_n(r).(n+1)/c_d(r).(n+1) .| < |. r - c_n(r).n/c_d(r).n .|;
+
+theorem :: DIOPHAN1:22
+  r is irrational & m > n implies
+    |. r - c_n(r).n/c_d(r).n .| > |. r - c_n(r).m/c_d(r).m .|;
+
+::[Hardy&Wright] Ch.10 Th164
+theorem :: DIOPHAN1:23
+  r is irrational implies
+    |. r - c_n(r).n/c_d(r).n .| < 1/c_d(r).n|^2;
+
+theorem :: DIOPHAN1:24
+  for S be Subset of RAT, r st r is irrational &
+     S = {p where p is Element of RAT:
+    |. r - p .| < 1/denominator(p)|^2 } holds
+      S is infinite;
+
+theorem :: DIOPHAN1:25
+  r is irrational implies cocf(r) is convergent & lim (cocf(r)) = r;
+
+begin
+:: Proof of an existence of a solution of |. x*a -y .| < 1/t x < t
+:: Dirichlet's argument
+
+registration
+  cluster 1_greater for Nat;
+end;
+
+ reserve t for 1_greater Nat;
+
+definition
+  let t;
+  func Equal_Div_interval(t) -> SetSequence of REAL means
+:: DIOPHAN1:def 1
+  for n be Nat holds it.n = [. n/t, n/t + t" .[;
+end;
+
+theorem :: DIOPHAN1:26
+  [.0, (k+1)/t .[ \/ [. (k+1)/t, (k+2)/t .[ = [. 0, (k+2)/t .[;
+
+theorem :: DIOPHAN1:27
+  (Partial_Union Equal_Div_interval(t)).i = [.0, (i+1)/t .[;
+
+theorem :: DIOPHAN1:28
+  for r be Real, i be Nat st [\ r*t /] = i holds
+    r in (Equal_Div_interval(t)).i;
+
+theorem :: DIOPHAN1:29
+  r1 in (Equal_Div_interval(t)).i & r2 in (Equal_Div_interval(t)).i
+  implies |. r1 - r2 .| < t";
+
+theorem :: DIOPHAN1:30
+  (Partial_Union Equal_Div_interval(t)).(t-1) = [.0,1.[;
+
+theorem :: DIOPHAN1:31
+  for r be Real st r in [.0,1.[ holds
+    ex i be Nat st i <= t-1 & r in (Equal_Div_interval(t)).i;
+
+theorem :: DIOPHAN1:32
+  for r be Real, i be Nat st r in (Equal_Div_interval(t)).i holds
+    [\ r*t /] = i;
+
+theorem :: DIOPHAN1:33
+  for r be Real st r in [.0,1.[ holds
+    ex i be Nat st i <= t-1 & [\ r*t /] = i;
+
+definition
+  let t,a;
+  func F_dp1(t,a) -> FinSequence of Segm t means
+:: DIOPHAN1:def 2
+  len it = t+1 & for i st i in dom it holds
+    it.i = [\ (frac ((i -1)*a))*t /];
+end;
+
+registration let t,a;
+  cluster rng F_dp1(t,a) -> non empty;
+end;
+
+theorem :: DIOPHAN1:34
+  card rng(F_dp1(t,a)) in card dom(F_dp1(t,a));
+
+registration let t,a;
+  cluster F_dp1 (t,a) -> non one-to-one;
+end;
+
+begin :: Proof of Dirichlet's Theorem
+::[Baker] Chapter 6.1
+
+::$N Dirichlet's approximation theorem
+
+theorem :: DIOPHAN1:35
+  ex x,y be Integer st |. x*a - y .| < 1/t & 0 < x & x <= t;
+

@@ -1,0 +1,596 @@
+:: Binary Relations-Based Rough Sets -- An Automated Approach
+::  by Adam Grabowski
+:: 
+:: Received February 15, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies STRUCT_0, ORDERS_2, RELAT_1, TARSKI, ZFMISC_1, CARD_3, RELAT_2,
+      XBOOLE_0, PARTFUN1, SUBSET_1, FUNCT_1, EQREL_1, XXREAL_0, ROUGHS_1,
+      ROUGHS_2, FINSET_1, ROUGHS_3, ROUGHS_4, COHSP_1, FUNCT_2, FINSUB_1,
+      SETWISEO, ALTCAT_2, CLASSES1, NATTRA_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FINSET_1, FINSUB_1,
+      SETWISEO, CLASSES1, FUNCT_1, RELSET_1, FUNCT_2, DOMAIN_1, STRUCT_0,
+      ORDERS_2, EQREL_1, ORDERS_3, ROUGHS_1, ROUGHS_2, ALTCAT_2, COHSP_1,
+      ROUGHS_4;
+ constructors EQREL_1, DOMAIN_1, RELSET_1, ROUGHS_1, SETWISEO, COHSP_1,
+      ORDERS_3, YELLOW_3, ROUGHS_2, ROUGHS_4, ALTCAT_2;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, STRUCT_0, ORDERS_2, RELSET_1,
+      ROUGHS_1, ROUGHS_2, FINSET_1, ROUGHS_4, FUNCT_2, SETWISEO, COHSP_1,
+      WAYBEL_8;
+ requirements BOOLE, SUBSET;
+
+
+begin :: Preliminaries
+
+:: The aim of this Mizar article is to provide a formal counterpart
+:: for the rest of the paper of William Zhu "Generalized Rough Sets
+:: Based on Relations", Information Sciences, 177, 2007, pp. 4997--5011.
+:: The first part of our formalization (covering first seven pages)
+:: is contained in ROUGHS_2. Now we start from page 5003, sec. 3.4.
+:: We formalized almost all numbered items (definitions, propositions,
+:: theorems, and corollaries), with the exception of Proposition 7,
+:: where we stated our theorem only in terms of singletons.
+:: We provided more thorough discussion of the property "positive_alliance"
+:: and its connection with seriality and reflexivity (and also transitivity).
+:: Examples were not covered as a rule as we aim to provide a more
+:: general mechanism of finding appropriate models for approximation
+:: spaces in Mizar providing more automatization than it is now.
+
+ reserve X,a,b,c,x,y,z,t for set;
+ reserve R for Relation;
+
+registration let X be non empty set;
+  cluster bool X -> d.union-closed;
+end;
+
+scheme :: ROUGHS_3:sch 1 :: SETWISEO:sch 2 revised
+  FinSubIndA1{ X() -> non empty finite set, P[Subset of X()] } :
+  for B being Subset of X() holds P[B]
+provided
+ P[{}X()] and
+ for B9 being Subset of X(),
+        b being Element of X() holds
+    P[B9] & not b in B9 implies P[B9 \/ {b}];
+
+scheme :: ROUGHS_3:sch 2 :: similar to SETWISEO:sch 3
+  FinSubIndA2 { X() -> non empty finite set, P[Subset of X()] } :
+    for B being non empty Subset of X() holds P[B]
+  provided
+ for x being Element of X() holds P[{x}] and
+ for B1,B2 being non empty Subset of X() st P[B1] & P[B2] holds
+      P[B1 \/ B2];
+
+theorem :: ROUGHS_3:1
+  for f being Function st dom f is subset-closed &
+  dom f is d.union-closed & f is d.union-distributive holds
+  for a, y being set st
+  a in dom f & y in f.a ex b being set st b is finite & b c= a & y in f.b;
+
+theorem :: ROUGHS_3:2
+  for f being Function st
+  dom f is subset-closed & f is union-distributive &
+  dom f is d.union-closed holds
+  for a, y being set st a in dom f &
+  y in f.a ex x being set st x in a & y in f.{x};
+
+begin :: On the Union and the Intersection of Two Relational Structures
+::: Should be consulted with PCS_0
+
+definition let R1, R2 be RelStr;
+  func Union (R1,R2) -> strict RelStr means
+:: ROUGHS_3:def 1
+    the carrier of it = (the carrier of R1) \/ the carrier of R2 &
+    the InternalRel of it =
+      (the InternalRel of R1) \/ the InternalRel of R2;
+  commutativity;
+  func Meet (R1,R2) -> strict RelStr means
+:: ROUGHS_3:def 2
+    the carrier of it = (the carrier of R1) /\ the carrier of R2 &
+    the InternalRel of it =
+      (the InternalRel of R1) /\ the InternalRel of R2;
+  commutativity;
+end;
+
+registration let R1 be RelStr, R2 be non empty RelStr;
+  cluster Union (R1,R2) -> non empty;
+end;
+
+begin :: Ordinary Properties of Maps
+
+registration let A be set;
+  cluster /\-preserving \/-preserving for Function of bool A, bool A;
+end;
+
+registration let A be set;
+             let f be /\-preserving Function of bool A, bool A;
+  cluster Flip f -> \/-preserving;
+end;
+
+registration let A be set;
+             let f be \/-preserving Function of bool A, bool A;
+  cluster Flip f -> /\-preserving;
+end;
+
+theorem :: ROUGHS_3:3
+  for A being non empty set
+  for f, g being Function of bool A, bool A st
+    f cc= g holds
+      Flip g cc= Flip f;
+
+registration
+  cluster non empty mediate transitive for RelStr;
+end;
+
+registration
+  let R be total mediate RelStr;
+  cluster the InternalRel of R -> mediate;
+end;
+
+theorem :: ROUGHS_3:4
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 &
+    L1 is mediate holds L2 is mediate;
+
+theorem :: ROUGHS_3:5
+  for L1,L2 be RelStr st the RelStr of L1 = the RelStr of L2 &
+    L1 is serial holds L2 is serial;
+
+theorem :: ROUGHS_3:6  :: dual version of ROUGHS_2:24
+  for A being non empty set,
+      L, U being Function of bool A, bool A st
+    U = Flip L &
+    for X being Subset of A holds L.X c= L.(L.X) holds
+      for X being Subset of A holds U.(U.X) c= U.X;
+
+theorem :: ROUGHS_3:7
+  for R being non empty RelStr,
+      a, b being Element of R st
+    [a,b] in the InternalRel of R holds a in UAp {b};
+
+theorem :: ROUGHS_3:8
+  for R being non empty RelStr,
+      A, B being Subset of R holds
+    (UAp R).(A \/ B) = (UAp R).A \/ (UAp R).B;
+
+theorem :: ROUGHS_3:9
+  for R being non empty RelStr,
+      A, B being Subset of R holds
+    (LAp R).(A /\ B) = (LAp R).A /\ (LAp R).B;
+
+theorem :: ROUGHS_3:10
+  for R being non empty RelStr holds
+    (UAp R).{} = {};
+
+theorem :: ROUGHS_3:11
+  for R1, R2 being non empty RelStr,
+      X being Subset of R1,
+      Y being Subset of R2 st
+    the RelStr of R1 = the RelStr of R2 & X = Y holds
+      UAp X = UAp Y;
+
+theorem :: ROUGHS_3:12
+  for R1, R2 being non empty RelStr,
+      X being Subset of R1,
+      Y being Subset of R2 st
+    the RelStr of R1 = the RelStr of R2 & X = Y holds
+      LAp X = LAp Y;
+
+begin :: On the Relational Structure Generated by Rough Approximation
+
+definition let R be non empty RelStr,
+               H be Function of bool the carrier of R, bool the carrier of R;
+  func GeneratedRelation (R,H) -> Relation of the carrier of R means
+:: ROUGHS_3:def 3
+    for x,y being Element of R holds
+      [x,y] in it iff x in H.{y};
+end;
+
+definition let R be non empty RelStr;
+  let H be Function of bool the carrier of R, bool the carrier of R;
+  func GeneratedRelStr (H) -> RelStr equals
+:: ROUGHS_3:def 4
+    RelStr (#the carrier of R, GeneratedRelation (R,H)#);
+end;
+
+registration let R be non empty RelStr;
+  let H be Function of bool the carrier of R, bool the carrier of R;
+  cluster GeneratedRelStr (H) -> non empty;
+end;
+
+theorem :: ROUGHS_3:13
+  for R being finite non empty RelStr,
+      H being Function of bool the carrier of R, bool the carrier of R st
+    H.{} = {} & H is \/-preserving holds
+    UAp GeneratedRelStr H = H;
+
+begin :: Construction Revisited: Yao's Theorem 3
+
+theorem :: ROUGHS_3:14  :: Yao Theorem 3
+  for A being finite non empty set,
+      L, H being Function of bool A, bool A
+    st L = Flip H holds
+::      (L.A = A &
+::      (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) &
+        (H.{} = {} &
+        (for X,Y being Subset of A holds H.(X \/ Y) = H.X \/ H.Y))
+      iff
+      ex R being non empty finite RelStr st
+        the carrier of R = A & LAp R = L & UAp R = H &
+        for x,y being Element of R holds
+        [x,y] in the InternalRel of R iff x in H.{y};
+
+begin :: Transitive Binary Relations
+
+theorem :: ROUGHS_3:15  :: Proposition 9 (5L")
+  for R being non empty transitive RelStr, X being Subset of R holds
+    LAp X c= LAp (LAp X);
+
+theorem :: ROUGHS_3:16  :: Proposition 9 (5H")
+  for R being non empty transitive RelStr,
+      X being Subset of R holds
+    UAp (UAp X) c= UAp X;
+
+theorem :: ROUGHS_3:17  :: Proposition 9 L
+  for A being finite non empty set,
+      L being Function of bool A, bool A st
+  L.A = A &
+  (for X being Subset of A holds L.X c= L.(L.X)) &
+  (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) holds
+  ex R being non empty finite transitive RelStr st
+  the carrier of R = A & L = LAp R;
+
+theorem :: ROUGHS_3:18  :: Proposition 9 H
+  for A being non empty finite set,
+      U being Function of bool A, bool A st
+  U.{} = {} &
+  (for X being Subset of A holds U.(U.X) c= U.X) &
+  (for X,Y being Subset of A holds U.(X \/ Y) = U.X \/ U.Y) holds
+  ex R being non empty finite transitive RelStr st
+  the carrier of R = A & U = UAp R;
+
+begin :: Mediate and Transitive Binary Relations
+
+theorem :: ROUGHS_3:19 :: Theorem 1 (5L)
+  for R being non empty mediate transitive RelStr,
+      X being Subset of R holds
+    LAp X = LAp (LAp X);
+
+theorem :: ROUGHS_3:20 :: Theorem 1 (5H)
+  for R being non empty mediate transitive RelStr,
+      X being Subset of R holds
+    UAp X = UAp (UAp X);
+
+theorem :: ROUGHS_3:21 :: Theorem 1 L
+  for A being non empty finite set,
+      L being Function of bool A, bool A st
+    L.A = A &
+    (for X being Subset of A holds L.X = L.(L.X)) &
+    (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) holds
+  ex R being non empty mediate finite transitive RelStr st
+    the carrier of R = A & L = LAp R;
+
+theorem :: ROUGHS_3:22 :: Theorem 1 H
+  for A being non empty finite set,
+      U being Function of bool A, bool A st
+    U.{} = {} &
+    (for X being Subset of A holds U.(U.X) = U.X) &
+    (for X,Y being Subset of A holds U.(X \/ Y) = U.X \/ U.Y) holds
+  ex R being non empty mediate finite transitive RelStr st
+  the carrier of R = A & U = UAp R;
+
+begin :: Alliance Binary Relations
+
+:: (7L) L(-L(X)) = -L(X)
+:: (7L') L(-L(X)) c= -L(X)
+:: (7L") -L(X) c= L(-L(X))
+
+:: (7H) H(-H(X)) = -H(X)
+:: (7H') H(-H(X)) c= -H(X)
+:: (7H") -H(X) c= H(-H(X))
+
+definition let X be set,
+               R be Relation of X;
+  pred R is_positive_alliance_in X means
+:: ROUGHS_3:def 5  :: Definition 3
+    for x,y being object st x in X & y in X & not [x,y] in R holds
+        ex z being object st z in X & [x,z] in R & not [z,y] in R;
+  pred R is_negative_alliance_in X means
+:: ROUGHS_3:def 6  :: Definition 4
+    for x,y being object st x in X & y in X holds
+    (ex z being object st z in X &
+      [x,z] in R & not [z,y] in R) implies not [x,y] in R;
+end;
+
+definition let X be set,
+               R be Relation of X;
+  pred R is_alliance_in X means
+:: ROUGHS_3:def 7 :: Definition 5
+    R is_negative_alliance_in X &
+    R is_positive_alliance_in X;
+end;
+
+definition let R be non empty RelStr;
+  attr R is positive_alliance means
+:: ROUGHS_3:def 8
+    the InternalRel of R is_positive_alliance_in the carrier of R;
+  attr R is negative_alliance means
+:: ROUGHS_3:def 9
+    the InternalRel of R is_negative_alliance_in the carrier of R;
+  attr R is alliance means
+:: ROUGHS_3:def 10
+    the InternalRel of R is_alliance_in the carrier of R;
+end;
+
+registration
+  cluster reflexive -> positive_alliance for non empty RelStr;
+  cluster discrete -> negative_alliance for non empty RelStr;
+end;
+
+registration
+  cluster positive_alliance negative_alliance for non empty RelStr;
+end;
+
+registration
+  cluster alliance -> positive_alliance negative_alliance
+    for non empty RelStr;
+  cluster positive_alliance negative_alliance -> alliance
+    for non empty RelStr;
+end;
+
+:: But soon we realized a more general proof can be provided
+
+registration
+  cluster positive_alliance -> serial for non empty RelStr;
+  cluster transitive serial -> positive_alliance for non empty RelStr;
+end;
+
+theorem :: ROUGHS_3:23
+  for L1,L2 be non empty RelStr st
+    the RelStr of L1 = the RelStr of L2 &
+      L1 is negative_alliance holds L2 is negative_alliance;
+
+theorem :: ROUGHS_3:24
+  for L1,L2 be non empty RelStr st
+    the RelStr of L1 = the RelStr of L2 &
+      L1 is positive_alliance holds L2 is positive_alliance;
+
+theorem :: ROUGHS_3:25
+  for L1,L2 be non empty RelStr st
+    the RelStr of L1 = the RelStr of L2 &
+      L1 is alliance holds L2 is alliance;
+
+begin :: Preparation for Translation of Proposition 10 (7H')
+
+definition let R be non empty RelStr;
+  attr R is satisfying(7H') means
+:: ROUGHS_3:def 11
+    for X being Subset of R holds (UAp X)` c= UAp ((UAp X)`);
+  attr R is satisfying(7L') means
+:: ROUGHS_3:def 12
+    for X being Subset of R holds LAp ((LAp X)`) c= (LAp X)`;
+end;
+
+theorem :: ROUGHS_3:26
+  for R being finite non empty RelStr st
+    R is satisfying(7L') holds R is satisfying(7H');
+
+theorem :: ROUGHS_3:27  :: Unexpected as seriality can be then proven
+  for R being finite non empty RelStr st
+    R is satisfying(7H') holds R is serial;
+
+theorem :: ROUGHS_3:28
+  for R being finite non empty RelStr st
+    R is satisfying(7L') holds R is serial;
+
+registration
+  cluster satisfying(7H') -> serial for finite non empty RelStr;
+end;
+
+theorem :: ROUGHS_3:29
+  for R being non empty RelStr st
+    (for X being Subset of R holds UAp ((UAp X)`) c= (UAp X)`) holds
+    for X being Subset of R holds (LAp X)` c= LAp ((LAp X)`);
+
+theorem :: ROUGHS_3:30
+  for A being non empty set,
+      L, U being Function of bool A, bool A st
+    U = Flip L &
+    (for X being Subset of A holds (L.X)` c= L.((L.X)`)) holds
+      for X being Subset of A holds U.((U.X)`) c= (U.X)`;
+
+theorem :: ROUGHS_3:31
+  for A being non empty set,
+      L, U being Function of bool A, bool A st
+    U = Flip L &
+    (for X being Subset of A holds U.((U.X)`) c= (U.X)`) holds
+      for X being Subset of A holds (L.X)` c= L.((L.X)`);
+
+theorem :: ROUGHS_3:32
+  for A being non empty set,
+      L, U being Function of bool A, bool A st
+    U = Flip L &
+    (for X being Subset of A holds L.((L.X)`) c= (L.X)`) holds
+      for X being Subset of A holds (U.X)` c= U.((U.X)`);
+
+::theorem  :: Obvious due to the mechanism of clusters
+::  for R being non empty RelStr holds
+::    UAp ((UAp ({}R))`) c= (UAp ({}R))`;
+
+begin :: Translation Continued
+
+theorem :: ROUGHS_3:33 :: Proposition 10 (7H') for singletons
+  for R being finite positive_alliance non empty RelStr,
+      x being Element of R holds
+    ((UAp R).{x})` c= (UAp R).(((UAp R).{x})`);
+
+::theorem :: Proposition 10 (7H') general case - FAILED
+::  for R being finite positive_alliance non empty RelStr,
+::      X being Subset of R holds
+::    ((UAp R).X)` c= (UAp R).(((UAp R).X)`);
+
+theorem :: ROUGHS_3:34  :: Proposition 11
+  for A being non empty finite set,
+      U being Function of bool A, bool A st
+    U.{} = {} &
+    (for X being Subset of A holds (U.X)` c= U.((U.X)`)) &
+    (for X,Y being Subset of A holds U.(X \/ Y) = U.X \/ U.Y) holds
+  ex R being positive_alliance finite non empty RelStr st
+  the carrier of R = A & U = UAp R;
+
+theorem :: ROUGHS_3:35 :: Proposition 12
+  for A being non empty finite set,
+      L being Function of bool A, bool A st
+    L.A = A &
+    (for X being Subset of A holds L.((L.X)`) c= (L.X)`) &
+    (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) holds
+  ex R being positive_alliance finite non empty RelStr st
+  the carrier of R = A & L = LAp R;
+
+theorem :: ROUGHS_3:36
+ :: Proposition 13 (7H") for singletons - original proofs
+  for R being finite negative_alliance non empty RelStr,
+      x being Element of R holds
+    (UAp R).(((UAp R).{x})`) c= ((UAp R).{x})`;
+
+theorem :: ROUGHS_3:37  :: Proposition 13 (7H")
+  for R being finite negative_alliance non empty RelStr,
+      X being Subset of R holds
+    UAp ((UAp X)`) c= (UAp X)`;
+
+theorem :: ROUGHS_3:38 :: Proposition 13 (7L")
+  for R being finite negative_alliance non empty RelStr,
+      X being Subset of R holds
+    (LAp X)` c= LAp ((LAp X)`);
+
+theorem :: ROUGHS_3:39  :: Proposition 14
+  for A being non empty finite set,
+      U being Function of bool A, bool A st
+    U.{} = {} &
+    (for X being Subset of A holds U.((U.X)`) c= (U.X)`) &
+    (for X,Y being Subset of A holds U.(X \/ Y) = U.X \/ U.Y) holds
+  ex R being negative_alliance finite non empty RelStr st
+  the carrier of R = A & U = UAp R;
+
+theorem :: ROUGHS_3:40 :: Proposition 15
+  for A being non empty finite set,
+      L being Function of bool A, bool A st
+    L.A = A &
+    (for X being Subset of A holds (L.X)` c= L.((L.X)`)) &
+    (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) holds
+  ex R being negative_alliance finite non empty RelStr st
+  the carrier of R = A & L = LAp R;
+
+:: Theorem 2 (7H) left without a proof
+
+theorem :: ROUGHS_3:41  :: Theorem 2 (H)
+  for A being non empty finite set,
+      U being Function of bool A, bool A st
+    U.{} = {} &
+    (for X being Subset of A holds U.((U.X)`) = (U.X)`) &
+    (for X,Y being Subset of A holds U.(X \/ Y) = U.X \/ U.Y) holds
+  ex R being alliance finite non empty RelStr st
+    the carrier of R = A & U = UAp R;
+
+theorem :: ROUGHS_3:42 :: Theorem 2 (L)
+  for A being non empty finite set,
+      L being Function of bool A, bool A st
+    L.A = A &
+    (for X being Subset of A holds (L.X)` = L.((L.X)`)) &
+    (for X,Y being Subset of A holds L.(X /\ Y) = L.X /\ L.Y) holds
+  ex R being alliance finite non empty RelStr st
+    the carrier of R = A & L = LAp R;
+
+begin :: On the Uniqueness of Binary Relations to Generate Rough Sets
+
+theorem :: ROUGHS_3:43 :: Theorem 3 (H)
+  for R1, R2, R being non empty RelStr,
+      X being Subset of R,
+      X1 being Subset of R1,
+      X2 being Subset of R2 st
+    R = Union (R1,R2) & X = X1 & X = X2 &
+    the carrier of R1 = the carrier of R2 holds
+      UAp X = UAp X1 \/ UAp X2;
+
+theorem :: ROUGHS_3:44 :: Theorem 3 (L)
+  for R1, R2, R being non empty RelStr,
+      X being Subset of R,
+      X1 being Subset of R1,
+      X2 being Subset of R2 st
+    R = Union (R1,R2) & X = X1 & X = X2 &
+    the carrier of R1 = the carrier of R2 holds
+      LAp X = LAp X1 /\ LAp X2;
+
+theorem :: ROUGHS_3:45  :: Proposition 16 (H)
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+      the InternalRel of R1 c= the InternalRel of R2 holds
+      UAp R1 cc= UAp R2;
+
+theorem :: ROUGHS_3:46  :: Proposition 16 (L)
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+      the InternalRel of R1 c= the InternalRel of R2 holds
+      LAp R2 cc= LAp R1;
+
+theorem :: ROUGHS_3:47 :: Theorem 4 (H)
+  for R1, R2, R being non empty RelStr,
+      X being Subset of R,
+      X1 being Subset of R1,
+      X2 being Subset of R2 st
+    R = Meet (R1,R2) & X = X1 & X = X2 &
+    the carrier of R1 = the carrier of R2 holds
+      UAp X c= UAp X1 /\ UAp X2;
+
+theorem :: ROUGHS_3:48 :: Theorem 4 (L)
+  for R1, R2, R being non empty RelStr,
+      X being Subset of R,
+      X1 being Subset of R1,
+      X2 being Subset of R2 st
+    R = Meet (R1,R2) & X = X1 & X = X2 &
+    the carrier of R1 = the carrier of R2 holds
+      LAp X1 \/ LAp X2 c= LAp X;
+
+theorem :: ROUGHS_3:49 :: Proposition 17
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+    UAp R1 cc= UAp R2 holds
+      the InternalRel of R1 c= the InternalRel of R2;
+
+theorem :: ROUGHS_3:50 :: Corollary 3
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+    UAp R1 = UAp R2 holds
+      the InternalRel of R1 = the InternalRel of R2;
+
+theorem :: ROUGHS_3:51 :: Theorem 5
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 holds
+    UAp R1 = UAp R2 iff
+      the InternalRel of R1 = the InternalRel of R2;
+
+theorem :: ROUGHS_3:52 :: Proposition 18
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+    LAp R1 cc= LAp R2 holds
+      the InternalRel of R2 c= the InternalRel of R1;
+
+theorem :: ROUGHS_3:53  :: Corollary 4
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 &
+    LAp R1 = LAp R2 holds
+      the InternalRel of R2 = the InternalRel of R1;
+
+theorem :: ROUGHS_3:54 :: Theorem 6
+  for R1, R2 being non empty RelStr st
+    the carrier of R1 = the carrier of R2 holds
+    LAp R1 = LAp R2 iff
+      the InternalRel of R1 = the InternalRel of R2;

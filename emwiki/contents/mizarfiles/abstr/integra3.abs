@@ -1,0 +1,179 @@
+:: Darboux's Theorem
+::  by Noboru Endou , Katsumi Wasaki and Yasunari Shidama
+::
+:: Received December 7, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSEQ_1, ARYTM_1, INTEGRA1, RELAT_1, ORDINAL2, FUNCT_1, CARD_1,
+      FUNCT_3, SEQ_2, JORDAN3, RFINSEQ, INTEGRA2, FDIFF_1, ARYTM_3, SEQ_4,
+      CLASSES1, VALUED_0, XBOOLE_0, NUMBERS, MEASURE7, REAL_1, SUBSET_1,
+      XXREAL_2, XXREAL_0, NAT_1, TARSKI, ORDINAL4, COMPLEX1, CARD_3, XXREAL_1,
+      PARTFUN1, SEQ_1, MEASURE5, FUNCT_7, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS, XXREAL_0,
+      XREAL_0, XCMPLX_0, COMPLEX1, REAL_1, NAT_1, NAT_D, RELAT_1, FUNCT_1,
+      FUNCT_2, XXREAL_2, SEQ_4, VALUED_0, PARTFUN1, MEASURE6, FINSEQ_1,
+      RFUNCT_1, RVSUM_1, INTEGRA1, SEQ_1, COMSEQ_2, SEQ_2, FINSEQ_6, RCOMP_1,
+      FDIFF_1, CLASSES1, RFINSEQ, MEASURE5, INTEGRA2;
+ constructors PARTFUN1, REAL_1, SQUARE_1, NAT_1, COMPLEX1, FINSOP_1, RFUNCT_1,
+      FDIFF_1, RFINSEQ, BINARITH, MEASURE6, FINSEQ_6, INTEGRA2, BINOP_2,
+      XXREAL_2, NAT_D, RVSUM_1, CLASSES1, SEQ_4, RELSET_1, SEQ_2, COMSEQ_2;
+ registrations XBOOLE_0, RELAT_1, ORDINAL1, NUMBERS, XXREAL_0, XREAL_0, NAT_1,
+      MEMBERED, FINSEQ_1, SEQM_3, INTEGRA1, INTEGRA2, VALUED_0, FUNCT_2,
+      FINSET_1, XXREAL_2, CARD_1, SEQ_2, MEASURE5, RELSET_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Lemmas of Division
+
+reserve a,b,e,r,x,y for Real,
+  i,j,k,n,m for Element of NAT,
+  x1 for set,
+  p,q for FinSequence of REAL,
+  A for non empty closed_interval Subset of REAL,
+  D,D1,D2 for Division of A,
+  f,g for Function of A,REAL,
+  T for DivSequence of A;
+
+definition
+  let A be non empty closed_interval Subset of REAL, D be Division of A;
+  func delta(D) -> Real equals
+:: INTEGRA3:def 1
+  max rng upper_volume(chi(A,A),D);
+end;
+
+definition
+  let A be non empty closed_interval Subset of REAL, T be DivSequence of A;
+  func delta(T) -> Real_Sequence means
+:: INTEGRA3:def 2
+  for i holds it.i = delta(T.i);
+end;
+
+theorem :: INTEGRA3:1
+  D1 <= D2 implies delta(D1) >= delta(D2);
+
+theorem :: INTEGRA3:2
+  vol(A) <> 0 implies ex i st i in dom D & vol(divset(D,i)) > 0;
+
+theorem :: INTEGRA3:3
+  x in A implies ex j st j in dom D & x in divset(D,j);
+
+theorem :: INTEGRA3:4
+  ex D st D1 <= D & D2 <= D & rng D = rng D1 \/ rng D2;
+
+theorem :: INTEGRA3:5
+  delta(D1) < min rng upper_volume(chi(A,A),D) implies for x,y,i st
+i in dom D1 & x in rng D /\ divset(D1,i) & y in rng D /\ divset(D1,i) holds x=y
+;
+
+theorem :: INTEGRA3:6
+  for p,q st rng p = rng q & p is increasing & q is increasing
+  holds p = q;
+
+theorem :: INTEGRA3:7
+  D <= D1 & i in dom D & j in dom D & i <= j implies indx(D1,D,i)
+  <= indx(D1,D,j) & indx(D1,D,i) in dom D1;
+
+theorem :: INTEGRA3:8
+  D <= D1 & i in dom D & j in dom D & i < j implies indx(D1,D,i) <
+  indx(D1,D,j);
+
+theorem :: INTEGRA3:9
+  delta(D) >= 0;
+
+theorem :: INTEGRA3:10
+  x in divset(D1,len D1) & len D1 >= 2 & D1<=D2 & rng D2 = rng D1
+\/ {x} & g|A is bounded implies Sum lower_volume(g,D2) - Sum lower_volume(g,D1)
+  <= (upper_bound rng g-lower_bound rng g)*delta(D1);
+
+theorem :: INTEGRA3:11
+  x in divset(D1,len D1) & len D1 >= 2 & D1<=D2 & rng D2 = rng D1
+\/ {x} & g|A is bounded implies Sum upper_volume(g,D1) - Sum upper_volume(g,D2)
+  <= (upper_bound rng g-lower_bound rng g)*delta(D1);
+
+theorem :: INTEGRA3:12
+  i in dom D & j in dom D & i<=j & r < mid(D,i,j).1 implies
+  ex B be non empty closed_interval Subset of REAL st r = lower_bound B &
+  upper_bound B=mid(D,i,j).(len mid(D,i,j)) &  mid(D,i,j) is Division of B;
+
+theorem :: INTEGRA3:13
+for MD1 be Division of A holds MD1 = <*lower_bound A*>^D1 implies (for i
+st i in Seg len D1 holds divset(MD1,i+1)=divset(D1,i)) & upper_volume(f,D1)=
+upper_volume(f,MD1)/^1 & lower_volume(f,D1)=lower_volume(f,MD1)/^1;
+
+theorem :: INTEGRA3:14
+  x in divset(D1,len D1) & vol(A)<>0 & D1<=D2 & rng D2 = rng D1 \/
+  {x} & f|A is bounded & x > lower_bound A implies Sum lower_volume(f,D2)-Sum
+  lower_volume(f,D1)<=(upper_bound rng f-lower_bound rng f)*delta(D1);
+
+theorem :: INTEGRA3:15
+  x in divset(D1,len D1) & vol(A)<>0 & D1<=D2 & rng D2 = rng D1 \/
+  {x} & f|A is bounded & x > lower_bound A implies Sum upper_volume(f,D1)-Sum
+  upper_volume(f,D2)<=(upper_bound rng f-lower_bound rng f)*delta(D1);
+
+theorem :: INTEGRA3:16
+  i in dom D1 & j in dom D1 & i<=j & D1 <= D2 & r < mid(D2,indx(D2
+,D1,i),indx(D2,D1,j)).1 implies
+ ex B be non empty closed_interval Subset of REAL, MD1,MD2
+be Division of B st r=lower_bound B & upper_bound B=MD2.(len MD2) & upper_bound
+B=MD1.(len MD1) & MD1 <= MD2 & MD1=mid(D1,i,j) & MD2=mid(D2,indx(D2,D1,i),indx(
+  D2,D1,j));
+
+theorem :: INTEGRA3:17
+  x in rng D implies D.1 <= x & x <= D.(len D);
+
+theorem :: INTEGRA3:18
+  for p be FinSequence of REAL, i,j,k st p is increasing & i in
+dom p & j in dom p & k in dom p & p.i <= p.k & p.k <= p.j holds p.k in rng mid(
+  p,i,j);
+
+theorem :: INTEGRA3:19
+  f|A is bounded & i in dom D implies lower_bound rng(f|divset(D,i
+  )) <= upper_bound rng f;
+
+theorem :: INTEGRA3:20
+  f|A is bounded & i in dom D implies upper_bound rng(f|divset(D,i
+  )) >= lower_bound rng f;
+
+begin :: Darboux's Theorem
+
+theorem :: INTEGRA3:21
+  f|A is bounded implies
+  for D,D1 ex D2 st D<=D2 & D1<=D2 & rng D2=rng D1 \/ rng D &
+    0 <= lower_sum(f,D2)-lower_sum(f,D) & 0<=lower_sum(f,D2)-lower_sum(f,D1);
+
+theorem :: INTEGRA3:22
+  f|A is bounded implies
+  for D,D1 st delta(D1)<min rng upper_volume(chi(A,A),D) ex D2 st D<=D2 &
+  D1<=D2 & rng D2=rng D1 \/ rng D & lower_sum(f,D2)-lower_sum(f,D1) <=
+  (len D)*(upper_bound(rng f)-lower_bound(rng f))*delta(D1);
+
+theorem :: INTEGRA3:23
+  f|A is bounded implies
+    for D,D1 ex D2 st D<=D2 & D1<=D2 & rng D2=rng D1 \/ rng D & 0<=
+  upper_sum(f,D)-upper_sum(f,D2) & 0<=upper_sum(f,D1)-upper_sum(f,D2);
+
+theorem :: INTEGRA3:24
+  f|A is bounded implies
+  for D,D1 st delta(D1)<min rng upper_volume(chi(A,A),D) holds
+  ex D2 st D<=D2 & D1<=D2 & rng D2=rng D1 \/ rng D &
+  upper_sum(f,D1)-upper_sum(f,D2) <=
+    (len D)*(upper_bound(rng f)-lower_bound(rng f))*delta(D1);
+
+::$N Darboux's Theorem
+theorem :: INTEGRA3:25
+  f|A is bounded & delta(T) is 0-convergent non-zero & vol(A)<>0 implies
+  lower_sum(f,T) is convergent & lim lower_sum(f,T) = lower_integral(f);
+
+theorem :: INTEGRA3:26
+  f|A is bounded & delta(T) is 0-convergent non-zero & vol(A)<>0 implies
+  upper_sum(f,T) is convergent & lim upper_sum(f,T) = upper_integral(f);

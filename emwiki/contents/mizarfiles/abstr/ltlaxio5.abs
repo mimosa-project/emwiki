@@ -1,0 +1,359 @@
+:: Propositional Linear Time Temporal Logic with Initial Semantics
+::  by Mariusz Giero
+:: 
+:: Received October 22, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSEQ_1, CARD_1, ORDINAL4, SUBSET_1, NUMBERS, ARYTM_3, TARSKI,
+      RELAT_1, XBOOLE_0, FUNCT_1, XBOOLEAN, MODELC_2, CQC_THE1, NAT_1,
+      XXREAL_0, ARYTM_1, PARTFUN1, MARGREL1, HILBERT2, ZFMISC_1, ZF_MODEL,
+      FINSET_1, RFINSEQ, LTLAXIO1, LTLAXIO5;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, DOMAIN_1, SUBSET_1, PARTFUN1, XCMPLX_0,
+      NUMBERS, NAT_1, XXREAL_0, NAT_D, FUNCT_1, RELSET_1, FUNCT_2, FINSET_1,
+      FINSEQ_1, RFINSEQ, HILBERT1, HILBERT2, XBOOLEAN, MARGREL1, LTLAXIO1;
+ constructors NAT_D, RELSET_1, HILBERT2, RFINSEQ, DOMAIN_1, LTLAXIO1;
+ registrations SUBSET_1, ORDINAL1, NAT_1, XBOOLEAN, RELSET_1, MARGREL1,
+      XBOOLE_0, XREAL_0, HILBERT1, FINSET_1, LTLAXIO1;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM, REAL;
+
+
+begin
+
+theorem :: LTLAXIO5:1
+  for X be set,f be FinSequence of X,i be Nat st 1 <= i & i <= len f holds
+    f.i=f/.i;
+
+reserve A,B,C,D,p,q,r for Element of LTLB_WFF,
+        F,G,X for Subset of LTLB_WFF,
+        M for LTLModel,
+        i,j,n for Element of NAT,
+        f,f1,f2,g for FinSequence of LTLB_WFF;
+
+::#INSERT: LTLB with normal semantics is monotonic
+theorem :: LTLAXIO5:2
+  F c= G & F |- A implies G |- A;
+
+theorem :: LTLAXIO5:3
+  (A => B) => ((B => C) => (A => C)) is LTL_TAUT_OF_PL;
+
+theorem :: LTLAXIO5:4
+  (A => (B => C)) => ((A => B) => (A => C)) is LTL_TAUT_OF_PL;
+
+theorem :: LTLAXIO5:5
+  F |- ('G' A) => A;
+
+theorem :: LTLAXIO5:6
+  {A} |= 'G' 'X' A;
+
+theorem :: LTLAXIO5:7
+  F |- ('G' A) => 'G' 'X' A;
+
+theorem :: LTLAXIO5:8
+  F |- ('G' (A => B)) => (('G' (A => 'X' A)) => ('G' (A => 'G' B)));
+
+begin
+
+::#INSERT: A formula A is initially valid in the temporal structure M
+definition let M,A;
+  pred M |=0 A means
+:: LTLAXIO5:def 1
+(SAT M).[0,A]=1;
+end;
+
+::#INSERT: A set F of formulas is initially valid in the temporal structure M
+definition let M,F;
+  pred M |=0 F means
+:: LTLAXIO5:def 2
+for A st A in F holds M |=0 A;
+end;
+
+::#INSERT: A formula A is an initial consequence of a set F of formulas
+definition let F,A;
+  pred F |=0 A means
+:: LTLAXIO5:def 3
+    for M st M |=0 F holds M |=0 A;
+end;
+
+begin
+
+::#INSERT: The numbers 2.6.1-2.6.8, put in comments in the article,
+::#INSERT: correspond to the ones in: Kroeger, Merz. Temporal Logic and State
+::#INSERT: Systems. 2008. Springer-Verlag.
+::#INSERT: 2.6.1a-trivial: M |= A implies M |=0 A
+
+theorem :: LTLAXIO5:9
+  M |= F implies M |=0 F;
+
+::#INSERT: 2.6.1b
+theorem :: LTLAXIO5:10
+  M |= A iff M |=0 'G' A;
+
+::#INSERT: 2.6.2a
+theorem :: LTLAXIO5:11
+  F |=0 A implies F |= A;
+
+definition let F;
+  func 'G' F -> Subset of LTLB_WFF equals
+:: LTLAXIO5:def 4
+  {'G' A where A is Element of LTLB_WFF: A in F};
+end;
+
+theorem :: LTLAXIO5:12
+  M |= F iff M |=0 ('G' F);
+
+::#INSERT: 2.6.2b
+theorem :: LTLAXIO5:13
+  F |= A iff 'G' F |=0 A;
+
+theorem :: LTLAXIO5:14
+  {prop n} |= 'X' prop n & not {prop n} |=0 'X' prop n;
+
+::#INSERT: The converse of 2.6.2a does not hold in general
+theorem :: LTLAXIO5:15
+  ex F,A st F |= A & not F |=0 A;
+
+theorem :: LTLAXIO5:16
+  F |=0 'G' A implies F |= A;
+
+theorem :: LTLAXIO5:17
+  {prop i} |= prop i & not {prop i} |=0 'G' prop i;
+
+theorem :: LTLAXIO5:18
+  ex F, A st (F |= A & not F |=0 'G' A);
+
+theorem :: LTLAXIO5:19
+  M |=0 F & M |=0 G iff M |=0 F\/G;
+
+theorem :: LTLAXIO5:20
+  M |=0 A iff M |=0 {A};
+
+::#INSERT: 2.6.3
+::#INSERT: In compare to normal consequence (LTLAXIO1:30), the relationship
+::#INSERT: between implication and initial consequence holds in the classical
+::#INSERT: form
+theorem :: LTLAXIO5:21  :: 2.6.3
+  F\/{A} |=0 B iff F|=0 A=>B;
+
+theorem :: LTLAXIO5:22
+  'G' {}LTLB_WFF = {}LTLB_WFF;
+
+::#INSERT: Universal validity concepts are equaivalent as far as
+::#INSERT: initial and normal semantics is concerned:
+::#INSERT: 2.6.4: one line proof:
+::#INSERT: {}LTLB_WFF |= A iff {}LTLB_WFF |=0 A by th262b,th264p
+
+::#INSERT: 2.1.8
+theorem :: LTLAXIO5:23
+  F |= A & (for B st B in F holds {}LTLB_WFF |= B)
+    implies {}LTLB_WFF |= A;
+
+::#INSERT: 2.6.5
+theorem :: LTLAXIO5:24
+  F |= A & (for B st B in F holds {}LTLB_WFF |=0 B)
+    implies {}LTLB_WFF |=0 A;
+
+theorem :: LTLAXIO5:25
+  {}LTLB_WFF |=0 A implies {}LTLB_WFF |=0 'X' A;
+
+begin
+
+::#INSERT: Axioms
+definition
+  func LTL0_axioms -> Subset of LTLB_WFF equals
+:: LTLAXIO5:def 5
+  'G' LTL_axioms;
+end;
+
+::#INSERT: Derivation rules
+definition let p,q;
+  pred p REFL0_rule q means
+:: LTLAXIO5:def 6
+  p = 'G' q;
+  pred p NEX0_rule q means
+:: LTLAXIO5:def 7
+  ex A st p = 'G' A & q = 'G' 'X' A;
+  let r;
+  pred p,q MP0_rule r means
+:: LTLAXIO5:def 8
+  ex A,B st p='G' A & q= 'G' (A=>B) & r='G' B;
+  pred p,q IND0_rule r means
+:: LTLAXIO5:def 9
+  ex A,B st p='G' (A=>B) & q= 'G' (A=>('X' A)) & r='G' (A=>('G' B));
+end;
+
+::#INSERT: Definition of derivation step
+definition let i be Nat,f,X;
+  pred prc0 f,X,i means
+:: LTLAXIO5:def 10
+  f.i in LTL0_axioms or f.i in X
+  or (ex j,k be Nat st 1<=j & j<i & 1<=k & k<i &
+  (
+  f/.j,f/.k MP_rule f/.i
+  or f/.j,f/.k MP0_rule f/.i
+  or f/.j,f/.k IND0_rule f/.i)
+  )
+  or ex j be Nat st 1<=j & j<i &
+  (f/.j NEX0_rule f/.i or f/.j REFL0_rule f/.i);
+end;
+
+::#INSERT: Properties of derivation step prc0 - analogue of "prc" from LTLAXIO1
+theorem :: LTLAXIO5:26
+  for i,n be Nat st
+  n+len f<=len f2 & (for k be Nat st 1<=k & k<=len f holds f.k=f2.(k+n)) &
+  1 <=i & i<=len f holds prc0 f,X,i implies prc0 f2,X,(i+n);
+
+theorem :: LTLAXIO5:27
+  f2=f^f1 & 1<=len f & 1<=len f1 &
+  (for i be Nat st 1<=i & i<=len f holds prc0 f,X,i) &
+  (for i be Nat st 1<=i & i<=len f1 holds prc0 f1,X,i) implies
+  for i be Nat st 1<=i & i<=len f2 holds prc0 f2,X,i;
+
+:: Derivability
+definition let X,p;
+  pred X |-0 p means
+:: LTLAXIO5:def 11
+  ex f st f.len f=p & 1<=len f &
+  for i be Nat st 1<=i & i<=len f holds prc0 f,X,i;
+end;
+
+:: Properties of derivation sequences
+theorem :: LTLAXIO5:28
+  (f=f1^<*p*> & 1<=len f1 &
+  for i be Nat st 1<=i & i<=len f1 holds prc0 f1,X,i) &
+  prc0 f,X,len f implies (for i be Nat st 1<=i & i<=len f holds prc0 f,X,i) &
+  X |-0 p;
+
+begin
+
+::#INSERT: Axioms are sound
+theorem :: LTLAXIO5:29
+  A in LTL0_axioms implies F |=0 A;
+
+::#INSERT: MP_rule is sound
+theorem :: LTLAXIO5:30
+  F |=0 A & F |=0 A=>B implies F |=0 B;
+
+::#INSERT: MP0_rule is sound
+theorem :: LTLAXIO5:31
+  F |=0 'G' A & F |=0 'G' (A=>B) implies F |=0 'G' B;
+
+::#INSERT: NEX0_rule is sound
+theorem :: LTLAXIO5:32
+  F |=0 'G' A implies F |=0 'G' 'X' A;
+
+::#INSERT: REFL0_rule is sound
+theorem :: LTLAXIO5:33
+  F |=0 'G' A implies F |=0 A;
+
+::#INSERT: IND0_rule is sound
+theorem :: LTLAXIO5:34
+  F |=0 'G' (A=>B) & F |=0 'G' (A=>('X' A)) implies F |=0 'G' (A=>('G' B));
+
+::#INSERT: 2.6.6
+::$N Soundness Theorem for LTLB with initial semantics.
+theorem :: LTLAXIO5:35
+  F |-0 A implies F |=0 A;
+
+begin
+
+::#INSERT: Axioms and premises are derivable
+theorem :: LTLAXIO5:36
+  A in LTL0_axioms or A in F implies F|-0 A;
+
+::#INSERT: REFL0_rule is derivable
+theorem :: LTLAXIO5:37
+  F |-0 'G' A implies F |-0 A;
+
+::#INSERT: NEX0_rule is derivable
+theorem :: LTLAXIO5:38
+  F |-0 'G' A implies F |-0 'G' 'X' A;
+
+::#INSERT: MP_rule is derivable
+theorem :: LTLAXIO5:39
+  F |-0 A & F |-0 A => B implies F |-0 B;
+
+::#INSERT: MP0_rule is derivable
+theorem :: LTLAXIO5:40
+  F |-0 'G' A & F |-0 'G' (A => B) implies F |-0 'G' B;
+
+::#INSERT: IND0_rule is derivable
+theorem :: LTLAXIO5:41
+  F |-0 'G' (A=>B) & F |-0 'G' (A => 'X' A) implies F |-0 'G' (A => 'G' B);
+
+theorem :: LTLAXIO5:42
+  A in LTL_axioms implies F|-0 A;
+
+theorem :: LTLAXIO5:43
+  A in LTL0_axioms implies F |- A;
+
+::#INSERT: 2.6.7
+::#INSERT: auxilliary theorem to prove completeness theorem
+theorem :: LTLAXIO5:44
+  {}LTLB_WFF |- A implies {}LTLB_WFF |-0 A;
+
+::#INSERT: Generalized theorem 2.6.7 does not hold, i.e.,
+::#INSERT: not for F,A holds (F |- A implies F |-0 A);
+theorem :: LTLAXIO5:45
+  {prop i} |- 'X' prop i & not {prop i} |-0 'X' prop i;
+
+::#INSERT: LTLB with initial semantics is monotonic
+theorem :: LTLAXIO5:46
+  F c= G & F |-0 A implies G |-0 A;
+
+definition let f,A;
+  func implications(f,A) -> FinSequence of LTLB_WFF means
+:: LTLAXIO5:def 12
+    len it = len f & it.1 = f/.1 => A & for i st
+    1 <= i & i < len f holds it.(i+1) = f/.(i+1) => it/.i if len f > 0
+   otherwise it = <*> LTLB_WFF;
+end;
+
+::#INSERT: 2.6.8
+::$N Weak Completeness Theorem for LTLB with initial semantics
+theorem :: LTLAXIO5:47
+  for F be finite Subset of LTLB_WFF holds F |=0 A implies F |-0 A;
+
+begin
+
+::#INSERT: Deduction theorem holds in the classical form compared with
+::#INSERT: Deduction theorem for LTLB with normal semantics (see LTLAXIO1:57)
+theorem :: LTLAXIO5:48
+  F \/ {A} |-0 B implies F |-0 A => B;
+
+:: Converse of Deduction Theorem
+theorem :: LTLAXIO5:49
+  F |-0 A => B implies F \/ {A} |-0 B;
+
+begin
+
+registration let F be finite Subset of LTLB_WFF;
+  cluster 'G' F -> finite;
+end;
+
+theorem :: LTLAXIO5:50
+  for F be finite Subset of LTLB_WFF holds (F |- A iff 'G' F |-0 A);
+
+theorem :: LTLAXIO5:51
+  for F be finite Subset of LTLB_WFF holds (F |-0 A implies F |- A);
+
+::#INSERT: The counterexample that "for F,A holds (F |- A implies F |-0 A)"
+::#INSERT: is not true. Another counterexample see above for theorem "th14".
+theorem :: LTLAXIO5:52
+  {prop i} |- 'G' prop i & not {prop i} |-0 'G' prop i;
+
+theorem :: LTLAXIO5:53
+  for F be finite Subset of LTLB_WFF holds (F |-0 'G' A implies F |- A);
+
+::#INSERT: The converse of the above theorem does not hold
+theorem :: LTLAXIO5:54
+  {prop i} |- prop i & not {prop i} |-0 'G' prop i;

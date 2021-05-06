@@ -1,0 +1,239 @@
+:: Homomorphisms of algebras. Quotient Universal Algebra
+::  by Ma{\l}gorzata Korolkiewicz
+::
+:: Received October 12, 1993
+:: Copyright (c) 1993-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies UNIALG_1, SUBSET_1, NUMBERS, UNIALG_2, XBOOLE_0, FINSEQ_1,
+      FUNCT_1, RELAT_1, NAT_1, TARSKI, STRUCT_0, PARTFUN1, MSUALG_3, CQC_SIM1,
+      WELLORD1, FINSEQ_2, GROUP_6, EQREL_1, FUNCT_2, CARD_3, RELAT_2, ALG_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, NAT_1, RELAT_1,
+      RELAT_2, FUNCT_1, RELSET_1, FINSEQ_1, PARTFUN1, EQREL_1, FINSEQ_2,
+      FUNCT_2, STRUCT_0, MARGREL1, UNIALG_1, FINSEQOP, FINSEQ_3, UNIALG_2;
+ constructors EQREL_1, FINSEQOP, UNIALG_2, RELSET_1, CARD_3, FINSEQ_3, CARD_1,
+      NAT_1, NUMBERS;
+ registrations RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2, EQREL_1, FINSEQ_2,
+      STRUCT_0, UNIALG_1, UNIALG_2, ORDINAL1, FINSEQ_1, CARD_1, RELSET_1,
+      MARGREL1;
+ requirements BOOLE, SUBSET;
+
+
+begin
+
+reserve U1,U2,U3 for Universal_Algebra,
+  n,m for Nat,
+  o1 for operation of U1,
+  o2 for operation of U2,
+  o3 for operation of U3,
+  x,y for set;
+
+theorem :: ALG_1:1
+  for B be non empty Subset of U1 st B = the carrier of U1 holds
+  Opers(U1,B) = the charact of(U1);
+
+reserve a for FinSequence of U1,
+  f for Function of U1,U2;
+
+theorem :: ALG_1:2
+  f*(<*>the carrier of U1) = <*>the carrier of U2;
+
+theorem :: ALG_1:3
+  (id the carrier of U1)*a = a;
+
+theorem :: ALG_1:4
+  for h1 be Function of U1,U2, h2 be Function of U2,U3,a be
+  FinSequence of U1 holds h2*(h1*a) = (h2 * h1)*a;
+
+definition
+  let U1,U2,f;
+  pred f is_homomorphism means
+:: ALG_1:def 1
+  U1,U2 are_similar &
+  for n st n in dom the charact of(U1)
+  for o1,o2 st o1=(the charact of U1).n &
+               o2=(the charact of U2).n
+   for x be FinSequence of U1 st x in dom o1 holds f.(o1.x) = o2.(f*x);
+end;
+
+definition
+  let U1,U2,f;
+  pred f is_monomorphism means
+:: ALG_1:def 2
+  f is_homomorphism & f is one-to-one;
+  pred f is_epimorphism means
+:: ALG_1:def 3
+  f is_homomorphism & rng f = the carrier of U2;
+end;
+
+definition
+  let U1,U2,f;
+  pred f is_isomorphism means
+:: ALG_1:def 4
+  f is_monomorphism & f is_epimorphism;
+end;
+
+definition
+  let U1,U2;
+  pred U1,U2 are_isomorphic means
+:: ALG_1:def 5
+  ex f st f is_isomorphism;
+end;
+
+theorem :: ALG_1:5
+  id the carrier of U1 is_homomorphism;
+
+theorem :: ALG_1:6
+  for h1 be Function of U1,U2, h2 be Function of U2,U3 st h1
+is_homomorphism & h2 is_homomorphism holds h2 * h1 is_homomorphism;
+
+theorem :: ALG_1:7
+  f is_isomorphism iff f is_homomorphism & rng f = the
+  carrier of U2 & f is one-to-one;
+
+theorem :: ALG_1:8
+  f is_isomorphism implies dom f = the carrier of U1 & rng f
+  = the carrier of U2;
+
+theorem :: ALG_1:9
+  for h be Function of U1,U2, h1 be Function of U2,U1 st h
+  is_isomorphism & h1=h" holds h1 is_homomorphism;
+
+theorem :: ALG_1:10
+  for h be Function of U1,U2, h1 be Function of U2,U1 st h
+  is_isomorphism & h1 = h" holds h1 is_isomorphism;
+
+theorem :: ALG_1:11
+  for h be Function of U1,U2, h1 be Function of U2,U3 st h
+is_isomorphism & h1 is_isomorphism holds h1 * h is_isomorphism;
+
+theorem :: ALG_1:12
+  U1,U1 are_isomorphic;
+
+theorem :: ALG_1:13
+  U1,U2 are_isomorphic implies U2,U1 are_isomorphic;
+
+theorem :: ALG_1:14
+  U1,U2 are_isomorphic & U2,U3 are_isomorphic implies U1,U3 are_isomorphic;
+
+definition
+  let U1,U2,f;
+  assume
+ f is_homomorphism;
+  func Image f -> strict SubAlgebra of U2 means
+:: ALG_1:def 6
+
+  the carrier of it = f .: (the carrier of U1);
+end;
+
+theorem :: ALG_1:15
+  for h be Function of U1,U2 st h is_homomorphism holds rng h =
+  the carrier of Image h;
+
+theorem :: ALG_1:16
+  for U2 being strict Universal_Algebra, f be Function of U1,U2 st f
+  is_homomorphism holds f is_epimorphism iff Image f = U2;
+
+begin :: Quotient Universal Algebra
+
+definition
+  let U1 be 1-sorted;
+  mode Relation of U1 is Relation of the carrier of U1;
+  mode Equivalence_Relation of U1 is Equivalence_Relation of the carrier of U1;
+end;
+
+definition
+  let U1;
+  mode Congruence of U1 -> Equivalence_Relation of U1 means
+:: ALG_1:def 7
+
+    for n,o1
+    st n in dom the charact of(U1) & o1 = (the charact of U1).n for x,y be
+FinSequence of U1 st x in dom o1 & y in dom o1 & [x,y] in ExtendRel(it) holds [
+    o1.x,o1.y] in it;
+end;
+
+reserve E for Congruence of U1;
+
+definition
+  let U1 be Universal_Algebra, E be Congruence of U1, o be operation of U1;
+  func QuotOp(o,E) -> homogeneous quasi_total non empty PartFunc of (Class E)*
+  ,(Class E) means
+:: ALG_1:def 8
+
+  dom it = (arity o)-tuples_on (Class E) & for y be
+FinSequence of (Class E) st y in dom it for x be FinSequence of the carrier of
+  U1 st x is_representatives_FS y holds it.y = Class(E,o.x);
+end;
+
+definition
+  let U1,E;
+  func QuotOpSeq(U1,E) -> PFuncFinSequence of Class E means
+:: ALG_1:def 9
+
+  len it =
+len the charact of(U1) & for n st n in dom it for o1 st (the charact of(U1)).n
+  = o1 holds it.n = QuotOp(o1,E);
+end;
+
+definition
+  let U1,E;
+  func QuotUnivAlg(U1,E) -> strict Universal_Algebra equals
+:: ALG_1:def 10
+  UAStr (# Class(E),QuotOpSeq(U1,E) #);
+end;
+
+definition
+  let U1,E;
+  func Nat_Hom(U1,E) -> Function of U1,QuotUnivAlg(U1,E) means
+:: ALG_1:def 11
+
+  for u be Element of U1 holds it.u = Class(E,u);
+end;
+
+theorem :: ALG_1:17
+  for U1,E holds Nat_Hom(U1,E) is_homomorphism;
+
+theorem :: ALG_1:18
+  for U1,E holds Nat_Hom(U1,E) is_epimorphism;
+
+definition
+  let U1,U2;
+  let f be Function of U1,U2;
+  assume
+ f is_homomorphism;
+  func Cng(f) -> Congruence of U1 means
+:: ALG_1:def 12
+
+  for a,b be Element of U1 holds [a,b] in it iff f.a = f.b;
+end;
+
+definition
+  let U1,U2 be Universal_Algebra, f be Function of U1,U2;
+  assume
+ f is_homomorphism;
+  func HomQuot(f) -> Function of QuotUnivAlg(U1,Cng(f)),U2 means
+:: ALG_1:def 13
+
+  for a be Element of U1 holds it.(Class(Cng f,a)) = f.a;
+end;
+
+theorem :: ALG_1:19
+  f is_homomorphism implies HomQuot(f) is_homomorphism
+& HomQuot(f) is_monomorphism;
+
+::$N First isomorphism theorem for universal algebras
+theorem :: ALG_1:20
+  f is_epimorphism implies HomQuot(f) is_isomorphism;
+
+theorem :: ALG_1:21
+  f is_epimorphism implies QuotUnivAlg(U1,Cng(f)),U2 are_isomorphic;

@@ -1,0 +1,205 @@
+:: The Pell's Equation
+::  by Marcin Acewicz and Karol P\kak
+:: 
+:: Received August 30, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_0, SUBSET_1, TARSKI, ARYTM_3, RELAT_1, ARYTM_1,
+      CARD_1, SQUARE_1, REAL_1, PYTHTRIP, XXREAL_1, FUNCT_1, XBOOLE_0,
+      ZFMISC_1, MCART_1, ORDINAL2, FINSET_1, NAT_1, INT_1, MEMBERED, COMPLEX1,
+      FINSEQ_1, NEWTON, POWER, PELLS_EQ;
+ notations TARSKI, XBOOLE_0, ENUMSET1, ZFMISC_1, XTUPLE_0, SUBSET_1, ORDINAL1,
+      NUMBERS, XCMPLX_0, XREAL_0, XXREAL_0, XXREAL_1, SQUARE_1, INT_1,
+      MEMBERED, RELAT_1, CARD_1, FUNCT_1, RELSET_1, FUNCT_2, FINSET_1,
+      DOMAIN_1, PYTHTRIP, XXREAL_2, FINSEQ_1, ABSVALUE, NEWTON, POWER;
+ constructors XXREAL_1, RELSET_1, DOMAIN_1, PEPIN, VALUED_1, PYTHTRIP,
+      XXREAL_2, NEWTON, POWER;
+ registrations NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, XXREAL_1, ORDINAL1,
+      SQUARE_1, FINSET_1, FUNCT_2, RELAT_1, FUNCT_1, RELSET_1, XTUPLE_0, NAT_1,
+      MEMBERED, MCART_1, NEWTON03, INT_1, NEWTON, PYTHTRIP, VALUED_0, XXREAL_2;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve n,n1,n2,k,D for Nat,
+        r,r1,r2 for Real,
+        x,y for Integer;
+
+theorem :: PELLS_EQ:1
+  for i,j be Integer st j < 0 holds j < i mod j <= 0;
+
+theorem :: PELLS_EQ:2
+  for i,j be Integer st j <> 0 holds |. i mod j .| < |.j.|;
+
+theorem :: PELLS_EQ:3
+  for D be non square Nat
+    for a,b,c,d be Integer st
+      a + b * sqrt D = c + d *sqrt D
+    holds a = c & b = d;
+
+theorem :: PELLS_EQ:4
+  for c,d,n be Nat ex a,b be Nat st a + b * sqrt D = (c + d *sqrt D) |^ n;
+
+theorem :: PELLS_EQ:5
+  for c,d be Integer, n be Nat ex a,b be Integer st
+     a + b * sqrt D = (c + d *sqrt D) |^ n;
+
+theorem :: PELLS_EQ:6
+  for D be non square Nat
+    for a,b,c,d be Integer, n be Nat st
+      a + b * sqrt D = (c + d *sqrt D) |^ n
+    holds
+      a - b * sqrt D = (c - d *sqrt D) |^ n;
+
+begin :: Solutions to Pell's Equation -- Construction
+
+theorem :: PELLS_EQ:7
+  ex F be FinSequence of NAT st len F = n+1 &
+  (for k st k in dom F holds
+     F.k = [\ (k-1) * sqrt D /]+1) &
+     (D is non square implies F is one-to-one);
+
+theorem :: PELLS_EQ:8
+  for a,b be Real, F be FinSequence of REAL st
+    n > 1 & len F = n+1 &
+    (for k st k in dom F holds a < F.k <= b)
+  holds
+    ex i,j be Nat st
+      i in dom F & j in dom F & i <>j &
+      F.i <= F.j & F.j - F.i < (b-a) / n;
+
+theorem :: PELLS_EQ:9
+  D is non square & n > 1
+    implies
+  ex x,y be Integer st
+     y <> 0 & |. y .| <=n & 0 < x - y * sqrt D < 1/n;
+
+theorem :: PELLS_EQ:10
+  D is non square & n <> 0 & |. y .| <= n &
+  0 < x - y * sqrt D < 1/n
+        implies |. x^2 - D * y^2.| <= 2 * sqrt D + 1 / (n^2);
+
+theorem :: PELLS_EQ:11
+  D is non square implies
+    ex x,y be Integer st
+        y <> 0 & 0 < x - y * (sqrt D)
+        & |. x^2 - D * y^2.| < 2*sqrt D+1;
+
+theorem :: PELLS_EQ:12
+  D is non square implies
+  {[x,y] where x, y is Integer:
+      y <> 0 & |. x^2 - D * y^2.| < 2 * sqrt D + 1 &
+      0 < x - y * sqrt D} is infinite;
+
+theorem :: PELLS_EQ:13
+  D is non square implies
+    ex k,a,b,c,d be Integer st
+       0 <> k & a^2 - D*b^2 = k = c^2 -D*d^2 &
+       a,c are_congruent_mod k & b,d are_congruent_mod k &
+    (|.a.| <> |.c.| or |.b.| <> |.d.|);
+
+begin :: Pell's Equation
+
+::$N #39 Solutions to Pell's Equation
+theorem :: PELLS_EQ:14
+  D is non square implies
+    ex x,y be Nat st x^2 - D * y^2 = 1 & y <> 0;
+
+definition
+  let D be Nat;
+  mode Pell's_solution of D -> Element of [:INT,INT:]
+    means
+:: PELLS_EQ:def 1
+      (it`1)^2 - D * (it`2)^2 = 1;
+end;
+
+definition
+  let D1,D2 be real-membered non empty set;
+  let p be Element of [:D1,D2:];
+  attr p is positive means
+:: PELLS_EQ:def 2
+    p`1 is positive & p`2 is positive;
+end;
+
+registration
+  cluster positive for Element of [:INT,INT:];
+end;
+
+registration
+  let p be positive Element of [:INT,INT:];
+  cluster p`1 -> positive for Integer;
+  cluster p`2 -> positive for Integer;
+end;
+
+theorem :: PELLS_EQ:15
+  for D be square Nat,p be positive Element of [:INT,INT:] st D > 0 holds
+     not p is Pell's_solution of D;
+
+theorem :: PELLS_EQ:16
+  D is non square implies
+    ex p be Pell's_solution of D st p is positive;
+
+registration
+  let D be non square Nat;
+  cluster positive for Pell's_solution of D;
+end;
+
+::$N The Cardinality of the Pell's Solutions
+theorem :: PELLS_EQ:17
+  for D be non square Nat holds
+    the set of all ab where
+        ab is positive Pell's_solution of D
+    is infinite;
+
+begin :: Solutions to Pell's Equation -- Shape
+
+reserve p,p1,p2 for Pell's_solution of D;
+
+theorem :: PELLS_EQ:18
+  D is non square implies
+    (p is positive iff p`1 + p`2 * sqrt D > 1);
+
+theorem :: PELLS_EQ:19
+    1 < p1`1 + p1`2 * sqrt D < p2`1 + p2`2 * sqrt D
+  &
+    D is non square
+  implies p1`1 < p2`1 & p1`2 < p2`2;
+
+theorem :: PELLS_EQ:20
+  for D be non square Nat,
+      p be positive Pell's_solution of D,
+      a,b be Integer, n be Nat st
+        n > 0 &
+        a + b * sqrt D = (p`1 + p`2 *sqrt D) |^ n
+    holds
+     [a,b] is positive Pell's_solution of D;
+
+definition
+  let D be non square Nat;
+  func min_Pell's_solution_of D -> positive Pell's_solution of D
+    means
+:: PELLS_EQ:def 3
+  for p be positive Pell's_solution of D holds
+    it`1 <= p`1 & it`2 <= p`2;
+end;
+
+theorem :: PELLS_EQ:21
+  for D be non square Nat
+     for p be Element of [:INT,INT:] holds
+        p is positive Pell's_solution of D
+     iff
+       ex n be positive Nat st p`1 + p`2 * sqrt D
+         =
+  ( (min_Pell's_solution_of D)`1 +
+    (min_Pell's_solution_of D)`2 *sqrt D ) |^ n;

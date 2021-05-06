@@ -1,0 +1,279 @@
+:: Diophantine Sets -- Preliminaries
+::  by Karol P\kak
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, RELAT_1, ORDINAL4, FINSEQ_1, XBOOLE_0,
+      FUNCT_1, XXREAL_0, TARSKI, NAT_1, INT_1, ARYTM_3, ZFMISC_1, CARD_1,
+      ORDINAL1, ARYTM_1, QC_LANG1, VECTSP_1, POLYNOM1, POLYNOM2, AFINSQ_1,
+      NEWTON, HILB10_2, INT_2, PARTFUN3, REAL_1, XCMPLX_0, VALUED_0, FINSEQ_2,
+      CARD_3, REALSET1, BINOP_2, FINSOP_1, FUNCOP_1, XREAL_0, RFINSEQ, BINOP_1,
+      FUNCT_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1, FUNCT_1,
+      XCMPLX_0, PARTFUN1, FUNCT_2, BINOP_1, NAT_1, FINSEQ_1, FUNCOP_1,
+      VECTSP_1, XXREAL_0, RECDEF_1, POLYNOM1, XREAL_0, INT_1, POLYNOM2,
+      AFINSQ_1, AFINSQ_2, NEWTON, HILB10_2, VALUED_0, FINSEQ_2, RVSUM_1,
+      VALUED_1, BINOP_2, PARTFUN3, CARD_1, NAT_D, RVSUM_4;
+ constructors NAT_D, RECDEF_1, BINOP_2, RELSET_1, GROUP_4, POLYNOM2, AFINSQ_2,
+      NEWTON, HILB10_2, WSIERP_1, INT_6, SETWISEO, RVSUM_4;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, NAT_1, CARD_1,
+      VALUED_0, VALUED_1, RELSET_1, INT_1, STRUCT_0, VECTSP_1, MEMBERED,
+      AFINSQ_1, HILB10_2, XXREAL_0, NUMBERS, XCMPLX_0, NEWTON, NEWTON02, NAT_6,
+      FINSEQ_1, FINSEQ_2, RVSUM_1, NEWTON04, MOEBIUS2, EUCLID_9, AFINSQ_2,
+      PARTFUN3, BINOP_2, FUNCT_2, RFUNCT_2, RVSUM_4;
+ requirements NUMERALS, SUBSET, ARITHM, REAL;
+
+
+begin :: Product of zero based finite sequences
+
+reserve i,j,n,n1,n2,m,k,l,u for Nat,
+        r,r1,r2 for Real,
+        x,y for Integer,
+        a,b for non trivial Nat,
+        F for XFinSequence,
+        cF,cF1,cF2 for complex-valued XFinSequence,
+        c,c1,c2 for Complex;
+
+registration let c1,c2;
+  cluster <%c1,c2%> -> complex-valued;
+end;
+
+definition let cF be XFinSequence;  ::: same as XProduct from RVSUM_4
+  func Product cF -> Element of COMPLEX equals
+:: HILB10_4:def 1
+    multcomplex "**" cF;
+end;
+
+theorem :: HILB10_4:1
+  cF is real-valued implies Product cF = multreal "**" cF;
+
+theorem :: HILB10_4:2
+  cF is INT-valued implies Product cF = multint "**" cF;
+
+theorem :: HILB10_4:3
+  cF is natural-valued implies Product cF = multnat "**" cF;
+
+registration
+  let F be real-valued XFinSequence;
+  cluster Product F -> real;
+end;
+
+registration
+  let F be natural-valued XFinSequence;
+  cluster Product F -> natural;
+end;
+
+theorem :: HILB10_4:4
+  cF = {} implies Product cF = 1;
+
+theorem :: HILB10_4:5
+  Product <%c%> = c;
+
+theorem :: HILB10_4:6
+  Product <%c1,c2%> = c1 * c2;
+
+theorem :: HILB10_4:7
+  Product(cF1^cF2) = Product(cF1) * Product(cF2);
+
+theorem :: HILB10_4:8
+  c+ (cF1^cF2) = (c+cF1) ^ (c+cF2);
+
+theorem :: HILB10_4:9
+  c1 + <%c2%> = <%c1 + c2%>;
+
+theorem :: HILB10_4:10
+  for f1,f2 be XFinSequence,n st n <= len f1 holds
+   (f1^f2)/^n = (f1/^n)^f2;
+
+registration let n;
+  cluster n-element natural-valued for XFinSequence;
+end;
+
+registration
+  cluster natural-valued positive-yielding for XFinSequence;
+end;
+
+registration
+  let R be positive-yielding Relation;
+  let X be set;
+  cluster R|X -> positive-yielding;
+end;
+
+registration
+  let X be positive-yielding real-valued XFinSequence;
+  cluster Product X -> positive;
+end;
+
+theorem :: HILB10_4:11
+  for X being natural-valued positive-yielding XFinSequence st
+    i in dom X holds X.i <= Product X;
+
+registration
+  let X be natural-valued XFinSequence,n be positive Nat;
+  cluster n + X -> positive-yielding;
+end;
+
+theorem :: HILB10_4:12
+  for X1,X2 being natural-valued XFinSequence st len X1=len X2 &
+    for n st n in dom X1 holds X1.n <= X2.n holds
+      Product X1 <= Product X2;
+
+begin :: Binomial is Diophantin
+
+theorem :: HILB10_4:13
+  k <= n implies n choose k <= n|^k;
+
+theorem :: HILB10_4:14
+  u > n|^k & n >= k & k > i implies (n choose i)*(u |^i) < (u|^k)/n;
+
+theorem :: HILB10_4:15
+  u > n|^k & n >= k implies [\ ((u+1)|^n) / (u|^k) /] mod u = n choose k;
+
+theorem :: HILB10_4:16
+  for x,y,z being Nat holds
+       x >= z & y = x choose z
+  iff
+     ex u,v,y1,y2,y3 being Nat st
+       y1 = x|^z & y2 = (u+1)|^x & y3 = u|^z &
+       u > y1 & v = [\y2/y3/] & y,v are_congruent_mod u & y < u & x >=z;
+
+begin
+
+theorem :: HILB10_4:17
+   k >0 & n > (2*k)|^(k+1) implies k! = [\(n|^k) / (n choose k) /];
+
+theorem :: HILB10_4:18
+   for x,y being Nat holds
+     y = x! iff
+  ex n,y1,y2,y3 being Nat st
+     y1 = (2*x) |^(x+1) &
+     y2 = n|^x &
+     y3 = n choose x &
+     n > y1 &
+     y = [\y2/y3/];
+
+begin :: Diophanticity of selected products
+
+reserve x,y,x1,u,w for Nat;
+
+theorem :: HILB10_4:19
+  for x1,w,u being Nat st x1*w,1 are_congruent_mod u
+    for x being Nat holds
+  Product (1+(x1 * idseq x)), x1|^x * (x!) * ((w+x) choose x)
+    are_congruent_mod u;
+
+theorem :: HILB10_4:20
+  for x,y,x1 being Nat st x1 >= 1 holds
+    y = Product (1+(x1 * idseq x)) iff
+      ex u,w,y1,y2,y3,y4,y5 being Nat st
+        u > y &
+        x1*w, 1 are_congruent_mod u &
+        y1 = x1|^x &
+        y2 = x! &
+        y3 = (w+x) choose x &
+        y1*y2*y3, y are_congruent_mod u &
+        y4 = 1+x1*x &
+        y5 = y4|^x &
+        u > y5;
+
+theorem :: HILB10_4:21
+  c1 + (n|->c2) = n|->(c1+c2);
+
+theorem :: HILB10_4:22
+  for x,y,x1 being Nat st x1 = 0 holds
+    y = Product (1+(x1 * idseq x)) iff y = 1;
+
+theorem :: HILB10_4:23
+  n >= k implies
+    Product ((n+1)+(-idseq k)) = k!*(n choose k);
+
+theorem :: HILB10_4:24
+   for y,x1,x2 being Nat holds
+     y = Product ( (x2+1)+(-idseq x1)) & x2 > x1
+   iff y = x1!*(x2 choose x1) & x2 > x1;
+
+begin :: Selected subsets of zero based finite sequences of NAT
+      :: as Diophantine sets
+
+reserve n,m,k for Nat,
+        p,q for n-element XFinSequence of NAT,
+        i1,i2,i3,i4,i5,i6 for Element of n,
+        a,b,d,f for Integer;
+
+theorem :: HILB10_4:25
+  for a,b being Nat,i1,i2,i3 holds
+    {p: p.i1 = (a*p.i2+b) * p.i3} is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:26
+  for a,i1,i2,i3 holds
+    {p: p.i1 = a*p.i2*p.i3} is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:27
+  for A being diophantine Subset of n -xtuples_of NAT
+    for k,nk being Nat st k+nk = n holds
+       {p/^nk : p in A} is diophantine Subset of k -xtuples_of NAT;
+
+theorem :: HILB10_4:28
+  for a,b being Integer,c being Nat, i1,i2,i3 holds
+    {p: a*p.i1 = [\ (b*p.i2) / (c*p.i3)/] & (c*p.i3 <> 0) }
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:29
+  for i1,i2,i3 st n <> 0 holds {p: p.i1 >= p.i3 & p.i2 = p.i1 choose p.i3}
+    is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:30
+  for i1,i2,i3 holds {p: p.i1 >= p.i3 & p.i2 = p.i1 choose p.i3}
+     is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:31
+  for i1,i2 st n<>0 holds {p: p.i1 = p.i2!}
+    is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:32
+  for i1,i2 holds {p: p.i1 = p.i2!}
+    is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:33
+  for n,i1,i2,i3 holds {p: 1+(p.i1+1)*(p.i2!) = p.i3}
+    is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:34
+  for i1,i2,i3 st n<>0 holds
+    {p: p.i3 = Product (1+((p.i1) * idseq (p.i2))) & p.i1 >= 1}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:35
+  for i1,i2,i3 holds
+    {p: p.i3 = Product (1+((p.i1) * idseq (p.i2))) & p.i1 >= 1}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:36
+  for n,i1,i2,i3 holds
+    {p: p.i3 = Product (1+((p.i1)! * idseq (1+p.i2)))}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:37
+  for i1,i2,i3 st n<>0 holds
+    {p: p.i3 = Product ( (p.i2+1)+(-idseq (p.i1))) & p.i2 > p.i1}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:38
+  for i1,i2,i3 holds
+    {p: p.i3 = Product ( (p.i2+1)+(-idseq (p.i1))) & p.i2 > p.i1}
+  is diophantine Subset of n -xtuples_of NAT;
+
+theorem :: HILB10_4:39
+  for i,n1,n2,n,i1 holds {p: p.i1 = Product (i+((p/^n1) | n2))}
+  is diophantine Subset of n -xtuples_of NAT;

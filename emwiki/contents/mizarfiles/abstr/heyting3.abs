@@ -1,0 +1,298 @@
+:: The Incompleteness of the Lattice of Substitutions
+::  by Adam Grabowski
+::
+:: Received July 17, 2000
+:: Copyright (c) 2000-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ABIAN, RELAT_1, CARD_1, ARYTM_3, ORDERS_2, SUBSET_1,
+      TARSKI, ZFMISC_1, FUNCT_1, XXREAL_0, FINSET_1, XBOOLE_0, FINSEQ_1,
+      MCART_1, LATTICES, LATTICE3, PBOOLE, EQREL_1, FINSUB_1, PARTFUN1,
+      HEYTING1, SUBSTLAT, NORMFORM, REALSET1, STRUCT_0, BINOP_1, RELAT_2,
+      ORDINAL4, CAT_1, YELLOW_0, WELLORD1, HEYTING2, REWRITE1, HEYTING3,
+      XCMPLX_0, NAT_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, RELAT_1,
+      FUNCT_1, ORDERS_2, MEMBERED, XCMPLX_0, NAT_1, FINSEQ_1, BINOP_1,
+      FINSET_1, FINSUB_1, PARTFUN1, LATTICES, DOMAIN_1, REALSET1, STRUCT_0,
+      SUBSTLAT, XTUPLE_0, MCART_1, WELLORD1, YELLOW_0, ABIAN, XXREAL_2,
+      LATTICE3, HEYTING2, XXREAL_0;
+ constructors BINOP_1, TOLER_1, REALSET1, ABIAN, LATTICE3, YELLOW_0, HEYTING2,
+      VALUED_1, XXREAL_2, RELSET_1, XTUPLE_0, XXREAL_1;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, PARTFUN1, FINSET_1,
+      FINSUB_1, XXREAL_0, NAT_1, MEMBERED, FINSEQ_1, REALSET1, ABIAN, STRUCT_0,
+      LATTICES, LATTICE3, YELLOW_0, YELLOW_1, SUBSTLAT, XXREAL_2, RELAT_1,
+      HEYTING2, XTUPLE_0, XCMPLX_0;
+ requirements SUBSET, BOOLE, NUMERALS, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+scheme :: HEYTING3:sch 1
+  SSubsetUniq { R() -> 1-sorted, P[object] } :
+for A1, A2 being Subset of R() st (
+for x being object holds x in A1 iff P[x]) &
+(for x being object holds x in A2 iff P[
+  x]) holds A1 = A2;
+
+registration
+  let A, x be set;
+  cluster [:A, {x}:] -> Function-like;
+end;
+
+theorem :: HEYTING3:1
+  for X being finite non empty Subset of NAT holds ex n being
+  Element of NAT st X c= Seg n \/ {0};
+
+theorem :: HEYTING3:2
+  for X being finite Subset of NAT holds ex k being odd Element of NAT
+  st not k in X;
+
+theorem :: HEYTING3:3
+  for k being Element of NAT, X being finite non empty Subset of [:
+NAT,{k}:] holds ex n being non zero Element of NAT st X c= [:Seg n \/ {0},{k}
+  :];
+
+theorem :: HEYTING3:4
+  for m being Element of NAT, X being finite non empty Subset of [:
+  NAT,{m}:] holds ex k being non zero Element of NAT st not [2*k+1,m] in X;
+
+theorem :: HEYTING3:5
+  for m being Element of NAT, X being finite Subset of [:NAT,{m}:] ex k
+being Element of NAT st for l being Element of NAT st l >= k holds not [l,m] in
+  X;
+
+theorem :: HEYTING3:6
+  for L being upper-bounded Lattice holds Top L = Top LattPOSet L;
+
+theorem :: HEYTING3:7
+  for L being lower-bounded Lattice holds Bottom L = Bottom LattPOSet L;
+
+begin :: Poset of Substitutions
+
+theorem :: HEYTING3:8
+  for V being set, C being finite set, A, B being Element of Fin PFuncs
+  (V, C) st A = {} & B <> {} holds B =>> A = {};
+
+theorem :: HEYTING3:9
+  for V, V9, C, C9 being set st V c= V9 & C c= C9 holds
+  SubstitutionSet (V, C) c= SubstitutionSet (V9, C9);
+
+theorem :: HEYTING3:10
+  for V, V9, C, C9 being set, A being Element of Fin PFuncs (V, C)
+, B being Element of Fin PFuncs (V9, C9) st V c= V9 & C c= C9 & A = B holds mi
+  A = mi B;
+
+theorem :: HEYTING3:11
+  for V, V9, C, C9 being set st V c= V9 & C c= C9 holds the L_join of
+SubstLatt (V, C) = (the L_join of SubstLatt (V9, C9))||the carrier of SubstLatt
+  (V, C);
+
+definition
+  let V, C be set;
+  func SubstPoset (V, C) -> RelStr equals
+:: HEYTING3:def 1
+  LattPOSet SubstLatt (V, C);
+end;
+
+registration
+  let V, C be set;
+  cluster SubstPoset (V, C) -> with_suprema with_infima;
+end;
+
+registration
+  let V, C be set;
+  cluster SubstPoset (V, C) -> reflexive antisymmetric transitive;
+end;
+
+theorem :: HEYTING3:12
+  for V, C being set, a, b being Element of SubstPoset (V, C)
+  holds a <= b iff for x being set st x in a ex y being set st y in b & y c= x;
+
+theorem :: HEYTING3:13
+  for V, V9, C, C9 being set st V c= V9 & C c= C9 holds SubstPoset (V, C
+  ) is full SubRelStr of SubstPoset (V9, C9);
+
+definition
+  let n, k be Nat;
+  func PFArt (n, k) -> Element of PFuncs (NAT, {k}) means
+:: HEYTING3:def 2
+
+  for x being object
+   holds x in it iff ( ex m being odd Element of NAT st m <= 2*n & [m,k] = x )
+  or [2*n,k] = x;
+end;
+
+registration
+  let n, k be Element of NAT;
+  cluster PFArt (n, k) -> finite;
+end;
+
+definition
+  let n, k be Nat;
+  func PFCrt (n, k) -> Element of PFuncs (NAT, {k}) means
+:: HEYTING3:def 3
+
+  for x being object
+   holds x in it iff ex m being odd Element of NAT st m <= 2*n + 1 & [m,k] = x;
+end;
+
+registration
+  let n,k be Element of NAT;
+  cluster PFCrt (n,k) -> finite;
+end;
+
+theorem :: HEYTING3:14
+  for n, k being Element of NAT holds [2*n+1,k] in PFCrt (n,k);
+
+theorem :: HEYTING3:15
+  for n, k being Element of NAT holds PFCrt (n,k) misses {[2*n+3,k ]};
+
+theorem :: HEYTING3:16
+  for n, k being Element of NAT holds PFCrt (n+1,k) = PFCrt (n,k)
+  \/ {[2*n+3,k]};
+
+theorem :: HEYTING3:17
+  for n, k being Element of NAT holds PFCrt (n,k) c< PFCrt (n+1,k);
+
+registration
+  let n, k be Element of NAT;
+  cluster PFArt (n, k) -> non empty;
+end;
+
+theorem :: HEYTING3:18
+  for n, m, k being Element of NAT holds not PFArt (n, m) c= PFCrt (k, m);
+
+theorem :: HEYTING3:19
+  for n, m, k being Element of NAT st n <= k holds PFCrt (n,m) c= PFCrt (k,m);
+
+theorem :: HEYTING3:20
+  for n being Element of NAT holds PFArt (1,n) = { [1,n], [2,n] };
+
+definition
+  let n, k be Nat;
+  func PFBrt (n,k) -> Element of Fin PFuncs (NAT, {k}) means
+:: HEYTING3:def 4
+
+  for x being object
+    holds x in it iff ( ex m being non zero Element of NAT st m <= n & x
+  = PFArt (m,k) ) or x = PFCrt (n,k);
+end;
+
+theorem :: HEYTING3:21
+  for n, k being Element of NAT, x being set st x in PFBrt (n+1,k) holds
+  ex y being set st y in PFBrt (n,k) & y c= x;
+
+theorem :: HEYTING3:22
+  for n, k being Element of NAT holds not PFCrt (n,k) in PFBrt (n+1,k);
+
+theorem :: HEYTING3:23
+  for n, m, k being Element of NAT st PFArt (n,m) c= PFArt (k,m) holds n = k;
+
+theorem :: HEYTING3:24
+  for n, m, k being Element of NAT holds PFCrt (n,m) c= PFArt (k,m ) iff n < k;
+
+begin :: Incompleteness
+
+theorem :: HEYTING3:25
+  for n, k being Element of NAT holds PFBrt (n,k) is Element of
+  SubstPoset (NAT, {k});
+
+definition
+  let k be Element of NAT;
+  func PFDrt k -> Subset of SubstPoset (NAT, {k}) means
+:: HEYTING3:def 5
+
+  for x being object
+  holds x in it iff ex n being non zero Element of NAT st x = PFBrt (n,k);
+end;
+
+theorem :: HEYTING3:26
+  for k being Element of NAT holds PFBrt (1,k) = { PFArt (1,k), PFCrt (1 ,k) };
+
+theorem :: HEYTING3:27
+  for k being Element of NAT holds PFBrt (1,k) <> {{}};
+
+registration
+  let k be Element of NAT;
+  cluster PFBrt (1,k) -> non empty;
+end;
+
+theorem :: HEYTING3:28
+  for n, k being Element of NAT holds { PFArt (n,k) } is Element
+  of SubstPoset (NAT, {k});
+
+theorem :: HEYTING3:29
+  for k being Element of NAT, V, X being set, a being Element of
+  SubstPoset (V, {k}) st X in a holds X is finite Subset of [:V, {k}:];
+
+theorem :: HEYTING3:30
+  for m being Element of NAT, a being Element of SubstPoset (NAT,
+  {m}) st PFDrt m is_>=_than a holds for X being non empty set st X in a holds
+  not ( for n being Element of NAT st [n,m] in X holds n is odd );
+
+theorem :: HEYTING3:31
+  for k being Element of NAT, a, b being Element of SubstPoset (
+  NAT, {k}), X being Subset of SubstPoset (NAT, {k}) st a is_<=_than X & b
+  is_<=_than X holds a "\/" b is_<=_than X;
+
+registration
+  let k be Element of NAT;
+  cluster non empty for Element of SubstPoset (NAT, {k});
+end;
+
+theorem :: HEYTING3:32
+  for n being Element of NAT, a being Element of SubstPoset (NAT,
+  {n}) st {} in a holds a = {{}};
+
+theorem :: HEYTING3:33
+  for k being Element of NAT, a being non empty Element of
+SubstPoset (NAT, {k}) st a <> {{}} ex f being finite Function st f in a & f <>
+  {};
+
+theorem :: HEYTING3:34
+  for k being Element of NAT, a being non empty Element of
+SubstPoset (NAT, {k}), a9 being Element of Fin PFuncs (NAT, {k}) st a <> {{}} &
+  a = a9 holds Involved a9 is finite non empty Subset of NAT;
+
+theorem :: HEYTING3:35
+  for k being Element of NAT, a being Element of SubstPoset (NAT,
+  {k}), a9 being Element of Fin PFuncs (NAT, {k}), B being finite non empty
+Subset of NAT st B = Involved a9 & a9 = a holds for X being set st X in a for l
+  being Element of NAT st l > (max B) + 1 holds not [l,k] in X;
+
+theorem :: HEYTING3:36
+  for k being Element of NAT holds Top SubstPoset (NAT, {k}) = {{} };
+
+theorem :: HEYTING3:37
+  for k being Element of NAT holds Bottom SubstPoset (NAT, {k}) = {};
+
+theorem :: HEYTING3:38
+  for k being Element of NAT, a, b being Element of SubstPoset (
+  NAT, {k}) st a <= b & a = {{}} holds b = {{}};
+
+theorem :: HEYTING3:39
+  for k being Element of NAT, a, b being Element of SubstPoset (
+  NAT, {k}) st a <= b & b = {} holds a = {};
+
+theorem :: HEYTING3:40
+  for m being Element of NAT, a being Element of SubstPoset (NAT,
+  {m}) st PFDrt m is_>=_than a holds a <> {{}};
+
+registration
+  let m be Element of NAT;
+  cluster SubstPoset (NAT, {m}) -> non complete;
+end;
+
+registration
+  let m be Element of NAT;
+  cluster SubstLatt (NAT, {m}) -> non complete;
+end;

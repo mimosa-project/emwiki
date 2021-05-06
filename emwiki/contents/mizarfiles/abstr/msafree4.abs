@@ -1,0 +1,1161 @@
+:: Free Term Algebras
+::  by Grzegorz Bancerek
+::
+:: Received May 15, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1,
+      FINSEQ_1, FUNCOP_1, ZF_LANG, ZF_MODEL, REALSET1, PBOOLE, TREES_1,
+      ORDINAL4, FUNCT_4, FINSET_1, PROB_2, GROUP_6, CARD_3, TREES_2, CARD_1,
+      ARYTM_3, XXREAL_0, MCART_1, MEMBER_1, PRELAMB, TREES_4, DTCONSTR,
+      TDGROUP, TREES_3, FUNCT_6, TREES_A, TREES_9, MSUALG_6, MATROID0,
+      ZF_LANG1, MARGREL1, PZFMISC1, NUMBERS, NAT_1, STRUCT_0, UNIALG_2,
+      MSUALG_1, MSUALG_2, MSUALG_3, MSAFREE, ALGSPEC1, MSATERM, EQUATION,
+      AOFA_000, AOFA_I00, MSAFREE4, FOMODEL2, SETLIM_2, PENCIL_1, MSUALG_4,
+      REWRITE1, CIRCUIT2, MOD_4, RLTOPSP1, RFINSEQ, ARYTM_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XTUPLE_0, RELAT_1, FUNCT_1,
+      RELSET_1, PARTFUN1, FUNCT_2, ORDINAL1, FINSET_1, CARD_1, XXREAL_0,
+      XCMPLX_0, AOFA_I00, FINSEQ_1, FINSEQ_2, LANG1, FUNCT_6, NUMBERS,
+      FUNCOP_1, TREES_1, CARD_3, PBOOLE, PROB_2, FUNCT_4, TREES_2, TREES_3,
+      TREES_4, TREES_9, RFINSEQ, REWRITE1, PENCIL_1, FUNCT_7, DTCONSTR,
+      PZFMISC1, COMPUT_1, STRUCT_0, MSUALG_1, MSUALG_2, MSUALG_3, MSUALG_4,
+      MSAFREE, MSAFREE1, MSATERM, MSUALG_6, ALGSPEC1, CATALG_1, MSAFREE3,
+      EQUATION, AOFA_000;
+ constructors RELSET_1, DOMAIN_1, PZFMISC1, FUNCT_4, TREES_9, COMPUT_1,
+      MSUALG_3, MSAFREE1, MSUALG_6, EQUATION, CATALG_1, ALGSPEC1, MSAFREE3,
+      REAL_1, PRALG_2, PENCIL_1, REWRITE1, RFINSEQ;
+ registrations XBOOLE_0, RELSET_1, PBOOLE, MSUALG_1, INSTALG1, MSAFREE1,
+      FUNCT_1, FUNCOP_1, FINSET_1, FINSEQ_1, STRUCT_0, MSAFREE3, EQUATION,
+      COMPUT_1, CARD_3, MSAFREE, NAT_1, ORDINAL1, CARD_1, RELAT_1, SUBSET_1,
+      CATALG_1, TREES_2, MSUALG_2, MSATERM, TREES_1, TREES_3, MSUALG_3,
+      ALTCAT_2, MSSUBFAM, TREES_9, MSUALG_4, MSUALG_6, REWRITE1, MSUALG_9,
+      XREAL_0, XTUPLE_0;
+ requirements BOOLE, SUBSET, ARITHM, NUMERALS;
+
+
+begin :: Preliminaries
+
+reserve S for non empty non void ManySortedSign;
+reserve X for non-empty ManySortedSet of S;
+
+theorem :: MSAFREE4:1
+  for I being set, f1,f2 being ManySortedSet of I st f1 c= f2
+  holds Union f1 c= Union f2;
+
+reserve x,y,z for set, i,j for Nat;
+definition
+  let I be set;
+  let X be non-empty ManySortedSet of I;
+  let A be Component of X;
+  redefine mode Element of A -> Element of Union X;
+end;
+
+definition
+  let I be set;
+  let X be ManySortedSet of I;
+  let i be Element of I;
+  redefine func X.i -> Component of X;
+end;
+
+definition
+  let I be set;
+  let X,Y be ManySortedSet of I;
+  let f be ManySortedFunction of X,Y;
+  let x be object;
+  redefine func f.x -> Function of X.x,Y.x;
+end;
+
+scheme :: MSAFREE4:sch 1
+ Sch1{I()-> set, A()->non-empty ManySortedSet of I(),
+      F(object,object)->set}:
+  ex f being ManySortedFunction of I() st
+  for x st x in I() holds dom(f.x) = A().x &
+  for y being Element of A().x holds f.x .y = F(x,y);
+
+scheme :: MSAFREE4:sch 2
+ Sch2{I()->non empty set, A,B()->non-empty ManySortedSet of I(),
+  F(object,object) -> set}:
+  ex f being ManySortedFunction of A(),B() st
+  for i being Element of I() for a being Element of A().i holds f.i.a = F(i,a)
+  provided
+ for i being Element of I() for a being Element of A().i
+  holds F(i,a) in B().i;
+
+definition
+  let X be non empty set;
+  let O be set;
+  let f be Function of O,X;
+  let g be ManySortedSet of X;
+  redefine func g*f -> ManySortedSet of O;
+end;
+
+registration
+  let S, X;
+  let F be ManySortedSet of S -Terms X;
+  let o be OperSymbol of S;
+  let p be ArgumentSeq of Sym(o,X);
+  cluster F*p -> FinSequence-like;
+end;
+
+theorem :: MSAFREE4:2
+  Subtrees root-tree x = {root-tree x};
+
+registration
+  let f be DTree-yielding Function;
+  cluster rng f -> constituted-DTrees;
+end;
+
+theorem :: MSAFREE4:3
+  for p being non empty DTree-yielding FinSequence holds
+  Subtrees(x-tree p) = {x-tree p} \/ Subtrees rng p;
+
+theorem :: MSAFREE4:4
+  Subtrees(x-tree{}) = {x-tree {}};
+
+theorem :: MSAFREE4:5
+  x-tree {} = root-tree x;
+
+registration
+  cluster finite-yielding DTree-yielding non empty for FinSequence;
+  cluster finite-yielding Tree-yielding non empty for FinSequence;
+end;
+
+registration
+  let f be finite-yielding Function-yielding Function;
+  cluster doms f -> finite-yielding;
+end;
+
+registration
+  let p be finite-yielding Tree-yielding FinSequence;
+  cluster tree p -> finite;
+end;
+
+registration
+  let t be finite DecoratedTree;
+  cluster Subtrees t -> finite-membered;
+end;
+
+registration
+  let p be finite-yielding DTree-yielding FinSequence;
+  let x;
+  cluster x-tree p -> finite;
+end;
+
+theorem :: MSAFREE4:6
+  for t1,t2 being finite DecoratedTree st t1 in Subtrees t2
+  holds height dom t1 <= height dom t2;
+
+theorem :: MSAFREE4:7
+  for p being DTree-yielding FinSequence st p is finite-yielding
+  for t being DecoratedTree st x in Subtrees t & t in rng p
+  holds x <> y-tree p;
+
+registration
+  let S;
+  let X be ManySortedSet of S;
+  cluster -> finite-yielding for S-Terms X-valued Function;
+end;
+
+theorem :: MSAFREE4:8
+  for X being non empty constituted-DTrees set
+  for t being DecoratedTree st t in X
+  holds Subtrees t c= Subtrees X;
+
+theorem :: MSAFREE4:9
+  for X being non empty constituted-DTrees set holds X c= Subtrees X;
+
+theorem :: MSAFREE4:10
+  for t being Term of S,X
+  for x st x in Subtrees t holds x is Term of S,X;
+
+theorem :: MSAFREE4:11
+  for p being DTree-yielding FinSequence holds
+  rng p c= Subtrees (x-tree p);
+
+theorem :: MSAFREE4:12
+  for t1,t2 being DecoratedTree st t1 in Subtrees t2
+  holds Subtrees t1 c= Subtrees t2;
+
+theorem :: MSAFREE4:13
+  for X being ManySortedSet of S
+  for o being OperSymbol of S
+  for p being FinSequence st p in Args(o,Free(S,X)) holds
+  Den(o,Free(S,X)).p = [o,the carrier of S]-tree p;
+
+registration
+  let I be set;
+  let A,B be non-empty ManySortedSet of I;
+  let f be ManySortedFunction of A,B;
+  cluster rngs f -> non-empty;
+end;
+
+registration
+  let S;
+  cluster -> Relation-like Function-like for Element of TermAlg S;
+end;
+
+registration
+  let I be set;
+  let A be ManySortedSet of I;
+  let f be FinSequence of I;
+  cluster A*f -> dom f-defined;
+end;
+
+registration
+  let I be set;
+  let A be ManySortedSet of I;
+  let f be FinSequence of I;
+  cluster A*f -> total for dom f-defined Relation;
+end;
+
+theorem :: MSAFREE4:14
+  for I being non empty set, J being set
+  for A,B being ManySortedSet of I st A c= B
+  for f being Function of J,I holds A*f c= B*f qua ManySortedSet of J;
+
+theorem :: MSAFREE4:15
+  for I being set
+  for A,B being ManySortedSet of I st A c= B
+  for f being FinSequence of I holds A*f c= B*f qua ManySortedSet of dom f;
+
+theorem :: MSAFREE4:16
+  for I being set
+  for A,B being ManySortedSet of I st A c= B
+  holds product A c= product B;
+
+theorem :: MSAFREE4:17
+  for R being weakly-normalizing with_UN_property Relation
+  st x is_a_normal_form_wrt R holds nf(x,R) = x;
+
+theorem :: MSAFREE4:18
+  for R being weakly-normalizing with_UN_property Relation
+  holds nf(nf(x,R),R) = nf(x,R);
+
+
+registration
+  let S, X;
+  let A be MSSubset of FreeMSA X;
+  let x be object;
+  cluster -> Relation-like Function-like for Element of A.x;
+end;
+
+definition
+  let I be set;
+  let A be ManySortedSet of I;
+  attr A is countable means
+:: MSAFREE4:def 1
+  for x st x in I holds A.x is countable;
+end;
+
+registration
+  let I be set;
+  let X be countable set;
+  cluster I --> X -> countable for ManySortedSet of I;
+end;
+
+registration
+  let I be set;
+  cluster non-empty countable for ManySortedSet of I;
+end;
+
+registration
+  let I be set;
+  let X be countable ManySortedSet of I;
+  let x be object;
+  cluster X.x -> countable;
+end;
+
+registration
+  let A be countable set;
+  cluster one-to-one for Function of A,NAT;
+end;
+
+registration
+  let I be set;
+  let X0 be countable ManySortedSet of I;
+  cluster "1-1" for ManySortedFunction of X0, I-->NAT;
+end;
+
+theorem :: MSAFREE4:19
+  for S being set
+  for X being ManySortedSet of S
+  for Y being non-empty ManySortedSet of S
+  for w being ManySortedFunction of X, Y
+  holds rngs w is ManySortedSubset of Y;
+
+theorem :: MSAFREE4:20
+  for S being set
+  for X being countable ManySortedSet of S
+  ex Y being ManySortedSubset of S-->NAT,
+  w being ManySortedFunction of X, S-->NAT st
+  w is "1-1" & Y = rngs w &
+  for x st x in S holds w.x is Enumeration of X.x & Y.x = card(X.x);
+
+theorem :: MSAFREE4:21
+  for I being set
+  for A being ManySortedSet of I
+  for B being non-empty ManySortedSet of I holds
+  A is_transformable_to B;
+
+theorem :: MSAFREE4:22
+  for I being set
+  for A,B,C being non-empty ManySortedSet of I
+  for f being ManySortedFunction of A,B st B is ManySortedSubset of C
+  holds f is ManySortedFunction of A,C;
+
+theorem :: MSAFREE4:23
+  for I being set, A,B being ManySortedSet of I st A is_transformable_to B
+  for f being ManySortedFunction of A,B st f is "onto"
+  ex g being ManySortedFunction of B,A st f**g = id B;
+
+theorem :: MSAFREE4:24
+  for A1,A2 being MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2
+  for B1 being MSSubset of A1, B2 being MSSubset of A2 st B1 = B2
+  for o being OperSymbol of S st B1 is_closed_on o holds B2 is_closed_on o;
+
+theorem :: MSAFREE4:25
+  for A1,A2 being MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2
+  for B1 being MSSubset of A1, B2 being MSSubset of A2 st B1 = B2
+  for o being OperSymbol of S st B1 is_closed_on o holds o/.B2 = o/.B1;
+
+theorem :: MSAFREE4:26
+  for A1,A2 being MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2
+  for B1 being MSSubset of A1, B2 being MSSubset of A2
+  st B1 = B2 & B1 is opers_closed holds Opers(A2,B2) = Opers(A1,B1);
+
+theorem :: MSAFREE4:27
+  for A1,A2 being MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2
+  for B1 being MSSubset of A1, B2 being MSSubset of A2
+  st B1 = B2 & B1 is opers_closed holds B2 is opers_closed;
+
+theorem :: MSAFREE4:28
+  for A1,A2,B being MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2
+  for B1 being MSSubAlgebra of A1 st the MSAlgebra of B = the MSAlgebra of B1
+  holds B is MSSubAlgebra of A2;
+
+theorem :: MSAFREE4:29
+  for A1,A2 being MSAlgebra over S st A2 is empty
+  for h being ManySortedFunction of A1,A2
+  holds h is_homomorphism A1,A2;
+
+theorem :: MSAFREE4:30
+  for A1,A2,B1 being MSAlgebra over S, B2 being non-empty MSAlgebra over S
+  st the MSAlgebra of A1 = the MSAlgebra of A2 &
+  the MSAlgebra of B1 = the MSAlgebra of B2
+  for h1 being ManySortedFunction of A1,B1
+  for h2 being ManySortedFunction of A2,B2 st h1 = h2 &
+  h1 is_homomorphism A1,B1 holds h2 is_homomorphism A2,B2;
+
+begin :: Trivial algebras
+
+definition
+  let I be set;
+  let X be ManySortedSet of I;
+  redefine attr X is trivial-yielding means
+:: MSAFREE4:def 2
+  for x st x in I holds X.x is trivial;
+end;
+
+registration
+  let I be set;
+  cluster non-empty trivial-yielding for ManySortedSet of I;
+end;
+
+registration
+  let I be set;
+  let S be trivial-yielding ManySortedSet of I;
+  let x be object;
+  cluster S.x -> trivial;
+end;
+
+definition
+  let S;
+  let A be MSAlgebra over S;
+  attr A is trivial means
+:: MSAFREE4:def 3
+  the Sorts of A is trivial-yielding;
+end;
+
+registration
+  let S;
+  cluster trivial disjoint_valued non-empty for strict MSAlgebra over S;
+end;
+
+registration
+  let S;
+  let A be trivial MSAlgebra over S;
+  cluster the Sorts of A -> trivial-yielding;
+end;
+
+theorem :: MSAFREE4:31
+  for A being trivial non-empty MSAlgebra over S
+  for s being SortSymbol of S
+  for e being Element of (Equations S).s
+  holds A |= e;
+
+theorem :: MSAFREE4:32
+  for A being trivial non-empty MSAlgebra over S
+  for T being EqualSet of  S
+  holds A |= T;
+
+theorem :: MSAFREE4:33
+  for A being non-empty MSAlgebra over S
+  for T being non-empty trivial MSAlgebra over S
+  for f being ManySortedFunction of A,T holds
+  f is_homomorphism A,T;
+
+theorem :: MSAFREE4:34
+  for T being non-empty trivial MSAlgebra over S
+  for A being non-empty MSSubAlgebra of T holds
+  the MSAlgebra of A = the MSAlgebra of T;
+
+begin :: Image
+
+definition
+  let S;
+  let A be non-empty MSAlgebra over S;
+  let C be MSAlgebra over S;
+  attr C is A-Image means
+:: MSAFREE4:def 4
+  ex B being non-empty MSAlgebra over S, h being ManySortedFunction of A,B st
+  h is_homomorphism A,B & the MSAlgebra of C = Image h;
+end;
+
+registration
+  let S;
+  let A be non-empty MSAlgebra over S;
+  cluster A-Image -> non-empty for MSAlgebra over S;
+  cluster A-Image for non-empty strict MSAlgebra over S;
+end;
+
+definition
+  let S;
+  let A be non-empty MSAlgebra over S;
+  let C be non-empty MSAlgebra over S;
+  redefine attr C is A-Image means
+:: MSAFREE4:def 5
+  ex h being ManySortedFunction of A,C st h is_epimorphism A,C;
+end;
+
+definition
+  let S;
+  let A be non-empty MSAlgebra over S;
+  mode image of A is A-Image non-empty MSAlgebra over S;
+end;
+
+registration
+  let S;
+  let A be non-empty MSAlgebra over S;
+  cluster disjoint_valued trivial for image of A;
+end;
+
+theorem :: MSAFREE4:35
+  for A being non-empty MSAlgebra over S
+  for B being A-Image MSAlgebra over S
+  for s being SortSymbol of S
+  for e being Element of (Equations S).s
+  st A |= e holds B |= e;
+
+theorem :: MSAFREE4:36
+  for A being non-empty MSAlgebra over S
+  for B being A-Image MSAlgebra over S
+  for T being EqualSet of S
+  st A |= T holds B |= T;
+
+begin :: Term Algebras
+
+definition
+  let S, X;
+  let A be MSAlgebra over S;
+  attr A is (X,S)-terms means
+:: MSAFREE4:def 6
+  the Sorts of A is ManySortedSubset of the Sorts of Free(S,X);
+end;
+
+registration
+  let S,X;
+  cluster Free(S,X) -> X,S-terms;
+end;
+
+registration
+  let S, X;
+  cluster Free(S,X) -> non-empty disjoint_valued;
+end;
+
+registration
+  let S,X;
+  cluster X,S-terms non-empty for strict MSAlgebra over S;
+end;
+
+definition
+  let S,X;
+  let A be X,S-terms MSAlgebra over S;
+  attr A is all_vars_including means
+:: MSAFREE4:def 7
+  FreeGen X is ManySortedSubset of the Sorts of A;
+  attr A is inheriting_operations means
+:: MSAFREE4:def 8
+  for o being OperSymbol of S, p being FinSequence holds
+  (p in Args(o, Free(S,X)) &
+  Den(o,Free(S,X)).p in (the Sorts of A).the_result_sort_of o implies
+  p in Args(o,A) & Den(o,A).p = Den(o,Free(S,X)).p);
+  attr A is free_in_itself means
+:: MSAFREE4:def 9
+  for f being ManySortedFunction of FreeGen X, the Sorts of A
+  for G being ManySortedSubset of the Sorts of A st G = FreeGen X
+  ex h being ManySortedFunction of A,A st h is_homomorphism A,A & f = h || G;
+end;
+
+theorem :: MSAFREE4:37
+  for A,B being non-empty MSAlgebra over S
+  st the MSAlgebra of A = the MSAlgebra of B
+  holds A is (X,S)-terms implies B is (X,S)-terms;
+
+theorem :: MSAFREE4:38
+  for A,B being X,S-terms non-empty MSAlgebra over S
+  st the MSAlgebra of A = the MSAlgebra of B
+  holds (A is all_vars_including implies B is all_vars_including) &
+  (A is inheriting_operations implies B is inheriting_operations) &
+  (A is free_in_itself implies B is free_in_itself);
+
+registration
+  let J be non empty non void ManySortedSign;
+  let T be non-empty MSAlgebra over J;
+  cluster non-empty for GeneratorSet of T;
+end;
+
+registration
+  let S, X;
+  cluster Free(S,X) -> all_vars_including inheriting_operations free_in_itself;
+end;
+
+registration
+  let S, X;
+  cluster all_vars_including -> non-empty for (X,S)-terms MSAlgebra over S;
+  cluster all_vars_including inheriting_operations free_in_itself
+  for (X,S)-terms strict MSAlgebra over S;
+end;
+
+reserve
+  A0 for (X,S)-terms non-empty MSAlgebra over S,
+  A1 for all_vars_including (X,S)-terms MSAlgebra over S,
+  A2 for all_vars_including inheriting_operations (X,S)-terms MSAlgebra over S,
+  A for all_vars_including inheriting_operations free_in_itself
+  (X,S)-terms MSAlgebra over S;
+
+theorem :: MSAFREE4:39
+  (for t being Element of A0 holds t is Element of Free(S,X)) &
+  for s being SortSymbol of S
+  for t being Element of A0,s holds t is Element of Free(S,X),s;
+
+theorem :: MSAFREE4:40
+  for s being SortSymbol of S
+  for x being Element of X.s holds root-tree [x,s] is Element of A1,s;
+
+theorem :: MSAFREE4:41
+  for o being OperSymbol of S holds Args(o,A1) c= Args(o, Free(S,X));
+
+registration
+  let S be set;
+  cluster disjoint_valued non-empty for ManySortedSet of S;
+end;
+
+registration
+  let S be set;
+  let T be disjoint_valued non-empty ManySortedSet of S;
+  cluster -> disjoint_valued for ManySortedSubset of T;
+end;
+
+registration
+  let S, X;
+  cluster (X,S)-terms strict for MSAlgebra over S;
+end;
+
+definition
+  let S, X, A1;
+  func canonical_homomorphism A1 -> ManySortedFunction of Free(S,X),A1 means
+:: MSAFREE4:def 10
+
+  it is_homomorphism Free(S,X),A1 & for G being GeneratorSet of Free(S,X)
+  st G = FreeGen X holds id G = it || G;
+end;
+
+registration
+  let S, X, A0;
+  cluster -> Function-like Relation-like for Element of A0;
+  let s be SortSymbol of S;
+  cluster -> Function-like Relation-like for Element of A0,s;
+end;
+
+registration
+  let S, X, A0;
+  cluster -> DecoratedTree-like for Element of A0;
+  let s be SortSymbol of S;
+  cluster -> DecoratedTree-like for Element of A0,s;
+end;
+
+registration
+  let S, X;
+  cluster (X,S)-terms -> disjoint_valued for MSAlgebra over S;
+end;
+
+theorem :: MSAFREE4:42
+  for t being Element of A0 holds t is Term of S,X;
+
+theorem :: MSAFREE4:43
+  for t being Element of A0
+  for s being SortSymbol of S st t in (the Sorts of Free(S,X)).s holds
+  t in (the Sorts of A0).s;
+
+theorem :: MSAFREE4:44
+  for t being Element of A2
+  for p being Element of dom t holds t|p is Element of A2;
+
+theorem :: MSAFREE4:45
+  FreeGen X is GeneratorSet of A2;
+
+theorem :: MSAFREE4:46
+  for T being free_in_itself non-empty (X,S)-terms MSAlgebra over S
+  for A being image of T
+  for G being GeneratorSet of T st G = FreeGen X
+  for f being ManySortedFunction of G, the Sorts of A
+  ex h being ManySortedFunction of T,A st
+  h is_homomorphism T,A & f = h||G;
+
+theorem :: MSAFREE4:47
+  canonical_homomorphism A2 is_epimorphism Free(S,X),A2 &
+  for s being SortSymbol of S, t being Element of A2,s holds
+  (canonical_homomorphism A2).s.t = t;
+
+theorem :: MSAFREE4:48
+  (canonical_homomorphism A2)**(canonical_homomorphism A2)
+  = canonical_homomorphism A2;
+
+theorem :: MSAFREE4:49
+  A is Free(S,X)-Image;
+
+begin :: Satisfiability
+
+theorem :: MSAFREE4:50
+  for A being non-empty MSAlgebra over S
+  for s being SortSymbol of S
+  for t being Element of TermAlg S,s
+  holds A |= t '=' t;
+
+theorem :: MSAFREE4:51
+  for A being non-empty MSAlgebra over S
+  for s being SortSymbol of S
+  for t1,t2 being Element of TermAlg S,s
+  holds A |= t1 '=' t2 implies A |= t2 '=' t1;
+
+theorem :: MSAFREE4:52
+  for A being non-empty MSAlgebra over S
+  for s being SortSymbol of S
+  for t1,t2,t3 being Element of TermAlg S,s
+  holds A |= t1 '=' t2 & A |= t2 '=' t3 implies A |= t1 '=' t3;
+
+theorem :: MSAFREE4:53
+  for A being non-empty MSAlgebra over S
+  for o being OperSymbol of S
+  for a1,a2 being FinSequence
+  st a1 in Args(o,TermAlg S) & a2 in Args(o,TermAlg S) &
+     for i being Nat st i in dom the_arity_of o
+     for s being SortSymbol of S st s = (the_arity_of o).i
+     for t1,t2 being Element of TermAlg S, s st t1 = a1.i & t2 = a2.i
+     holds A |= t1 '=' t2
+  for t1,t2 being Element of TermAlg S, the_result_sort_of o
+  st t1 = [o,the carrier of S]-tree a1 & t2 = [o,the carrier of S]-tree a2
+  holds A |= t1 '=' t2;
+
+definition
+  let S;
+  let T be EqualSet of S;
+  let A be MSAlgebra over S;
+  attr A is T-satisfying means
+:: MSAFREE4:def 11
+A |= T;
+end;
+
+registration
+  let S;
+  let T be EqualSet of S;
+  cluster T-satisfying non-empty trivial for MSAlgebra over S;
+end;
+
+registration
+  let S;
+  let T be EqualSet of S;
+  let A be T-satisfying non-empty MSAlgebra over S;
+  cluster A-Image -> T-satisfying for non-empty MSAlgebra over S;
+end;
+
+definition
+  let S;
+  let A be MSAlgebra over S;
+  let T be EqualSet of S;
+  let G be GeneratorSet of A;
+  attr G is T-free means
+:: MSAFREE4:def 12
+  for B be T-satisfying non-empty MSAlgebra over S
+  for f be ManySortedFunction of G, the Sorts of B
+  ex h be ManySortedFunction of A, B st
+  h is_homomorphism A,B & h || G = f;
+end;
+
+definition
+  let S;
+  let T be EqualSet of S;
+  let A be MSAlgebra over S;
+  attr A is T-free means
+:: MSAFREE4:def 13
+  ex G being GeneratorSet of A st G is T-free;
+end;
+
+definition
+  let S;
+  let A be MSAlgebra over S;
+  func Equations(S,A) -> EqualSet of S means
+:: MSAFREE4:def 14
+  for s being SortSymbol of S holds
+  it.s = {e where e is Element of (Equations S).s: A |= e};
+end;
+
+theorem :: MSAFREE4:54
+  for A being MSAlgebra over S
+  holds A |= Equations(S,A);
+
+registration
+  let S;
+  let A be non-empty MSAlgebra over S;
+  cluster -> Equations(S,A)-satisfying for A-Image MSAlgebra over S;
+end;
+
+begin :: Term correspondence
+
+scheme :: MSAFREE4:sch 3
+ TermDefEx{ S()-> non empty non void ManySortedSign,
+  X()-> non-empty ManySortedSet of S(),
+  R(set,set)->set, F(set,set)->set}:
+  ex F being ManySortedSet of S()-Terms X() st
+  (for s being SortSymbol of S(), x being Element of X().s holds
+  F.root-tree [x,s] = R(x,s)) &
+  for o being OperSymbol of S(), p being ArgumentSeq of Sym(o,X()) holds
+  F.(Sym(o,X())-tree p) = F(o,F*p);
+
+scheme :: MSAFREE4:sch 4
+ TermDefUniq{ S()-> non empty non void ManySortedSign,
+  X()-> non-empty ManySortedSet of S(),
+  R(set,set)->set, F(set,FinSequence)->set,
+  F1,F2()->ManySortedSet of S()-Terms X()}:
+  F1() = F2()
+  provided
+ (for s being SortSymbol of S(), x being Element of X().s holds
+    F1().root-tree [x,s] = R(x,s)) and
+ for o being OperSymbol of S(), p being ArgumentSeq of Sym(o,X()) holds
+    F1().(Sym(o,X())-tree p) = F(o,F1()*p) and
+ (for s being SortSymbol of S(), x being Element of X().s holds
+    F2().root-tree [x,s] = R(x,s)) and
+ for o being OperSymbol of S(), p being ArgumentSeq of Sym(o,X()) holds
+    F2().(Sym(o,X())-tree p) = F(o,F2()*p);
+
+definition
+  let S, X;
+  let w be ManySortedFunction of X, (the carrier of S) --> NAT;
+  let t be Function such that
+  t is Element of Free(S,X);
+  func #(t,w) -> Element of TermAlg S means
+:: MSAFREE4:def 15
+  ex F being ManySortedSet of S-Terms X st it = F.t &
+  (for s being SortSymbol of S, x being Element of X.s holds
+  F.root-tree [x,s] = root-tree [w.s.x,s]) &
+  for o being OperSymbol of S, p being ArgumentSeq of Sym(o,X) holds
+  F.(Sym(o,X)-tree p) = Sym(o,(the carrier of S)-->NAT)-tree(F*p);
+end;
+
+theorem :: MSAFREE4:55
+  for w being ManySortedFunction of X, (the carrier of S) --> NAT
+  for F being ManySortedSet of S-Terms X st
+  (for s being SortSymbol of S, x being Element of X.s holds
+  F.root-tree [x,s] = root-tree [w.s.x,s]) &
+  for o being OperSymbol of S, p being ArgumentSeq of Sym(o,X) holds
+  F.(Sym(o,X)-tree p) = Sym(o,(the carrier of S)-->NAT)-tree(F*p)
+  holds
+  for t being Element of Free(S,X) holds F.t = #(t,w);
+
+registration
+  let S, X;
+  let G be non-empty MSSubset of Free(S,X);
+  let s be SortSymbol of S;
+  cluster -> Relation-like Function-like for Element of G.s;
+end;
+
+theorem :: MSAFREE4:56
+  for w being ManySortedFunction of X, (the carrier of S) --> NAT
+  ex h being ManySortedFunction of Free(S,X), TermAlg S st
+  h is_homomorphism Free(S,X), TermAlg S &
+  for s being SortSymbol of S, t being Element of Free(S,X),s
+  holds #(t,w) = h.s.t;
+
+theorem :: MSAFREE4:57
+  for w being ManySortedFunction of X, (the carrier of S) --> NAT
+  for s being SortSymbol of S, x being Element of X.s
+  holds #(root-tree [x,s], w) = root-tree [w.s.x, s];
+
+theorem :: MSAFREE4:58
+  for w being ManySortedFunction of X, (the carrier of S) --> NAT
+  for o being OperSymbol of S, p being ArgumentSeq of Sym(o,X)
+  for q being FinSequence st dom q = dom p &
+  for i being Nat, t being Element of Free(S,X) st i in dom p & t = p.i
+  holds q.i = #(t,w)
+  holds #(Sym(o,X)-tree p, w) = Sym(o,(the carrier of S)-->NAT)-tree q;
+
+theorem :: MSAFREE4:59
+  for Y being ManySortedSubset of X
+  holds Free(S,Y) is MSSubAlgebra of Free(S,X);
+
+theorem :: MSAFREE4:60
+  for w being ManySortedFunction of X, (the carrier of S)-->NAT
+  for t being Term of S,X
+  holds #(t,w) is Element of Free(S, rngs w), the_sort_of t &
+  #(t,w) is Element of TermAlg S, the_sort_of t;
+
+theorem :: MSAFREE4:61
+  for w being ManySortedFunction of X, (the carrier of S) --> NAT
+  for F being ManySortedSet of S-Terms X st
+  (for s being SortSymbol of S, x being Element of X.s holds
+  F.root-tree [x,s] = root-tree [w.s.x,s]) &
+  for o being OperSymbol of S, p being ArgumentSeq of Sym(o,X) holds
+  F.(Sym(o,X)-tree p) = Sym(o,(the carrier of S)-->NAT)-tree(F*p)
+  for o being OperSymbol of S, p being ArgumentSeq of Sym(o,X) holds
+  F*p in Args(o, Free(S, rngs w)) &
+  F*p in Args(o, Free(S, (the carrier of S)-->NAT));
+
+theorem :: MSAFREE4:62
+  for w being ManySortedFunction of (the carrier of S)-->NAT, X
+  ex h being ManySortedFunction of TermAlg S, A st
+  h is_homomorphism TermAlg S, A &
+  for s being SortSymbol of S, i being Nat holds
+  h.s.root-tree [i,s] = root-tree [w.s.i, s];
+
+theorem :: MSAFREE4:63
+  for w being ManySortedFunction of X, (the carrier of S)-->NAT
+  ex h being ManySortedFunction of FreeGen X, the Sorts of TermAlg S st
+  for s being SortSymbol of S, i being Element of X.s holds
+  h.s.root-tree [i,s] = root-tree [w.s.i, s];
+
+begin :: Free algebras
+
+reserve X0 for non-empty countable ManySortedSet of S;
+reserve A0 for all_vars_including inheriting_operations free_in_itself
+  (X0,S)-terms MSAlgebra over S;
+
+theorem :: MSAFREE4:64
+  for h being ManySortedFunction of TermAlg S, A0 st
+  h is_homomorphism TermAlg S, A0
+  for w being ManySortedFunction of X0, (the carrier of S)-->NAT st w is "1-1"
+  ex Y being non-empty ManySortedSubset of (the carrier of S)-->NAT,
+  B being MSSubset of TermAlg S,
+  ww being ManySortedFunction of Free(S,Y), A0,
+  g being ManySortedFunction of A0,A0 st
+  Y = rngs w & B = the Sorts of Free(S,Y) & FreeGen rngs w c= B &
+  ww is_homomorphism Free(S,Y), A0 & g is_homomorphism A0,A0 & h||B = g**ww &
+  for s being SortSymbol of S, i being Nat st i in Y.s
+  ex x being Element of X0.s st w.s.x = i &
+  ww.s.root-tree [i,s] = root-tree [x, s];
+
+theorem :: MSAFREE4:65
+  for h being ManySortedFunction of Free(S,X), A st
+  h is_homomorphism Free(S,X), A
+  ex g being ManySortedFunction of A,A st
+  g is_homomorphism A,A & h = g**canonical_homomorphism A;
+
+theorem :: MSAFREE4:66
+  for o being OperSymbol of S
+  for x being Element of Args(o,A) holds
+  for x0 being Element of Args(o,Free(S,X)) st x0 = x holds
+  (canonical_homomorphism A)#x0 = x;
+
+theorem :: MSAFREE4:67
+  for o being OperSymbol of S
+  for x being Element of Args(o,A) holds
+  Den(o,A).x =
+  (canonical_homomorphism A).(the_result_sort_of o).(Den(o,Free(S,X)).x);
+
+theorem :: MSAFREE4:68
+  for h being ManySortedFunction of Free(S,X), A
+  st h is_homomorphism Free(S,X), A
+  for o being OperSymbol of S
+  for x being Element of Args(o,A) holds
+  h.(the_result_sort_of o).(Den(o,A).x)
+  = h.(the_result_sort_of o).(Den(o,Free(S,X)).x);
+
+theorem :: MSAFREE4:69
+  for h being ManySortedFunction of Free(S,X), A
+  st h is_homomorphism Free(S,X), A
+  for o being OperSymbol of S
+  for x being Element of Args(o,Free(S,X)) holds
+  h.(the_result_sort_of o).(Den(o,Free(S,X)).x)
+  = h.(the_result_sort_of o).(Den(o,Free(S,X)).
+  ((canonical_homomorphism A)#x));
+
+theorem :: MSAFREE4:70
+  for X0,Y0 being non-empty countable ManySortedSet of S
+  for A being all_vars_including inheriting_operations
+  (X0,S)-terms MSAlgebra over S
+  for h being ManySortedFunction of Free(S,Y0), A st
+  h is_homomorphism Free(S,Y0), A
+  ex g being ManySortedFunction of Free(S,Y0),Free(S,X0) st
+  g is_homomorphism Free(S,Y0),Free(S,X0) & h = (canonical_homomorphism A)**g &
+  for G being GeneratorSet of Free(S,Y0) st G = FreeGen Y0
+  holds g||G = h||G;
+
+theorem :: MSAFREE4:71
+  for w being ManySortedFunction of X0, (the carrier of S)-->NAT
+  for s being SortSymbol of S
+  for t being Element of Free(S,X0),s
+  for t1,t2 being Element of TermAlg S, s st
+  t1 = #(t,w) & t2 = #((canonical_homomorphism A0).s.t,w)
+  holds A0 |= t1 '=' t2;
+
+theorem :: MSAFREE4:72
+  for w being ManySortedFunction of X0, (the carrier of S)-->NAT
+  for o being OperSymbol of S
+  for p being Element of Args(o,Free(S,X0))
+  for q being Element of Args(o,A0) st (canonical_homomorphism A0)#p = q
+  for t1,t2 being Term of S,X0 st t1 = Den(o,Free(S,X0)).p & t2 = Den(o,A0).q
+  for t3,t4 being Element of TermAlg S, the_result_sort_of o
+  st t3 = #(t1,w) & t4 = #(t2,w) holds
+  A0 |= t3 '=' t4;
+
+theorem :: MSAFREE4:73
+  for w being ManySortedFunction of X0, (the carrier of S)-->NAT st w is "1-1"
+  ex g being ManySortedFunction of TermAlg S, Free(S,X0) st
+  g is_homomorphism TermAlg S, Free(S,X0) &
+  for s being SortSymbol of S
+  for t being Element of Free(S,X0),s holds g.s. #(t,w) = t;
+
+theorem :: MSAFREE4:74
+  for B being non-empty MSAlgebra over S
+  for h being ManySortedFunction of Free(S,X0),B
+  st h is_homomorphism Free(S,X0),B
+  for w being ManySortedFunction of X0, (the carrier of S)-->NAT st w is "1-1"
+  for s being SortSymbol of S
+  for t1,t2 being Element of Free(S,X0),s
+  for t3,t4 being Element of TermAlg S, s st t3 = #(t1,w) & t4 = #(t2,w) holds
+  B |= t3 '=' t4 implies h.s.t1 = h.s.t2;
+
+theorem :: MSAFREE4:75
+  for G being GeneratorSet of A0 st G = FreeGen X0
+  holds G is Equations(S,A0)-free;
+
+theorem :: MSAFREE4:76
+  A0 is Equations(S,A0)-free;
+
+begin :: Algebra of normal forms
+
+definition
+  let I be set;
+  let X,Y be ManySortedSet of I;
+  let R be ManySortedRelation of X,Y;
+  let x be object;
+  redefine func R.x -> Relation of X.x,Y.x;
+end;
+
+definition
+  let I be set;
+  let X be ManySortedSet of I;
+  let R be ManySortedRelation of X;
+  attr R is terminating means
+:: MSAFREE4:def 16
+  for x being set st x in I holds R.x is strongly-normalizing;
+  attr R is with_UN_property means
+:: MSAFREE4:def 17
+  for x being set st x in I holds R.x is with_UN_property;
+end;
+
+registration
+  cluster -> strongly-normalizing with_UN_property for empty set;
+end;
+
+theorem :: MSAFREE4:77
+  for I being set
+  for A being ManySortedSet of I
+  ex R being ManySortedRelation of A
+  st R = I-->{} & R is terminating;
+
+
+registration
+  let I be set;
+  let X be ManySortedSet of I;
+  cluster empty-yielding -> with_UN_property terminating
+  for ManySortedRelation of X;
+  cluster empty-yielding for ManySortedRelation of X;
+end;
+
+registration
+  let I be set;
+  let X be ManySortedSet of I;
+  let R be terminating ManySortedRelation of X;
+  let i be object;
+  cluster R.i -> strongly-normalizing for Relation;
+end;
+
+registration
+  let I be set;
+  let X be ManySortedSet of I;
+  let R be with_UN_property ManySortedRelation of X;
+  let i be object;
+  cluster R.i -> with_UN_property for Relation;
+end;
+
+definition
+  let S,X;
+  let R be ManySortedRelation of Free(S,X);
+  attr R is NF-var means
+:: MSAFREE4:def 18
+  for s being SortSymbol of S for x being Element of (FreeGen X).s
+  holds x is_a_normal_form_wrt R.s;
+end;
+
+theorem :: MSAFREE4:78
+  x is_a_normal_form_wrt {};
+
+registration
+  let S,X;
+  cluster empty-yielding -> NF-var invariant stable
+  for ManySortedRelation of Free(S,X);
+end;
+
+registration
+  let S,X;
+  cluster NF-var terminating with_UN_property
+  for invariant stable ManySortedRelation of Free(S,X);
+end;
+
+scheme :: MSAFREE4:sch 5
+ A {x1,x2()->set, R()->Relation, P[set] }:
+  P[x2()]
+  provided
+  P[x1()] and
+  R() reduces x1(),x2() and
+  for y,z being set st R() reduces x1(),y & [y,z] in R() &
+    P[y] holds P[z];
+
+scheme :: MSAFREE4:sch 6
+ B {x1,x2()->set, R()->Relation, P[set] }:
+  P[x1()]
+  provided
+  P[x2()] and
+  R() reduces x1(),x2() and
+  for y,z being set st [y,z] in R() & P[z] holds P[y];
+
+definition
+  let X be non empty set;
+  let R be with_UN_property strongly-normalizing Relation of X;
+  let x be Element of X;
+  redefine func nf(x,R) -> Element of X;
+end;
+
+definition
+  let I be non empty set;
+  let X be non-empty ManySortedSet of I;
+  let R be with_UN_property terminating ManySortedRelation of X;
+  func NForms R -> non-empty ManySortedSubset of X means
+:: MSAFREE4:def 19
+  for i being Element of I holds
+  it.i = the set of all nf(x,R.i) where x is Element of X.i;
+end;
+
+scheme :: MSAFREE4:sch 7
+ MSFLambda {B()->non empty set,D(object)->non empty set,
+  F(object,object)->set}:
+  ex f being ManySortedFunction of B() st
+  for o being Element of B() holds dom (f.o) = D(o) &
+  for x being Element of D(o) holds f.o.x = F(o,x);
+
+definition
+  let S,X;
+  let R be terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X);
+  func NFAlgebra R -> non-empty strict MSAlgebra over S means
+:: MSAFREE4:def 20
+  the Sorts of it = NForms R &
+  for o being OperSymbol of S, a being Element of Args(o,it) holds
+  Den(o,it).a = nf (Den(o,Free(S,X)).a, R.the_result_sort_of o);
+end;
+
+theorem :: MSAFREE4:79
+  for R being terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for a being SortSymbol of S
+  st x in (NForms R).a holds nf(x,R.a) = x;
+
+theorem :: MSAFREE4:80
+  for R being terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for g being ManySortedFunction of Free(S,X),Free(S,X)
+  st g is_homomorphism Free(S,X),Free(S,X)
+  for s being SortSymbol of S
+  for a being Element of Free(S,X),s holds
+  nf(g.s.nf(a,R.s), R.s) = nf(g.s.a, R.s);
+
+theorem :: MSAFREE4:81
+  for p being FinSequence holds p/^0 = p &
+  for i being Nat st i >= len p holds p/^i = {};
+
+theorem :: MSAFREE4:82
+  for p,q being FinSequence holds (p^<*x*>^q)+*(len p+1,y) = p^<*y*>^q;
+
+
+theorem :: MSAFREE4:83
+  for p being FinSequence, i being Nat st i+1 <= len p
+  holds p|(i+1) = (p|i)^<*p.(i+1)*>;
+
+theorem :: MSAFREE4:84
+  for p being FinSequence, i being Nat st i+1 <= len p
+  holds p/^i = <*p.(i+1)*>^(p/^(i+1));
+
+theorem :: MSAFREE4:85
+  for R being terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X)
+  for g being ManySortedFunction of Free(S,X),Free(S,X)
+  st g is_homomorphism Free(S,X),Free(S,X)
+  for h being ManySortedFunction of NFAlgebra R, NFAlgebra R
+  st for s being SortSymbol of S, x being Element of NFAlgebra R,s holds
+     h.s.x = nf(g.s.x,R.s)
+  for s being SortSymbol of S
+  for o being OperSymbol of S st s = the_result_sort_of o
+  for x being Element of Args(o,NFAlgebra R)
+  for y being Element of Args(o,Free(S,X)) st x = y holds
+  nf(Den(o,NFAlgebra R).(h#x),R.s) = nf(Den(o,Free(S,X)).(g#y),R.s);
+
+registration
+  let S,X;
+  let R be terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X);
+  cluster NFAlgebra R -> (X,S)-terms;
+end;
+
+registration
+  let S,X;
+  let R be NF-var terminating with_UN_property invariant stable
+  ManySortedRelation of Free(S,X);
+  cluster NFAlgebra R -> all_vars_including inheriting_operations
+  free_in_itself;
+end;
+

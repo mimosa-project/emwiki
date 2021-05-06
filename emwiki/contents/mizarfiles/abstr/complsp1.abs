@@ -1,0 +1,67 @@
+:: Complex Spaces
+::  by Czes{\l}aw Byli\'nski and Andrzej Trybulec
+::
+:: Received September 27, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, COMPLEX1, ARYTM_3, ARYTM_1, TARSKI, XBOOLE_0,
+      CARD_1, RCOMP_1, SETFAM_1, METRIC_1, PRE_TOPC, STRUCT_0, CARD_5,
+      COMPLSP1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0,
+      XREAL_0, SETFAM_1, REAL_1, COMPLEX1, FUNCT_1, RELSET_1, FUNCT_2,
+      STRUCT_0, PRE_TOPC, FINSEQ_1, VALUED_1, RVSUM_1, FINSEQ_2, SEQ_4;
+ constructors SETFAM_1, PARTFUN1, BINOP_1, SETWISEO, REAL_1, SQUARE_1, BINOP_2,
+      COMPLEX1, SEQ_4, FINSEQOP, RVSUM_1, COMPTS_1, XXREAL_2, RELSET_1;
+ registrations NUMBERS, XREAL_0, MEMBERED, FINSEQ_2, PRE_TOPC;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve n for Element of NAT,
+        x for Element of COMPLEX n;
+
+definition let n;
+  func the_Complex_Space n -> strict TopSpace equals
+:: COMPLSP1:def 1
+  TopStruct(#COMPLEX n,ComplexOpenSets(n)#);
+end;
+
+registration
+  let n;
+  cluster the_Complex_Space n -> non empty;
+end;
+
+theorem :: COMPLSP1:1
+  the topology of the_Complex_Space n = ComplexOpenSets n;
+
+theorem :: COMPLSP1:2
+  the carrier of the_Complex_Space n = COMPLEX n;
+
+reserve p,q for Point of the_Complex_Space n,
+  V for Subset of the_Complex_Space n;
+
+theorem :: COMPLSP1:3
+  p is Element of COMPLEX n;
+
+theorem :: COMPLSP1:4
+  for A being Subset of COMPLEX n st A = V holds A is open iff V is open;
+
+theorem :: COMPLSP1:5
+  for A being Subset of COMPLEX n st A = V holds A is closed iff V is closed;
+
+theorem :: COMPLSP1:6
+  the_Complex_Space n is T_2;
+
+theorem :: COMPLSP1:7
+  the_Complex_Space n is regular;

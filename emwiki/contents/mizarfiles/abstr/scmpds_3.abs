@@ -1,0 +1,196 @@
+:: Computation and Program Shift in the SCMPDS Computer
+::  by JingChao Chen
+::
+:: Received June 15, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, SCMPDS_2, INT_1, FSM_1, AMI_1, COMPLEX1,
+      ARYTM_3, FUNCT_1, AMI_2, STRUCT_0, XBOOLE_0, RELAT_1, TARSKI, CARD_1,
+      AMI_3, GRAPHSP, EXTPRO_1, XXREAL_0, ARYTM_1, FUNCT_4, FUNCOP_1, CIRCUIT2,
+      PARTFUN1, AMISTD_5, FINSET_1, COMPOS_1, GOBRD13, NAT_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, RELAT_1,
+      FUNCT_1, PARTFUN1, FUNCT_4, FINSET_1, INT_1, NAT_1, STRUCT_0, FUNCOP_1,
+      INT_2, XXREAL_0, MEMSTR_0, COMPOS_1, EXTPRO_1, AMI_2, AMISTD_5, SCMPDS_2;
+ constructors DOMAIN_1, INT_2, SCMPDS_1, SCMPDS_2, REAL_1, PRE_POLY, AMI_3,
+      AMISTD_5, FUNCT_7, RELSET_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, INT_1, CARD_3,
+      AMI_3, SCMPDS_2, FINSET_1, COMPOS_1, EXTPRO_1, FUNCT_4, FUNCOP_1,
+      MEMSTR_0, COMPOS_0, NAT_1;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve j, k, m, n for Nat,
+  a,b for Int_position,
+  k1,k2 for Integer;
+
+reserve P,P1,P2 for Instruction-Sequence of SCMPDS;
+
+theorem :: SCMPDS_3:1
+  for k1 be Integer,s1,s2 being State of SCMPDS st IC s1 = IC s2
+  holds ICplusConst(s1,k1)=ICplusConst(s2,k1);
+
+theorem :: SCMPDS_3:2
+  for k1 be Integer,a be Int_position,s1,s2 being State of SCMPDS
+  st DataPart s1 = DataPart s2 holds s1.DataLoc(s1.a,k1)=s2.DataLoc(s2.a,k1);
+
+theorem :: SCMPDS_3:3
+  for a be Int_position,s1,s2 being State of SCMPDS st DataPart s1
+  = DataPart s2 holds s1.a=s2.a;
+
+theorem :: SCMPDS_3:4
+  not IC SCMPDS in SCM-Data-Loc;
+
+begin :: Finite partial states of SCMPDS
+
+::$CT
+
+theorem :: SCMPDS_3:6
+  for s being State of SCMPDS ,iloc being Nat
+  , a being Int_position holds s.a = (s +* Start-At(iloc,SCMPDS)).a;
+
+theorem :: SCMPDS_3:7
+  for s, t being State of SCMPDS holds s +* t|(SCM-Data-Loc ) is State
+  of SCMPDS;
+
+begin :: Autonomic finite partial states of SCMPDS and its computation
+
+definition
+  let la be Int_position;
+  let a be Integer;
+  redefine func la .--> a -> FinPartState of SCMPDS;
+end;
+
+registration
+ cluster SCMPDS -> IC-recognized;
+end;
+
+theorem :: SCMPDS_3:8
+  for s1,s2 being State of SCMPDS,k1,k2,m be Integer st IC s1= IC
+  s2 & k1 <> k2 & m=IC s1 & m+k1 >= 0 & m+k2 >= 0 holds ICplusConst(s1,k1) <>
+  ICplusConst(s2,k2);
+
+theorem :: SCMPDS_3:9
+  for s1,s2 being State of SCMPDS,k1,k2 be Nat st IC s1
+  = IC s2 & k1 <> k2 holds ICplusConst(s1,k1) <> ICplusConst(s2,k2);
+
+theorem :: SCMPDS_3:10
+  for s being State of SCMPDS holds IC s + 1 = ICplusConst(s,1);
+
+registration
+ cluster SCMPDS -> CurIns-recognized;
+end;
+
+theorem :: SCMPDS_3:11
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2 &
+ q c= P1 & q c= P2
+ for i being Nat,k1,k2 be Integer,a,b be Int_position st CurInstr(P1,
+Comput(P1,s1,i)) = (a,k1) := (b,k2)
+& a in dom p & DataLoc(Comput(P1,s1,i).a,k1) in dom p holds Comput
+(P1,s1,i)
+.DataLoc(Comput(P1,s1,i).b,k2) = Comput(P2,s2,i).
+DataLoc(Comput(P2,s2,i).b,k2);
+
+theorem :: SCMPDS_3:12
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2  &
+ q c= P1 & q c= P2
+for i being Nat,k1,k2 be Integer,a,b be Int_position st CurInstr(P1,
+Comput(P1,s1,i)) = AddTo(a,k1,b,k2)
+& a in dom p & DataLoc(Comput(P1,s1,i).a,k1) in dom p holds Comput
+(P1,s1,i)
+.DataLoc(Comput(P1,s1,i).b,k2) = Comput(P2,s2,i).
+DataLoc(Comput(P2,s2,i).
+  b,k2);
+
+theorem :: SCMPDS_3:13
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2 &
+ q c= P1 & q c= P2
+for i being Nat,k1,k2 be Integer,a,b be Int_position st CurInstr(P1,
+Comput(P1,s1,i)) = SubFrom(a,k1,b,k2
+) & a in dom p & DataLoc(Comput(P1,s1,i).a,k1) in dom p holds
+Comput(P1,s1,
+i).DataLoc(Comput(P1,s1,i).b,k2) = Comput(P2,s2,i).
+DataLoc(Comput(P2,s2,i
+  ).b,k2);
+
+theorem :: SCMPDS_3:14
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2 &
+ q c= P1 & q c= P2
+for i being Nat,k1,k2 be
+Integer,a,b be Int_position st CurInstr(P1,
+Comput(P1,s1,i)) = MultBy(a,k1,b,k2)
+& a in dom p & DataLoc(Comput(P1,s1,i).a,k1) in dom p holds Comput
+(P1,s1,i)
+.DataLoc(Comput(P1,s1,i).a,k1) * Comput(P1,s1,i).
+DataLoc(Comput(P1,s1,i).
+b,k2) = Comput(P2,s2,i).DataLoc(Comput(P2,s2,i).a,k1)
+* Comput(P2,s2,i).
+  DataLoc(Comput(P2,s2,i).b,k2);
+
+theorem :: SCMPDS_3:15
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2  &
+ q c= P1 & q c= P2
+for i,m being Nat,a being
+Int_position,k1,k2 be Integer st CurInstr(P1,
+Comput(P1,s1,i)) = (a,k1)<>0_goto
+  k2 & m= IC Comput(P1,s1,i) & m+k2 >= 0 & k2 <> 1 holds (Comput(
+P1,s1,i).
+DataLoc(Comput(P1,s1,i).a,k1) = 0 iff Comput(P2,s2,i)
+.DataLoc(Comput(P2,s2,i).a,k1) = 0 );
+
+theorem :: SCMPDS_3:16
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2 &
+ q c= P1 & q c= P2
+for i,m being Nat,a being
+Int_position,k1,k2 be Integer st CurInstr(P1,
+Comput(P1,s1,i)) = (a,k1)<=0_goto
+  k2 & m= IC Comput(P1,s1,i) & m+k2 >= 0 & k2 <> 1 holds (Comput(
+P1,s1,i).
+DataLoc(Comput(P1,s1,i).a,k1) > 0 iff Comput(P2,s2,i)
+.DataLoc(Comput(P2,
+  s2,i).a,k1) > 0 );
+
+theorem :: SCMPDS_3:17
+  for q be non halt-free finite
+   (the InstructionsF of SCMPDS)-valued NAT-defined Function
+  for p being q-autonomic non empty FinPartState of SCMPDS, s1, s2
+being State of SCMPDS st  p c= s1 &  p c= s2  &
+ q c= P1 & q c= P2
+for i,m being Nat,a being
+Int_position,k1,k2 be Integer st CurInstr(P1,
+Comput(P1,s1,i)) = (a,k1)>=0_goto
+  k2 & m= IC Comput(P1,s1,i) & m+k2 >= 0 & k2 <> 1 holds (Comput(
+P1,s1,i).
+DataLoc(Comput(P1,s1,i).a,k1) < 0 iff Comput(P2,s2,i)
+.DataLoc(Comput(P2,
+  s2,i).a,k1) < 0 );
+

@@ -1,0 +1,474 @@
+:: Definition of Flat Poset and Existence Theorems for Recursive Call
+::  by Kazuhisa Ishida , Yasunari Shidama and Adam Grabowski
+:: 
+:: Received February 11, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies POSET_2, ORDERS_1, RELAT_1, RELAT_2, XBOOLE_0, STRUCT_0, FUNCT_1,
+      FUNCT_2, NAT_1, TREES_2, LATTICE3, TARSKI, ORDERS_2, ORDINAL2, ARYTM_3,
+      SEQM_3, LATTICES, YELLOW_0, POSET_1, NATTRA_1, MSAFREE1, ZFMISC_1,
+      SUBSET_1, NUMBERS, CARD_1, XXREAL_0, ABIAN, PARTFUN1, MCART_1, YELLOW_3,
+      ORDINAL1, WAYBEL_0, FINSET_1, TREES_1, PREFER_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, RELAT_2, FUNCT_1,
+      FINSET_1, CARD_1, ORDERS_1, RELSET_1, PARTFUN1, DOMAIN_1, FUNCT_2,
+      BINOP_1, FUNCOP_1, ORDINAL1, STRUCT_0, ORDERS_2, ORDERS_3, NUMBERS,
+      NAT_1, XTUPLE_0, XXREAL_0, ABIAN, XCMPLX_0, FUNCT_3, POSET_1, LATTICES,
+      YELLOW_2, YELLOW_3, LATTICE3, YELLOW_0, WAYBEL_0, LATTICE7, MCART_1;
+ constructors RELAT_2, PARTFUN1, ORDERS_2, ORDERS_3, FUNCOP_1, FUNCT_3,
+      FINSET_1, LATTICE7, CARD_1, BINOP_1, FUNCT_4, NAT_1, REAL_1, DOMAIN_1,
+      XXREAL_0, ARYTM_0, NUMBERS, XCMPLX_0, XREAL_0, ARYTM_1, ABIAN, XTUPLE_0,
+      LATTICE3, YELLOW_0, YELLOW_2, YELLOW_3, POSET_1, RELSET_1, MCART_1;
+ registrations XBOOLE_0, ORDINAL1, SUBSET_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, FRAENKEL, STRUCT_0, ORDERS_2, ORDERS_3, FUNCOP_1, XREAL_0,
+      NAT_1, NUMBERS, REAL_1, XXREAL_0, ARYTM_2, XCMPLX_0, RELAT_1, ORDERS_1,
+      XBOOLEAN, KNASTER, LATTICE3, YELLOW_0, ABIAN, YELLOW_2, YELLOW_3,
+      WAYBEL_0, WAYBEL10, WAYBEL24, POSET_1, YELLOW10, XTUPLE_0, ZFMISC_1,
+      MCART_1, CARD_1, FINSET_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+ reserve a,Z1,Z2,Z3 for set,
+         x,y,z for object,
+         k for Nat;
+
+theorem :: POSET_2:1
+  for P being lower-bounded non empty Poset,
+      p being Element of P
+        st p is_<=_than the carrier of P
+            holds p = Bottom P;
+
+theorem :: POSET_2:2
+  for P being chain-complete non empty Poset,
+      L being non empty Chain of P
+  for p being Element of P st p in L holds p <= sup L;
+
+theorem :: POSET_2:3
+  for P being chain-complete non empty Poset,
+      L being non empty Chain of P
+  for p1 being Element of P st
+     (for p being Element of P st p in L holds p<=p1) holds sup L <= p1;
+
+begin :: Product of Poset
+
+theorem :: POSET_2:4
+  for P,Q being non empty RelStr,
+      x being object holds
+    x is Element of [:P,Q:]
+     iff ex p being Element of P,q being Element of Q st x = [p,q];
+
+definition let P,Q be non empty Poset;
+           let L be non empty Chain of [:P,Q:];
+  redefine func proj1 L -> non empty Chain of P;
+   redefine func proj2 L -> non empty Chain of Q;
+end;
+
+:: Product of Function
+
+registration
+  let P,Q1,Q2 be non empty Poset;
+  let f1 be monotone Function of P,Q1;
+  let f2 be monotone Function of P,Q2;
+  cluster <:f1,f2:> -> monotone for Function of P, [:Q1,Q2:];
+end;
+
+registration
+  let P,Q be chain-complete non empty Poset;
+  cluster [:P,Q:] -> chain-complete;
+end;
+
+theorem :: POSET_2:5
+  for P,Q being chain-complete non empty Poset,
+      L being non empty Chain of [:P,Q:] holds
+    sup L = [sup (proj1 L), sup (proj2 L)];
+
+registration
+  let P,Q1,Q2 be strict chain-complete non empty Poset;
+  let f1 be continuous Function of P,Q1;
+  let f2 be continuous Function of P,Q2;
+  cluster <:f1,f2:> -> continuous for Function of P,[:Q1,Q2:];
+end;
+
+begin :: Flat Posets
+
+definition let IT be RelStr;
+  attr IT is flat means
+:: POSET_2:def 1
+  ex a being Element of IT st
+    for x,y being Element of IT holds (x <= y iff x = a or x = y);
+end;
+
+registration
+  cluster discrete -> reflexive for non empty RelStr;
+end;
+
+registration
+  cluster trivial -> flat for discrete non empty RelStr;
+end;
+
+registration
+  cluster strict non empty flat for Poset;
+end;
+
+registration
+  cluster flat -> reflexive transitive antisymmetric for RelStr;
+end;
+
+registration
+  cluster flat -> lower-bounded for non empty Poset;
+end;
+
+ reserve S for RelStr;
+ reserve P,Q for non empty flat Poset;
+ reserve p,p1,p2 for Element of P;
+ reserve K for non empty Chain of P;
+
+theorem :: POSET_2:6
+  for P being non empty flat Poset,
+      K being non empty Chain of P holds
+    ex a being Element of P st K = {a} or K = {Bottom P, a};
+
+theorem :: POSET_2:7
+  for f being Function of P,Q holds
+    ex a being Element of P st
+      (K = {a} & f.:K = {f.a}) or
+      (K = {Bottom P, a} & f.:K = {f.(Bottom P), f.a});
+
+theorem :: POSET_2:8
+  for f being Function of P,Q holds
+    f.(Bottom P) = Bottom Q implies f is monotone;
+
+theorem :: POSET_2:9
+  K = {Bottom P, p} implies sup K = p;
+
+registration
+  cluster strict non empty flat chain-complete for Poset;
+end;
+
+:: If P,Q is non empty flat RelStr, then P,Q is always chain-complete poset
+:: and function f : P -> Q st f.(Bottom P) = Bottom Q is always continuous
+:: (so, it is monotone too).
+:: So, we can use every theorems for continuous function on the non empty
+:: chain-complete poset such as fix point theorem (see POSET_1).
+
+registration
+  cluster non empty flat -> chain-complete for Poset;
+end;
+
+theorem :: POSET_2:10
+  for P,Q being strict non empty chain-complete flat Poset,
+      f being Function of P,Q
+     st f.(Bottom P) = Bottom Q holds f is continuous;
+
+begin :: Primaries for existence theorem of recursive call using Flatten
+
+ reserve X,Y for non empty set;
+
+definition
+  let X be non empty set;
+  func FlatRelat(X) -> Relation of succ(X),succ(X) equals
+:: POSET_2:def 2
+    ({[X,X]} \/ [:{X},X:]) \/ id X;
+end;
+
+theorem :: POSET_2:11
+  for x, y being Element of succ(X) holds
+    [x,y] in FlatRelat(X) iff x = X or x = y;
+
+definition let X be non empty set;
+  func FlatPoset(X) -> strict non empty chain-complete flat Poset equals
+:: POSET_2:def 3
+    RelStr(#succ(X), FlatRelat(X)#);
+end;
+
+theorem :: POSET_2:12
+  for x, y being Element of FlatPoset(X) holds
+    x <= y iff x = X or x = y;
+
+theorem :: POSET_2:13
+  X is Element of FlatPoset(X);
+
+registration
+  let X;
+  reduce Bottom FlatPoset(X) to X;
+end;
+
+definition
+  let x be object;
+  let X,Y be non empty set;
+  let f be Function of X,Y;
+  func Flatten(f,x) -> set equals
+:: POSET_2:def 4
+  f.x if x in X otherwise Y;
+end;
+
+definition
+  let X,Y be non empty set;
+  let f be Function of X,Y;
+  func Flatten f -> Function of FlatPoset(X),FlatPoset(Y) means
+:: POSET_2:def 5
+
+    it.X = Y &
+    for x being Element of FlatPoset(X) st x <> X holds it.x = f.x;
+end;
+
+registration
+  let X,Y be non empty set;
+  let f be Function of X,Y;
+  cluster Flatten f -> continuous;
+end;
+
+theorem :: POSET_2:14
+  for f being Function of X,Y st
+    x in X holds (Flatten f).x in Y;
+
+definition let X,Y;
+  func FlatConF(X,Y) -> strict chain-complete non empty Poset equals
+:: POSET_2:def 6
+    ConPoset(FlatPoset(X),FlatPoset(Y));
+end;
+
+registration let L be flat Poset;
+  cluster -> finite for Chain of L;
+end;
+
+registration
+  cluster non empty flat lower-bounded for LATTICE;
+end;
+
+theorem :: POSET_2:15
+  for L being non empty LATTICE,
+      x being Element of L,
+      A being Chain of x,x holds
+    card A = 1;
+
+theorem :: POSET_2:16
+  for L being non empty flat lower-bounded LATTICE,
+      x being Element of L,
+      A being Chain of Bottom L, x holds
+    card A <= 2;
+
+theorem :: POSET_2:17
+  for L being finite lower-bounded antisymmetric non empty LATTICE holds
+    L is flat iff for x being Element of L holds height x <= 2;
+
+begin :: Existence theorem of recursive call for sigle-equation
+
+ reserve D for Subset of X;
+ reserve I for Function of X,Y;
+ reserve J for Function of [:X,Y:], Y;
+ reserve E for Function of X,X;
+
+definition
+  let X be non empty set;
+  let D be Subset of X;
+  let E be Function of X,X;
+  pred E is_well_founded_with_minimal_set D means
+:: POSET_2:def 7
+  ex l being Function of X,NAT st for x being Element of X holds
+     (l.x <= 0 implies x in D) &
+     (not x in D implies l.(E.x) < l.x);
+end;
+
+definition
+  let X,Y be non empty set;
+  let D be Subset of X;
+  let I be Function of X,Y;
+  let J be Function of [:X,Y:], Y;
+  let x, y be object;
+  func BaseFunc01(x,y,I,J,D) -> set equals
+:: POSET_2:def 8
+    I.x if x in D,
+    J.[x,y] if (not x in D) & x in X & y in Y
+    otherwise Y;
+end;
+
+definition
+  let X,Y be non empty set;
+  let D be Subset of X;
+  let I be Function of X,Y;
+  let J be Function of [:X,Y:], Y;
+  let E be Function of X,X;
+  let h be object;
+  assume
+  h is continuous Function of FlatPoset(X),FlatPoset(Y);
+  func RecFunc01(h,E,I,J,D)
+        -> continuous Function of FlatPoset(X),FlatPoset(Y) means
+:: POSET_2:def 9
+
+   for x being Element of FlatPoset(X),
+       f being continuous Function of FlatPoset(X),FlatPoset(Y)
+        st h = f holds
+     it.x = BaseFunc01(x,f.((Flatten E).x),I,J,D);
+end;
+
+theorem :: POSET_2:18
+  ex W being continuous Function of FlatConF(X,Y),FlatConF(X,Y)
+    st for f being Element of ConFuncs(FlatPoset(X),FlatPoset(Y))
+      holds W.f = RecFunc01(f,E,I,J,D);
+
+theorem :: POSET_2:19
+  ex f being set st f in ConFuncs(FlatPoset(X),FlatPoset(Y)) &
+     f = RecFunc01(f,E,I,J,D);
+
+theorem :: POSET_2:20
+  E is_well_founded_with_minimal_set D implies
+    ex f being continuous Function of FlatPoset(X),FlatPoset(Y) st
+       for x being Element of X holds
+           f.x in Y & f.x = BaseFunc01(x,f.(E.x),I,J,D);
+
+:: Existence
+
+theorem :: POSET_2:21
+  E is_well_founded_with_minimal_set D implies
+    ex f being Function of X,Y st
+       for x being Element of X holds
+         (x in D implies f.x = I.x) &
+         (not x in D implies f.x = J.[x,f.(E.x)]);
+
+:: Uniqueness
+
+theorem :: POSET_2:22
+  for f1,f2 being Function of X,Y holds
+    E is_well_founded_with_minimal_set D &
+    (for x being Element of X holds
+       (x in D implies f1.x = I.x) &
+       (not x in D implies f1.x = J.[x,f1.(E.x)])) &
+    (for x being Element of X holds
+       (x in D implies f2.x = I.x) &
+       (not x in D implies f2.x = J.[x,f2.(E.x)]))
+      implies f1 = f2;
+
+begin :: Existence theorem of recursive calls for 2-equations
+
+ reserve D for Subset of X;
+ reserve I,I1,I2 for Function of X,Y;
+ reserve J,J1,J2 for Function of [:X,Y,Y:], Y;
+ reserve E1,E2 for Function of X,X;
+
+definition
+  let X be non empty set;
+  let D be Subset of X;
+  let E1,E2 be Function of X,X;
+  pred E1,E2 is_well_founded_with_minimal_set D means
+:: POSET_2:def 10
+  ex l being Function of X,NAT st for x being Element of X holds
+     (l.x <= 0 implies x in D) &
+     (not x in D implies l.(E1.x) < l.x & l.(E2.x) < l.x);
+end;
+
+definition
+  let X,Y be non empty set;
+  let D be Subset of X;
+  let I be Function of X,Y;
+  let J be Function of [:X,Y,Y:], Y;
+  let x, y1, y2 be object;
+  func BaseFunc02(x,y1,y2,I,J,D) -> set equals
+:: POSET_2:def 11
+     I.x if x in D,
+     J.[x,y1,y2] if (not x in D) & (x in X & y1 in Y & y2 in Y)
+     otherwise Y;
+end;
+
+definition
+  let X,Y be non empty set;
+  let D be Subset of X;
+  let I be Function of X,Y;
+  let J be Function of [:X,Y,Y:], Y;
+  let E1,E2 be Function of X,X;
+  let h1,h2 be object;
+  assume
+h1 is continuous Function of FlatPoset(X),FlatPoset(Y) &
+    h2 is continuous Function of FlatPoset(X),FlatPoset(Y);
+  func RecFunc02(h1,h2,E1,E2,I,J,D)
+        -> continuous Function of FlatPoset(X),FlatPoset(Y) means
+:: POSET_2:def 12
+
+   for x being Element of FlatPoset X,
+       f1,f2 being continuous Function of FlatPoset(X),FlatPoset(Y)
+       st h1 = f1 & h2 = f2 holds
+     it.x = BaseFunc02(x,f1.((Flatten E1).x),f2.((Flatten E2).x),I,J,D);
+end;
+
+theorem :: POSET_2:23
+  ex W being continuous Function of
+            [:FlatConF(X,Y),FlatConF(X,Y):],FlatConF(X,Y)
+     st for f being set
+             st f in [:ConFuncs(FlatPoset(X),FlatPoset(Y)),
+                       ConFuncs(FlatPoset(X),FlatPoset(Y)):]
+            holds W.f = RecFunc02(f`1,f`2,E1,E2,I,J,D);
+
+theorem :: POSET_2:24
+  ex f,g being set st
+     f in ConFuncs(FlatPoset(X),FlatPoset(Y)) &
+     g in ConFuncs(FlatPoset(X),FlatPoset(Y)) &
+     f = RecFunc02(f,g,E1,E2,I1,J1,D) &
+     g = RecFunc02(f,g,E1,E2,I2,J2,D);
+
+theorem :: POSET_2:25
+  E1,E2 is_well_founded_with_minimal_set D implies
+    ex f,g being continuous Function of FlatPoset(X),FlatPoset(Y) st
+       for x being Element of X holds
+           (f.x in Y & f.x = BaseFunc02(x,f.(E1.x),g.(E2.x),I1,J1,D) &
+            g.x in Y & g.x = BaseFunc02(x,f.(E1.x),g.(E2.x),I2,J2,D));
+
+:: Existence
+
+theorem :: POSET_2:26
+  E1,E2 is_well_founded_with_minimal_set D implies
+    ex f,g being Function of X,Y st
+       for x being Element of X holds
+         (x in D implies f.x = I1.x & g.x = I2.x) &
+         (not x in D implies f.x = J1.[x,f.(E1.x),g.(E2.x)] &
+                             g.x = J2.[x,f.(E1.x),g.(E2.x)]);
+
+:: Uniqueness
+
+theorem :: POSET_2:27
+  for f1,g1,f2,g2 being Function of X,Y holds
+    E1,E2 is_well_founded_with_minimal_set D &
+    (for x being Element of X holds
+         (x in D implies f1.x = I1.x & g1.x = I2.x) &
+         (not x in D implies f1.x = J1.[x,f1.(E1.x),g1.(E2.x)] &
+                             g1.x = J2.[x,f1.(E1.x),g1.(E2.x)]) ) &
+    (for x being Element of X holds
+         (x in D implies f2.x = I1.x & g2.x = I2.x) &
+         (not x in D implies f2.x = J1.[x,f2.(E1.x),g2.(E2.x)] &
+                             g2.x = J2.[x,f2.(E1.x),g2.(E2.x)]) )
+         implies f1 = f2 & g1 = g2;
+
+:: In the case of I1 = I2 (=I) and J1 = J2 (=J), we get the following theorems.
+:: For example, they are used to define the evaluate function for the binary tree(x) ,
+:: when the treatments of the left side sub tree(E1.x) and the right side sub tree(E2.x) are same.
+
+:: Existence
+theorem :: POSET_2:28
+  E1,E2 is_well_founded_with_minimal_set D implies
+    ex f being Function of X,Y st
+       for x being Element of X holds
+         (x in D implies f.x = I.x) &
+         (not x in D implies f.x = J.[x,f.(E1.x),f.(E2.x)]);
+
+:: Uniqueness
+
+theorem :: POSET_2:29
+  for f1,f2 being Function of X,Y holds
+    E1,E2 is_well_founded_with_minimal_set D &
+    (for x being Element of X holds
+       (x in D implies f1.x = I.x) &
+       (not x in D implies f1.x = J.[x,f1.(E1.x),f1.(E2.x)])) &
+    (for x being Element of X holds
+       (x in D implies f2.x = I.x) &
+       (not x in D implies f2.x = J.[x,f2.(E1.x),f2.(E2.x)]))
+      implies f1 = f2;

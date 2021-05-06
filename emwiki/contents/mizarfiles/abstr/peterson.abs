@@ -1,0 +1,447 @@
+:: Event-based Proof of the Mutual Exclusion Property of {P}eterson's
+:: Algorithm
+::  by Ievgen Ivanov , Mykola Nikitchenko and Uri Abraham
+::
+:: Received August 14, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies PETERSON, ABCMIZ_0, WAYBEL_3, RPR_1, MEMSTR_0, SUBSET_1,
+      XBOOLE_0, RELAT_1, FUNCT_1, XXREAL_0, ARYTM_3, CARD_1, PARTFUN1, TARSKI,
+      ZFMISC_1, ORDERS_1, ORDERS_2, RELAT_2, STRUCT_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, RELAT_1, RELSET_1, FUNCT_1,
+      SETFAM_1, FUNCT_2, PARTFUN1, STRUCT_0, BINOP_1, ORDERS_1, ORDERS_2,
+      RELAT_2;
+ constructors BINOP_1, BINOP_2, STRUCT_0, ORDERS_1, ORDERS_2, DICKSON, RELAT_1,
+      RELAT_2;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, CARD_1, STRUCT_0,
+      NECKLA_3;
+ requirements NUMERALS, BOOLE, SUBSET;
+
+
+begin
+
+:: --------------------- Preliminaries ------------------------
+
+definition
+  struct (1-sorted) Values_with_TF
+  (#
+      carrier -> set,
+      True -> Element of the carrier,
+      False -> Element of the carrier
+  #);
+end;
+
+definition
+  let A be Values_with_TF;
+  attr
+      A is consistent
+  means
+:: PETERSON:def 1
+      the True of A <> the False of A;
+end;
+
+registration
+  cluster consistent for Values_with_TF;
+end;
+
+definition
+  mode
+      Values_with_Bool
+  is
+      consistent Values_with_TF;
+end;
+
+definition
+  let A be RelStr;
+  attr
+      A is strongly_connected
+  means
+:: PETERSON:def 2
+      the InternalRel of A is_strongly_connected_in the carrier of A;
+end;
+
+registration
+  cluster non empty reflexive transitive strongly_connected for RelStr;
+end;
+
+definition
+  mode
+      LinearPreorder
+  is
+      reflexive transitive strongly_connected RelStr;
+end;
+
+:: ---------------------- Main structure -----------------------
+
+definition
+  let Values be Values_with_Bool;
+  struct Events_structure over Values
+  (#
+    events -> non empty LinearPreorder,
+    processes -> non empty set,
+    locations -> non empty set,
+    traces -> non empty set,
+    procE -> Function of
+                 the processes,
+                 bool the carrier of the events,
+    traceE -> Function of
+                 the traces,
+                 bool the carrier of the events,
+    readE -> Function of
+                 the locations,
+                 bool the carrier of the events,
+    writeE -> Function of
+                 the locations,
+                 bool the carrier of the events,
+    val_of -> PartFunc of
+                 the carrier of the events,
+                 the carrier of Values
+  #);
+end;
+
+:: ---------------------- Modes ---------------------------
+
+definition
+  let Values be Values_with_Bool,
+      S be Events_structure over Values;
+
+  mode
+      Process of S
+  is
+      Element of the processes of S;
+
+  mode
+      Event of S
+  is
+      Element of the carrier of the events of S;
+
+  mode
+      EventSet of S
+  is
+      Subset of the carrier of the events of S;
+
+  mode
+      Location of S
+  is
+      Element of the locations of S;
+
+  mode
+      trace of S
+  is
+      Element of the traces of S;
+end;
+
+:: ------------------ Reserve ----------------------------------
+
+reserve Values for Values_with_Bool;
+reserve a, a1, a2 for Element of the carrier of Values;
+reserve S for Events_structure over Values;
+reserve p, p1, p2 for Process of S;
+reserve x, x1, x2 for Location of S;
+reserve tr, tr1, tr2 for trace of S;
+reserve e, e0, e1, e2, e3, e4, e5 for Event of S;
+reserve E for EventSet of S;
+
+:: ----------------Predicates, functors, notation ---------------
+
+definition
+  let Values, S, e, x;
+
+  pred
+      e reads x
+  means
+:: PETERSON:def 3
+      e in (the readE of S) . x;
+
+  pred
+      e writesto x
+  means
+:: PETERSON:def 4
+      e in (the writeE of S) . x;
+end;
+
+definition
+  let Values, S, x, E;
+
+  pred
+      E reads x
+  means
+:: PETERSON:def 5
+      ex e st e in E & e reads x;
+
+  pred
+      E writesto x
+  means
+:: PETERSON:def 6
+      ex e st e in E & e writesto x;
+end;
+
+definition
+  let Values, S, e, tr;
+  pred
+      e in tr
+  means
+:: PETERSON:def 7
+      e in (the traceE of S) . tr;
+end;
+
+definition
+  let Values, S, e, p;
+  pred
+      e in p
+  means
+:: PETERSON:def 8
+      e in (the procE of S) . p;
+end;
+
+definition
+  let Values, S, e;
+  func
+      val e
+  equals
+:: PETERSON:def 9
+      (the val_of of S) . e;
+end;
+
+definition
+  let Values, S, e, p, tr;
+  pred
+      e in p,tr
+  means
+:: PETERSON:def 10
+      e in p & e in tr;
+end;
+
+definition
+  let Values, S, e, x, a;
+  pred
+      e writesto x,a
+  means
+:: PETERSON:def 11
+      e writesto x & val e = a;
+
+  pred
+      e reads x,a
+  means
+:: PETERSON:def 12
+      e reads x & val e = a;
+end;
+
+::------------------ Attributes -----------------------
+
+definition
+  let Values, S;
+
+  attr
+      S is pr-complete
+  means
+:: PETERSON:def 13
+      for tr, e st
+          e in tr
+      holds
+          ex p st e in p;
+
+  attr
+      S is pr-ordered
+  means
+:: PETERSON:def 14
+      for p, e1, e2 st
+          e1 in p &
+          e2 in p
+      holds
+          (e1 <= e2 & e2 <= e1 implies e1 = e2);
+
+  attr
+      S is rw-ordered
+  means
+:: PETERSON:def 15
+      for x, e1, e2 st
+          (e1 reads x or e1 writesto x) &
+          (e2 reads x or e2 writesto x)
+      holds
+          (e1 <= e2 & e2 <= e1 implies e1 = e2);
+
+  attr
+      S is rw-consistent
+  means
+:: PETERSON:def 16
+      for tr, x, e, a st
+          e in tr & e reads x & val e = a
+      holds
+          ex e0 st
+             e0 in tr & e0 < e & e0 writesto x & val e0 = a &
+             for e1 st
+                 e1 in tr & e1 <= e & e1 writesto x
+             holds
+                 e1 <= e0;
+
+  attr
+      S is rw-exclusive
+  means
+:: PETERSON:def 17
+      for e, x1, x2 holds
+          not (e reads x1 & e writesto x2);
+end;
+
+definition
+  let Values, S;
+  attr
+      S is consistent
+  means
+:: PETERSON:def 18
+      S is pr-complete pr-ordered rw-ordered
+           rw-consistent rw-exclusive;
+end;
+
+registration
+  let Values;
+  cluster consistent for Events_structure over Values;
+end;
+
+definition
+  let Values;
+  mode
+      DistributedSysWithSharedMem of Values
+  is
+      consistent Events_structure over Values;
+end;
+
+:: -------------------------- Peterson's algorithm ---------------------------
+
+reserve DS for DistributedSysWithSharedMem of Values;
+reserve p, p1, p2 for Process of DS;
+reserve x, x1, x2, flag1, flag2, turn for Location of DS;
+reserve tr, tr1, tr2 for trace of DS;
+reserve e, e0, e1, e2, e3, e4, e5 for Event of DS;
+reserve E for EventSet of DS;
+
+definition
+  let Values, DS, e1, e2;
+  pred e1 << e2 means
+:: PETERSON:def 19
+    e1 <= e2 & not (e2 <= e1);
+end;
+
+definition
+  let Values, DS, e1, e2;
+  func
+      (e1,e2) inter -> EventSet of DS
+  equals
+:: PETERSON:def 20
+      { e : e1 < e & e < e2 };
+end;
+
+definition
+  let Values, DS, e1, e2, p, tr;
+  func
+      (e1,e2) interval_in (p,tr) -> EventSet of DS
+  equals
+:: PETERSON:def 21
+      { e : e1 < e & e < e2 & e in p,tr };
+end;
+
+theorem :: PETERSON:1
+  (e1,e2) interval_in (p,tr) c= (e1,e2) inter;
+
+theorem :: PETERSON:2
+  e1 <= e2 or e2 <= e1;
+
+theorem :: PETERSON:3
+  e in p,tr & e1 < e & e < e2 implies e in (e1,e2) interval_in (p,tr);
+
+theorem :: PETERSON:4
+  e1 < e2 implies e1 <= e2;
+
+theorem :: PETERSON:5
+  e1 in p & e2 in p & e1 < e2 implies e1 << e2;
+
+theorem :: PETERSON:6
+  e1 in p,tr & e2 in p,tr & e1 < e2 implies e1 << e2;
+
+theorem :: PETERSON:7
+  e1 << e2 implies e1 < e2;
+
+theorem :: PETERSON:8
+  e1 in p & e2 in p implies e1 = e2 or e1 << e2 or e2 << e1;
+
+theorem :: PETERSON:9
+  e1 <= e2 & e2 <= e3 implies e1 <= e3;
+
+theorem :: PETERSON:10
+  e1 <= e2 & e2 << e3 implies e1 << e3;
+
+theorem :: PETERSON:11
+  e1 << e2 & e2 <= e3 implies e1 << e3;
+
+theorem :: PETERSON:12
+  e1 << e2 & e2 << e3 implies e1 << e3;
+
+definition
+  let Values, DS, e1, e2;
+  :: simultaneous events
+  pred simultev e1, e2 means
+:: PETERSON:def 22
+e1 <= e2 & e2 <= e1;
+end;
+
+theorem :: PETERSON:13
+  not simultev e1, e2 implies e1 << e2 or e2 << e1;
+
+definition
+  let Values, DS, p, tr, e, x1, x2, turn, a1, a2;
+  pred e has_Peterson_mutex_in p,x1,x2,turn,a1,a2,tr means
+:: PETERSON:def 23
+      ex e1, e2, e3 st
+          e1 in p,tr & e2 in p,tr & e3 in p,tr &
+          e1 < e2 & e2 < e3 & e3 < e &
+          e1 writesto x1,the True of Values &
+             not (e1,e) interval_in (p,tr) writesto x1 &
+          e2 writesto turn,a2 &
+             not (e2,e) interval_in (p,tr) writesto turn &
+         (e3 reads x2,the False of Values or e3 reads turn,a1);
+end;
+
+definition
+  let Values, DS, tr;
+  let Es be set;
+  pred Es has_Peterson_mutex_in tr means
+:: PETERSON:def 24
+       ex p1, p2 st
+         ((for p being Process of DS holds p = p1 or p = p2) &
+           ex flag1, flag2, turn st
+             (for e st e in p1,tr holds
+               not e writesto flag2 &
+               not e writesto turn,the False of Values) &
+             (for e st e in p2,tr holds
+               not e writesto flag1 &
+               not e writesto turn, the True of Values) &
+             for e st e in Es holds
+                 e has_Peterson_mutex_in p1, flag1, flag2, turn,
+                     the False of Values, the True of Values, tr &
+                 e has_Peterson_mutex_in p2, flag2, flag1, turn,
+                     the True of Values, the False of Values, tr);
+end;
+
+theorem :: PETERSON:14
+  e1 in tr & e2 in tr &
+  e1 reads x,a1 & e2 reads x,a2 & e1<=e2 & a1<>a2
+implies
+  ex e st
+    e in tr & e1 << e & e << e2 & e writesto x,a2;
+
+::$N Main result: Mutual exclusion property of Peterson's algorithm
+
+theorem :: PETERSON:15
+  e1 in tr & e2 in tr & {e1, e2} has_Peterson_mutex_in tr
+implies
+  e1 = e2 or e1 << e2 or e2 << e1;

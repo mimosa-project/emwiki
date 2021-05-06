@@ -1,0 +1,237 @@
+:: Preliminaries to Circuits, I
+::  by Yatsuka Nakamura, Piotr Rudnicki, Andrzej Trybulec and Pauline N. Kawamoto
+::
+:: Received November 17, 1994
+:: Copyright (c) 1994-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSET_1, XBOOLE_0, SUBSET_1, TARSKI, FUNCT_1, RELAT_1,
+      FUNCOP_1, FUNCT_4, PBOOLE, FINSEQ_1, CARD_3, PARTFUN1, FUNCT_5, FUNCT_2,
+      ZFMISC_1, FUNCT_6, NAT_1, CARD_1, ARYTM_3, MCART_1, FINSEQ_2, TREES_1,
+      TREES_3, TREES_2, ORDINAL4, TREES_A, XXREAL_0, TREES_4, ARYTM_1, REAL_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XCMPLX_0, XREAL_0, XTUPLE_0,
+      MCART_1, CARD_1, RELAT_1, FUNCT_1, FINSET_1, PARTFUN1, FUNCT_2, ORDINAL1,
+      NUMBERS, XXREAL_0, XXREAL_2, BINOP_1, FUNCOP_1, FUNCT_4, FUNCT_7, CARD_3,
+      TREES_2, TREES_1, TREES_3, TREES_4, FUNCT_5, FUNCT_6, PBOOLE, FINSEQ_1,
+      FINSEQ_2, NAT_1, NAT_D;
+ constructors WELLORD2, BINOP_1, FUNCT_4, SETWISEO, XXREAL_0, NAT_1, FUNCT_5,
+      CARD_3, SEQ_4, PBOOLE, TREES_4, BINARITH, INT_1, XXREAL_2, PARTFUN1,
+      RELSET_1, FUNCT_7, XTUPLE_0, NAT_D;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, FUNCOP_1,
+      FINSET_1, XREAL_0, MEMBERED, FINSEQ_1, CARD_3, PBOOLE, TREES_2, TREES_3,
+      XXREAL_2, CARD_1, RELSET_1, TREES_1, XTUPLE_0, NAT_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+scheme :: PRE_CIRC:sch 1
+  FraenkelFinIm{ A() -> finite non empty set, F(set) -> set, P[set] }: { F(x)
+  where x is Element of A() : P[x] } is finite;
+
+begin
+
+::---------------------------------------------------------------------------
+:: Many Sorted Sets and Functions
+::---------------------------------------------------------------------------
+
+::$CT
+
+theorem :: PRE_CIRC:2
+  for I being set, MSS being ManySortedSet of I holds MSS#.<*>I = {{}};
+
+reserve i,j,x,y for object,
+  f,g for Function;
+
+scheme :: PRE_CIRC:sch 2
+  MSSLambda2Part { I() -> set, P [object], F, G (object) -> object }:
+  ex f being
+  ManySortedSet of I() st for i being Element of I() st i in I() holds (P[i]
+  implies f.i = F(i)) & (not P[i] implies f.i = G(i));
+
+registration
+  let I be set;
+  cluster non-empty finite-yielding for ManySortedSet of I;
+end;
+
+registration
+  let I be set, M be ManySortedSet of I, A be Subset of I;
+  cluster M | A -> total for A-defined Function;
+end;
+
+registration
+  let I be set, M be ManySortedSet of I, A be Subset of I;
+  cluster M | A -> total;
+end;
+
+registration
+  let M be non-empty Function, A be set;
+  cluster M | A -> non-empty;
+end;
+
+theorem :: PRE_CIRC:3
+  for I being non empty set, B being non-empty ManySortedSet of I
+  holds union rng B is non empty;
+
+theorem :: PRE_CIRC:4
+  for I being set holds uncurry (I --> {}) = {};
+
+theorem :: PRE_CIRC:5
+  for I being non empty set, A being set, B being non-empty
+ManySortedSet of I, F being ManySortedFunction of (I --> A qua total I-defined
+  Function), B holds dom commute F = A;
+
+scheme :: PRE_CIRC:sch 3
+  LambdaRecCorrD {D() -> non empty set, A() -> Element of D(), F(Nat, Element
+  of D()) -> Element of D() } : (ex f being sequence of  D() st f.0 = A() &
+for i being Nat holds f.(i+1) = F(i, f.i)) & for f1, f2 being sequence of
+D() st (f1.0 = A() & for i being Nat holds f1.(i+1) = F(i, f1.i)) & (f2.0 = A()
+  & for i being Nat holds f2.(i+1) = F(i,f2.i)) holds f1 = f2;
+
+scheme :: PRE_CIRC:sch 4
+  LambdaMSFD{J() -> non empty set, I() -> Subset of J(), A, B() ->
+ManySortedSet of I(), F(object) -> set } :
+ex f being ManySortedFunction of A(), B
+  () st for i being Element of J() st i in I() holds f.i = F(i)
+provided
+ for i being Element of J() st i in I() holds F(i) is Function of A()
+.i, B().i;
+
+theorem :: PRE_CIRC:6
+  for I being set, f being non-empty ManySortedSet of I, g being
+Function , s being Element of product f st dom g c= dom f & for x being set st
+  x in dom g holds g.x in f.x holds s+*g is Element of product f;
+
+theorem :: PRE_CIRC:7
+  for A, B being non empty set, C being non-empty ManySortedSet of A,
+  InpFs being ManySortedFunction of A --> B, C, b being Element of B ex c being
+  ManySortedSet of A st c = (commute InpFs).b & c in C;
+
+theorem :: PRE_CIRC:8
+  for n being Nat, a being set holds product ( n |-> {a} ) =
+  { n |-> a };
+
+begin
+
+::---------------------------------------------------------------------------
+:: Trees
+::---------------------------------------------------------------------------
+
+reserve T,T1 for finite Tree,
+  t,p for Element of T,
+  t1 for Element of T1;
+
+registration
+  let D be non empty set;
+  cluster -> finite for Element of FinTrees D;
+end;
+
+registration
+  let T be finite DecoratedTree;
+  let t be Element of dom T;
+  cluster T|t -> finite;
+end;
+
+theorem :: PRE_CIRC:9
+  T|p,{ t : p is_a_prefix_of t } are_equipotent;
+
+registration
+  let T be finite DecoratedTree-like Function;
+  let t be Element of dom T;
+  let T1 be finite DecoratedTree;
+  cluster T with-replacement (t,T1) -> finite;
+end;
+
+theorem :: PRE_CIRC:10
+  T with-replacement (p,T1) = { t : not p is_a_prefix_of t } \/ the set of all
+  p^t1;
+
+theorem :: PRE_CIRC:11
+  for f being FinSequence of NAT st f in T with-replacement (p,T1)
+  & p is_a_prefix_of f ex t1 st f = p^t1;
+
+theorem :: PRE_CIRC:12
+  for p being Tree-yielding FinSequence, k being Element of NAT st
+  k+1 in dom p holds (tree p)|<*k*> = p.(k+1);
+
+theorem :: PRE_CIRC:13
+  for q being DTree-yielding FinSequence, k being Nat st k+1
+  in dom q holds <*k*> in tree doms q;
+
+theorem :: PRE_CIRC:14
+  for p,q being Tree-yielding FinSequence, k being Element of NAT
+st len p = len q & k+1 in dom p & for i being Nat st i in dom p & i
+<> k+1 holds p.i = q.i for t being Tree st q.(k+1) = t holds tree(q) = tree(p)
+  with-replacement (<*k*>, t);
+
+theorem :: PRE_CIRC:15
+  for e1,e2 being finite DecoratedTree, x being set, k being Element of
+NAT, p being DTree-yielding FinSequence st <*k*> in dom e1 & e1 = x-tree p ex q
+being DTree-yielding FinSequence st e1 with-replacement (<*k*>,e2) = x-tree q &
+len q = len p & q.(k+1) = e2 & for i being Nat st i in dom p & i <>
+  k+1 holds q.i = p.i;
+
+theorem :: PRE_CIRC:16
+  for T being finite Tree, p being Element of T st p <> {} holds card (T
+  |p) < card T;
+
+theorem :: PRE_CIRC:17
+  for T, T1 being finite Tree, p being Element of T holds card(T
+  with-replacement (p,T1)) + card (T|p) = card T + card T1;
+
+theorem :: PRE_CIRC:18
+  for T, T1 being finite DecoratedTree, p being Element of dom T holds
+  card(T with-replacement (p,T1)) + card (T|p) = card T + card T1;
+
+registration
+  let x be object;
+  cluster root-tree x -> finite;
+end;
+
+theorem :: PRE_CIRC:19
+  for x being set holds card root-tree x = 1;
+
+begin :: Addenda
+:: from AMISTD_2
+
+theorem :: PRE_CIRC:20
+  for F being non empty finite set holds card F - 1 = card F -' 1;
+
+:: from AMISTD_2, 2006.03.26, A.T.
+
+theorem :: PRE_CIRC:21
+  for f, g being Function holds dom f,dom g are_equipotent iff f,g
+  are_equipotent;
+
+theorem :: PRE_CIRC:22
+  for f, g being finite Function st dom f misses dom g holds card (f +*
+  g) = card f + card g;
+
+:: from SCMPDS_9. 2008.05.06, A.T.
+
+theorem :: PRE_CIRC:23
+  for n being Nat holds
+  {k where k is Nat: k > n} is infinite;
+
+theorem :: PRE_CIRC:24
+  for D being finite set, k being Nat st card D = k+1
+  ex x being Element of D,C being Subset of D st D = C \/ { x } & card C = k;
+
+theorem :: PRE_CIRC:25
+  for D being finite set st card D = 1 holds ex x being Element of D st D={x};
+
+reserve k for Nat;
+
+scheme :: PRE_CIRC:sch 5
+  MinValue { D() -> non empty finite set, F(Element of D())-> Real}:
+    ex x being Element of D() st for y being Element of D() holds F(x) <= F(y);
+

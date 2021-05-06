@@ -1,0 +1,270 @@
+:: The {M}atiyasevich Theorem -- Preliminaries
+::  by Karol P\kak
+:: 
+:: Received November 29, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XXREAL_0, SUBSET_1, TARSKI, ARYTM_3, RELAT_1, ARYTM_1,
+      CARD_1, SQUARE_1, REAL_1, PYTHTRIP, FUNCT_1, XBOOLE_0, ZFMISC_1, MCART_1,
+      NAT_1, INT_1, COMPLEX1, FINSEQ_1, NEWTON, PELLS_EQ, HILB10_1, ABSVALUE,
+      ABIAN, INT_2, XCMPLX_0, VALUED_0, FINSEQ_2, ORDINAL4, CARD_3, POWER;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, XTUPLE_0, SUBSET_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, XREAL_0, XXREAL_0, SQUARE_1, INT_1, FUNCT_1, DOMAIN_1,
+      PYTHTRIP, VALUED_0, FINSEQ_2, RVSUM_1, ABSVALUE, POWER, NEWTON, NAT_D,
+      PELLS_EQ, ABIAN, INT_2, FINSEQ_1;
+ constructors RELSET_1, DOMAIN_1, PEPIN, NEWTON, NAT_D, PELLS_EQ, ABSVALUE,
+      ABIAN, WSIERP_1, POWER;
+ registrations NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, ORDINAL1, SQUARE_1,
+      RELAT_1, FUNCT_1, XTUPLE_0, NAT_1, MEMBERED, MCART_1, NEWTON03, INT_1,
+      NEWTON, PYTHTRIP, VALUED_0, PELLS_EQ, ABIAN, NEWTON02, ABSVALUE, NAT_6,
+      XBOOLE_0, FINSEQ_1, FINSEQ_2, VALUED_1, CARD_1, RVSUM_1, POWER, NEWTON04;
+ requirements NUMERALS, SUBSET, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve i,j,n,n1,n2,m,k,u for Nat,
+        r,r1,r2 for Real,
+        x,y for Integer,
+        a,b for non trivial Nat;
+
+theorem :: HILB10_1:1
+  for F be FinSequence of NAT st
+    for k st 1 < k <= len F holds (F.k) mod n = 0
+  holds Sum F mod n = (F.1) mod n;
+
+theorem :: HILB10_1:2
+  for f be complex-valued FinSequence
+    ex e,o be complex-valued FinSequence st
+      len e = [\len f/2/] & len o = [/len f/2 \] &
+      Sum f = Sum e + Sum o &
+      for n holds e.n = f.(2*n) & o.n = f.(2*n-1);
+
+registration
+  let a;
+  cluster a^2 -' 1 -> non square;
+end;
+
+begin :: Solutions of Pell's Equation - Special Case
+
+definition
+  let a,n be Nat;
+  assume a is non trivial;
+  func Px(a,n) -> Nat means
+:: HILB10_1:def 1
+    for b be non trivial Nat st b=a
+    ex y be Nat st
+     it + y*sqrt (b^2-'1) =
+     ( (min_Pell's_solution_of (b^2-'1))`1 +
+           (min_Pell's_solution_of (b^2-'1))`2 *sqrt ((b^2-'1)) ) |^ n;
+end;
+
+definition
+  let a,n be Nat;
+  assume a is non trivial;
+  func Py(a,n) -> Nat means
+:: HILB10_1:def 2
+   for b be non trivial Nat st b=a holds
+     Px(b,n) + it*sqrt (b^2-'1) =
+     ( (min_Pell's_solution_of (b^2-'1))`1 +
+           (min_Pell's_solution_of (b^2-'1))`2 *sqrt ((b^2-'1)) ) |^ n;
+end;
+
+theorem :: HILB10_1:3
+  Px(a,0) = 1 & Py(a,0) = 0;
+
+theorem :: HILB10_1:4
+  [n1,n2] is Pell's_solution of (a^2-'1) implies
+    ex n st n1 = Px(a,n) & n2 = Py(a,n);
+
+theorem :: HILB10_1:5
+  [a,1] = min_Pell's_solution_of (a^2-'1);
+
+theorem :: HILB10_1:6
+  Px(a,n+1) = Px(a,n)*a + Py(a,n)*(a^2-'1) &
+  Py(a,n+1) = Px(a,n) + Py(a,n)*a;
+
+theorem :: HILB10_1:7
+  Px(a,n)^2 - (a^2-'1) *Py(a,n)^2 = 1;
+
+theorem :: HILB10_1:8
+  Px(a,n) + Py(a,n) * sqrt (a^2-'1)  = (a + sqrt (a^2-'1)) |^ n &
+  Px(a,n) + (- Py(a,n)) * sqrt (a^2-'1)  = (a - sqrt (a^2-'1)) |^ n;
+
+theorem :: HILB10_1:9
+  ex Fy,Fx be FinSequence of NAT st
+    Sum Fy = Py(a,n) & len Fy = [\ (n+1)/2 /] &
+    (for i st 1 <= i <= (n+1)/2 holds
+      Fy.i = (n choose (2*i-'1)) * a |^ (n+1-'2*i) * (a^2-'1) |^ (i-'1))&
+      a|^n + Sum Fx = Px(a,n) & len Fx = [\ n/2 /] &
+    for i st 1 <= i <= n/2 holds
+      Fx.i = (n choose (2*i)) * a |^ (n-'2*i) * (a^2-'1) |^ i;
+
+begin :: Solutions of Pell's Equation - Inequalities
+
+theorem :: HILB10_1:10
+  k <= n implies Px(a,k) <= Px(a,n);
+
+registration
+  let a,k;
+  cluster Px(a,k)-> positive;
+end;
+
+theorem :: HILB10_1:11
+  k < n implies Py(a,k) < Py(a,n);
+
+theorem :: HILB10_1:12
+  Py(a,k) = Py(a,n) implies k = n;
+
+theorem :: HILB10_1:13
+  Py(a,n) >= n;
+
+registration
+  let a;
+  let k be non zero Nat;
+  cluster Py(a,k) -> non zero;
+end;
+
+registration
+  let a be non trivial Nat;
+  let x be positive Nat;
+  cluster a*x -> non trivial;
+end;
+
+theorem :: HILB10_1:14
+   a <> 2 & k <= n implies 2 * Py(a,k) < Px(a,n);
+
+theorem :: HILB10_1:15
+  a = 2 & k <= n implies (sqrt 3) * Py(a,k) < Px(a,n);
+
+theorem :: HILB10_1:16
+   a = 2 & k < n implies (3 + 2*sqrt 3) * Py(a,k) < Px(a,n);
+
+theorem :: HILB10_1:17
+  (2*a-1)|^n *(a-1) <= Px(a,n+1) <= a * (2*a) |^ n &
+  (2*a-1)|^n        <= Py(a,n+1) <= (2*a) |^ n;
+
+theorem :: HILB10_1:18
+  for x be positive Nat holds
+    x|^n * (1-1/(2*a*x)) |^ n
+      <= Py(a*x,n+1)/Py(a,n+1)
+        <= (x|^n) * (1 / (1-1/(2*a))|^n);
+
+theorem :: HILB10_1:19
+  for x be positive Nat st a > 2*n*(x|^n) holds
+     x|^n - 1/2 < Py(a*x,n+1)/Py(a,n+1) < x|^n + 1/2;
+
+begin :: Solutions of Pell's Equation - Equality
+
+theorem :: HILB10_1:20
+  x >=0 implies sgn(x)*Py(a,|.x.|) = Py(a,|.x.|);
+
+theorem :: HILB10_1:21
+  x <= 0 implies sgn(x)*Py(a,|.x.|) = -Py(a,|.x.|);
+
+theorem :: HILB10_1:22
+  Px(a,|.x+y.|) = Px(a,|.x.|)*Px(a,|.y.|) +
+         (a^2-'1) * sgn(x)*Py(a,|.x.|)*sgn(y)*Py(a,|.y.|) &
+  sgn(x+y)*Py(a,|.x+y.|) = Px(a,|.x.|)*sgn(y)*Py(a,|.y.|) +
+          sgn(x)*Py(a,|.x.|)*Px(a,|.y.|);
+
+begin :: Solutions of Pell's Equation - Congruences
+
+theorem :: HILB10_1:23
+  Px(a,n),Py(a,n) are_coprime;
+
+theorem :: HILB10_1:24
+  Py(a,n),n are_congruent_mod (a-1);
+
+theorem :: HILB10_1:25
+  Px(a,n),Px(b,n) are_congruent_mod (a-b) &
+  Py(a,n),Py(b,n) are_congruent_mod (a-b);
+
+theorem :: HILB10_1:26
+  a,b are_congruent_mod k implies Py(a,n),Py(b,n) are_congruent_mod k;
+
+theorem :: HILB10_1:27
+  sgn(2*x+y)*Py(a,|.2*x+y.|),-sgn(y)*Py(a,|.y.|)
+    are_congruent_mod Px(a,|.x.|);
+
+theorem :: HILB10_1:28
+  sgn(4*x*n+y)*Py(a,|.4*x*n+y.|),sgn(y)*Py(a,|.y.|)
+    are_congruent_mod Px(a,|.x.|);
+
+theorem :: HILB10_1:29
+  sgn(x+y)*Py(a,|.x+y.|),sgn(x-y)*Py(a,|.x-y.|)
+    are_congruent_mod Px(a,|.x.|);
+
+theorem :: HILB10_1:30
+  n1 < n2  <= n & |.x.| = Py(a,n1) & |.y.| = Py(a,n2)
+    & x,y are_congruent_mod Px(a,n)
+  implies x = y;
+
+theorem :: HILB10_1:31
+  n1 <= 2*n & n2 <= 2*n & |.x.| = Py(a,n1) & |.y.| = Py(a,n2) &
+    x,y are_congruent_mod Px(a,n)
+  implies n1,n2 are_congruent_mod 2*n or n1,-n2 are_congruent_mod 2*n;
+
+theorem :: HILB10_1:32
+  n1 <= 4*n & n2 <= 4*n & |.x.| = Py(a,n1) & |.y.| = Py(a,n2) &
+    x,y are_congruent_mod Px(a,n)
+  implies n1,n2 are_congruent_mod 2*n or n1,-n2 are_congruent_mod 2*n;
+
+theorem :: HILB10_1:33
+  Py(a,n1),Py(a,n2) are_congruent_mod Px(a,n) & n >0
+    implies
+  n1,n2 are_congruent_mod 2*n or n1,-n2 are_congruent_mod 2*n;
+
+begin :: Solutions of Pell's Equation - Divisibility
+
+theorem :: HILB10_1:34
+  Py(a,n) divides Py(a,n*k);
+
+theorem :: HILB10_1:35
+  Py(a,n*k), k * (Px(a,n) |^ (k-'1)) *Py(a,n) are_congruent_mod Py(a,n)^2;
+
+theorem :: HILB10_1:36
+  k >0 & Py(a,k) divides Py(a,n) implies k divides n;
+
+theorem :: HILB10_1:37
+  Py(a,k)^2 divides Py(a,n) implies Py(a,k) divides n;
+
+begin :: Special Case of Pell's Equation is Diophantin
+
+theorem :: HILB10_1:38
+  for y,z,a be Nat holds
+     y = Py(a,z) & a > 1
+  iff ex x,x1,y1,A,x2,y2 be Nat st
+    a>1 &
+    [x,y] is Pell's_solution of (a^2-'1) &
+    [x1,y1] is Pell's_solution of (a^2-'1)&
+    y1>=y & A > y & y >= z &
+    [x2,y2] is Pell's_solution of (A^2-'1) &
+    y2,y are_congruent_mod x1 &
+    A,a are_congruent_mod x1 &
+    y2,z are_congruent_mod 2*y &
+    A,1 are_congruent_mod 2*y &
+    y1,0 are_congruent_mod y^2;
+
+begin :: Exponential Function is Diophantin
+
+theorem :: HILB10_1:39
+   for x,y,z be Nat holds
+      y = x|^z
+   iff
+     (y = 1 & z = 0) or
+     (x = 0 & y = 0 & z > 0) or
+     (x = 1 & y = 1 & z > 0) or
+     (x > 1 & z > 0 & ex y1,y2,y3,K be Nat st
+         y1 = Py(x,z+1) & K > 2*z*y1 & y2 = Py(K,z+1) & y3 = Py(K*x,z+1) &
+         (0 <= y-y3/y2 <1/2 or 0 <= y3/y2 -y < 1/2));

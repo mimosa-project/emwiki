@@ -1,0 +1,683 @@
+:: Propositional Calculus for Boolean Valued Functions, II
+::  by Shunichi Kobayashi and Yatsuka Nakamura
+::
+:: Received March 13, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, SUBSET_1, MARGREL1, BVFUNC_1, XBOOLEAN, FUNCT_1,
+      PARTIT1;
+ notations XBOOLE_0, SUBSET_1, XBOOLEAN, MARGREL1, FUNCT_2, BVFUNC_1;
+ constructors BINARITH, BVFUNC_1, XBOOLEAN, NUMBERS;
+ registrations XBOOLEAN, MARGREL1, ORDINAL1;
+ requirements ARITHM, BOOLE, NUMERALS;
+
+
+begin
+
+reserve Y for non empty set;
+
+theorem :: BVFUNC_6:1
+  for a,b being Function of Y,BOOLEAN holds a 'imp' (b 'imp' (a
+  '&' b))=I_el(Y);
+
+theorem :: BVFUNC_6:2
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' b) 'imp' ((b
+  'imp' a) 'imp' (a 'eqv' b))=I_el(Y);
+
+theorem :: BVFUNC_6:3
+  for a,b being Function of Y,BOOLEAN holds (a 'or' b) 'eqv' (b
+  'or' a)=I_el(Y);
+
+theorem :: BVFUNC_6:4
+  for a,b,c being Function of Y,BOOLEAN holds ((a '&' b) 'imp' c)
+  'imp' (a 'imp' (b 'imp' c))=I_el(Y);
+
+theorem :: BVFUNC_6:5
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' (b 'imp' c)
+  ) 'imp' ((a '&' b) 'imp' c)=I_el(Y);
+
+theorem :: BVFUNC_6:6
+  for a,b,c being Function of Y,BOOLEAN holds (c 'imp' a) 'imp' ((
+  c 'imp' b) 'imp' (c 'imp' (a '&' b)))=I_el(Y);
+
+theorem :: BVFUNC_6:7
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'or' b) 'imp' c)
+  'imp' ((a 'imp' c) 'or' (b 'imp' c))=I_el(Y);
+
+theorem :: BVFUNC_6:8
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' c) 'imp' ((
+  b 'imp' c) 'imp' ((a 'or' b) 'imp' c))=I_el(Y);
+
+theorem :: BVFUNC_6:9
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'imp' c) '&' (b
+  'imp' c)) 'imp' ((a 'or' b) 'imp' c)=I_el(Y);
+
+theorem :: BVFUNC_6:10
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' (b '&' 'not'
+  b)) 'imp' 'not' a=I_el(Y);
+
+theorem :: BVFUNC_6:11
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'or' b) '&' (a
+  'or' c)) 'imp' (a 'or' (b '&' c))=I_el(Y);
+
+theorem :: BVFUNC_6:12
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' (b 'or' c))
+  'imp' ((a '&' b) 'or' (a '&' c))=I_el(Y);
+
+theorem :: BVFUNC_6:13
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'or' c) '&' (b
+  'or' c)) 'imp' ((a '&' b) 'or' c)=I_el(Y);
+
+theorem :: BVFUNC_6:14
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'or' b) '&' c)
+  'imp' ((a '&' c) 'or' (b '&' c))=I_el(Y);
+
+theorem :: BVFUNC_6:15
+  for a,b being Function of Y,BOOLEAN holds (a '&' b)=I_el(Y)
+  implies (a 'or' b)=I_el(Y);
+
+theorem :: BVFUNC_6:16
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)=I_el(Y)
+  implies (a 'or' c) 'imp' (b 'or' c)=I_el(Y);
+
+theorem :: BVFUNC_6:17
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)=I_el(Y)
+  implies (a '&' c) 'imp' (b '&' c)=I_el(Y);
+
+theorem :: BVFUNC_6:18
+  for a,b,c being Function of Y,BOOLEAN holds (c 'imp' a)=I_el(Y)
+  & (c 'imp' b)=I_el(Y) implies c 'imp' (a '&' b)=I_el(Y);
+
+theorem :: BVFUNC_6:19
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' c)=I_el(Y)
+  & (b 'imp' c)=I_el(Y) implies (a 'or' b) 'imp' c = I_el(Y);
+
+theorem :: BVFUNC_6:20
+  for a,b being Function of Y,BOOLEAN holds (a 'or' b)=I_el(Y) &
+  'not' a=I_el(Y) implies b=I_el(Y);
+
+theorem :: BVFUNC_6:21
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'imp' b)=I_el(Y
+  ) & (c 'imp' d)=I_el(Y) implies (a '&' c) 'imp' (b '&' d)=I_el(Y);
+
+theorem :: BVFUNC_6:22
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'imp' b)=I_el(Y
+  ) & (c 'imp' d)=I_el(Y) implies (a 'or' c) 'imp' (b 'or' d) =I_el(Y);
+
+theorem :: BVFUNC_6:23
+  for a,b being Function of Y,BOOLEAN holds (a '&' 'not' b) 'imp'
+  'not' a=I_el(Y) implies (a 'imp' b)=I_el(Y);
+
+theorem :: BVFUNC_6:24
+  for a,b being Function of Y,BOOLEAN holds a 'imp' 'not' b=I_el(Y
+  ) implies b 'imp' 'not' a=I_el(Y);
+
+theorem :: BVFUNC_6:25
+  for a,b being Function of Y,BOOLEAN holds 'not' a 'imp' b=I_el(Y
+  ) implies 'not' b 'imp' a=I_el(Y);
+
+theorem :: BVFUNC_6:26
+  for a,b being Function of Y,BOOLEAN holds a 'imp' (a 'or' b)= I_el(Y);
+
+theorem :: BVFUNC_6:27
+  for a,b being Function of Y,BOOLEAN holds (a 'or' b) 'imp' (
+  'not' a 'imp' b)=I_el(Y);
+
+theorem :: BVFUNC_6:28
+  for a,b being Function of Y,BOOLEAN holds 'not'( a 'or' b)
+  'imp' ('not' a '&' 'not' b)=I_el(Y);
+
+theorem :: BVFUNC_6:29
+  for a,b being Function of Y,BOOLEAN holds ('not' a '&' 'not' b)
+  'imp' 'not'( a 'or' b)=I_el(Y);
+
+theorem :: BVFUNC_6:30
+  for a,b being Function of Y,BOOLEAN holds 'not'( a 'or' b) 'imp'
+  'not' a=I_el(Y);
+
+theorem :: BVFUNC_6:31
+  for a being Function of Y,BOOLEAN holds (a 'or' a) 'imp' a=I_el( Y);
+
+theorem :: BVFUNC_6:32
+  for a,b being Function of Y,BOOLEAN holds (a '&' 'not' a) 'imp'
+  b=I_el(Y);
+
+theorem :: BVFUNC_6:33
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' b) 'imp' (
+  'not' a 'or' b)=I_el(Y);
+
+theorem :: BVFUNC_6:34
+  for a,b being Function of Y,BOOLEAN holds (a '&' b) 'imp' 'not'(
+  a 'imp' 'not' b)=I_el(Y);
+
+theorem :: BVFUNC_6:35
+  for a,b being Function of Y,BOOLEAN holds 'not'( a 'imp' 'not' b
+  ) 'imp' (a '&' b)=I_el(Y);
+
+theorem :: BVFUNC_6:36
+  for a,b being Function of Y,BOOLEAN holds 'not'( a '&' b)
+  'imp' ('not' a 'or' 'not' b)=I_el(Y);
+
+theorem :: BVFUNC_6:37
+  for a,b being Function of Y,BOOLEAN holds ('not' a 'or' 'not' b)
+  'imp' 'not'( a '&' b)=I_el(Y);
+
+theorem :: BVFUNC_6:38
+  for a,b being Function of Y,BOOLEAN holds (a '&' b) 'imp' a=I_el (Y);
+
+theorem :: BVFUNC_6:39
+  for a,b being Function of Y,BOOLEAN holds (a '&' b) 'imp' (a
+  'or' b)=I_el(Y);
+
+theorem :: BVFUNC_6:40
+  for a,b being Function of Y,BOOLEAN holds (a '&' b) 'imp' b=I_el (Y);
+
+theorem :: BVFUNC_6:41
+  for a being Function of Y,BOOLEAN holds a 'imp' a '&' a=I_el(Y);
+
+theorem :: BVFUNC_6:42
+  for a,b being Function of Y,BOOLEAN holds (a 'eqv' b)
+  'imp' (a 'imp' b)=I_el(Y);
+
+theorem :: BVFUNC_6:43
+  for a,b being Function of Y,BOOLEAN holds (a 'eqv' b) 'imp' (b
+  'imp' a)=I_el(Y);
+
+theorem :: BVFUNC_6:44
+  for a,b,c being Function of Y,BOOLEAN holds ((a 'or' b) 'or' c)
+  'imp' (a 'or' (b 'or' c))=I_el(Y);
+
+theorem :: BVFUNC_6:45
+  for a,b,c being Function of Y,BOOLEAN holds ((a '&' b) '&' c)
+  'imp' (a '&' (b '&' c))=I_el(Y);
+
+theorem :: BVFUNC_6:46
+  for a,b,c being Function of Y,BOOLEAN holds (a 'or' (b 'or' c))
+  'imp' ((a 'or' b) 'or' c)=I_el(Y);
+
+begin :: BVFUNC_7
+
+reserve Y for non empty set;
+
+theorem :: BVFUNC_6:47
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' b) '&' ('not'
+  a 'imp' b) = b;
+
+theorem :: BVFUNC_6:48
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' b) '&' (a
+  'imp' 'not' b) = 'not' a;
+
+theorem :: BVFUNC_6:49
+  for a,b,c being Function of Y,BOOLEAN holds a 'imp' (b 'or' c) =
+  (a 'imp' b) 'or' (a 'imp' c);
+
+theorem :: BVFUNC_6:50
+  for a,b,c being Function of Y,BOOLEAN holds a 'imp' (b '&' c) =
+  (a 'imp' b) '&' (a 'imp' c);
+
+theorem :: BVFUNC_6:51
+  for a,b,c being Function of Y,BOOLEAN holds (a 'or' b) 'imp' c =
+  (a 'imp' c) '&' (b 'imp' c);
+
+theorem :: BVFUNC_6:52
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' b) 'imp' c =
+  (a 'imp' c) 'or' (b 'imp' c);
+
+theorem :: BVFUNC_6:53
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' b) 'imp'
+  c = a 'imp' (b 'imp' c);
+
+theorem :: BVFUNC_6:54
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' b) 'imp' c =
+  a 'imp' ('not' b 'or' c);
+
+theorem :: BVFUNC_6:55
+  for a,b,c being Function of Y,BOOLEAN holds a 'imp' (b 'or' c) =
+  (a '&' 'not' b) 'imp' c;
+
+theorem :: BVFUNC_6:56
+  for a,b being Function of Y,BOOLEAN holds a '&' (a 'imp' b) = a '&' b;
+
+theorem :: BVFUNC_6:57
+  for a,b being Function of Y,BOOLEAN holds (a 'imp' b) '&' 'not'
+  b = 'not' a '&' 'not' b;
+
+theorem :: BVFUNC_6:58
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) = (a 'imp' b) '&' (b 'imp' c) '&' (a 'imp' c);
+
+theorem :: BVFUNC_6:59
+  for a being Function of Y,BOOLEAN holds I_el(Y) 'imp' a = a;
+
+theorem :: BVFUNC_6:60
+  for a being Function of Y,BOOLEAN holds a 'imp' O_el(Y) = 'not' a;
+
+theorem :: BVFUNC_6:61
+  for a being Function of Y,BOOLEAN holds O_el(Y) 'imp' a = I_el(Y );
+
+theorem :: BVFUNC_6:62
+  for a being Function of Y,BOOLEAN holds a 'imp' I_el(Y) = I_el(Y );
+
+theorem :: BVFUNC_6:63
+  for a being Function of Y,BOOLEAN holds a 'imp' 'not' a = 'not' a;
+
+theorem :: BVFUNC_6:64
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '<' (c
+  'imp' a) 'imp' (c 'imp' b);
+
+theorem :: BVFUNC_6:65
+  for a,b,c being Function of Y,BOOLEAN holds (a 'eqv' b) '<' (a
+  'eqv' c) 'eqv' (b 'eqv' c);
+
+theorem :: BVFUNC_6:66
+  for a,b,c being Function of Y,BOOLEAN holds (a 'eqv' b) '<' (a
+  'imp' c) 'eqv' (b 'imp' c);
+
+theorem :: BVFUNC_6:67
+  for a,b,c being Function of Y,BOOLEAN holds (a 'eqv' b) '<' (c
+  'imp' a) 'eqv' (c 'imp' b);
+
+theorem :: BVFUNC_6:68
+  for a,b,c being Function of Y,BOOLEAN holds (a 'eqv' b) '<' (a
+  '&' c) 'eqv' (b '&' c);
+
+theorem :: BVFUNC_6:69
+  for a,b,c being Function of Y,BOOLEAN holds (a 'eqv' b) '<' (a
+  'or' c) 'eqv' (b 'or' c);
+
+theorem :: BVFUNC_6:70
+  for a,b being Function of Y,BOOLEAN holds a '<' (a 'eqv' b)
+  'eqv' (b 'eqv' a) 'eqv' a;
+
+theorem :: BVFUNC_6:71
+  for a,b being Function of Y,BOOLEAN holds a '<' (a 'imp' b) 'eqv' b;
+
+theorem :: BVFUNC_6:72
+  for a,b being Function of Y,BOOLEAN holds a '<' (b 'imp' a) 'eqv' a;
+
+theorem :: BVFUNC_6:73
+  for a,b being Function of Y,BOOLEAN holds a '<' (a '&' b) 'eqv'
+  (b '&' a) 'eqv' a;
+
+begin :: BVFUNC_8
+
+reserve Y for non empty set;
+
+theorem :: BVFUNC_6:74
+  for a,b,c,d being Function of Y,BOOLEAN holds a 'imp' (b '&' c
+  '&' d) = (a 'imp' b) '&' (a 'imp' c) '&' (a 'imp' d);
+
+theorem :: BVFUNC_6:75
+  for a,b,c,d being Function of Y,BOOLEAN holds a 'imp' (b 'or' c
+  'or' d) = (a 'imp' b) 'or' (a 'imp' c) 'or' (a 'imp' d);
+
+theorem :: BVFUNC_6:76
+  for a,b,c,d being Function of Y,BOOLEAN holds (a '&' b '&' c)
+  'imp' d = (a 'imp' d) 'or' (b 'imp' d) 'or' (c 'imp' d);
+
+theorem :: BVFUNC_6:77
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'or' b 'or' c)
+  'imp' d = (a 'imp' d) '&' (b 'imp' d) '&' (c 'imp' d);
+
+theorem :: BVFUNC_6:78
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '&' (c 'imp' a) = (a 'imp' b) '&' (b 'imp' c) '&' (c 'imp' a) '&' (b
+  'imp' a) '&' (a 'imp' c);
+
+theorem :: BVFUNC_6:79
+  for a,b being Function of Y,BOOLEAN holds a = (a '&' b) 'or' (a
+  '&' 'not' b);
+
+theorem :: BVFUNC_6:80
+  for a,b being Function of Y,BOOLEAN holds a = (a 'or' b) '&' (a
+  'or' 'not' b);
+
+theorem :: BVFUNC_6:81
+  for a,b,c being Function of Y,BOOLEAN holds a = (a '&' b '&' c)
+  'or' (a '&' b '&' 'not' c) 'or' (a '&' 'not' b '&' c) 'or' (a '&' 'not' b '&'
+  'not' c);
+
+theorem :: BVFUNC_6:82
+  for a,b,c being Function of Y,BOOLEAN holds a = (a 'or' b 'or' c
+  ) '&' (a 'or' b 'or' 'not' c) '&' (a 'or' 'not' b 'or' c) '&' (a 'or' 'not' b
+  'or' 'not' c);
+
+theorem :: BVFUNC_6:83
+  for a,b being Function of Y,BOOLEAN holds a '&' b = a '&' ('not'
+  a 'or' b);
+
+theorem :: BVFUNC_6:84
+  for a,b being Function of Y,BOOLEAN holds a 'or' b = a 'or' (
+  'not' a '&' b);
+
+theorem :: BVFUNC_6:85
+  for a,b being Function of Y,BOOLEAN holds a 'xor' b = 'not'( a 'eqv' b);
+
+theorem :: BVFUNC_6:86
+  for a,b being Function of Y,BOOLEAN holds a 'xor' b = (a 'or' b)
+  '&' ('not' a 'or' 'not' b);
+
+theorem :: BVFUNC_6:87
+  for a being Function of Y,BOOLEAN holds a 'xor' I_el(Y) = 'not' a;
+
+theorem :: BVFUNC_6:88
+  for a being Function of Y,BOOLEAN holds a 'xor' O_el(Y) = a;
+
+theorem :: BVFUNC_6:89
+  for a,b being Function of Y,BOOLEAN holds a 'xor' b = 'not' a
+  'xor' 'not' b;
+
+theorem :: BVFUNC_6:90
+  for a,b being Function of Y,BOOLEAN holds 'not'( a 'xor' b) = a
+  'xor' 'not' b;
+
+theorem :: BVFUNC_6:91
+  for a,b being Function of Y,BOOLEAN holds a 'eqv' b = (a
+  'or' 'not' b) '&' ('not' a 'or' b);
+
+theorem :: BVFUNC_6:92
+  for a,b being Function of Y,BOOLEAN holds a 'eqv' b = (a '&' b)
+  'or' ('not' a '&' 'not' b);
+
+theorem :: BVFUNC_6:93
+  for a being Function of Y,BOOLEAN holds a 'eqv' I_el(Y) = a;
+
+theorem :: BVFUNC_6:94
+  for a being Function of Y,BOOLEAN holds a 'eqv' O_el(Y) = 'not' a;
+
+theorem :: BVFUNC_6:95
+  for a,b being Function of Y,BOOLEAN holds 'not'( a 'eqv' b) = (a
+  'eqv' 'not' b);
+
+theorem :: BVFUNC_6:96
+  for a,b being Function of Y,BOOLEAN holds 'not' a '<' (a 'imp' b
+  ) 'eqv' 'not' a;
+
+theorem :: BVFUNC_6:97
+  for a,b being Function of Y,BOOLEAN holds 'not' a '<' (b 'imp' a
+  ) 'eqv' 'not' b;
+
+theorem :: BVFUNC_6:98
+  for a,b being Function of Y,BOOLEAN holds a '<' (a 'or' b) 'eqv'
+  (b 'or' a) 'eqv' a;
+
+theorem :: BVFUNC_6:99
+  for a being Function of Y,BOOLEAN holds a 'imp' ('not' a 'eqv'
+  'not' a) = I_el(Y);
+
+theorem :: BVFUNC_6:100
+  for a,b being Function of Y,BOOLEAN holds ((a 'imp' b) 'imp' a)
+  'imp' a = I_el(Y);
+
+theorem :: BVFUNC_6:101
+  for a,b,c,d being Function of Y,BOOLEAN holds ((a 'imp' c) '&' (
+  b 'imp' d)) '&' ('not' c 'or' 'not' d) 'imp' ('not' a 'or' 'not' b)=I_el(Y);
+
+theorem :: BVFUNC_6:102
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) 'imp' ((
+  a 'imp' (b 'imp' c)) 'imp' (a 'imp' c)) = I_el(Y);
+
+begin :: BVFUNC_9
+
+reserve Y for non empty set,
+  a,b,c,d,e,f,g for Function of Y,BOOLEAN;
+
+theorem :: BVFUNC_6:103
+  (a 'or' b) '&' (b 'imp' c) '<' a 'or' c;
+
+theorem :: BVFUNC_6:104
+  a '&' (a 'imp' b) '<' b;
+
+theorem :: BVFUNC_6:105
+  (a 'imp' b) '&' 'not' b '<' 'not' a;
+
+theorem :: BVFUNC_6:106
+  (a 'or' b) '&' 'not' a '<' b;
+
+theorem :: BVFUNC_6:107
+  (a 'imp' b) '&' ('not' a 'imp' b) '<' b;
+
+theorem :: BVFUNC_6:108
+  (a 'imp' b) '&' (a 'imp' 'not' b) '<' 'not' a;
+
+theorem :: BVFUNC_6:109
+  a 'imp' (b '&' c) '<' a 'imp' b;
+
+theorem :: BVFUNC_6:110
+  (a 'or' b) 'imp' c '<' a 'imp' c;
+
+theorem :: BVFUNC_6:111
+  a 'imp' b '<' (a '&' c) 'imp' b;
+
+theorem :: BVFUNC_6:112
+  a 'imp' b '<' (a '&' c) 'imp' (b '&' c);
+
+theorem :: BVFUNC_6:113
+  a 'imp' b '<' a 'imp' (b 'or' c);
+
+theorem :: BVFUNC_6:114
+  a 'imp' b '<' (a 'or' c) 'imp' (b 'or' c);
+
+theorem :: BVFUNC_6:115
+  a '&' b 'or' c '<' a 'or' c;
+
+theorem :: BVFUNC_6:116
+  (a '&' b) 'or' (c '&' d) '<' a 'or' c;
+
+theorem :: BVFUNC_6:117
+  (a 'imp' b) '&' ('not' a 'imp' c) '<' b 'or' c;
+
+theorem :: BVFUNC_6:118
+  (a 'imp' c) '&' (b 'imp' 'not' c) '<' 'not' a 'or' 'not' b;
+
+theorem :: BVFUNC_6:119
+  (a 'or' b) '&' ('not' a 'or' c) '<' b 'or' c;
+
+theorem :: BVFUNC_6:120
+  (a 'imp' b) '&' (c 'imp' d) '<' (a '&' c) 'imp' (b '&' d);
+
+theorem :: BVFUNC_6:121
+  (a 'imp' b) '&' (a 'imp' c) '<' a 'imp' (b '&' c);
+
+theorem :: BVFUNC_6:122
+  ((a 'imp' c) '&' (b 'imp' c)) '<' (a 'or' b) 'imp' c;
+
+theorem :: BVFUNC_6:123
+  (a 'imp' b) '&' (c 'imp' d) '<' (a 'or' c) 'imp' (b 'or' d);
+
+theorem :: BVFUNC_6:124
+  (a 'imp' b) '&' (a 'imp' c) '<' a 'imp' (b 'or' c);
+
+theorem :: BVFUNC_6:125
+  for a1,b1,c1,a2,b2,c2 being Function of Y,BOOLEAN holds (
+  b1 'imp' b2) '&' (c1 'imp' c2) '&' (a1 'or' b1 'or' c1) '&' 'not'( a2 '&' b2)
+  '&' 'not'( a2 '&' c2) '<' (a2 'imp' a1);
+
+theorem :: BVFUNC_6:126
+  for a1,b1,c1,a2,b2,c2 being Function of Y,BOOLEAN holds (a1
+  'imp' a2) '&' (b1 'imp' b2) '&' (c1 'imp' c2) '&' (a1 'or' b1 'or' c1) '&'
+'not'( a2 '&' b2) '&' 'not'( a2 '&' c2) '&' 'not'( b2 '&' c2) '<' (a2 'imp' a1)
+  '&' (b2 'imp' b1) '&' (c2 'imp' c1);
+
+theorem :: BVFUNC_6:127
+  for a1,b1,a2,b2 being Function of Y,BOOLEAN holds ((a1
+'imp' a2) '&' (b1 'imp' b2) '&' 'not'(a2 '&' b2)) 'imp' 'not' (a1 '&' b1)=I_el(
+  Y);
+
+theorem :: BVFUNC_6:128
+  for a1,b1,c1,a2,b2,c2 being Function of Y,BOOLEAN holds (a1
+'imp' a2) '&' (b1 'imp' b2) '&' (c1 'imp' c2) '&' 'not'( a2 '&' b2) '&' 'not'(
+  a2 '&' c2) '&' 'not'( b2 '&' c2) '<' 'not'( a1 '&' b1) '&' 'not'( a1 '&' c1)
+  '&' 'not'( b1 '&' c1);
+
+theorem :: BVFUNC_6:129
+  a '&' b '<' a;
+
+theorem :: BVFUNC_6:130
+  a '&' b '&' c '<' a & a '&' b '&' c '<' b;
+
+theorem :: BVFUNC_6:131
+  a '&' b '&' c '&' d '<' a & a '&' b '&' c '&' d '<' b;
+
+theorem :: BVFUNC_6:132
+  a '&' b '&' c '&' d '&' e '<' a & a '&' b '&' c '&' d '&' e '<' b;
+
+theorem :: BVFUNC_6:133
+  a '&' b '&' c '&' d '&' e '&' f '<' a & a '&' b '&' c '&' d '&' e '&'
+  f '<' b;
+
+theorem :: BVFUNC_6:134
+  a '&' b '&' c '&' d '&' e '&' f '&' g '<' a & a '&' b '&' c '&' d '&'
+  e '&' f '&' g '<' b;
+
+theorem :: BVFUNC_6:135
+  a '<' b & c '<' d implies a '&' c '<' b '&' d;
+
+theorem :: BVFUNC_6:136
+  a '&' b '<' c implies a '&' 'not' c '<' 'not' b;
+
+theorem :: BVFUNC_6:137
+  (a 'imp' c) '&' (b 'imp' c) '&' (a 'or' b) '<' c;
+
+theorem :: BVFUNC_6:138
+  ((a 'imp' c) 'or' (b 'imp' c)) '&' (a '&' b) '<' c;
+
+theorem :: BVFUNC_6:139
+  a '<' b & c '<' d implies a 'or' c '<' b 'or' d;
+
+theorem :: BVFUNC_6:140
+  a '<' a 'or' b;
+
+theorem :: BVFUNC_6:141
+  a '&' b '<' a 'or' b;
+
+begin :: BVFUNC10
+
+reserve Y for non empty set;
+
+theorem :: BVFUNC_6:142
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' b) 'or' (b
+  '&' c) 'or' (c '&' a)= (a 'or' b) '&' (b 'or' c) '&' (c 'or' a);
+
+theorem :: BVFUNC_6:143
+  for a,b,c being Function of Y,BOOLEAN holds (a '&' 'not' b) 'or'
+(b '&' 'not' c) 'or' (c '&' 'not' a)= (b '&' 'not' a) 'or' (c '&' 'not' b) 'or'
+  (a '&' 'not' c);
+
+theorem :: BVFUNC_6:144
+  for a,b,c being Function of Y,BOOLEAN holds (a 'or' 'not' b) '&'
+  (b 'or' 'not' c) '&' (c 'or' 'not' a)= (b 'or' 'not' a) '&' (c 'or' 'not' b)
+  '&' (a 'or' 'not' c);
+
+theorem :: BVFUNC_6:145
+  for a,b,c being Function of Y,BOOLEAN holds (c 'imp' a)=I_el(Y)
+  & (c 'imp' b)=I_el(Y) implies c 'imp' (a 'or' b)=I_el(Y);
+
+theorem :: BVFUNC_6:146
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' c)=I_el(Y)
+  & (b 'imp' c)=I_el(Y) implies (a '&' b) 'imp' c = I_el(Y);
+
+theorem :: BVFUNC_6:147
+  for a1,a2,b1,b2,c1,c2 being Function of Y,BOOLEAN holds (a1
+'imp' a2) '&' (b1 'imp' b2) '&' (c1 'imp' c2) '&' (a1 'or' b1 'or' c1) '<' (a2
+  'or' b2 'or' c2);
+
+theorem :: BVFUNC_6:148
+  for a1,a2,b1,b2 being Function of Y,BOOLEAN holds (a1 'imp' b1)
+'&' (a2 'imp' b2) '&' (a1 'or' a2) '&' 'not'( b1 '&' b2)= (b1 'imp' a1) '&' (b2
+  'imp' a2) '&' (b1 'or' b2) '&' 'not'( a1 '&' a2);
+
+theorem :: BVFUNC_6:149
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'or' b) '&' (c
+  'or' d) = (a '&' c) 'or' (a '&' d) 'or' (b '&' c) 'or' (b '&' d);
+
+theorem :: BVFUNC_6:150
+  for a1,a2,b1,b2,b3 being Function of Y,BOOLEAN holds (a1 '&' a2)
+'or' (b1 '&' b2 '&' b3)= (a1 'or' b1) '&' (a1 'or' b2) '&' (a1 'or' b3) '&' (a2
+  'or' b1) '&' (a2 'or' b2) '&' (a2 'or' b3);
+
+theorem :: BVFUNC_6:151
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+'imp' c) '&' (c 'imp' d)= (a 'imp' (b '&' c '&' d)) '&' (b 'imp' (c '&' d)) '&'
+  (c 'imp' d);
+
+theorem :: BVFUNC_6:152
+  for a,b,c,d being Function of Y,BOOLEAN holds (a 'imp' c) '&' (b
+  'imp' d) '&' (a 'or' b) '<' (c 'or' d);
+
+theorem :: BVFUNC_6:153
+  for a,b,c being Function of Y,BOOLEAN holds ((a '&' b) 'imp'
+  'not' c) '&' a '&' c '<' 'not' b;
+
+theorem :: BVFUNC_6:154
+  for a1,a2,a3,b1,b2,b3 being Function of Y,BOOLEAN holds (a1 '&'
+  a2 '&' a3) 'imp' (b1 'or' b2 'or' b3)= ('not' b1 '&' 'not' b2 '&' a3) 'imp' (
+  'not' a1 'or' 'not' a2 'or' b3);
+
+theorem :: BVFUNC_6:155
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+'imp' c) '&' (c 'imp' a) = (a '&' b '&' c) 'or' ('not' a '&' 'not' b '&' 'not'
+  c);
+
+theorem :: BVFUNC_6:156
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '&' (c 'imp' a) '&' (a 'or' b 'or' c)= (a '&' b '&' c);
+
+theorem :: BVFUNC_6:157
+  for a,b,c being Function of Y,BOOLEAN holds (a 'or' b) '&' (b
+'or' c) '&' (c 'or' a) '&' 'not'( a '&' b '&' c)= ('not' a '&' b '&' c) 'or' (a
+  '&' 'not' b '&' c) 'or' (a '&' b '&' 'not' c);
+
+theorem :: BVFUNC_6:158
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' (b '&' c));
+
+theorem :: BVFUNC_6:159
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' ((a 'or' b) 'imp' c);
+
+theorem :: BVFUNC_6:160
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)
+  '&' (b 'imp' c) '<' (a 'imp' (b 'or' c));
+
+theorem :: BVFUNC_6:161
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)
+  '&' (b 'imp' c) '<' (a 'imp' (b 'or' 'not' c));
+
+theorem :: BVFUNC_6:162
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)
+  '&' (b 'imp' c) '<' (b 'imp' (c 'or' a));
+
+theorem :: BVFUNC_6:163
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b)
+  '&' (b 'imp' c) '<' (b 'imp' (c 'or' 'not' a));
+
+theorem :: BVFUNC_6:164
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' b) '&' (b 'imp' (c 'or' a));
+
+theorem :: BVFUNC_6:165
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' (b 'or' 'not' c)) '&' (b 'imp' c);
+
+theorem :: BVFUNC_6:166
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' (b 'or' c)) '&' (b 'imp' (c 'or' a));
+
+theorem :: BVFUNC_6:167
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' (b 'or' 'not' c)) '&' (b 'imp' (c 'or' a));
+
+theorem :: BVFUNC_6:168
+  for a,b,c being Function of Y,BOOLEAN holds (a 'imp' b) '&' (b
+  'imp' c) '<' (a 'imp' (b 'or' 'not' c)) '&' (b 'imp' (c 'or' 'not' a));

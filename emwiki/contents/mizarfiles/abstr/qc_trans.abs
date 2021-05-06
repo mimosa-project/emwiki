@@ -1,0 +1,241 @@
+:: Transition of Consistency and Satisfiability under Language Extensions
+::  by Julian J. Schl\"oder and Peter Koepke
+::
+:: Received May 7, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, QC_LANG1, CQC_LANG, XBOOLE_0, VALUAT_1,
+      FINSEQ_1, HENMODEL, CQC_THE1, XBOOLEAN, BVFUNC_2, FUNCT_1, ORDINAL4,
+      CALCUL_1, ARYTM_3, RELAT_1, CARD_1, XXREAL_0, TARSKI, ZF_MODEL, REALSET1,
+      SUBSTUT1, SUBSTUT2, ZF_LANG, ARYTM_1, CARD_3, ZFMISC_1, FINSET_1,
+      MCART_1, NAT_1, MARGREL1, FUNCT_2, FUNCOP_1, QC_TRANS, FUNCT_4, CLASSES2,
+      SUBLEMMA;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XCMPLX_0, XXREAL_0, NAT_1,
+      ORDINAL1, CARD_3, FINSEQ_1, FUNCT_1, QC_LANG1, QC_LANG2, QC_LANG3,
+      NUMBERS, CQC_LANG, RELAT_1, FINSET_1, VALUAT_1, RELSET_1, FUNCT_2,
+      CQC_SIM1, DOMAIN_1, XTUPLE_0, MCART_1, SUBSTUT1, SUBLEMMA, SUBSTUT2,
+      CALCUL_1, CQC_THE1, GOEDELCP, MARGREL1, FUNCT_4, FUNCOP_1, HENMODEL;
+ constructors SETFAM_1, DOMAIN_1, XXREAL_0, NAT_1, NAT_D, FINSEQ_2, QC_LANG1,
+      CQC_THE1, CQC_SIM1, SUBLEMMA, SUBSTUT2, CALCUL_1, HENMODEL, CARD_3,
+      RELSET_1, CARD_1, WELLORD2, GOEDELCP, VALUAT_1, MARGREL1, CQC_LANG,
+      QC_LANG3, FUNCT_4, FUNCOP_1, SUBSTUT1, PARTFUN1;
+ registrations SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, HENMODEL,
+      FINSEQ_1, FINSET_1, CARD_3, XBOOLE_0, QC_LANG1, CQC_LANG, MARGREL1,
+      CARD_1, GOEDELCP, FUNCOP_1, SUBLEMMA, SUBSTUT1, XTUPLE_0;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Language Extensions
+
+reserve Al for QC-alphabet;
+reserve PHI for Consistent Subset of CQC-WFF(Al),
+        p,q,r,s for Element of CQC-WFF(Al),
+        A for non empty set,
+        J for interpretation of Al,A,
+        v for Element of Valuations_in(Al,A),
+        m,n,i,j,k for Nat,
+        l for CQC-variable_list of k,Al,
+        P for QC-pred_symbol of k,Al,
+        x,y,z for bound_QC-variable of Al,
+        b for QC-symbol of Al,
+        PR for FinSequence of [:set_of_CQC-WFF-seq(Al),Proof_Step_Kinds:];
+
+definition
+  let Al;
+  let Al2 be QC-alphabet;
+  attr Al2 is Al-expanding means
+:: QC_TRANS:def 1
+
+  Al c= Al2;
+end;
+
+registration
+  let Al;
+  cluster Al-expanding for QC-alphabet;
+end;
+
+registration
+  let Al1,Al2 be countable QC-alphabet;
+  cluster countable Al1-expanding Al2-expanding for QC-alphabet;
+end;
+
+definition
+  let Al,Al2 be QC-alphabet;
+  let P be Subset of CQC-WFF(Al);
+  attr P is Al2-Consistent means
+:: QC_TRANS:def 2
+  for S being Subset of CQC-WFF(Al2) st P=S holds S is Consistent;
+end;
+
+registration
+   let Al;
+   cluster non empty Consistent for Subset of CQC-WFF(Al);
+end;
+
+registration
+   let Al;
+   cluster Consistent -> Al-Consistent for Subset of CQC-WFF(Al);
+   cluster Al-Consistent -> Consistent for Subset of CQC-WFF(Al);
+end;
+
+reserve Al2 for Al-expanding QC-alphabet,
+        J2 for interpretation of Al2,A,
+        Jp for interpretation of Al,A,
+        v2 for Element of Valuations_in(Al2,A),
+        vp for Element of Valuations_in(Al,A);
+
+theorem :: QC_TRANS:1
+  the_arity_of P = len l;
+
+theorem :: QC_TRANS:2
+  QC-symbols(Al) c= QC-symbols(Al2);
+
+theorem :: QC_TRANS:3
+  QC-pred_symbols(Al) c= QC-pred_symbols(Al2);
+
+theorem :: QC_TRANS:4
+  bound_QC-variables(Al) c= bound_QC-variables(Al2);
+
+theorem :: QC_TRANS:5
+  for k,l holds l is CQC-variable_list of k,Al2;
+
+theorem :: QC_TRANS:6
+  P is QC-pred_symbol of k,Al2;
+
+theorem :: QC_TRANS:7
+  for Al2 being Al-expanding QC-alphabet
+  for p holds p is Element of CQC-WFF(Al2);
+
+definition
+  let Al;
+  let Al2 be Al-expanding QC-alphabet;
+  let p be Element of CQC-WFF(Al);
+  func Al2-Cast(p) -> Element of CQC-WFF(Al2) equals
+:: QC_TRANS:def 3
+p;
+end;
+
+definition
+  let Al;
+  let Al2 be Al-expanding QC-alphabet;
+  let x be bound_QC-variable of Al;
+  func Al2-Cast(x) -> bound_QC-variable of Al2 equals
+:: QC_TRANS:def 4
+x;
+end;
+
+definition
+  let Al;
+  let Al2 be Al-expanding QC-alphabet;
+  let k;
+  let P be QC-pred_symbol of k,Al;
+  func Al2-Cast(P) -> QC-pred_symbol of k,Al2 equals
+:: QC_TRANS:def 5
+P;
+end;
+
+definition
+  let Al;
+  let Al2 be Al-expanding QC-alphabet;
+  let k;
+  let l be CQC-variable_list of k,Al;
+  func Al2-Cast(l) -> CQC-variable_list of k,Al2 equals
+:: QC_TRANS:def 6
+l;
+end;
+
+theorem :: QC_TRANS:8
+  for p,r,x,P,l for Al2 being Al-expanding QC-alphabet
+  holds Al2-Cast(VERUM(Al)) = VERUM(Al2) &
+  Al2-Cast(P!l) = Al2-Cast(P)!Al2-Cast(l) &
+  Al2-Cast('not' p) = 'not' (Al2-Cast(p)) &
+  Al2-Cast(p '&' r) = (Al2-Cast(p)) '&' (Al2-Cast(r)) &
+  Al2-Cast(All(x,p)) = All(Al2-Cast(x),Al2-Cast(p));
+
+begin :: Downward Transfer of Consistency and Satisfiability
+
+theorem :: QC_TRANS:9
+  Jp = J2|QC-pred_symbols(Al) & vp = v2|bound_QC-variables(Al)
+  implies (J2,v2 |= Al2-Cast(r) iff Jp,vp |= r);
+
+theorem :: QC_TRANS:10
+  for Al2 being Al-expanding QC-alphabet,
+  THETA being Subset of CQC-WFF(Al2) st PHI c= THETA holds
+   for A2 being non empty set, J2 being interpretation of Al2,A2,
+   v2 being Element of Valuations_in (Al2,A2) st J2,v2 |= THETA holds
+   ex A,J,v st J,v |= PHI;
+
+theorem :: QC_TRANS:11
+  for f being FinSequence of CQC-WFF(Al2),g being FinSequence of CQC-WFF(Al)
+  st f=g holds Ant f = Ant g & Suc f = Suc g;
+
+theorem :: QC_TRANS:12
+  for p holds still_not-bound_in p = still_not-bound_in (Al2-Cast(p));
+
+theorem :: QC_TRANS:13
+  for p2 being Element of CQC-WFF(Al2), S being CQC_Substitution of Al,
+  S2 being CQC_Substitution of Al2, x2 being bound_QC-variable of Al2, x, p
+  st p = p2 & S = S2 & x = x2 holds RestrictSub(x,p,S) = RestrictSub(x2,p2,S2);
+
+theorem :: QC_TRANS:14
+  for p2 being Element of CQC-WFF(Al2), S being finite CQC_Substitution of Al,
+  S2 being finite CQC_Substitution of Al2, p st S = S2 & p = p2 holds
+  upVar(S,p) = upVar(S2,p2);
+
+theorem :: QC_TRANS:15
+  for p2 being Element of CQC-WFF(Al2), S being CQC_Substitution of Al,
+  S2 being CQC_Substitution of Al2, x2 being bound_QC-variable of Al2, x, p
+  st p = p2 & S = S2 & x = x2 holds ExpandSub(x,p,RestrictSub(x,All(x,p),S))
+  = ExpandSub(x2,p2,RestrictSub(x2,All(x2,p2),S2));
+
+theorem :: QC_TRANS:16
+ for Z being Element of CQC-Sub-WFF(Al), Z2 being Element of CQC-Sub-WFF(Al2)
+ st Z`1 is universal & Z2`1 is universal & bound_in Z`1 = bound_in Z2`1 &
+ the_scope_of Z`1 = the_scope_of Z2`1 & Z = Z2 holds S_Bound(@Z) = S_Bound(@Z2)
+;
+
+theorem :: QC_TRANS:17
+  for p2 being Element of CQC-WFF(Al2),x2,y2 being bound_QC-variable of Al2,
+  p,x,y st p=p2 & x=x2 & y=y2 holds p.(x,y) = p2.(x2,y2);
+
+theorem :: QC_TRANS:18
+  for PHI being Consistent Subset of CQC-WFF(Al2) st
+  PHI is Subset of CQC-WFF(Al) holds PHI is Al-Consistent;
+
+begin :: Upward Transfer of Consistency and Satisfiability
+
+theorem :: QC_TRANS:19
+ for p ex Al1 being countable QC-alphabet st p is Element of CQC-WFF(Al1)
+ & Al is Al1-expanding;
+
+theorem :: QC_TRANS:20
+ for PHI being finite Subset of CQC-WFF(Al) ex Al1 being countable QC-alphabet
+ st PHI is finite Subset of CQC-WFF(Al1) & Al is Al1-expanding;
+
+registration
+ let Al;
+ let PHI be finite Subset of CQC-WFF(Al);
+ cluster still_not-bound_in PHI -> finite;
+end;
+
+theorem :: QC_TRANS:21
+  for THETA being Subset of CQC-WFF(Al2) st PHI = THETA holds
+  for A,J,v st J,v |= PHI
+  ex A2 being non empty set, J2 being interpretation of Al2,A2,
+     v2 being Element of Valuations_in (Al2,A2) st J2,v2 |= THETA;
+
+theorem :: QC_TRANS:22
+  for CHI being Subset of CQC-WFF(Al) st CHI c= PHI holds CHI is Consistent;
+
+theorem :: QC_TRANS:23
+  PHI is Al2-Consistent;

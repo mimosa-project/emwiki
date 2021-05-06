@@ -1,0 +1,818 @@
+:: Multilinear Operator and Its Basic Properties
+::  by Kazuhisa Nakasho
+:: 
+:: Received February 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies LOPBAN10, NUMBERS, REAL_1, ZFMISC_1, NORMSP_1, PRE_TOPC,
+      PARTFUN1, FUNCT_1, ORDINAL4, NAT_1, SUBSET_1, FINSEQ_2, RELAT_1,
+      LOPBAN_1, TARSKI, ARYTM_3, GROUP_2, FUNCT_4, FUNCT_2, ARYTM_1, SUPINF_2,
+      FCONT_1, STRUCT_0, CARD_1, UNIALG_1, FUNCOP_1, SEQ_4, XXREAL_2, FUNCSDOM,
+      RLSUB_1, RSSPACE, RELAT_2, METRIC_1, ALGSTR_0, MONOID_0, XXREAL_0,
+      XBOOLE_0, FINSEQ_1, RLVECT_1, PRVECT_1, PRVECT_2, CARD_3, PDIFF_1,
+      COMPLEX1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2,
+      FUNCT_7, FUNCOP_1, NUMBERS, MONOID_0, XCMPLX_0, XXREAL_0, XXREAL_2,
+      XREAL_0, CARD_3, NAT_1, COMPLEX1, FINSEQ_1, FINSEQ_2, SEQ_4, STRUCT_0,
+      ALGSTR_0, PRE_TOPC, RLVECT_1, RLSUB_1, NORMSP_0, NORMSP_1, RSSPACE,
+      RVSUM_1, LOPBAN_1, PRVECT_1, PRVECT_2, NDIFF_5;
+ constructors SEQ_4, RLSUB_1, RELSET_1, DUALSP01, NAT_D, RSSPACE3, NDIFF_5,
+      MONOID_0, FUNCT_7, FUNCT_4;
+ registrations RELSET_1, STRUCT_0, XREAL_0, MEMBERED, FUNCT_1, VALUED_0,
+      FINSEQ_2, FUNCT_2, NUMBERS, XBOOLE_0, RELAT_1, ORDINAL1, PRVECT_2,
+      NORMSP_0, NAT_1, CARD_3, NORMSP_1, FINSEQ_1, RLVECT_1, MONOID_0, NDIFF_5;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Multilinear Operator on Real Linear Spaces
+
+definition
+  let X be non empty non-empty FinSequence;
+  let i be object;
+  let x be Element of product X;
+  func reproj (i,x) -> Function of X.i, product X means
+:: LOPBAN10:def 1
+  for r being object st r in X.i holds it . r = x +* (i,r);
+end;
+
+theorem :: LOPBAN10:1
+  for X be non empty non-empty FinSequence,
+      x be Element of product X,
+      i be Element of dom X,
+      r be object st r in X.i holds
+    (reproj (i,x).r ).i = r;
+
+theorem :: LOPBAN10:2
+  for X be non empty non-empty FinSequence,
+      x be Element of product X,
+    i,j be Element of dom X,
+      r be object
+    st r in X.i & i <> j
+  holds
+    ( reproj (i,x).r ).j = x.j;
+
+theorem :: LOPBAN10:3
+  for X be non empty non-empty FinSequence,
+      x be Element of product X,
+      i be Element of dom X
+  holds
+    reproj (i,x).(x.i) = x;
+
+definition
+  let X be RealLinearSpace-Sequence;
+  let i be Element of dom X;
+  let x be Element of product X;
+  func reproj(i,x) -> Function of X.i, product X means
+:: LOPBAN10:def 2
+  ex x0 be Element of product carr X st x0 = x & it = reproj(i,x0);
+end;
+
+theorem :: LOPBAN10:4
+  for X being RealLinearSpace-Sequence,
+      i be Element of dom X,
+      x be Element of product X,
+      r be Element of X.i,
+      F be Function
+  st F = reproj(i,x).r
+  holds F.i = r;
+
+theorem :: LOPBAN10:5
+  for X being RealLinearSpace-Sequence,
+    i,j be Element of dom X,
+      x be Element of product X,
+      r be Element of X.i,
+    F,s be Function
+  st F = reproj (i,x).r & x = s & i <> j
+  holds F.j = s.j;
+
+theorem :: LOPBAN10:6
+  for X being RealLinearSpace-Sequence,
+      i be Element of dom X,
+      x be Element of product X,
+      s be Function
+  st x = s
+  holds reproj (i,x).(s.i)= x;
+
+definition
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace,
+      f be Function of product X,Y;
+  attr f is Multilinear means
+:: LOPBAN10:def 3
+  for i be Element of dom X,
+      x be Element of product X
+  holds
+  f * reproj(i,x) is LinearOperator of X.i,Y;
+end;
+
+registration
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  cluster Multilinear for Function of product X,Y;
+end;
+
+definition
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  mode MultilinearOperator of X,Y is Multilinear Function of product X,Y;
+end;
+
+theorem :: LOPBAN10:7
+  for X, Y being RealLinearSpace
+  for f being LinearOperator of X,Y
+  holds 0.Y = f.(0. X);
+
+theorem :: LOPBAN10:8
+  for X being RealLinearSpace-Sequence,
+      Y being RealLinearSpace,
+      g be MultilinearOperator of X,Y,
+      t be Point of product X,
+      s be Element of product carr X
+  st s = t
+   & ex i be Element of dom X st s.i = 0.(X.i)
+  holds g.t = 0.Y;
+
+theorem :: LOPBAN10:9
+  for X being RealLinearSpace-Sequence,
+      Y being RealLinearSpace,
+      g be MultilinearOperator of X,Y,
+      a be FinSequence of REAL
+  st dom a = dom X
+  holds
+    for t,t1 be Point of product X,
+        s,s1 be Element of product carr X
+    st t = s & t1 = s1
+     & for i be Element of dom X holds s1.i = (a/.i) * s.i
+    holds g.t1 = (Product a) * g.t;
+
+definition
+  let X be RealLinearSpace-Sequence, Y be RealLinearSpace;
+  func MultilinearOperators(X,Y)
+  -> Subset of RealVectSpace(the carrier of product X,Y) means
+:: LOPBAN10:def 4
+  for x being set holds x in it iff x is MultilinearOperator of X,Y;
+end;
+
+registration
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  cluster MultilinearOperators(X,Y) -> non empty functional;
+  cluster MultilinearOperators(X,Y) -> linearly-closed;
+end;
+
+definition
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  func R_VectorSpace_of_MultilinearOperators(X,Y) -> strict RLSStruct
+  equals
+:: LOPBAN10:def 5
+    RLSStruct(# MultilinearOperators(X,Y),
+      Zero_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)),
+      Add_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)),
+      Mult_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)) #);
+end;
+
+theorem :: LOPBAN10:10
+  for X being RealLinearSpace-Sequence,
+      Y be RealLinearSpace holds
+    RLSStruct(# MultilinearOperators(X,Y),
+      Zero_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)),
+      Add_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)),
+      Mult_(MultilinearOperators(X,Y),
+        RealVectSpace(the carrier of product X,Y)) #)
+    is Subspace of RealVectSpace(the carrier of product X,Y);
+
+registration
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  cluster R_VectorSpace_of_MultilinearOperators(X,Y) -> non empty;
+end;
+
+registration
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  cluster R_VectorSpace_of_MultilinearOperators(X,Y)
+    -> Abelian add-associative right_zeroed right_complementable
+      vector-distributive scalar-distributive scalar-associative
+      scalar-unital;
+end;
+
+registration
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  cluster R_VectorSpace_of_MultilinearOperators(X,Y) -> constituted-Functions;
+end;
+
+definition
+  let X be RealLinearSpace-Sequence,
+      Y be RealLinearSpace;
+  let f be Element of R_VectorSpace_of_MultilinearOperators(X,Y);
+  let v be VECTOR of product X;
+  redefine func f.v -> VECTOR of Y;
+end;
+
+theorem :: LOPBAN10:11
+  for X being RealLinearSpace-Sequence,
+      Y be RealLinearSpace
+  for f,g,h be VECTOR of R_VectorSpace_of_MultilinearOperators(X,Y)
+  holds
+    h = f + g
+  iff
+    for x be VECTOR of product X holds h.x = f.x + g.x;
+
+theorem :: LOPBAN10:12
+  for X being RealLinearSpace-Sequence,
+      Y be RealLinearSpace
+  for f,h be VECTOR of R_VectorSpace_of_MultilinearOperators(X,Y)
+  for a be Real
+  holds
+    h = a*f
+  iff
+    for x be VECTOR of product X holds h.x = a * f.x;
+
+theorem :: LOPBAN10:13
+  for X being RealLinearSpace-Sequence,
+      Y be RealLinearSpace
+  holds 0.R_VectorSpace_of_MultilinearOperators(X,Y)
+    = (the carrier of product X) --> 0.Y;
+
+theorem :: LOPBAN10:14
+  for X being RealLinearSpace-Sequence,
+      Y be RealLinearSpace
+  holds (the carrier of product X) --> 0.Y is MultilinearOperator of X,Y;
+
+begin
+
+theorem :: LOPBAN10:15
+  for X being RealNormSpace-Sequence,
+      i be Element of dom X,
+      x be Element of product X,
+      r be Element of X.i,
+      F be Function
+  st F = reproj(i,x).r
+  holds F.i = r;
+
+theorem :: LOPBAN10:16
+  for X being RealNormSpace-Sequence,
+    i,j be Element of dom X,
+      x be Element of product X,
+      r be Element of X.i,
+    F,s be Function
+  st F = reproj (i,x).r & x = s & i <> j
+  holds F.j = s.j;
+
+theorem :: LOPBAN10:17
+  for X being RealNormSpace-Sequence,
+      i be Element of dom X,
+      x be Element of product X,
+      s be Function
+  st x = s
+  holds reproj(i,x).(s.i)= x;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace,
+      f be Function of product X,Y;
+  attr f is Multilinear means
+:: LOPBAN10:def 6
+  for i be Element of dom X,
+      x be Element of product X
+  holds f * reproj(i,x) is LinearOperator of X.i,Y;
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster Multilinear for Function of product X,Y;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  mode MultilinearOperator of X,Y is Multilinear Function of product X,Y;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func MultilinearOperators(X,Y)
+    -> Subset of RealVectSpace(the carrier of product X,Y) means
+:: LOPBAN10:def 7
+  for x being set holds x in it iff x is MultilinearOperator of X,Y;
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster MultilinearOperators(X,Y) -> non empty functional;
+  cluster MultilinearOperators(X,Y) -> linearly-closed;
+end;
+
+theorem :: LOPBAN10:18
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  holds RLSStruct(# MultilinearOperators(X,Y),
+    Zero_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Add_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Mult_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)) #)
+    is Subspace of RealVectSpace(the carrier of product X,Y);
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster RLSStruct(# MultilinearOperators(X,Y),
+    Zero_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Add_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Mult_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)) #)
+  -> Abelian add-associative right_zeroed right_complementable
+     vector-distributive scalar-distributive scalar-associative scalar-unital;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func R_VectorSpace_of_MultilinearOperators(X,Y) -> strict RealLinearSpace
+    equals
+:: LOPBAN10:def 8
+  RLSStruct (# MultilinearOperators(X,Y),
+    Zero_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Add_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)),
+    Mult_(MultilinearOperators(X,Y),
+      RealVectSpace(the carrier of product X,Y)) #);
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster R_VectorSpace_of_MultilinearOperators(X,Y) -> constituted-Functions;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let f be Element of R_VectorSpace_of_MultilinearOperators(X,Y);
+  let v be VECTOR of product X;
+  redefine func f.v -> VECTOR of Y;
+end;
+
+theorem :: LOPBAN10:19
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,g,h be VECTOR of R_VectorSpace_of_MultilinearOperators(X,Y)
+  holds
+    h = f+g
+  iff
+    for x be VECTOR of product X holds h.x = f.x + g.x;
+
+theorem :: LOPBAN10:20
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,h be VECTOR of R_VectorSpace_of_MultilinearOperators(X,Y)
+  for a be Real
+  holds
+    h = a*f
+  iff
+    for x be VECTOR of product X holds h.x = a * f.x;
+
+theorem :: LOPBAN10:21
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  holds 0.R_VectorSpace_of_MultilinearOperators(X,Y)
+    = (the carrier of product X) --> 0.Y;
+
+theorem :: LOPBAN10:22
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  holds (the carrier of product X) --> 0.Y is MultilinearOperator of X,Y;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let IT be MultilinearOperator of X,Y;
+  let x be VECTOR of product X;
+  redefine func IT.x -> Point of Y;
+end;
+
+registration
+  let X be RealNormSpace-Sequence;
+  cluster product X -> constituted-Functions;
+end;
+
+definition
+  let X be RealNormSpace-Sequence;
+  let x be Point of product X;
+  let i be Element of dom X;
+  redefine func x.i -> Point of X.i;
+end;
+
+theorem :: LOPBAN10:23
+  for G be RealNormSpace-Sequence,
+      p,q,r be Point of product G
+  holds
+    p+q = r
+  iff
+    for i be Element of dom G holds r.i = p.i + q.i;
+
+theorem :: LOPBAN10:24
+  for G be RealNormSpace-Sequence, p, r be Point of product G, a be Real
+  holds
+    a * p = r
+  iff
+    for i be Element of dom G holds r.i = a * (p.i);
+
+theorem :: LOPBAN10:25
+  for G be RealNormSpace-Sequence,
+      p be Point of product G
+  holds
+    0.(product G) = p
+  iff
+    for i be Element of dom G holds p.i = 0.(G.i);
+
+theorem :: LOPBAN10:26
+  for G be RealNormSpace-Sequence,
+    p,q,r be Point of product G
+  holds
+    p-q = r
+  iff
+    for i be Element of dom G holds r.i = p.i - q.i;
+
+definition
+  let X be RealNormSpace-Sequence,
+      x be Point of product X;
+  func NrProduct x -> non negative Real means
+:: LOPBAN10:def 9
+  ex Nx be FinSequence of REAL
+  st dom Nx = dom X
+   & (for i be Element of dom X holds Nx.i = ||.x.i.||)
+   & it = Product Nx;
+end;
+
+theorem :: LOPBAN10:27
+  for X be RealNormSpace-Sequence,
+      x be Point of product X
+  holds
+    ( (ex i be Element of dom X st x.i = 0.(X.i)) iff NrProduct x = 0 )
+  & ( not (ex i be Element of dom X st x.i = 0.(X.i)) implies 0 < NrProduct x )
+;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let IT be MultilinearOperator of X,Y;
+  attr IT is Lipschitzian means
+:: LOPBAN10:def 10
+  ex K being Real
+  st 0 <= K
+   & for x being Point of product X
+     holds ||. IT.x .|| <= K * NrProduct x;
+end;
+
+theorem :: LOPBAN10:28
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f be MultilinearOperator of X,Y
+  st (for x be VECTOR of product X holds f.x = 0.Y)
+  holds f is Lipschitzian;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster Lipschitzian for MultilinearOperator of X,Y;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func BoundedMultilinearOperators(X,Y) -> Subset of
+  R_VectorSpace_of_MultilinearOperators(X,Y) means
+:: LOPBAN10:def 11
+    for x being set holds x in it
+  iff
+    x is Lipschitzian MultilinearOperator of X,Y;
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster BoundedMultilinearOperators(X,Y) -> non empty;
+  cluster BoundedMultilinearOperators(X,Y) -> linearly-closed;
+end;
+
+theorem :: LOPBAN10:29
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace holds
+  RLSStruct (# BoundedMultilinearOperators(X,Y),
+    Zero_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Add_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Mult_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)) #)
+    is Subspace of R_VectorSpace_of_MultilinearOperators(X,Y);
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster RLSStruct(# BoundedMultilinearOperators(X,Y),
+    Zero_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Add_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Mult_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)) #) ->
+  Abelian add-associative right_zeroed
+  right_complementable vector-distributive
+  scalar-distributive scalar-associative scalar-unital;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func R_VectorSpace_of_BoundedMultilinearOperators(X,Y) ->
+    strict RealLinearSpace equals
+:: LOPBAN10:def 12
+  RLSStruct(# BoundedMultilinearOperators(X,Y),
+    Zero_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Add_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Mult_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)) #);
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster -> Function-like Relation-like for Element of
+    R_VectorSpace_of_BoundedMultilinearOperators(X,Y);
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let f be Element of R_VectorSpace_of_BoundedMultilinearOperators(X,Y);
+  let v be VECTOR of product X;
+  redefine func f.v -> VECTOR of Y;
+end;
+
+theorem :: LOPBAN10:30
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,g,h be VECTOR of R_VectorSpace_of_BoundedMultilinearOperators(X,Y)
+  holds
+    h = f+g
+  iff
+    for x be VECTOR of product X
+    holds h.x = f.x + g.x;
+
+theorem :: LOPBAN10:31
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,h be VECTOR of R_VectorSpace_of_BoundedMultilinearOperators(X,Y)
+  for a be Real
+  holds
+    h = a * f
+  iff
+    for x be VECTOR of product X holds
+    h.x = a * f.x;
+
+theorem :: LOPBAN10:32
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  holds
+    0.R_VectorSpace_of_BoundedMultilinearOperators(X,Y)
+    = (the carrier of product X) --> 0.Y;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let f be object such that
+   f in BoundedMultilinearOperators(X,Y);
+  func modetrans(f,X,Y) -> Lipschitzian MultilinearOperator of X,Y
+  equals
+:: LOPBAN10:def 13
+
+  f;
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let u be MultilinearOperator of X,Y;
+  func PreNorms(u) -> non empty Subset of REAL equals
+:: LOPBAN10:def 14
+  {||.u.t .|| where t is VECTOR of product X :
+    for i be Element of dom X holds ||.t.i.|| <= 1 };
+end;
+
+theorem :: LOPBAN10:33
+  for X being RealNormSpace-Sequence,
+      s being Element of product X
+  ex F be FinSequence of REAL
+  st dom F = dom X
+   & for i be Element of dom X
+  holds F.i=||.s.i.||;
+
+theorem :: LOPBAN10:34
+  for F be FinSequence of REAL
+  st for i be Element of dom F holds 0 <= F.i & F.i <= 1
+  holds 0 <= Product F & Product F <= 1;
+
+theorem :: LOPBAN10:35
+  for X being RealNormSpace-Sequence,
+      x being Point of product X
+  st ( for i be Element of dom X holds ||.x.i.|| <= 1 )
+  holds 0 <= NrProduct x & NrProduct x <= 1;
+
+theorem :: LOPBAN10:36
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace,
+      g be MultilinearOperator of X,Y,
+      t be Point of product X
+  st ex i be Element of dom X st t.i = 0.(X.i)
+  holds g.t = 0.Y;
+
+theorem :: LOPBAN10:37
+  for X being RealNormSpace-Sequence,
+      x be Point of product X
+  ex d be FinSequence of REAL
+  st dom d = dom X
+   & for i be Element of dom X holds d.i = ||.x.i.||";
+
+theorem :: LOPBAN10:38
+  for X being RealNormSpace-Sequence,
+      s be Point of product X,
+      a be FinSequence of REAL
+  ex s1 be Point of product X
+  st for i be Element of dom X holds s1.i = (a/.i) * s.i;
+
+theorem :: LOPBAN10:39
+  for X being RealNormSpace-Sequence,
+      Y being RealNormSpace,
+      g be MultilinearOperator of X,Y,
+      a be FinSequence of REAL
+  st dom a = dom X
+  holds
+    for t,t1 be Point of product X
+    st for i be Element of dom X holds t1.i= (a/.i) * t.i
+    holds g.t1 = (Product a) * g.t;
+
+theorem :: LOPBAN10:40
+  for F,G be FinSequence of REAL
+  st dom F = dom G
+   & ( for i being Element of dom F holds G.i = (F.i)" )
+  holds Product G = (Product F)";
+
+theorem :: LOPBAN10:41
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for g be Lipschitzian MultilinearOperator of X,Y
+  holds PreNorms(g) is bounded_above;
+
+theorem :: LOPBAN10:42
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for g be MultilinearOperator of X,Y
+  holds g is Lipschitzian iff PreNorms(g) is bounded_above;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func BoundedMultilinearOperatorsNorm(X,Y)
+    -> Function of BoundedMultilinearOperators(X,Y),REAL means
+:: LOPBAN10:def 15
+  for x be object st x in BoundedMultilinearOperators(X,Y)
+  holds it.x = upper_bound PreNorms(modetrans(x,X,Y));
+end;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let f be Lipschitzian MultilinearOperator of X,Y;
+  reduce modetrans(f,X,Y) to f;
+end;
+
+theorem :: LOPBAN10:43
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f be Lipschitzian MultilinearOperator of X,Y
+  holds BoundedMultilinearOperatorsNorm(X,Y).f = upper_bound PreNorms(f);
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  func R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+    -> non empty strict NORMSTR equals
+:: LOPBAN10:def 16
+  NORMSTR(# BoundedMultilinearOperators(X,Y),
+    Zero_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Add_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    Mult_(BoundedMultilinearOperators(X,Y),
+      R_VectorSpace_of_MultilinearOperators(X,Y)),
+    BoundedMultilinearOperatorsNorm(X,Y) #);
+end;
+
+theorem :: LOPBAN10:44
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace holds
+  (the carrier of product X) --> 0.Y
+  = 0.R_NormSpace_of_BoundedMultilinearOperators(X,Y);
+
+theorem :: LOPBAN10:45
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f being Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  for g be Lipschitzian MultilinearOperator of X,Y st g = f
+  holds
+    for t be VECTOR of product X holds ||. g.t .|| <= ||.f.|| * NrProduct t;
+
+theorem :: LOPBAN10:46
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f being Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  holds 0 <= ||.f.||;
+
+theorem :: LOPBAN10:47
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f being Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  st f = 0.R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  holds 0 = ||.f.||;
+
+registration
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  cluster -> Function-like Relation-like for Element of
+    R_NormSpace_of_BoundedMultilinearOperators(X,Y);
+end;
+
+definition
+  let X be RealNormSpace-Sequence,
+      Y be RealNormSpace;
+  let f be Element of R_NormSpace_of_BoundedMultilinearOperators(X,Y);
+  let v be VECTOR of product X;
+  redefine func f.v -> VECTOR of Y;
+end;
+
+theorem :: LOPBAN10:48
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,g,h be Point of
+  R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  holds h = f+g iff for x be VECTOR of product X holds h.x = f.x + g.x;
+
+theorem :: LOPBAN10:49
+  for X being RealNormSpace-Sequence,
+      Y be RealNormSpace
+  for f,h be Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  for a be Real
+  holds h = a * f iff for x be VECTOR of product X holds h.x = a * f.x;
+
+theorem :: LOPBAN10:50
+  for X being RealNormSpace-Sequence,Y be RealNormSpace
+  for f, g being Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  for a be Real holds
+  ( ||.f.|| = 0 iff f = 0.R_NormSpace_of_BoundedMultilinearOperators(X,Y) )
+  & ||.a*f.|| = |.a.| * ||.f.|| & ||.f+g.|| <= ||.f.|| + ||.g.||;
+
+theorem :: LOPBAN10:51
+  for X being RealNormSpace-Sequence,Y be RealNormSpace
+  holds R_NormSpace_of_BoundedMultilinearOperators(X,Y) is RealNormSpace;
+
+registration
+  let X be RealNormSpace-Sequence,Y be RealNormSpace;
+  cluster R_NormSpace_of_BoundedMultilinearOperators(X,Y) ->
+  reflexive discerning RealNormSpace-like
+  vector-distributive scalar-distributive scalar-associative scalar-unital
+  Abelian add-associative right_zeroed right_complementable;
+end;
+
+theorem :: LOPBAN10:52
+  for X being RealNormSpace-Sequence,Y be RealNormSpace
+  for f,g,h be Point of R_NormSpace_of_BoundedMultilinearOperators(X,Y)
+  holds h = f-g iff for x be VECTOR of product X holds h.x = f.x - g.x;

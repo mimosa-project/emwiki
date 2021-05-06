@@ -1,0 +1,166 @@
+:: Homeomorphism between Finite Topological Spaces, Two-Dimensional Lattice
+:: Spaces and a Fixed Point Theorem
+::  by Masami Tanaka , Hiroshi Imura and Yatsuka Nakamura
+::
+:: Received July 6, 2005
+:: Copyright (c) 2005-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, FUNCT_1, SUBSET_1, RELAT_1, XXREAL_0, CARD_1,
+      FINSEQ_1, ORDERS_2, TOPS_2, FUNCT_2, FIN_TOPO, STRUCT_0, ARYTM_3,
+      EQREL_1, XCMPLX_0, FINTOPO4, NAT_1, ARYTM_1, TARSKI, COMPLEX1, INT_1,
+      ZFMISC_1, RELAT_2, FINTOPO5;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      XXREAL_0, NAT_1, NAT_D, RELAT_1, FUNCT_1, RELSET_1, EQREL_1, FUNCT_2,
+      FINSEQ_1, STRUCT_0, FIN_TOPO, FINTOPO3, ENUMSET1, ORDERS_2, FINTOPO4,
+      COMPLEX1, INT_1;
+ constructors ENUMSET1, REAL_1, NAT_1, EQREL_1, FIN_TOPO, FINTOPO3, FINTOPO4,
+      NAT_D, RELSET_1;
+ registrations XBOOLE_0, SUBSET_1, RELSET_1, XXREAL_0, XREAL_0, NAT_1, INT_1,
+      STRUCT_0, FIN_TOPO, ORDINAL1, FINSEQ_1, CARD_1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+theorem :: FINTOPO5:1
+  for X being set, Y being non empty set, f being Function of X,Y,
+  A being Subset of X st f is one-to-one holds f".:(f.:A)=A;
+
+theorem :: FINTOPO5:2
+  for n being Nat holds n>0 iff Seg n<>{};
+
+definition
+  let FT1,FT2 be RelStr, h be Function of FT1, FT2;
+  attr h is being_homeomorphism means
+:: FINTOPO5:def 1
+
+  h is one-to-one onto & for x
+  being Element of FT1 holds h.:U_FT x = Im(the InternalRel of FT2,h.x);
+end;
+
+theorem :: FINTOPO5:3
+  for FT1,FT2 being non empty RelStr, h being Function of FT1, FT2
+  st h is being_homeomorphism ex g being Function of FT2, FT1 st g=h" & g is
+  being_homeomorphism;
+
+theorem :: FINTOPO5:4
+  for FT1,FT2 being non empty RelStr, h being Function of FT1, FT2,
+n being Nat, x being Element of FT1, y being Element of FT2 st h is
+being_homeomorphism & y=h.x holds for z being Element of FT1 holds z in U_FT(x,
+  n) iff h.z in U_FT(y,n);
+
+theorem :: FINTOPO5:5
+  for FT1,FT2 being non empty RelStr, h being Function of FT1, FT2, n
+  being Nat,x being Element of FT1,y being Element of FT2 st h is
+being_homeomorphism & y=h.x holds for v being Element of FT2 holds h".v in U_FT
+  (x,n) iff v in U_FT(y,n);
+
+theorem :: FINTOPO5:6
+  for n being non zero Nat, f being Function of FTSL1 n,
+FTSL1 n st f is_continuous 0 holds ex p being Element of FTSL1 n st f.p in U_FT
+  (p,0);
+
+theorem :: FINTOPO5:7
+  for T being non empty RelStr, p being Element of T, k being
+  Nat st T is filled holds U_FT(p,k) c= U_FT(p,k+1);
+
+theorem :: FINTOPO5:8
+  for T being non empty RelStr, p being Element of T, k being
+  Nat st T is filled holds U_FT(p,0) c= U_FT(p,k);
+
+theorem :: FINTOPO5:9
+  for n being non zero Nat, jn,j,k being Nat, p being Element of
+  FTSL1 n st p=jn holds j in U_FT(p,k) iff j in Seg n & |.jn-j.|<= k+1;
+
+:: Fixed Point Theorem
+
+theorem :: FINTOPO5:10
+  for kc,km being Nat, n being non zero Nat, f
+  being Function of FTSL1 n, FTSL1 n st f is_continuous kc & km=[/ (kc/2) \]
+  holds ex p being Element of FTSL1 n st f.p in U_FT(p,km);
+
+definition
+  let A,B be set;
+  let R be Relation of A,B, x be set;
+  redefine func Im(R,x) -> Subset of B;
+end;
+
+:: 2-dimensional linear FT_Str
+
+definition
+  let n,m be Nat;
+  func Nbdl2(n,m) -> Relation of [:Seg n, Seg m:] means
+:: FINTOPO5:def 2
+
+  for x being set
+st x in [:Seg n, Seg m:] holds for i,j being Nat st x=[i,j] holds Im
+  (it,x) = [:Im(Nbdl1 n,i), Im(Nbdl1 m,j):];
+end;
+
+definition
+  let n,m be Nat;
+  func FTSL2(n,m) -> strict RelStr equals
+:: FINTOPO5:def 3
+  RelStr(# [:Seg n, Seg m:], Nbdl2(n,m
+    ) #);
+end;
+
+registration
+  let n,m be non zero Nat;
+  cluster FTSL2(n,m) -> non empty;
+end;
+
+theorem :: FINTOPO5:11
+  for n,m being non zero Nat holds FTSL2(n,m) is filled;
+
+theorem :: FINTOPO5:12
+  for n,m being non zero Nat holds FTSL2(n,m) is symmetric;
+
+theorem :: FINTOPO5:13
+  for n being non zero Nat ex h being Function of FTSL2(n,1),
+  FTSL1 n st h is being_homeomorphism;
+
+:: 2-dimensional small FT_Str
+
+definition
+  let n,m be Nat;
+  func Nbds2(n,m) -> Relation of [:Seg n, Seg m:] means
+:: FINTOPO5:def 4
+
+  for x being set
+st x in [:Seg n, Seg m:] holds for i,j being Nat st x=[i,j] holds Im
+  (it,x) = [:{i}, Im(Nbdl1 m,j):] \/ [:Im(Nbdl1 n,i),{j}:];
+end;
+
+definition
+  let n,m be Nat;
+  func FTSS2(n,m) -> strict RelStr equals
+:: FINTOPO5:def 5
+  RelStr(# [:Seg n, Seg m:], Nbds2(n,m
+    ) #);
+end;
+
+registration
+  let n,m be non zero Nat;
+  cluster FTSS2(n,m) -> non empty;
+end;
+
+theorem :: FINTOPO5:14
+  for n,m being non zero Nat holds FTSS2(n,m) is filled;
+
+theorem :: FINTOPO5:15
+  for n,m being non zero Nat holds FTSS2(n,m) is symmetric;
+
+theorem :: FINTOPO5:16
+  for n being non zero Nat ex h being Function of FTSS2(n,1),
+  FTSL1 n st h is being_homeomorphism;

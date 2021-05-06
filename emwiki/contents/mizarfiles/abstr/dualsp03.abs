@@ -1,0 +1,276 @@
+:: Weak Convergence and Weak* Convergence
+::  by Keiko Narita , Noboru Endou and Yasunari Shidama
+::
+:: Received July 1, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies RLSUB_1, HAHNBAN, UNIALG_1, DUALSP01, DUALSP02, DUALSP03, PBOOLE,
+      INT_1, NFCONT_1, CFCONT_1, RLVECT_1, ARYTM_1, RELAT_1, FUNCT_1, RSSPACE,
+      RSSPACE3, REAL_1, TARSKI, MSSUBFAM, STRUCT_0, SEQ_1, FUNCOP_1, FCONT_1,
+      SEQ_2, LOPBAN_1, ORDINAL2, ARYTM_3, NORMSP_1, FUNCT_2, PRE_TOPC,
+      SUBSET_1, ZFMISC_1, NUMBERS, SEQ_4, XBOOLE_0, CARD_1, SUPINF_2, COMPLEX1,
+      XXREAL_0, XXREAL_2, NAT_1, REWRITE1, VALUED_1, METRIC_1, ASYMPT_1,
+      PARTFUN1, RCOMP_1, NORMSP_2, RLVECT_3, NORMSP_3, TOPS_1, TOPGEN_1,
+      VALUED_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, FUNCOP_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, INT_1,
+      VALUED_0, COMPLEX1, XXREAL_2, VALUED_1, SEQ_1, SEQ_2, SEQ_4, RINFSUP1,
+      STRUCT_0, PRE_TOPC, TOPS_1, RLVECT_1, RLSUB_1, RLVECT_3, NORMSP_0,
+      NORMSP_1, HAHNBAN, RSSPACE, RSSPACE3, LOPBAN_1, NFCONT_1, NORMSP_2,
+      LOPBAN_5, DUALSP01, NORMSP_3, DUALSP02;
+ constructors REAL_1, EUCLID, REALSET1, RSSPACE3, BINOP_2, SEQ_1, NFCONT_1,
+      RELSET_1, SEQ_2, SEQ_4, HAHNBAN1, NORMSP_2, RLVECT_3, LOPBAN_5, COMSEQ_2,
+      NORMSP_3, TOPS_1, DUALSP02, RINFSUP1, CARD_3;
+ registrations STRUCT_0, XREAL_0, NUMBERS, ORDINAL1, MEMBERED, RELAT_1,
+      XXREAL_0, VALUED_0, FUNCT_2, VALUED_1, FUNCOP_1, SEQ_4, RELSET_1,
+      FUNCT_1, NORMSP_3, DUALSP02, XCMPLX_0, NORMSP_0, NAT_1, NORMSP_1, SEQ_2,
+      DUALSP01, XBOOLE_0, SEQM_3, INT_1, LOPBAN_1, PRE_TOPC, NORMSP_4;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin :: Some properties about Dual Spaces of Real Normed Spaces
+
+definition
+  let X be non empty set;
+  let F be sequence of Funcs(NAT,X);
+  let k be Nat;
+  redefine func F.k -> sequence of X;
+end;
+
+theorem :: DUALSP03:1
+  for X be strict RealNormSpace, A be non empty Subset of X holds
+    (for f be Point of DualSp X st
+     (for x be Point of X st x in A holds (Bound2Lipschitz(f,X)).x = 0)
+     holds Bound2Lipschitz(f,X) = 0.(DualSp X))
+   implies ClNLin(A) = X;
+
+theorem :: DUALSP03:2
+  for X be strict RealNormSpace st DualSp X is separable holds X is separable;
+
+theorem :: DUALSP03:3
+  for x be Real, x1 be Point of RNS_Real st x=x1 holds -x = -x1;
+
+theorem :: DUALSP03:4
+  for x,y be Real, x1,y1 be Point of RNS_Real
+    st x=x1 & y=y1 holds x-y = x1-y1;
+
+theorem :: DUALSP03:5
+  for seq be Real_Sequence, seq1 be sequence of RNS_Real
+    st seq = seq1 holds seq is convergent iff seq1 is convergent;
+
+theorem :: DUALSP03:6
+  for seq be Real_Sequence, seq1 be sequence of RNS_Real
+    st seq = seq1 & seq is convergent holds lim seq = lim seq1;
+
+theorem :: DUALSP03:7
+  for seq1 be sequence of RNS_Real
+    st seq1 is Cauchy_sequence_by_Norm holds seq1 is convergent;
+
+registration
+  cluster RNS_Real -> complete;
+end;
+
+definition
+  let X be RealNormSpace,
+      g be sequence of DualSp X,
+      x be Point of X;
+  func g#x -> Real_Sequence means
+:: DUALSP03:def 1
+  for i be Nat holds it.i = (g.i).x;
+end;
+
+begin :: Weak Convergence and Weak* Convergence
+
+definition
+  let X be RealNormSpace, x be sequence of X;
+  attr x is weakly-convergent means
+:: DUALSP03:def 2
+  ex x0 be Point of X st
+    for f be Lipschitzian linear-Functional of X
+      holds f*x is convergent & lim (f*x) = f.x0;
+end;
+
+theorem :: DUALSP03:8
+  for X be RealNormSpace, x be sequence of X
+    st rng x c= {0.X} holds x is weakly-convergent;
+
+definition
+  let X be RealNormSpace, x be sequence of X;
+  assume  x is weakly-convergent;
+  func w-lim x -> Point of X means
+:: DUALSP03:def 3
+  for f be Lipschitzian linear-Functional of X
+    holds f*x is convergent & lim (f*x) = f.it;
+end;
+
+theorem :: DUALSP03:9
+  for X be RealNormSpace, x be sequence of X
+    st x is convergent holds x is weakly-convergent & w-lim x = lim x;
+
+theorem :: DUALSP03:10
+  for X be RealNormSpace, x be sequence of X
+     st X is non trivial & x is weakly-convergent
+  holds ||.x.|| is bounded & ||. w-lim x .|| <= lim_inf ||.x.||
+      & w-lim x in ClNLin(rng x);
+
+definition
+  let X be RealNormSpace,
+      g be sequence of DualSp X;
+  attr g is weakly*-convergent means
+:: DUALSP03:def 4
+  ex g0 be Point of DualSp X st
+   for x be Point of X holds g#x is convergent & lim (g#x) = g0.x;
+end;
+
+definition
+  let X be RealNormSpace,
+      g be sequence of DualSp X;
+  assume  g is weakly*-convergent;
+  func w*-lim g -> Point of DualSp X means
+:: DUALSP03:def 5
+  for x be Point of X
+    holds g#x is convergent & lim (g#x) = it.x;
+end;
+
+theorem :: DUALSP03:11
+  for X be RealNormSpace, g be sequence of DualSp X
+    st g is convergent holds g is weakly*-convergent & w*-lim g = lim g;
+
+theorem :: DUALSP03:12
+  for X be RealNormSpace, f be sequence of DualSp X
+    st f is weakly-convergent holds f is weakly*-convergent;
+
+theorem :: DUALSP03:13
+  for X be RealNormSpace, f be sequence of DualSp X
+    st X is Reflexive holds
+      f is weakly-convergent iff f is weakly*-convergent;
+
+theorem :: DUALSP03:14
+  for X be RealBanachSpace, T be Subset of DualSp X
+    st ( for x be Point of X
+         ex K be Real st
+           0 <= K
+         & for f be Point of DualSp X st f in T holds |. f.x .| <= K ) holds
+  ex L be Real st
+    0 <= L
+  & for f be Point of DualSp X st f in T holds ||.f.|| <= L;
+
+theorem :: DUALSP03:15
+  for X be RealBanachSpace, f be sequence of DualSp X
+      st f is weakly*-convergent
+    holds ||.f.|| is bounded & ||. w*-lim f .|| <= lim_inf ||.f.||;
+
+theorem :: DUALSP03:16
+  for X be RealNormSpace, x be Point of X,
+    vseq be sequence of DualSp X,
+    vseq1 be sequence of R_NormSpace_of_BoundedLinearOperators(X,RNS_Real)
+  st vseq = vseq1 holds vseq#x = vseq1#x;
+
+theorem :: DUALSP03:17
+  for X be RealBanachSpace, X0 be Subset of X, vseq be sequence of DualSp X
+    st ||.vseq.|| is bounded & X0 is dense
+  & (for x be Point of X st x in X0 holds vseq#x is convergent)
+  holds vseq is weakly*-convergent;
+
+theorem :: DUALSP03:18
+  for X be RealBanachSpace, f be sequence of DualSp X holds
+   f is weakly*-convergent
+   iff ( ||.f.|| is bounded
+    & ex X0 be Subset of X st
+         X0 is dense
+       & (for x be Point of X st x in X0 holds f#x is convergent)
+     );
+
+begin :: Weak Sequential Compactness of Real Banach Spaces
+
+definition
+  let X be RealNormSpace, X0 be non empty Subset of X;
+  attr X0 is weakly-sequentially-compact means
+:: DUALSP03:def 6
+  for seq be sequence of X0
+    ex seq1 be sequence of X st
+      seq1 is subsequence of seq & seq1 is weakly-convergent
+    & w-lim seq1 in X;
+end;
+
+theorem :: DUALSP03:19
+  for X be RealNormSpace, x be sequence of X st X is Reflexive holds
+    x is weakly-convergent iff (BidualFunc X)*x is weakly*-convergent;
+
+theorem :: DUALSP03:20
+  for X be RealNormSpace, f be sequence of DualSp X, x be Point of X
+    st ||.f.|| is bounded holds
+   ex f0 be sequence of DualSp X st
+      f0 is subsequence of f & ||.f0.|| is bounded & f0#x is convergent;
+
+theorem :: DUALSP03:21
+  for X be RealNormSpace, f be sequence of DualSp X, x be Point of X
+    st ||.f.|| is bounded holds
+   ex f0 be sequence of DualSp X st
+      f0 is subsequence of f & ||.f0.|| is bounded
+    & f0#x is convergent & f0#x is subsequence of f#x;
+
+theorem :: DUALSP03:22
+  for X be RealNormSpace, f be sequence of DualSp X, x be Point of X
+    st ||.f.|| is bounded holds
+  ex f0 be sequence of DualSp X, N be increasing sequence of NAT st
+    f0 is subsequence of f & ||.f0.|| is bounded
+  & f0#x is convergent & f0#x is subsequence of f#x
+  & f0 = f*N;
+
+theorem :: DUALSP03:23
+  for X be RealNormSpace, f be sequence of DualSp X, x be sequence of X
+    st ||.f.|| is bounded holds
+  ex F be sequence of Funcs(NAT,the carrier of DualSp X) st
+     F.0 is subsequence of f & (F.0)#(x.0) is convergent
+   & ( for k be Nat holds F.(k+1) is subsequence of F.k )
+   & ( for k be Nat holds (F.(k+1))#(x.(k+1)) is convergent);
+
+theorem :: DUALSP03:24
+  for X be RealNormSpace, f be sequence of DualSp X, x be sequence of X
+    st ||.f.|| is bounded holds
+  ex F be sequence of Funcs(NAT,the carrier of DualSp X),
+     N be sequence of Funcs(NAT,NAT) st
+     F.0 is subsequence of f & (F.0)#(x.0) is convergent
+   & N.0 is increasing sequence of NAT & F.0 = f*N.0
+   & (for k be Nat holds F.(k+1) is subsequence of F.k)
+   & (for k be Nat holds (F.(k+1))#(x.(k+1)) is convergent)
+   & (for k be Nat holds (F.(k+1))#(x.(k+1)) is subsequence of (F.k)#(x.(k+1)))
+   & (for k be Nat holds N.(k+1) is increasing sequence of NAT)
+   & for k be Nat holds F.(k+1) = (F.k)*N.(k+1);
+
+theorem :: DUALSP03:25
+  for X be RealNormSpace, f be sequence of DualSp X, x be sequence of X
+    st ||.f.|| is bounded holds
+     ex M be sequence of DualSp X st
+        M is subsequence of f & for k be Nat holds M#(x.k) is convergent;
+
+theorem :: DUALSP03:26
+  for X be RealBanachSpace, f be sequence of DualSp X
+    st X is separable & ||.f.|| is bounded holds
+    ex f0 be sequence of DualSp X st
+       f0 is subsequence of f & f0 is weakly*-convergent;
+
+theorem :: DUALSP03:27
+  for X be RealBanachSpace, x be sequence of X
+    st X is Reflexive & ||.x.|| is bounded holds
+     ex x0 be sequence of X st
+        x0 is subsequence of x & x0 is weakly-convergent;
+
+theorem :: DUALSP03:28
+  for X be RealBanachSpace, X0 be non empty Subset of X
+    st X is non trivial Reflexive holds
+      X0 is weakly-sequentially-compact iff
+      ex S be non empty Subset of REAL st
+         S = {||.x.|| where x is Point of X : x in X0}
+       & S is bounded_above;

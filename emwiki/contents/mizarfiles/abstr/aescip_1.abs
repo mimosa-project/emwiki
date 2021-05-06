@@ -1,0 +1,611 @@
+:: Formalization of the Advanced Encryption Standard -- Part {I}
+::  by Kenichi Arai and Hiroyuki Okazaki
+::
+:: Received October 7, 2013
+:: Copyright (c) 2013-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies AESCIP_1, DESCIP_1, TARSKI, XBOOLE_0, FINSEQ_1, RELAT_1, FUNCT_1,
+      ARYTM_1, FUNCT_2, FINSEQ_2, NAT_1, MARGREL1, ZFMISC_1, SUBSET_1, NUMBERS,
+      INT_1, CARD_1, JORDAN3, XXREAL_0, ARYTM_3, ORDINAL4, FINSEQ_5, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, BINOP_1, CARD_1, NUMBERS, XCMPLX_0,
+      XXREAL_0, NAT_1, INT_1, NAT_D, FINSEQ_1, FINSEQ_2, MARGREL1, FINSEQ_4,
+      FINSEQ_6, DESCIP_1;
+ constructors RELSET_1, FINSEQ_4, NAT_D, FINSEQ_6, DESCIP_1, BINOP_1;
+ registrations FINSEQ_1, RELSET_1, FINSEQ_2, FUNCT_2, ORDINAL1, MARGREL1,
+      INT_1, NAT_1, XXREAL_0, XBOOLE_0, FUNCT_1, XREAL_0, FINSEQ_4;
+ requirements BOOLE, SUBSET, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+theorem :: AESCIP_1:1
+  for k,m be Nat st m <> 0 & (k+1) mod m <> 0
+  holds (k+1) mod m = (k mod m)+1;
+
+theorem :: AESCIP_1:2
+  for k,m be Nat st m <> 0 & (k+1) mod m <> 0 holds (k+1) div m = k div m;
+
+theorem :: AESCIP_1:3
+  for k,m be Nat st m <> 0 & (k+1) mod m = 0 holds m-1 = (k mod m);
+
+theorem :: AESCIP_1:4
+  for k,m be Nat st m <> 0 & (k+1) mod m = 0
+  holds (k+1) div m = (k div m)+1;
+
+theorem :: AESCIP_1:5
+  for k,m be Nat holds (k-m) mod m = k mod m;
+
+theorem :: AESCIP_1:6
+  for k,m be Nat st m <> 0 holds (k-m) div m = (k div m)-1;
+
+definition
+  let m,n be Nat, X,D be non empty set;
+  let F be Function of X, m-tuples_on(n-tuples_on D);
+  let x be Element of X;
+  redefine func F.x -> Element of m-tuples_on(n-tuples_on D);
+end;
+
+definition
+  let m be Nat, X,Y,D be non empty set;
+  let F be Function of [:X,Y:], m-tuples_on D;
+  let x be Element of X,y be Element of Y;
+  redefine func F.(x,y) -> Element of m-tuples_on D;
+end;
+
+theorem :: AESCIP_1:7
+  for m,n be Nat, D be non empty set,
+  F1,F2 be Element of m-tuples_on (n-tuples_on D) st for i,j be Nat
+  st i in Seg m & j in Seg n
+  holds (F1.i).j = (F2.i).j holds F1 = F2;
+
+theorem :: AESCIP_1:8
+  for D be non empty set, x1,x2,x3,x4 be Element of D
+  holds <* x1,x2,x3,x4 *> is Element of (4-tuples_on D);
+
+theorem :: AESCIP_1:9
+  for D be non empty set,x1,x2,x3,x4,x5 be Element of D
+  holds <* x1,x2,x3,x4,x5 *> is Element of (5-tuples_on D);
+
+theorem :: AESCIP_1:10
+  for D be non empty set, x1,x2,x3,x4,x5,x6,x7,x8 be Element of D
+  holds <* x1,x2,x3,x4 *>^<* x5,x6,x7,x8 *> is Element of (8-tuples_on D);
+
+theorem :: AESCIP_1:11
+  for D be non empty set, x1,x2,x3,x4,x5,x6,x7,x8,x9,x10 be Element of D
+  holds <* x1,x2,x3,x4,x5 *>^<* x6,x7,x8,x9,x10 *> is
+  Element of (10-tuples_on D);
+
+theorem :: AESCIP_1:12
+  for D be non empty set, x1,x2,x3,x4,x5,x6,x7,x8 be Element of (4-tuples_on D)
+  holds <* x1^x5,x2^x6,x3^x7,x4^x8 *> is
+  Element of 4-tuples_on (8-tuples_on D);
+
+theorem :: AESCIP_1:13
+  for D be non empty set, x be Element of 4-tuples_on(4-tuples_on D),
+  k be Element of NAT st k in Seg 4 holds
+  ex x1,x2,x3,x4 be Element of D st x1 = (x.k).1 & x2 = (x.k).2 &
+  x3 = (x.k).3 & x4 = (x.k).4;
+
+theorem :: AESCIP_1:14
+  for X,Y be non empty set, f be Function of X,Y, g be Function of Y,X
+  st (for x be Element of X holds g.(f.x) = x) &
+  (for y be Element of Y holds f.(g.y) = y)
+  holds f is one-to-one & f is onto & g is one-to-one & g is onto &
+  g = f" & f = g";
+
+begin :: State array
+
+definition
+  func AES-Statearray -> Function of 128-tuples_on BOOLEAN,
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 1
+
+  for input be Element of 128-tuples_on BOOLEAN
+  for i,j be Nat st i in Seg 4 & j in Seg 4
+  holds ((it.input).i).j = mid (input,1+(i-'1)*8+(j-'1)*32,
+  1+(i-'1)*8+(j-'1)*32+7);
+end;
+
+theorem :: AESCIP_1:15
+  for k be Nat st 1 <= k & k <= 128 ex i,j be Nat st i in Seg 4 & j in Seg 4 &
+  1+(i-'1)*8+(j-'1)*32 <= k & k <= 1+(i-'1)*8+(j-'1)*32+7;
+
+theorem :: AESCIP_1:16
+  for i,j,i0,j0 be Nat st i in Seg 4 & j in Seg 4 & i0 in Seg 4 &
+  j0 in Seg 4 & not (i = i0 & j = j0)
+  holds {k where k is Nat : 1+(i-'1)*8+(j-'1)*32 <= k &
+  k <= 8+(i-'1)*8+(j-'1)*32} /\ {k where k is Nat :
+  1+(i0-'1)*8+(j0-'1)*32 <= k & k <= 8+(i0-'1)*8+(j0-'1)*32} = {};
+
+theorem :: AESCIP_1:17
+  for k,i,j,i0,j0 be Nat st 1 <= k & k <= 128 & i in Seg 4 & j in Seg 4 &
+  i0 in Seg 4 & j0 in Seg 4 & 1+(i-'1)*8+(j-'1)*32 <= k &
+  k <= 1+(i-'1)*8+(j-'1)*32+7 & 1+(i0-'1)*8+(j0-'1)*32 <= k &
+  k <= 1+(i0-'1)*8+(j0-'1)*32+7 holds i = i0 & j = j0;
+
+theorem :: AESCIP_1:18
+  AES-Statearray is one-to-one;
+
+theorem :: AESCIP_1:19
+  AES-Statearray is onto;
+
+registration
+  cluster AES-Statearray -> bijective;
+end;
+
+theorem :: AESCIP_1:20
+  for cipher be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds AES-Statearray.((AES-Statearray)".(cipher)) = cipher;
+
+begin :: SubBytes
+
+reserve SBT for Permutation of (8-tuples_on BOOLEAN);
+
+definition
+  let SBT;
+  func SubBytes(SBT) ->
+  Function of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 2
+
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds for i,j be Nat st i in Seg 4 & j in Seg 4
+  holds ex inputij be Element of 8-tuples_on BOOLEAN
+  st inputij = (input.i).j & ((it.input).i).j = SBT.(inputij);
+end;
+
+definition
+  let SBT;
+  func InvSubBytes(SBT) ->
+  Function of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 3
+
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds for i,j be Nat st i in Seg 4 & j in Seg 4 holds
+  ex inputij be Element of 8-tuples_on BOOLEAN st inputij = (input.i).j &
+  ((it.input).i).j = (SBT").(inputij);
+end;
+
+theorem :: AESCIP_1:21
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (InvSubBytes(SBT)).((SubBytes(SBT)).input) = input;
+
+theorem :: AESCIP_1:22
+  for output be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (SubBytes(SBT)).((InvSubBytes(SBT)).output) = output;
+
+theorem :: AESCIP_1:23
+  SubBytes(SBT) is one-to-one & SubBytes(SBT) is onto &
+  InvSubBytes(SBT) is one-to-one & InvSubBytes(SBT) is onto &
+  InvSubBytes(SBT) = (SubBytes(SBT))" & SubBytes(SBT) = (InvSubBytes(SBT))";
+
+begin :: ShiftRows
+
+definition
+  func ShiftRows ->
+  Function of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 4
+
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (for i be Nat st i in Seg 4 holds
+  ex xi be Element of 4-tuples_on (8-tuples_on BOOLEAN) st xi = input.i &
+  (it.input).i = Op-Shift(xi,5-i));
+end;
+
+definition
+  func InvShiftRows ->
+  Function of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 5
+
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (for i be Nat st i in Seg 4 holds
+  ex xi be Element of 4-tuples_on (8-tuples_on BOOLEAN) st xi = input.i &
+  (it.input).i = Op-Shift(xi,i-1));
+end;
+
+theorem :: AESCIP_1:24
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds InvShiftRows.(ShiftRows.input) = input;
+
+theorem :: AESCIP_1:25
+  for output be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds ShiftRows.(InvShiftRows.output) = output;
+
+theorem :: AESCIP_1:26
+  ShiftRows is one-to-one & ShiftRows is onto &
+  InvShiftRows is one-to-one & InvShiftRows is onto &
+  InvShiftRows = (ShiftRows)" & ShiftRows = (InvShiftRows)";
+
+begin :: AddRoundKey
+
+definition
+  func AddRoundKey ->
+  Function of [:4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)):],
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 6
+
+  for text, key be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds for i,j be Nat st i in Seg 4 & j in Seg 4
+  holds ex textij,keyij be Element of 8-tuples_on BOOLEAN
+  st textij = (text.i).j & keyij = (key.i).j &
+  ((it.(text,key)).i).j = Op-XOR(textij,keyij);
+end;
+
+begin :: Key Expansion
+
+definition
+  let SBT;
+  let x be Element of 4-tuples_on (8-tuples_on BOOLEAN);
+  func SubWord(SBT,x) -> Element of 4-tuples_on (8-tuples_on BOOLEAN) means
+:: AESCIP_1:def 7
+  for i be Element of Seg 4 holds it.i = SBT.(x.i);
+end;
+
+definition
+  let x be Element of 4-tuples_on (8-tuples_on BOOLEAN);
+  func RotWord(x) -> Element of 4-tuples_on (8-tuples_on BOOLEAN) equals
+:: AESCIP_1:def 8
+  Op-LeftShift(x);
+end;
+
+definition
+  let n,m be non zero Element of NAT;
+  let s,t be Element of m-tuples_on (n-tuples_on BOOLEAN);
+  func Op-WXOR(s,t) -> Element of m-tuples_on (n-tuples_on BOOLEAN) means
+:: AESCIP_1:def 9
+  for i be Element of Seg m holds it.i = Op-XOR(s.i,t.i);
+end;
+
+definition
+  func Rcon -> Element of 10-tuples_on (4-tuples_on (8-tuples_on BOOLEAN))
+  means
+:: AESCIP_1:def 10
+  it.1 = <* <*0,0,0,0*>^<*0,0,0,1*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.2 = <* <*0,0,0,0*>^<*0,0,1,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.3 = <* <*0,0,0,0*>^<*0,1,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.4 = <* <*0,0,0,0*>^<*1,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.5 = <* <*0,0,0,1*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.6 = <* <*0,0,1,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.7 = <* <*0,1,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.8 = <* <*1,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.9 = <* <*0,0,0,1*>^<*1,0,1,1*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *> &
+  it.10 = <* <*0,0,1,1*>^<*0,1,1,0*>,<*0,0,0,0*>^<*0,0,0,0*>,
+    <*0,0,0,0*>^<*0,0,0,0*>,<*0,0,0,0*>^<*0,0,0,0*> *>;
+end;
+
+definition
+  let SBT;
+  let m,i be Nat, w be Element of (4-tuples_on (8-tuples_on BOOLEAN));
+  assume  (m = 4 or m = 6 or m = 8) & i < 4*(7+m) & m <= i;
+  func KeyExTemp(SBT,m,i,w) -> Element of (4-tuples_on (8-tuples_on BOOLEAN))
+  means
+:: AESCIP_1:def 11
+  (ex T3 be Element of (4-tuples_on (8-tuples_on BOOLEAN)) st T3 = Rcon.(i/m) &
+  it = Op-WXOR(SubWord(SBT,RotWord(w)),T3)) if ((i mod m) = 0),
+  (it = SubWord(SBT,w)) if (m = 8 & (i mod 8) = 4) otherwise it = w;
+end;
+
+definition
+  let SBT;
+  let m be Nat;
+  assume  (m = 4 or m = 6 or m = 8);
+  func KeyExpansionX(SBT,m) ->
+  Function of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  (4*(7+m))-tuples_on (4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 12
+  for Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (for i be Element of NAT st i < m holds (it.Key).(i+1) = Key.(i+1))
+  & (for i be Element of NAT st m <= i & i < 4*(7+m) holds
+  ex P be Element of (4-tuples_on (8-tuples_on BOOLEAN)),
+  Q be Element of 4-tuples_on (8-tuples_on BOOLEAN)
+  st P = (it.Key).((i-m)+1) & Q = (it.Key).i &
+  (it.Key).(i+1) = Op-WXOR(P,KeyExTemp(SBT,m,i,Q)));
+end;
+
+definition
+  let SBT;
+  let m be Nat;
+  func KeyExpansion(SBT,m) ->
+  Function of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  (7+m)-tuples_on(4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))) means
+:: AESCIP_1:def 13
+  for Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) holds
+  ex w be Element of (4*(7+m))-tuples_on (4-tuples_on (8-tuples_on BOOLEAN))
+  st w = (KeyExpansionX(SBT,m)).Key & for i be Nat st i < 7+m
+  holds (it.Key).(i+1) = <*w.(4*i+1),w.(4*i+2),w.(4*i+3),w.(4*i+4)*>;
+end;
+
+begin :: Encryption and Decryption
+
+reserve MCFunc for Permutation of
+4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+reserve MixColumns for
+Permutation of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+
+definition
+  let SBT;
+  let MCFunc;
+  let m be Nat;
+  let text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+  let Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+  func AES-ENC(SBT,MCFunc,text,Key) ->
+  Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 14
+
+  ex seq be FinSequence of (4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)))
+  st len seq = 7+m-1 & (ex Keyi1 be Element of
+  4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st Keyi1 = ((KeyExpansion(SBT,m)).(Key)).1 &
+  seq.1 = AddRoundKey.(text,Keyi1)) &
+  (for i be Nat st 1 <= i & i < 7+m-1 holds
+  ex Keyi be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st Keyi = ((KeyExpansion(SBT,m)).(Key)).(i+1) &
+  seq.(i+1) = AddRoundKey.((MCFunc*ShiftRows*SubBytes(SBT)).(seq.i),Keyi)) &
+  ex KeyNr be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st KeyNr = ((KeyExpansion(SBT,m)).(Key)).(7+m) &
+  it = AddRoundKey.((ShiftRows*SubBytes(SBT)).(seq.(7+m-1)),KeyNr);
+end;
+
+definition
+  let SBT;
+  let MCFunc;
+  let m be Nat;
+  let text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+  let Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN));
+  func AES-DEC(SBT,MCFunc,text,Key) ->
+  Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 15
+
+  ex seq be FinSequence of (4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)))
+  st len seq = 7+m-1 &
+  (ex Keyi1 be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st Keyi1 = (Rev((KeyExpansion(SBT,m)).(Key))).1 &
+  seq.1 = (InvSubBytes(SBT)*InvShiftRows).(AddRoundKey.(text,Keyi1))) &
+  (for i be Nat st 1 <= i & i < 7+m-1 holds
+  ex Keyi be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st Keyi = (Rev((KeyExpansion(SBT,m)).(Key))).(i+1) &
+  seq.(i+1) =
+  (InvSubBytes(SBT)*InvShiftRows*(MCFunc")).(AddRoundKey.(seq.i,Keyi))) &
+  ex KeyNr be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st KeyNr = (Rev((KeyExpansion(SBT,m)).(Key))).(7+m) &
+  it = AddRoundKey.(seq.(7+m-1),KeyNr);
+end;
+
+theorem :: AESCIP_1:27
+  for input be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds (MCFunc").(MCFunc.input) = input;
+
+theorem :: AESCIP_1:28
+  for output be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  holds MCFunc.((MCFunc").output) = output;
+
+theorem :: AESCIP_1:29
+  for m be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) holds
+  (InvSubBytes(SBT)*InvShiftRows).((ShiftRows*SubBytes(SBT)).text) = text;
+
+theorem :: AESCIP_1:30
+  for m be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) holds
+  (InvSubBytes(SBT)*InvShiftRows*(MCFunc")).
+  ((MCFunc*ShiftRows*SubBytes(SBT)).text) = text;
+
+theorem :: AESCIP_1:31
+  for m be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  dkeyi,ekeyi be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st (m = 4 or m = 6 or m = 8) & dkeyi = (Rev((KeyExpansion(SBT,m)).(Key))).1 &
+  ekeyi = ((KeyExpansion(SBT,m)).(Key)).(7+m)
+  holds AddRoundKey.(AddRoundKey.(text,ekeyi),dkeyi) = text;
+
+theorem :: AESCIP_1:32
+  for m be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  dkeyi,ekeyi be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st (m = 4 or m = 6 or m = 8) & dkeyi = ((KeyExpansion(SBT,m)).(key)).1 &
+  ekeyi = (Rev((KeyExpansion(SBT,m)).(key))).(7+m)
+  holds AddRoundKey.(AddRoundKey.(text,ekeyi),dkeyi) = text;
+
+theorem :: AESCIP_1:33
+  for m be Nat,
+  text,otext be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  Keyi1,KeyNr be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st (m = 4 or m = 6 or m = 8) & Keyi1 = ((KeyExpansion(SBT,m)).(Key)).1 &
+  KeyNr = (Rev((KeyExpansion(SBT,m)).(Key))).(7+m) &
+  otext = AddRoundKey.((ShiftRows*SubBytes(SBT)).text,KeyNr)
+  holds (InvSubBytes(SBT)*InvShiftRows).(AddRoundKey.(otext,Keyi1)) = text;
+
+theorem :: AESCIP_1:34
+  for m,i be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  eKeyi,dKeyi be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st (m = 4 or m = 6 or m = 8) & i <= 7+m-1 &
+  eKeyi = ((KeyExpansion(SBT,m)).(Key)).(7+m-i) &
+  dKeyi = (Rev((KeyExpansion(SBT,m)).(Key))).(i+1)
+  holds AddRoundKey.(AddRoundKey.(text,eKeyi),dKeyi) = text;
+
+theorem :: AESCIP_1:35
+  for m be Nat,
+  text be Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  Key be Element of m-tuples_on(4-tuples_on (8-tuples_on BOOLEAN))
+  st (m = 4 or m = 6 or m = 8)
+  holds AES-DEC(SBT,MCFunc,AES-ENC(SBT,MCFunc,text,Key),Key) = text;
+
+theorem :: AESCIP_1:36
+  for D be non empty set, n,m be non zero Element of NAT,
+  r be Element of n-tuples_on D st m <= n & 8 <= n-m
+  holds Op-Left(Op-Right(r,m),8) is Element of 8-tuples_on D;
+
+definition
+  let r be Element of 128-tuples_on BOOLEAN;
+  func AES-KeyInitState128(r) ->
+  Element of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 16
+  it.1 = <* Op-Left(r,8),Op-Left(Op-Right(r,8),8),
+    Op-Left(Op-Right(r,16),8),Op-Left(Op-Right(r,24),8) *> &
+  it.2 = <* Op-Left(Op-Right(r,32),8),Op-Left(Op-Right(r,40),8),
+    Op-Left(Op-Right(r,48),8),Op-Left(Op-Right(r,56),8) *> &
+  it.3 = <* Op-Left(Op-Right(r,64),8),Op-Left(Op-Right(r,72),8),
+    Op-Left(Op-Right(r,80),8),Op-Left(Op-Right(r,88),8) *> &
+  it.4 = <* Op-Left(Op-Right(r,96),8),Op-Left(Op-Right(r,104),8),
+    Op-Left(Op-Right(r,112),8),Op-Right(r,120) *>;
+end;
+
+definition
+  let r be Element of 192-tuples_on BOOLEAN;
+  func AES-KeyInitState192(r) ->
+  Element of 6-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 17
+  it.1 = <* Op-Left(r,8),Op-Left(Op-Right(r,8),8),
+    Op-Left(Op-Right(r,16),8),Op-Left(Op-Right(r,24),8) *> &
+  it.2 = <* Op-Left(Op-Right(r,32),8),Op-Left(Op-Right(r,40),8),
+    Op-Left(Op-Right(r,48),8),Op-Left(Op-Right(r,56),8) *> &
+  it.3 = <* Op-Left(Op-Right(r,64),8),Op-Left(Op-Right(r,72),8),
+    Op-Left(Op-Right(r,80),8),Op-Left(Op-Right(r,88),8) *> &
+  it.4 = <* Op-Left(Op-Right(r,96),8),Op-Left(Op-Right(r,104),8),
+    Op-Left(Op-Right(r,112),8),Op-Left(Op-Right(r,120),8) *> &
+  it.5 = <* Op-Left(Op-Right(r,128),8),Op-Left(Op-Right(r,136),8),
+    Op-Left(Op-Right(r,144),8),Op-Left(Op-Right(r,152),8) *> &
+  it.6 = <* Op-Left(Op-Right(r,160),8),Op-Left(Op-Right(r,168),8),
+    Op-Left(Op-Right(r,176),8),Op-Right(r,184) *>;
+end;
+
+definition
+  let r be Element of 256-tuples_on BOOLEAN;
+  func AES-KeyInitState256(r) ->
+  Element of 8-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)) means
+:: AESCIP_1:def 18
+  it.1 = <* Op-Left(r,8),Op-Left(Op-Right(r,8),8),
+    Op-Left(Op-Right(r,16),8),Op-Left(Op-Right(r,24),8) *> &
+  it.2 = <* Op-Left(Op-Right(r,32),8),Op-Left(Op-Right(r,40),8),
+    Op-Left(Op-Right(r,48),8),Op-Left(Op-Right(r,56),8) *> &
+  it.3 = <* Op-Left(Op-Right(r,64),8),Op-Left(Op-Right(r,72),8),
+    Op-Left(Op-Right(r,80),8),Op-Left(Op-Right(r,88),8) *> &
+  it.4 = <* Op-Left(Op-Right(r,96),8),Op-Left(Op-Right(r,104),8),
+    Op-Left(Op-Right(r,112),8),Op-Left(Op-Right(r,120),8) *> &
+  it.5 = <* Op-Left(Op-Right(r,128),8),Op-Left(Op-Right(r,136),8),
+    Op-Left(Op-Right(r,144),8),Op-Left(Op-Right(r,152),8) *> &
+  it.6 = <* Op-Left(Op-Right(r,160),8),Op-Left(Op-Right(r,168),8),
+    Op-Left(Op-Right(r,176),8),Op-Left(Op-Right(r,184),8) *> &
+  it.7 = <* Op-Left(Op-Right(r,192),8),Op-Left(Op-Right(r,200),8),
+    Op-Left(Op-Right(r,208),8),Op-Left(Op-Right(r,216),8) *> &
+  it.8 = <* Op-Left(Op-Right(r,224),8),Op-Left(Op-Right(r,232),8),
+    Op-Left(Op-Right(r,240),8),Op-Right(r,248) *>;
+end;
+
+definition
+  let SBT,MixColumns;
+  let message be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 128-tuples_on BOOLEAN;
+  func AES128-ENC(SBT,MixColumns,message,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 19
+  (AES-Statearray)".(AES-ENC(SBT,MixColumns,AES-Statearray.message,
+  AES-KeyInitState128(Key)));
+end;
+
+definition
+  let SBT,MixColumns;
+  let cipher be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 128-tuples_on BOOLEAN;
+  func AES128-DEC(SBT,MixColumns,cipher,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 20
+  (AES-Statearray)".(AES-DEC(SBT,MixColumns,AES-Statearray.cipher,
+  AES-KeyInitState128(Key)));
+end;
+
+theorem :: AESCIP_1:37
+  for SBT be Permutation of (8-tuples_on BOOLEAN),
+  MixColumns be Permutation of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  message,Key be Element of 128-tuples_on BOOLEAN holds
+  AES128-DEC(SBT,MixColumns,AES128-ENC(SBT,MixColumns,message,Key),Key) =
+  message;
+
+definition
+  let SBT,MixColumns;
+  let message be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 192-tuples_on BOOLEAN;
+  func AES192-ENC(SBT,MixColumns,message,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 21
+  (AES-Statearray)".(AES-ENC(SBT,MixColumns,AES-Statearray.message,
+  AES-KeyInitState192(Key)));
+end;
+
+definition
+  let SBT,MixColumns;
+  let cipher be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 192-tuples_on BOOLEAN;
+  func AES192-DEC(SBT,MixColumns,cipher,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 22
+  (AES-Statearray)".(AES-DEC(SBT,MixColumns,AES-Statearray.cipher,
+  AES-KeyInitState192(Key)));
+end;
+
+theorem :: AESCIP_1:38
+  for SBT be Permutation of (8-tuples_on BOOLEAN),
+  MixColumns be Permutation of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  message be Element of 128-tuples_on BOOLEAN,
+  Key be Element of 192-tuples_on BOOLEAN holds
+  AES192-DEC(SBT,MixColumns,AES192-ENC(SBT,MixColumns,message,Key),Key) =
+  message;
+
+definition
+  let SBT,MixColumns;
+  let message be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 256-tuples_on BOOLEAN;
+  func AES256-ENC(SBT,MixColumns,message,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 23
+  (AES-Statearray)".(AES-ENC(SBT,MixColumns,AES-Statearray.message,
+  AES-KeyInitState256(Key)));
+end;
+
+definition
+  let SBT,MixColumns;
+  let cipher be Element of 128-tuples_on BOOLEAN;
+  let Key be Element of 256-tuples_on BOOLEAN;
+  func AES256-DEC(SBT,MixColumns,cipher,Key) ->
+  Element of 128-tuples_on BOOLEAN equals
+:: AESCIP_1:def 24
+  (AES-Statearray)".(AES-DEC(SBT,MixColumns,AES-Statearray.cipher,
+  AES-KeyInitState256(Key)));
+end;
+
+theorem :: AESCIP_1:39
+  for SBT be Permutation of (8-tuples_on BOOLEAN),
+  MixColumns be Permutation of 4-tuples_on(4-tuples_on (8-tuples_on BOOLEAN)),
+  message be Element of 128-tuples_on BOOLEAN,
+  Key be Element of 256-tuples_on BOOLEAN holds
+  AES256-DEC(SBT,MixColumns,AES256-ENC(SBT,MixColumns,message,Key),Key) =
+  message;

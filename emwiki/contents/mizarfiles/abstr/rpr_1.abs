@@ -1,0 +1,293 @@
+:: Introduction to Probability
+::  by Jan Popio{\l}ek
+::
+:: Received June 13, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, SUBSET_1, FINSEQ_1, TARSKI, FINSET_1, RELAT_1,
+      CARD_1, ARYTM_3, XXREAL_0, REAL_1, ARYTM_1, RPR_1, BSPACE;
+ notations TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, DOMAIN_1, ORDINAL1, CARD_1,
+      NUMBERS, XCMPLX_0, REAL_1, XREAL_0, FINSEQ_1, FINSET_1, XXREAL_0;
+ constructors XXREAL_0, REAL_1, NAT_1, MEMBERED, FINSEQ_1, DOMAIN_1, XREAL_0;
+ registrations RELSET_1, FINSET_1, XXREAL_0, XREAL_0, CARD_1, ORDINAL1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve E for non empty set;
+reserve a for Element of E;
+reserve A, B for Subset of E;
+reserve Y for set;
+reserve p for FinSequence;
+
+theorem :: RPR_1:1
+  for e being non empty Subset of E holds e is Singleton of E iff for Y
+  holds (Y c= e iff Y = {} or Y = e);
+
+registration
+  let E;
+  cluster -> finite for Singleton of E;
+end;
+
+reserve e, e1, e2 for Singleton of E;
+
+theorem :: RPR_1:2
+  e = A \/ B & A <> B implies A = {} & B = e or A = e & B = {};
+
+theorem :: RPR_1:3
+  e = A \/ B implies A = e & B = e or A = e & B = {} or A = {} & B = e;
+
+theorem :: RPR_1:4
+  {a} is Singleton of E;
+
+theorem :: RPR_1:5
+  e1 c= e2 implies e1 = e2;
+
+theorem :: RPR_1:6
+  ex a st a in E & e = {a};
+
+theorem :: RPR_1:7
+  ex e st e is Singleton of E;
+
+theorem :: RPR_1:8
+  ex p st p is FinSequence of E & rng p = e & len p = 1;
+
+definition
+  let E be set;
+  mode Event of E is Subset of E;
+end;
+
+theorem :: RPR_1:9
+  for E being non empty set, e being Singleton of E, A being Event of E
+  holds e misses A or e /\ A = e;
+
+theorem :: RPR_1:10
+  for E being non empty set, A being Event of E st A <> {} ex e being
+  Singleton of E st e c= A;
+
+theorem :: RPR_1:11
+  for E being non empty set, e being Singleton of E, A being Event of E st e
+  c= A \/ A` holds e c= A or e c= A`;
+
+theorem :: RPR_1:12
+  e1 = e2 or e1 misses e2;
+
+theorem :: RPR_1:13
+  A /\ B misses A /\ B`;
+
+definition
+  let E be finite set;
+  let A be Event of E;
+  func prob(A) -> Real equals
+:: RPR_1:def 1
+  card A / card E;
+end;
+
+theorem :: RPR_1:14
+  for E being finite non empty set, e being Singleton of E holds prob(e) = 1
+  / card E;
+
+theorem :: RPR_1:15
+  for E being finite non empty set holds prob([#] E) = 1;
+
+theorem :: RPR_1:16
+  for E being finite non empty set, A,B being Event of E st A
+  misses B holds prob(A /\ B) = 0;
+
+theorem :: RPR_1:17
+  for E being finite non empty set, A being Event of E holds prob(A) <= 1;
+
+theorem :: RPR_1:18
+  for E being finite non empty set, A being Event of E holds 0 <= prob(A);
+
+theorem :: RPR_1:19
+  for E being finite non empty set, A,B being Event of E st A c= B
+  holds prob(A) <= prob(B);
+
+theorem :: RPR_1:20
+  for E being finite non empty set, A,B being Event of E holds
+  prob(A \/ B) = prob(A) + prob(B) - prob(A /\ B);
+
+theorem :: RPR_1:21
+  for E being finite non empty set, A,B being Event of E st A
+  misses B holds prob(A \/ B) = prob(A) + prob(B);
+
+theorem :: RPR_1:22
+  for E being finite non empty set, A being Event of E holds prob(
+  A) = 1 - prob(A`) & prob(A`) = 1 - prob(A);
+
+theorem :: RPR_1:23
+  for E being finite non empty set, A,B being Event of E holds
+  prob(A \ B) = prob(A) - prob(A /\ B);
+
+theorem :: RPR_1:24
+  for E being finite non empty set, A,B being Event of E st B c= A
+  holds prob(A \ B) = prob(A) - prob(B);
+
+theorem :: RPR_1:25
+  for E being finite non empty set, A,B being Event of E holds prob(A \/
+  B) <= prob(A) + prob(B);
+
+theorem :: RPR_1:26
+  for E being finite non empty set, A,B being Event of E holds
+  prob(A) = prob(A /\ B) + prob(A /\ B`);
+
+theorem :: RPR_1:27
+  for E being finite non empty set, A,B being Event of E holds prob(A) =
+  prob(A \/ B) - prob(B \ A);
+
+theorem :: RPR_1:28
+  for E being finite non empty set, A,B being Event of E holds prob(A) +
+  prob(A` /\ B) = prob(B) + prob(B` /\ A);
+
+theorem :: RPR_1:29
+  for E being finite non empty set, A,B,C being Event of E holds
+  prob(A \/ B \/ C) = ( prob(A) + prob(B) + prob(C) ) - ( prob(A /\ B) + prob(A
+  /\ C) + prob(B /\ C) ) + prob(A /\ B /\ C);
+
+theorem :: RPR_1:30
+  for E being finite non empty set, A,B,C being Event of E st A misses B
+& A misses C & B misses C holds prob(A \/ B \/ C) = prob(A) + prob(B) + prob(C)
+;
+
+theorem :: RPR_1:31
+  for E being finite non empty set, A,B being Event of E holds prob(A) -
+  prob(B) <= prob(A \ B);
+
+definition
+  let E be finite set;
+  let B,A be Event of E;
+  func prob(A, B) -> Real equals
+:: RPR_1:def 2
+  prob(A /\ B) / prob(B);
+end;
+
+theorem :: RPR_1:32
+  for E being finite non empty set, A being Event of E holds
+  prob(A, [#]E ) = prob(A);
+
+theorem :: RPR_1:33
+  for E being finite non empty set holds prob([#] E, [#] E) = 1;
+
+theorem :: RPR_1:34
+  for E being finite non empty set, A,B being Event of E st 0 < prob(B)
+  holds prob(A, B) <= 1;
+
+theorem :: RPR_1:35
+  for E being finite non empty set, A,B being Event of E st 0 < prob(B)
+  holds 0 <= prob(A, B);
+
+theorem :: RPR_1:36
+  for E being finite non empty set, A,B being Event of E st 0 <
+  prob(B) holds prob(A, B) = 1 - prob(B \ A) / prob(B);
+
+theorem :: RPR_1:37
+  for E being finite non empty set, A,B being Event of E st 0 < prob(B)
+  & A c= B holds prob(A, B) = prob(A) / prob(B);
+
+theorem :: RPR_1:38
+  for E being finite non empty set, A,B being Event of E st A
+  misses B holds prob(A, B) = 0;
+
+theorem :: RPR_1:39
+  for E being finite non empty set, A,B being Event of E st 0 <
+  prob(A) & 0 < prob(B) holds prob(A) * prob(B, A) = prob(B) * prob(A, B);
+
+theorem :: RPR_1:40
+  for E being finite non empty set, A,B being Event of E st 0 <
+  prob B holds prob(A, B) = 1 - prob(A`, B) & prob(A`, B) = 1 - prob(A, B);
+
+theorem :: RPR_1:41
+  for E being finite non empty set, A,B being Event of E st 0 <
+  prob(B) & B c= A holds prob(A, B) = 1;
+
+theorem :: RPR_1:42
+  for E being finite non empty set, B being Event of E st 0 < prob(B)
+  holds prob([#] E, B) = 1;
+
+theorem :: RPR_1:43
+  for E being finite non empty set, A being Event of E holds prob(A`, A) = 0;
+
+theorem :: RPR_1:44
+  for E being finite non empty set, A being Event of E holds prob(A, A`) = 0;
+
+theorem :: RPR_1:45
+  for E being finite non empty set, A,B being Event of E st 0 <
+  prob(B) & A misses B holds prob(A`, B) = 1;
+
+theorem :: RPR_1:46
+  for E being finite non empty set, A,B being Event of E st 0 <
+prob(A) & prob(B) < 1 & A misses B holds prob(A, B`) = prob(A) / (1 - prob(B));
+
+theorem :: RPR_1:47
+  for E being finite non empty set, A,B being Event of E st 0 < prob(A)
+  & prob(B) < 1 & A misses B holds prob(A`, B`) = 1 - prob(A) / (1 - prob(B));
+
+theorem :: RPR_1:48
+  for E being finite non empty set, A,B,C being Event of E st 0 < prob(B
+  /\ C) & 0 < prob(C) holds prob(A /\ B /\ C) = prob(A, B /\ C) * prob(B, C) *
+  prob(C);
+
+theorem :: RPR_1:49
+  for E being finite non empty set, A,B being Event of E st 0 <
+prob(B) & prob(B) < 1 holds prob(A) = prob(A, B) * prob(B) + prob(A, B`) * prob
+  (B`);
+
+theorem :: RPR_1:50
+  for E being finite non empty set, A,B1,B2 being Event of E st 0
+< prob(B1) & 0 < prob(B2) & B1 \/ B2 = E & B1 misses B2 holds prob(A) = prob(A,
+  B1) * prob(B1) + prob(A, B2) * prob(B2);
+
+theorem :: RPR_1:51
+  for E being finite non empty set, A,B1,B2,B3 being Event of E st
+0 < prob(B1) & 0 < prob(B2) & 0 < prob(B3) & B1 \/ B2 \/ B3 = E & B1 misses B2
+& B1 misses B3 & B2 misses B3 holds prob(A) = ( prob(A, B1) * prob(B1) + prob(A
+  , B2) * prob(B2) ) + prob(A, B3) * prob(B3);
+
+theorem :: RPR_1:52
+  for E being finite non empty set, A,B1,B2 being Event of E st 0 < prob
+(B1) & 0 < prob(B2) & B1 \/ B2 = E & B1 misses B2 holds prob(B1, A) = ( prob(A,
+  B1) * prob(B1) ) / ( prob(A, B1) * prob(B1) + prob(A, B2) * prob(B2) );
+
+theorem :: RPR_1:53
+  for E being finite non empty set, A,B1,B2,B3 being Event of E st 0 <
+prob(B1) & 0 < prob(B2) & 0 < prob(B3) & B1 \/ B2 \/ B3 = E & B1 misses B2 & B1
+  misses B3 & B2 misses B3 holds prob(B1, A) = ( prob(A, B1) * prob(B1) ) / ( (
+  prob(A, B1) * prob(B1) + prob(A, B2) * prob(B2) ) + prob(A, B3) * prob(B3) );
+
+definition
+  let E be finite set;
+  let A, B be Event of E;
+  pred A, B are_independent means
+:: RPR_1:def 3
+
+  prob(A /\ B) = prob(A) * prob(B);
+  symmetry;
+end;
+
+theorem :: RPR_1:54
+  for E being finite non empty set, A,B being Event of E st 0 < prob(B)
+  & A, B are_independent holds prob(A, B) = prob(A);
+
+theorem :: RPR_1:55
+  for E being finite non empty set, A,B being Event of E st prob(B) = 0
+  holds A, B are_independent;
+
+theorem :: RPR_1:56
+  for E being finite non empty set, A,B being Event of E st A, B
+  are_independent holds A`, B are_independent;
+
+theorem :: RPR_1:57
+  for E being finite non empty set, A,B being Event of E st A misses B &
+  A, B are_independent holds prob(A) = 0 or prob(B) = 0;

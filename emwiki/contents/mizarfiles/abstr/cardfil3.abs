@@ -1,0 +1,457 @@
+:: Summable Family in a Commutative Group
+::  by Roland Coghetto
+::
+:: Received August 14, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies POLYNOM1, PBOOLE, NAT_1, NUMBERS, FRECHET, PCOMPS_1, REAL_1,
+      CARDFIL2, YELLOW13, CARD_1, XBOOLE_0, SUBSET_1, TARSKI, ORDINAL1,
+      FUNCT_1, PRE_TOPC, STRUCT_0, XXREAL_0, RCOMP_1, METRIC_1, ARYTM_3,
+      YELLOW19, NORMSP_1, NORMSP_2, ARYTM_1, SETFAM_1, ALGSTR_0, ZFMISC_1,
+      SUPINF_2, CONNSP_2, TOPS_1, RELAT_2, RLTOPSP1, FILTER_0, XXREAL_1,
+      ORDERS_2, WAYBEL_0, BINOP_1, RELAT_1, CARD_3, FUNCT_2, FINSUB_1,
+      FINSEQ_1, FINSOP_1, SETWISEO, ORDINAL4, VECTSP_1, SERIES_1, YELLOW_1,
+      TOPGRP_1, GROUP_1, SERIES_3, CARDFIL3, RLVECT_1, GROUP_1A;
+ notations CARDFIL2, GROUP_1A, TARSKI, XBOOLE_0, SUBSET_1, FUNCT_1, FUNCT_2,
+      TOPS_1, CONNSP_2, YELLOW13, RUSUB_4, RLTOPSP1, ORDERS_2, WAYBEL_0,
+      METRIC_1, NUMBERS, XCMPLX_0, XREAL_0, NAT_1, XXREAL_0, STRUCT_0,
+      ALGSTR_0, PRE_TOPC, NORMSP_0, NORMSP_1, NORMSP_2, FRECHET, YELLOW19,
+      PCOMPS_1, ZFMISC_1, BINOP_1, PBOOLE, RELAT_1, FINSUB_1, RLVECT_1,
+      FINSEQ_1, FINSOP_1, SETWISEO, VECTSP_1, YELLOW_1, TOPGRP_1, GROUP_1;
+ constructors YELLOW_8, FRECHET, YELLOW19, TOPS_2, NAT_LAT, NORMSP_2, TOPS_1,
+      RUSUB_4, YELLOW13, FINSOP_1, SETWISEO, FINSEQOP, MEMBERED, NAT_1,
+      BORSUK_1, CARDFIL2, GROUP_1A;
+ registrations GROUP_1A, PCOMPS_1, FRECHET, YELLOW19, XXREAL_0, XREAL_0, NAT_1,
+      SUBSET_1, STRUCT_0, XCMPLX_0, CARD_1, METRIC_1, TOPS_1, RLVECT_1,
+      RLTOPSP1, RELAT_1, XBOOLE_0, FUNCT_1, FINSEQ_1, PBOOLE, FINSUB_1,
+      FVSUM_1, OSALG_1, YELLOW_1, TOPGRP_1, GROUP_1, MEMBERED, ORDERS_2;
+ requirements REAL, NUMERALS, SUBSET, BOOLE;
+
+
+begin :: Preliminaries
+
+theorem :: CARDFIL3:1
+  for I being set holds {} is Element of Fin I;
+
+theorem :: CARDFIL3:2
+  for I,J being set st J in Fin I holds
+  ex p being FinSequence of I st J = rng p & p is one-to-one;
+
+theorem :: CARDFIL3:3
+  for I being set,
+      Y being non empty set,
+      x being Y-valued ManySortedSet of I,
+      p being FinSequence of I holds
+  p*x is FinSequence of Y;
+
+theorem :: CARDFIL3:4
+  for I,X being non empty set,
+      x being X-valued ManySortedSet of I,
+      p,q being FinSequence of I holds
+  (p^q) * x = (p * x) ^ (q  * x);
+
+definition
+  let I being set,
+      Y being non empty set,
+      x being Y-valued ManySortedSet of I,
+      p being FinSequence of I;
+  func #(p,x) -> FinSequence of Y equals
+:: CARDFIL3:def 1
+p*x;
+end;
+
+definition
+  let I being set;
+  func OrderedFIN I -> non empty transitive reflexive RelStr equals
+:: CARDFIL3:def 2
+  InclPoset Fin I;
+end;
+
+theorem :: CARDFIL3:5
+  for I being set holds [#]OrderedFIN I is directed;
+
+begin :: Convergence in TopSpaceMetr
+
+theorem :: CARDFIL3:6
+  for M being non empty MetrSpace,
+      x being Point of TopSpaceMetr(M)
+  holds Balls(x) is basis of BOOL2F NeighborhoodSystem x;
+
+theorem :: CARDFIL3:7
+  for M being non empty MetrSpace,
+      L being non empty transitive reflexive RelStr,
+      f being Function of [#]L,the carrier of TopSpaceMetr(M),
+      x being Point of TopSpaceMetr(M),
+      B being basis of BOOL2F NeighborhoodSystem x st
+    [#]L is directed holds
+      x in lim_f f
+     iff
+      for b being Element of B ex i being Element of L st
+      for j being Element of L st i <=j holds f.j in b;
+
+theorem :: CARDFIL3:8
+  for M being non empty MetrSpace,
+      L being non empty transitive reflexive RelStr,
+      f being Function of [#]L,the carrier of TopSpaceMetr(M),
+      x being Point of TopSpaceMetr(M) st
+    [#]L is directed holds
+      x in lim_f f
+     iff
+      for b being Element of Balls(x) ex n being Element of L st
+      for m being Element of L st n <= m holds f.m in b;
+
+theorem :: CARDFIL3:9
+  for M being non empty MetrSpace,
+      s being sequence of the carrier of TopSpaceMetr(M),
+      x being Point of TopSpaceMetr(M) holds
+    x in lim_f s
+      iff
+    for b being Element of Balls(x) ex i being Nat st
+    for j being Nat st i <=j holds s.j in b;
+
+theorem :: CARDFIL3:10
+  for T being non empty TopStruct,
+      s being sequence of T,
+      x being Point of T holds
+    x in Lim s
+      iff
+    for U1 being Subset of T st U1 is open & x in U1
+    ex n being Nat st for m being Nat st n <= m holds s.m in U1;
+
+theorem :: CARDFIL3:11
+  for M being non empty MetrSpace,
+      s being sequence of the carrier of TopSpaceMetr(M),
+      x being Point of TopSpaceMetr(M) holds
+    x in Lim s
+      iff
+    for b being Element of Balls(x) ex n being Nat st
+    for m being Nat st n <= m holds s.m in b;
+
+theorem :: CARDFIL3:12
+  for M being non empty MetrSpace,
+      s being sequence of the carrier of TopSpaceMetr(M),
+      x being Point of TopSpaceMetr(M) holds
+    x in lim_f s
+      iff
+    x in Lim s;
+
+begin :: Convergence in RealNormSpace
+
+theorem :: CARDFIL3:13
+  for N being RealNormSpace,
+      L being non empty transitive reflexive RelStr,
+      f being Function of [#]L,the carrier of TopSpaceMetr MetricSpaceNorm(N),
+      x being Point of TopSpaceMetr MetricSpaceNorm(N),
+      B being basis of BOOL2F NeighborhoodSystem x st
+  [#]L is directed holds
+    x in lim_f f
+     iff
+    for b being Element of B ex i be Element of L st
+    for j being Element of L st i <=j holds f.j in b;
+
+theorem :: CARDFIL3:14
+  for N being RealNormSpace,
+      x being Point of TopSpaceMetr MetricSpaceNorm N
+  holds Balls(x) is basis of BOOL2F NeighborhoodSystem x;
+
+theorem :: CARDFIL3:15
+  for N being RealNormSpace,
+      s being sequence of the carrier of TopSpaceMetr MetricSpaceNorm(N),
+      x being Point of TopSpaceMetr MetricSpaceNorm N holds
+    x in lim_f s
+      iff
+    for b being Element of Balls(x) ex i being Nat st
+    for j being Nat st i <=j holds s.j in b;
+
+theorem :: CARDFIL3:16
+  for N being RealNormSpace,
+      x being Point of TopSpaceMetr MetricSpaceNorm N holds
+  ex y being Point of MetricSpaceNorm N st y = x &
+  Balls x= {Ball(y,1/n) where n is Nat:n <> 0};
+
+theorem :: CARDFIL3:17
+  for N being RealNormSpace,
+      x being Point of TopSpaceMetr MetricSpaceNorm N,
+      y being Point of MetricSpaceNorm N,
+      n being positive Nat st x=y holds
+  Ball(y,1/n) in Balls x;
+
+theorem :: CARDFIL3:18
+  for N being RealNormSpace,
+      x being Point of MetricSpaceNorm N,
+      n being Nat st n <> 0 holds
+  Ball (x,1/n) = {q where q is Element of MetricSpaceNorm N : dist(x,q) < 1/n};
+
+theorem :: CARDFIL3:19
+  for N being RealNormSpace,
+      x being Element of MetricSpaceNorm N,
+      n being Nat st n <> 0 holds
+  ex y being Point of N st x=y &
+  Ball (x,1/n) = {q where q is Point of N : ||.y-q.|| < 1/n};
+
+theorem :: CARDFIL3:20
+  for PM being MetrStruct holds
+  TopSpaceMetr PM = TopStruct (#the carrier of PM, Family_open_set(PM)#);
+
+theorem :: CARDFIL3:21
+  for PM being MetrStruct holds
+  the carrier of TopStruct (#the carrier of PM, Family_open_set(PM)#) =
+    the carrier of PM;
+
+theorem :: CARDFIL3:22
+  for PM being MetrStruct holds
+    the carrier of TopSpaceMetr PM =
+    the carrier of TopStruct (#the carrier of PM, Family_open_set(PM)#);
+
+theorem :: CARDFIL3:23
+  for PM being MetrStruct holds
+  the carrier of TopSpaceMetr PM = the carrier of PM;
+
+theorem :: CARDFIL3:24
+  for N being RealNormSpace,
+      s being sequence of the carrier of TopSpaceMetr MetricSpaceNorm N,
+      j being Nat holds
+  s.j is Element of the carrier of TopSpaceMetr MetricSpaceNorm N;
+
+definition
+  let N being RealNormSpace, x be Point of TopSpaceMetr MetricSpaceNorm N;
+  func #x -> Point of N equals
+:: CARDFIL3:def 3
+x;
+end;
+
+theorem :: CARDFIL3:25
+  for N being RealNormSpace,
+      s being sequence of the carrier of TopSpaceMetr MetricSpaceNorm N,
+      x being Point of TopSpaceMetr MetricSpaceNorm N holds
+    x in lim_f s
+      iff
+    (for n being positive Nat ex i be Nat st for j being Nat st i <= j holds
+     ||.#x- #(s.j) .|| < 1/n);
+
+begin :: Convergence in LinearTopSpace
+
+theorem :: CARDFIL3:26
+  for X being non empty LinearTopSpace holds
+  NeighborhoodSystem 0.X is local_base of X;
+
+theorem :: CARDFIL3:27
+  for X being LinearTopSpace,
+      O being local_base of X,
+      a being Point of X,
+      P being Subset-Family of X st P = {a+U where U is Subset of X: U in O}
+  holds P is basis of a;
+
+theorem :: CARDFIL3:28
+  for X being non empty LinearTopSpace,
+      x being Point of X,
+      O being local_base of X holds
+  {x+U where U is Subset of X:U in O & U is a_neighborhood of 0.X} =
+  {x+U where U is Subset of X:U in O & U in NeighborhoodSystem 0.X};
+
+theorem :: CARDFIL3:29
+  for X being non empty LinearTopSpace,
+      x being Point of X,
+      O being local_base of X,
+      B being Subset-Family of X st
+  B = {x+U where U is Subset of X:U in O & U is a_neighborhood of 0.X} holds
+  B is basis of BOOL2F NeighborhoodSystem x;
+
+theorem :: CARDFIL3:30
+  for X being non empty LinearTopSpace,
+      s being sequence of the carrier of X,
+      x being Point of X,
+      V being local_base of X,
+      B being Subset-Family of X st
+  B={x+U where U is Subset of X:U in V & U is a_neighborhood of 0.X} holds
+  x in lim_f s
+    iff
+  for v being Element of B holds ex i being Nat st
+  for j being Nat st i <=j holds s.j in v;
+
+theorem :: CARDFIL3:31
+  for X being non empty LinearTopSpace,
+      s being sequence of the carrier of X,
+      x being Point of X,
+      V being local_base of X holds
+  x in lim_f s
+    iff
+  for v being Subset of X st v in (V /\ NeighborhoodSystem 0.X) holds
+  ex i being Nat st for j being Nat st i <= j holds s.j in x+v;
+
+theorem :: CARDFIL3:32
+  for T being non empty LinearTopSpace,
+      L being non empty transitive reflexive RelStr,
+      f being Function of [#]L,the carrier of T,
+      x being Point of T,
+      B being basis of BOOL2F NeighborhoodSystem x st [#]L is directed holds
+  x in lim_f f
+    iff
+  for b being Element of B ex i be Element of L st
+  for j being Element of L st i <=j holds f.j in b;
+
+theorem :: CARDFIL3:33
+  for T being non empty LinearTopSpace,
+      L being non empty transitive reflexive RelStr,
+      f being Function of [#]L,the carrier of T,
+      x being Point of T,
+      V being local_base of T st [#]L is directed holds
+  x in lim_f f
+    iff
+  (for v being Subset of T st v in (V/\NeighborhoodSystem 0.T)
+  ex i being Element of L st for j being Element of L st i <=j holds
+    f.j in x+v);
+
+begin :: Partial sum in Abgroup (Abelian AddGroup)
+
+definition
+  let I being non empty set,
+      L being AbGroup,
+      x being (the carrier of L)-valued ManySortedSet of I,
+      J being Element of Fin I;
+  func Sum(x,J) ->Element of L means
+:: CARDFIL3:def 4
+
+  ex p being one-to-one FinSequence of I st rng p = J &
+  it = (the addF of L) "**" #(p,x);
+end;
+
+theorem :: CARDFIL3:34
+  for I being non empty set,
+      L being AbGroup,
+      x being (the carrier of L)-valued ManySortedSet of I,
+      J being Element of Fin I holds
+  for e being Element of Fin I st e={} holds
+    Sum(x,e)=0.L &
+    for e,f being Element of Fin I st e misses f holds
+    Sum(x,e\/f)=Sum(x,e)+Sum(x,f);
+
+definition
+  let I be non empty set,
+      L be AbGroup,
+      x be (the carrier of L)-valued ManySortedSet of I;
+  func Partial_Sums(x) -> Function of [#]OrderedFIN I,the carrier of L means
+:: CARDFIL3:def 5
+  for j being Element of Fin I holds it.j = Sum(x,j);
+end;
+
+begin :: Product of family as limit in commutative Topological Group
+
+definition
+  let I be non empty set,
+      L be commutative TopGroup,
+      x be (the carrier of L)-valued ManySortedSet of I,
+      J be Element of Fin I;
+  func Product(x,J) -> Element of L means
+:: CARDFIL3:def 6
+
+  ex p being one-to-one FinSequence of I st rng p = J &
+  it = (the multF of L) "**" #(p,x);
+end;
+
+theorem :: CARDFIL3:35
+  for I being set,
+      G being TopGroup,
+      f being Function of [#]OrderedFIN I,the carrier of G,
+      x being Point of G,
+      B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f f
+    iff
+  for b being Element of B ex i be Element of OrderedFIN I st
+  for j being Element of OrderedFIN I st i <= j holds f.j in b;
+
+theorem :: CARDFIL3:36
+  for I being non empty set,
+      L being commutative TopGroup,
+      x being (the carrier of L)-valued ManySortedSet of I,
+      J being Element of Fin I holds
+  for e being Element of Fin I st e={} holds
+    Product(x,e)=1_L &
+    for e,f being Element of Fin I st e misses f holds
+    Product(x,e\/f)=Product(x,e) * Product(x,f);
+
+definition
+  let I be non empty set,
+      L be commutative TopGroup,
+      x be (the carrier of L)-valued ManySortedSet of I;
+  func Partial_Product(x) -> Function of [#]OrderedFIN I,the carrier of L means
+:: CARDFIL3:def 7
+  for j being Element of Fin I holds it.j=Product(x,j);
+end;
+
+theorem :: CARDFIL3:37
+  for I being non empty set,
+      G being commutative TopGroup,
+      s being (the carrier of G)-valued ManySortedSet of I,
+      x being Point of G,
+      B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f Partial_Product(s)
+    iff
+  for b being Element of B ex i be Element of OrderedFIN I st
+  for j being Element of OrderedFIN I st i <= j holds
+  (Partial_Product(s)).j in b;
+
+begin :: Summable family in commutative topological group
+
+definition
+  let I be non empty set,
+      L be Abelian TopaddGroup,
+      x be (the carrier of L)-valued ManySortedSet of I,
+      J be Element of Fin I;
+  func Sum(x,J) -> Element of L means
+:: CARDFIL3:def 8
+
+  ex p being one-to-one FinSequence of I st rng p = J &
+  it = (the addF of L) "**" #(p,x);
+end;
+
+theorem :: CARDFIL3:38
+  for I being set,
+      G being TopaddGroup,
+      f being Function of [#]OrderedFIN I,the carrier of G,
+      x being Point of G,
+      B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f f
+    iff
+  for b being Element of B ex i being Element of OrderedFIN I st
+  for j being Element of OrderedFIN I st i <= j holds f.j in b;
+
+theorem :: CARDFIL3:39
+  for I being non empty set,
+      L being Abelian TopaddGroup,
+      x being (the carrier of L)-valued ManySortedSet of I,
+      J being Element of Fin I holds
+  for e being Element of Fin I st e={} holds
+    Sum(x,e)=0_L &
+    for e,f being Element of Fin I st e misses f holds
+    Sum(x,e\/f)=Sum(x,e) + Sum(x,f);
+
+definition
+  let I be non empty set,
+      L be Abelian TopaddGroup,
+      x be (the carrier of L)-valued ManySortedSet of I;
+  func Partial_Sums(x) -> Function of [#]OrderedFIN I,the carrier of L means
+:: CARDFIL3:def 9
+  for j being Element of Fin I holds it.j=Sum(x,j);
+end;
+
+theorem :: CARDFIL3:40
+  for I being non empty set,
+      G being Abelian TopaddGroup,
+      s being (the carrier of G)-valued ManySortedSet of I,
+      x being Point of G,
+      B being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_f Partial_Sums(s)
+    iff
+  for b being Element of B ex i being Element of OrderedFIN I st
+  for j being Element of OrderedFIN I st i <= j holds (Partial_Sums(s)).j in b;

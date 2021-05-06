@@ -1,0 +1,482 @@
+:: Category Ens
+::  by Czes{\l}aw Byli\'nski
+::
+:: Received August 1, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, SUBSET_1, FUNCT_2, TARSKI, FUNCT_1, RELAT_1, ZFMISC_1,
+      MCART_1, GRAPH_1, PARTFUN1, CAT_1, STRUCT_0, QC_LANG1, CLASSES2,
+      FUNCOP_1, FUNCT_4, CAT_2, OPPCAT_1, FUNCT_5, ARYTM_0, ENS_1, MONOID_0,
+      RELAT_2, BINOP_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, XTUPLE_0, XFAMILY, SUBSET_1, MCART_1,
+      DOMAIN_1, RELAT_1, FUNCT_1, FUNCT_2, BINOP_1, PARTFUN1, FUNCT_4,
+      CLASSES2, FUNCOP_1, FUNCT_5, STRUCT_0, GRAPH_1, CAT_1, CAT_2, OPPCAT_1;
+ constructors PARTFUN1, DOMAIN_1, CLASSES2, CAT_2, OPPCAT_1, FUNCOP_1,
+      RELSET_1, FUNCT_5, XTUPLE_0, XFAMILY, FUNCT_4;
+ registrations XBOOLE_0, SUBSET_1, FUNCT_1, FUNCT_2, RELSET_1, STRUCT_0,
+      PARTFUN1, CAT_1, XTUPLE_0, OPPCAT_1, CAT_2;
+ requirements SUBSET, BOOLE;
+
+
+begin :: Mappings
+
+reserve V for non empty set,
+  A,B,A9,B9 for Element of V;
+
+definition
+  let V;
+  func Funcs(V) -> set equals
+:: ENS_1:def 1
+  union the set of all  Funcs(A,B);
+end;
+
+registration
+  let V;
+  cluster Funcs(V) -> functional non empty;
+end;
+
+theorem :: ENS_1:1
+  for f being set holds f in Funcs(V) iff ex A,B st (B={} implies A
+  ={}) & f is Function of A,B;
+
+theorem :: ENS_1:2
+  Funcs(A,B) c= Funcs(V);
+
+theorem :: ENS_1:3
+  for W be non empty Subset of V holds Funcs W c= Funcs V;
+
+reserve f,f9 for Element of Funcs(V);
+
+definition
+  let V;
+  func Maps(V) -> set equals
+:: ENS_1:def 2
+  { [[A,B],f]: (B={} implies A={}) & f is Function
+  of A,B};
+end;
+
+registration
+  let V;
+  cluster Maps(V) -> non empty;
+end;
+
+reserve m,m1,m2,m3,m9 for Element of Maps V;
+
+theorem :: ENS_1:4
+  ex f,A,B st m = [[A,B],f] & (B = {} implies A = {}) & f is Function of A,B;
+
+theorem :: ENS_1:5
+  for f being Function of A,B st B={} implies A={} holds [[A,B],f] in Maps V;
+
+theorem :: ENS_1:6
+  Maps V c= [:[:V,V:],Funcs V:];
+
+theorem :: ENS_1:7
+  for W be non empty Subset of V holds Maps W c= Maps V;
+
+registration
+  let V be non empty set, m be Element of Maps V;
+  cluster m`2 -> Function-like Relation-like for set;
+end;
+
+definition
+  let V,m;
+
+  func dom m -> Element of V equals
+:: ENS_1:def 3
+  m`1`1;
+  func cod m -> Element of V equals
+:: ENS_1:def 4
+  m`1`2;
+end;
+
+theorem :: ENS_1:8
+  m = [[dom m,cod m],m`2];
+
+theorem :: ENS_1:9
+  (cod m <> {} or dom m = {}) & m`2 is Function of dom m,cod m;
+
+theorem :: ENS_1:10
+  for f being Function, A,B being set st [[A,B],f] in Maps(V)
+  holds (B = {} implies A = {}) & f is Function of A,B;
+
+definition
+  let V,A;
+  func id$ A -> Element of Maps V equals
+:: ENS_1:def 5
+  [[A,A],id A];
+end;
+
+theorem :: ENS_1:11
+  (id$ A)`2 = id A & dom id$ A = A & cod id$ A = A;
+
+definition
+  let V,m1,m2;
+  assume
+ cod m1 = dom m2;
+  func m2*m1 -> Element of Maps V equals
+:: ENS_1:def 6
+
+  [[dom m1,cod m2],m2`2*m1`2];
+end;
+
+theorem :: ENS_1:12
+  dom m2 = cod m1 implies (m2*m1)`2 = m2`2*m1`2 & dom(m2*m1) = dom
+  m1 & cod(m2*m1) = cod m2;
+
+theorem :: ENS_1:13
+  dom m2 = cod m1 & dom m3 = cod m2 implies m3*(m2*m1) = (m3*m2)* m1;
+
+theorem :: ENS_1:14
+  m*(id$ dom m) = m & (id$ cod m)*m = m;
+
+definition
+  let V,A,B;
+  func Maps(A,B) -> set equals
+:: ENS_1:def 7
+  { [[A,B],f] where f is Element of Funcs V: [[A,
+  B],f] in Maps V };
+end;
+
+theorem :: ENS_1:15
+  for f being Function of A,B st B = {} implies A = {} holds [[A,B
+  ],f] in Maps(A,B);
+
+theorem :: ENS_1:16
+  m in Maps(A,B) implies m = [[A,B],m`2];
+
+theorem :: ENS_1:17
+  Maps(A,B) c= Maps V;
+
+theorem :: ENS_1:18
+  Maps V = union the set of all  Maps(A,B);
+
+theorem :: ENS_1:19
+  m in Maps(A,B) iff dom m = A & cod m = B;
+
+theorem :: ENS_1:20
+  m in Maps(A,B) implies m`2 in Funcs(A,B);
+
+definition
+  let V,m;
+  attr m is surjective means
+:: ENS_1:def 8
+  rng m`2 = cod(m);
+end;
+
+begin  :: Category Ens
+
+definition
+  let V;
+  func fDom V -> Function of Maps V,V means
+:: ENS_1:def 9
+
+  for m holds it.m = dom m;
+  func fCod V -> Function of Maps V,V means
+:: ENS_1:def 10
+
+  for m holds it.m = cod m;
+  func fComp V -> PartFunc of [:Maps V,Maps V:],Maps V means
+:: ENS_1:def 11
+
+  (for m2,
+m1 holds [m2,m1] in dom it iff dom m2 = cod m1) & for m2,m1 st dom m2 = cod m1
+  holds it.[m2,m1] = m2*m1;
+end;
+
+definition
+::$CD
+  let V;
+  func Ens(V) -> non empty non void strict CatStr equals
+:: ENS_1:def 13
+  CatStr(# V,Maps V,fDom V,fCod V,fComp V#);
+end;
+
+registration
+  let V;
+  cluster Ens(V) -> Category-like
+   reflexive transitive associative with_identities;
+end;
+
+reserve a,b for Object of Ens(V);
+
+::$CT
+
+theorem :: ENS_1:22
+  A is Object of Ens(V);
+
+definition
+  let V,A;
+  func @A -> Object of Ens(V) equals
+:: ENS_1:def 14
+  A;
+end;
+
+theorem :: ENS_1:23
+  a is Element of V;
+
+definition
+  let V,a;
+  func @a -> Element of V equals
+:: ENS_1:def 15
+  a;
+end;
+
+reserve f,g,f1,f2 for Morphism of Ens(V);
+
+theorem :: ENS_1:24
+  m is Morphism of Ens(V);
+
+definition
+  let V,m;
+  func @m -> Morphism of Ens(V) equals
+:: ENS_1:def 16
+  m;
+end;
+
+theorem :: ENS_1:25
+  f is Element of Maps(V);
+
+definition
+  let V,f;
+  func @f -> Element of Maps(V) equals
+:: ENS_1:def 17
+  f;
+end;
+
+theorem :: ENS_1:26
+  dom f = dom(@f) & cod f = cod(@f);
+
+theorem :: ENS_1:27
+  Hom(a,b) = Maps(@a,@b);
+
+theorem :: ENS_1:28
+  dom g = cod f implies g(*)f = (@g)*(@f);
+
+theorem :: ENS_1:29
+  id a = id$ @a;
+
+theorem :: ENS_1:30
+  a = {} implies a is initial;
+
+theorem :: ENS_1:31
+  {} in V & a is initial implies a = {};
+
+theorem :: ENS_1:32
+  for W being Universe, a being Object of Ens(W) st a is initial holds a
+  = {};
+
+theorem :: ENS_1:33
+  (ex x being set st a = {x}) implies a is terminal;
+
+theorem :: ENS_1:34
+  V <> {{}} & a is terminal implies ex x being set st a = {x};
+
+theorem :: ENS_1:35
+  for W being Universe, a being Object of Ens(W) st a is terminal ex x
+  being set st a = {x};
+
+theorem :: ENS_1:36
+ for a,b being Object of Ens(V), f being Morphism of a,b st Hom(a,b) <> {}
+  holds f is monic iff (@f)`2 is one-to-one;
+
+theorem :: ENS_1:37
+ for a,b being Object of Ens(V), f being Morphism of a,b
+   st Hom(a,b) <> {}
+  holds f is epi & (ex A st ex x1,x2 being set st x1 in A & x2 in A & x1
+  <> x2) implies @f is surjective;
+
+theorem :: ENS_1:38
+ for a,b being Object of Ens(V) st Hom(a,b) <> {}
+ for f being Morphism of a,b st  @f is surjective
+  holds f is epi;
+
+theorem :: ENS_1:39
+  for W being Universe, a,b being Object of Ens(W) st Hom(a,b) <> {}
+  for f being Morphism of a,b st f is epi holds @f
+  is surjective;
+
+theorem :: ENS_1:40
+  for W being non empty Subset of V
+   holds Ens W is full Subcategory of Ens V;
+
+begin :: Representable Functors
+
+reserve C for Category,
+  a,b,a9,b9,c for Object of C,
+  f,g,h,f9,g9 for Morphism of C;
+
+definition
+  let C;
+  func Hom(C) -> set equals
+:: ENS_1:def 18
+  the set of all  Hom(a,b);
+end;
+
+registration
+  let C;
+  cluster Hom(C) -> non empty;
+end;
+
+theorem :: ENS_1:41
+  Hom(a,b) in Hom(C);
+
+:: hom-functors
+
+theorem :: ENS_1:42
+  (Hom(a,cod f) = {} implies Hom(a,dom f) = {}) & (Hom(dom f,a) = {}
+  implies Hom(cod f,a) = {});
+
+definition
+  let C,a,f;
+  func hom(a,f) -> Function of Hom(a,dom f),Hom(a,cod f) means
+:: ENS_1:def 19
+
+  for g st g in Hom(a,dom f) holds it.g = f(*)g;
+  func hom(f,a) -> Function of Hom(cod f,a),Hom(dom f,a) means
+:: ENS_1:def 20
+
+  for g st g in Hom(cod f,a) holds it.g = g(*)f;
+end;
+
+theorem :: ENS_1:43
+  hom(a,id c) = id Hom(a,c);
+
+theorem :: ENS_1:44
+  hom(id c,a) = id Hom(c,a);
+
+theorem :: ENS_1:45
+  dom g = cod f implies hom(a,g(*)f) = hom(a,g)*hom(a,f);
+
+theorem :: ENS_1:46
+  dom g = cod f implies hom(g(*)f,a) = hom(f,a)*hom(g,a);
+
+theorem :: ENS_1:47
+  [[Hom(a,dom f),Hom(a,cod f)],hom(a,f)] is Element of Maps(Hom(C) );
+
+theorem :: ENS_1:48
+  [[Hom(cod f,a),Hom(dom f,a)],hom(f,a)] is Element of Maps(Hom(C) );
+
+definition
+  let C,a;
+  func hom?-(a) -> Function of the carrier' of C, Maps(Hom(C)) means
+:: ENS_1:def 21
+
+  for f holds it.f = [[Hom(a,dom f),Hom(a,cod f)],hom(a,f)];
+  func hom-?(a) -> Function of the carrier' of C, Maps(Hom(C)) means
+:: ENS_1:def 22
+
+  for f holds it.f = [[Hom(cod f,a),Hom(dom f,a)],hom(f,a)];
+end;
+
+theorem :: ENS_1:49
+  Hom(C) c= V implies hom?-(a) is Functor of C,Ens(V);
+
+theorem :: ENS_1:50
+  Hom(C) c= V implies hom-?(a) is Contravariant_Functor of C,Ens(V );
+
+:: hom-bifunctor
+
+theorem :: ENS_1:51
+  Hom(dom f,cod f9) = {} implies Hom(cod f,dom f9) = {};
+
+definition
+  let C,f,g;
+  func hom(f,g) -> Function of Hom(cod f,dom g),Hom(dom f,cod g) means
+:: ENS_1:def 23
+
+  for h st h in Hom(cod f,dom g) holds it.h = g(*)h(*)f;
+end;
+
+theorem :: ENS_1:52
+  [[Hom(cod f,dom g),Hom(dom f,cod g)],hom(f,g)] is Element of Maps(Hom(C));
+
+theorem :: ENS_1:53
+  hom(id a,f) = hom(a,f) & hom(f,id a) = hom(f,a);
+
+theorem :: ENS_1:54
+  hom(id a,id b) = id Hom(a,b);
+
+theorem :: ENS_1:55
+  hom(f,g) = hom(dom f,g)*hom(f,dom g);
+
+theorem :: ENS_1:56
+  cod g = dom f & dom g9 = cod f9 implies
+    hom(f(*)g,g9(*)f9) = hom(g, g9)*hom(f,f9);
+
+definition
+  let C;
+  func hom??(C) -> Function of the carrier' of [:C,C:], Maps(Hom(C)) means
+:: ENS_1:def 24
+
+   for
+ f,g holds it.[f,g] = [[Hom(cod f,dom g),Hom(dom f,cod g)],hom(f,g)];
+end;
+
+theorem :: ENS_1:57
+  hom?-(a) = (curry (hom??(C))).(id a) & hom-?(a) = (curry' (hom?? (C))).(id a)
+;
+
+theorem :: ENS_1:58
+  Hom(C) c= V implies hom??(C) is Functor of [:C opp,C:],Ens(V);
+
+definition
+  let V,C,a;
+  assume
+ Hom(C) c= V;
+  func hom?-(V,a) -> Functor of C,Ens(V) equals
+:: ENS_1:def 25
+
+  hom?-(a);
+  func hom-?(V,a) -> Contravariant_Functor of C,Ens(V) equals
+:: ENS_1:def 26
+
+  hom-?(a);
+end;
+
+definition
+  let V,C;
+  assume
+ Hom(C) c= V;
+  func hom??(V,C) -> Functor of [:C opp,C:],Ens(V) equals
+:: ENS_1:def 27
+
+  hom??(C);
+end;
+
+theorem :: ENS_1:59
+  Hom(C) c= V implies (hom?-(V,a)).f = [[Hom(a,dom f),Hom(a,cod f)],hom(
+  a, f ) ];
+
+theorem :: ENS_1:60
+  Hom(C) c= V implies (Obj (hom?-(V,a))).b = Hom(a,b);
+
+theorem :: ENS_1:61
+  Hom(C) c= V implies (hom-?(V,a)).f = [[Hom(cod f,a),Hom(dom f,a)],hom(
+  f, a ) ];
+
+theorem :: ENS_1:62
+  Hom(C) c= V implies (Obj (hom-?(V,a))).b = Hom(b,a);
+
+theorem :: ENS_1:63
+  Hom(C) c= V implies hom??(V,C).[f opp,g] = [[Hom(cod f,dom g),Hom(dom
+  f,cod g)],hom(f,g)];
+
+theorem :: ENS_1:64
+  Hom(C) c= V implies (Obj (hom??(V,C))).[a opp,b] = Hom(a,b);
+
+theorem :: ENS_1:65
+  Hom(C) c= V implies hom??(V,C)?-(a opp) = hom?-(V,a);
+
+theorem :: ENS_1:66
+  Hom(C) c= V implies hom??(V,C)-?a = hom-?(V,a);

@@ -1,0 +1,248 @@
+:: {E}uler's {P}artition {T}heorem
+::  by Karol P\kak
+:: 
+:: Received March 26, 2015
+:: Copyright (c) 2015-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ORDINAL1, SUBSET_1, CARD_1, ARYTM_3, TARSKI, RELAT_1,
+      XXREAL_0, ARYTM_1, XBOOLE_0, FINSET_1, FUNCT_1, NAT_1, ZFMISC_1,
+      FINSEQ_1, VALUED_0, VALUED_1, CARD_3, RFINSEQ2, NEWTON, EQREL_1,
+      FIB_NUM2, ORDINAL4, ORDINAL2, GOBRD13, ABIAN, FINSEQ_2, CLASSES1,
+      MCART_1, FINSOP_1, POWER, RFUNCT_3, MONOID_0, FLEXARY1, EULRPART;
+ notations TARSKI, XBOOLE_0, XTUPLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS,
+      XCMPLX_0, RELAT_1, FUNCT_1, RELSET_1, MONOID_0, FUNCT_2, XXREAL_0, NAT_1,
+      FINSEQ_2, FINSEQ_1, VALUED_0, VALUED_1, FINSET_1, RVSUM_1, CLASSES1,
+      XXREAL_2, ABIAN, RFINSEQ2, FIB_NUM2, FUNCT_3, NAT_D, MATRIX_0, NEWTON,
+      POWER, FINSOP_1, RFUNCT_3, JORDAN1H, FLEXARY1;
+ constructors XXREAL_2, ABIAN, RFINSEQ2, CLASSES1, MONOID_0, NAT_D, FOMODEL2,
+      RELSET_1, FIB_NUM2, FINSOP_1, NEWTON, POWER, JORDAN1H, FLEXARY1;
+ registrations ORDINAL1, XREAL_0, FUNCT_1, FINSEQ_1, FINSEQ_2, VALUED_0,
+      VALUED_1, PRE_POLY, NAT_1, INT_6, RVSUM_1, XCMPLX_0, MEMBERED, VALUED_2,
+      FOMODEL0, XBOOLE_0, RELAT_1, FUNCT_2, CARD_1, RELSET_1, XXREAL_2,
+      EUCLID_9, FINSET_1, XXREAL_0, NUMBERS, INT_1, AOFA_A00, XTUPLE_0, NEWTON,
+      ABIAN, POWER, RFINSEQ, AFINSQ_2, FLEXARY1;
+ requirements NUMERALS, SUBSET, BOOLE, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve x,y for object,
+        i,j,k,m,n for Nat;
+
+registration
+  let r be ext-real number;
+  cluster <*r*> -> ext-real-valued;
+  cluster <*r*> -> decreasing increasing non-decreasing non-increasing;
+end;
+
+theorem :: EULRPART:1
+  for f,g be non-decreasing ext-real-valued FinSequence st
+    f.len f <= g.1 holds f^g is non-decreasing;
+
+definition
+  let R be Relation;
+  attr R is odd-valued means
+:: EULRPART:def 1
+    rng R c= OddNAT;
+end;
+
+theorem :: EULRPART:2
+  n in OddNAT iff n is odd;
+
+registration
+  cluster odd-valued -> non-zero natural-valued for Relation;
+end;
+
+definition
+  let F be Function;
+  redefine attr F is odd-valued means
+:: EULRPART:def 2
+     for x st x in dom F holds F.x is odd Nat;
+end;
+
+registration
+  cluster empty -> odd-valued for Relation;
+  let i be odd Nat;
+  cluster <*i*> -> odd-valued;
+end;
+
+registration
+  let f,g be odd-valued FinSequence;
+  cluster f^g -> odd-valued;
+end;
+
+registration
+  cluster OddNAT-valued -> odd-valued for Relation;
+end;
+
+definition
+  let n be Nat;
+  mode a_partition of n -> non-zero non-decreasing natural-valued FinSequence
+    means
+:: EULRPART:def 3
+     Sum it = n;
+end;
+
+theorem :: EULRPART:3
+  {} is a_partition of 0;
+
+registration
+  let n be Nat;
+  cluster odd-valued for a_partition of n;
+  cluster one-to-one for a_partition of n;
+end;
+
+registration
+   let n be Nat;
+   sethood of a_partition of n;
+ end;
+
+definition
+  let f be odd-valued FinSequence;
+  mode odd_organization of f -> valued_reorganization of f means
+:: EULRPART:def 4
+    2*n-1 = f.it_(n,1) & ... & 2*n-1 = f.it_(n,len (it.n));
+end;
+
+theorem :: EULRPART:4
+  for f be odd-valued FinSequence
+    for o be DoubleReorganization of dom f st
+     for n holds 2*n-1 = f.o_(n,1) & ... & 2*n-1 = f.o_(n,len (o.n))
+  holds o is odd_organization of f;
+
+theorem :: EULRPART:5
+  for f be odd-valued FinSequence,
+      g be complex-valued FinSequence
+    for o1,o2 be DoubleReorganization of dom g st
+        o1 is odd_organization of f &
+        o2 is odd_organization of f
+       holds
+         Sum (g*.o1).i =Sum (g*.o2).i;
+
+theorem :: EULRPART:6
+  for p be a_partition of n
+    ex O be odd-valued FinSequence,
+       a be natural-valued FinSequence st
+    len O = len p = len a & p = O (#) 2|^a &
+    ( p.1 = O.1 * (2|^a.1) & ... & p.len p = O.len p * (2|^a.len p));
+
+theorem :: EULRPART:7
+  for D be finite set
+   for f be Function of D,NAT
+     ex h be FinSequence of D st
+       for d be Element of D holds
+         card Coim(h,d) = f.d;
+
+theorem :: EULRPART:8
+  for f1,f2,g1,g2 be complex-valued FinSequence st len f1 = len g1 holds
+    (f1^f2) (#) (g1^g2) = (f1(#)g1)^(f2(#)g2);
+
+theorem :: EULRPART:9
+   for f,h be natural-valued FinSequence st
+     for i holds card Coim(h,i) = f.i
+   holds Sum h = 1 * f.1 + 2 * f.2 + ((id dom f)(#)f,3) +...;
+
+theorem :: EULRPART:10
+   for g be natural-valued FinSequence
+    for sort be DoubleReorganization of dom g
+      ex h be (2*len sort)-element FinSequence of NAT st
+      for j holds h.(2*j) = 0 &
+      h.(2*j-1) = g. sort_(j,1) + (g*.sort.j,2)+...;
+
+begin :: Euler Transformation
+
+
+theorem :: EULRPART:11
+  for d be one-to-one a_partition of n
+  ex e be odd-valued a_partition of n st
+    for j be Nat, O1 be odd-valued FinSequence,
+        a1 be natural-valued FinSequence st
+    len O1 = len d = len a1 & d = O1 (#) 2|^a1
+    for sort be DoubleReorganization of dom d
+st
+      (1 = O1.sort_(1,1) & ... & 1 = O1.sort_(1,len (sort.1))) &
+      (3 = O1.sort_(2,1) & ... & 3 = O1.sort_(2,len (sort.2))) &
+      (5 = O1.sort_(3,1) & ... & 5 = O1.sort_(3,len (sort.3))) &
+      for i holds
+        2*i-1 = O1.sort_(i,1) & ... & 2*i-1 = O1.sort_(i,len (sort.i))
+   holds
+     card Coim(e,1) = (2|^a1). sort_(1,1) + ((2|^a1)*.sort.1,2)+... &
+     card Coim(e,3) = (2|^a1). sort_(2,1) + ((2|^a1)*.sort.2,2)+... &
+     card Coim(e,5) = (2|^a1). sort_(3,1) + ((2|^a1)*.sort.3,2)+... &
+     card Coim(e,j*2-1) = (2|^a1). sort_(j,1) + ((2|^a1)*.sort.j,2)+...;
+
+
+definition
+  let n be Nat;
+  let p be one-to-one a_partition of n;
+  func Euler_transformation p -> odd-valued a_partition of n means
+:: EULRPART:def 5
+    for O be odd-valued FinSequence,
+        a be natural-valued FinSequence
+st
+    len O = len p = len a & p = O (#) 2|^a
+    for sort be DoubleReorganization of dom p
+st
+      (1 = O.sort_(1,1) & ... & 1 = O.sort_(1,len (sort.1))) &
+      (3 = O.sort_(2,1) & ... & 3 = O.sort_(2,len (sort.2))) &
+      (5 = O.sort_(3,1) & ... & 5 = O.sort_(3,len (sort.3))) &
+      for i holds
+        2*i-1 = O.sort_(i,1) & ... & 2*i-1 = O.sort_(i,len (sort.i))
+   holds
+     card Coim(it,1) = (2|^a). sort_(1,1) + ((2|^a)*.sort.1,2)+... &
+     card Coim(it,3) = (2|^a). sort_(2,1) + ((2|^a)*.sort.2,2)+... &
+     card Coim(it,5) = (2|^a). sort_(3,1) + ((2|^a)*.sort.3,2)+... &
+     card Coim(it,j*2-1) = (2|^a). sort_(j,1) + ((2|^a)*.sort.j,2)+...;
+end;
+
+theorem :: EULRPART:12
+  for n be Nat,
+      p be one-to-one a_partition of n,
+      e be odd-valued a_partition of n holds
+     e = Euler_transformation p iff
+      for O be odd-valued FinSequence,
+          a be natural-valued FinSequence,
+          sort be odd_organization of O
+        st
+       len O = len p = len a & p = O (#) 2|^a
+       for j holds card Coim(e,j*2-1) = ((2|^a)*.sort.j,1)+...;
+
+registration
+  cluster one-to-one non-decreasing -> increasing for real-valued Function;
+end;
+
+theorem :: EULRPART:13
+  for O be odd-valued FinSequence,
+      a be natural-valued FinSequence,
+      s be odd_organization of O st
+        len O = len a & O (#) 2|^a is one-to-one
+    holds a*.s.i is one-to-one;
+
+theorem :: EULRPART:14
+  for p1,p2 be one-to-one a_partition of n st
+    Euler_transformation p1 = Euler_transformation p2
+  holds p1 = p2;
+
+theorem :: EULRPART:15
+  for e be odd-valued a_partition of n
+    ex p be one-to-one a_partition of n st
+      e = Euler_transformation p;
+
+begin :: Main Theorem
+
+::$N Euler's partition theorem
+
+theorem :: EULRPART:16
+  card the set of all p where p is odd-valued a_partition of n
+    =
+  card the set of all p where p is one-to-one a_partition of n;

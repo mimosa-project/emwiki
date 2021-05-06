@@ -1,0 +1,487 @@
+:: Dual Lattice of $\mathbb Z$-module Lattice
+::  by Yuichi Futa and Yasunari Shidama
+:: 
+:: Received June 27, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies GAUSSINT, NUMBERS, FINSEQ_1, SUBSET_1, RLVECT_1, STRUCT_0,
+      FUNCT_1, XBOOLE_0, ALGSTR_0, RELAT_1, PARTFUN1, ARYTM_3, CARD_3,
+      ORDINAL4, PRELAMB, XXREAL_0, TARSKI, CARD_1, SUPINF_2, ARYTM_1, NAT_1,
+      FINSET_1, FUNCOP_1, RLSUB_1, BINOP_1, ZFMISC_1, INT_1, RLVECT_2,
+      ZMODUL03, FINSEQ_4, RLVECT_3, RMOD_2, RANKNULL, UPROOTS, GROUP_1, INT_3,
+      VECTSP_1, MESFUNC1, REALSET1, MATRLIN, RLVECT_5, NORMSP_1, BHSP_1,
+      RVSUM_1, MATRIX_1, MATRIX_3, ZMATRLIN, ZMODLAT1, TREES_1, MFOLD_2,
+      FVSUM_1, INCSP_1, ZMODUL04, ZMODUL08, FUNCT_2, ZMODLAT2, VECTSP10,
+      MATRIX_6, LAPLACE, ZMODLAT3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, MCART_1, FUNCT_2, BINOP_1, DOMAIN_1, FUNCOP_1,
+      REALSET1, FINSET_1, CARD_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, INT_1,
+      FINSEQ_1, MATRIX_0, STRUCT_0, ALGSTR_0, RLVECT_1, GROUP_1, VECTSP_1,
+      VECTSP_4, VECTSP_6, VECTSP_7, MATRIX_1, FVSUM_1, MATRIX_3, INT_3,
+      ZMODUL01, ZMODUL03, GAUSSINT, ZMODUL04, ZMATRLIN, ZMODLAT1, ZMODUL08,
+      MATRIX_6, LAPLACE, MATRIX13, FINSEQ_4, ZMODLAT2;
+ constructors BINOP_2, UPROOTS, RELSET_1, REALSET1, ORDERS_1, VECTSP_9,
+      ZMODUL02, ZMODUL01, EUCLID, FVSUM_1, EC_PF_1, ZMODUL04, ZMODUL07,
+      ZMODUL05, MATRIX_6, LAPLACE, MATRIX13, FINSEQ_4, ZMODLAT2;
+ registrations SUBSET_1, FUNCT_1, RELSET_1, FUNCT_2, FINSET_1, NUMBERS,
+      XREAL_0, STRUCT_0, VALUED_0, MEMBERED, FINSEQ_1, CARD_1, INT_1, XBOOLE_0,
+      BINOP_2, ORDINAL1, XXREAL_0, NAT_1, INT_3, REALSET1, RELAT_1, VECTSP_1,
+      GAUSSINT, RAT_1, XCMPLX_0, ZMODUL03, ZMODUL04, ZMODUL06, ZMODLAT1,
+      ZMODUL08, VECTSP_7, FINSEQ_2, ZMODLAT2;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: 1. Summation of inner products
+
+theorem :: ZMODLAT3:1
+  for L being RATional Z_Lattice, LX being Z_Lattice
+  st LX is Submodule of DivisibleMod(L) &
+  the scalar of LX = (ScProductDM(L)) || the carrier of LX
+  holds LX is RATional;
+
+registration
+  let L be RATional Z_Lattice;
+  cluster EMLat(L) -> RATional;
+end;
+
+registration
+  let L be RATional Z_Lattice;
+  let r be Element of F_Rat;
+  cluster EMLat(r, L) -> RATional;
+end;
+
+definition
+  let L be Z_Lattice;
+  let F be FinSequence of L;
+  let f be Function of L, INT.Ring;
+  let v be Vector of L;
+  func ScFS(v, f, F) -> FinSequence of F_Real means
+:: ZMODLAT3:def 1
+  len it = len F & for i being Nat st i in dom it
+  holds it.i = <; v, f.(F/.i) * F/.i ;>;
+end;
+
+theorem :: ZMODLAT3:2
+  for L being Z_Lattice, f being Function of L, INT.Ring,
+      F being FinSequence of L,
+      v, u being Vector of L, i being Nat
+  st i in dom F & u = F.i
+  holds (ScFS(v, f, F)).i = <; v, f.u * u ;>;
+
+theorem :: ZMODLAT3:3
+  for L being Z_Lattice, f being Function of L, INT.Ring,
+      v, u being Vector of L holds
+  ScFS(v, f, <* u *>) = <* <; v, f.u * u ;> *>;
+
+theorem :: ZMODLAT3:4
+  for L being Z_Lattice, f being Function of L, INT.Ring,
+      F, G being FinSequence of L,
+      v being Vector of L holds
+  ScFS(v, f, F ^ G) = ScFS(v, f, F) ^ ScFS(v, f, G);
+
+definition
+  let L be Z_Lattice;
+  let l be Linear_Combination of L;
+  let v be Vector of L;
+  func SumSc(v, l) -> Element of F_Real means
+:: ZMODLAT3:def 2
+  ex F being FinSequence of L st
+  F is one-to-one & rng F = Carrier(l) & it = Sum(ScFS(v, l, F));
+end;
+
+theorem :: ZMODLAT3:5
+  for L being Z_Lattice, v being Vector of L holds
+  SumSc(v, ZeroLC(L)) = 0.F_Real;
+
+theorem :: ZMODLAT3:6
+  for L being Z_Lattice, v being Vector of L,
+      l being Linear_Combination of {}(the carrier of L)
+  holds SumSc(v, l) = 0.F_Real;
+
+theorem :: ZMODLAT3:7
+  for L being Z_Lattice, v being Vector of L,
+      l being Linear_Combination of L
+  st Carrier l = {}
+  holds SumSc(v, l) = 0.F_Real;
+
+theorem :: ZMODLAT3:8
+  for L being Z_Lattice, v, u being Vector of L,
+  l being Linear_Combination of {u}
+  holds SumSc(v, l) = <; v, l.u * u ;>;
+
+theorem :: ZMODLAT3:9
+  for L being Z_Lattice, v being Vector of L,
+      l1, l2 being Linear_Combination of L
+  holds SumSc(v, l1+l2) = SumSc(v, l1) + SumSc(v, l2);
+
+theorem :: ZMODLAT3:10
+  for L being Z_Lattice, l being Linear_Combination of L,
+      v being Vector of L holds
+  <; v, Sum(l) ;> = SumSc(v, l);
+
+definition
+  let L be Z_Lattice;
+  let F be FinSequence of DivisibleMod(L);
+  let f be Function of DivisibleMod(L), INT.Ring;
+  let v be Vector of DivisibleMod(L);
+  func ScFS(v, f, F) -> FinSequence of F_Real means
+:: ZMODLAT3:def 3
+  len it = len F & for i being Nat st i in dom it
+  holds it.i = (ScProductDM(L)).(v, f.(F/.i) * F/.i);
+end;
+
+theorem :: ZMODLAT3:11
+  for L being Z_Lattice, f being Function of DivisibleMod(L), INT.Ring,
+  F being FinSequence of DivisibleMod(L),
+  v, u being Vector of DivisibleMod(L), i being Nat
+  st i in dom F & u = F.i
+  holds (ScFS(v, f, F)).i = (ScProductDM(L)).(v, f.u * u);
+
+theorem :: ZMODLAT3:12
+  for L being Z_Lattice, f being Function of DivisibleMod(L), INT.Ring,
+      v, u being Vector of DivisibleMod(L) holds
+  ScFS(v, f, <* u *>) = <* (ScProductDM(L)).(v, f.u * u) *>;
+
+theorem :: ZMODLAT3:13
+  for L being Z_Lattice, f being Function of DivisibleMod(L), INT.Ring,
+      F, G being FinSequence of DivisibleMod(L),
+      v being Vector of DivisibleMod(L) holds
+  ScFS(v, f, F ^ G) = ScFS(v, f, F) ^ ScFS(v, f, G);
+
+definition
+  let L be Z_Lattice;
+  let l be Linear_Combination of DivisibleMod(L);
+  let v be Vector of DivisibleMod(L);
+  func SumSc(v, l) -> Element of F_Real means
+:: ZMODLAT3:def 4
+  ex F being FinSequence of DivisibleMod(L) st
+  F is one-to-one & rng F = Carrier(l) & it = Sum(ScFS(v, l, F));
+end;
+
+theorem :: ZMODLAT3:14
+  for L being Z_Lattice, v being Vector of DivisibleMod(L) holds
+  SumSc(v, ZeroLC(DivisibleMod(L))) = 0.F_Real;
+
+theorem :: ZMODLAT3:15
+  for L being Z_Lattice, v being Vector of DivisibleMod(L),
+      l being Linear_Combination of {}(the carrier of DivisibleMod(L))
+  holds SumSc(v, l) = 0.F_Real;
+
+theorem :: ZMODLAT3:16
+  for L being Z_Lattice, v being Vector of DivisibleMod(L),
+      l being Linear_Combination of DivisibleMod(L)
+  st Carrier l = {}
+  holds SumSc(v, l) = 0.F_Real;
+
+theorem :: ZMODLAT3:17
+  for L being Z_Lattice, v, u being Vector of DivisibleMod(L),
+      l being Linear_Combination of {u}
+  holds SumSc(v, l) = (ScProductDM(L)).(v, l.u * u);
+
+theorem :: ZMODLAT3:18
+  for L being Z_Lattice, v being Vector of DivisibleMod(L),
+      l1, l2 being Linear_Combination of DivisibleMod(L)
+  holds SumSc(v, l1+l2) = SumSc(v, l1) + SumSc(v, l2);
+
+theorem :: ZMODLAT3:19
+  for L being Z_Lattice, l being Linear_Combination of DivisibleMod(L),
+      v being Vector of DivisibleMod(L) holds
+  (ScProductDM(L)).(v, Sum(l)) = SumSc(v, l);
+
+theorem :: ZMODLAT3:20
+  for n being Nat, M being Matrix of n, F_Real
+  for H being Matrix of n, F_Rat
+  st M = H & M is invertible
+  holds H is invertible & M ~ = H ~;
+
+theorem :: ZMODLAT3:21
+  for n being Nat, M being Matrix of n, F_Real
+  st M is Matrix of n, F_Rat & M is invertible
+  holds M~ is Matrix of n, F_Rat;
+
+theorem :: ZMODLAT3:22
+  for L being non trivial RATional positive-definite Z_Lattice,
+      b being OrdBasis of L holds
+  (GramMatrix(b))~ is Matrix of dim(L),F_Rat;
+
+theorem :: ZMODLAT3:23
+  for X being finite Subset of RAT
+  ex a being Element of INT st
+  a <> 0 &
+  for r being Element of RAT st r in X holds a*r in INT;
+
+theorem :: ZMODLAT3:24
+  for L being non trivial RATional positive-definite Z_Lattice,
+      b being OrdBasis of L holds
+  ex a being Element of F_Real st a is Element of INT.Ring &
+  a <> 0 &
+  a*((GramMatrix(b))~) is Matrix of dim(L),INT.Ring;
+
+theorem :: ZMODLAT3:25
+  for L being non trivial RATional positive-definite Z_Lattice,
+  b being OrdBasis of EMLat(L), i being Nat
+  st i in dom b holds
+  ex v being Vector of DivisibleMod(L)
+  st (ScProductDM(L)).(b/.i, v) = 1 &
+  (for j being Nat st i <> j & j in dom b holds
+  (ScProductDM(L)).(b/.j, v) = 0);
+
+begin
+
+definition
+  let L be Z_Lattice;
+  mode Dual of L -> Vector of DivisibleMod(L) means
+:: ZMODLAT3:def 5
+  for v being Vector of DivisibleMod(L) st v in EMbedding(L) holds
+  (ScProductDM(L)).(it, v) in INT.Ring;
+end;
+
+theorem :: ZMODLAT3:26
+  for L being Z_Lattice holds 0.DivisibleMod(L) is Dual of L;
+
+theorem :: ZMODLAT3:27
+  for L being Z_Lattice, v, u being Dual of L holds
+  v + u is Dual of L;
+
+theorem :: ZMODLAT3:28
+  for L being Z_Lattice, v being Dual of L, a being Element of INT.Ring
+  holds a * v is Dual of L;
+
+definition
+  let L be Z_Lattice;
+  func DualSet(L) -> non empty Subset of DivisibleMod(L) equals
+:: ZMODLAT3:def 6
+  the set of all v where v is Dual of L;
+end;
+
+registration
+  let L be Z_Lattice;
+  cluster DualSet(L) -> linearly-closed;
+end;
+
+definition
+  let L be Z_Lattice;
+  func DualLatMod(L) -> strict non empty LatticeStr over INT.Ring
+  means
+:: ZMODLAT3:def 7
+
+  the carrier of it = DualSet(L) &
+  the addF of it = (the addF of DivisibleMod(L)) || DualSet(L) &
+  the ZeroF of it = 0.DivisibleMod(L) &
+  the lmult of it = (the lmult of DivisibleMod(L)) |
+  [:the carrier of INT.Ring, DualSet(L):] &
+  the scalar of it = (ScProductDM(L)) | [:DualSet(L), DualSet(L):];
+end;
+
+theorem :: ZMODLAT3:29
+  for L being Z_Lattice holds DualLatMod(L) is Submodule of DivisibleMod(L);
+
+theorem :: ZMODLAT3:30
+  for L being Z_Lattice,
+      v being Vector of DivisibleMod(L), I being Basis of EMbedding(L)
+  st for u being Vector of DivisibleMod(L) st u in I
+  holds (ScProductDM(L)).(v, u) in INT.Ring
+  holds v is Dual of L;
+
+definition
+  let L be RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  func DualBasis(I) -> Subset of DivisibleMod(L) means
+:: ZMODLAT3:def 8
+  for v being Vector of DivisibleMod(L) holds
+  v in it iff
+  ex u being Vector of EMLat(L) st u in I &
+  (ScProductDM(L)).(u, v) = 1 &
+  (for w being Vector of EMLat(L) st w in I & u <> w
+  holds (ScProductDM(L)).(w, v) = 0);
+end;
+
+definition
+  let L be RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  func B2DB(I) -> Function of I, DualBasis(I) means
+:: ZMODLAT3:def 9
+  dom it = I & rng it = DualBasis(I) &
+  for v being Vector of EMLat(L) st v in I holds
+  (ScProductDM(L)).(v, it.v) = 1 &
+  (for w being Vector of EMLat(L) st w in I & v <> w
+  holds (ScProductDM(L)).(w, it.v) = 0);
+end;
+
+registration
+  let L be RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  cluster B2DB(I) -> onto one-to-one;
+end;
+
+theorem :: ZMODLAT3:31
+  for L being RATional positive-definite Z_Lattice,
+  I being Basis of EMLat(L) holds
+  card I = card DualBasis(I);
+
+registration
+  let L be RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  cluster DualBasis(I) -> finite;
+end;
+
+registration
+  let L be non trivial RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  cluster DualBasis(I) -> non empty;
+end;
+
+theorem :: ZMODLAT3:32
+  for L being RATional positive-definite Z_Lattice,
+  I being Basis of EMLat(L), v being Vector of DivisibleMod(L),
+  l being Linear_Combination of DualBasis(I) st v in I
+  holds (ScProductDM(L)).(v, Sum(l)) = l.((B2DB(I)).v);
+
+theorem :: ZMODLAT3:33
+  for L being RATional positive-definite Z_Lattice,
+  I being Basis of EMLat(L),
+  v being Vector of DivisibleMod(L) st v is Dual of L holds
+  v in Lin DualBasis(I);
+
+registration
+  let L be RATional positive-definite Z_Lattice;
+  let I be Basis of EMLat(L);
+  cluster DualBasis(I) -> linearly-independent;
+end;
+
+definition
+  let L be RATional positive-definite Z_Lattice;
+  func DualLat(L) -> strict Z_Lattice means
+:: ZMODLAT3:def 10
+  the carrier of it = DualSet L &
+  0.it = 0.DivisibleMod(L) &
+  the addF of it = (the addF of DivisibleMod(L)) || the carrier of it &
+  the lmult of it = (the lmult of DivisibleMod(L))
+     | [:the carrier of INT.Ring, the carrier of it:] &
+  the scalar of it = (ScProductDM(L)) || the carrier of it;
+end;
+
+theorem :: ZMODLAT3:34
+  for L being RATional positive-definite Z_Lattice,
+  v being Vector of DivisibleMod(L) holds
+  v in DualLat(L) iff v is Dual of L;
+
+theorem :: ZMODLAT3:35
+  for L being RATional positive-definite Z_Lattice holds
+  DualLat(L) is Submodule of DivisibleMod(L);
+
+theorem :: ZMODLAT3:36
+  for L being Z_Lattice, I being Basis of EMLat(L) holds
+  I is Basis of EMbedding(L);
+
+theorem :: ZMODLAT3:37
+  for L being Z_Lattice, I being Basis of EMbedding(L) holds
+  I is Basis of EMLat(L);
+
+theorem :: ZMODLAT3:38
+  for L being RATional positive-definite Z_Lattice,
+  I being Basis of EMLat(L), v being Vector of DivisibleMod(L)
+  st v in DualBasis(I)
+  holds v is Dual of L;
+
+theorem :: ZMODLAT3:39
+  for L being RATional positive-definite Z_Lattice,
+      I being Basis of EMLat(L) holds
+  DualBasis(I) is Basis of DualLat(L);
+
+theorem :: ZMODLAT3:40
+  for L being RATional positive-definite Z_Lattice,
+  b being OrdBasis of EMLat(L), I being Basis of EMLat(L)
+  st I = rng b holds
+  (B2DB(I))*b is OrdBasis of DualLat(L);
+
+theorem :: ZMODLAT3:41
+  for L be positive-definite finite-rank free Z_Lattice,
+  b being OrdBasis of L, e being OrdBasis of EMLat(L)
+  st e = (MorphsZQ(L))*b
+  holds GramMatrix(InnerProduct(L), b) = GramMatrix(InnerProduct(EMLat(L)), e);
+
+theorem :: ZMODLAT3:42
+  for L being positive-definite finite-rank free Z_Lattice holds
+  GramDet(InnerProduct(L)) = GramDet(InnerProduct(EMLat(L)));
+
+theorem :: ZMODLAT3:43
+  for L being RATional positive-definite Z_Lattice holds
+  rank(L) = rank(DualLat(L));
+
+theorem :: ZMODLAT3:44
+  for L being INTegral positive-definite Z_Lattice holds
+  EMLat(L) is Z_Sublattice of DualLat(L);
+
+theorem :: ZMODLAT3:45
+  for L being Z_Lattice,
+  b being OrdBasis of L
+  st GramMatrix(InnerProduct(L), b) is Matrix of dim(L), INT.Ring
+  holds L is INTegral;
+
+theorem :: ZMODLAT3:46
+  for L being Z_Lattice, I being finite Subset of L, u being Vector of L
+  st for v being Vector of L st v in I holds <; v, u ;> in RAT holds
+  for v being Vector of L st v in Lin(I) holds <; v, u ;> in RAT;
+
+theorem :: ZMODLAT3:47
+  for L being Z_Lattice, I being Basis of L
+  st for v, u being Vector of L st v in I & u in I holds <; v, u ;> in RAT
+  holds for v, u being Vector of L holds <; v, u ;> in RAT;
+
+theorem :: ZMODLAT3:48
+  for L being Z_Lattice, I being Basis of L
+  st for v, u being Vector of L st v in I & u in I holds
+  <; v, u ;> in RAT
+  holds L is RATional;
+
+theorem :: ZMODLAT3:49
+  for L being Z_Lattice,
+      b being OrdBasis of L
+  st GramMatrix(InnerProduct(L), b) is Matrix of dim(L), F_Rat
+  holds L is RATional;
+
+registration
+  let L be RATional positive-definite Z_Lattice;
+  cluster DualLat(L) -> RATional;
+end;
+
+theorem :: ZMODLAT3:50
+  for L being RATional Z_Lattice, LX being Z_Lattice,
+      b being OrdBasis of LX
+  st LX is Submodule of DivisibleMod(L) &
+  the scalar of LX = (ScProductDM(L)) || the carrier of LX
+  holds GramMatrix(InnerProduct(LX), b) is Matrix of dim(LX), F_Rat;
+
+theorem :: ZMODLAT3:51
+  for L being RATional positive-definite Z_Lattice,
+      b being OrdBasis of DualLat(L)
+  holds GramMatrix(InnerProduct(DualLat(L)), b) is Matrix of dim(L), F_Rat;
+
+theorem :: ZMODLAT3:52
+  for L being positive-definite Z_Lattice,
+  LX being Z_Lattice
+  st LX is Submodule of DivisibleMod(L) &
+  the scalar of LX = (ScProductDM(L)) || the carrier of LX
+  holds LX is positive-definite;
+
+registration
+  let L be RATional positive-definite Z_Lattice;
+  cluster DualLat(L) -> positive-definite;
+end;
+
+registration
+  let L be non trivial RATional positive-definite Z_Lattice;
+  cluster DualLat(L) -> non trivial;
+end;
+

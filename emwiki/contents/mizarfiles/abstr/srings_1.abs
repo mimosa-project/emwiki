@@ -1,0 +1,290 @@
+:: Semiring of Sets
+::  by Roland Coghetto
+:: 
+:: Received March 31, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_1, ARYTM_3, CARD_3, EQREL_1, FINSEQ_1, FINSET_1, FINSUB_1,
+      FUNCT_1, NAT_1, NAT_LAT, NUMBERS, ORDINAL1, ORDINAL4, RELAT_1, SETFAM_1,
+      SIMPLEX0, SRINGS_1, SUBSET_1, TARSKI, TAXONOM2, XBOOLE_0, XCMPLX_0,
+      XXREAL_0, ZFMISC_1, CARD_1, LATTICE7, PARTIT1, TEX_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, EQREL_1, SETFAM_1, FINSET_1, ORDINAL1,
+      CARD_3, RELAT_1, ZFMISC_1, FINSUB_1, FUNCT_1, SIMPLEX0, FINSEQ_1,
+      NUMBERS, XXREAL_0, FUNCT_2, NAT_LAT, XXREAL_3, RELSET_1, TAXONOM2, NAT_1,
+      TEX_1, LATTICE7, PARTIT1, CARD_1;
+ constructors LATTICE5, NAT_LAT, RELSET_1, MEASURE6, TAXONOM2, COHSP_1,
+      LATTICE7, PARTIT1, TOPGEN_4, TEX_1;
+ registrations CARD_3, EQREL_1, FINSEQ_1, FINSET_1, FUNCT_1, INT_1, MEMBERED,
+      NAT_1, NAT_LAT, RELAT_1, RELSET_1, SIMPLEX0, SUBSET_1, XBOOLE_0, XREAL_0,
+      XXREAL_0, XXREAL_3, SETFAM_1, COHSP_1, ORDINAL1, CARD_1, ZFMISC_1, TEX_1;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin :: Preliminaries
+
+reserve X for set;
+reserve S for Subset-Family of X;
+
+theorem :: SRINGS_1:1
+for X,Y be set holds (X\/Y)\(Y\X)=X;
+
+registration
+  let X,S;
+  let S1,S2 be finite Subset of S;
+  cluster INTERSECTION(S1,S2) -> finite;
+end;
+
+theorem :: SRINGS_1:2
+  for S be Subset-Family of X, A be Element of S holds
+  {x where x is Element of S: x in union (PARTITIONS(A)/\Fin S)} =
+  union (PARTITIONS(A)/\Fin S);
+
+registration
+  let X,S;
+  cluster union (PARTITIONS({})/\Fin S) -> empty;
+end;
+
+registration
+  let X;
+  cluster cobool X -> with_empty_element;
+end;
+
+theorem :: SRINGS_1:3
+  for X be set st X is cap-closed cup-closed holds
+  X is Ring_of_sets;
+
+begin
+
+definition
+  let X be set;
+  let S be Subset-Family of X;
+  attr S is cap-finite-partition-closed means
+:: SRINGS_1:def 1
+
+   for S1,S2 be Element of S st S1/\S2 is non empty
+   ex x be finite Subset of S st x is a_partition of S1/\S2;
+end;
+
+registration
+  let X be set;
+  cluster cobool X -> cap-finite-partition-closed;
+end;
+
+registration
+  let X be set;
+  cluster cap-finite-partition-closed for Subset-Family of X;
+end;
+
+registration
+  let X be set;
+  cluster cap-closed -> cap-finite-partition-closed for Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:4
+  for A be non empty set,
+  S be cap-finite-partition-closed Subset-Family of X,
+  P1,P2 be a_partition of A st
+  P1 is finite Subset of S & P2 is finite Subset of S
+  ex P be a_partition of A st
+  P is finite Subset of S &
+  P '<' P1 '/\' P2;
+
+theorem :: SRINGS_1:5
+  for S be cap-finite-partition-closed Subset-Family of X holds
+  for A,B be finite Subset of S st A is mutually-disjoint &
+  B is mutually-disjoint ex P be finite Subset of S st
+  P is a_partition of union A /\ union B;
+
+theorem :: SRINGS_1:6
+  for S be cap-finite-partition-closed Subset-Family of X holds
+  for SM be finite Subset of S ex P be finite Subset of S st
+  P is a_partition of meet SM;
+
+theorem :: SRINGS_1:7
+  for S be cap-finite-partition-closed Subset-Family of X
+  holds
+  {union x where x is finite Subset of S:x is mutually-disjoint}
+  is cap-closed;
+
+definition
+  let X be set;
+  let S be Subset-Family of X;
+  attr S is diff-finite-partition-closed means
+:: SRINGS_1:def 2
+
+   for S1,S2 be Element of S st S1\S2 is non empty
+   ex x be finite Subset of S st x is a_partition of S1\S2;
+end;
+
+registration
+  let X be set;
+  cluster cobool X -> diff-finite-partition-closed;
+end;
+
+registration
+  let X be set;
+  cluster diff-finite-partition-closed for Subset-Family of X;
+end;
+
+registration
+  let X be set;
+  cluster diff-closed -> diff-finite-partition-closed for Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:8
+  for S be diff-finite-partition-closed Subset-Family of X,
+  S1 be Element of S, T be finite Subset of S holds
+  ex P be finite Subset of S st P is a_partition of S1 \ union T;
+
+begin :: Partitions in a Difference of Sets
+
+definition
+  let X be set;
+  let S be Subset-Family of X;
+  attr S is diff-c=-finite-partition-closed means
+:: SRINGS_1:def 3
+
+   for S1,S2 be Element of S st S2 c= S1 holds
+   ex x be finite Subset of S st x is a_partition of S1\S2;
+end;
+
+theorem :: SRINGS_1:9
+  for S be Subset-Family of X st
+  S is diff-finite-partition-closed holds
+  S is diff-c=-finite-partition-closed;
+
+registration
+  let X;
+  cluster diff-finite-partition-closed -> diff-c=-finite-partition-closed for
+  Subset-Family of X;
+end;
+
+registration
+  let X;
+  cluster cobool X -> diff-c=-finite-partition-closed;
+end;
+
+registration
+  let X;
+  cluster diff-c=-finite-partition-closed diff-finite-partition-closed
+  cap-finite-partition-closed with_empty_element for Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:10
+  for S be diff-finite-partition-closed Subset-Family of X holds
+  {union x where x is finite Subset of S:x is mutually-disjoint} is
+  diff-closed;
+
+theorem :: SRINGS_1:11
+  for S be cap-finite-partition-closed diff-c=-finite-partition-closed
+  Subset-Family of X holds (for A be Element of S, Q be finite Subset of S st
+  union Q c= A & Q is a_partition of union Q ex R be finite
+  Subset of S st union R misses union Q & Q\/R is a_partition of A);
+
+theorem :: SRINGS_1:12
+  for S be diff-c=-finite-partition-closed cap-finite-partition-closed
+  Subset-Family of X holds S is diff-finite-partition-closed;
+
+registration
+  let X be set;
+  cluster diff-c=-finite-partition-closed -> diff-finite-partition-closed for
+  cap-finite-partition-closed Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:13
+  for S be cap-finite-partition-closed diff-c=-finite-partition-closed
+  Subset-Family of X, SM,T be finite Subset of S holds
+  ex P be finite Subset of S st P is a_partition of (meet SM) \ union T;
+
+theorem :: SRINGS_1:14
+  for S be cap-finite-partition-closed diff-c=-finite-partition-closed
+  Subset-Family of X, SM be finite Subset of S holds
+  ex P be finite Subset of S st P is a_partition of union SM &
+  for Y be Element of SM holds
+  Y=union {s where s is Element of S:s in P & s c= Y};
+
+theorem :: SRINGS_1:15
+  for S be cap-finite-partition-closed diff-c=-finite-partition-closed
+  Subset-Family of X,SM be Function of NATPLUS,S holds
+  ex P be countable Subset of S st P is a_partition of Union SM &
+  for n be NatPlus holds Union (SM|Seg n)= union{s where s is Element of S:
+  s in P & s c= Union (SM|Seg n)};
+
+begin :: Countable Covers
+
+definition
+  let X be set;
+  let S be Subset-Family of X;
+  attr S is with_countable_Cover means
+:: SRINGS_1:def 4
+  ex XX be countable Subset of S st XX is Cover of X;
+end;
+
+registration
+  let X;
+  cluster cobool X -> with_countable_Cover;
+end;
+
+registration
+  let X;
+  cluster diff-c=-finite-partition-closed diff-finite-partition-closed
+  cap-finite-partition-closed with_empty_element with_countable_Cover
+  for Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:16
+  for S be cap-finite-partition-closed diff-c=-finite-partition-closed
+  Subset-Family of X st S is with_countable_Cover holds
+  ex P be countable Subset of S st P is a_partition of X;
+
+definition
+  let X be set;
+  mode semiring_of_sets of X is cap-finite-partition-closed
+  diff-c=-finite-partition-closed with_empty_element Subset-Family of X;
+end;
+
+theorem :: SRINGS_1:17
+  for S be cap-finite-partition-closed Subset-Family of X, A be Element of S
+  holds {x where x is Element of S: x in union (PARTITIONS(A)/\Fin S)}
+  is
+  cap-finite-partition-closed Subset-Family of A;
+
+theorem :: SRINGS_1:18
+  for S be cap-finite-partition-closed Subset-Family of X,
+  A be Element of S
+  holds {x where x is Element of S: x in union (PARTITIONS(A)/\Fin S)} is
+  diff-c=-finite-partition-closed Subset-Family of A;
+
+theorem :: SRINGS_1:19
+  for S be cap-finite-partition-closed Subset-Family of X,
+  A be Element of S
+  holds union (PARTITIONS(A)/\Fin S) is cap-finite-partition-closed
+  diff-finite-partition-closed Subset-Family of A &
+  union (PARTITIONS(A)/\Fin S) is with_non-empty_elements;
+
+theorem :: SRINGS_1:20
+  for S be cap-finite-partition-closed Subset-Family of X,
+  A be Element of S
+  holds {{}}\/union (PARTITIONS(A)/\Fin S) is semiring_of_sets of A;
+
+theorem :: SRINGS_1:21
+  for S be cap-finite-partition-closed diff-finite-partition-closed
+  Subset-Family of X holds
+  {union x where x is finite Subset of S:x is mutually-disjoint}
+  is cup-closed;
+
+theorem :: SRINGS_1:22
+  for S be cap-finite-partition-closed diff-finite-partition-closed
+  Subset-Family of X holds
+  {union x where x is finite Subset of S:x is mutually-disjoint} is
+  Ring_of_sets;

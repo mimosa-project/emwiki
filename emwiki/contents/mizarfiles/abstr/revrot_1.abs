@@ -1,0 +1,182 @@
+:: Rotating and reversing.(Finite sequences)
+::  by Andrzej Trybulec
+::
+:: Received January 21, 1999
+:: Copyright (c) 1999-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, XBOOLE_0, FINSEQ_1, FUNCT_1, RELAT_1,
+      PARTFUN1, FINSEQ_4, ARYTM_3, FINSEQ_5, RFINSEQ, ORDINAL4, XXREAL_0,
+      ARYTM_1, FINSEQ_6, CARD_1, NAT_1, ZFMISC_1, EUCLID, JORDAN2C, FINSEQ_2,
+      SUPINF_2, TARSKI, GOBOARD1, MCART_1, PRE_TOPC, TOPREAL1, RLTOPSP1,
+      GOBOARD2, GOBOARD5, MATRIX_1, COMPLEX1, GOBOARD9, CONNSP_1, TOPS_1,
+      PSCOMP_1, SPRECT_2, TREES_1, JORDAN5D, RCOMP_1, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0,
+      NAT_1, COMPLEX1, NAT_D, CARD_1, FUNCT_1, PARTFUN1, FINSEQ_1, FINSEQ_2,
+      MATRIX_0, MATRIX_1, FINSEQ_4, RFINSEQ, FINSEQ_5, FINSEQ_6, ZFMISC_1,
+      DOMAIN_1, SEQ_4, STRUCT_0, PRE_TOPC, TOPS_1, CONNSP_1, COMPTS_1, EUCLID,
+      RLTOPSP1, TOPREAL1, GOBOARD1, GOBOARD2, GOBOARD5, GOBOARD9, PSCOMP_1,
+      JORDAN5D, SPRECT_2;
+ constructors FINSEQOP, FINSEQ_4, RFINSEQ, NAT_D, TOPS_1, CONNSP_1, COMPTS_1,
+      REALSET2, GOBOARD2, PSCOMP_1, GOBOARD9, SPRECT_2, JORDAN5D, REAL_1,
+      GOBOARD1, RELSET_1, SEQ_4, RVSUM_1, MATRIX_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, XREAL_0, NAT_1, MEMBERED, FINSEQ_1,
+      FINSEQ_5, FINSEQ_6, STRUCT_0, GOBOARD2, GOBOARD9, SPRECT_1, SPRECT_2,
+      CARD_1, COMPTS_1, EUCLID, ORDINAL1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve i,j,k,m,n for Nat,
+  D for non empty set,
+  p for Element of D,
+  f for FinSequence of D;
+
+definition
+::$CD 2
+end;
+
+::$CT 18
+
+reserve D for non empty set,
+  p for Element of D,
+  f for FinSequence of D;
+
+begin :: Rotating circular
+
+reserve f for circular FinSequence of D;
+
+begin :: Finite sequences on the plane
+
+theorem :: REVROT_1:19
+  for n being non zero Nat holds 0.REAL n <> 1.REAL n;
+
+registration
+  let n be non zero Nat;
+  cluster TOP-REAL n -> non trivial;
+end;
+
+reserve f,g for FinSequence of TOP-REAL 2;
+
+theorem :: REVROT_1:20
+  rng f c= rng g implies rng X_axis f c= rng X_axis g;
+
+theorem :: REVROT_1:21
+  rng f = rng g implies rng X_axis f = rng X_axis g;
+
+theorem :: REVROT_1:22
+  rng f c= rng g implies rng Y_axis f c= rng Y_axis g;
+
+theorem :: REVROT_1:23
+  rng f = rng g implies rng Y_axis f = rng Y_axis g;
+
+begin :: Rotating finite sequences on the plane
+
+reserve p for Point of TOP-REAL 2,
+  f for FinSequence of TOP-REAL 2;
+
+registration
+  let p be Point of TOP-REAL 2;
+  let f be special circular FinSequence of TOP-REAL 2;
+  cluster Rotate(f,p) -> special;
+end;
+
+theorem :: REVROT_1:24
+  p in rng f & 1 <= i & i < len(f:-p) implies LSeg(Rotate(f,p),i)
+  = LSeg(f,i -' 1 + p..f);
+
+theorem :: REVROT_1:25
+  p in rng f & p..f <= i & i < len f implies LSeg(f,i) = LSeg(
+  Rotate(f,p),i -' p..f+1);
+
+theorem :: REVROT_1:26
+  for f being circular FinSequence of TOP-REAL 2 holds Incr X_axis
+  f = Incr X_axis Rotate(f,p);
+
+theorem :: REVROT_1:27
+  for f being circular FinSequence of TOP-REAL 2 holds Incr Y_axis
+  f = Incr Y_axis Rotate(f,p);
+
+theorem :: REVROT_1:28
+  for f being non empty circular FinSequence of TOP-REAL 2 holds
+  GoB Rotate(f,p) = GoB f;
+
+theorem :: REVROT_1:29
+  for f being non constant standard special_circular_sequence
+  holds Rev Rotate(f,p) = Rotate(Rev f,p);
+
+begin :: Circular finite sequences of points of the plane
+
+reserve f for circular FinSequence of TOP-REAL 2;
+
+theorem :: REVROT_1:30
+  for f being circular s.c.c. FinSequence of TOP-REAL 2 st len f >
+  4 holds LSeg(f,len f -' 1) /\ LSeg(f,1) = {f/.1};
+
+theorem :: REVROT_1:31
+  p in rng f & len(f:-p) <= i & i < len f implies LSeg(Rotate(f,p)
+  ,i) = LSeg(f,i + p..f -' len f);
+
+registration
+  let p be Point of TOP-REAL 2;
+  let f be circular s.c.c. FinSequence of TOP-REAL 2;
+  cluster Rotate(f,p) -> s.c.c.;
+end;
+
+registration
+  let p be Point of TOP-REAL 2;
+  let f be non constant standard special_circular_sequence;
+  cluster Rotate(f,p) -> unfolded;
+end;
+
+theorem :: REVROT_1:32
+  p in rng f & 1 <= i & i < p..f implies LSeg(f,i) = LSeg(Rotate(f
+  ,p),i + len f -' p..f);
+
+theorem :: REVROT_1:33
+  L~Rotate(f,p) = L~f;
+
+theorem :: REVROT_1:34
+  for G being Go-board holds f is_sequence_on G iff Rotate(f,p)
+  is_sequence_on G;
+
+registration
+  let p be Point of TOP-REAL 2;
+  let f be standard non empty circular FinSequence of TOP-REAL 2;
+  cluster Rotate(f,p) -> standard;
+end;
+
+theorem :: REVROT_1:35
+  for f being non constant standard special_circular_sequence, p,k
+st p in rng f & 1 <= k & k < p..f holds left_cell(f,k) = left_cell(Rotate(f,p),
+  k + len f -' p..f);
+
+theorem :: REVROT_1:36
+  for f being non constant standard special_circular_sequence
+  holds LeftComp Rotate(f,p) = LeftComp f;
+
+theorem :: REVROT_1:37
+  for f being non constant standard special_circular_sequence holds
+  RightComp Rotate(f,p) = RightComp f;
+
+begin
+
+registration
+  let p be Point of TOP-REAL 2;
+  let f be clockwise_oriented non constant standard special_circular_sequence;
+  cluster Rotate(f,p) -> clockwise_oriented;
+end;
+
+theorem :: REVROT_1:38
+  for f being non constant standard special_circular_sequence holds f is
+  clockwise_oriented or Rev f is clockwise_oriented;

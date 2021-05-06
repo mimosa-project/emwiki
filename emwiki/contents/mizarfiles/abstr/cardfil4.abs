@@ -1,0 +1,683 @@
+:: Double Sequences and Iterated Limits in Regular Space
+::  by Roland Coghetto
+:: 
+:: Received June 30, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies TOPS_1, YELLOW_1, SEQ_2, XCMPLX_0, FINSEQ_2, COMPLEX1, REAL_1,
+      METRIC_1, EUCLID, YELLOW19, CONNSP_2, PRE_TOPC, FUNCT_1, STRUCT_0,
+      CARD_3, FACIRC_1, FINSET_1, CARD_1, XBOOLE_0, SUBSET_1, SETFAM_1, TARSKI,
+      ZFMISC_1, RELAT_1, CARD_FIL, PBOOLE, XXREAL_0, WAYBEL_0, NUMBERS,
+      FINSEQ_1, NAT_1, YELLOW13, ARYTM_3, CANTOR_1, FILTER_0, DICKSON,
+      MEMBERED, XXREAL_1, CARDFIL2, MCART_1, ARYTM_1, CARDFIL4, ORDINAL2,
+      FRECHET, PCOMPS_1, DBLSEQ_1, CARD_5, MESFUNC9, COMPTS_1, WAYBEL_7,
+      RCOMP_1, LATTICE3, LATTICES, TOPMETR;
+ notations RCOMP_1, YELLOW19, CONNSP_2, TARSKI, RELAT_1, SETFAM_1, FINSET_1,
+      NUMBERS, XXREAL_0, FINSEQ_1, DICKSON, WAYBEL_0, MEMBERED, XTUPLE_0,
+      XBOOLE_0, CARD_FIL, CARDFIL2, XXREAL_2, CARD_3, PRE_TOPC, RELSET_1,
+      EUCLID, XREAL_0, BINOP_1, FUNCT_1, ZFMISC_1, SUBSET_1, FUNCT_2, ORDINAL1,
+      XCMPLX_0, NAT_1, STRUCT_0, METRIC_1, PCOMPS_1, FRECHET, CARD_1, FINSEQ_2,
+      COMPLEX1, DBLSEQ_1, SRINGS_5, MESFUNC9, DOMAIN_1, LATTICE3, YELLOW_0,
+      YELLOW_1, WAYBEL_7, COMPTS_1, MCART_1, TOPS_1, SEQ_2, ORDERS_2, TOPMETR;
+ constructors RCOMP_1, YELLOW19, NAT_LAT, DICKSON, XXREAL_2, CARDFIL2, FRECHET,
+      YELLOW_8, COMPLEX1, DBLSEQ_1, SRINGS_5, TOPMETR, MESFUNC9, WAYBEL_7,
+      COMPTS_1, SIMPLEX0, TOPS_1, COMSEQ_2, SEQ_2;
+ registrations NUMBERS, VALUED_0, EUCLID, METRIC_1, YELLOW19, CARD_3, XBOOLE_0,
+      SUBSET_1, ORDINAL1, RELSET_1, FINSET_1, CARD_1, XREAL_0, NAT_1, MEMBERED,
+      XTUPLE_0, XXREAL_2, STRUCT_0, PCOMPS_1, FRECHET, BINOP_2, CARDFIL2,
+      XXREAL_0, TOPMETR, TOPS_1, LATTICE3, WAYBEL_0, YELLOW_1, WAYBEL_7,
+      WAYBEL_3, DICKSON, HAUSDORF;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve            x for object,
+               X,Y,Z for set,
+         i,j,k,l,m,n for Nat,
+                 r,s for Real,
+                  no for Element of OrderedNAT,
+                   A for Subset of [:NAT,NAT:];
+
+theorem :: CARDFIL4:1
+  for W being finite Subset of X st X \ W c= Z holds
+    X \ Z is finite;
+
+theorem :: CARDFIL4:2
+  Z c= X & X \ Z is finite implies
+  ex W being finite Subset of X st X \ W = Z;
+
+theorem :: CARDFIL4:3  :: SRINGS_2:Lem 3
+  for X1,X2 being set, S1 be Subset-Family of X1, S2 be Subset-Family of X2
+  holds {s where s is Subset of [:X1,X2:]: ex s1,s2 be set st s1 in S1 &
+  s2 in S2 & s = [:s1,s2:]} is Subset-Family of [:X1,X2:];
+
+theorem :: CARDFIL4:4
+  x in [:X,Y:] implies x is pair;
+
+theorem :: CARDFIL4:5
+  0 < r implies ex m st m is non zero & 1 / m < r;
+
+theorem :: CARDFIL4:6
+  for x,y being Point of RealSpace ex xr,yr being Real st x = xr & y = yr &
+  dist(x,y) = real_dist.(x,y) & dist(x,y) = (Pitag_dist 1).(<*x*>,<*y*>) &
+  dist(x,y) = |.xr - yr.|;
+
+theorem :: CARDFIL4:7
+  for x,y being Point of TopSpaceMetr(Euclid 1)
+  ex x1,y1 being Point of RealSpace, xr,yr being Real st
+  x1 = xr & y1 = yr & x = <*xr*> & y = <*yr*> &
+  dist(x1,y1) = real_dist.(xr,yr) &
+  dist(x1,y1) = (Pitag_dist 1).(<*xr*>,<*yr*>) &
+  dist(x1,y1) = |.xr - yr.|;
+
+theorem :: CARDFIL4:8
+  for x,y being Point of Euclid 1, r,s being Real st
+  x = <*r*> & y = <*s*> holds dist(x,y) = |.r - s.|;
+
+registration
+  cluster [:NAT,NAT:] -> countable;
+end;
+
+registration
+  cluster [:NAT,NAT:] -> denumerable;
+end;
+
+theorem :: CARDFIL4:9
+  the set of all [0,n] where n is Nat is infinite;
+
+theorem :: CARDFIL4:10
+  i <= k & j <= l implies [:Segm i,Segm j:] c= [:Segm k,Segm l:];
+
+theorem :: CARDFIL4:11
+  [: NAT \ Segm m , NAT \ Segm n:] c= [:NAT,NAT:] \ [:Segm m,Segm n:];
+
+theorem :: CARDFIL4:12
+  n = no & n <= m implies m in uparrow no;
+
+theorem :: CARDFIL4:13
+  n = no & m in uparrow no implies n <= m;
+
+theorem :: CARDFIL4:14
+  n = no implies uparrow no = NAT \ Segm n;
+
+theorem :: CARDFIL4:15
+  proj1 A = {x where x is Element of NAT:
+    ex y being Element of NAT st [x,y] in A};
+
+theorem :: CARDFIL4:16
+  proj2 A = {y where y is Element of NAT:
+    ex x being Element of NAT st [x,y] in A};
+
+theorem :: CARDFIL4:17
+  for A being finite Subset of [:NAT,NAT:] holds
+    ex m,n st A c= [:Segm m,Segm n:];
+
+theorem :: CARDFIL4:18
+  for X being non empty set, cF being Filter of X holds
+    cF is proper Filter of BoolePoset X;
+
+theorem :: CARDFIL4:19
+  for X being non empty set, cF being Filter of X holds
+  ex cB being filter_base of X st cB = cF & <.cB.) = cF;
+
+theorem :: CARDFIL4:20
+  for T being non empty TopSpace, cF being Filter of the carrier of T st
+  x in lim_filter cF holds x is_a_cluster_point_of cF,T;
+
+theorem :: CARDFIL4:21
+  for B being Element of base_of_frechet_filter holds ex n st B = NAT \ Segm n;
+
+theorem :: CARDFIL4:22
+  for B being Subset of NAT st B = NAT \ Segm n holds
+  B is Element of base_of_frechet_filter;
+
+begin :: Cartesian Product of Two Filters
+
+reserve X,Y,X1,X2 for non empty set,
+          cA1,cB1 for filter_base of X1,
+          cA2,cB2 for filter_base of X2,
+              cF1 for Filter of X1,
+              cF2 for Filter of X2,
+             cBa1 for basis of cF1,
+             cBa2 for basis of cF2;
+
+definition
+  let X1,X2 be non empty set,
+      cB1   be filter_base of X1,
+      cB2   be filter_base of X2;
+  func [:cB1,cB2:] -> filter_base of [:X1,X2:] equals
+:: CARDFIL4:def 1
+  the set of all [:B1,B2:] where B1 is Element of cB1,B2 is Element of cB2;
+end;
+
+theorem :: CARDFIL4:23
+  cF1 = <. cB1.) & cF1 = <. cA1.) &
+  cF2 = <. cB2.) & cF2 = <. cA2.) implies
+  <. [:cB1,cB2:] .) = <. [:cA1,cA2:] .);
+
+theorem :: CARDFIL4:24
+  cBa1 = cB1 implies <.cB1.] = cF1;
+
+theorem :: CARDFIL4:25
+  ex cB1 st <.cB1.) = cF1;
+
+definition
+  let X1,X2 be non empty set, cF1 be Filter of X1,
+      cF2 be Filter of X2;
+  func <. cF1,cF2 .) -> Filter of [:X1,X2:] means
+:: CARDFIL4:def 2
+
+  ex cB1 being filter_base of X1, cB2 being filter_base of X2 st
+    <.cB1.) = cF1 & <.cB2.) = cF2 & it = <. [:cB1,cB2:] .);
+end;
+
+definition
+  let X1,X2 be non empty set, cF1 be Filter of X1,
+      cF2 be Filter of X2, cB1 be basis of cF1, cB2 be basis of cF2;
+  func [: cB1,cB2 :] -> basis of <. cF1,cF2 .) means
+:: CARDFIL4:def 3
+
+  ex cB3 being filter_base of X1, cB4 being filter_base of X2 st
+  cB1 = cB3 & cB2 = cB4 & it = [: cB3, cB4 :];
+end;
+
+definition
+  let n be Nat;
+  func square-uparrow n -> Subset of [:NAT,NAT:] means
+:: CARDFIL4:def 4
+
+  for x being Element of [:NAT,NAT:] holds x in it iff
+  ex n1,n2 being Nat st n1 = x`1 & n2 = x`2 & n <= n1 & n <= n2;
+end;
+
+theorem :: CARDFIL4:26
+  [n,n] in square-uparrow n;
+
+registration let n;
+  cluster square-uparrow n -> non empty;
+end;
+
+theorem :: CARDFIL4:27
+  [i,j] in square-uparrow n implies [i + k,j] in square-uparrow n &
+  [i,j + l] in square-uparrow n;
+
+theorem :: CARDFIL4:28
+  square-uparrow n is infinite Subset of [:NAT,NAT:];
+
+theorem :: CARDFIL4:29
+  no = n implies square-uparrow n = [:uparrow no,uparrow no:];
+
+theorem :: CARDFIL4:30
+  m = n - 1 implies square-uparrow n c= [:NAT,NAT:] \ [:Seg m,Seg m:];
+
+theorem :: CARDFIL4:31
+  square-uparrow n c= [:NAT,NAT:] \ [:Segm n,Segm n:];
+
+theorem :: CARDFIL4:32
+  square-uparrow n = [:NAT \ Segm n, NAT \ Segm n:];
+
+theorem :: CARDFIL4:33
+  ex n st square-uparrow n c= [:(NAT \ Segm i),(NAT \ Segm j):];
+
+theorem :: CARDFIL4:34
+  n = max(i,j) implies
+  square-uparrow n c= square-uparrow i /\ square-uparrow j;
+
+definition
+  let n be Nat;
+  func square-downarrow n -> Subset of [:NAT,NAT:] means
+:: CARDFIL4:def 5
+
+  for x being Element of [:NAT,NAT:] holds x in it iff
+  ex n1,n2 being Nat st n1 = x`1 & n2 = x`2 & n1 < n & n2 < n;
+end;
+
+theorem :: CARDFIL4:35
+  square-downarrow n = [:Segm n,Segm n:];
+
+theorem :: CARDFIL4:36
+  for A being finite Subset of [:NAT,NAT:] holds ex n st
+    A c= square-downarrow n;
+
+theorem :: CARDFIL4:37
+  square-downarrow n is finite Subset of [:NAT,NAT:];
+
+begin :: Comparaison between cartesian product of Frechet Filter on $\mathbb{N}$ and the Frechet Filter of $\mathbb{N}\times\mathbb{N}$
+
+theorem :: CARDFIL4:38
+  for x being Element of [: base_of_frechet_filter,base_of_frechet_filter :]
+  holds ex i,j st x = [:NAT \ Segm i,NAT \ Segm j:];
+
+theorem :: CARDFIL4:39
+  for x being Element of [: base_of_frechet_filter,base_of_frechet_filter :]
+  holds ex n st square-uparrow n c= x;
+
+theorem :: CARDFIL4:40
+  [: base_of_frechet_filter,base_of_frechet_filter :] is
+  filter_base of [:NAT,NAT:];
+
+theorem :: CARDFIL4:41
+  ex cB being basis of Frechet_Filter(NAT) st
+  cB = base_of_frechet_filter & [: cB, cB :] is
+  basis of <. Frechet_Filter(NAT),Frechet_Filter(NAT) .);
+
+definition
+  func all-square-uparrow -> filter_base of [:NAT,NAT:] equals
+:: CARDFIL4:def 6
+  the set of all square-uparrow n where n is Nat;
+end;
+
+theorem :: CARDFIL4:42
+  all-square-uparrow, [: base_of_frechet_filter,base_of_frechet_filter :]
+    are_equivalent_generators;
+
+theorem :: CARDFIL4:43
+  <. [: base_of_frechet_filter,base_of_frechet_filter :] .)
+    = <. Frechet_Filter(NAT),Frechet_Filter(NAT).);
+
+theorem :: CARDFIL4:44
+  <. all-square-uparrow .)
+   = <. Frechet_Filter(NAT),Frechet_Filter(NAT).);
+
+theorem :: CARDFIL4:45
+  <. Frechet_Filter(NAT),Frechet_Filter(NAT).)
+    is_filter-finer_than Frechet_Filter([:NAT,NAT:]);
+
+theorem :: CARDFIL4:46
+  ([:NAT,NAT:] \ the set of all [0,n] where n is Nat)
+    in <. Frechet_Filter(NAT),Frechet_Filter(NAT).) &
+  not ([:NAT,NAT:] \ the set of all [0,n] where n is Nat)
+    in Frechet_Filter([:NAT,NAT:]);
+
+theorem :: CARDFIL4:47
+  Frechet_Filter([:NAT,NAT:]) <> <. Frechet_Filter(NAT),Frechet_Filter(NAT).);
+
+begin :: Topological space and double sequence
+
+reserve T for non empty TopSpace,
+        s for Function of [:NAT,NAT:], the carrier of T,
+        M for Subset of the carrier of T;
+reserve cF3,cF4 for Filter of the carrier of T;
+
+theorem :: CARDFIL4:48
+  cF4 is_filter-finer_than cF3 implies lim_filter cF3 c= lim_filter cF4;
+
+theorem :: CARDFIL4:49
+  for f being Function of X,Y, cFXa,cFXb being Filter of X st
+  cFXb is_filter-finer_than cFXa holds
+  filter_image(f,cFXb) is_filter-finer_than filter_image(f,cFXa);
+
+theorem :: CARDFIL4:50
+  s"(M) in Frechet_Filter([:NAT,NAT:]) iff
+    ex A being finite Subset of [:NAT,NAT:] st s"(M) = [:NAT,NAT:] \ A;
+
+theorem :: CARDFIL4:51
+  s"(M) in <. Frechet_Filter(NAT),Frechet_Filter(NAT).) iff
+  ex n st square-uparrow n c= s"(M);
+
+theorem :: CARDFIL4:52
+  filter_image(s,Frechet_Filter([:NAT,NAT:])) = {M where M is Subset of
+    the carrier of T: ex A being finite Subset of [:NAT,NAT:] st
+    s"(M) = [:NAT,NAT:] \ A};
+
+theorem :: CARDFIL4:53
+  filter_image(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) =
+   {M where M is Subset of the carrier of T: ex n being Nat st
+   square-uparrow n c= s"(M)};
+
+theorem :: CARDFIL4:54
+  for x being Point of T holds
+  x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff
+  for A being a_neighborhood of x holds
+  ex B being finite Subset of [:NAT,NAT:] st s"(A) = [:NAT,NAT:] \ B;
+
+theorem :: CARDFIL4:55
+  for x being Point of T holds
+  x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff
+  for A being a_neighborhood of x holds [:NAT,NAT:] \ s"(A) is finite;
+
+theorem :: CARDFIL4:56
+  for x being Point of T holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for A being a_neighborhood of x holds ex n being Nat st
+    square-uparrow n c= s"(A);
+
+theorem :: CARDFIL4:57
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for B being Element of cB holds ex n being Nat st square-uparrow n c= s"(B);
+
+theorem :: CARDFIL4:58
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff
+  for B being Element of cB holds ex A being finite Subset of [:NAT,NAT:] st
+    s"(B) = [:NAT,NAT:] \ A;
+
+theorem :: CARDFIL4:59
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for B being Element of cB holds ex n being Nat st s.:(square-uparrow n) c= B;
+
+theorem :: CARDFIL4:60
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+   x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff
+  for B being Element of cB holds ex A being finite Subset of [:NAT,NAT:] st
+    s.:([:NAT,NAT:] \ A) c= B;
+
+theorem :: CARDFIL4:61
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff for B being Element of cB
+  holds ex n,m st s.:([:NAT,NAT:] \ [:Segm n,Segm m:]) c= B;
+
+theorem :: CARDFIL4:62
+  x in s.:(square-uparrow n) iff ex i,j st n <= i & n <= j & x = s.(i,j);
+
+theorem :: CARDFIL4:63
+  x in s.:([:NAT,NAT:] \ [:Segm i,Segm j:]) iff ex n,m being Nat st
+  (i <= n or j <= m) & x = s.(n,m);
+
+theorem :: CARDFIL4:64
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for B being Element of cB holds ex n being Nat st for n1,n2 being Nat st
+  n <= n1 & n <= n2 holds s.(n1,n2) in B;
+
+theorem :: CARDFIL4:65
+  for x being Point of T, cB being basis of BOOL2F NeighborhoodSystem x holds
+  x in lim_filter(s,Frechet_Filter([:NAT,NAT:])) iff
+  for B being Element of cB holds ex i,j st for m,n st i <= m or j <= n holds
+    s.(m,n) in B;
+
+theorem :: CARDFIL4:66
+  lim_filter(s,Frechet_Filter([:NAT,NAT:])) c=
+    lim_filter(s,<. all-square-uparrow.));
+
+begin :: Metric space and double sequence
+
+theorem :: CARDFIL4:67
+  for M being non empty MetrSpace, p being Point of M,
+      x being Point of TopSpaceMetr(M),
+      s being Function of [:NAT,NAT:], TopSpaceMetr(M) st x = p holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for m being non zero Nat ex n being Nat st for n1,n2 being Nat st
+  n <= n1 & n <= n2 holds
+  s.(n1,n2) in {q where q is Point of M: dist(p,q) < 1/m};
+
+theorem :: CARDFIL4:68
+  for M being non empty MetrSpace, p being Point of M,
+      x being Point of TopSpaceMetr(M),
+      s being Function of [:NAT,NAT:], TopSpaceMetr(M),
+      s2 being Function of [:NAT,NAT:], M st
+  x = p & s = s2 holds
+  x in lim_filter(s,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) iff
+  for m being non zero Nat ex n being Nat st for n1,n2 being Nat st
+  n <= n1 & n <= n2 holds s2.(n1,n2) in
+  {q where q is Point of M: dist(p,q) < 1/m};
+
+begin :: One-dimensional Euclidean metric space and double sequence
+
+reserve Rseq for Function of [:NAT,NAT:],REAL;
+
+theorem :: CARDFIL4:69
+  for x being Point of TopSpaceMetr(Euclid 1),
+      y being Point of Euclid 1,
+      cB being basis of BOOL2F NeighborhoodSystem x,
+      b being Element of cB st x = y & cB = Balls(x) holds
+  ex n being Nat
+  st b = {q where q is Element of Euclid 1: dist(y,q) < 1/n};
+
+definition
+  let s be Function of [:NAT,NAT:],REAL;
+  func #s -> Function of [:NAT,NAT:],R^1 equals
+:: CARDFIL4:def 7
+s;
+end;
+
+theorem :: CARDFIL4:70
+  for s being Function of [:NAT,NAT:],TopSpaceMetr(Euclid 1),
+  y being Point of Euclid 1 holds (s.:(square-uparrow n)
+    c= {q where q is Element of Euclid 1: dist(y,q) < 1/m}) iff
+  (for x being object st x in s.:(square-uparrow n) holds
+     ex rx,ry being Real st x = <*rx*> & y = <*ry*> & |.ry - rx.| < 1/m);
+
+theorem :: CARDFIL4:71
+  r in lim_filter( #Rseq , <. Frechet_Filter(NAT),Frechet_Filter(NAT).))
+  iff (for m being non zero Nat ex n being Nat st for n1,n2 being Nat st
+  n <= n1 & n <= n2 holds |. Rseq.(n1,n2) - r .| < 1/m);
+
+begin :: Basic relations convergence in Pringsheim's sense and filter convergence
+
+theorem :: CARDFIL4:72
+  lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) <> {}
+  implies ex x being Real st
+  lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) = {x};
+
+theorem :: CARDFIL4:73
+  Rseq is P-convergent implies P-lim Rseq in
+    lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).));
+
+theorem :: CARDFIL4:74
+  Rseq is P-convergent iff
+    lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) <> {};
+
+theorem :: CARDFIL4:75
+  Rseq is P-convergent implies {P-lim Rseq} =
+  lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).));
+
+theorem :: CARDFIL4:76
+  lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).)) is
+  non empty implies Rseq is P-convergent & {P-lim Rseq} =
+  lim_filter( #Rseq,<. Frechet_Filter(NAT),Frechet_Filter(NAT).));
+
+begin :: Example: double sequence converges in Pringsheim's sense but not in Frechet Filter of $\mathbb{N}\times\mathbb{N}$'s sense
+
+definition
+  func dblseq_ex_1 -> Function of [:NAT,NAT:],REAL means
+:: CARDFIL4:def 8
+ for m,n being Nat holds it.(m,n) = 1 / (m + 1);
+end;
+
+theorem :: CARDFIL4:77
+  for m being non zero Nat ex n being Nat st for n1,n2 being Nat st
+    n <= n1 & n <= n2 holds |. dblseq_ex_1.(n1,n2) - 0 .| < 1/m;
+
+theorem :: CARDFIL4:78
+  0 in lim_filter( # dblseq_ex_1,<. Frechet_Filter(NAT),Frechet_Filter(NAT).));
+
+theorem :: CARDFIL4:79
+  lim_filter( #dblseq_ex_1,Frechet_Filter([:NAT,NAT:])) = {};
+
+theorem :: CARDFIL4:80
+  lim_filter( #dblseq_ex_1,<. Frechet_Filter(NAT),Frechet_Filter(NAT).))
+    <> lim_filter( #dblseq_ex_1,Frechet_Filter([:NAT,NAT:]));
+
+begin :: Correspondence with some definitions of the article DBLSEQ_1
+
+definition
+  let X1,X2 be non empty set,
+        cF1 be Filter of X1,
+          Y be Hausdorff non empty TopSpace,
+          f be Function of [:X1,X2:], Y;
+  assume
+ for x being Element of X2 holds lim_filter(ProjMap2(f,x),cF1) <> {};
+  func lim_in_cod1(f,cF1) -> Function of X2,Y means
+:: CARDFIL4:def 9
+   (for x being Element of X2 holds {it.x} = lim_filter(ProjMap2(f,x),cF1));
+end;
+
+definition
+  let X1,X2 be non empty set,
+        cF2 be Filter of X2,
+          Y be Hausdorff non empty TopSpace,
+          f be Function of [:X1,X2:],Y;
+  assume
+ for x being Element of X1 holds lim_filter(ProjMap1(f,x),cF2) <> {};
+  func lim_in_cod2(f,cF2) -> Function of X1,Y means
+:: CARDFIL4:def 10
+
+  (for x being Element of X1 holds {it.x} = lim_filter(ProjMap1(f,x),cF2));
+end;
+
+theorem :: CARDFIL4:81
+  for f being Function of X,REAL holds f is Function of X, R^1;
+
+theorem :: CARDFIL4:82
+  for s being sequence of REAL holds s is Function of NAT, R^1;
+
+reserve f for Function of [#]OrderedNAT,R^1,
+        seq for Function of NAT,REAL;
+
+theorem :: CARDFIL4:83
+  f = seq & lim_f f <> {} implies seq is convergent & ex z being Real
+  st z in lim_f f & for p being Real st 0 < p holds ex n being Nat st
+  for m being Nat st n <= m holds |.seq.m - z.| < p;
+
+theorem :: CARDFIL4:84
+  f = seq & lim_f f <> {} implies lim_f f = {lim seq};
+
+theorem :: CARDFIL4:85
+  for f being Function of [#]OrderedNAT,T for s being sequence of T st
+  f = s holds lim_f f = lim_f s;
+
+theorem :: CARDFIL4:86
+  for f being Function of [#]OrderedNAT,T for g being Function of NAT,T st
+  f = g holds lim_f f = lim_f g;
+
+theorem :: CARDFIL4:87
+  for f being Function of NAT,R^1 st f = seq & lim_f f <> {} holds
+  lim_f f = {lim seq};
+
+theorem :: CARDFIL4:88
+  (for x being Element of NAT holds
+  lim_filter(ProjMap2( #Rseq ,x),Frechet_Filter(NAT)) <> {})
+  iff
+  Rseq is convergent_in_cod1;
+
+theorem :: CARDFIL4:89
+  (for x being Element of NAT holds
+    lim_filter(ProjMap1( #Rseq ,x),Frechet_Filter(NAT)) <> {})
+  iff
+  Rseq is convergent_in_cod2;
+
+theorem :: CARDFIL4:90
+  for t being Element of NAT, f being Function of [:NAT,NAT:],R^1
+  for seq being Function of [:NAT,NAT:],REAL st f = seq &
+  (for x being Element of NAT holds
+  lim_filter(ProjMap1(f,x),Frechet_Filter(NAT)) <> {}) holds
+  lim_filter(ProjMap1(f,t),Frechet_Filter(NAT)) = {lim ProjMap1(seq,t)};
+
+theorem :: CARDFIL4:91
+  for t being Element of NAT, f being Function of [:NAT,NAT:],R^1
+  for seq being Function of [:NAT,NAT:],REAL st f = seq &
+  (for x being Element of NAT holds
+  lim_filter(ProjMap2(f,x),Frechet_Filter(NAT)) <> {}) holds
+  lim_filter(ProjMap2(f,t),Frechet_Filter(NAT)) = {lim ProjMap2(seq,t)};
+
+theorem :: CARDFIL4:92
+  for Y being Hausdorff non empty TopSpace,
+  f being Function of [:NAT,NAT:],Y st (for x being Element of NAT holds
+  lim_filter(ProjMap2(f,x),Frechet_Filter(NAT)) <> {}) & f = Rseq &
+  Y = R^1 holds
+  lim_in_cod1(f,Frechet_Filter(NAT)) = lim_in_cod1 Rseq;
+
+theorem :: CARDFIL4:93
+  for Y being non empty Hausdorff TopSpace,
+      f being Function of [:NAT,NAT:],Y st
+  (for x being Element of NAT holds
+  lim_filter(ProjMap1(f,x),Frechet_Filter(NAT)) <> {}) & f = Rseq & Y = R^1
+  holds
+  lim_in_cod2(f,Frechet_Filter(NAT)) = lim_in_cod2 Rseq;
+
+begin :: Regular space, double limit and iterated limit
+
+reserve Y for non empty TopSpace,
+        x for Point of Y,
+        f for Function of [:X1,X2:],Y;
+
+theorem :: CARDFIL4:94
+  x in lim_filter(f,<.cF1,cF2.)) & <.cB1.) = cF1 & <.cB2.) = cF2
+  implies for V being Subset of Y st V is open & x in V holds
+  ex B1 being Element of cB1, B2 being Element of cB2 st f.:([:B1,B2:]) c= V;
+
+theorem :: CARDFIL4:95
+  x in lim_filter(f,<.cF1,cF2.)) & <.cB1.) = cF1 & <.cB2.) = cF2
+  implies for U being a_neighborhood of x st U is closed holds
+  ex B1 being Element of cB1, B2 being Element of cB2 st
+  f.:([:B1,B2:]) c= Int(U);
+
+theorem :: CARDFIL4:96
+  x in lim_filter(f,<.cF1,cF2.)) & <.cB1.) = cF1 & <.cB2.) = cF2 implies
+  for U being a_neighborhood of x st U is closed holds
+  ex B1 being Element of cB1, B2 being Element of cB2 st
+  for y being Element of B1 holds f.:([:{y},B2:]) c= Int(U);
+
+theorem :: CARDFIL4:97
+  x in lim_filter(f,<.cF1,cF2.)) & <.cB1.) = cF1 & <.cB2.) = cF2 implies
+  for U being a_neighborhood of x st U is closed holds
+  ex B1 being Element of cB1, B2 being Element of cB2 st
+  for z being Element of X1, y being Element of Y st
+  z in B1 & y in lim_filter(ProjMap1(f,z),cF2) holds
+  y in Cl Int U;
+
+theorem :: CARDFIL4:98
+  x in lim_filter(f,<.cF1,cF2.)) & <.cB1.) = cF1 & <.cB2.) = cF2
+  implies for U being a_neighborhood of x st U is closed holds
+  ex B1 being Element of cB1, B2 being Element of cB2 st
+  for z being Element of X2, y being Element of Y st z in B2 &
+  y in lim_filter(ProjMap2(f,z),cF1) holds y in Cl Int U;
+
+theorem :: CARDFIL4:99
+  for Y being Hausdorff regular non empty TopSpace,
+  f being Function of [:X1,X2:],Y st (for x being Element of X2 holds
+  lim_filter(ProjMap2(f,x),cF1) <> {}) holds
+  lim_filter(f,<.cF1,cF2.)) c= lim_filter(lim_in_cod1(f,cF1),cF2);
+
+theorem :: CARDFIL4:100
+  for Y being Hausdorff regular non empty TopSpace,
+  f being Function of [:X1,X2:],Y st (for x being Element of X1 holds
+  lim_filter(ProjMap1(f,x),cF2) <> {}) holds
+  lim_filter(f,<.cF1,cF2.)) c= lim_filter(lim_in_cod2(f,cF2),cF1);
+
+theorem :: CARDFIL4:101
+  for X1,X2 being non empty set,
+        cF1 being Filter of X1,
+        cF2 being Filter of X2,
+          Y being Hausdorff regular non empty TopSpace,
+          f being Function of [:X1,X2:],Y st
+  lim_filter(f,<.cF1,cF2.)) <> {} &
+  (for x being Element of X1 holds lim_filter(ProjMap1(f,x),cF2) <> {})
+  holds lim_filter(f,<.cF1,cF2.)) = lim_filter(lim_in_cod2(f,cF2),cF1);
+
+theorem :: CARDFIL4:102
+  for X1,X2 being non empty set,
+      cF1 being Filter of X1,
+      cF2 being Filter of X2,
+      Y being Hausdorff regular non empty TopSpace,
+      f being Function of [:X1,X2:],Y st
+  lim_filter(f,<.cF1,cF2.)) <> {} &
+  (for x being Element of X2 holds lim_filter(ProjMap2(f,x),cF1) <> {})
+  holds lim_filter(f,<.cF1,cF2.)) = lim_filter(lim_in_cod1(f,cF1),cF2);
+
+theorem :: CARDFIL4:103
+  for X1,X2 being non empty set,
+        cF1 being Filter of X1,
+        cF2 being Filter of X2,
+          Y being Hausdorff regular non empty TopSpace,
+          f being Function of [:X1,X2:],Y
+  st lim_filter(f,<.cF1,cF2.)) <> {} &
+     (for x being Element of X1 holds lim_filter(ProjMap1(f,x),cF2) <> {}) &
+     (for x being Element of X2 holds lim_filter(ProjMap2(f,x),cF1) <> {})
+  holds
+  lim_filter(lim_in_cod2(f,cF2),cF1)
+    = lim_filter(lim_in_cod1(f,cF1),cF2);

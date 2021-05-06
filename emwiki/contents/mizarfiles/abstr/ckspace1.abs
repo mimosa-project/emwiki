@@ -1,0 +1,296 @@
+:: The $C^k$ Space
+::  by Katuhiko Kanazashi , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received November 9, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, ALGSTR_0, SUBSET_1, ARYTM_1, IDEAL_1, ARYTM_3,
+      FUNCSDOM, STRUCT_0, TARSKI, MESFUNC1, SUPINF_2, BINOP_1, FUNCT_1,
+      RELAT_1, RLVECT_1, VECTSP_1, RSSPACE, GROUP_1, REAL_1, POLYALG1, CARD_1,
+      FUNCOP_1, FUNCT_2, VALUED_1, LOPBAN_1, COMPLEX1, XXREAL_0, PRE_TOPC,
+      NAT_1, C0SP1, FINSEQ_1, FINSEQ_2, RCOMP_1, PARTFUN1, ORDINAL4, FDIFF_1,
+      PDIFF_1, REAL_NS1, EUCLID, CFCONT_1, RFINSEQ, CARD_3, PDIFF_9, CKSPACE1,
+      XCMPLX_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, RELSET_1,
+      PARTFUN1, FUNCT_2, FUNCOP_1, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0,
+      REAL_1, NAT_1, COMPLEX1, FINSEQ_1, VALUED_1, FINSEQ_2, RFINSEQ, SEQFUNC,
+      STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, GROUP_1, VECTSP_1, FUNCSDOM,
+      EUCLID, LOPBAN_1, IDEAL_1, C0SP1, NFCONT_1, NDIFF_1, REAL_NS1, PDIFF_1,
+      PDIFF_6, PDIFF_7, PDIFF_9;
+ constructors REAL_1, REALSET1, MEASURE6, BINOP_2, SEQ_1, IDEAL_1, XXREAL_2,
+      RELSET_1, SQUARE_1, NFCONT_1, FDIFF_1, NDIFF_1, PDIFF_1, MONOID_0,
+      INTEGR15, RFINSEQ, NAT_D, PDIFF_6, VFUNCT_1, PDIFF_7, VALUED_2, NFCONT_4,
+      SEQFUNC, PDIFF_9, C0SP1;
+ registrations XBOOLE_0, SUBSET_1, STRUCT_0, NUMBERS, ORDINAL1, MEMBERED,
+      FUNCSDOM, VECTSP_1, VECTSP_2, VALUED_0, RELSET_1, NAT_1, FINSEQ_1,
+      EUCLID, REAL_NS1, FUNCT_2, XREAL_0;
+ requirements NUMERALS, BOOLE, SUBSET, REAL, ARITHM;
+
+
+begin ::
+
+definition
+  let m be non zero Element of NAT;
+  let f be PartFunc of REAL m,REAL;
+  let k be Nat;
+  let Z be set;
+  pred f is_continuously_differentiable_up_to_order k,Z means
+:: CKSPACE1:def 1
+  Z c= dom f & f is_partial_differentiable_up_to_order k,Z &
+  for I be non empty FinSequence of NAT
+     st len I <= k & rng I c= Seg m holds
+        f`partial|(Z,I) is_continuous_on Z;
+end;
+
+theorem :: CKSPACE1:1
+  for m be non zero Element of NAT,
+      Z be set,I be non empty FinSequence of NAT,
+      f be PartFunc of REAL m,REAL st f is_partial_differentiable_on Z,I
+        holds dom (f`partial|(Z,I)) = Z;
+
+theorem :: CKSPACE1:2
+  for m be non zero Element of NAT, k be Element of NAT,
+  X be non empty Subset of REAL m,
+  f be PartFunc of REAL m,REAL st X is open & X c= dom f
+    holds
+      f is_continuously_differentiable_up_to_order 1,X
+        iff
+      (f is_differentiable_on X
+       & for x0 be Element of REAL m,r be Real st x0 in X & 0 < r
+           ex s be Real st 0 < s
+           & for x1 be Element of REAL m st x1 in X & |. x1- x0 .| < s holds
+             for v be Element of REAL m
+             holds |. diff(f,x1).v - diff(f,x0).v.| <= r * |.v.| );
+
+theorem :: CKSPACE1:3
+  for m be non zero Element of NAT, X be non empty Subset of REAL m,
+      f be PartFunc of REAL m,REAL st X is open & X c= dom f
+                         & f is_continuously_differentiable_up_to_order 1,X
+  holds
+    f is_continuous_on X;
+
+theorem :: CKSPACE1:4
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty Subset of REAL m, f,g be PartFunc of REAL m,REAL
+        st f is_continuously_differentiable_up_to_order k,X &
+           g is_continuously_differentiable_up_to_order k,X & X is open
+    holds
+      f+g is_continuously_differentiable_up_to_order k,X;
+
+theorem :: CKSPACE1:5
+  for m be non zero Element of NAT, k be Element of NAT,
+  X be non empty Subset of REAL m,r be Real,
+  f be PartFunc of REAL m,REAL st
+             f is_continuously_differentiable_up_to_order k,X & X is open
+    holds
+    r(#)f is_continuously_differentiable_up_to_order k,X;
+
+theorem :: CKSPACE1:6
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty Subset of REAL m,
+      f,g be PartFunc of REAL m,REAL st
+        f is_continuously_differentiable_up_to_order k,X &
+        g is_continuously_differentiable_up_to_order k,X & X is open
+      holds
+        f-g is_continuously_differentiable_up_to_order k,X;
+
+theorem :: CKSPACE1:7
+  for m be non zero Element of NAT,Z be non empty Subset of REAL m,
+      f be PartFunc of REAL m,REAL,I,G be non empty FinSequence of NAT
+st f is_partial_differentiable_on Z,G
+    holds
+f `partial|(Z,G^I) = f`partial|(Z,G) `partial|(Z,I);
+
+theorem :: CKSPACE1:8
+  for m be non zero Element of NAT, Z be non empty Subset of REAL m,
+    f be PartFunc of REAL m,REAL, I,G be non empty FinSequence of NAT
+     st f is_partial_differentiable_on Z,G
+    holds
+      f `partial|(Z,G^I) is_continuous_on Z
+        iff  f`partial|(Z,G) `partial|(Z,I) is_continuous_on Z;
+
+theorem :: CKSPACE1:9
+  for m be non zero Element of NAT, Z be non empty Subset of REAL m,
+      f be PartFunc of REAL m,REAL, i,j be Nat,
+      I be non empty FinSequence of NAT
+        st f is_continuously_differentiable_up_to_order (i+j),Z
+          & rng I c= Seg m & len I = j
+      holds
+        f`partial|(Z,I) is_continuously_differentiable_up_to_order i,Z;
+
+theorem :: CKSPACE1:10
+  for m be non zero Element of NAT, Z be non empty Subset of REAL m,
+      f be PartFunc of REAL m,REAL, i,j be Nat
+        st f is_continuously_differentiable_up_to_order i,Z & j <= i
+      holds f is_continuously_differentiable_up_to_order j,Z;
+
+theorem :: CKSPACE1:11
+  for m be non zero Element of NAT, Z be non empty Subset of REAL m
+    st Z is open
+    holds
+    for k be Element of NAT,f,g be PartFunc of REAL m,REAL st
+      f is_continuously_differentiable_up_to_order k,Z &
+      g is_continuously_differentiable_up_to_order k,Z
+       holds
+    f(#)g is_continuously_differentiable_up_to_order k,Z;
+
+theorem :: CKSPACE1:12
+  for m be non zero Element of NAT, f be PartFunc of REAL m,REAL,
+      X be non empty Subset of REAL m, d be Real
+        st X is open & f = X --> d
+    holds
+       for x be Element of REAL m st x in X holds
+         f is_differentiable_in x & diff(f,x) = REAL m --> 0;
+
+theorem :: CKSPACE1:13
+  for m be non zero Element of NAT, f be PartFunc of REAL m,REAL,
+      X be non empty Subset of REAL m, d be Real
+        st X is open & f = X --> d
+    holds
+      for x0 be Element of REAL m,r be Real st x0 in X & 0 < r
+       ex s be Real
+         st 0 < s & for x1 be Element of REAL m st x1 in X & |. x1- x0 .| < s
+           holds for v be Element of REAL m
+             holds |. diff(f,x1).v - diff(f,x0).v.| <= r * |.v.|;
+
+theorem :: CKSPACE1:14
+  for m be non zero Element of NAT, f be PartFunc of REAL m,REAL,
+      X be non empty Subset of REAL m, d be Real
+        st X is open & f = X --> d
+    holds
+      f is_differentiable_on X & dom (f`|X) = X
+        & for x be Element of REAL m st x in X
+          holds (f`|X)/.x = (REAL m --> 0);
+
+theorem :: CKSPACE1:15
+  for m be non zero Element of NAT, f be PartFunc of REAL m,REAL,
+      X be non empty Subset of REAL m, d be Real, i be Element of NAT
+        st X is open & f = X --> d & 1 <= i & i <= m
+    holds
+      f is_partial_differentiable_on X,i & f`partial|(X,i) is_continuous_on X;
+
+theorem :: CKSPACE1:16
+  for m be non zero Element of NAT, i be Element of NAT,
+      f be PartFunc of REAL m,REAL, X be non empty Subset of REAL m,
+      d be Real st X is open & f = X --> d & 1 <= i & i <= m
+        holds
+      f`partial|(X,i) = X --> 0;
+
+theorem :: CKSPACE1:17
+  for m be non zero Element of NAT, I be non empty FinSequence of NAT,
+      X be non empty Subset of REAL m, f be PartFunc of REAL m,REAL,
+      d be Real st X is open & f = X --> d & rng I c= Seg m
+           holds
+    (PartDiffSeq(f,X,I)).0 = X --> d
+      &
+    for i be Element of NAT st 1<=i & i <= len I
+      holds (PartDiffSeq(f,X,I)).i = X --> 0;
+
+theorem :: CKSPACE1:18
+  for m be non zero Element of NAT, I be non empty FinSequence of NAT,
+      X be non empty Subset of REAL m,f be PartFunc of REAL m,REAL,
+      d be Real st X is open & f = X --> d  & rng I c= Seg m
+    holds
+      f is_partial_differentiable_on X,I & f`partial|(X,I) is_continuous_on X;
+
+theorem :: CKSPACE1:19
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty Subset of REAL m, f be PartFunc of REAL m,REAL,
+      d be Real st X is open & f = X --> d
+    holds
+      f is_continuously_differentiable_up_to_order k,X;
+
+registration ::: should be moved to PDIFF_7
+  let m be non zero Element of NAT;
+  cluster open for non empty Subset of REAL m;
+end;
+
+begin
+
+definition
+  let m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m;
+  func Ck_Functions(k,X) -> non empty Subset of RAlgebra X equals
+:: CKSPACE1:def 2
+  { f where f is PartFunc of REAL m,REAL
+   : f is_continuously_differentiable_up_to_order k,X & dom f = X };
+end;
+
+registration
+  let m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m;
+  cluster Ck_Functions(k,X) -> additively-linearly-closed
+                                   multiplicatively-closed;
+end;
+
+definition
+  let m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m;
+  func R_Algebra_of_Ck_Functions(k,X) -> Subalgebra of RAlgebra X equals
+:: CKSPACE1:def 3
+  AlgebraStr (# Ck_Functions(k,X),
+    mult_(Ck_Functions(k,X),RAlgebra X),
+    Add_(Ck_Functions(k,X),RAlgebra X),
+    Mult_(Ck_Functions(k,X),RAlgebra X),
+    One_(Ck_Functions(k,X),RAlgebra X),
+    Zero_(Ck_Functions(k,X),RAlgebra X) #);
+end;
+
+registration
+  let m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m;
+  cluster R_Algebra_of_Ck_Functions(k,X) -> Abelian add-associative
+    right_zeroed right_complementable vector-distributive scalar-distributive
+    scalar-associative scalar-unital
+    commutative associative right_unital right-distributive
+    scalar-associative vector-associative;
+end;
+
+theorem :: CKSPACE1:20
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m,
+      F,G,H being VECTOR of R_Algebra_of_Ck_Functions(k,X),
+      f,g,h being PartFunc of REAL m, REAL
+    holds
+     (f=F & g=G & h=H implies ( H = F+G iff
+     (for x be Element of X holds h.x = f.x + g.x)));
+
+theorem :: CKSPACE1:21
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m,
+      F,G,H being VECTOR of R_Algebra_of_Ck_Functions(k,X),
+      f,g,h being PartFunc of REAL m, REAL,
+      a being Real
+    holds
+  (f=F & g=G implies ( G = a*F iff for x be Element of X holds g.x = a*f.x ));
+
+theorem :: CKSPACE1:22
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m,
+      F,G,H being VECTOR of R_Algebra_of_Ck_Functions(k,X),
+      f,g,h being PartFunc of REAL m, REAL
+    holds
+     (f=F & g=G & h=H implies ( H = F*G iff (for x be Element of X
+        holds h.x = f.x * g.x)));
+
+theorem :: CKSPACE1:23
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m
+    holds
+      0.R_Algebra_of_Ck_Functions(k,X) = X --> 0;
+
+theorem :: CKSPACE1:24
+  for m be non zero Element of NAT, k be Element of NAT,
+      X be non empty open Subset of REAL m holds
+      1_R_Algebra_of_Ck_Functions(k,X) = X --> 1;
+

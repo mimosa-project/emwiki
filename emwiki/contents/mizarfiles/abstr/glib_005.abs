@@ -1,0 +1,413 @@
+:: Proof of Ford/Fulkerson's Maximum Network Flow Algorithm
+::  by Gilbert Lee
+::
+:: Received February 22, 2005
+:: Copyright (c) 2005-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FUNCT_1, RELAT_1, FUNCT_4, FUNCOP_1, XBOOLE_0, TARSKI,
+      GLIB_003, VALUED_0, SUBSET_1, REAL_1, GRAPH_5, FINSET_1, ZFMISC_1,
+      TREES_1, GLIB_000, PBOOLE, CARD_1, XXREAL_0, CARD_3, ARYTM_1, PARTFUN1,
+      ARYTM_3, GLIB_001, ABIAN, NAT_1, FINSEQ_1, GRAPH_1, RCOMP_1, INT_1,
+      PRE_POLY, UPROOTS, SGRAPH1, GLIB_005, XCMPLX_0;
+ notations TARSKI, XBOOLE_0, CARD_1, ORDINAL1, NUMBERS, SUBSET_1, XCMPLX_0,
+      XXREAL_0, XREAL_0, DOMAIN_1, RELAT_1, VALUED_0, PARTFUN1, FUNCT_1,
+      PBOOLE, FINSEQ_1, FUNCT_2, GRAPH_5, UPROOTS, RELSET_1, FINSET_1, INT_1,
+      NAT_1, FUNCOP_1, FUNCT_4, GLIB_000, GLIB_001, ABIAN, GLIB_002, GLIB_003,
+      PRE_POLY;
+ constructors DOMAIN_1, FUNCT_4, NAT_D, GRAPH_2, GRAPH_5, UPROOTS, GLIB_004,
+      XXREAL_2, RELSET_1, FINSEQ_6;
+ registrations XBOOLE_0, RELAT_1, PARTFUN1, INT_1, FUNCT_1, ORDINAL1, FUNCOP_1,
+      FINSET_1, XREAL_0, NAT_1, MEMBERED, FINSEQ_1, GLIB_000, ABIAN, GLIB_001,
+      GLIB_002, GLIB_003, VALUED_0, FUNCT_2, CARD_1, PRE_CIRC, PRE_POLY,
+      RELSET_1;
+ requirements ARITHM, BOOLE, NUMERALS, REAL, SUBSET;
+
+
+begin
+
+begin ::Preliminaries definitions for Maximum Flow Algorithm
+
+definition
+  let G be WGraph;
+  attr G is natural-weighted means
+:: GLIB_005:def 1
+
+  the_Weight_of G is natural-valued;
+end;
+
+registration
+  cluster natural-weighted -> nonnegative-weighted for WGraph;
+end;
+
+registration
+  cluster finite trivial Tree-like natural-weighted for WGraph;
+end;
+
+registration
+  let G be natural-weighted WGraph;
+  cluster the_Weight_of G -> natural-valued;
+end;
+
+definition
+  let G be _Graph;
+  mode FF:ELabeling of G is natural-valued ManySortedSet of the_Edges_of G;
+end;
+
+:: NAT can be replaced by RAT but then we can convert it to the NAT case
+:: as the graphs are finite
+
+definition
+  let G be finite real-weighted WGraph, EL be FF:ELabeling of G, source,sink
+  be set;
+  pred EL has_valid_flow_from source,sink means
+:: GLIB_005:def 2
+
+  source is Vertex of G &
+sink is Vertex of G & (for e being set st e in the_Edges_of G holds 0 <= EL.e &
+  EL.e <= (the_Weight_of G).e) & for v being Vertex of G st v <> source & v <>
+  sink holds Sum (EL | v.edgesIn()) = Sum (EL | v.edgesOut());
+end;
+
+definition
+  let G be finite real-weighted WGraph, EL be FF:ELabeling of G, source, sink
+  be set;
+  func EL.flow(source,sink) -> Real equals
+:: GLIB_005:def 3
+  Sum (EL | G.edgesInto({sink}
+  )) - Sum (EL | G.edgesOutOf({sink}));
+end;
+
+definition
+  let G be finite real-weighted WGraph, EL being FF:ELabeling of G, source,
+  sink be set;
+  pred EL has_maximum_flow_from source,sink means
+:: GLIB_005:def 4
+
+  EL has_valid_flow_from source,sink & for E2 being FF:ELabeling of G st E2
+  has_valid_flow_from source,sink holds E2.flow(source,sink) <= EL.flow(source,
+  sink);
+end;
+
+definition
+  let G be _Graph, EL be FF:ELabeling of G;
+  mode AP:VLabeling of EL -> PartFunc of the_Vertices_of G, {1} \/
+    the_Edges_of G means
+:: GLIB_005:def 5
+
+    not contradiction;
+end;
+
+:: 1 used to mark source at the sart
+
+definition
+  let G be real-weighted WGraph;
+  let EL be FF:ELabeling of G, VL be AP:VLabeling of EL;
+  let e be set;
+  pred e is_forward_edge_wrt VL means
+:: GLIB_005:def 6
+
+  e in the_Edges_of G & (  the_Source_of G).e in dom VL &
+  not (the_Target_of G).e in dom VL &
+    EL.e < (the_Weight_of G).e;
+end;
+
+definition
+  let G be real-weighted WGraph;
+  let EL be FF:ELabeling of G, VL be AP:VLabeling of EL;
+  let e be set;
+  pred e is_backward_edge_wrt VL means
+:: GLIB_005:def 7
+
+  e in the_Edges_of G & (
+  the_Target_of G).e in dom VL & not (the_Source_of G).e in dom VL & 0 < EL.e;
+end;
+
+:: attribute with alternative structures
+
+definition
+  let G be real-weighted WGraph, EL be FF:ELabeling of G, W be Walk of G;
+  pred W is_augmenting_wrt EL means
+:: GLIB_005:def 8
+
+  for n being odd Nat st n < len W
+holds (W.(n+1) DJoins W.n, W.(n+2), G implies EL.(W.(n+1)) < (the_Weight_of G).
+  (W.(n+1))) & (not W.(n+1) DJoins W.n,W.(n+2), G implies 0 < EL.(W.(n+1)));
+end;
+
+theorem :: GLIB_005:1
+  for G being real-weighted WGraph, EL be FF:ELabeling of G, W
+  being Walk of G st W is trivial holds W is_augmenting_wrt EL;
+
+theorem :: GLIB_005:2
+  for G being real-weighted WGraph, EL be FF:ELabeling of G, W
+  being Walk of G, m,n be Nat st W is_augmenting_wrt EL holds W.cut(m,n)
+  is_augmenting_wrt EL;
+
+theorem :: GLIB_005:3
+  for G being real-weighted WGraph, EL being FF:ELabeling of G, W
+  being Walk of G, e,v being set st W is_augmenting_wrt EL & not v in W
+.vertices() & ( e DJoins W.last(),v,G & EL.e < (the_Weight_of G).e or e DJoins
+  v,W.last(),G & 0 < (EL.e) ) holds W.addEdge(e) is_augmenting_wrt EL;
+
+begin :: Finding an Augmenting Path in a Graph
+
+definition
+  let G be real-weighted WGraph;
+  let EL be FF:ELabeling of G, VL be AP:VLabeling of EL;
+  func AP:NextBestEdges(VL) -> Subset of the_Edges_of G means
+:: GLIB_005:def 9
+
+  for e
+being set holds e in it iff (e is_forward_edge_wrt VL or e is_backward_edge_wrt
+  VL);
+end;
+
+definition
+  let G be real-weighted WGraph;
+  let EL be FF:ELabeling of G, VL be AP:VLabeling of EL;
+  func AP:Step(VL) -> AP:VLabeling of EL equals
+:: GLIB_005:def 10
+
+  VL if AP:NextBestEdges
+  (VL) = {}, VL+*((the_Source_of G).(
+    the Element of AP:NextBestEdges(VL)) .--> the Element of
+  AP:NextBestEdges(VL)) if AP:NextBestEdges(VL) <> {} & not (the_Source_of G).(
+the Element of AP:NextBestEdges(VL)) in dom VL
+   otherwise VL+*((the_Target_of G).
+   (the Element of
+  AP:NextBestEdges(VL)) .--> the Element of AP:NextBestEdges(VL));
+end;
+
+definition
+  let G be _Graph, EL be FF:ELabeling of G;
+  mode AP:VLabelingSeq of EL -> ManySortedSet of NAT means
+:: GLIB_005:def 11
+
+    for n being Nat holds it.n is AP:VLabeling of EL;
+end;
+
+definition
+  let G be _Graph, EL be FF:ELabeling of G;
+  let VS be AP:VLabelingSeq of EL, n be Nat;
+  redefine func VS.n -> AP:VLabeling of EL;
+end;
+
+definition
+  let G be real-weighted WGraph, EL be FF:ELabeling of G;
+  let source be Vertex of G;
+  func AP:CompSeq(EL,source) -> AP:VLabelingSeq of EL means
+:: GLIB_005:def 12
+
+  it.0 = source .--> 1 & for n being Nat holds it.(n+1) = AP:Step(it.n);
+end;
+
+theorem :: GLIB_005:4
+  for G being real-weighted WGraph, EL be FF:ELabeling of G, source
+  being Vertex of G holds dom (AP:CompSeq(EL,source).0) = {source};
+
+theorem :: GLIB_005:5
+  for G being real-weighted WGraph, EL being FF:ELabeling of G,
+  source being Vertex of G, i,j being Nat st i <= j holds dom (AP:CompSeq(EL,
+  source).i) c= dom (AP:CompSeq(EL,source).j);
+
+definition
+  let G be real-weighted WGraph, EL be FF:ELabeling of G, source be Vertex of
+  G;
+  func AP:FindAugPath(EL,source) -> AP:VLabeling of EL equals
+:: GLIB_005:def 13
+  AP:CompSeq(EL,
+  source).Result();
+end;
+
+theorem :: GLIB_005:6
+  for G being finite real-weighted WGraph, EL be FF:ELabeling of G,
+  source being Vertex of G holds AP:CompSeq(EL,source) is halting;
+
+theorem :: GLIB_005:7
+  for G being finite real-weighted WGraph, EL being FF:ELabeling of
+G, source being Vertex of G, n being Nat, v being set st v in dom (AP:CompSeq(
+EL,source).n) holds (AP:CompSeq(EL,source).n).v = (AP:FindAugPath(EL,source)).v
+;
+
+definition
+  let G be finite real-weighted WGraph, EL be FF:ELabeling of G, source,sink
+  be Vertex of G;
+  func AP:GetAugPath(EL,source,sink) -> vertex-distinct Path of G means
+:: GLIB_005:def 14
+
+
+  it is_Walk_from source,sink & it is_augmenting_wrt EL & for n being even Nat
+  st n in dom it holds it.n = (AP:FindAugPath(EL,source)).(it.(n+1)) if sink in
+  dom AP:FindAugPath(EL,source) otherwise it = G.walkOf(source);
+end;
+
+theorem :: GLIB_005:8
+  for G being real-weighted WGraph, EL being FF:ELabeling of G,
+source being Vertex of G, n being Nat, v being set st v in dom (AP:CompSeq(EL,
+  source).n) holds ex P being Path of G st P is_augmenting_wrt EL & P
+  is_Walk_from source,v & P.vertices() c= dom (AP:CompSeq(EL,source).n);
+
+theorem :: GLIB_005:9
+  for G being finite real-weighted WGraph, EL being FF:ELabeling of
+  G, source being Vertex of G, v being set holds v in dom AP:FindAugPath(EL,
+  source) iff ex P being Path of G st P is_Walk_from source,v & P
+  is_augmenting_wrt EL;
+
+theorem :: GLIB_005:10
+  for G being finite real-weighted WGraph, EL being FF:ELabeling
+  of G, source being Vertex of G holds source in dom AP:FindAugPath(EL,source);
+
+begin :: Ford-Fulkerson Algorithm definitions
+
+definition
+  let G be natural-weighted WGraph, EL be FF:ELabeling of G, W be Walk of G;
+  assume
+ W is_augmenting_wrt EL;
+  func W.flowSeq(EL) -> FinSequence of NAT means
+:: GLIB_005:def 15
+
+  dom it = dom W
+.edgeSeq() & for n being Nat st n in dom it holds (W.(2*n) DJoins W.(2*n-1),W.(
+2*n+1),G implies it.n = (the_Weight_of G).(W.(2*n)) - EL.(W.(2*n))) & (not W.(2
+  *n) DJoins W.(2*n-1),W.(2*n+1),G implies it.n = EL.(W.(2*n)));
+end;
+
+definition
+  let G be natural-weighted WGraph, EL being FF:ELabeling of G, W be Walk of G;
+  assume
+ W is_augmenting_wrt EL;
+  func W.tolerance(EL) -> Nat means
+:: GLIB_005:def 16
+
+  it in rng (W.flowSeq(EL)) & for k
+being Real st k in rng (W.flowSeq(EL)) holds it <= k if W is non trivial
+  otherwise it = 0;
+end;
+
+definition
+  let G be natural-weighted WGraph, EL being FF:ELabeling of G, P be Path of G;
+  assume
+ P is_augmenting_wrt EL;
+  func FF:PushFlow(EL,P) -> FF:ELabeling of G means
+:: GLIB_005:def 17
+
+  (for e being set
+  st e in the_Edges_of G & not e in P.edges() holds it.e = EL.e) & for n being
+odd Nat st n < len P holds (P.(n+1) DJoins P.n, P.(n+2),G implies it.(P.(n+1))
+  = EL.(P.(n+1)) + P.tolerance(EL)) & (not P.(n+1) DJoins P.n,P.(n+2),G implies
+  it.(P.(n+1)) = EL.(P.(n+1)) - P.tolerance(EL));
+end;
+
+definition
+  let G be finite natural-weighted WGraph, EL being FF:ELabeling of G, sink,
+  source be Vertex of G;
+  func FF:Step(EL, source, sink) -> FF:ELabeling of G equals
+:: GLIB_005:def 18
+
+FF:PushFlow(EL, AP:GetAugPath(EL,source,sink)) if sink in dom AP:FindAugPath(EL
+  ,source) otherwise EL;
+end;
+
+definition
+  let G be _Graph;
+  mode FF:ELabelingSeq of G -> ManySortedSet of NAT means
+:: GLIB_005:def 19
+
+    for n being Nat holds it.n is FF:ELabeling of G;
+end;
+
+registration
+  let G be _Graph, ES be FF:ELabelingSeq of G, n be Nat;
+  cluster ES.n -> Function-like Relation-like;
+end;
+
+registration
+  let G be _Graph, ES be FF:ELabelingSeq of G, n be Nat;
+  cluster ES.n -> the_Edges_of G -defined;
+end;
+
+registration
+  let G be _Graph, ES be FF:ELabelingSeq of G, n be Nat;
+  cluster ES.n -> natural-valued total;
+end;
+
+definition
+  let G be finite natural-weighted WGraph, source, sink be Vertex of G;
+  func FF:CompSeq(G,source,sink) -> FF:ELabelingSeq of G means
+:: GLIB_005:def 20
+
+  it.0 =
+  the_Edges_of G --> 0 & for n being Nat holds it.(n+1) = FF:Step(it.n,source,
+  sink);
+end;
+
+definition
+  let G be finite natural-weighted WGraph, sink,source be Vertex of G;
+  func FF:MaxFlow(G,source, sink) -> FF:ELabeling of G equals
+:: GLIB_005:def 21
+  FF:CompSeq(G,source,sink).Result();
+end;
+
+begin :: Ford Fulkerson Maximum Flow Theorems
+
+theorem :: GLIB_005:11
+  for G being finite real-weighted WGraph, EL being FF:ELabeling
+  of G, source, sink being set, V being Subset of the_Vertices_of G st EL
+  has_valid_flow_from source,sink & source in V & not sink in V holds EL.flow(
+source,sink) = Sum (EL | G.edgesDBetween(V, the_Vertices_of G \ V)) - Sum (EL |
+  G.edgesDBetween(the_Vertices_of G \ V, V));
+
+theorem :: GLIB_005:12
+  for G being finite real-weighted WGraph, EL being FF:ELabeling
+  of G, source,sink being set, V being Subset of the_Vertices_of G st EL
+  has_valid_flow_from source,sink & source in V & not sink in V holds EL.flow(
+source,sink) <= Sum ((the_Weight_of G) | G.edgesDBetween(V,the_Vertices_of G \
+  V));
+
+theorem :: GLIB_005:13
+  for G being finite natural-weighted WGraph, EL being
+FF:ELabeling of G, W being Walk of G st W is non trivial & W is_augmenting_wrt
+  EL holds 0 < W.tolerance(EL);
+
+theorem :: GLIB_005:14
+  for G being finite natural-weighted WGraph, EL being
+FF:ELabeling of G, source,sink being set, P being Path of G st source <> sink &
+  EL has_valid_flow_from source,sink & P is_Walk_from source,sink & P
+  is_augmenting_wrt EL holds FF:PushFlow(EL,P) has_valid_flow_from source,sink;
+
+theorem :: GLIB_005:15
+  for G being finite natural-weighted WGraph, EL being
+FF:ELabeling of G, source,sink being set, P being Path of G st source <> sink &
+P is_Walk_from source,sink & P is_augmenting_wrt EL holds EL.flow(source,sink)
+  + P.tolerance(EL) = (FF:PushFlow(EL,P)).flow(source,sink);
+
+theorem :: GLIB_005:16
+  for G being finite natural-weighted WGraph, source,sink being
+  Vertex of G, n being Nat st source <> sink holds FF:CompSeq(G,source,sink).n
+  has_valid_flow_from source,sink;
+
+theorem :: GLIB_005:17
+  for G being finite natural-weighted WGraph,source,sink being
+  Vertex of G st source <> sink holds FF:CompSeq(G,source,sink) is halting;
+
+theorem :: GLIB_005:18
+  for G being finite natural-weighted WGraph, EL being
+FF:ELabeling of G, source,sink being set st EL has_valid_flow_from source,sink
+& not ex P being Path of G st P is_Walk_from source,sink & P is_augmenting_wrt
+  EL holds EL has_maximum_flow_from source,sink;
+
+::$N Ford/Fulkerson maximum flow algorithm
+theorem :: GLIB_005:19
+  for G being finite natural-weighted WGraph, source, sink being Vertex
+  of G st sink <> source holds FF:MaxFlow(G,source,sink) has_maximum_flow_from
+  source,sink;

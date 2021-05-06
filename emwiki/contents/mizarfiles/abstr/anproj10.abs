@@ -1,0 +1,686 @@
+:: {C}ross-ratio in Real Vector Space
+::  by Roland Coghetto
+:: 
+:: Received February 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NAT_1, FINSEQ_2, REAL_1, XCMPLX_0, PENCIL_1, ALGSTR_0, ARYTM_1,
+      ARYTM_3, CARD_1, EUCLID, FUNCT_1, INCSP_1, NUMBERS, PRE_TOPC, RELAT_1,
+      STRUCT_0, SUBSET_1, SUPINF_2, VECTSP_1, XBOOLE_0, TARSKI, FINSEQ_1,
+      RLTOPSP1, ANPROJ10, FUNCT_5, RLVECT_1, FUNCOP_1, FUNCT_2, FUNCSDOM,
+      BINOP_2, PCOMPS_1, ZFMISC_1;
+ notations ORDINAL1, XCMPLX_0, PRE_TOPC, TARSKI, XBOOLE_0, RLVECT_1, XREAL_0,
+      SUBSET_1, NUMBERS, FUNCT_1, FUNCT_2, FINSEQ_1, STRUCT_0, ALGSTR_0,
+      VECTSP_1, FINSEQ_2, BINOP_1, FUNCOP_1, FINSEQ_4, RVSUM_1, FUNCSDOM,
+      BINOP_2, PCOMPS_1, EUCLID, SRINGS_5, RLTOPSP1, EUCLID_4, ZFMISC_1;
+ constructors FINSEQ_4, MONOID_0, BINOP_2, FUNCSDOM, PCOMPS_1, SRINGS_5,
+      EUCLID_4;
+ registrations MEMBERED, ORDINAL1, STRUCT_0, XREAL_0, MONOID_0, EUCLID,
+      VALUED_0, XCMPLX_0, NUMBERS, RLTOPSP1, RLVECT_1, RELAT_1, FINSEQ_4;
+ requirements REAL, SUBSET, NUMERALS, ARITHM, BOOLE;
+
+
+begin :: Preliminaries
+
+registration
+  let a,b,c,d be object;
+  reduce <*a,b,c,d*>.1 to a;
+  reduce <*a,b,c,d*>.2 to b;
+  reduce <*a,b,c,d*>.3 to c;
+  reduce <*a,b,c,d*>.4 to d;
+end;
+
+theorem :: ANPROJ10:1
+  for a,b,c,d,a9,b9,c9,d9 being object st
+    <* a, b, c, d *> = <* a9, b9, c9, d9 *> holds
+      a = a9 & b = b9 & c = c9 & d = d9;
+
+definition
+  let r be Real;
+  attr r is unit means
+:: ANPROJ10:def 1
+  r = 1;
+end;
+
+registration
+  cluster non unit for non zero Real;
+end;
+
+definition
+  let r be non unit non zero Real;
+  func op1(r) -> non unit non zero Real equals
+:: ANPROJ10:def 2
+  1 / r;
+  involutiveness;
+end;
+
+definition
+  let r being non unit non zero Real;
+  func op2(r) -> non unit non zero Real equals
+:: ANPROJ10:def 3
+  1 - r;
+  involutiveness;
+end;
+
+reserve a,b,r for non unit non zero Real;
+
+theorem :: ANPROJ10:2
+  op2(op1(r)) = (r - 1) / r &
+  op1(op2(r)) = 1 / (1 - r) &
+  op1(op2(op1(r))) = r / (r - 1) &
+  op2(op1(op2(r))) = r / (r - 1);
+
+theorem :: ANPROJ10:3
+  op2(op1(op2(op1(r)))) = op1(op2(r)) &
+  op1(op2(op1(op2(r)))) = op2(op1(r));
+
+theorem :: ANPROJ10:4
+  op1(a) / op1(b) = b / a;
+
+reserve X for non empty set,
+        x for Tuple of 4,X;
+
+theorem :: ANPROJ10:5
+  4-tuples_on X = the set of all <* d1, d2, d3, d4 *> where
+    d1,d2,d3,d4 is Element of X;
+
+theorem :: ANPROJ10:6
+  for a,b,c,d being object st (a = x.1 or a = x.2 or a = x.3 or a = x.4) &
+  (b = x.1 or b = x.2 or b = x.3 or b = x.4) &
+  (c = x.1 or c = x.2 or c = x.3 or c = x.4) &
+  (d = x.1 or d = x.2 or d = x.3 or d = x.4) holds
+  <* a,b,c,d *> is Tuple of 4,X;
+
+definition
+  let X be non empty set;
+  let x be Tuple of 4,X;
+  func pi_1342(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 4
+<* x.1,x.3,x.4,x.2 *>;
+  func pi_1423(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 5
+<* x.1,x.4,x.2,x.3 *>;
+  func pi_2143(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 6
+<* x.2,x.1,x.4,x.3 *>;
+  func pi_2314(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 7
+<* x.2,x.3,x.1,x.4 *>;
+  func pi_2341(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 8
+<* x.2,x.3,x.4,x.1 *>;
+  func pi_2413(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 9
+<* x.2,x.4,x.1,x.3 *>;
+  func pi_2431(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 10
+<* x.2,x.4,x.3,x.1 *>;
+  func pi_3124(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 11
+<* x.3,x.1,x.2,x.4 *>;
+  func pi_3142(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 12
+<* x.3,x.1,x.4,x.2 *>;
+  func pi_3241(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 13
+<* x.3,x.2,x.4,x.1 *>;
+  func pi_3412(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 14
+<* x.3,x.4,x.1,x.2 *>;
+  func pi_3421(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 15
+<* x.3,x.4,x.2,x.1 *>;
+  func pi_4123(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 16
+<* x.4,x.1,x.2,x.3 *>;
+  func pi_4132(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 17
+<* x.4,x.1,x.3,x.2 *>;
+  func pi_4213(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 18
+<* x.4,x.2,x.1,x.3 *>;
+  func pi_4312(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 19
+<* x.4,x.3,x.1,x.2 *>;
+  func pi_4321(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 20
+<* x.4,x.3,x.2,x.1 *>;
+end;
+
+definition
+  let X be non empty set;
+  let x be Tuple of 4,X;
+  func pi_id(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 21
+<* x.1,x.2,x.3,x.4 *>;
+  func pi_12(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 22
+<* x.2,x.1,x.3,x.4 *>;
+  involutiveness;
+  func pi_13(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 23
+<* x.3,x.2,x.1,x.4 *>;
+  involutiveness;
+  func pi_14(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 24
+<* x.4,x.2,x.3,x.1 *>;
+  involutiveness;
+  func pi_23(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 25
+<* x.1,x.3,x.2,x.4 *>;
+  involutiveness;
+  func pi_24(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 26
+<* x.1,x.4,x.3,x.2 *>;
+  involutiveness;
+  func pi_34(x) -> Tuple of 4,X equals
+:: ANPROJ10:def 27
+<* x.1,x.2,x.4,x.3 *>;
+  involutiveness;
+end;
+
+registration
+  let X be non empty set;
+  let x be Tuple of 4,X;
+  reduce pi_id(x) to x;
+end;
+
+notation
+  let X be non empty set;
+  let x be Tuple of 4,X;
+  synonym pi_1234(x) for pi_id(x);
+  synonym pi_2134(x) for pi_12(x);
+  synonym pi_3214(x) for pi_13(x);
+  synonym pi_4231(x) for pi_14(x);
+  synonym pi_1324(x) for pi_23(x);
+  synonym pi_1432(x) for pi_24(x);
+  synonym pi_1243(x) for pi_34(x);
+end;
+
+theorem :: ANPROJ10:7
+  pi_12(pi_13(x)) = pi_13(pi_23(x)) &
+  pi_12(pi_14(x)) = pi_14(pi_24(x)) &
+  pi_12(pi_23(x)) = pi_13(pi_12(x)) &
+  pi_12(pi_24(x)) = pi_14(pi_12(x)) &
+  pi_12(pi_34(x)) = pi_34(pi_12(x)) &
+
+  pi_13(pi_12(x)) = pi_23(pi_13(x)) &
+  pi_13(pi_14(x)) = pi_34(pi_13(x)) &
+  pi_13(pi_23(x)) = pi_12(pi_13(x)) &
+  pi_13(pi_24(x)) = pi_13(pi_24(x)) &
+  pi_13(pi_34(x)) = pi_14(pi_13(x)) &
+
+  pi_23(pi_12(x)) = pi_13(pi_23(x)) &
+  pi_23(pi_13(x)) = pi_12(pi_23(x)) &
+  pi_23(pi_14(x)) = pi_14(pi_23(x)) &
+  pi_23(pi_24(x)) = pi_34(pi_23(x)) &
+  pi_23(pi_34(x)) = pi_24(pi_23(x)) &
+
+  pi_24(pi_12(x)) = pi_14(pi_24(x)) &
+  pi_24(pi_13(x)) = pi_13(pi_24(x)) &
+  pi_24(pi_14(x)) = pi_12(pi_24(x)) &
+  pi_24(pi_23(x)) = pi_34(pi_24(x)) &
+  pi_24(pi_34(x)) = pi_23(pi_24(x)) &
+
+  pi_34(pi_12(x)) = pi_12(pi_34(x)) &
+  pi_34(pi_13(x)) = pi_14(pi_34(x)) &
+  pi_34(pi_14(x)) = pi_13(pi_34(x)) &
+  pi_34(pi_23(x)) = pi_24(pi_34(x)) &
+  pi_34(pi_24(x)) = pi_23(pi_34(x));
+
+theorem :: ANPROJ10:8
+  pi_1342(x) = pi_34(pi_23(x)) &
+  pi_1423(x) = pi_34(pi_24(x)) &
+  pi_2143(x) = pi_12(pi_34(x)) &
+  pi_2314(x) = pi_23(pi_12(x)) &
+  pi_2341(x) = pi_34(pi_23(pi_12(x))) &
+  pi_2413(x) = pi_34(pi_24(pi_12(x))) &
+  pi_2431(x) = pi_24(pi_12(x)) &
+  pi_3124(x) = pi_23(pi_13(x)) &
+  pi_3142(x) = pi_24(pi_34(pi_13(x))) &
+  pi_3241(x) = pi_34(pi_13(x)) &
+  pi_3412(x) = pi_24(pi_13(x)) &
+  pi_3421(x) = pi_24(pi_23(pi_13(x))) &
+  pi_4123(x) = pi_23(pi_34(pi_14(x))) &
+  pi_4132(x) = pi_24(pi_14(x)) &
+  pi_4213(x) = pi_34(pi_14(x)) &
+  pi_4312(x) = pi_23(pi_24(pi_14(x))) &
+  pi_4321(x) = pi_23(pi_14(x));
+
+theorem :: ANPROJ10:9
+  pi_13(pi_23(pi_13(x))) = pi_12(x) &
+  pi_12(pi_34(pi_23(pi_13(x)))) = pi_34(pi_23(x)) &
+  pi_23(pi_24(pi_14(pi_23(pi_13(x))))) = pi_14(x);
+
+theorem :: ANPROJ10:10
+  pi_23(pi_14(pi_34(x))) = pi_24(pi_23(pi_13(x))) &
+  pi_34(pi_24(pi_12(x))) = pi_24(pi_13(pi_23(x))) &
+  pi_24(pi_34(pi_13(x))) = pi_12(pi_34(pi_23(x)));
+
+begin :: Affine-Ratio
+
+reserve V             for RealLinearSpace,
+        A,B,C,P,Q,R,S for Element of V;
+
+theorem :: ANPROJ10:11
+  P,Q,Q are_collinear;
+
+definition
+  let V be RealLinearSpace;
+  let A,B,C be Element of V;
+  assume that
+ A <> C and
+ A,B,C are_collinear;
+  func affine-ratio(A,B,C) -> Real means
+:: ANPROJ10:def 28
+  (B - A) = it * (C - A);
+end;
+
+theorem :: ANPROJ10:12
+  A <> C & A,B,C are_collinear implies
+  A - B = affine-ratio(A,B,C) * (A - C);
+
+theorem :: ANPROJ10:13
+  A <> C & A,B,C are_collinear implies
+  (affine-ratio(A,B,C) = 0 iff A = B);
+
+theorem :: ANPROJ10:14
+  A <> C & A,B,C are_collinear implies
+  (affine-ratio(A,B,C) = 1 iff B = C);
+
+theorem :: ANPROJ10:15
+  for a,b being Real st P <> Q & a * (P - Q) = b * (P - Q) holds a = b;
+
+theorem :: ANPROJ10:16
+  P,Q,R are_collinear & P <> R & P <> Q implies
+  affine-ratio(P,R,Q) = 1 / affine-ratio(P,Q,R);
+
+theorem :: ANPROJ10:17
+  P,Q,R are_collinear & P <> R & Q <> R & P <> Q implies
+  affine-ratio(Q,P,R) =
+    affine-ratio(P,Q,R) / (affine-ratio(P,Q,R) - 1);
+
+theorem :: ANPROJ10:18
+  P,Q,R are_collinear & P <> R implies
+  affine-ratio(R,Q,P) = 1 - affine-ratio(P,Q,R);
+
+theorem :: ANPROJ10:19
+  P,Q,R are_collinear & P <> R & P <> Q implies
+  affine-ratio(Q,R,P) =
+  (affine-ratio(P,Q,R) - 1) / affine-ratio(P,Q,R);
+
+theorem :: ANPROJ10:20
+  P,Q,R are_collinear & P <> R & Q <> R implies
+  affine-ratio(R,P,Q) = 1 / (1 - affine-ratio(P,Q,R));
+
+theorem :: ANPROJ10:21
+  for r being Real st P,Q,R are_collinear &
+  P <> R & Q <> R & P <> Q &
+  r = affine-ratio(P,Q,R) holds
+  affine-ratio(P,R,Q) = 1 / r &
+  affine-ratio(Q,P,R) = r / (r - 1) &
+  affine-ratio(Q,R,P) = (r - 1) / r &
+  affine-ratio(R,P,Q) = 1 / (1 - r) &
+  affine-ratio(R,Q,P) = 1 - r;
+
+theorem :: ANPROJ10:22
+  for a being non zero Real st P,Q,R are_collinear & P <> R holds
+  affine-ratio(P,Q,R) = affine-ratio(a * P,a * Q,a * R);
+
+theorem :: ANPROJ10:23
+  for x,y being Element of REAL 1
+  for p,q being Tuple of 1,REAL st
+  p = x & q = y holds x + y = p + q;
+
+theorem :: ANPROJ10:24
+  for x,y being Element of TOP-REAL 1
+  for p,q being Tuple of 1,REAL st
+  p = x & q = y holds x + y = p + q;
+
+theorem :: ANPROJ10:25
+  for x,y being Element of TOP-REAL 1
+  for p,q being Tuple of 1,REAL st
+  p = x & q = y holds x - y = p - q;
+
+theorem :: ANPROJ10:26
+  for x being Element of TOP-REAL 1
+  for p being Tuple of 1,REAL st
+  p = x holds - x = - p;
+
+theorem :: ANPROJ10:27
+  for T being RealLinearSpace
+  for x,y being Element of T
+  for p,q being Tuple of 1,REAL st
+  T = TOP-REAL 1 & p = x & q = y
+  holds x + y = p + q;
+
+theorem :: ANPROJ10:28
+  for p being Tuple of 1,REAL holds - p is Tuple of 1,REAL;
+
+theorem :: ANPROJ10:29
+  for T being RealLinearSpace
+  for x being Element of T
+  for p being Tuple of 1,REAL st
+  T = TOP-REAL 1 & p = x
+  holds - p = - x;
+
+theorem :: ANPROJ10:30
+  for T being RealLinearSpace
+  for x being Element of T
+  for p being Element of TOP-REAL 1 st
+  T = TOP-REAL 1 & p = x
+  holds - p = - x;
+
+theorem :: ANPROJ10:31
+  for T being RealLinearSpace
+  for x,y being Element of T
+  for p,q being Tuple of 1,REAL st
+  T = TOP-REAL 1 & p = x & q = y
+  holds x - y = p - q;
+
+theorem :: ANPROJ10:32
+  for T being RealLinearSpace
+  for x,y being Element of T
+  for p,q being Element of TOP-REAL 1 st
+  T = TOP-REAL 1 & p = x & q = y
+  holds x + y = p + q;
+
+theorem :: ANPROJ10:33
+  for D being set
+  for d being Element of D holds Seg 1 --> d = <* d *>;
+
+theorem :: ANPROJ10:34
+  for a,r being Real holds
+  multreal.:( Seg 1 --> a, <* r *> ) = <* a * r *>;
+
+theorem :: ANPROJ10:35
+  for a being Real for p being Tuple of 1,REAL holds
+  multreal.:(dom p --> a,p) = a * p;
+
+theorem :: ANPROJ10:36
+  for a being Real for p being Tuple of 1,REAL holds
+  multreal.:(dom p --> a,p) = a * p;
+
+theorem :: ANPROJ10:37
+  for T being RealLinearSpace for x,y being Element of T
+  for a being Real for p,q being Tuple of 1,REAL st
+  T = TOP-REAL 1 & p = x & q = y & x = a * y holds p = a * q;
+
+theorem :: ANPROJ10:38
+  for T being RealLinearSpace for x,y being Element of T
+  for a being Real for p,q being Element of TOP-REAL 1 st
+  T = TOP-REAL 1 & p = x & q = y holds x = a * y implies p = a * q;
+
+theorem :: ANPROJ10:39
+  for T being RealLinearSpace for x,y being Element of T
+  for p,q being Element of TOP-REAL 1 st T = TOP-REAL 1 & p = x & q = y
+  holds x - y = p - q;
+
+theorem :: ANPROJ10:40
+  for p,q being Tuple of 1,REAL for r being Real st
+  p = r * q & p <> <* 0 *> holds ex a,b being Real st
+  p = <* a *> & q =<* b *> & r = a / b;
+
+theorem :: ANPROJ10:41
+  for x,y,z being Element of TOP-REAL 1 holds x,y,z are_collinear;
+
+theorem :: ANPROJ10:42
+  for T being RealLinearSpace st T = TOP-REAL 1
+  for x,y,z being Element of T holds x,y,z are_collinear;
+
+theorem :: ANPROJ10:43
+  for T being RealLinearSpace st T = TOP-REAL 1
+  for x,y,z being Element of T st z <> x & y <> x holds
+  ex a,b,c being Real st x = <* a *> & y = <* b *> & z = <* c *> &
+  affine-ratio(x,y,z) = (b - a) / (c - a);
+
+theorem :: ANPROJ10:44
+  for x being Element of TOP-REAL 1 for a,r being Real st
+  x = <* a *> holds r * x = <* (r * a) *>;
+
+theorem :: ANPROJ10:45
+  for x,y being Element of TOP-REAL 1 for a,b,r being Real st
+  x = <* a *> & y = <* b *> holds x = r * y iff a = r * b;
+
+theorem :: ANPROJ10:46
+  for x,y being Element of TOP-REAL 1 for a,b being Real st
+  x = <* a *> & y = <* b *> holds x - y = <* a - b *>;
+
+theorem :: ANPROJ10:47
+  for V being RealLinearSpace for x,y being Element of F_Real
+  for x9,y9 being Element of V st V = F_Real & x = x9 & y = y9 holds
+  x + y = x9 + y9;
+
+theorem :: ANPROJ10:48
+  for V being RealLinearSpace for P,Q,R being Element of V st
+  P,Q,R are_collinear & P <> R & Q <> R & P <> Q holds
+  affine-ratio(P,Q,R) <> 0 & affine-ratio(P,Q,R) <> 1;
+
+theorem :: ANPROJ10:49
+  for V being RealLinearSpace for P,Q,R being Element of V st
+  P,Q,R are_collinear & P <> R & Q <> R & P <> Q holds
+  ex r being non unit non zero Real st
+  r = affine-ratio(P,Q,R) &
+  affine-ratio(P,R,Q) = op1(r) &
+  affine-ratio(Q,P,R) = op1(op2(op1(r))) &
+  affine-ratio(Q,R,P) = op2(op1(r)) &
+  affine-ratio(R,P,Q) = op1(op2(r)) &
+  affine-ratio(R,Q,P) = op2(r);
+
+begin :: Cross-Ratio
+
+theorem :: ANPROJ10:50
+  for X being non empty set
+  for x being Tuple of 4,X
+  for P,Q,R,S being Element of X st x = <* P,Q,R,S *> holds
+  pi_1234(x) = <* P, Q, R, S *> &
+  pi_1243(x) = <* P, Q, S, R *> &
+  pi_1324(x) = <* P, R, Q, S *> &
+  pi_1342(x) = <* P, R, S, Q *> &
+  pi_1423(x) = <* P, S, Q, R *> &
+  pi_1432(x) = <* P, S, R, Q *> &
+  pi_2134(x) = <* Q, P, R, S *> &
+  pi_2143(x) = <* Q, P, S, R *> &
+  pi_2314(x) = <* Q, R, P, S *> &
+  pi_2341(x) = <* Q, R, S, P *> &
+  pi_2413(x) = <* Q, S, P, R *> &
+  pi_2431(x) = <* Q, S, R, P *> &
+  pi_3124(x) = <* R, P, Q, S *> &
+  pi_3142(x) = <* R, P, S, Q *> &
+  pi_3214(x) = <* R, Q, P, S *> &
+  pi_3241(x) = <* R, Q, S, P *> &
+  pi_3412(x) = <* R, S, P, Q *> &
+  pi_3421(x) = <* R, S, Q ,P *> &
+  pi_4123(x) = <* S, P, Q, R *> &
+  pi_4132(x) = <* S, P, R, Q *> &
+  pi_4213(x) = <* S, Q, P, R *> &
+  pi_4231(x) = <* S, Q, R, P *> &
+  pi_4312(x) = <* S, R, P, Q *> &
+  pi_4321(x) = <* S, R, Q, P *>;
+
+theorem :: ANPROJ10:51
+  for X being non empty set
+  for x being Tuple of 4,X holds
+  pi_1324(pi_1243(x)) = pi_1423(x) & pi_2143(pi_1243(x)) = pi_2134(x) &
+  pi_3412(pi_1243(x)) = pi_4312(x) & pi_4321(pi_1243(x)) = pi_3421(x) &
+  pi_3412(pi_1324(x)) = pi_2413(x) & pi_2143(pi_1324(x)) = pi_3142(x) &
+  pi_4321(pi_1324(x)) = pi_4231(x) & pi_3412(pi_1423(x)) = pi_2314(x) &
+  pi_2143(pi_1423(x)) = pi_4132(x) & pi_4321(pi_1423(x)) = pi_3241(x) &
+  pi_1243(pi_1423(x)) = pi_1432(x) & pi_4321(pi_1432(x)) = pi_2341(x) &
+  pi_3412(pi_1432(x)) = pi_3214(x) & pi_2143(pi_1432(x)) = pi_4123(x) &
+  pi_4321(pi_3124(x)) = pi_4213(x) & pi_3412(pi_3124(x)) = pi_2431(x) &
+  pi_2143(pi_3124(x)) = pi_1342(x) & pi_4312(pi_3124(x)) = pi_4231(x) &
+  pi_4321(pi_3124(x)) = pi_4213(x);
+
+reserve x           for Tuple of 4,the carrier of V,
+        P9,Q9,R9,S9 for Element of V;
+
+definition
+  let V being RealLinearSpace;
+  let P,Q,R,S being Element of V;
+  func cross-ratio(P,Q,R,S) -> Real equals
+:: ANPROJ10:def 29
+  affine-ratio(R,P,Q) / affine-ratio(S,P,Q);
+end;
+
+theorem :: ANPROJ10:52
+  P,Q,R,S are_collinear & R <> Q & S <> Q & S <> P implies
+  (R = P iff cross-ratio(P,Q,R,S) = 0);
+
+theorem :: ANPROJ10:53
+  P <> R & P <> S implies cross-ratio(P,P,R,S) = 1;
+
+theorem :: ANPROJ10:54
+  P,Q,R,S are_collinear & R <> Q & S <> Q & R <> S &
+  cross-ratio(P,Q,R,S) = 1 implies P = Q;
+
+theorem :: ANPROJ10:55
+  P,Q,R,S are_collinear & P9,Q9,R9,S9 are_collinear & S <> P & S <> Q &
+  S9 <> P9 & S9 <> Q9 implies
+  (cross-ratio(P,Q,R,S) = cross-ratio(P9,Q9,R9,S9) iff
+  affine-ratio(R,P,Q) * affine-ratio(S9,P9,Q9) =
+  affine-ratio(R9,P9,Q9) * affine-ratio(S,P,Q));
+
+theorem :: ANPROJ10:56
+  P,Q,R,S are_collinear & P <> S & R <> Q & S <> Q implies
+  cross-ratio(P,Q,R,S) = cross-ratio(R,S,P,Q);
+
+theorem :: ANPROJ10:57
+  for V being RealLinearSpace for P,Q,R,S being Element of V st
+  P,Q,R,S are_collinear & P <> R & P <> S & R <> Q & S <> Q holds
+  cross-ratio(P,Q,R,S) = cross-ratio(Q,P,S,R);
+
+theorem :: ANPROJ10:58
+  P,Q,R,S are_collinear & P <> R & P <> S & R <> Q & S <> Q implies
+  cross-ratio(P,Q,R,S) = cross-ratio(S,R,Q,P);
+
+theorem :: ANPROJ10:59
+  cross-ratio(P,Q,S,R) = 1 / cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:60
+  P,Q,R,S are_collinear & P <> R & P <> S & R <> Q & S <> Q implies
+  cross-ratio(Q,P,R,S) = 1 / cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:61
+  P,Q,R,S are_collinear & P <> R & P <> S & R <> Q & S <> Q implies
+  cross-ratio(R,S,Q,P) = 1 / cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:62
+  P,Q,R,S are_collinear & P <> R & P <> S & R <> Q & S <> Q implies
+  cross-ratio(S,R,P,Q) = 1 / cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:63
+  P,Q,R,S are_collinear & P,Q,R,S are_mutually_distinct implies
+  cross-ratio(P,R,Q,S) = 1 - cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:64
+  P,Q,R,S are_collinear & P,Q,R,S are_mutually_distinct implies
+  cross-ratio(Q,S,P,R) = 1 - cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:65
+  P,Q,R,S are_collinear & P,Q,R,S are_mutually_distinct implies
+  cross-ratio(R,P,S,Q) = 1 - cross-ratio(P,Q,R,S);
+
+theorem :: ANPROJ10:66
+  P,Q,R,S are_collinear & P,Q,R,S are_mutually_distinct implies
+  cross-ratio(S,Q,R,P) = 1 - cross-ratio(P,Q,R,S);
+
+definition
+  let V being RealLinearSpace;
+  let x being Tuple of 4,the carrier of V;
+  func cross-ratio-tuple(x) -> Real means
+:: ANPROJ10:def 30
+  ex P,Q,R,S being Element of V st P = x.1 & Q = x.2 & R = x.3 &
+  S = x.4 & it = cross-ratio(P,Q,R,S);
+end;
+
+theorem :: ANPROJ10:67
+  x = <* P, Q, R, S *> implies
+  cross-ratio(P,Q,R,S) = cross-ratio-tuple(x);
+
+theorem :: ANPROJ10:68
+  x = <* P, Q, R, S *> & P,Q,R,S are_collinear &
+  P <> S & Q <> R & Q <> S implies
+  cross-ratio-tuple(x) = cross-ratio-tuple(pi_3412(x));
+
+theorem :: ANPROJ10:69
+  x = <* P, Q, R, S *> & P,Q,R,S are_collinear & P <> R & P <> S &
+  Q <> R & Q <> S implies
+  cross-ratio-tuple(x) = cross-ratio-tuple(pi_2143(x)) &
+  cross-ratio-tuple(x) = cross-ratio-tuple(pi_4321(x));
+
+theorem :: ANPROJ10:70
+  cross-ratio-tuple(pi_1243(x)) = 1 / cross-ratio-tuple(x);
+
+theorem :: ANPROJ10:71
+  x = <*P,Q,R,S*> & P,Q,R,S are_mutually_distinct &
+  P,Q,R,S are_collinear implies
+  (ex r being non unit non zero Real st r = cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_1243(x)) = op1(r));
+
+theorem :: ANPROJ10:72
+  x = <*P,Q,R,S*> & P,Q,R,S are_collinear & P <> R & P <> S &
+  Q <> R & Q <> S implies
+  cross-ratio-tuple(pi_1243(x)) = 1 / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_2134(x)) = 1 / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_3421(x)) = 1 / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_4312(x)) = 1 / cross-ratio-tuple(x);
+
+theorem :: ANPROJ10:73
+  x = <* P,Q,R,S *> & P,Q,R,S are_mutually_distinct &
+  P,Q,R,S are_collinear implies
+  cross-ratio-tuple(pi_1324(x)) = 1 - cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_2413(x)) = 1 - cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_3142(x)) = 1 - cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_4231(x)) = 1 - cross-ratio-tuple(x);
+
+theorem :: ANPROJ10:74
+  x = <* P,Q,R,S *> & P,Q,R,S are_mutually_distinct &
+  P,Q,R,S are_collinear implies
+  cross-ratio-tuple(pi_3124(x)) = 1 / (1 - cross-ratio-tuple(x)) &
+  cross-ratio-tuple(pi_2431(x)) = 1 / (1 - cross-ratio-tuple(x)) &
+  cross-ratio-tuple(pi_1342(x)) = 1 / (1 - cross-ratio-tuple(x)) &
+  cross-ratio-tuple(pi_4213(x)) = 1 / (1 - cross-ratio-tuple(x));
+
+theorem :: ANPROJ10:75
+  x = <* P,Q,R,S *> & P,Q,R,S are_mutually_distinct &
+  P,Q,R,S are_collinear implies
+  cross-ratio-tuple(pi_1423(x))
+    = (cross-ratio-tuple(x) - 1) / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_2314(x))
+    = (cross-ratio-tuple(x) - 1) / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_4132(x))
+    = (cross-ratio-tuple(x) - 1) / cross-ratio-tuple(x) &
+  cross-ratio-tuple(pi_3241(x))
+    = (cross-ratio-tuple(x) - 1) / cross-ratio-tuple(x);
+
+theorem :: ANPROJ10:76
+  x = <* P,Q,R,S *> & P,Q,R,S are_mutually_distinct &
+  P,Q,R,S are_collinear implies
+  cross-ratio-tuple(pi_1432(x))
+    = cross-ratio-tuple(x) / (cross-ratio-tuple(x) - 1) &
+  cross-ratio-tuple(pi_2341(x))
+    = cross-ratio-tuple(x) / (cross-ratio-tuple(x) - 1) &
+  cross-ratio-tuple(pi_3214(x))
+    = cross-ratio-tuple(x) / (cross-ratio-tuple(x) - 1) &
+  cross-ratio-tuple(pi_4123(x))
+    = cross-ratio-tuple(x) / (cross-ratio-tuple(x) - 1);
+
+begin
+
+theorem :: ANPROJ10:77
+  for x1,x2,x3,x4 being Element of TOP-REAL 1 st
+  x2 <> x3 & x3 <> x1 & x2 <> x4 & x1 <> x4 holds
+  ex a,b,c,d being Real st x1 = <* a *> & x2 =  <* b *> & x3 = <* c *> &
+  x4 = <* d *> & cross-ratio-tuple(<*x1,x2,x3,x4*>)
+    = ((c - a) / (c - b)) * ((d - b) / (d - a));

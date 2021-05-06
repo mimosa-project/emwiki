@@ -1,0 +1,64 @@
+:: Heine--Borel's Covering Theorem
+::  by Agata Darmochwa{\l} and Yatsuka Nakamura
+::
+:: Received November 21, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, REAL_1, PRE_TOPC, METRIC_1, COMPLEX1, ARYTM_1,
+      FUNCT_1, SEQ_1, ORDINAL2, RELAT_1, TARSKI, XXREAL_0, ARYTM_3, CARD_1,
+      POWER, LIMFUNC1, NEWTON, TOPMETR, RCOMP_1, XXREAL_1, STRUCT_0, PCOMPS_1,
+      SETFAM_1, FINSET_1, XBOOLE_0, VALUED_0, SEQ_2, NAT_1, ZFMISC_1, XXREAL_2,
+      VALUED_1, FUNCT_7;
+ notations TARSKI, XBOOLE_0, SUBSET_1, SETFAM_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      XREAL_0, COMPLEX1, REAL_1, RELAT_1, FUNCT_1, FUNCT_2, NAT_1, METRIC_1,
+      FINSET_1, BINOP_1, STRUCT_0, PRE_TOPC, COMPTS_1, PCOMPS_1, VALUED_0,
+      VALUED_1, SEQ_1, SEQ_2, LIMFUNC1, POWER, RCOMP_1, NEWTON, TOPMETR,
+      XXREAL_0, RECDEF_1;
+ constructors SETFAM_1, REAL_1, NAT_1, SEQ_2, SEQM_3, SEQ_4, RCOMP_1, LIMFUNC1,
+      NEWTON, POWER, COMPTS_1, TOPMETR, VALUED_1, RECDEF_1, PCOMPS_1, COMSEQ_2,
+      BINOP_1, NUMBERS;
+ registrations XBOOLE_0, SUBSET_1, ORDINAL1, RELSET_1, FINSET_1, NUMBERS,
+      XREAL_0, MEMBERED, PRE_TOPC, METRIC_1, VALUED_1, FUNCT_2, VALUED_0,
+      NAT_1, ZFMISC_1, XCMPLX_0, NEWTON, POWER;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve a,b,x,y for Real,
+  i,k,n,m for Nat;
+reserve p,w for Real;
+
+theorem :: HEINE:1
+  for A being SubSpace of RealSpace, p,q being Point of A st x = p
+  & y = q holds dist(p,q) = |.x-y.|;
+
+reserve seq for Real_Sequence;
+
+theorem :: HEINE:2
+  seq is increasing & rng seq c= NAT implies n <= seq.n;
+
+definition
+  let seq,k;
+  func k to_power seq -> Real_Sequence means
+:: HEINE:def 1
+
+  for n holds it.n = k to_power (seq.n);
+end;
+
+theorem :: HEINE:3
+  seq is divergent_to+infty implies 2 to_power seq is divergent_to+infty;
+
+::$N Heine-Borel Theorem for intervals
+theorem :: HEINE:4
+  a <= b implies Closed-Interval-TSpace(a,b) is compact;

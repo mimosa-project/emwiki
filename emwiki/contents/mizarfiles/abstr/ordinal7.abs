@@ -1,0 +1,760 @@
+:: Natural Addition of Ordinals
+::  by Sebastian Koch
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, ORDINAL1, ORDINAL2, TARSKI, XBOOLE_0, CARD_1, FINSET_1,
+      AFINSQ_1, ORDINAL4, RELAT_1, FUNCT_1, VALUED_0, SUBSET_1, ARYTM_3, NAT_1,
+      XXREAL_0, ORDINAL3, FINSEQ_1, ORDINAL5, WELLORD2, STRUCT_0, ORDERS_2,
+      ORDERS_5, PRGCOR_2, PARTFUN1, ARYTM_1, XCMPLX_0, FUNCOP_1, CARD_2,
+      RFINSEQ, MATHMORP, ORDINAL7;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, PARTFUN1,
+      WELLORD2, FUNCOP_1, ORDINAL2, ORDINAL3, FINSET_1, CARD_1, ORDERS_1,
+      CARD_3, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, VALUED_0, CARD_2,
+      NAT_D, ORDINAL4, FINSEQ_1, NEWTON, RFINSEQ, AFINSQ_1, AFINSQ_2, ORDINAL5,
+      ORDINAL6, STRUCT_0, ORDERS_2, ORDERS_5;
+ constructors NEWTON, NAT_1, AFINSQ_1, ORDINAL3, CARD_3, NUMBERS, ORDINAL5,
+      ORDINAL6, WELLORD2, STRUCT_0, ORDERS_1, ORDERS_2, ORDERS_5, RELAT_2,
+      VALUED_0, FINSEQ_1, PARTFUN1, RELAT_1, FUNCT_1, XXREAL_0, RELSET_1,
+      FUNCOP_1, NAT_D, XREAL_0, CARD_1, CARD_2, ABIAN, ENUMSET1, AFINSQ_2,
+      RFINSEQ;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, NAT_1, XREAL_0, ORDINAL2,
+      ORDINAL4, CARD_1, CARD_5, CARD_LAR, NEWTON, AFINSQ_1, FINSET_1, ORDINAL5,
+      WELLORD2, ORDINAL6, ORDERS_1, ORDERS_2, ORDERS_5, VALUED_0, PARTFUN1,
+      FINSEQ_1, FUNCOP_1, ARYTM_3, MSAFREE5, ABIAN, ORDINAL3, AFINSQ_2;
+ requirements SUBSET, BOOLE, NUMERALS, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+:: into ORDINAL1 ?
+theorem :: ORDINAL7:1
+  for X being set holds X /\ succ X = X;
+
+:: into ORDINAL2 ?
+registration
+  let A be increasing Ordinal-Sequence, a be Ordinal;
+  cluster A | a -> increasing;
+end;
+
+:: into ORDINAL2 ?
+theorem :: ORDINAL7:2
+  for a being Ordinal holds a +^ a = 2 *^ a;
+
+:: into ORDINAL2 ?
+theorem :: ORDINAL7:3
+  for a, b being Ordinal st 1 in a & a in b holds b +^ a in a *^ b;
+
+:: into ORDINAL2 ?
+theorem :: ORDINAL7:4
+  for a being Ordinal holds a *^ a = exp(a,2);
+
+:: into ORDINAL4 ?
+theorem :: ORDINAL7:5
+  for a, b being Ordinal st 1 in a & a in b holds a *^ b in exp(b,a);
+
+:: a |^|^ 2 = exp(a, a) is ORDINAL5:18
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:6
+  for a, b being Ordinal st 1 in a & a in b holds exp(b,a) in b |^|^ a;
+
+registration
+  cluster infinite for Ordinal-Sequence;
+end;
+
+:: into ORDINAL4 ?
+theorem :: ORDINAL7:7
+  for A, B being Sequence st A^B is Ordinal-yielding
+  holds A is Ordinal-yielding & B is Ordinal-yielding;
+
+:: into ORDINAL5 ?
+:: corrolary from theorem above
+theorem :: ORDINAL7:8
+  for a, b being Ordinal st a in b holds b -exponent a = 0;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:9
+  for a, b, c being Ordinal st a c= c holds b -exponent a c= b -exponent c;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:10
+  for a, b, c being Ordinal st 0 in a & 1 in b & a in exp(b,c)
+  holds b -exponent a in c;
+
+:: into ORDINAL5 ?
+registration
+  cluster decreasing -> one-to-one for Ordinal-Sequence;
+end;
+
+:: into ORDINAL5 ?
+registration
+  let A be decreasing Sequence, a be Ordinal;
+  cluster A | a -> decreasing;
+end;
+
+:: into ORDINAL5 ?
+registration
+  let A be non-decreasing Sequence, a be Ordinal;
+  cluster A | a -> non-decreasing;
+end;
+
+:: into ORDINAL5 ?
+registration
+  let A be non-increasing Sequence, a be Ordinal;
+  cluster A | a -> non-increasing;
+end;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:11
+  for A, B being finite Ordinal-Sequence holds Sum^ (A^B) = Sum^ A +^ Sum^ B;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:12
+  for a, b being Ordinal holds Sum^ <% a, b %> = a +^ b;
+
+:: into ORDINAL5 ?
+registration
+  let A be non empty non-empty finite Ordinal-Sequence;
+  cluster Sum^ A -> non empty;
+  let B be finite Ordinal-Sequence;
+  cluster Sum^ (A^B) -> non empty;
+  cluster Sum^ (B^A) -> non empty;
+end;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:13
+  for a being Ordinal, n being Nat holds Sum^(n --> a) = n *^ a;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:14
+  for A being finite Ordinal-Sequence, a being Ordinal holds
+    Sum^ (A|a) c= Sum^ A;
+
+:: into ORDINAL5 ?
+theorem :: ORDINAL7:15
+  for A, B being finite Ordinal-Sequence
+  st dom A c= dom B & for a being object st a in dom A holds A.a c= B.a
+  holds Sum^ A c= Sum^ B;
+
+:: into ORDINAL5 ?
+:: the mirror theorem of ORDINAL5:67
+theorem :: ORDINAL7:16
+  for A being Cantor-normal-form Ordinal-Sequence st A <> {}
+  ex B being Cantor-normal-form Ordinal-Sequence,
+    a being Cantor-component Ordinal
+  st A = B ^ <% a %>;
+
+:: into ORDINAL5 ?
+registration
+  let A be Cantor-normal-form Ordinal-Sequence, n be Nat;
+  cluster A | n -> Cantor-normal-form;
+end;
+
+:: into ORDINAL5 or AFINSQ_2 ?
+registration
+  let A be Cantor-normal-form Ordinal-Sequence, n be Nat;
+  cluster A /^ n -> Cantor-normal-form;
+end;
+
+registration
+  cluster natural-valued -> Ordinal-yielding for Sequence;
+end;
+
+registration
+  cluster limit_ordinal -> zero for Nat;
+  cluster non limit_ordinal for Ordinal;
+end;
+
+registration
+  let n, m be Nat;
+  identify n \/ m with max(n,m);
+  identify n /\ m with min(n,m);
+end;
+
+begin :: About the Cantor Normal Form
+
+:: absorption law of ordinal numbers
+theorem :: ORDINAL7:17
+  for a, b being Ordinal holds a +^ b = b iff omega *^ a c= b;
+
+theorem :: ORDINAL7:18
+  for A being non empty Cantor-normal-form Ordinal-Sequence, a being object
+  st a in dom A holds omega -exponent last A c= omega -exponent(A.a);
+
+theorem :: ORDINAL7:19
+  for A being non empty Cantor-normal-form Ordinal-Sequence, a being object
+  st a in dom A holds omega -exponent(A.a) c= omega -exponent(A.0);
+
+:: this implies ORDINAL5:68
+theorem :: ORDINAL7:20
+  for A, B being non empty Cantor-normal-form Ordinal-Sequence
+  st omega -exponent(B.0) in omega -exponent last A
+  holds A^B is Cantor-normal-form;
+
+theorem :: ORDINAL7:21
+  for A, B being decreasing Ordinal-Sequence st rng A = rng B holds A = B;
+
+registration
+  let a be Ordinal;
+  cluster exp(omega,a) -> Cantor-component;
+  let n be non zero Nat;
+  cluster n *^ exp(omega,a) -> Cantor-component;
+end;
+
+registration
+  cluster non zero -> Cantor-component for Nat;
+end;
+
+registration
+  let c be Cantor-component Ordinal;
+  cluster <% c %> -> Cantor-normal-form;
+end;
+
+theorem :: ORDINAL7:22
+  for c, d being Cantor-component Ordinal
+  st omega -exponent d in omega -exponent c
+  holds <% c, d %> is Cantor-normal-form;
+
+registration
+  let a be non empty Ordinal, m be non zero Nat;
+  cluster <% exp(omega,a), m %> -> Cantor-normal-form;
+  let n be non zero Nat;
+  cluster <% n *^ exp(omega,a), m %> -> Cantor-normal-form;
+end;
+
+theorem :: ORDINAL7:23
+  for c, d, e being Cantor-component Ordinal
+  st omega -exponent d in omega -exponent c &
+    omega -exponent e in omega -exponent d
+  holds <% c, d, e %> is Cantor-normal-form;
+
+theorem :: ORDINAL7:24
+  for A being non empty Cantor-normal-form Ordinal-Sequence
+  for b being Ordinal, n being non zero Nat
+  st b in omega -exponent last A
+  holds A ^ <% n*^exp(omega,b) %> is Cantor-normal-form;
+
+theorem :: ORDINAL7:25
+  for A being non empty Cantor-normal-form Ordinal-Sequence
+  for b being Ordinal, n being non zero Nat
+  st omega -exponent last A <> 0 holds A ^ <% n %> is Cantor-normal-form;
+
+:: variant of ORDINAL5:68
+theorem :: ORDINAL7:26
+  for A being non empty Cantor-normal-form Ordinal-Sequence
+  for b being Ordinal, n being non zero Nat
+  st omega -exponent(A.0) in b
+  holds <% n*^exp(omega,b) %> ^ A is Cantor-normal-form;
+
+:: closure of ordinal addition
+theorem :: ORDINAL7:27
+  for a1, a2, b being Ordinal st a1 in exp(omega,b) & a2 in exp(omega,b)
+  holds a1 +^ a2 in exp(omega,b);
+
+theorem :: ORDINAL7:28
+  for A being finite Ordinal-Sequence, b being Ordinal
+  st for a being Ordinal st a in dom A holds A.a in exp(omega,b)
+  holds Sum^ A in exp(omega,b);
+
+:: variant of ORDINAL5:7
+theorem :: ORDINAL7:29
+  for a, b being Ordinal, n being Nat st a in exp(omega,b)
+  holds n *^ a in exp(omega,b);
+
+theorem :: ORDINAL7:30
+  for A being finite Ordinal-Sequence, a being Ordinal
+  st <% a %> ^ A is Cantor-normal-form
+  holds Sum^ A in exp(omega, omega -exponent a);
+
+theorem :: ORDINAL7:31
+  for A being Cantor-normal-form Ordinal-Sequence
+  holds omega -exponent Sum^ A = omega -exponent (A.0);
+
+theorem :: ORDINAL7:32
+  for A, B being Cantor-normal-form Ordinal-Sequence
+  st Sum^ A = Sum^ B holds A = B;
+
+definition
+  let A be Ordinal-Sequence, b be Ordinal;
+  func b -exponent A -> Ordinal-Sequence means
+:: ORDINAL7:def 1
+  dom it = dom A & for a being object st a in dom A
+    holds it.a = b -exponent (A.a);
+end;
+
+registration
+  let A be empty Ordinal-Sequence, b be Ordinal;
+  cluster b -exponent A -> empty;
+end;
+
+registration
+  let A be non empty Ordinal-Sequence, b be Ordinal;
+  cluster b -exponent A -> non empty;
+end;
+
+registration
+  let A be finite Ordinal-Sequence, b be Ordinal;
+  cluster b -exponent A -> finite;
+end;
+
+registration
+  let A be infinite Ordinal-Sequence, b be Ordinal;
+  cluster b -exponent A -> infinite;
+end;
+
+theorem :: ORDINAL7:33
+  for a, b being Ordinal holds b -exponent <% a %> = <% b -exponent a %>;
+
+theorem :: ORDINAL7:34
+  for A, B being Ordinal-Sequence, b being Ordinal
+  holds b -exponent (A ^ B) = (b -exponent A) ^ (b -exponent B);
+
+theorem :: ORDINAL7:35
+  for A being Ordinal-Sequence, b, c being Ordinal
+  holds b -exponent (A | c) = (b -exponent A) | c;
+
+theorem :: ORDINAL7:36
+  for A being finite Ordinal-Sequence, b being Ordinal, n being Nat
+  holds b -exponent (A /^ n) = (b -exponent A) /^ n;
+
+registration
+  let A be Cantor-normal-form Ordinal-Sequence;
+  cluster omega -exponent A -> decreasing;
+end;
+
+theorem :: ORDINAL7:37
+  for A, B being Ordinal-Sequence st A^B is Cantor-normal-form
+  holds rng(omega -exponent A) misses rng(omega -exponent B);
+
+theorem :: ORDINAL7:38
+  for A being Cantor-normal-form Ordinal-Sequence
+  holds 0 in rng(omega -exponent A) iff A <> {} & omega -exponent last A = 0;
+
+definition
+  let a, b  be Ordinal;
+  func b -leading_coeff a -> Ordinal equals
+:: ORDINAL7:def 2
+  a div^ exp(b, b -exponent a);
+end;
+
+:: This is the undefined case. One could have set the value simply to 0
+:: in case that b = 0 just as well.
+theorem :: ORDINAL7:39
+  for a being Ordinal holds 0 -leading_coeff a = a;
+
+:: this means that a = a *^ exp(1,0)
+theorem :: ORDINAL7:40
+  for a being Ordinal holds 1 -leading_coeff a = a;
+
+:: this means that 0 = 0 *^ exp(b,0)
+theorem :: ORDINAL7:41
+  for b being Ordinal holds b -leading_coeff 0 = 0;
+
+:: this means that a = a *^ exp(b,0)
+theorem :: ORDINAL7:42
+  for a, b being Ordinal st a in b holds b -leading_coeff a = a;
+
+:: this means that 1 = 1 *^ exp(b,0)
+theorem :: ORDINAL7:43
+  for b being Ordinal holds b -leading_coeff 1 = 1;
+
+theorem :: ORDINAL7:44
+  for a, b, c being Ordinal st c in b
+  holds b -leading_coeff (c *^ exp(b,a)) = c;
+
+theorem :: ORDINAL7:45
+  for a, b being Ordinal st 1 in b holds b -leading_coeff (exp(b,a)) = 1;
+
+registration
+  let c be Cantor-component Ordinal;
+  cluster omega -leading_coeff c -> natural non empty;
+end;
+
+theorem :: ORDINAL7:46
+  for c being Cantor-component Ordinal
+  holds c = (omega -leading_coeff c) *^ exp(omega, omega -exponent c);
+
+definition
+  let A be Ordinal-Sequence, b be Ordinal;
+  func b -leading_coeff A -> Ordinal-Sequence means
+:: ORDINAL7:def 3
+
+  dom it = dom A &
+  for a being object st a in dom A holds it.a = b -leading_coeff(A.a);
+end;
+
+registration
+  let A be empty Ordinal-Sequence, b be Ordinal;
+  cluster b -leading_coeff A -> empty;
+end;
+
+registration
+  let A be non empty Ordinal-Sequence, b be Ordinal;
+  cluster b -leading_coeff A -> non empty;
+end;
+
+registration
+  let A be finite Ordinal-Sequence, b be Ordinal;
+  cluster b -leading_coeff A -> finite;
+end;
+
+registration
+  let A be infinite Ordinal-Sequence, b be Ordinal;
+  cluster b -leading_coeff A -> infinite;
+end;
+
+theorem :: ORDINAL7:47
+  for a, b being Ordinal
+  holds b -leading_coeff <% a %> = <% b -leading_coeff a %>;
+
+theorem :: ORDINAL7:48
+  for A, B being Ordinal-Sequence, b being Ordinal
+  holds b -leading_coeff (A ^ B) = (b -leading_coeff A) ^ (b -leading_coeff B);
+
+theorem :: ORDINAL7:49
+  for A being Ordinal-Sequence, b, c being Ordinal
+  holds b -leading_coeff (A | c) = (b -leading_coeff A) | c;
+
+theorem :: ORDINAL7:50
+  for A being finite Ordinal-Sequence, b being Ordinal, n being Nat
+  holds b -leading_coeff (A /^ n) = (b -leading_coeff A) /^ n;
+
+registration
+  let A be Cantor-normal-form Ordinal-Sequence, a be object;
+  cluster (omega -leading_coeff A).a -> natural;
+end;
+
+registration
+  let A be Cantor-normal-form Ordinal-Sequence;
+  cluster omega -leading_coeff A -> natural-valued non-empty;
+end;
+
+theorem :: ORDINAL7:51
+  for A being Cantor-normal-form Ordinal-Sequence, a being object st a in dom A
+  holds A.a = (omega -leading_coeff(A.a)) *^ exp(omega, omega -exponent(A.a));
+
+theorem :: ORDINAL7:52
+  for A being Cantor-normal-form Ordinal-Sequence, a being object st a in dom A
+  holds A.a = (omega -leading_coeff A).a *^ exp(omega, (omega -exponent A).a);
+
+theorem :: ORDINAL7:53
+  for A being decreasing Ordinal-Sequence
+  for B being natural-valued non-empty Ordinal-Sequence st dom A = dom B
+  ex C being Cantor-normal-form Ordinal-Sequence
+  st omega -exponent C = A & omega -leading_coeff C = B;
+
+theorem :: ORDINAL7:54
+  for A, B being Cantor-normal-form Ordinal-Sequence
+  st omega -exponent A = omega -exponent B &
+    omega -leading_coeff A = omega -leading_coeff B
+  holds A = B;
+
+definition
+  let a be Ordinal;
+  func CantorNF a -> Cantor-normal-form Ordinal-Sequence means
+:: ORDINAL7:def 4
+
+  Sum^ it = a;
+end;
+
+registration
+  let a be Ordinal;
+  reduce Sum^ CantorNF a to a;
+end;
+
+registration
+  let A be Cantor-normal-form Ordinal-Sequence;
+  reduce CantorNF Sum^ A to A;
+end;
+
+theorem :: ORDINAL7:55
+  CantorNF {} = {};
+
+registration
+  let a be empty Ordinal;
+  cluster CantorNF a -> empty;
+end;
+
+registration
+  let a be non empty Ordinal;
+  cluster CantorNF a -> non empty;
+end;
+
+theorem :: ORDINAL7:56
+  for a being Ordinal, n being non zero Nat
+  holds CantorNF(n *^ exp(omega,a)) = <% n *^ exp(omega,a) %>;
+
+theorem :: ORDINAL7:57
+  for a being Cantor-component Ordinal holds CantorNF a = <% a %>;
+
+theorem :: ORDINAL7:58
+  for n being non zero Nat holds CantorNF n = <% n %>;
+
+theorem :: ORDINAL7:59
+  for a being non empty Ordinal, n, m being non zero Nat
+  holds CantorNF(n *^ exp(omega,a) +^ m) = <% n *^ exp(omega,a), m %>;
+
+theorem :: ORDINAL7:60
+  for a being non empty Ordinal, b being Ordinal, n being non zero Nat
+  st b in omega -exponent last CantorNF a
+  holds CantorNF(a +^ (n*^exp(omega, b))) = CantorNF a ^ <% n*^exp(omega,b) %>;
+
+theorem :: ORDINAL7:61
+  for a being non empty Ordinal, n being non zero Nat
+  st omega -exponent last CantorNF a <> 0
+  holds CantorNF(a +^ n) = CantorNF a ^ <% n %>;
+
+theorem :: ORDINAL7:62
+  for a being non empty Ordinal, b being Ordinal, n being non zero Nat
+  st omega -exponent((CantorNF a).0) in b
+  holds CantorNF((n*^exp(omega, b)) +^ a) = <% n*^exp(omega,b) %> ^ CantorNF a;
+
+begin :: Natural Addition of Ordinals
+
+definition
+  let a, b be Ordinal;
+  func a (+) b -> Ordinal means
+:: ORDINAL7:def 5
+
+  ex C being Cantor-normal-form Ordinal-Sequence st
+    it = Sum^ C & rng(omega -exponent C) = rng(omega -exponent CantorNF a) \/
+      rng(omega -exponent CantorNF b) &
+    for d being object st d in dom C holds
+      (omega -exponent(C.d) in rng(omega -exponent CantorNF a) \
+          rng(omega -exponent CantorNF b) implies
+        omega -leading_coeff(C.d) = (omega -leading_coeff CantorNF a).
+          ((omega -exponent CantorNF a)".(omega -exponent(C.d)))) &
+      (omega -exponent(C.d) in rng(omega -exponent CantorNF b) \
+          rng(omega -exponent CantorNF a) implies
+        omega -leading_coeff(C.d) = (omega -leading_coeff CantorNF b).
+          ((omega -exponent CantorNF b)".(omega -exponent(C.d)))) &
+      (omega -exponent(C.d) in rng(omega -exponent CantorNF a) /\
+          rng(omega -exponent CantorNF b) implies
+        omega -leading_coeff(C.d) = (omega -leading_coeff CantorNF a).
+            ((omega -exponent CantorNF a)".(omega -exponent(C.d))) +
+          (omega -leading_coeff CantorNF b).
+            ((omega -exponent CantorNF b)".(omega -exponent(C.d))));
+  commutativity;
+end;
+
+theorem :: ORDINAL7:63
+  for a, b being Ordinal holds rng(omega -exponent CantorNF(a(+)b))
+    = rng(omega -exponent CantorNF a) \/ rng(omega -exponent CantorNF b);
+
+theorem :: ORDINAL7:64
+  for a, b being Ordinal holds dom CantorNF a c= dom CantorNF(a(+)b);
+
+theorem :: ORDINAL7:65
+  for a, b being Ordinal, d being object st d in dom CantorNF(a(+)b) &
+    omega -exponent((CantorNF(a(+)b)).d)
+      in rng(omega -exponent CantorNF a) \ rng(omega -exponent CantorNF b)
+  holds omega -leading_coeff((CantorNF(a(+)b)).d) =
+    (omega -leading_coeff CantorNF a).(
+      (omega -exponent CantorNF a)".(omega -exponent((CantorNF(a(+)b)).d)));
+
+theorem :: ORDINAL7:66
+  for a, b being Ordinal, d being object st d in dom CantorNF(a(+)b) &
+    omega -exponent((CantorNF(a(+)b)).d)
+      in rng(omega -exponent CantorNF b) \ rng(omega -exponent CantorNF a)
+  holds omega -leading_coeff((CantorNF(a(+)b)).d) =
+    (omega -leading_coeff CantorNF b).(
+      (omega -exponent CantorNF b)".(omega -exponent((CantorNF(a(+)b)).d)));
+
+theorem :: ORDINAL7:67
+  for a, b being Ordinal, d being object st d in dom CantorNF(a(+)b) &
+    omega -exponent((CantorNF(a(+)b)).d)
+      in rng(omega -exponent CantorNF a) /\ rng(omega -exponent CantorNF b)
+  holds omega -leading_coeff((CantorNF(a(+)b)).d) =
+    (omega -leading_coeff CantorNF a).(
+      (omega -exponent CantorNF a)".(omega -exponent((CantorNF(a(+)b)).d))) +
+    (omega -leading_coeff CantorNF b).(
+      (omega -exponent CantorNF b)".(omega -exponent((CantorNF(a(+)b)).d)));
+
+theorem :: ORDINAL7:68
+  for a, b, c being Ordinal holds (a (+) b) (+) c = a (+) (b (+) c);
+
+theorem :: ORDINAL7:69
+  for a being Ordinal holds a (+) 0 = a;
+
+theorem :: ORDINAL7:70
+  for a, b being Ordinal, n being Nat st omega -exponent a c= b
+  holds (n *^ exp(omega,b)) (+) a = n *^ exp(omega,b) +^ a;
+
+theorem :: ORDINAL7:71
+  for A, B being finite Ordinal-Sequence st A^B is Cantor-normal-form
+  holds (Sum^ A) (+) (Sum^ B) = (Sum^ A) +^ (Sum^ B);
+
+theorem :: ORDINAL7:72
+  for a, b being Ordinal
+  st a <> 0 implies omega -exponent b in omega -exponent last CantorNF a
+  holds a (+) b = a +^ b;
+
+theorem :: ORDINAL7:73
+  for a, b being Ordinal, n being Nat
+  st a <> 0 implies b c= omega -exponent last CantorNF a
+  holds a (+) (n *^ exp(omega,b)) = a +^ n *^ exp(omega,b);
+
+theorem :: ORDINAL7:74
+  for a being Ordinal, n, m being Nat
+  holds n*^exp(omega,a) (+) m*^exp(omega,a) = (n+m)*^exp(omega,a);
+
+theorem :: ORDINAL7:75
+  for a being Ordinal, n being Nat holds a (+) n = a +^ n;
+
+theorem :: ORDINAL7:76
+  for n, m being Nat holds n (+) m = n + m;
+
+registration
+  let n, m be Nat;
+  identify n (+) m with n + m;
+end;
+
+theorem :: ORDINAL7:77
+  for a being Ordinal holds a (+) 1 = succ a;
+
+theorem :: ORDINAL7:78
+  for a, b being Ordinal holds a (+) succ b = succ(a (+) b);
+
+registration
+  let a be empty Ordinal;
+  cluster a (+) a -> empty;
+end;
+
+registration
+  let a be non empty Ordinal, b be Ordinal;
+  cluster a (+) b -> non empty;
+end;
+
+theorem :: ORDINAL7:79
+  for a being Ordinal holds a is limit_ordinal
+    iff not 0 in rng(omega -exponent CantorNF a);
+
+registration
+  let a, b be limit_ordinal Ordinal;
+  cluster a (+) b -> limit_ordinal;
+end;
+
+registration
+  let a be Ordinal, b be non limit_ordinal Ordinal;
+  cluster a (+) b -> non limit_ordinal;
+end;
+
+theorem :: ORDINAL7:80
+  for a, b being Ordinal, n being non zero Nat
+  st n*^exp(omega,b) c= a & a in (n+1)*^exp(omega,b)
+  holds (CantorNF a).0 = n*^exp(omega,b);
+
+theorem :: ORDINAL7:81
+  for a, b being Ordinal
+  st rng(omega -exponent CantorNF a) = rng(omega -exponent CantorNF b)
+  for c being Ordinal st c in dom CantorNF a
+  holds (omega -leading_coeff CantorNF (a(+)b)).c
+    = (omega -leading_coeff CantorNF a).c + (omega -leading_coeff CantorNF b).c
+;
+
+theorem :: ORDINAL7:82
+  for a, b being Ordinal holds
+    (omega -exponent((CantorNF(a(+)b)).0) in rng(omega -exponent CantorNF a)
+      implies
+        omega -exponent((CantorNF(a(+)b)).0) = (omega-exponent CantorNF a).0) &
+    (omega -exponent((CantorNF(a(+)b)).0) in rng(omega -exponent CantorNF b)
+      implies
+        omega -exponent((CantorNF(a(+)b)).0) = (omega-exponent CantorNF b).0);
+
+theorem :: ORDINAL7:83
+  for a, b being Ordinal holds
+    (omega -exponent((CantorNF(a(+)b)).0)
+        in rng(omega -exponent CantorNF a) \ rng(omega -exponent CantorNF b)
+      implies (CantorNF(a(+)b)).0 = (CantorNF a).0) &
+    (omega -exponent((CantorNF(a(+)b)).0)
+        in rng(omega -exponent CantorNF b) \ rng(omega -exponent CantorNF a)
+      implies (CantorNF(a(+)b)).0 = (CantorNF b).0) &
+    (omega -exponent((CantorNF(a(+)b)).0)
+        in rng(omega -exponent CantorNF a) /\ rng(omega -exponent CantorNF b)
+      implies (CantorNF(a(+)b)).0 = (CantorNF a).0 +^ (CantorNF b).0);
+
+theorem :: ORDINAL7:84
+  for a, b being Ordinal, x being object
+  holds (omega -exponent CantorNF a).x c= (omega -exponent CantorNF(a(+)b)).x;
+
+theorem :: ORDINAL7:85
+  for a, b being Ordinal, x being object
+  holds (CantorNF a).x c= (CantorNF(a(+)b)).x;
+
+theorem :: ORDINAL7:86
+  for a, b being Ordinal holds a c= a (+) b;
+
+theorem :: ORDINAL7:87
+  for a, b being Ordinal
+  holds omega -exponent(a (+) b) = omega -exponent a \/ omega -exponent b;
+
+:: closure of natural addition
+theorem :: ORDINAL7:88
+  for a, b, c being Ordinal st a in exp(omega,c) & b in exp(omega,c)
+  holds a (+) b in exp(omega,c);
+
+scheme :: ORDINAL7:sch 1
+  OrdinalCNFIndA {P[non empty Ordinal]} : for a being non empty Ordinal
+    holds P[a]
+provided
+   for a being Ordinal, n being non zero Nat holds P[n*^exp(omega,a)] and
+   for a being Ordinal, b being non empty Ordinal, n being non zero Nat
+    st P[b] & not a in rng(omega -exponent CantorNF b)
+    holds P[b (+) n*^exp(omega,a)];
+
+scheme :: ORDINAL7:sch 2
+  OrdinalCNFIndB {P[non empty Ordinal]} : for a being non empty Ordinal
+    holds P[a]
+provided
+   for a being Ordinal holds P[exp(omega,a)] and
+   for a being Ordinal, n being non zero Nat st P[n*^exp(omega,a)]
+    holds P[(n+1)*^exp(omega,a)] and
+   for a being Ordinal, b being non empty Ordinal, n being non zero Nat
+    st P[b] & not a in rng(omega -exponent CantorNF b)
+    holds P[b (+) n*^exp(omega,a)];
+
+scheme :: ORDINAL7:sch 3
+  OrdinalCNFIndC {P[non empty Ordinal]} : for a being non empty Ordinal
+    holds P[a]
+provided
+   for a being Ordinal holds P[exp(omega,a)] and
+   for a being Ordinal, b being non empty Ordinal
+    st P[b] holds P[b (+) exp(omega,a)];
+
+theorem :: ORDINAL7:89
+  for a, b being Ordinal st omega -exponent a in omega -exponent b
+  holds a in exp(omega, omega -exponent b);
+
+theorem :: ORDINAL7:90
+  for a, b being non empty Ordinal
+  holds omega *^ a c= b iff omega -exponent a in omega -exponent b;
+
+theorem :: ORDINAL7:91
+  for a, b being Ordinal st omega -exponent a in omega -exponent b
+  holds b -^ a = b;
+
+theorem :: ORDINAL7:92
+  for a, b being Ordinal holds a +^ b c= a (+) b;
+
+:: cancelling rule for natural addition
+theorem :: ORDINAL7:93
+  for a, b, c being Ordinal st a (+) b = a (+) c holds b = c;
+
+:: monotonicity of natural addition
+theorem :: ORDINAL7:94
+  for a, b, c being Ordinal st b in c holds a (+) b in a (+) c;
+
+theorem :: ORDINAL7:95
+  for a, b, c being Ordinal st b c= c holds a (+) b c= a (+) c;

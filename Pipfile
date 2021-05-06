@@ -8,6 +8,7 @@ flake8 = "*"
 autopep8 = "*"
 pytest = "*"
 wheel = "*"
+isort = "*"
 
 [packages]
 django = "==2.2.20"
@@ -22,6 +23,7 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
+emparser = {path = "./emparser"}
 
 [requires]
 python_version = "3.7"

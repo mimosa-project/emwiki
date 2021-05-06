@@ -1,0 +1,663 @@
+:: Definition and Properties of Direct Sum Decomposition of Groups
+::  by Kazuhisa Nakasho , Hiroshi Yamazaki , Hiroyuki Okazaki and Yasunari Shidama
+::
+:: Received December 31, 2014
+:: Copyright (c) 2014-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies FINSEQ_1, FUNCT_1, RELAT_1, RLVECT_2, CARD_3, TARSKI, BINOP_1,
+      GROUP_1, XXREAL_0, GROUP_2, CARD_1, NUMBERS, FUNCT_4, GROUP_6, GROUP_7,
+      FUNCOP_1, ALGSTR_0, GROUP_12, PARTFUN1, FUNCT_2, SUBSET_1, XBOOLE_0,
+      STRUCT_0, NAT_1, ORDINAL4, ARYTM_1, ARYTM_3, FINSET_1, ZFMISC_1, PBOOLE,
+      REALSET1, NEWTON, GROUP_4, FINSEQ_2, PRE_POLY, UPROOTS, GROUP_19,
+      SEMI_AF1, MONOID_0, QC_LANG1, RLSUB_1, VECTMETR, PRALG_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1,
+      RELSET_1, PARTFUN1, FUNCT_2, FUNCT_3, FUNCOP_1, REALSET1, FUNCT_4,
+      FINSET_1, CARD_1, PBOOLE, CARD_3, NUMBERS, XCMPLX_0, XXREAL_0, FINSEQ_1,
+      FINSEQ_2, FUNCT_7, STRUCT_0, ALGSTR_0, GROUP_1, GROUP_2, GROUP_4,
+      GROUP_6, MONOID_0, PRALG_1, GRSOLV_1, GROUP_7, GROUP_12, GROUP_17;
+ constructors REALSET1, FUNCT_4, MONOID_0, PRALG_1, GROUP_12, GROUP_4, FUNCT_7,
+      RELSET_1, FUNCT_3, GROUP_17, GRSOLV_1;
+ registrations XBOOLE_0, XREAL_0, STRUCT_0, GROUP_2, MONOID_0, ORDINAL1, NAT_1,
+      FUNCT_2, CARD_3, GROUP_7, RELSET_1, SUBSET_1, INT_1, GR_CY_1, FINSET_1,
+      RELAT_1, FUNCT_1, NUMBERS, GROUP_12, PBOOLE;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin :: 1. Miscellanies
+
+definition
+  let D be non empty set;
+  let x be Element of D;
+  redefine func <*x*> -> FinSequence of D;
+end;
+
+definition
+  let I be set;
+  mode Group-Family of I is associative Group-like multMagma-Family of I;
+end;
+
+registration
+  let G be Group;
+  cluster commutative for Subgroup of G;
+end;
+
+theorem :: GROUP_19:1
+  for I be set, F be Group-Family of I holds
+  for i be object st i in I holds F.i is Group;
+
+definition
+  let I be non empty set;
+  let F be Group-Family of I;
+  let i be Element of I;
+  redefine func F.i -> Group;
+end;
+
+registration
+  let I be set;
+  let F be Group-Family of I;
+  cluster sum F -> non empty constituted-Functions;
+end;
+
+theorem :: GROUP_19:2
+  for I be set, F be Function st I = dom F
+   & for i be object st i in I holds F.i is Group
+  holds F is Group-Family of I;
+
+theorem :: GROUP_19:3
+  for I be set,
+      F be multMagma-Family of I,
+      a be Element of product F
+  holds dom a = I;
+
+::$CT
+
+theorem :: GROUP_19:5
+  for I be non empty set,
+      F be multMagma-Family of I,
+      x be Function,
+      i be Element of I
+  st x in product F
+  holds x.i in F.i;
+
+theorem :: GROUP_19:6
+  for G,H be Group,
+      I be Subgroup of H,
+      f be Homomorphism of G,I
+  holds f is Homomorphism of G,H;
+
+begin :: 2. Support of Element of Direct Product Group
+
+definition
+  let I be set;
+  let F be Group-Family of I;
+  let a be Function;
+  func support(a,F) -> Subset of I means
+:: GROUP_19:def 1
+
+  for i be object holds i in it iff
+  ex G being Group st G = F.i & a.i <> 1_G & i in I;
+end;
+
+theorem :: GROUP_19:7
+  for I be set,
+      F be Group-Family of I,
+      a be Element of sum F holds
+  ex J being finite Subset of I,
+     b being ManySortedSet of J
+  st J = support(a,F)
+  & a = 1_product F +* b
+  & (for j being object, G being Group st j in I \ J & G = F.j holds a.j = 1_G)
+  & (for j being object st j in J holds a.j = b.j);
+
+registration
+  let I be set;
+  let F be Group-Family of I;
+  let a be Element of sum F;
+  cluster support(a,F) -> finite;
+end;
+
+definition
+  let I be set;
+  let G be Group;
+  let a be Function of I,G;
+  func support a -> Subset of I means
+:: GROUP_19:def 2
+
+  for i be object holds i in it iff a.i <> 1_G & i in I;
+end;
+
+definition
+  let I be set;
+  let G be Group;
+  let a be Function of I,G;
+  attr a is finite-support means
+:: GROUP_19:def 3
+
+  support a is finite;
+end;
+
+registration
+  let I be set;
+  let G be Group;
+  cluster finite-support for Function of I,G;
+end;
+
+registration
+  let I be set;
+  let G be Group;
+  let a be finite-support Function of I,G;
+  cluster support a -> finite;
+end;
+
+definition
+  let I be set;
+  let G be Group;
+  let a be finite-support Function of I,G;
+  func Product a -> Element of G equals
+:: GROUP_19:def 4
+  Product(a|support(a));
+end;
+
+theorem :: GROUP_19:8
+  for I be set,
+      F be Group-Family of I,
+      a be Element of product F
+  holds
+    a in sum F
+  iff
+    support(a,F) is finite;
+
+theorem :: GROUP_19:9
+  for I be set,
+      G be Group,
+      H be Group-Family of I,
+      x be Function of I,G,
+      y be Element of product H
+  st x = y
+   & for i be object st i in I holds H.i is Subgroup of G
+  holds support(x) = support(y,H);
+
+theorem :: GROUP_19:10
+  for I be set,
+      G be Group,
+      F be Group-Family of I,
+      a be object
+  st a in sum F
+   & for i be object st i in I holds F.i is Subgroup of G
+  holds a is finite-support Function of I,G;
+
+theorem :: GROUP_19:11
+  for I be non empty set,
+      F be Group-Family of I holds
+  support(1_product F,F) is empty;
+
+theorem :: GROUP_19:12
+  for I be non empty set, G be Group,
+      a be Function of I,G
+  st a = I --> 1_G
+  holds support(a) is empty;
+
+theorem :: GROUP_19:13
+  for I be non empty set, G be Group,
+      F be Group-Family of I
+  st for i be Element of I holds F.i is Subgroup of G
+  holds 1_product F = I --> 1_G;
+
+theorem :: GROUP_19:14
+  for I be non empty set,
+      F be Group-Family of I,
+      G be Group,
+      x be finite-support Function of I,G
+  st support(x) = {}
+   & for i be object st i in I holds F.i is Subgroup of G
+  holds x = 1_product F;
+
+theorem :: GROUP_19:15
+  for I be set,
+      G be Group,
+      x be finite-support Function of I,G
+  st support(x) = {}
+  holds Product x = 1_G;
+
+theorem :: GROUP_19:16
+  for I be non empty set, G be Group,
+      a be finite-support Function of I,G
+  st a = I --> 1_G
+  holds Product a = 1_G;
+
+theorem :: GROUP_19:17
+  for I be non empty set,
+      F be Group-Family of I,
+      x be Element of product F,
+      i be Element of I,
+      g be Element of F.i
+  st x = 1_product F +* (i,g)
+  holds support(x,F) c= {i};
+
+theorem :: GROUP_19:18
+  for I be non empty set,
+      F be Group-Family of I,
+      x be Element of product F,
+      i be Element of I,
+      g be Element of F.i
+  st x = 1_product F +* (i,g)
+   & g <> 1_F.i
+  holds support(x,F) = {i};
+
+theorem :: GROUP_19:19
+  for I be non empty set, G be Group,
+      i be Element of I, g be Element of G,
+      a be Function of I,G
+  st a = (I --> 1_G) +* (i,g)
+  holds support(a) c= {i};
+
+theorem :: GROUP_19:20
+  for I be non empty set, G be Group,
+      i be Element of I, g be Element of G,
+      a be Function of I,G
+  st a = (I --> 1_G) +* (i,g) & g <> 1_G
+  holds support(a) = {i};
+
+theorem :: GROUP_19:21
+  for I be non empty set, G be Group,
+      a be finite-support Function of I,G,
+      i be Element of I, g be Element of G
+  st a = (I --> 1_G) +* (i,g)
+  holds Product a = g;
+
+theorem :: GROUP_19:22
+  for I be non empty set,
+      F be Group-Family of I,
+      x be Function,
+      i be Element of I,
+      g be Element of F.i
+  holds support(x,F) is finite implies support(x+*(i,g),F) is finite;
+
+theorem :: GROUP_19:23
+  for I be non empty set, G be Group,
+      a be Function of I,G,
+      i be Element of I, g be Element of G
+  holds support(a) is finite implies support(a +* (i,g)) is finite;
+
+theorem :: GROUP_19:24
+  for I be non empty set,
+      F be Group-Family of I,
+      x be Function,
+      i be Element of I,
+      g be Element of F.i
+  holds x in product F implies x +* (i,g) in product F;
+
+theorem :: GROUP_19:25
+  for I be non empty set,
+      F be Group-Family of I,
+      x be Function,
+      i be Element of I,
+      g be Element of F.i
+  holds x in sum F implies x +* (i,g) in sum F;
+
+theorem :: GROUP_19:26
+  for I be non empty set, G be Group,
+      a be finite-support Function of I,G,
+      i be Element of I, g be Element of G
+  holds a +* (i,g) is finite-support Function of I,G;
+
+theorem :: GROUP_19:27
+  for I be non empty set,
+      F be Group-Family of I,
+      i be Element of I,
+      a,b be Function
+  st dom a = I & b = a +* (i,1_F.i)
+  holds support(b,F) = support(a,F) \ {i};
+
+theorem :: GROUP_19:28
+  for I be non empty set,
+      G be Group,
+      i be object,
+      a,b be Function of I,G
+  st i in support(a) & b = a +* (i,1_G)
+  holds support(b) = support(a) \ {i};
+
+theorem :: GROUP_19:29
+  for I be non empty set,
+      F be Group-Family of I,
+      i be Element of I,
+      a be Element of sum F,
+      b be Function
+  st i in support(a,F) & b = a +* (i,1_F.i)
+  holds card support(b,F) = card support(a,F) - 1;
+
+theorem :: GROUP_19:30
+  for I be non empty set,
+      G be Group,
+      i be object,
+      a be finite-support Function of I,G,
+      b be Function of I,G
+  st i in support(a) & b = a +* (i,1_G)
+  holds card support(b) = card support(a) - 1;
+
+theorem :: GROUP_19:31
+  for I be non empty set,
+      F be Group-Family of I,
+      a,b be Element of product F
+  st support(a,F) misses support(b,F)
+  holds a +* (b|support(b,F)) = a * b;
+
+theorem :: GROUP_19:32
+  for I be non empty set,
+      F be Group-Family of I,
+      a,b be Element of product F
+  st support(a,F) misses support(b,F)
+  holds a * b = b * a;
+
+theorem :: GROUP_19:33
+  for I be non empty set,
+      F be Group-Family of I,
+      i be Element of I
+  holds ProjGroup(F,i) is Subgroup of sum F;
+
+theorem :: GROUP_19:34
+  for I be non empty set,
+      F,G be Group-Family of I,
+      x,y be Function
+  st for i be Element of I
+     ex hi be Homomorphism of F.i,G.i
+     st y.i = hi.(x.i)
+  holds support(y,G) c= support(x,F);
+
+begin :: 3. Product Map and Sum Map
+
+definition
+  let F, G be non-empty non empty Function,
+      h be non empty Function;
+  assume
+   dom F = dom G = dom h
+    & for i be object st i in dom h holds h.i is Function of F.i,G.i;
+  func ProductMap(F,G,h) -> Function of product F,product G means
+:: GROUP_19:def 5
+
+  for x being Element of product F, i being object st i in dom h holds
+  ex hi be Function of F.i,G.i st hi = h.i & (it.x).i = hi.(x.i);
+end;
+
+theorem :: GROUP_19:35
+  for F,G be non-empty non empty Function,
+        h be non empty Function
+  st dom F = dom G = dom h
+   & for i be object st i in dom h holds
+     ex hi be Function of F.i,G.i
+     st hi = h.i & hi is onto
+  holds ProductMap(F,G,h) is onto;
+
+theorem :: GROUP_19:36
+  for F,G be non-empty non empty Function,
+        h be non empty Function
+  st dom F = dom G = dom h
+   & for i be object st i in dom h holds
+     ex hi be Function of F.i,G.i st hi = h.i & hi is one-to-one
+  holds ProductMap(F,G,h) is one-to-one;
+
+theorem :: GROUP_19:37
+  for F,G be non-empty non empty Function,
+        h be non empty Function
+  st dom F = dom G = dom h
+   & for i be object st i in dom h holds
+     ex hi be Function of F.i,G.i st hi = h.i & hi is bijective
+  holds ProductMap(F,G,h) is bijective;
+
+theorem :: GROUP_19:38
+  for I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function,
+      x be Element of product F,
+      y be Element of product G
+  st I = dom h
+   & y = ProductMap(Carrier F,Carrier G,h).x
+   & for i be Element of I holds
+     h.i is Homomorphism of F.i,G.i
+  holds
+    for i be Element of I holds
+    ex hi be Homomorphism of F.i,G.i
+    st hi = h.i & y.i = hi.(x.i);
+
+definition
+  let I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function;
+  assume
+   I = dom h
+    & for i be Element of I holds h.i is Homomorphism of F.i,G.i;
+  func ProductMap(F,G,h) -> Homomorphism of product F,product G equals
+:: GROUP_19:def 6
+
+  ProductMap(Carrier F,Carrier G,h);
+end;
+
+theorem :: GROUP_19:39
+  for I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function,
+      x be Element of product F,
+      y be Element of product G
+  st I = dom h
+   & y = ProductMap(F,G,h).x
+   & for i be Element of I holds
+     h.i is Homomorphism of F.i,G.i
+  holds
+    for i be Element of I holds
+    ex hi be Homomorphism of F.i,G.i
+    st hi = h.i & y.i = hi.(x.i);
+
+theorem :: GROUP_19:40
+  for I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function
+  st I = dom h
+   & for i be Element of I holds
+     ex hi be Homomorphism of F.i,G.i
+     st hi = h.i & hi is bijective
+  holds ProductMap(F,G,h) is bijective;
+
+definition
+  let I be non empty set,
+      F be Group-Family of I,
+      i be Element of I;
+  redefine func ProjGroup(F,i) -> strict Subgroup of sum F;
+end;
+
+definition
+  let I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function;
+  assume
+   I = dom h
+    & for i be Element of I holds
+      h.i is Homomorphism of F.i,G.i;
+  func SumMap(F,G,h) -> Homomorphism of sum F,sum G equals
+:: GROUP_19:def 7
+
+  ProductMap(F,G,h) | sum F;
+end;
+
+theorem :: GROUP_19:41
+  for I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function
+  st I = dom h
+   & for i be Element of I holds
+     ex hi be Homomorphism of F.i,G.i
+     st hi = h.i
+      & hi is bijective
+  holds SumMap(F,G,h) is bijective;
+
+theorem :: GROUP_19:42
+  for I be non empty set,
+      F,G be Group-Family of I,
+      h be non empty Function
+  st I = dom h
+   & for i be Element of I holds h.i is Homomorphism of F.i,G.i
+  holds
+    for i be Element of I,
+        f be Element of F.i,
+        hi be Homomorphism of F.i,G.i
+    st hi = h.i
+    holds SumMap(F,G,h).(1ProdHom(F,i).f) = 1ProdHom(G,i).(hi.f);
+
+begin :: 4. Definition of Internal and External Direct Sum Decomposition
+
+theorem :: GROUP_19:43
+  for I be non empty set,
+      G be Group,
+      i be object st i in I holds
+  ex F be Group-Family of I,
+     h be Homomorphism of sum F, G
+  st h is bijective
+   & F = (I --> (1).G) +* ({i} --> G)
+   &(for j be Element of I holds 1_F.j = 1_G)
+   &(for x be Element of sum F holds h.x = x.i)
+   & for x be Element of sum F
+     ex J being finite Subset of I,
+        a being ManySortedSet of J
+     st J c= {i}
+      & J = support(x,F)
+      & (support(x,F) = {} or support(x,F) = {i})
+      & x = 1_product F +* a
+      & (for j being Element of I st j in I \ J holds x.j = 1_F.j)
+      & (for j being object st j in J holds x.j = a.j);
+
+definition
+  let I be non empty set;
+  let G be Group;
+  mode DirectSumComponents of G,I -> Group-Family of I means
+:: GROUP_19:def 8
+
+  ex h be Homomorphism of sum it, G st h is bijective;
+end;
+
+definition
+  let I be non empty set;
+  let G be Group;
+  let F be DirectSumComponents of G,I;
+  attr F is internal means
+:: GROUP_19:def 9
+
+   (for i be Element of I holds F.i is Subgroup of G)
+  & ex h be Homomorphism of sum F, G
+    st h is bijective
+     & for x be finite-support Function of I,G st x in sum F holds
+       h.x = Product x;
+end;
+
+registration
+  let I be non empty set;
+  let G be Group;
+  cluster internal for DirectSumComponents of G,I;
+end;
+
+begin :: 5. Equivalent Expression of Internal Direct Sum Decomposition
+
+theorem :: GROUP_19:44
+  for G be Group, A be non empty Subset of G
+  st for x,y be Element of G st x in A & y in A holds x * y = y * x
+  holds gr A is commutative;
+
+theorem :: GROUP_19:45
+  for G be Group,
+      H be Subgroup of G,
+      a be FinSequence of G,
+      b be FinSequence of H
+  st a = b
+  holds Product a = Product b;
+
+theorem :: GROUP_19:46
+  for G be Group,
+      h be Element of G
+  holds
+  for F be FinSequence of G
+  st for k be Nat st k in dom F
+     holds h * F/.k = (F/.k) * h
+  holds h * Product(F) = Product(F) * h;
+
+theorem :: GROUP_19:47
+  for G be Group,
+      F,F1,F2 be FinSequence of G
+  st len F = len F1 & len F = len F2
+   &(for i,j be Nat st i in dom F & j in dom F & i <> j
+     holds F1/.i * F2/.j = F2/.j * F1/.i)
+   & for k be Nat st k in dom F holds F.k = (F1/.k) * (F2/.k)
+  holds Product(F) = Product(F1) * Product(F2);
+
+theorem :: GROUP_19:48
+  for G be Group, a be FinSequence of G
+  st for i be object st i in dom a holds a.i = 1_G
+  holds Product a = 1_G;
+
+theorem :: GROUP_19:49
+  for I be finite set,
+      G be Group,
+      a be (the carrier of G)-valued total I-defined Function
+  st for i be object st i in I holds a.i = 1_G
+  holds Product a = 1_G;
+
+theorem :: GROUP_19:50
+  for A be finite set, B be non empty set,
+      f be B-valued total A-defined Function
+  holds f * canFS(A) is FinSequence of B;
+
+theorem :: GROUP_19:51
+  for I be non empty set,
+      G be Group,
+      a be finite-support Function of I,G,
+      W be finite Subset of I
+  st support(a) c= W
+   & for i,j be Element of I holds a.i * a.j = a.j * a.i
+  holds Product a = Product(a|W);
+
+theorem :: GROUP_19:52
+  for I be non empty set,
+      G be Group,
+      a be finite-support Function of I,G,
+      W be finite Subset of I
+  st support a c= W
+  holds
+  ex aW be finite-support Function of W,G
+  st aW = a|W
+   & support a = support(aW)
+   & Product a = Product(aW);
+
+theorem :: GROUP_19:53
+  for I be non empty set, G be Group,
+      F be Group-Family of I,
+      sx,sy being Element of sum F,
+      x,y,xy be finite-support Function of I,G
+  st (for i be Element of I holds F.i is Subgroup of G)
+   & (for i,j be Element of I, gi,gj be Element of G
+      st i <> j & gi in F.i & gj in F.j
+      holds gi * gj = gj * gi)
+   & sx = x & sy = y & sx * sy = xy
+  holds Product xy = Product(x) * Product(y);
+
+theorem :: GROUP_19:54
+  for I be non empty set,
+      G be Group,
+      F be Group-Family of I
+  holds
+    F is internal DirectSumComponents of G,I
+  iff
+   (for i be Element of I holds F.i is Subgroup of G)
+  &(for i,j be Element of I, gi,gj be Element of G
+    st i <> j & gi in F.i & gj in F.j holds gi * gj = gj * gi)
+  &(for y be Element of G
+    ex x be finite-support Function of I,G
+    st x in sum F & y = Product x)
+  &(for x1,x2 be finite-support Function of I,G
+    st x1 in sum F & x2 in sum F & Product x1 = Product x2 holds x1 = x2);

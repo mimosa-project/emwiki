@@ -1,0 +1,332 @@
+:: Invertible Operators on Banach Spaces
+::  by Kazuhisa Nakasho
+:: 
+:: Received May 27, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies LOPBAN13, NUMBERS, REAL_1, ZFMISC_1, NORMSP_1, PRE_TOPC,
+      PARTFUN1, FUNCT_1, NAT_1, SUBSET_1, RELAT_1, LOPBAN_1, RCOMP_1, MSSUBFAM,
+      TARSKI, ARYTM_3, VALUED_1, CARD_3, PREPOWER, SERIES_1, FUNCT_2, ARYTM_1,
+      SEQ_2, ORDINAL2, SUPINF_2, FCONT_1, STRUCT_0, CARD_1, METRIC_1, ALGSTR_0,
+      XXREAL_0, XBOOLE_0, CFCONT_1, COMPLEX1, LOPBAN_2, LOPBAN_3, MESFUNC1,
+      LOPBAN_8, PRALG_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, NUMBERS, XCMPLX_0, XXREAL_0, XREAL_0, NAT_1, COMPLEX1, SEQ_2,
+      SERIES_1, PREPOWER, STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, VECTSP_1,
+      VFUNCT_1, NORMSP_0, NORMSP_1, BHSP_4, LOPBAN_1, NDIFF_2, LOPBAN_2,
+      LOPBAN_3, LOPBAN_5, NFCONT_1, PRVECT_3, LOPBAN_8;
+ constructors SEQ_2, NFCONT_1, VFUNCT_1, COMSEQ_2, RELSET_1, NAT_D, SERIES_1,
+      RSSPACE3, LOPBAN_3, NDIFF_5, NDIFF_2, DOMAIN_1, PREPOWER, BHSP_4,
+      LOPBAN_5, LOPBAN_8;
+ registrations RELSET_1, STRUCT_0, XREAL_0, FUNCT_1, VALUED_0, FUNCT_2,
+      NUMBERS, XBOOLE_0, RELAT_1, ORDINAL1, LOPBAN_1, PRVECT_3, XXREAL_0,
+      LOPBAN_2, NORMSP_1, NORMSP_3, LOPBAN_3, LOPBAN10;
+ requirements SUBSET, REAL, BOOLE, NUMERALS, ARITHM;
+
+
+begin :: Neumann series and invertible operator
+
+reserve X,Y,Z for non trivial RealBanachSpace;
+
+definition
+  let X,Y be RealNormSpace;
+  let u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y);
+  attr u is invertible means
+:: LOPBAN13:def 1
+  u is one-to-one & rng u = the carrier of Y
+  & u" is Point of R_NormSpace_of_BoundedLinearOperators(Y,X);
+end;
+
+definition
+  let X,Y be RealNormSpace;
+  let u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y);
+  assume
+   u is invertible;
+  func Inv u -> Point of R_NormSpace_of_BoundedLinearOperators(Y,X)
+  equals
+:: LOPBAN13:def 2
+  u";
+end;
+
+theorem :: LOPBAN13:1
+  for X be RealNormSpace, seq be sequence of X, k be Nat
+  holds ||.Partial_Sums(seq).k.|| <= Partial_Sums(||.seq.||).k;
+
+theorem :: LOPBAN13:2
+  for X be RealBanachSpace, s be sequence of X st s is norm_summable
+  holds ||. Sum s .|| <= Sum ||.s.||;
+
+theorem :: LOPBAN13:3
+  for X be Banach_Algebra, z be Point of X st ||.z.|| < 1 holds
+    z GeoSeq is norm_summable
+  & ||.Sum ( z GeoSeq ).|| <= 1 / ( 1 - ||.z.|| );
+
+theorem :: LOPBAN13:4
+  for S be Banach_Algebra, w be Point of S st ||.w.|| < 1
+  holds 1.S + w is invertible
+      & (-w) GeoSeq is norm_summable
+      & (1.S + w) " = Sum ( (-w) GeoSeq )
+      & ||.(1.S + w) ".|| <= 1 / ( 1 - ||.w.|| );
+
+theorem :: LOPBAN13:5
+  for X be non trivial RealBanachSpace,
+      v1,v2 be Lipschitzian LinearOperator of X,X,
+      w1,w2 be Point of R_Normed_Algebra_of_BoundedLinearOperators X,
+      a be Real
+  st v1 = w1 & v2 = w2
+  holds
+     v1 * v2 = w1 * w2
+   & v1 + v2 = w1 + w2
+   & a (#) v1 =a * w1;
+
+theorem :: LOPBAN13:6
+  for X be non trivial RealBanachSpace,
+      v1,v2 be Point of R_NormSpace_of_BoundedLinearOperators(X,X),
+      w1,w2 be Point of R_Normed_Algebra_of_BoundedLinearOperators X,
+          a be Real
+  st v1 = w1 & v2 = w2
+  holds v1 + v2 = w1 + w2
+      & a * v1 = a * w1;
+
+theorem :: LOPBAN13:7
+  for X be non trivial RealBanachSpace,
+  v1,v2 be Point of R_NormSpace_of_BoundedLinearOperators(X,X),
+  w1,w2 be Point of R_Normed_Algebra_of_BoundedLinearOperators X
+  st v1 = w1 & v2 = w2
+  holds v1 * v2 = w1 * w2;
+
+theorem :: LOPBAN13:8
+  for X be non trivial RealBanachSpace,
+      v be Point of R_NormSpace_of_BoundedLinearOperators(X,X),
+      w be Point of R_Normed_Algebra_of_BoundedLinearOperators X
+  st v = w
+  holds
+    ( v is invertible iff w is invertible )
+  & ( w is invertible implies v" = w" );
+
+theorem :: LOPBAN13:9
+  for v,I be Point of R_NormSpace_of_BoundedLinearOperators(X,X)
+  st I = id X
+   & ||.v.|| < 1
+  holds I+v is invertible
+     & ||.Inv (I+v).|| <= 1 / ( 1 - ||.v.|| )
+     & ex w be Point of R_Normed_Algebra_of_BoundedLinearOperators X
+       st w = v
+        & (-w) GeoSeq is norm_summable
+        & Inv(I+v) = Sum( (-w) GeoSeq );
+
+theorem :: LOPBAN13:10
+  for X,Y,Z,W be RealNormSpace,
+      f be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      g be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z),
+      h be Point of R_NormSpace_of_BoundedLinearOperators(Z,W)
+  holds h*(g*f) = (h*g)*f;
+
+theorem :: LOPBAN13:11
+  for X,Y be RealNormSpace,
+      f be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st f is one-to-one & rng f = the carrier of Y
+  holds f" * f = id X
+      & f * f" = id Y;
+
+theorem :: LOPBAN13:12
+  for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st u is invertible
+  holds 0 < ||.u.|| & 0 < ||.Inv u.||;
+
+theorem :: LOPBAN13:13
+  for u,v be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st u is invertible
+   & ||.v.|| < 1 / ||. Inv u .||
+  holds u+v is invertible
+     & ||.Inv (u+v).|| <= 1 / ( 1 / ||.Inv (u).|| - ||.v.|| )
+     & ex w be Point of R_Normed_Algebra_of_BoundedLinearOperators X,
+        s,I be Point of R_NormSpace_of_BoundedLinearOperators(X,X)
+       st w = (Inv u) * v
+        & s = w
+        & I = id X
+        & ||.s.|| < 1
+        & (-w) GeoSeq is norm_summable
+        & I+s is invertible
+        & ||.Inv(I+s).|| <= 1 / ( 1 - ||.s.|| )
+        & Inv(I+s) = Sum ( (-w) GeoSeq )
+        & Inv(u+v) = Inv(I+s) * (Inv u);
+
+theorem :: LOPBAN13:14
+  for S be Subset of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st S = {v where v is Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+          : v is invertible}
+  holds S is open;
+
+definition
+  let X,Y;
+  func InvertibleOperators(X,Y)
+  -> open Subset of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  equals
+:: LOPBAN13:def 3
+  { v where v is Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  : v is invertible };
+end;
+
+theorem :: LOPBAN13:15
+  for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st u is invertible
+  holds Inv u is invertible & Inv Inv u = u;
+
+theorem :: LOPBAN13:16
+  ex I be Function of InvertibleOperators(X,Y),InvertibleOperators(Y,X)
+  st I is one-to-one
+   & I is onto
+   & for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+      st u in InvertibleOperators(X,Y)
+     holds I.u = Inv u;
+
+theorem :: LOPBAN13:17
+  for u,v be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+   st u is invertible
+    & ||.v-u.|| < 1 / ||.Inv u .||
+  holds
+    v is invertible
+  & ||.Inv v.|| <= 1 / ( 1 / ||.Inv (u).|| - ||.v-u.|| )
+  & ex w be Point of R_Normed_Algebra_of_BoundedLinearOperators X,
+     s,I be Point of R_NormSpace_of_BoundedLinearOperators(X,X)
+    st w = (Inv u) * (v-u)
+     & s = w & I = id X
+     & ||.s.|| < 1
+     & (-w) GeoSeq is norm_summable
+     & I+s is invertible
+     & ||.Inv (I+s).|| <= 1 / ( 1 - ||.s.|| )
+     & Inv(I+s) = Sum ( (-w) GeoSeq )
+     & Inv v = Inv(I+s) * (Inv u);
+
+begin :: Isomorphic Mapping to Inverse Operators
+
+theorem :: LOPBAN13:18
+  for X,Y,Z be RealNormSpace,
+      u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      v be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z),
+      w be Point of R_NormSpace_of_BoundedLinearOperators(X,Z)
+   st w = v*u
+  holds ||.w.|| <= ||.v.|| * ||.u.||;
+
+theorem :: LOPBAN13:19
+  for X,Y,Z be RealNormSpace,
+      u,v be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      w be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z)
+  holds w*(u-v) = w*u-w*v & w*(u+v) = w*u+w*v;
+
+theorem :: LOPBAN13:20
+  for X,Y,Z be RealNormSpace,
+      w be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      u,v be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z)
+  holds (u-v)*w = u*w-v*w & (u+v)*w = u*w+v*w;
+
+theorem :: LOPBAN13:21
+  for X,Y be RealNormSpace,
+      u,v be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  holds u - (u+v) = -v;
+
+theorem :: LOPBAN13:22
+  for X,Y be RealNormSpace,
+        u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+  st u is invertible
+  holds (Inv u) * u = id X
+      & u * (Inv u) = id Y;
+
+theorem :: LOPBAN13:23
+  for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+   st u is invertible holds
+    for r be Real st 0 < r
+    ex s be Real
+    st 0 < s
+     & for v be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+       st ||.v-u.|| < s
+       holds ||.Inv v - Inv u .|| < r;
+
+theorem :: LOPBAN13:24
+  for I be PartFunc of
+       R_NormSpace_of_BoundedLinearOperators(X,Y),
+       R_NormSpace_of_BoundedLinearOperators(Y,X)
+  st dom I = InvertibleOperators(X,Y)
+   & for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+      st u in InvertibleOperators(X,Y)
+     holds I.u = Inv u
+  holds I is_continuous_on InvertibleOperators(X,Y);
+
+theorem :: LOPBAN13:25
+  ex I be PartFunc of
+         R_NormSpace_of_BoundedLinearOperators(X,Y),
+         R_NormSpace_of_BoundedLinearOperators(Y,X)
+  st dom I = InvertibleOperators(X,Y)
+   & rng I = InvertibleOperators(Y,X)
+   & I is one-to-one
+   & I is_continuous_on InvertibleOperators(X,Y)
+   & ( ex J be PartFunc of
+               R_NormSpace_of_BoundedLinearOperators(Y,X),
+               R_NormSpace_of_BoundedLinearOperators(X,Y)
+       st J = I"
+        & J is one-to-one
+        & dom J = InvertibleOperators(Y,X)
+        & rng J = InvertibleOperators(X,Y)
+        & J is_continuous_on InvertibleOperators(Y,X))
+    & for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y)
+      st u in InvertibleOperators(X,Y)
+      holds I.u = Inv u;
+
+theorem :: LOPBAN13:26
+  for X,Y,Z be RealNormSpace,
+      u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      w be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z)
+  holds w*(-u) = -w*u & (-w)*u = -w*u;
+
+theorem :: LOPBAN13:27
+  for X,Y,Z be RealNormSpace,
+      u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      w be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z)
+  holds (-w)*(-u) = w*u;
+
+theorem :: LOPBAN13:28
+  for X,Y,Z be RealNormSpace,
+      u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      w be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z),
+      r be Real
+  holds w*(r*u) = r*w*u & (r*w)*u = r*w*u & r*w*u = r*(w*u);
+
+theorem :: LOPBAN13:29
+  for X,Y,Z be RealNormSpace holds
+  ex I be BilinearOperator of
+            R_NormSpace_of_BoundedLinearOperators(X,Y),
+            R_NormSpace_of_BoundedLinearOperators(Y,Z),
+            R_NormSpace_of_BoundedLinearOperators(X,Z)
+  st I is_continuous_on the carrier of
+         [: R_NormSpace_of_BoundedLinearOperators(X,Y),
+            R_NormSpace_of_BoundedLinearOperators(Y,Z):]
+   & for u be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+         v be Point of R_NormSpace_of_BoundedLinearOperators(Y,Z)
+     holds I.(u,v) = v*u;
+
+theorem :: LOPBAN13:30
+  for X,Y be RealNormSpace,
+      v be Lipschitzian LinearOperator of X,Y,
+      w be Point of R_NormSpace_of_BoundedLinearOperators(X,Y),
+      a be Real
+  st v = w
+  holds a*w = a(#)v;
+
+theorem :: LOPBAN13:31
+  for X,Y be RealNormSpace,
+      v be Lipschitzian LinearOperator of X,Y,
+      w be Point of R_NormSpace_of_BoundedLinearOperators (X,Y),
+      a be Real
+  st v = w
+  holds -w = -v;

@@ -1,0 +1,389 @@
+:: Binary Representation of Natural Numbers
+::  by Hiroyuki Okazaki
+:: 
+:: Received September 29, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, NAT_1, FINSEQ_2, MARGREL1, BINARITH, ARYTM_3,
+      POWER, SUBSET_1, ORDINAL4, FINSEQ_1, FUNCOP_1, XBOOLEAN, CARD_1, RELAT_1,
+      EUCLID, XXREAL_0, FUNCT_1, PARTFUN1, ARYTM_1, INT_1, BINARI_3, XCMPLX_0,
+      BINARI_6, COMPLEX1, FUNCT_2, EQREL_1, BINOP_2, SETWISEO, BINOP_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XCMPLX_0, XXREAL_0,
+      NAT_D, POWER, SERIES_1, MARGREL1, FUNCT_1, FUNCT_2, INT_1, COMPLEX1,
+      PARTFUN1, FUNCOP_1, BINOP_1, BINOP_2, SETWOP_2, FINSEQ_1, FINSEQ_2,
+      BINARITH, BINARI_3, EUCLID, EQREL_1;
+ constructors RELSET_1, NAT_D, SERIES_1, BINARITH, ABIAN, EUCLID, BINARI_3,
+      EQREL_1, BINOP_2, SETWISEO, FINSOP_1;
+ registrations RELSET_1, XREAL_0, NAT_1, XBOOLEAN, MARGREL1, ORDINAL1, CARD_1,
+      RELAT_1, RELAT_2, XBOOLE_0, FUNCT_1, FINSEQ_2, INT_1, COMPLEX1, FINSEQ_1,
+      EQREL_1, BINOP_2;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: Preliminaries
+
+theorem :: BINARI_6:1
+  for x be Nat ex m be Nat st x < 2 to_power m;
+
+theorem :: BINARI_6:2
+  for x be Nat
+  st x <> 0
+  ex n be Nat st 2 to_power n <= x & x < 2 to_power (n + 1);
+
+theorem :: BINARI_6:3
+  for x be Nat,
+  n1,n2 be Nat st
+  2 to_power n1 <= x & x < 2 to_power (n1 + 1)
+  &
+  2 to_power n2 <= x & x < 2 to_power (n2 + 1)
+  holds n1=n2;
+
+theorem :: BINARI_6:4
+  <* 0 *> = 0*1;
+
+theorem :: BINARI_6:5
+  for n1,n2 be Nat
+  holds 0*n1 ^ 0*n2 = 0*(n1+n2);
+
+begin :: Homomorphism from the Natural Numbers to the Bitstreams
+
+definition
+  let x be Nat;
+  func LenBSeq x -> non zero Nat means
+:: BINARI_6:def 1
+
+  it = 1 if x = 0
+  otherwise
+  ex n be Nat st 2 to_power n <= x & x < 2 to_power (n + 1)
+  & it = n+1;
+end;
+
+theorem :: BINARI_6:6
+  for x be Nat holds x < 2 to_power LenBSeq x;
+
+theorem :: BINARI_6:7
+  for x be Nat holds
+  x = Absval ((LenBSeq x) -BinarySequence x);
+
+theorem :: BINARI_6:8
+  for n be Nat,
+  x be Tuple of n+1, BOOLEAN st x.(n+1) = 1
+  holds
+  2 to_power n <= Absval(x) & Absval(x) < 2 to_power (n + 1);
+
+theorem :: BINARI_6:9
+  ex F be Function of BOOLEAN*,NAT
+  st
+  for x be Element of BOOLEAN*
+  ex x0 be Tuple of len x, BOOLEAN
+  st x=x0 &
+  F.x = Absval x0;
+
+definition
+  func Nat2BL -> Function of NAT,BOOLEAN* means
+:: BINARI_6:def 2
+  for x be Element of NAT holds
+  it.x = (LenBSeq x) -BinarySequence x;
+end;
+
+theorem :: BINARI_6:10
+  for x be Element of NAT,
+  y be Tuple of LenBSeq x, BOOLEAN
+  st Nat2BL.x = y
+  holds Absval(y) = x;
+
+theorem :: BINARI_6:11
+  rng Nat2BL = {x where x is Element of BOOLEAN*: x.(len x) =1 }
+  \/ { <* 0 *> };
+
+theorem :: BINARI_6:12
+  Nat2BL is one-to-one;
+
+definition
+  let x,y be Element of BOOLEAN*;
+  assume len x <> 0 & len y <> 0;
+  func LenMax(x,y) -> non zero Nat equals
+:: BINARI_6:def 3
+  max(len x,len y);
+end;
+
+definition
+  let K be Nat,
+  x be Element of BOOLEAN*;
+  func ExtBit(x,K) -> Tuple of K, BOOLEAN
+  equals
+:: BINARI_6:def 4
+
+  x ^ ( 0* (K -' len x) ) if len x <= K
+  otherwise x| K;
+end;
+
+theorem :: BINARI_6:13
+  for K be Nat,
+  x be Element of BOOLEAN*
+  st len x <= K
+  holds ExtBit(x,K+1) =ExtBit(x,K)^<* 0 *>;
+
+theorem :: BINARI_6:14
+  for K be non zero Nat,
+  x be Element of BOOLEAN*
+  st len x = K
+  holds ExtBit(x,K) = x;
+
+theorem :: BINARI_6:15
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN,
+  x1,y1 be Tuple of K+1, BOOLEAN
+  st x1=x^ <* 0 *>
+  & y1=y^ <* 0 *>
+  holds x1,y1 are_summable;
+
+theorem :: BINARI_6:16
+  for K be non zero Nat,
+  y be Tuple of K, BOOLEAN
+  st y=0*K
+  holds
+  for n be non zero Nat st n <= K
+  holds
+  y /.n = 0;
+
+theorem :: BINARI_6:17
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  holds
+  carry (x,y) = carry (y,x);
+
+theorem :: BINARI_6:18
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  st y=0*K
+  holds
+  for n be non zero Nat st n <= K
+  holds
+  (carry (x,y)) /. n = 0
+  &
+  (carry (y,x)) /. n = 0;
+
+theorem :: BINARI_6:19
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  holds
+  x + y = y + x;
+
+theorem :: BINARI_6:20
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  st y=0*K
+  holds
+  x+ y = x
+  &
+  y+x = x;
+
+theorem :: BINARI_6:21
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  st x.(len x) =1 & y.(len y) =1
+  holds not x, y are_summable;
+
+theorem :: BINARI_6:22
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  st x, y are_summable
+  holds y, x are_summable;
+
+theorem :: BINARI_6:23
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN
+  st x, y are_summable
+  & ( x . (len x) =1 or y . (len y) =1)
+  holds
+  (x + y) .len (x+y) =1;
+
+theorem :: BINARI_6:24
+  for K be non zero Nat,
+  x,y be Tuple of K, BOOLEAN,
+  x1,y1 be Tuple of K+1, BOOLEAN
+  st not x, y are_summable
+  & x1 =x^ <* 0 *>
+  & y1 =y^ <* 0 *>
+  holds
+  (x1 + y1) .len (x1+y1) =1;
+
+definition
+  let x, y be Element of BOOLEAN*;
+  func x + y -> Element of BOOLEAN* equals
+:: BINARI_6:def 5
+  y if len x =0,
+  x if len y =0,
+  ExtBit(x,LenMax(x,y))
+  + ExtBit(y,LenMax(x,y))
+  if ExtBit(x,LenMax(x,y)),
+  ExtBit(y,LenMax(x,y))
+  are_summable & len x <> 0 & len y <> 0
+  otherwise
+  ExtBit(x,LenMax(x,y)+1)
+  + ExtBit(y,LenMax(x,y)+1);
+end;
+
+definition
+  let F be Function of NAT,BOOLEAN*;
+  let x be Element of NAT;
+  redefine func F.x -> Element of BOOLEAN*;
+end;
+
+theorem :: BINARI_6:25
+  for x be Element of BOOLEAN*
+  st x in rng Nat2BL
+  holds 1<= len x;
+
+theorem :: BINARI_6:26
+  for x,y be Element of BOOLEAN*
+  st x in rng Nat2BL & y in rng Nat2BL
+  holds x+y in rng Nat2BL;
+
+theorem :: BINARI_6:27
+  for n be non zero Nat, x be Tuple of n, BOOLEAN
+  holds
+  for m,l be Nat,
+  y be Tuple of l, BOOLEAN
+  st y = x ^(0* m)
+  holds Absval y = Absval x;
+
+theorem :: BINARI_6:28
+  for n be Nat,
+  x be Element of NAT,
+  y be Tuple of n, BOOLEAN
+  st y = Nat2BL.x
+  holds
+  n = LenBSeq x & Absval y = x & Nat2BL. Absval y = y;
+
+theorem :: BINARI_6:29
+  for x,y be Element of NAT
+  holds Nat2BL.(x+y) = Nat2BL.x + Nat2BL.y;
+
+theorem :: BINARI_6:30
+  for x,y be Element of BOOLEAN*
+  st x in rng Nat2BL & y in rng Nat2BL
+  holds x+y =y+x;
+
+theorem :: BINARI_6:31
+  for x,y,z be Element of BOOLEAN*
+  st x in rng Nat2BL & y in rng Nat2BL & z in rng Nat2BL
+  holds (x+y)+z =x+(y+z);
+
+begin :: Homomorphism from the Bitstreams to the Natural Numbers
+
+definition
+  let x be Element of BOOLEAN*;
+  func ExAbsval(x) -> Nat means
+:: BINARI_6:def 6
+  ex n be Nat, y be Tuple of n, BOOLEAN
+  st y = x & it = Absval(y);
+end;
+
+theorem :: BINARI_6:32
+  ex F be Function of BOOLEAN*,NAT
+  st
+  for x be Element of BOOLEAN*
+  holds F.x = ExAbsval(x);
+
+definition
+  func BL2Nat -> Function of BOOLEAN*,NAT means
+:: BINARI_6:def 7
+  for x be Element of BOOLEAN* holds it.x = ExAbsval(x);
+end;
+
+definition
+  let F be Function of BOOLEAN*,NAT;
+  let x be Element of BOOLEAN*;
+  redefine func F.x -> Element of NAT;
+end;
+
+registration
+  cluster BL2Nat -> onto;
+end;
+
+theorem :: BINARI_6:33
+  for x be Element of BOOLEAN*,
+  K be Nat
+  st len x <> 0 & len x <= K
+  holds
+  ExAbsval(x) =Absval(ExtBit(x,K));
+
+theorem :: BINARI_6:34
+  for x,y be Element of BOOLEAN*
+  holds BL2Nat.(x+y) = BL2Nat.x + BL2Nat.y;
+
+definition
+  func EqBL2Nat -> Equivalence_Relation of BOOLEAN* means
+:: BINARI_6:def 8
+  for x, y being object holds
+  ( [x,y] in it iff ( x in BOOLEAN* & y in BOOLEAN*
+  & BL2Nat.x = BL2Nat.y ));
+end;
+
+definition
+  func QuBL2Nat -> Function of Class EqBL2Nat,NAT means
+:: BINARI_6:def 9
+  for A being Element of Class EqBL2Nat
+  holds
+  ex x being object st
+  x in A & it.A =BL2Nat.x;
+end;
+
+registration
+  cluster QuBL2Nat -> one-to-one onto;
+end;
+
+theorem :: BINARI_6:35
+  for x be Element of BOOLEAN*
+  holds QuBL2Nat.(Class (EqBL2Nat,x)) =BL2Nat.x;
+
+definition
+  let A, B be Element of Class EqBL2Nat;
+  func A + B -> Element of Class EqBL2Nat means
+:: BINARI_6:def 10
+  ex x, y be Element of BOOLEAN*
+  st x in A & y in B & it = Class (EqBL2Nat,x+y);
+end;
+
+theorem :: BINARI_6:36
+  for A, B be Element of Class EqBL2Nat,
+  x,y be Element of BOOLEAN*
+  st x in A & y in B
+  holds A+B =Class (EqBL2Nat,x+y);
+
+theorem :: BINARI_6:37
+  for A, B be Element of Class EqBL2Nat
+  holds QuBL2Nat.(A+B) =QuBL2Nat.A+QuBL2Nat.B;
+
+theorem :: BINARI_6:38
+  for A, B be Element of Class EqBL2Nat
+  holds A+B = B+A;
+
+theorem :: BINARI_6:39
+  for A, B,C be Element of Class EqBL2Nat
+  holds (A+B)+C = A+(B+C);
+
+theorem :: BINARI_6:40
+  for n be Nat,
+  z,z1 be Element of BOOLEAN*
+  st z=<*> BOOLEAN & z1 =0*n
+  holds Class (EqBL2Nat,z) =Class (EqBL2Nat,z1);
+
+theorem :: BINARI_6:41
+  for A, Z be Element of Class EqBL2Nat,
+  n be Nat,
+  z be Element of BOOLEAN*
+  st Z =Class (EqBL2Nat,z) & z =0*n
+  holds A+Z = A & Z+A = A;

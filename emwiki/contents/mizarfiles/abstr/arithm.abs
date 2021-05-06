@@ -1,0 +1,53 @@
+:: Field Properties of Complex Numbers - Requirements
+::  by Library Committee
+::
+:: Received May 29, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XCMPLX_0, ARYTM_3, CARD_1, NUMBERS, SUBSET_1, ARYTM_0, ARYTM_1,
+      RELAT_1;
+ notations TARSKI, SUBSET_1, ORDINAL1, NUMBERS, ARYTM_0, XCMPLX_0;
+ constructors FUNCT_4, ARYTM_0, XCMPLX_0, NUMBERS;
+ registrations XCMPLX_0, ORDINAL1;
+ requirements NUMERALS, SUBSET, BOOLE;
+
+
+begin
+
+:: This file contains statements which are obvious for Mizar checker if
+:: "requirements ARITHM" is included in the environment description
+:: of an article. "requirements NUMERALS" is also required.
+:: They are published for testing purposes only.
+:: Users should use appropriate requirements instead of referencing
+:: to these theorems.
+:: Some of these items need also other requirements for proper work.
+
+reserve x for Complex;
+
+theorem :: ARITHM:1
+  x + 0 = x;
+
+theorem :: ARITHM:2
+  x * 0 = 0;
+
+theorem :: ARITHM:3
+  1 * x = x;
+
+theorem :: ARITHM:4
+  x - 0 = x;
+
+theorem :: ARITHM:5
+  0 / x = 0;
+
+theorem :: ARITHM:6
+  x / 1 = x;

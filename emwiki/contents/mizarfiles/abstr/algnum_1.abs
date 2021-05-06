@@ -1,0 +1,495 @@
+:: Algebraic Numbers
+::  by Yasushige Watase
+::
+:: Received December 15, 2016
+:: Copyright (c) 2016-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, FUNCT_1, ARYTM_3, TARSKI, NAT_1,
+      XBOOLE_0, SUPINF_2, ZFMISC_1, GROUP_1, STRUCT_0, POLYNOM1, POLYNOM2,
+      C0SP1, REALSET1, ARYTM_1, RELAT_1, CARD_1, XXREAL_0, VECTSP_1, ALGSTR_0,
+      FUNCT_7, AFINSQ_1, CARD_3, MESFUNC1, POLYNOM3, FUNCSDOM, ORDINAL4, INT_2,
+      GAUSSINT, BINOP_2, COMPLFLD, EC_PF_1, XCMPLX_0, FINSEQ_2, INT_3,
+      ALGSEQ_1, POLYNOM4, PARTFUN1, IDEAL_1, CARD_FIL, VECTSP_2, POLYNOM5,
+      HURWITZ, RATFUNC1, MSSUBFAM, QUOFIELD, BINOP_1, RING_1, RING_2, LATTICES,
+      GCD_1, RLVECT_1, ALGNUM_1, RAT_1, INT_1, WAYBEL_8;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, XTUPLE_0, MCART_1, DOMAIN_1,
+      ORDINAL1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, NUMBERS, INT_1,
+      FUNCOP_1, BINOP_1, FUNCT_4, FUNCT_7, SETWISEO, FINSEQ_1, FINSEQ_2,
+      XCMPLX_0, XXREAL_0, CARD_1, XREAL_0, PBOOLE, VALUED_0, NAT_1, NAT_D,
+      RAT_1, NEWTON, BINOP_2, MEMBERED, STRUCT_0, ALGSTR_0, C0SP1, NORMSP_1,
+      VFUNCT_1, VECTSP_2, ALGSEQ_1, ALGSTR_1, RLVECT_1, GROUP_1, VECTSP_1,
+      RINGCAT1, RING_3, GROUP_6, RING_2, POLYNOM1, UPROOTS, HURWITZ, RATFUNC1,
+      BINOM, INT_3, GCD_1, RVSUM_1, COMPLFLD, POLYNOM3, POLYNOM4, POLYNOM5,
+      FVSUM_1, PRE_POLY, REALSET1, COMPLEX1, EC_PF_1, GAUSSINT, IDEAL_1,
+      RING_1, MSSUBFAM, QUOFIELD, RING_4;
+ constructors TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, FUNCT_1, RELSET_1, NUMBERS,
+      ORDINAL1, FUNCT_2, FINSEQ_1, FINSEQOP, STRUCT_0, ALGSTR_0, C0SP1,
+      VECTSP_1, NORMSP_1, VFUNCT_1, POLYNOM3, SETWISEO, BINOP_1, REAL_1,
+      RFINSEQ, FINSOP_1, BINARITH, VECTSP_2, GRCAT_1, REALSET2, QUOFIELD,
+      ALGSTR_1, POLYNOM4, POLYNOM5, NAT_D, FVSUM_1, ALGSEQ_1, FUNCT_7, BINOP_2,
+      INT_1, RLVECT_1, GROUP_1, RINGCAT1, MOD_4, GROUP_6, RING_3, RING_2,
+      GROUP_4, FINSEQ_4, MATRIX_1, POLYNOM1, UPROOTS, HURWITZ, POLYNOM2,
+      RING_4, XXREAL_2, XTUPLE_0, PARTFUN1, RVSUM_1, XCMPLX_0, RAT_1, NEWTON,
+      VALUED_0, MEMBERED, NAT_1, FINSEQ_2, RATFUNC1, BINOM, GCD_1, IDEAL_1,
+      EC_PF_1, GAUSSINT, AFINSQ_2, FUNCT_4, REALSET1, MSSUBFAM;
+ registrations ALGSTR_0, GAUSSINT, CARD_1, FINSEQ_1, INT_3, FINSEQ_2, FUNCT_1,
+      FUNCT_2, INT_1, MEMBERED, NAT_1, NUMBERS, ORDINAL1, POLYNOM3, POLYNOM5,
+      REALSET1, RELAT_1, RING_2, STRUCT_0, VECTSP_1, XREAL_0, RATFUNC1, RAT_1,
+      XXREAL_0, COMPLFLD, XCMPLX_0, VALUED_0, POLYNOM4, ALGSTR_1, RLVECT_1,
+      RING_1, RING_4, IDEAL_1, XBOOLE_0, RINGCAT1, GROUP_6, GROUP_1, GROUP_4,
+      POLYNOM2, QUANTAL1, FUNCSDOM, GCD_1, RELSET_1;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM, REAL;
+
+
+begin :: Preliminaries
+
+reserve i,j for Nat;
+reserve A,B for Ring;
+
+theorem :: ALGNUM_1:1
+  for L1,L2,L3 be Ring st L1 is Subring of L2 & L2 is Subring of L3 holds
+  L1 is Subring of L3;
+
+theorem :: ALGNUM_1:2
+  F_Rat is Subfield of F_Complex;
+
+theorem :: ALGNUM_1:3
+  F_Rat is Subring of F_Complex;
+
+theorem :: ALGNUM_1:4
+  INT.Ring is Subring of F_Complex;
+
+theorem :: ALGNUM_1:5
+  for x, y be Element of B, x1, y1 be Element of A st A is Subring of B &
+  x = x1 & y = y1 holds x + y = x1 + y1;
+
+theorem :: ALGNUM_1:6
+  for x, y be Element of B, x1, y1 be Element of A st
+  A is Subring of B & x = x1 & y = y1 holds x * y = x1 * y1;
+
+registration
+  let c be Complex;
+  reduce In(c,F_Complex) to c;
+end;
+
+begin
+:: Define Extended eval Function for commutative rings A c= B
+:: based upon POLYNOM4
+
+definition
+  let A,B be Ring;
+  let p be Polynomial of A;
+  let x be Element of B;
+  func Ext_eval(p,x) -> Element of B means
+:: ALGNUM_1:def 1
+
+  ex F be FinSequence of B st it = Sum F & len F = len p
+  & for n be Element of NAT st n in dom F holds
+  F.n = In(p.(n-'1),B) * (power B).(x,n-'1);
+end;
+
+theorem :: ALGNUM_1:7
+  for n being Element of NAT, A,B be Ring, z be Element of A  st
+  A is Subring of B holds
+  (power B).(In(z,B),n) = In((power A).(z,n),B);
+
+theorem :: ALGNUM_1:8
+  for x1,x2 be Element of A st A is Subring of B holds
+  In(x1,B) + In(x2,B) = In(x1+x2,B);
+
+theorem :: ALGNUM_1:9
+  for x1,x2 be Element of A st A is Subring of B holds
+  In(x1,B) * In(x2,B) = In(x1*x2,B);
+
+theorem :: ALGNUM_1:10
+  for F be FinSequence of A,
+      G be FinSequence of B
+      st A is Subring of B & F = G holds In(Sum F,B) = Sum G;
+
+theorem :: ALGNUM_1:11
+  for n be Nat, x be Element of A, p be Polynomial of A st A is Subring of B
+  holds In(p.(n-'1),B)*(power B).(In(x,B),n-'1)
+  = In(p.(n-'1) * (power A).(x,n-'1),B);
+
+theorem :: ALGNUM_1:12
+  for x be Element of A, p be Polynomial of A st A is Subring of B holds
+    Ext_eval(p,In(x,B)) = In(eval(p,x),B);
+
+:: Modify POLYNOM4:17
+theorem :: ALGNUM_1:13
+  for x be Element of B holds Ext_eval(0_.A,x) = 0.B;
+
+:: Modify POLYNOM4:18
+theorem :: ALGNUM_1:14
+  for A,B being non degenerated Ring
+  for x be Element of B st A is Subring of B holds
+  Ext_eval(1_.A,x) = 1.B;
+
+:: Modify POLYNOM4:19
+theorem :: ALGNUM_1:15
+  for x be Element of B, p,q be Polynomial of A st A is Subring of B holds
+  Ext_eval(p+q,x) = Ext_eval(p,x) + Ext_eval(q,x);
+
+theorem :: ALGNUM_1:16
+  for p,q be Polynomial of A st A is Subring of B & len p > 0 & len q > 0
+  for x be Element of B holds
+  Ext_eval((Leading-Monomial(p))*'(Leading-Monomial(q)),x)
+    = In(p.(len p-'1)*q.(len q-'1),B)*(power B).(x,len p+len q-'2);
+
+theorem :: ALGNUM_1:17
+  for p be Polynomial of A for x be Element of B st A is Subring of B holds
+  Ext_eval(Leading-Monomial(p),x)
+  = In(p.(len p-'1),B) * (power B).(x,len p-'1);
+
+::Modify POLYNOM_4:Lm3:
+theorem :: ALGNUM_1:18
+  for B be comRing
+  for p,q be Polynomial of A for x be Element of B st A is Subring of B holds
+  Ext_eval( (Leading-Monomial p)*'(Leading-Monomial q),x) =
+  Ext_eval(Leading-Monomial(p),x)*Ext_eval(Leading-Monomial(q),x);
+
+:: Modify POLYNOM4:23
+theorem :: ALGNUM_1:19
+  for B be comRing
+  for p,q be Polynomial of A for x be Element of B st A is Subring of B holds
+  Ext_eval((Leading-Monomial p)*'q,x)
+  = Ext_eval(Leading-Monomial(p),x) * Ext_eval(q,x);
+
+:: Modify POLYNOM4:24
+theorem :: ALGNUM_1:20
+  for B be comRing
+  for p,q be Polynomial of A for x be Element of B st A is Subring of B
+  holds Ext_eval(p*'q,x) = Ext_eval(p,x) * Ext_eval(q,x);
+
+:: modified POLYNOM5:37
+theorem :: ALGNUM_1:21
+  for x be Element of B, z0 be Element of A
+  st A is Subring of B holds Ext_eval(<%z0%>,x) = In(z0,B);
+
+:: modified POLYNOM5:44
+theorem :: ALGNUM_1:22
+  for x be Element of B, z0,z1 be Element of A st A is Subring of B
+    holds Ext_eval(<%z0,z1%>,x) = In(z0,B)+In(z1,B)*x;
+
+begin
+:: Definition of Integral Element over A in B
+
+definition
+  let A,B be Ring;
+  let x be Element of B;
+  pred x is_integral_over A means
+:: ALGNUM_1:def 2
+  ex f be Polynomial of A st LC f = 1.A & Ext_eval(f,x) = 0.B;
+end;
+
+theorem :: ALGNUM_1:23
+  for A being non degenerated Ring
+   for a be Element of A st A is Subring of B holds
+   In(a,B) is_integral_over A;
+
+definition
+  let A be non degenerated Ring, B be Ring;
+  assume
+ A is Subring of B;
+  func integral_closure(A,B) -> non empty Subset of B equals
+:: ALGNUM_1:def 3
+  {z where z is Element of B: z is_integral_over A};
+end;
+
+definition
+  let c be Complex;
+  attr c is algebraic means
+:: ALGNUM_1:def 4
+  ex x being Element of F_Complex st x = c & x is_integral_over F_Rat;
+end;
+
+definition
+  let x be Element of F_Complex;
+  redefine attr x is algebraic means
+:: ALGNUM_1:def 5
+  x is_integral_over F_Rat;
+end;
+
+definition
+  let c be Complex;
+  attr c is algebraic_integer means
+:: ALGNUM_1:def 6
+  ex x being Element of F_Complex st x = c & x is_integral_over INT.Ring;
+end;
+
+definition
+  let x be Element of F_Complex;
+  redefine attr x is algebraic_integer means
+:: ALGNUM_1:def 7
+  x is_integral_over INT.Ring;
+end;
+
+notation
+  let x be Complex;
+  antonym x is transcendental for x is algebraic;
+end;
+
+registration
+  cluster rational -> algebraic for Complex;
+end;
+
+registration
+  cluster algebraic for Complex;
+  cluster algebraic for Element of F_Complex;
+end;
+
+registration
+  cluster integer -> algebraic_integer for Complex;
+end;
+
+registration
+  cluster algebraic_integer for Complex;
+  cluster algebraic_integer for Element of F_Complex;
+end;
+
+definition
+  let A,B be Ring;
+  let x be Element of B;
+  func Ann_Poly(x,A) -> non empty Subset of Polynom-Ring A equals
+:: ALGNUM_1:def 8
+  {p where p is Polynomial of A: Ext_eval(p,x) = 0.B};
+end;
+
+theorem :: ALGNUM_1:24
+  for A,B be Ring, w be Element of B, x, y being Element of Polynom-Ring A
+  st A is Subring of B & x in Ann_Poly(w,A) & y in Ann_Poly(w,A)
+  holds x + y in Ann_Poly(w,A);
+
+theorem :: ALGNUM_1:25
+  for B be comRing, z be Element of B, p, x being Element of Polynom-Ring A
+  st A is Subring of B & x in Ann_Poly(z,A) holds p * x in Ann_Poly(z,A);
+
+theorem :: ALGNUM_1:26
+  for B be comRing
+  for w be Element of B, p, x being Element of Polynom-Ring A
+  st A is Subring of B & x in Ann_Poly(w,A) holds x * p in Ann_Poly(w,A);
+
+theorem :: ALGNUM_1:27
+  for A be non degenerated Ring
+  for B be non degenerated comRing
+  for w be Element of B st A is Subring of B
+  holds Ann_Poly(w,A) is proper Ideal of Polynom-Ring A;
+
+begin :: Properties of Polynomial Ring over PID.
+
+reserve K, L for Field;
+
+theorem :: ALGNUM_1:28
+  for K,L be Field, w be Element of L st K is Subring of L holds
+  ex g be Element of Polynom-Ring K st {g}-Ideal = Ann_Poly(w,K);
+
+theorem :: ALGNUM_1:29
+  for K,L be Field, z be Element of L st z is_integral_over K
+  holds Ann_Poly(z,K) <> {0.Polynom-Ring K};
+
+theorem :: ALGNUM_1:30
+  for K be Field, p be Element of Polynom-Ring K st p <> 0_.K holds
+  p is non zero Element of the carrier of Polynom-Ring K;
+
+theorem :: ALGNUM_1:31
+  for K,L be Field, w be Element of L st K is Subring of L
+  holds Ann_Poly(w,K) is quasi-prime;
+
+theorem :: ALGNUM_1:32
+  for K,L be Field, w be Element of L st K is Subring of L &
+  w is_integral_over K holds Ann_Poly(w,K) is prime;
+
+theorem :: ALGNUM_1:33
+  for K,L be Field, z be Element of L st K is Subring of L &
+  z is_integral_over K
+  ex f be Element of Polynom-Ring K
+  st f <> 0_.K & {f}-Ideal = Ann_Poly(z,K) & f = NormPolynomial(f);
+
+theorem :: ALGNUM_1:34
+  for K,L be Field, z be Element of L,f,g be Element of Polynom-Ring K st
+  z is_integral_over K &
+  {f}-Ideal = Ann_Poly(z,K) & f = NormPolynomial(f) &
+  {g}-Ideal = Ann_Poly(z,K) & g = NormPolynomial(g)
+  holds f = g;
+
+definition
+  let K,L be Field;
+  let z be Element of L;
+  assume that
+ K is Subring of L and
+ z is_integral_over K;
+  func minimal_polynom(z,K) -> Element of the carrier of Polynom-Ring K
+  means
+:: ALGNUM_1:def 9
+
+  it <> 0_.K & {it}-Ideal = Ann_Poly(z,K) & it = NormPolynomial(it);
+ end;
+
+definition
+  let K,L be Field;
+  let z be Element of L;
+  assume that
+  K is Subring of L and
+  z is_integral_over K;
+  func deg_of_integral_element(z,K) -> Element of NAT equals
+:: ALGNUM_1:def 10
+   deg (minimal_polynom(z,K));
+end;
+
+definition
+  let A,B be Ring;
+  let x be Element of B;
+  func hom_Ext_eval(x,A) -> Function of Polynom-Ring A,B means
+:: ALGNUM_1:def 11
+  for p be Polynomial of A holds it.p = Ext_eval(p,x);
+end;
+
+registration
+  let x be Element of F_Complex;
+  cluster hom_Ext_eval(x,F_Rat) -> unity-preserving additive multiplicative;
+end;
+
+theorem :: ALGNUM_1:35
+  for x be Element of F_Complex holds
+    F_Complex is (Polynom-Ring F_Rat)-homomorphic;
+
+theorem :: ALGNUM_1:36
+  for x be Element of B, z be object st z in rng hom_Ext_eval(x,A)
+    holds z in B;
+
+definition
+  let x be Element of F_Complex;
+  func FQ(x) -> Subset of F_Complex equals
+:: ALGNUM_1:def 12
+  rng hom_Ext_eval(x,F_Rat);
+end;
+
+registration
+  let x be Element of F_Complex;
+  cluster FQ(x) -> non empty;
+end;
+
+theorem :: ALGNUM_1:37
+  for x,z1,z2 be Element of F_Complex st
+  z1 in FQ(x) & z2 in FQ(x) holds z1 + z2 in FQ(x);
+
+theorem :: ALGNUM_1:38
+  for x,z1,z2 be Element of F_Complex st
+  z1 in FQ(x) & z2 in FQ(x) holds z1 * z2 in FQ(x);
+
+theorem :: ALGNUM_1:39
+  for x be Element of F_Complex, a be Element of F_Rat holds
+  a in FQ(x);
+
+definition
+  let x be Element of F_Complex;
+  func FQ_add(x) -> BinOp of FQ(x) equals
+:: ALGNUM_1:def 13
+  addcomplex || FQ(x);
+end;
+
+definition
+  let x be Element of F_Complex;
+  func FQ_mult(x) -> BinOp of FQ(x) equals
+:: ALGNUM_1:def 14
+  multcomplex || FQ(x);
+end;
+
+theorem :: ALGNUM_1:40
+  for x be Element of F_Complex, z, w be Element of FQ(x) holds
+  (FQ_add(x)).(z,w) = z+w;
+
+theorem :: ALGNUM_1:41
+  for x be Element of F_Complex, z, w be Element of FQ(x) holds
+  (FQ_mult(x)).(z,w) = z*w;
+
+theorem :: ALGNUM_1:42  :::?????
+  for x be Element of F_Complex holds
+  In(1.F_Complex, FQ(x)) = 1.F_Complex;
+
+theorem :: ALGNUM_1:43
+  In(-1.F_Rat,F_Complex) = -1.F_Complex;
+
+definition
+  let x be Element of F_Complex;
+  func FQ_Ring(x) -> strict non empty doubleLoopStr equals
+:: ALGNUM_1:def 15
+  doubleLoopStr(# FQ(x), FQ_add(x), FQ_mult(x),In(1.F_Complex,FQ(x)),
+  In(0.F_Complex,FQ(x)) #);
+end;
+
+theorem :: ALGNUM_1:44
+  for x be Element of F_Complex holds FQ_Ring(x) is Ring;
+
+registration
+  let x be Element of F_Complex;
+  cluster FQ_Ring(x) -> Abelian add-associative right_zeroed
+    right_complementable associative well-unital distributive;
+end;
+
+registration
+  let z be Element of F_Complex;
+  cluster FQ_Ring(z) -> domRing-like commutative non degenerated;
+end;
+
+theorem :: ALGNUM_1:45
+  for x be Element of F_Complex holds
+  [:RAT,RAT:] c= [:FQ(x),FQ(x):] & [:FQ(x),FQ(x):] c= [:COMPLEX,COMPLEX:];
+
+theorem :: ALGNUM_1:46
+  for x be Element of F_Complex holds
+    the addF of F_Rat = (the addF of FQ_Ring(x))||RAT;
+
+theorem :: ALGNUM_1:47
+  for x be Element of F_Complex holds
+    the multF of F_Rat = (the multF of FQ_Ring(x))||RAT;
+
+theorem :: ALGNUM_1:48
+  for x be Element of F_Complex holds F_Rat is Subring of FQ_Ring(x);
+
+theorem :: ALGNUM_1:49
+  for f,g be Element of Polynom-Ring K st
+  f <> 0.Polynom-Ring K & {f}-Ideal is prime &
+  not (g in {f}-Ideal) holds {f,g}-Ideal = the carrier of Polynom-Ring K;
+
+theorem :: ALGNUM_1:50
+  for f,g be Element of Polynom-Ring K holds
+  f <> 0.Polynom-Ring K & {f}-Ideal is prime &
+  not g in {f}-Ideal implies {f}-Ideal,{g}-Ideal are_co-prime;
+
+theorem :: ALGNUM_1:51
+  for x be Element of F_Complex,a be Element of FQ_Ring(x)
+  ex g be Element of Polynom-Ring F_Rat st a = hom_Ext_eval(x,F_Rat).g;
+
+theorem :: ALGNUM_1:52
+  for x,a be Element of F_Complex st  a <> 0.F_Complex &
+  a in the carrier of FQ_Ring(x)
+  ex g be Element of Polynom-Ring F_Rat
+  st not g in Ann_Poly(x,F_Rat) & a = hom_Ext_eval(x,F_Rat).g;
+
+theorem :: ALGNUM_1:53
+  for x,a be Element of F_Complex st x is algebraic & a <> 0.F_Complex &
+  a in the carrier of FQ_Ring(x)
+  ex f,g be Element of Polynom-Ring F_Rat
+  st {f}-Ideal = Ann_Poly(x,F_Rat) & not(g in Ann_Poly(x,F_Rat)) &
+  a = hom_Ext_eval(x,F_Rat).g &
+  {f}-Ideal,{g}-Ideal are_co-prime;
+
+theorem :: ALGNUM_1:54
+  for x,a be Element of F_Complex st x is algebraic & a <> 0.F_Complex &
+  a in the carrier of FQ_Ring(x) holds
+  ex b be Element of F_Complex st b in the carrier of FQ_Ring(x)
+  & a*b = 1.F_Complex;
+
+theorem :: ALGNUM_1:55
+  for x be Element of F_Complex st x is algebraic holds FQ_Ring(x) is Field;

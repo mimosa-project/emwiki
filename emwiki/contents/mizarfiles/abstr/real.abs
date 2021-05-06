@@ -1,0 +1,63 @@
+:: Basic Properties of Real Numbers - Requirements
+::  by Library Committee
+::
+:: Received February 27, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XXREAL_0, NUMBERS, ARYTM_2, SUBSET_1, ARYTM_3, ZFMISC_1, CARD_1,
+      XCMPLX_0, REAL_1;
+ notations TARSKI, ZFMISC_1, SUBSET_1, ARYTM_2, ORDINAL1, NUMBERS, XXREAL_0,
+      XREAL_0;
+ constructors ARYTM_2, NUMBERS, XXREAL_0, XREAL_0;
+ registrations ARYTM_2, XREAL_0, ORDINAL1;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+:: This file contains statements which are obvious for Mizar checker if
+:: "requirements REAL" is included in the environment description of an article.
+:: They are published for testing purposes only.
+:: Users should use appropriate requirements instead of referencing
+:: to these theorems.
+:: Note that the checker needs also "requirements BOOLE" to accept
+:: the statements with attribute 'zero'.
+
+reserve x, y, z for Real;
+
+theorem :: REAL:1
+  x <= y & x is positive implies y is positive;
+
+theorem :: REAL:2
+  x <= y & y is negative implies x is negative;
+
+theorem :: REAL:3
+  x <= y & x is non negative implies y is non negative;
+
+theorem :: REAL:4
+  x <= y & y is non positive implies x is non positive;
+
+theorem :: REAL:5
+  x <= y & y is non zero & x is non negative implies y is positive;
+
+theorem :: REAL:6
+  x <= y & x is non zero & y is non positive implies x is negative;
+
+theorem :: REAL:7
+  not x <= y & x is non positive implies y is negative;
+
+theorem :: REAL:8
+  not x <= y & y is non negative implies x is positive;
+ 
+::theorem
+::  numeral(X) & X <> 0 implies X is positive; 

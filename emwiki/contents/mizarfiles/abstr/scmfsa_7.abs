@@ -1,0 +1,150 @@
+:: Some Multi-instructions defined by sequence of instructions of SCM+FSA
+::  by Noriko Asamoto
+::
+:: Received April 24, 1996
+:: Copyright (c) 1996-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, FINSEQ_1, ARYTM_3, ORDINAL4, ARYTM_1, AMI_1,
+      SCMFSA_2, RELAT_1, FUNCT_1, PARTFUN1, TARSKI, XXREAL_0, NAT_1, CARD_1,
+      XBOOLE_0, INT_1, GRAPHSP, FINSEQ_2, AMI_3, PRE_POLY, FSM_1, CIRCUIT2,
+      MSUALG_1, COMPLEX1, FUNCT_4, SCMFSA_7, EXTPRO_1, AFINSQ_1, FUNCOP_1,
+      PBOOLE, FINSET_1, AMISTD_2;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, CARD_1, NUMBERS, XCMPLX_0,
+      NAT_1, INT_2, NAT_D, INT_1, RELAT_1, PARTFUN1, FINSET_1, FINSEQ_1,
+      AFINSQ_1, FINSEQ_2, FUNCT_1, FUNCOP_1, FUNCT_7, PBOOLE, XXREAL_0,
+      MEMSTR_0, COMPOS_1, EXTPRO_1, SCMFSA_2, AFINSQ_2;
+ constructors REAL_1, AMI_3, SCMFSA_2, NAT_D, RELSET_1, PRE_POLY, AFINSQ_2,
+      FUNCT_7;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, ORDINAL1, XREAL_0, NAT_1, INT_1,
+      FINSEQ_1, FUNCT_7, SCMFSA_2, FINSEQ_2, AFINSQ_1, FUNCOP_1, MEMSTR_0,
+      PBOOLE, AMI_3, COMPOS_0, COMPOS_1;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve m for Nat;
+reserve P for (the InstructionsF of SCM+FSA)-valued ManySortedSet of NAT;
+
+definition
+
+  let a be Int-Location;
+  let k be Integer;
+  func a := k -> (the InstructionsF of SCM+FSA)-valued NAT-defined
+          finite Function
+   means
+:: SCMFSA_7:def 1
+
+  ex k1 being Nat st
+    k1 + 1 = k & it = <% a:= intloc 0 %> ^ ( k1 --> AddTo(a,intloc 0) )
+^ Stop SCM+FSA if k > 0
+  otherwise ex k1 being Nat st k1 + k
+  = 1 & it = <% a:= intloc 0 %> ^ ( k1 --> SubFrom(a,intloc 0) ) ^
+   Stop SCM+FSA;
+end;
+
+definition
+  let a be Int-Location;
+  let k be Integer;
+  func aSeq(a,k) -> XFinSequence of the InstructionsF of SCM+FSA means
+:: SCMFSA_7:def 2
+
+  ex k1 being Nat st k1 + 1 = k &
+  it = <% a:= intloc 0 %> ^ (k1 --> AddTo (a,intloc 0)) if k > 0
+   otherwise ex k1 being Nat st k1 + k = 1 & it
+     = <% a:= intloc 0 %> ^ (k1 --> SubFrom(a,intloc 0));
+end;
+
+theorem :: SCMFSA_7:1
+  for a being Int-Location, k being Integer holds a:=k = aSeq(a,k)
+  ^ Stop SCM+FSA;
+
+definition
+  let f be FinSeq-Location;
+  let p be FinSequence of INT;
+  func aSeq(f,p) -> XFinSequence of the InstructionsF of SCM+FSA means
+:: SCMFSA_7:def 3
+
+  ex pp being XFinSequence of (the InstructionsF of SCM+FSA)^omega
+    st len pp = len p &
+    (for k being Nat st k < len pp
+     ex i being Integer st i = p.(k+1) &
+      pp.k = (aSeq(intloc 1,k+1) ^ aSeq(intloc 2,i) ^
+       <% (f,intloc 1):=intloc 2 %>))
+    & it = FlattenSeq pp;
+end;
+
+definition
+  let f be FinSeq-Location;
+  let p be FinSequence of INT;
+  func f := p -> (the InstructionsF of SCM+FSA)-valued NAT-defined
+          finite Function equals
+:: SCMFSA_7:def 4
+  aSeq(intloc 1,len p) ^ <% f:=<0,...,0>intloc 1 %> ^
+   aSeq(f,p) ^ Stop SCM+FSA;
+end;
+
+theorem :: SCMFSA_7:2
+  for a being Int-Location holds a:=1 =  <% a:= intloc 0 %> ^ Stop SCM+FSA;
+
+theorem :: SCMFSA_7:3
+  for a being Int-Location holds a:=0 = <% a:= intloc 0 %>^<%
+  SubFrom(a,intloc 0)%>^Stop SCM+FSA;
+
+theorem :: SCMFSA_7:4
+  for c0 being Nat
+  for s being c0-started State of SCM+FSA st s.intloc 0 = 1
+  for a being Int-Location, k being Integer st a <> intloc 0 &
+   (for c being Nat st c in dom aSeq(a,k)
+     holds aSeq(a,k).c = P.(c0 + c))
+   holds
+  (for i being Nat st i <= len aSeq(a,k)
+   holds IC Comput(P,s,i) = c0 + i &
+  (for b being Int-Location st b <> a
+     holds Comput(P,s,i).b = s.b) &
+  (for f being FinSeq-Location holds Comput(P,s,i).f = s.f)) &
+  Comput(P,s,len aSeq(a,k)).a = k;
+
+theorem :: SCMFSA_7:5
+  for s being 0-started State of SCM+FSA st s.intloc 0 = 1
+   for a being Int-Location
+   for k being Integer st  aSeq(a,k) c= P & a<>intloc 0
+    holds
+  (for i being Nat st i <= len aSeq(a,k)
+      holds IC Comput(P,s,i) =  i &
+  (for b being Int-Location st b <> a
+    holds Comput(P,s,i).b = s.b) &
+  (for f being FinSeq-Location holds Comput(P,s,i).f = s.f)) &
+      Comput(P,s,len aSeq(a,k)).a = k;
+
+:: Users' guide
+
+theorem :: SCMFSA_7:6
+  for s being 0-started State of SCM+FSA st s.intloc 0 = 1 for a
+  being Int-Location, k being Integer st a:=k c= P & a<>intloc 0
+   holds P halts_on s &
+    (Result(P,s)).a = k & (for b being Int-Location st b <> a
+holds Result(P,
+  s).b = s.b) & for f being FinSeq-Location holds (Result(P,s)).f
+= s.f;
+
+theorem :: SCMFSA_7:7
+  for s being 0-started State of SCM+FSA st s.intloc 0 = 1 for f
+  being FinSeq-Location, p being FinSequence of INT st f:=p c= P
+   holds P halts_on s &
+    (Result(P,s)).f = p &
+ (for b being Int-Location st b <> intloc 1 & b <> intloc 2
+  holds (Result(P,s)).b = s.b) &
+ for g being FinSeq-Location st g <> f
+  holds (Result(P,s)).g = s.g;
+

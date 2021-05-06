@@ -1,0 +1,142 @@
+:: Countable Sets and Hessenberg's Theorem
+::  by Grzegorz Bancerek
+::
+:: Received September 5, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, XBOOLE_0, NAT_1, ORDINAL1, CARD_1, FUNCT_1, FINSET_1,
+      CARD_3, REAL_1, NEWTON, ARYTM_3, RELAT_1, XXREAL_0, SUBSET_1, ZFMISC_1,
+      MCART_1, TARSKI, CARD_2, FINSEQ_2, FINSEQ_1, ORDINAL4, PARTFUN1, FUNCT_4,
+      RECDEF_2;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, ORDINAL1, CARD_1, NUMBERS,
+      XXREAL_0, XCMPLX_0, XREAL_0, NAT_1, NAT_D, RELAT_1, FUNCT_1, FINSEQ_1,
+      FINSET_1, WELLORD2, XTUPLE_0, MCART_1, DOMAIN_1, CARD_2, FINSEQ_2,
+      RELSET_1, FUNCT_2, BINOP_1, FUNCT_4, PARTFUN1, NEWTON, CARD_3;
+ constructors PARTFUN1, WELLORD2, BINOP_1, DOMAIN_1, FUNCOP_1, FUNCT_4,
+      ORDINAL3, XXREAL_0, NAT_1, NAT_D, MEMBERED, CARD_2, CARD_3, NEWTON,
+      FINSUB_1, RELSET_1, FINSEQ_2, XTUPLE_0;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, FINSET_1,
+      XXREAL_0, NAT_1, CARD_1, FINSEQ_1, FINSEQ_2, CARD_3, XCMPLX_0, RELSET_1,
+      XTUPLE_0, NEWTON, XREAL_0;
+ requirements NUMERALS, REAL, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve X,Y,Z,x,y,y1,y2 for set,
+  D for non empty set,
+  k,n,n1,n2,m2,m1 for Nat,
+
+  L,K,M,N for Cardinal,
+  f,g for Function;
+
+theorem :: CARD_4:1
+  X is finite implies X is countable;
+
+theorem :: CARD_4:2
+  omega is countable;
+
+reserve r for Real;
+
+theorem :: CARD_4:3
+  r <> 0 or n = 0 iff r|^n <> 0;
+
+theorem :: CARD_4:4
+  (2|^n1)*(2*m1+1) = (2|^n2)*(2*m2+1) implies n1 = n2 & m1 = m2;
+
+theorem :: CARD_4:5
+  [:NAT,NAT:],NAT are_equipotent & card NAT = card [:NAT,NAT:];
+
+theorem :: CARD_4:6
+  (omega)*`(omega) = omega;
+
+theorem :: CARD_4:7
+  X is countable & Y is countable implies [:X,Y:] is countable;
+
+theorem :: CARD_4:8
+  1-tuples_on D,D are_equipotent & card (1-tuples_on D) = card D;
+
+reserve p,q for FinSequence,
+  k,m,n,n1,n2,n3 for Nat;
+
+theorem :: CARD_4:9
+  [:n-tuples_on D, m-tuples_on D:],(n+m)-tuples_on D
+are_equipotent & card [:n-tuples_on D, m-tuples_on D:] = card ((n+m)-tuples_on
+  D);
+
+theorem :: CARD_4:10
+  D is countable implies n-tuples_on D is countable;
+
+theorem :: CARD_4:11
+  for f st dom f is countable & for x st x in dom f holds f.x is
+  countable holds Union f is countable;
+
+theorem :: CARD_4:12
+  (X is countable & for Y st Y in X holds Y is countable) implies union
+  X is countable;
+
+theorem :: CARD_4:13
+  D is countable implies D* is countable;
+
+theorem :: CARD_4:14
+  omega c= card (D*);
+
+scheme :: CARD_4:sch 1
+  FraenCoun1 { f(object)->set, P[set] } :
+   { f(n) : P[n] } is countable;
+
+scheme :: CARD_4:sch 2
+  FraenCoun2 { f(object,object)->set, P[set,set] } :
+  { f(n1,n2) : P[n1,n2] } is
+  countable;
+
+scheme :: CARD_4:sch 3
+  FraenCoun3 { f(object,object,object)->set, P[set,set,set] } :
+   { f(n1,n2,n3) : P[n1,n2
+  ,n3] } is countable;
+
+reserve f,f1,f2 for Function,
+  X1,X2 for set;
+
+::$N Hessenberg's theorem
+theorem :: CARD_4:15
+  not M is finite implies M*`M = M;
+
+theorem :: CARD_4:16
+  not M is finite & 0 in N & (N c= M or N in M) implies M*`N = M & N*`M = M;
+
+theorem :: CARD_4:17
+  not M is finite & (N c= M or N in M) implies M*`N c= M & N*`M c= M;
+
+theorem :: CARD_4:18
+  not X is finite implies [:X,X:],X are_equipotent & card [:X,X:] = card X;
+
+theorem :: CARD_4:19
+  not X is finite & Y is finite & Y <> {} implies [:X,Y:],X
+  are_equipotent & card [:X,Y:] = card X;
+
+theorem :: CARD_4:20
+  K in L & M in N implies K*`M in L*`N & M*`K in L*`N;
+
+theorem :: CARD_4:21
+  not X is finite implies card X = (omega)*`card X;
+
+theorem :: CARD_4:22
+  X <> {} & X is finite & not Y is finite implies card Y *` card X = card Y;
+
+theorem :: CARD_4:23
+  not D is finite & n <> 0 implies n-tuples_on D,D are_equipotent
+  & card (n-tuples_on D) = card D;
+
+theorem :: CARD_4:24
+  not D is finite implies card D = card (D*);

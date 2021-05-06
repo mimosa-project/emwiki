@@ -1,0 +1,248 @@
+:: Lines in $n$-Dimensional Euclidean Spaces
+::  by Akihiro Kubo
+::
+:: Received August 8, 2003
+:: Copyright (c) 2003-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies REAL_1, NAT_1, SUBSET_1, NUMBERS, CARD_1, RELAT_1, ARYTM_3,
+      EUCLID, FINSEQ_2, COMPLEX1, ARYTM_1, INCSP_1, TARSKI, XBOOLE_0, AFF_1,
+      SQUARE_1, RVSUM_1, FINSEQ_1, XXREAL_0, PRE_TOPC, SEQ_4, XXREAL_2,
+      STRUCT_0;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ORDINAL1, NUMBERS, XXREAL_2, XCMPLX_0,
+      XREAL_0, COMPLEX1, REAL_1, STRUCT_0, PRE_TOPC, FINSEQ_1, FINSEQ_2,
+      RVSUM_1, SQUARE_1, RLVECT_1, EUCLID, SEQ_4, XXREAL_0, RLTOPSP1;
+ constructors REAL_1, SQUARE_1, BINOP_2, COMPLEX1, SEQ_4, FINSEQOP, MONOID_0,
+      EUCLID, RELSET_1, BINOP_1;
+ registrations RELSET_1, NUMBERS, XREAL_0, BINOP_2, MEMBERED, STRUCT_0,
+      MONOID_0, EUCLID, VALUED_0, VALUED_1, SQUARE_1, RLTOPSP1;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin
+
+reserve a,b,s,t,u,lambda for Real,
+  n for Nat;
+reserve x,x1,x2,x3,y1,y2 for Element of REAL n;
+
+theorem :: EUCLID_4:1  :: EUCLID:31
+  0 * x + x = x & x + 0*n = x;
+
+theorem :: EUCLID_4:2  :: EUCLID:32
+  a*(0*n) = 0*n;
+
+theorem :: EUCLID_4:3  :: EUCLID:33
+  1*x = x & 0 * x = 0*n;
+
+theorem :: EUCLID_4:4 :: EUCLID:34
+  (a*b)*x = a*(b*x);
+
+theorem :: EUCLID_4:5 :: EUCLID:35
+  a*x = 0*n implies a = 0 or x = 0*n;
+
+theorem :: EUCLID_4:6 :: EUCLID:36
+  a*(x1 + x2) = a*x1 + a*x2;
+
+theorem :: EUCLID_4:7 :: EUCLID:37
+  (a + b)*x = a*x + b*x;
+
+theorem :: EUCLID_4:8 :: EUCLID:38
+  a*x1 = a*x2 implies a = 0 or x1 = x2;
+
+definition
+  let n;
+  let x1,x2 be Element of REAL n;
+  func Line(x1,x2) -> Subset of REAL n equals
+:: EUCLID_4:def 1
+  the set of all  (1-lambda)*x1 + lambda*x2 ;
+end;
+
+registration
+  let n;
+  let x1,x2 be Element of REAL n;
+  cluster Line(x1,x2) -> non empty;
+end;
+
+definition
+  let n;
+  let x1,x2 be Element of REAL n;
+  redefine func Line(x1,x2);
+  commutativity;
+end;
+
+theorem :: EUCLID_4:9  :: AFF_1:26
+  x1 in Line(x1,x2) & x2 in Line(x1,x2);
+
+theorem :: EUCLID_4:10  :: AFF_1:27
+  y1 in Line(x1,x2) & y2 in Line(x1,x2) implies Line(y1,y2) c= Line(x1,x2);
+
+theorem :: EUCLID_4:11  :: AFF_1:28
+  y1 in Line(x1,x2) & y2 in Line(x1,x2) & y1<>y2 implies Line(x1,
+  x2) c= Line(y1,y2);
+
+definition
+  let n;
+  let A be Subset of REAL n;
+  attr A is being_line means
+:: EUCLID_4:def 2 :: AFF_1:def 3
+
+  ex x1,x2 st x1<>x2 & A=Line(x1,x2);
+end;
+
+theorem :: EUCLID_4:12 :: AFF_1:30
+  for A,C be Subset of REAL n,x1,x2 holds A is being_line & C is
+  being_line & x1 in A & x2 in A & x1 in C & x2 in C implies x1=x2 or A=C;
+
+theorem :: EUCLID_4:13  ::AFF_1:31
+  for A be Subset of REAL n st A is being_line holds ex x1,x2 st
+  x1 in A & x2 in A & x1<>x2;
+
+theorem :: EUCLID_4:14 :: AFF_1:32
+  for A be Subset of REAL n st A is being_line holds ex x2 st x1<>x2 & x2 in A;
+
+theorem :: EUCLID_4:15 :: EUCLID_2:13
+  for x being Element of REAL n holds |.x.| = sqrt |(x,x)|;
+
+theorem :: EUCLID_4:16  :: EUCLID_2:16
+  for x being Element of REAL n holds |(x,x)| = 0 iff |.x.| = 0;
+
+theorem :: EUCLID_4:17  :: EUCLID_2:15
+  for x being Element of REAL n holds |(x,x)|=0 iff x=0*n;
+
+theorem :: EUCLID_4:18  :: EUCLID_2:17
+  for x being Element of REAL n holds |(x, 0*n)| = 0;
+
+theorem :: EUCLID_4:19 :: EUCLID_2:18
+  for x being Element of REAL n holds |(0*n,x)| = 0;
+
+theorem :: EUCLID_4:20  :: EUCLID_2:19
+  for x1,x2,x3 being Element of REAL n holds |((x1+x2),x3)| = |(x1
+  ,x3)| + |(x2,x3)|;
+
+theorem :: EUCLID_4:21  ::EUCLID_2:20
+  for x1,x2 being Element of REAL n,a being Real holds |(a*
+  x1,x2)| = a*|(x1,x2)|;
+
+theorem :: EUCLID_4:22 :: EUCLID_2:21
+  for x1,x2 being Element of REAL n,a being Real holds |(x1,a*x2
+  )| = a*|(x1,x2)|;
+
+theorem :: EUCLID_4:23  :: EUCLID_2:22
+  for x1,x2 being Element of REAL n holds |(-x1, x2)| = - |(x1, x2 )|;
+
+theorem :: EUCLID_4:24 :: EUCLID_2:23
+  for x1,x2 being Element of REAL n holds |(x1, -x2)| = - |(x1, x2)|;
+
+theorem :: EUCLID_4:25 :: EUCLID_2:24
+  for x1,x2 being Element of REAL n holds |(-x1, -x2)| = |(x1, x2)|;
+
+theorem :: EUCLID_4:26  :: EUCLID_2:25
+  for x1,x2,x3 being Element of REAL n holds |(x1-x2, x3)| = |(x1,
+  x3)| - |(x2, x3)|;
+
+theorem :: EUCLID_4:27 :: EUCLID_2:26
+  for a,b being Real,x1,x2,x3 being Element of REAL n holds |( (a
+  *x1+b*x2), x3 )| = a*|(x1,x3)| + b*|(x2,x3)|;
+
+theorem :: EUCLID_4:28 :: EUCLID_2:27
+  for x1,y1,y2 being Element of REAL n holds |(x1, y1+y2)| = |(x1, y1)|
+  + |(x1, y2)|;
+
+theorem :: EUCLID_4:29 :: EUCLID_2:28
+  for x1,y1,y2 being Element of REAL n holds |(x1, y1-y2)| = |(x1, y1)|
+  - |(x1, y2)|;
+
+theorem :: EUCLID_4:30  :: EUCLID_2:29
+  for x1,x2,y1,y2 being Element of REAL n holds |(x1+x2, y1+y2)| =
+  |(x1, y1)| + |(x1, y2)| + |(x2, y1)| + |(x2, y2)|;
+
+theorem :: EUCLID_4:31  :: EUCLID_2:30
+  for x1,x2,y1,y2 being Element of REAL n holds |(x1-x2, y1-y2)| =
+  |(x1, y1)| - |(x1, y2)| - |(x2, y1)| + |(x2, y2)|;
+
+theorem :: EUCLID_4:32  :: EUCLID_2:31
+  for x,y being Element of REAL n holds |(x+y, x+y)| = |(x, x)| +
+  2*|(x, y)| + |(y, y)|;
+
+theorem :: EUCLID_4:33  :: EUCLID_2:32
+  for x,y being Element of REAL n holds |(x-y, x-y)| = |(x, x)| -
+  2*|(x, y)| + |(y, y)|;
+
+theorem :: EUCLID_4:34 :: EUCLID_2:33
+  for x,y being Element of REAL n holds |.x+y.|^2 = |.x.|^2 + 2*|(x, y)|
+  + |.y.|^2;
+
+theorem :: EUCLID_4:35 :: EUCLID_2:34
+  for x,y being Element of REAL n holds |.x-y.|^2 = |.x.|^2 - 2*|(x, y)|
+  + |.y.|^2;
+
+theorem :: EUCLID_4:36 :: EUCLID_2:35
+  for x,y being Element of REAL n holds |.x+y.|^2 + |.x-y.|^2 = 2*(|.x.|
+  ^2 + |.y.|^2);
+
+theorem :: EUCLID_4:37 :: EUCLID_2:36
+  for x,y being Element of REAL n holds |.x+y.|^2 - |.x-y.|^2 = 4* |(x,y )|;
+
+theorem :: EUCLID_4:38 :: EUCLID_2:37  :: Schwartz
+  for x,y being Element of REAL n holds |.|(x,y)|.| <= |.x.|*|.y.|;
+
+::$CT
+
+theorem :: EUCLID_4:40
+  for R being Subset of REAL,x1,x2,y1 being Element of REAL n st
+   R={|.y1-x.| where x is Element of REAL n: x in Line(x1,x2)}
+ ex y2 being Element of REAL n
+  st y2 in Line(x1,x2) & |.y1-y2.|=lower_bound R & x1-x2,y1-y2 are_orthogonal;
+
+definition
+::$CD
+end;
+
+reserve p1,p2,q1,q2 for Point of TOP-REAL n;
+
+theorem :: EUCLID_4:41 :::Th40: :: AFF_1:26
+  p1 in Line(p1,p2) & p2 in Line(p1,p2);
+
+theorem :: EUCLID_4:42 :::Th41: :: AFF_1:27
+  q1 in Line(p1,p2) & q2 in Line(p1,p2) implies Line(q1,q2) c= Line(p1,p2);
+
+theorem :: EUCLID_4:43 :::Th42: :: AFF_1:28
+  q1 in Line(p1,p2) & q2 in Line(p1,p2) & q1<>q2 implies Line(p1,
+  p2) c= Line(q1,q2);
+
+definition
+  let n;
+  let A be Subset of TOP-REAL n;
+  attr A is being_line means
+:: EUCLID_4:def 4 :: AFF_1:def 3
+
+  ex p1,p2 st p1<>p2 & A=Line(p1,p2);
+end;
+
+theorem :: EUCLID_4:44 :: AFF_1:30
+  for A,C being Subset of TOP-REAL n holds A is being_line & C is
+  being_line & p1 in A & p2 in A & p1 in C & p2 in C implies p1=p2 or A=C;
+
+theorem :: EUCLID_4:45  :: AFF_1:31
+  for A being Subset of TOP-REAL n st A is being_line holds ex p1,
+  p2 st p1 in A & p2 in A & p1<>p2;
+
+theorem :: EUCLID_4:46 :: AFF_1:32
+  for A being Subset of TOP-REAL n st A is being_line holds ex p2 st p1
+  <>p2 & p2 in A;
+
+theorem :: EUCLID_4:47
+  for R being Subset of REAL,p1,p2,q1 being Point of TOP-REAL n st R={|.
+  q1-p .| where p is Point of TOP-REAL n: p in Line(p1,p2)}
+ ex q2 being
+Point of TOP-REAL n st q2 in Line(p1,p2) & |. q1-q2 .| =lower_bound R & p1-p2,
+  q1-q2 are_orthogonal;

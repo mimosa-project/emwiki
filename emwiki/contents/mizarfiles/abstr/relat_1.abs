@@ -1,0 +1,1030 @@
+:: Relations and Their Basic Properties
+::  by Edmund Woronowicz
+::
+:: Received March 15, 1989
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies XBOOLE_0, TARSKI, ZFMISC_1, SUBSET_1, RELAT_1, VALUED_1;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, XTUPLE_0, SUBSET_1;
+ constructors TARSKI, SUBSET_1, ZFMISC_1, XTUPLE_0, XBOOLE_0;
+ registrations XBOOLE_0, ZFMISC_1, XTUPLE_0;
+ requirements SUBSET, BOOLE;
+
+
+begin
+
+reserve A,X,X1,X2,Y,Y1,Y2 for set, a,b,c,d,x,y,z for object;
+
+definition
+  let IT be set;
+  attr IT is Relation-like means
+:: RELAT_1:def 1
+
+  x in IT implies ex y,z st x = [y,z];
+end;
+
+registration
+  cluster empty -> Relation-like for set;
+end;
+
+definition
+  mode Relation is Relation-like set;
+end;
+
+reserve P,P1,P2,Q,R,S for Relation;
+
+registration
+  let R be Relation;
+  cluster -> Relation-like for Subset of R;
+end;
+
+scheme :: RELAT_1:sch 1
+  RelExistence{A,B() -> set, P[object,object]}:
+ ex R being Relation st for x,y holds
+  [x,y] in R iff x in A() & y in B() & P[x,y];
+
+definition
+  let P,R;
+  redefine pred P = R means
+:: RELAT_1:def 2
+  for a,b holds [a,b] in P iff [a,b] in R;
+end;
+
+registration
+  let P,X;
+  cluster P /\ X -> Relation-like;
+  cluster P \ X -> Relation-like;
+end;
+
+registration
+  let P,R;
+  cluster P \/ R -> Relation-like;
+end;
+
+registration
+  let R,S be Relation;
+  cluster R \+\ S -> Relation-like;
+end;
+
+registration
+  let a, b be object;
+  cluster {[a,b]} -> Relation-like;
+end;
+
+registration
+  let a, b be set;
+  cluster [:a,b:] -> Relation-like;
+end;
+
+registration
+  let a, b, c, d be object;
+  cluster {[a,b],[c,d]} -> Relation-like;
+end;
+
+definition
+  let P,A;
+  redefine pred P c= A means
+:: RELAT_1:def 3
+  for a,b holds [a,b] in P implies [a,b] in A;
+end;
+
+::             DOMAIN OF RELATION
+
+notation
+  let R be Relation;
+  synonym dom R for proj1 R;
+end;
+
+::            CODOMAIN OF RELATION
+
+notation
+  let R be Relation;
+  synonym rng R for proj2 R;
+end;
+
+::$CT 6
+
+theorem :: RELAT_1:7
+  R c= [:dom R, rng R:];
+
+theorem :: RELAT_1:8
+  R /\ [:dom R, rng R:] = R;
+
+theorem :: RELAT_1:9
+  dom {[x,y]} = {x} & rng {[x,y]} = {y};
+
+theorem :: RELAT_1:10
+  dom {[a,b],[x,y]} = {a,x} & rng {[a,b],[x,y]} = {b,y};
+
+theorem :: RELAT_1:11
+  P c= R implies dom P c= dom R & rng P c= rng R;
+
+theorem :: RELAT_1:12
+  rng(P \/ R) = rng P \/ rng R;
+
+theorem :: RELAT_1:13
+  rng(P /\ R) c= rng P /\ rng R;
+
+theorem :: RELAT_1:14
+  rng P \ rng R c= rng(P \ R);
+
+::                  FIELD OF RELATION
+
+definition
+::$CD 2
+  let R;
+  func field R -> set equals
+:: RELAT_1:def 6
+  dom R \/ rng R;
+end;
+
+theorem :: RELAT_1:15
+  [a,b] in R implies a in field R & b in field R;
+
+theorem :: RELAT_1:16
+  P c= R implies field P c= field R;
+
+theorem :: RELAT_1:17
+  field {[x,y]} = {x,y};
+
+theorem :: RELAT_1:18
+  field(P \/ R) = field P \/ field R;
+
+theorem :: RELAT_1:19
+  field(P /\ R) c= field P /\ field R;
+
+::                  CONVERSE RELATION
+
+definition
+  let R;
+  func R~ -> Relation means
+:: RELAT_1:def 7
+
+  [x,y] in it iff [y,x] in R;
+  involutiveness;
+end;
+
+theorem :: RELAT_1:20
+  rng R = dom(R~) & dom R = rng(R~);
+
+theorem :: RELAT_1:21
+  field R = field(R~);
+
+theorem :: RELAT_1:22
+  (P /\ R)~ = P~ /\ R~;
+
+theorem :: RELAT_1:23
+  (P \/ R)~ = P~ \/ R~;
+
+theorem :: RELAT_1:24
+  (P \ R)~ = P~ \ R~;
+
+::               COMPOSITION OF RELATIONS
+
+definition
+  let P,R be set;
+  func P(#)R -> Relation means
+:: RELAT_1:def 8
+
+  [x,y] in it iff ex z st [x,z] in P & [z,y] in R;
+end;
+
+notation
+  let P,R;
+  synonym P*R for P(#)R;
+end;
+
+theorem :: RELAT_1:25
+  dom(P*R) c= dom P;
+
+theorem :: RELAT_1:26
+  rng(P*R) c= rng R;
+
+theorem :: RELAT_1:27
+  rng R c= dom P implies dom(R*P) = dom R;
+
+theorem :: RELAT_1:28
+  dom P c= rng R implies rng(R*P) = rng P;
+
+theorem :: RELAT_1:29
+  P c= R implies Q*P c= Q*R;
+
+theorem :: RELAT_1:30
+  P c= Q implies P*R c= Q*R;
+
+theorem :: RELAT_1:31
+  P c= R & Q c= S implies P*Q c= R*S;
+
+theorem :: RELAT_1:32
+  P*(R \/ Q) = (P*R) \/ (P*Q);
+
+theorem :: RELAT_1:33
+  P*(R /\ Q) c= (P*R) /\ (P*Q);
+
+theorem :: RELAT_1:34
+  (P*R) \ (P*Q) c= P*(R \ Q);
+
+theorem :: RELAT_1:35
+  (P*R)~ = R~*P~;
+
+theorem :: RELAT_1:36
+  (P*R)*Q = P*(R*Q);
+
+::               EMPTY RELATION
+
+registration
+  cluster non empty for Relation;
+end;
+
+registration
+  let f be non empty Relation;
+  cluster dom f -> non empty;
+  cluster rng f -> non empty;
+end;
+
+theorem :: RELAT_1:37
+  (for x,y holds not [x,y] in R) implies R = {};
+
+theorem :: RELAT_1:38
+  dom {} = {} & rng {} = {};
+
+theorem :: RELAT_1:39
+  {}*R = {} & R*{} = {};
+
+registration
+  let X be empty set;
+  cluster dom X -> empty;
+  cluster rng X -> empty;
+  let R;
+  cluster X*R -> empty;
+  cluster R*X -> empty;
+end;
+
+theorem :: RELAT_1:40
+  field {} = {};
+
+theorem :: RELAT_1:41
+  dom R = {} or rng R = {} implies R = {};
+
+theorem :: RELAT_1:42
+  dom R = {} iff rng R = {};
+
+registration
+  let X be empty set;
+  cluster X~ -> empty;
+end;
+
+theorem :: RELAT_1:43
+  {}~ = {};
+
+theorem :: RELAT_1:44
+  rng R misses dom P implies R*P = {};
+
+definition
+  let R be Relation;
+  attr R is non-empty means
+:: RELAT_1:def 9
+
+  not {} in rng R;
+end;
+
+registration
+  cluster non-empty for Relation;
+end;
+
+registration
+  let R be Relation, S be non-empty Relation;
+  cluster R*S -> non-empty;
+end;
+
+::             IDENTITY RELATION
+
+definition
+  let X;
+  func id X -> Relation means
+:: RELAT_1:def 10
+
+  [x,y] in it iff x in X & x = y;
+end;
+
+registration let X;
+ reduce dom id X to X;
+ reduce rng id X to X;
+end;
+
+theorem :: RELAT_1:45
+  dom id X = X & rng id X = X;
+
+registration let X;
+ reduce (id X)~ to id X;
+end;
+
+theorem :: RELAT_1:46
+  (id X)~ = id X;
+
+theorem :: RELAT_1:47
+  (for x st x in X holds [x,x] in R) implies id X c= R;
+
+theorem :: RELAT_1:48
+  [x,y] in (id X)*R iff x in X & [x,y] in R;
+
+theorem :: RELAT_1:49
+  [x,y] in R*id Y iff y in Y & [x,y] in R;
+
+theorem :: RELAT_1:50
+  R*(id X) c= R & (id X)*R c= R;
+
+theorem :: RELAT_1:51
+  dom R c= X implies (id X)*R = R;
+
+theorem :: RELAT_1:52
+  (id dom R)*R = R;
+
+theorem :: RELAT_1:53
+  rng R c= Y implies R*(id Y) = R;
+
+theorem :: RELAT_1:54
+  R*(id rng R) = R;
+
+theorem :: RELAT_1:55
+  id {} = {};
+
+theorem :: RELAT_1:56
+  rng P2 c= X & P2*R = id dom P1 & R*P1 = id X implies P1 = P2;
+
+definition
+  let R,X;
+  func R|X -> Relation means
+:: RELAT_1:def 11
+
+  [x,y] in it iff x in X & [x,y] in R;
+end;
+
+registration
+  let R be Relation, X be empty set;
+  cluster R|X -> empty;
+end;
+
+theorem :: RELAT_1:57
+  x in dom(R|X) iff x in X & x in dom R;
+
+theorem :: RELAT_1:58
+  dom(R|X) c= X;
+
+theorem :: RELAT_1:59
+  R|X c= R;
+
+theorem :: RELAT_1:60
+  dom(R|X) c= dom R;
+
+theorem :: RELAT_1:61
+  dom(R|X) = dom R /\ X;
+
+theorem :: RELAT_1:62
+  X c= dom R implies dom(R|X) = X;
+
+theorem :: RELAT_1:63
+  (R|X)*P c= R*P;
+
+theorem :: RELAT_1:64
+  P*(R|X) c= P*R;
+
+theorem :: RELAT_1:65
+  R|X = (id X)*R;
+
+theorem :: RELAT_1:66
+  R|X = {} iff dom R misses X;
+
+theorem :: RELAT_1:67
+  R|X = R /\ [:X,rng R:];
+
+theorem :: RELAT_1:68
+  dom R c= X implies R|X = R;
+
+registration let R;
+ reduce R|dom R to R;
+end;
+
+theorem :: RELAT_1:69
+  R|dom R = R;
+
+theorem :: RELAT_1:70
+  rng(R|X) c= rng R;
+
+theorem :: RELAT_1:71
+  (R|X)|Y = R|(X /\ Y);
+
+registration let R,X;
+ reduce R|X|X to R|X;
+end;
+
+theorem :: RELAT_1:72
+  (R|X)|X = R|X;
+
+theorem :: RELAT_1:73
+  X c= Y implies (R|X)|Y = R|X;
+
+theorem :: RELAT_1:74
+  Y c= X implies (R|X)|Y = R|Y;
+
+theorem :: RELAT_1:75
+  X c= Y implies R|X c= R|Y;
+
+theorem :: RELAT_1:76
+  P c= R implies P|X c= R|X;
+
+theorem :: RELAT_1:77
+  P c= R & X c= Y implies P|X c= R|Y;
+
+theorem :: RELAT_1:78
+  R|(X \/ Y) = (R|X) \/ (R|Y);
+
+theorem :: RELAT_1:79
+  R|(X /\ Y) = (R|X) /\ (R|Y);
+
+theorem :: RELAT_1:80
+  R|(X \ Y) = R|X \ R|Y;
+
+registration
+  let R be empty Relation, X be set;
+  cluster R|X -> empty;
+end;
+
+theorem :: RELAT_1:81
+  R|{} = {};
+
+theorem :: RELAT_1:82
+  {}|X = {};
+
+theorem :: RELAT_1:83
+  (P*R)|X = (P|X)*R;
+
+definition
+  let Y,R;
+  func Y|`R -> Relation means
+:: RELAT_1:def 12
+
+  [x,y] in it iff y in Y & [x,y] in R;
+end;
+
+registration
+  let R be Relation, X be empty set;
+  cluster X|`R -> empty;
+end;
+
+theorem :: RELAT_1:84
+  y in rng(Y|`R) iff y in Y & y in rng R;
+
+theorem :: RELAT_1:85
+  rng(Y|`R) c= Y;
+
+theorem :: RELAT_1:86
+  Y|`R c= R;
+
+theorem :: RELAT_1:87
+  rng(Y|`R) c= rng R;
+
+theorem :: RELAT_1:88
+  rng(Y|`R) = rng R /\ Y;
+
+theorem :: RELAT_1:89
+  Y c= rng R implies rng(Y|`R) = Y;
+
+theorem :: RELAT_1:90
+  (Y|`R)*P c= R*P;
+
+theorem :: RELAT_1:91
+  P*(Y|`R) c= P*R;
+
+theorem :: RELAT_1:92
+  Y|`R = R*(id Y);
+
+theorem :: RELAT_1:93
+  Y|`R = R /\ [:dom R,Y:];
+
+theorem :: RELAT_1:94
+  rng R c= Y implies Y|`R = R;
+
+registration let R;
+ reduce rng R|`R to R;
+end;
+
+theorem :: RELAT_1:95
+  rng R|`R=R;
+
+theorem :: RELAT_1:96
+  Y|`(X|`R) = (Y /\ X)|`R;
+
+registration let Y,R;
+ reduce Y|`(Y|`R) to Y|`R;
+end;
+
+theorem :: RELAT_1:97
+  Y|`(Y|`R) = Y|`R;
+
+theorem :: RELAT_1:98
+  X c= Y implies Y|`(X|`R) = X|`R;
+
+theorem :: RELAT_1:99
+  Y c= X implies Y|`(X|`R) = Y|`R;
+
+theorem :: RELAT_1:100
+  X c= Y implies X|`R c= Y|`R;
+
+theorem :: RELAT_1:101
+  P1 c= P2 implies Y|`P1 c= Y|`P2;
+
+theorem :: RELAT_1:102
+  P1 c= P2 & Y1 c= Y2 implies Y1|`P1 c= Y2|`P2;
+
+theorem :: RELAT_1:103
+  (X \/ Y)|`R = (X|`R) \/ (Y|`R);
+
+theorem :: RELAT_1:104
+  (X /\ Y)|`R = X|`R /\ Y|`R;
+
+theorem :: RELAT_1:105
+  (X \ Y)|`R = X|`R \ Y|`R;
+
+theorem :: RELAT_1:106
+  {}|`R = {};
+
+theorem :: RELAT_1:107
+  Y|`{} = {};
+
+theorem :: RELAT_1:108
+  Y|`(P*R) = P*(Y|`R);
+
+theorem :: RELAT_1:109
+  (Y|`R)|X = Y|`(R|X);
+
+::           IMAGE OF SET IN RELATION
+
+definition
+  let R,X;
+  func R.:X -> set means
+:: RELAT_1:def 13
+
+  y in it iff ex x st [x,y] in R & x in X;
+end;
+
+theorem :: RELAT_1:110
+  y in R.:X iff ex x st x in dom R & [x,y] in R & x in X;
+
+theorem :: RELAT_1:111
+  R.:X c= rng R;
+
+theorem :: RELAT_1:112
+  R.:X = R.:(dom R /\ X);
+
+theorem :: RELAT_1:113
+  R.:dom R = rng R;
+
+theorem :: RELAT_1:114
+  R.:X c= R.:(dom R);
+
+theorem :: RELAT_1:115
+  rng(R|X) = R.:X;
+
+registration let R; let X be empty set;
+ cluster R.:X -> empty;
+end;
+
+registration let R be empty Relation; let X;
+ cluster R.:X -> empty;
+end;
+
+::$CT 2
+
+theorem :: RELAT_1:118
+  R.:X = {} iff dom R misses X;
+
+theorem :: RELAT_1:119
+  X <> {} & X c= dom R implies R.:X <> {};
+
+theorem :: RELAT_1:120
+  R.:(X \/ Y) = R.:X \/ R.:Y;
+
+theorem :: RELAT_1:121
+  R.:(X /\ Y) c= R.:X /\ R.:Y;
+
+theorem :: RELAT_1:122
+  R.:X \ R.:Y c= R.:(X \ Y);
+
+theorem :: RELAT_1:123
+  X c= Y implies R.:X c= R.:Y;
+
+theorem :: RELAT_1:124
+  P c= R implies P.:X c= R.:X;
+
+theorem :: RELAT_1:125
+  P c= R & X c= Y implies P.:X c= R.:Y;
+
+theorem :: RELAT_1:126
+  (P*R).:X = R.:(P.:X);
+
+theorem :: RELAT_1:127
+  rng(P*R) = R.:(rng P);
+
+theorem :: RELAT_1:128
+  (R|X).:Y c= R.:Y;
+
+theorem :: RELAT_1:129
+  for R be Relation, X, Y be set st X c= Y holds (R|Y).:X = R.:X;
+
+theorem :: RELAT_1:130
+  (dom R) /\ X c= (R~).:(R.:X);
+
+::          INVERSE IMAGE OF SET IN RELATION
+
+definition
+  let R,Y;
+  func R"Y -> set means
+:: RELAT_1:def 14
+
+  x in it iff ex y st [x,y] in R & y in Y;
+end;
+
+theorem :: RELAT_1:131
+  x in R"Y iff ex y st y in rng R & [x,y] in R & y in Y;
+
+theorem :: RELAT_1:132
+  R"Y c= dom R;
+
+theorem :: RELAT_1:133
+  R"Y = R"(rng R /\ Y);
+
+theorem :: RELAT_1:134
+  R"rng R = dom R;
+
+theorem :: RELAT_1:135
+  R"Y c= R"rng R;
+
+registration let R; let Y be empty set;
+ cluster R"Y -> empty;
+end;
+
+registration let R be empty Relation; let Y;
+ cluster R"Y -> empty;
+end;
+
+::$CT 2
+
+theorem :: RELAT_1:138
+  R"Y = {} iff rng R misses Y;
+
+theorem :: RELAT_1:139
+  Y <> {} & Y c= rng R implies R"Y <> {};
+
+theorem :: RELAT_1:140
+  R"(X \/ Y) = R"X \/ R"Y;
+
+theorem :: RELAT_1:141
+  R"(X /\ Y) c= R"X /\ R"Y;
+
+theorem :: RELAT_1:142
+  R"X \ R"Y c= R"(X \ Y);
+
+theorem :: RELAT_1:143
+  X c= Y implies R"X c= R"Y;
+
+theorem :: RELAT_1:144
+  P c= R implies P"Y c= R"Y;
+
+theorem :: RELAT_1:145
+  P c= R & X c= Y implies P"X c= R"Y;
+
+theorem :: RELAT_1:146
+  (P*R)"Y = P"(R"Y);
+
+theorem :: RELAT_1:147
+  dom(P*R) = P"(dom R);
+
+theorem :: RELAT_1:148
+  (rng R) /\ Y c= (R~)"(R"Y);
+
+begin :: Addenda
+
+definition
+  let R;
+  attr R is empty-yielding means
+:: RELAT_1:def 15
+
+  rng R c= {{}};
+end;
+
+theorem :: RELAT_1:149
+  R is empty-yielding iff for X st X in rng R holds X = {};
+
+:: from AMI_3
+
+theorem :: RELAT_1:150
+  for f,g being Relation, A,B being set st f|A = g|A & f|B = g|B holds
+  f|(A \/ B) = g|(A \/ B);
+
+theorem :: RELAT_1:151
+  for X being set, f,g being Relation st dom g c= X & g c= f holds g c= f|X;
+
+theorem :: RELAT_1:152
+  for f being Relation, X being set st X misses dom f holds f|X = {};
+
+:: from AMI_5
+
+theorem :: RELAT_1:153
+  for f,g being Relation, A,B being set st A c= B & f|B = g|B holds f|A = g|A;
+
+:: missing, 2005.07.11, A.T.
+
+theorem :: RELAT_1:154
+  R|dom S = R|dom(S|dom R);
+
+:: missing, 2005.11.13, A.T.
+
+registration
+  cluster empty -> empty-yielding for Relation;
+end;
+
+registration
+  let R be empty-yielding Relation;
+  let X be set;
+  cluster R|X -> empty-yielding;
+end;
+
+theorem :: RELAT_1:155
+  R|X is non empty-yielding implies R is non empty-yielding;
+
+:: from EQREL_1 (Class), 2007.02.06
+
+definition
+  let R be Relation, x be object;
+  func Im(R,x) -> set equals
+:: RELAT_1:def 16
+  R.:{x};
+end;
+
+:: from YELLOW_3, 2007.06.13, A.T.
+
+scheme :: RELAT_1:sch 2
+  ExtensionalityR { A, B() -> Relation, P[object,object] }:
+   A() = B()
+provided
+ for a, b being object holds [a,b] in A() iff P[a,b] and
+ for a, b being object holds [a,b] in B() iff P[a,b];
+
+:: from SCMFSA6A, 2007.07.23, A.T.
+
+theorem :: RELAT_1:156
+  dom (R | (dom R \ X)) = dom R \ X;
+
+theorem :: RELAT_1:157
+  R | X = R | (dom R /\ X);
+
+:: missing, 2007.11.07, A.T.
+
+theorem :: RELAT_1:158
+  dom [:X,Y:] c= X;
+
+theorem :: RELAT_1:159
+  rng [:X,Y:] c= Y;
+
+:: from FUNCOP_1, 2008.02.19, A.T.
+
+theorem :: RELAT_1:160
+  X <> {} & Y <> {} implies dom [:X,Y:] = X & rng [:X,Y:] = Y;
+
+theorem :: RELAT_1:161
+  dom R = {} & dom Q = {} implies R = Q;
+
+theorem :: RELAT_1:162
+  rng R = {} & rng Q = {} implies R = Q;
+
+theorem :: RELAT_1:163
+  dom R = dom Q implies dom(S*R) = dom (S*Q);
+
+theorem :: RELAT_1:164
+  rng R = rng Q implies rng(R*S) = rng (Q*S);
+
+:: from RELSET_2 (R"x, generalized), 2008.07.16, A.T.
+
+definition
+  let R be Relation, x be object;
+  func Coim(R,x) -> set equals
+:: RELAT_1:def 17
+  R"{x};
+end;
+
+:: from NECKLACE, 2008.07.25, A.T.
+
+registration
+  let R be trivial Relation;
+  cluster dom R -> trivial;
+end;
+
+registration
+  let R be trivial Relation;
+  cluster rng R -> trivial;
+end;
+
+:: comp. RFUNCT_2:34, CFCONT_1:31, 2008.08.07, A.T.
+
+theorem :: RELAT_1:165
+  rng R c= dom (S|X) implies R*(S|X) = R*S;
+
+:: from LATTICE2, 2008.09.14, A.T.
+
+theorem :: RELAT_1:166
+  Q|A = R|A implies Q.:A = R.:A;
+
+:: new, 2009.01.21, A.T
+
+definition
+  let X,R;
+  attr R is X-defined means
+:: RELAT_1:def 18
+
+  dom R c= X;
+  attr R is X-valued means
+:: RELAT_1:def 19
+
+  rng R c= X;
+end;
+
+registration
+  let X,Y;
+  cluster X-defined Y-valued for Relation;
+end;
+
+:: from QC_LANG4, 2009.01.23, A.T
+
+theorem :: RELAT_1:167
+  for D being set, R being D-valued Relation
+   for y being object st y in rng R holds y in D;
+
+:: new, 2009.02.07, A.T.
+
+registration
+  let X,A;
+  let R be A-valued Relation;
+  cluster R|X -> A-valued;
+end;
+
+registration
+  let X,A;
+  let R be A-defined Relation;
+  cluster R|X -> A-defined X-defined;
+end;
+
+registration
+  let X;
+  cluster id X -> X-defined X-valued;
+end;
+
+:: 2009.02.16, A.T.
+
+registration
+  let A be set;
+  let R be A-valued Relation, S be Relation;
+  cluster S*R -> A-valued;
+end;
+
+registration
+  let A be set;
+  let R be A-defined Relation, S be Relation;
+  cluster R*S -> A-defined;
+end;
+
+:: 2009.02.16, A.T.
+
+theorem :: RELAT_1:168
+ x in X implies Im([:X,Y:],x) = Y;
+
+theorem :: RELAT_1:169
+ [x,y] in R iff y in Im(R,x);
+
+theorem :: RELAT_1:170
+  x in dom R iff Im(R,x) <> {};
+
+theorem :: RELAT_1:171
+ {} is X-defined Y-valued;
+
+:: 2009.10.02, A.T.
+
+registration
+  cluster empty -> non-empty for Relation;
+end;
+
+registration let X be set, R be X-defined Relation;
+  cluster -> X-defined for Subset of R;
+end;
+
+registration let X be set, R be X-valued Relation;
+  cluster -> X-valued for Subset of R;
+end;
+
+:: missing, 2010.01.02, A.T
+
+theorem :: RELAT_1:172
+  X misses Y implies R|X|Y = {};
+
+:: from AMISTD_3, 2010.01.10, A.T.
+
+theorem :: RELAT_1:173
+  field {[x,x]} = {x};
+
+registration let X; let R be X-defined Relation;
+ reduce R|X to R;
+end;
+
+registration let Y; let R be Y-valued Relation;
+ reduce Y|`R to R;
+end;
+
+theorem :: RELAT_1:174
+  for R being X-defined Relation holds R = R|X;
+
+theorem :: RELAT_1:175
+  for S being Relation, R being X-defined Relation st R c= S holds R c= S|X;
+
+:: missing, 2010.04.07, A.T.
+
+theorem :: RELAT_1:176
+  dom R c= X implies R \ (R|A) = R|(X\A);
+
+theorem :: RELAT_1:177
+  dom(R \ (R|A)) = dom R \ A;
+
+theorem :: RELAT_1:178
+  dom R \ dom(R|A) = dom(R \ (R|A));
+
+theorem :: RELAT_1:179
+  dom R misses dom S implies R misses S;
+
+theorem :: RELAT_1:180
+  rng R misses rng S implies R misses S;
+
+theorem :: RELAT_1:181
+  X c= Y implies (R \ R|Y)|X = {};
+
+theorem :: RELAT_1:182
+ X c= Y implies
+ for R being X-defined Relation holds R is Y-defined;
+
+theorem :: RELAT_1:183
+ X c= Y implies
+ for R being X-valued Relation holds R is Y-valued;
+
+theorem :: RELAT_1:184
+  R c= S iff R c= S|dom R;
+
+theorem :: RELAT_1:185
+  for R being X-defined Y-valued Relation holds R c= [:X,Y:];
+
+:: new, 20011.06.11, A.T.
+
+theorem :: RELAT_1:186
+  dom(X|`R) c= dom R;
+
+registration
+  let A,X;
+  let R be A-defined Relation;
+  cluster X|`R -> A-defined;
+end;
+
+registration
+  let X,A;
+  let R be A-valued Relation;
+  cluster X|`R -> A-valued X-valued;
+end;
+
+registration
+ let X be empty set;
+ cluster -> empty for X-defined Relation;
+ cluster -> empty for X-valued Relation;
+end;
+
+:: from PNPROC_1, 2012.02.20, A.T.
+
+theorem :: RELAT_1:187
+  for X,Y being set, P,R being Relation st X misses Y holds P|X misses R|Y;
+
+theorem :: RELAT_1:188
+  for Y being set, R being Relation holds Y|`R c= R|(R"Y);
+
+theorem :: RELAT_1:189
+  for f being Relation, x, y st dom f = {x} & rng f = {y}
+  holds f = { [x,y] };
+
+registration
+  let X,Y;
+  sethood of X-defined Y-valued Relation;
+end;

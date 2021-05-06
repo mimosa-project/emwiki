@@ -1,0 +1,495 @@
+:: The { \bf while } macro instructions of SCM+FSA, Part { II }
+::  by Piotr Rudnicki
+::
+:: Received June 3, 1998
+:: Copyright (c) 1998-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, SUBSET_1, INT_1, AMI_1, SCMFSA_2, SF_MASTR, FUNCOP_1,
+      FUNCT_1, CARD_3, RELAT_1, TARSKI, AMISTD_2, XBOOLE_0, CARD_1, SCMFSA8A,
+      AMI_3, FSM_1, SCMFSA7B, SCMFSA8B, ARYTM_3, SCMFSA6A, ARYTM_1, FUNCT_4,
+      SCMFSA_9, SCMFSA6B, XXREAL_0, CIRCUIT2, GRAPHSP, NAT_1, SCMFSA6C,
+      MSUALG_1, SFMASTR1, PRE_FF, COMPLEX1, ABIAN, SCMFSA9A, PARTFUN1,
+      EXTPRO_1, COMPOS_1, MEMSTR_0, SCMFSA_7, SCMFSA8C, SFMASTR2, AMISTD_1,
+      TURING_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, CARD_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      FINSUB_1, FUNCOP_1, INT_1, ABIAN, RELAT_1, FUNCT_1, PARTFUN1, FUNCT_2,
+      PRE_FF, CARD_3, FUNCT_4, FUNCT_7, PBOOLE, VALUED_1, INT_2, XXREAL_0,
+      NAT_1, NAT_D, MEMSTR_0, COMPOS_0, COMPOS_1, COMPOS_2, EXTPRO_1, AMISTD_1,
+      AMISTD_2, SCMFSA_2, SCMFSA6A, SCMFSA6B, SF_MASTR, SCMFSA6C, SCMFSA_7,
+      SCMFSA7B, SCMFSA8A, SCMFSA8B, SCMFSA_9, SFMASTR1, SCMFSA8C, SCMFSA_M,
+      SCMFSA_X;
+ constructors NAT_D, PRE_FF, ABIAN, SCMFSA_7, SCMFSA6A, SCMFSA6B, MEMSTR_0,
+      SCMFSA6C, SCMFSA8A, SCMFSA8B, SCMFSA_9, SFMASTR1, AMISTD_2, RELSET_1,
+      PRE_POLY, XXREAL_2, PBOOLE, SCMFSA7B, SCMFSA8C, FUNCT_4, AMISTD_1, AMI_3,
+      SCMFSA_M, SF_MASTR, SCMFSA_X, DOMAIN_1, COMPOS_2;
+ registrations XBOOLE_0, FUNCT_1, ORDINAL1, RELSET_1, FINSET_1, FINSUB_1,
+      XXREAL_0, XREAL_0, NAT_1, INT_1, CARD_3, ABIAN, SCMFSA_2, SCMFSA6B,
+      SCMFSA6C, SCMFSA7B, SCMFSA8A, SCMFSA8B, SCMFSA_9, SFMASTR1, VALUED_1,
+      AFINSQ_1, FUNCT_4, FUNCOP_1, COMPOS_1, EXTPRO_1, STRUCT_0, MEMSTR_0,
+      AMI_3, COMPOS_0, SCMFSA_M, SCMFSA8C, SCMFSA6A, SCMFSA10, SCMFSA_X,
+      COMPOS_2;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin :: SCM+FSA preliminaries
+
+reserve p,p1,p2,h for Instruction-Sequence of SCM+FSA;
+
+reserve k, l, n for Nat,
+  j for Integer,
+  i,i1 for Instruction of SCM+FSA;
+
+theorem :: SCMFSA9A:1  :: singleUsed
+  UsedILoc(l .--> i) = UsedIntLoc i;
+
+theorem :: SCMFSA9A:2  :: singleUsedF:
+  UsedI*Loc (l .--> i) = UsedInt*Loc i;
+
+theorem :: SCMFSA9A:3  :: StopUsed:
+  UsedILoc Stop SCM+FSA = {};
+
+theorem :: SCMFSA9A:4  :: StopUsedF:
+  UsedI*Loc Stop SCM+FSA = {};
+
+theorem :: SCMFSA9A:5  :: GotoUsed:
+  UsedILoc Goto l = {};
+
+theorem :: SCMFSA9A:6  :: GotoUsedF:
+  UsedI*Loc Goto l = {};
+
+reserve s, s1, s2 for State of SCM+FSA,
+  a for read-write Int-Location,
+  b for Int-Location,
+  I, J for MacroInstruction of SCM+FSA,
+  Ig for good MacroInstruction of SCM+FSA,
+  i, j, k, m, n for Nat;
+
+theorem :: SCMFSA9A:7
+  UsedILoc if=0(b, I, J) = {b} \/ UsedILoc I \/ UsedILoc J;
+
+theorem :: SCMFSA9A:8   :: eifUsedF:
+  for a being Int-Location holds UsedI*Loc if=0(a, I, J) =
+  UsedI*Loc I \/ UsedI*Loc J;
+
+theorem :: SCMFSA9A:9  :: ifUsed:
+  UsedILoc if>0(b, I, J) = {b} \/ UsedILoc I \/ UsedILoc J;
+
+theorem :: SCMFSA9A:10  :: ifUsedF:
+  UsedI*Loc if>0(b, I, J) = UsedI*Loc I \/ UsedI*Loc J;
+
+begin
+
+theorem :: SCMFSA9A:11 :: ewhileUsed:
+  UsedILoc while=0(b, I) = {b} \/ UsedILoc I;
+
+theorem :: SCMFSA9A:12 :: ewhileUsedF:
+  UsedI*Loc while=0(b, I) = UsedI*Loc I;
+
+definition let p;
+  let s be State of SCM+FSA, a be read-write Int-Location,
+      I be MacroInstruction of SCM+FSA;
+  pred ProperBodyWhile=0 a, I, s, p means
+:: SCMFSA9A:def 1
+  for k being Nat st StepWhile=0(a,I,p,s).k.a = 0 holds
+   I is_halting_on StepWhile=0(a,I,p,s).k, p+*while=0(a,I);
+  pred WithVariantWhile=0 a, I, s, p means
+:: SCMFSA9A:def 2
+  ex f being Function of product the_Values_of SCM+FSA, NAT
+   st for k being Nat
+    holds f.(StepWhile=0(a,I,p,s).(k+1)) < f.(StepWhile=0(a,I,p,s).k)
+      or StepWhile=0(a,I,p,s).k.a <> 0;
+end;
+
+theorem :: SCMFSA9A:13  :: eParaProper:
+  for I being parahalting MacroInstruction of SCM+FSA holds
+  ProperBodyWhile=0 a,I,s,p;
+
+theorem :: SCMFSA9A:14  :: SCMFSA_9:24, corrected
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  ProperBodyWhile=0 a,I,s,p & WithVariantWhile=0 a,I,s,p implies
+  while=0(a,I) is_halting_on s,p;
+
+theorem :: SCMFSA9A:15  :: SCMFSA_9:25, corrected
+  for I being parahalting really-closed MacroInstruction of SCM+FSA
+   st WithVariantWhile=0 a, I, s, p
+    holds while=0(a,I) is_halting_on s,p;
+
+theorem :: SCMFSA9A:16  :: based on SCMFSA_9:10
+  for s being 0-started State of SCM+FSA
+   st while=0(a, I) c= p & s.a <> 0
+  holds LifeSpan(p,s) = 3 & for k being Nat
+   holds DataPart Comput(p,s,k) = DataPart s;
+
+theorem :: SCMFSA9A:17  :: based on SCMFSA_9:22
+ for I being really-closed MacroInstruction of SCM+FSA holds
+I is_halting_on s,p & s.a = 0 implies DataPart
+  Comput(p +* while=0(a,I),(Initialize s),
+  (LifeSpan(p+* I,Initialize s) + 2)) =
+DataPart Comput(p +* I,
+   (Initialize s), (LifeSpan(p+* I,Initialize s)));
+
+theorem :: SCMFSA9A:18  :: Step_eq0_0:
+  (StepWhile=0(a,I,p,s).k).a <> 0 implies
+   DataPart StepWhile=0(a,I,p,s).(k+1) = DataPart StepWhile=0(a,I,p,s).k;
+
+theorem :: SCMFSA9A:19  :: Step_eq0_1:
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  ( I is_halting_on Initialized StepWhile=0(a,I,p,s).k ,p+*while=0(a,I)
+or
+    I is parahalting) & (
+  StepWhile=0(a,I,p,s).k).a = 0 & (StepWhile=0(a,I,p,s).k).intloc 0 = 1 implies
+DataPart StepWhile=0(a,I,p,s).(k+1) =
+ DataPart IExec(I,p+*while=0(a,I),StepWhile=0(a,I,p,s).k);
+
+theorem :: SCMFSA9A:20 :: eGoodStep0:
+ for Ig being good really-closed MacroInstruction of SCM+FSA holds
+  (ProperBodyWhile=0 a,Ig,s,p or Ig is parahalting) & s.intloc 0 = 1
+  implies for k holds StepWhile=0(a,Ig,p,s).k.intloc 0 = 1;
+
+theorem :: SCMFSA9A:21
+  for I being really-closed MacroInstruction of SCM+FSA holds
+  ProperBodyWhile=0 a,I,s1,p1 & DataPart s1 = DataPart s2 implies for k
+  holds DataPart StepWhile=0(a,I,p1,s1).k = DataPart StepWhile=0(a,I,p2,s2).k;
+
+definition let p;
+  let s be State of SCM+FSA, a be read-write Int-Location,
+      I be really-closed MacroInstruction of SCM+FSA;
+  assume that
+ ProperBodyWhile=0 a,I,s,p or I is parahalting and
+ WithVariantWhile=0 a,I,s,p;
+  func ExitsAtWhile=0(a, I, p, s) -> Nat means
+:: SCMFSA9A:def 3
+
+  ex k being Nat
+   st it = k & (StepWhile=0(a,I,p,s).k).a <> 0 &
+    (for i being Nat
+     st (StepWhile=0(a,I,p,s).i).a <> 0 holds k <= i) &
+    DataPart Comput(p +* while=0(a, I),
+      Initialize s,
+       (LifeSpan(p +* while=0(a, I),
+       Initialize s)))
+     = DataPart StepWhile=0(a,I,p,s).k;
+end;
+
+theorem :: SCMFSA9A:22 :: IE_while_ne0:
+  s.intloc 0 = 1 & s.a <> 0 implies DataPart IExec(while=0(a,I),p,s) =
+  DataPart s;
+
+theorem :: SCMFSA9A:23 :: IE_while_eq0:
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  (ProperBodyWhile=0 a,I,Initialized s,p or I is parahalting) &
+WithVariantWhile=0 a,I,Initialized s,p
+ implies
+  DataPart IExec(while=0(a,I),p,s)
+  = DataPart
+   StepWhile=0(a,I,p,Initialized s).ExitsAtWhile=0(a,I,p,Initialized s);
+
+begin
+
+theorem :: SCMFSA9A:24
+  UsedILoc while>0(b, I) = {b} \/ UsedILoc I;
+
+theorem :: SCMFSA9A:25
+  UsedI*Loc while>0(b, I) = UsedI*Loc I;
+
+definition let p;
+  let s be State of SCM+FSA, a be read-write Int-Location,
+      I be MacroInstruction of SCM+FSA;
+  pred ProperBodyWhile>0 a,I,s,p means
+:: SCMFSA9A:def 4
+  for k being Nat st StepWhile>0(a,I,p,s).k.a > 0
+   holds I is_halting_on StepWhile>0(a,I,p,s).k, p+*while>0(a,I);
+  pred WithVariantWhile>0 a,I,s,p means
+:: SCMFSA9A:def 5
+
+  ex f being Function of product the_Values_of SCM+FSA, NAT
+   st for k being Nat holds ( f.(
+   StepWhile>0(a,I,p,s).(k+1)) < f.(StepWhile>0(a,I,p,s).k) or
+   StepWhile>0(a,I,p,s).k.a <= 0 );
+end;
+
+theorem :: SCMFSA9A:26  :: ParaProper:
+  for I being parahalting MacroInstruction of SCM+FSA holds
+  ProperBodyWhile>0 a,I,s,p;
+
+theorem :: SCMFSA9A:27  :: SCMFSA_9:42, corrected
+  for I being really-closed MacroInstruction of SCM+FSA holds
+  ProperBodyWhile>0 a,I,s,p & WithVariantWhile>0 a,I,s,p implies
+  while>0(a,I) is_halting_on s,p;
+
+theorem :: SCMFSA9A:28  :: SCMFSA_9:43, corrected
+  for I being parahalting really-closed MacroInstruction of SCM+FSA
+   st WithVariantWhile>0 a, I, s, p
+    holds while>0(a,I) is_halting_on s,p;
+
+theorem :: SCMFSA9A:29  :: based on SCMFSA_9:10
+  for s being 0-started State of SCM+FSA
+   st while>0(a, I) c= p & s.a <= 0
+  holds LifeSpan(p,s) = 3 & for k being Nat
+   holds DataPart Comput(p,s,k) = DataPart s;
+
+theorem :: SCMFSA9A:30  :: based on SCMFSA_9:36
+ for I being really-closed MacroInstruction of SCM+FSA holds
+I is_halting_on s,p & s.a > 0 implies DataPart
+  Comput(p +* while>0(a,I),Initialize s,LifeSpan(p +* I,Initialize s) + 2)
+     = DataPart Comput(p +* I,Initialize s,LifeSpan(p +* I,Initialize s));
+
+theorem :: SCMFSA9A:31  :: Step_gt0_0:
+  (StepWhile>0(a,I,p,s).k).a <= 0 implies
+   DataPart StepWhile>0(a,I,p,s).(k+1) = DataPart StepWhile>0(a,I,p,s).k;
+
+theorem :: SCMFSA9A:32  :: Step_gt0_1:
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  ( I is_halting_on Initialized StepWhile>0(a,I,p,s).k ,p+*while>0(a,I)
+or
+  I is parahalting) & (
+  StepWhile>0(a,I,p,s).k).a > 0 & (StepWhile>0(a,I,p,s).k).intloc 0 = 1 implies
+DataPart StepWhile>0(a,I,p,s).(k+1)
+ = DataPart IExec(I,p+*while>0(a,I),StepWhile>0(a,I,p,s).k);
+
+theorem :: SCMFSA9A:33  :: GoodStep0:
+ for Ig being good really-closed MacroInstruction of SCM+FSA holds
+  (ProperBodyWhile>0 a,Ig,s,p or Ig is parahalting) & s.intloc 0 =
+  1 implies for k holds StepWhile>0(a,Ig,p,s).k.intloc 0 = 1;
+
+theorem :: SCMFSA9A:34
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  ProperBodyWhile>0 a,I,s1,p1 & DataPart s1 = DataPart s2 implies
+for k holds DataPart StepWhile>0(a,I,p1,s1).k
+ = DataPart StepWhile>0(a,I,p2,s2).k;
+
+definition let p;
+  let s be State of SCM+FSA, a be read-write Int-Location,
+      I be really-closed MacroInstruction of SCM+FSA;
+  assume that
+ ProperBodyWhile>0 a,I,s,p or I is parahalting and
+ WithVariantWhile>0 a,I,s,p;
+  func ExitsAtWhile>0(a, I, p, s) -> Nat means
+:: SCMFSA9A:def 6
+
+  ex k being Nat st it = k &
+    (StepWhile>0(a,I,p,s).k).a <= 0 &
+    (for i being Nat st (StepWhile>0(a,I,p,s).i).a <= 0
+     holds k <= i) &
+    DataPart Comput(p +* while>0(a, I),
+        Initialize s,
+       (LifeSpan(p +* while>0(a, I),
+        Initialize s)))
+     = DataPart StepWhile>0(a,I,p,s).k;
+end;
+
+theorem :: SCMFSA9A:35  :: IE_while_le0:
+  s.intloc 0 = 1 & s.a <= 0
+    implies DataPart IExec(while>0(a,I),p,s) = DataPart s;
+
+theorem :: SCMFSA9A:36  :: IE_while_gt0:
+ for I being really-closed MacroInstruction of SCM+FSA holds
+  (ProperBodyWhile>0 a,I,Initialized s,p or I is parahalting) &
+WithVariantWhile>0 a,I,Initialized s,p implies DataPart IExec(while>0(a,I),p,s)
+  = DataPart
+  StepWhile>0(a,I,p,Initialized s).ExitsAtWhile>0(a,I,p,Initialized s);
+
+theorem :: SCMFSA9A:37
+  StepWhile>0(a,I,p,s).k.a <= 0 implies for n being Nat
+     st k <= n
+    holds DataPart StepWhile>0(a,I,p,s).n = DataPart StepWhile>0(a,I,p,s).k;
+
+theorem :: SCMFSA9A:38
+  for I being really-closed MacroInstruction of SCM+FSA holds
+  DataPart s1 = DataPart s2 & ProperBodyWhile>0 a,I,s1,p1 implies
+  ProperBodyWhile>0 a,I,s2,p2;
+
+theorem :: SCMFSA9A:39
+ for Ig being good really-closed MacroInstruction of SCM+FSA holds
+  s.intloc 0 = 1 & ProperBodyWhile>0 a,Ig,s,p &
+   WithVariantWhile>0 a, Ig, s, p
+    implies for i, j st i <> j & i <= ExitsAtWhile>0(a,Ig,p,s) & j <=
+ExitsAtWhile>0(a,Ig,p,s) holds StepWhile>0(a,Ig,p,s).i <> StepWhile>0(a,Ig,p,s)
+  .j & DataPart StepWhile>0(a,Ig,p,s).i <> DataPart StepWhile>0(a,Ig,p,s).j;
+
+::$CD
+
+theorem :: SCMFSA9A:40
+ for Ig being good really-closed MacroInstruction of SCM+FSA holds
+  s.intloc 0 = 1 & ProperBodyWhile>0 a,Ig,s,p &
+   WithVariantWhile>0 a, Ig, s, p
+    implies ex f being Function of product the_Values_of SCM+FSA, NAT
+st f is on_data_only & for k being Nat
+ holds f.(StepWhile>0(a,Ig,p,s).(k+1)) < f.(StepWhile>0(a,Ig,p,s).k) or
+ StepWhile>0(a,Ig,p,s).k.a <= 0;
+
+theorem :: SCMFSA9A:41
+ for Ig being good really-closed MacroInstruction of SCM+FSA holds
+  s1.intloc 0 = 1 & DataPart s1 = DataPart s2 &
+   ProperBodyWhile>0 a,Ig,s1,p1 & WithVariantWhile>0 a,Ig,s1,p1
+    implies WithVariantWhile>0 a,Ig,s2,p2;
+
+begin :: fusc using while>0, bottom-up
+
+definition
+  let N, result be Int-Location;
+  func Fusc_macro ( N, result ) -> MacroInstruction of SCM+FSA equals
+:: SCMFSA9A:def 8
+  SubFrom(result,
+  result) ";" ((1-stRWNotIn {N, result}) := intloc 0) ";" ((2-ndRWNotIn {N,
+result}) := N) ";" while>0 ( 2-ndRWNotIn {N, result}, (3-rdRWNotIn {N, result})
+:= 2 ";" Divide(2-ndRWNotIn {N, result}, 3-rdRWNotIn {N, result}) ";"
+   if=0 ( 3-rdRWNotIn {N, result},
+          Macro AddTo(1-stRWNotIn {N, result}, result),
+          Macro AddTo(result, 1-stRWNotIn {N, result})
+            qua MacroInstruction of SCM+FSA
+        )
+   );
+end;
+:: set next = 1-stRWNotIn {N, result};
+:: set aux  = 2-ndRWNotIn {N, result};
+:: set rem2 = 3-rdRWNotIn {N, result};
+:: while and if do not allocate memory, no need to save anything
+
+registration let N,R be read-write Int-Location;
+ cluster Fusc_macro(N,R) -> really-closed;
+end;
+
+theorem :: SCMFSA9A:42
+  for N, result being read-write Int-Location st N <> result for n being
+Element of NAT st n = s.N
+ holds IExec(Fusc_macro(N,result),p,s).result = Fusc n
+  & IExec(Fusc_macro(N,result),p,s).N = n;
+
+theorem :: SCMFSA9A:43
+  for I,J being MacroInstruction of SCM+FSA, a being Int-Location holds
+  UsedILoc if=0(a,I,J) = {a} \/ UsedILoc I \/ UsedILoc J &
+  UsedILoc if>0(a,I,J) = {a} \/ UsedILoc I \/ UsedILoc J;
+
+theorem :: SCMFSA9A:44
+  UsedILoc Times(b, I) =  {b, intloc 0} \/ UsedILoc I;
+
+theorem :: SCMFSA9A:45
+  UsedI*Loc Times(b, I) = UsedI*Loc I;
+
+begin :: analogous to SFMASTR2
+
+reserve s, s1, s2 for State of SCM+FSA,
+  p, p1 for Instruction-Sequence of SCM+FSA,
+  a, b for Int-Location,
+  d for read-write Int-Location,
+  f for FinSeq-Location,
+  I for MacroInstruction of SCM+FSA,
+  J for good MacroInstruction of SCM+FSA,
+  k, m, n for Nat;
+
+:: registration
+::   let I be good Program of SCM+FSA, a be Int-Location;
+::   cluster Times(a, I) -> good;
+::   coherence;
+:: end;
+
+definition let p;
+  let s be State of SCM+FSA, I be MacroInstruction of SCM+FSA,
+      a be read-write Int-Location;
+  func StepTimes(a, I, p, s) ->
+   sequence of  product the_Values_of SCM+FSA equals
+:: SCMFSA9A:def 9
+  StepWhile>0(a,I ";" SubFrom(a, intloc 0), p, Initialized s);
+end;
+
+reserve a for read-write Int-Location;
+
+theorem :: SCMFSA9A:46
+  StepTimes(a,J,p,s).0.intloc 0 = 1;
+
+theorem :: SCMFSA9A:47
+   StepTimes(a,J,p,s).0.a = s.a;
+
+registration
+ let I be really-closed MacroInstruction of SCM+FSA, a be Int-Location;
+ cluster Times(a,I) -> really-closed;
+end;
+
+theorem :: SCMFSA9A:48
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a &
+  StepTimes(a,J,p,s).k.intloc 0 = 1 &
+  J is_halting_on StepTimes(a,J,p,s).k, p+*Times(a,J) implies
+   StepTimes(a,J,p,s).(k+1).intloc 0 = 1 &
+  (StepTimes(a,J,p,s).k.a > 0
+  implies StepTimes(a,J,p,s).(k+1).a = StepTimes(a,J,p,s).k.a - 1);
+
+theorem :: SCMFSA9A:49
+  StepTimes(a,I,p,s).0.f = s.f;
+
+definition let p;
+  let s be State of SCM+FSA, a be read-write Int-Location,
+      I be MacroInstruction of SCM+FSA;
+  pred ProperTimesBody a, I, s, p means
+:: SCMFSA9A:def 10
+  for k being Nat st k < s.a
+   holds I is_halting_on StepTimes(a,I,p,s).k, p+*Times(a,I);
+end;
+
+theorem :: SCMFSA9A:50
+  I is parahalting implies ProperTimesBody a,I,s,p;
+
+theorem :: SCMFSA9A:51
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a &
+  ProperTimesBody a,J,s,p implies for k st k <= s.a holds
+  StepTimes(a,J,p,s).k.intloc 0 = 1;
+
+theorem :: SCMFSA9A:52
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a & ProperTimesBody a,J,s,p
+  implies for k st k <= s.a holds StepTimes(a,J,p,s).k.a+k = s.a;
+
+theorem :: SCMFSA9A:53
+  for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a &
+  ProperTimesBody a,J,s,p & 0 <= s.a
+  implies
+ for k st k >= s.a
+  holds StepTimes(a,J,p,s).k.a = 0 & StepTimes(a,J,p,s).k.intloc 0 = 1;
+
+theorem :: SCMFSA9A:54
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a &
+  s.a = k & (ProperTimesBody a,J,s,p or J is parahalting)
+implies
+   DataPart IExec(Times(a,J),p,s) = DataPart StepTimes(a,J,p,s).k;
+
+theorem :: SCMFSA9A:55
+ for J being good really-closed MacroInstruction of SCM+FSA holds
+  J does not destroy a &
+  s.intloc 0 = 1 & (ProperTimesBody a,J,s,p or J is parahalting)
+  implies Times(a, J) is_halting_on s,p;
+
+:: from SCMFSA8C, 2013.04.13, A.T.
+
+reserve P for Instruction-Sequence of SCM+FSA;
+
+theorem :: SCMFSA9A:56
+  for s being State of SCM+FSA,
+      I being good parahalting really-closed MacroInstruction of SCM+FSA,
+      a being read-write Int-Location
+   st I does not destroy a & s.intloc 0 = 1
+holds Times(a,I) is_halting_on s,P;
+
+theorem :: SCMFSA9A:57
+  for I being good parahalting really-closed MacroInstruction of SCM+FSA,
+      a being read-write Int-Location st I does not destroy a
+   holds Initialize((intloc 0).-->1)  is Times(a,I)-halted;
+
+theorem :: SCMFSA9A:58
+  for s being State of SCM+FSA, I being MacroInstruction of SCM+FSA,
+      a being read-write Int-Location st s.intloc 0 = 1 & s.a <= 0 holds
+  DataPart IExec(Times(a,I),P,s) = DataPart s;
+

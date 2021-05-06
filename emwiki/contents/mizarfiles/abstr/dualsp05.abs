@@ -1,0 +1,233 @@
+:: F. Riesz Theorem
+::  by Keiko Narita , Kazuhisa Nakasho and Yasunari Shidama
+:: 
+:: Received August 30, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies DUALSP05, ABSVALUE, NUMBERS, INTEGRA1, SUBSET_1, FUNCT_1,
+      FINSEQ_1, NAT_1, RELAT_1, MEASURE7, XBOOLE_0, XXREAL_2, XXREAL_0, SEQ_4,
+      CARD_1, REAL_1, ARYTM_3, ARYTM_1, CARD_3, INTEGRA2, SEQ_2, ORDINAL2,
+      HAHNBAN, FUNCT_4, COMPLEX1, XXREAL_1, FUNCT_3, STRUCT_0, PARTFUN1,
+      TARSKI, DUALSP01, TOPMETR, PRE_TOPC, REALSET1, INTEGR15, MEASURE5,
+      FUNCT_7, INTEGR22, C0SP2, RCOMP_1, NORMSP_1, FCONT_1, PSCOMP_1, C0SP1,
+      ZFMISC_1, INTEGRA4, RFINSEQ, ORDINAL4, FUNCOP_1, RLVECT_1, RSSPACE4,
+      POLYALG1, MSSUBFAM, LOPBAN_1, ALGSTR_0, FUNCT_2, SUPINF_2, ASYMPT_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, ZFMISC_1, RELAT_1, FUNCT_1, RELSET_1,
+      PARTFUN1, FUNCT_2, FUNCOP_1, FUNCT_4, REALSET1, NUMBERS, XCMPLX_0,
+      XXREAL_0, XREAL_0, NAT_1, VALUED_0, ABSVALUE, XXREAL_2, FINSEQ_1,
+      FINSEQ_2, FINSEQOP, VALUED_1, SEQ_1, SEQ_2, RVSUM_1, SEQ_4, RCOMP_1,
+      FCONT_1, HAHNBAN, RFINSEQ, MEASURE5, INTEGRA1, INTEGRA2, INTEGRA3,
+      INTEGRA4, STRUCT_0, ALGSTR_0, PRE_TOPC, RLVECT_1, COMPTS_1, NORMSP_0,
+      NORMSP_1, TOPMETR, PSCOMP_1, NFCONT_1, C0SP1, C0SP2, DUALSP01, INTEGR22;
+ constructors REAL_1, FINSEQOP, MONOID_0, SEQ_4, PSCOMP_1, NAT_D, FCONT_1,
+      FCONT_2, INTEGRA4, SEQ_2, INTEGRA3, RFINSEQ, REALSET1, FUNCT_4, RSSPACE,
+      ABSVALUE, TOPMETR, COMSEQ_2, C0SP1, C0SP2, DUALSP01, PCOMPS_1, INTEGR22,
+      SEQ_1, NFCONT_1;
+ registrations NUMBERS, XREAL_0, SEQ_1, SEQ_2, INTEGRA1, FUNCT_2, NAT_1,
+      MEMBERED, ORDINAL1, FCONT_1, VALUED_0, VALUED_1, RELSET_1, PSCOMP_1,
+      TOPMETR, COMPTS_1, CARD_1, MEASURE5, PRE_TOPC, FINSEQ_1, C0SP1, STRUCT_0,
+      ABSVALUE, NORMSP_1, C0SP2, DUALSP01, INT_1, XXREAL_2, FUNCSDOM;
+ requirements REAL, NUMERALS, BOOLE, SUBSET, ARITHM;
+
+
+begin :: The normed spaces of Continuous Functions on closed interval
+
+theorem :: DUALSP05:1
+  for d be Real holds |. sgn d .| <= 1;
+
+theorem :: DUALSP05:2
+  for x be Real holds |.x.| = (sgn x) * x;
+
+definition
+  let A be non empty closed_interval Subset of REAL;
+  func ClstoCmp(A) -> strict compact non empty TopSpace means
+:: DUALSP05:def 1
+
+  ex a,b be Real st a <= b & [.a,b.] = A
+    & it = Closed-Interval-TSpace(a,b);
+end;
+
+theorem :: DUALSP05:3
+  for X be strict non empty SubSpace of R^1,
+      f be RealMap of X,
+      g be PartFunc of REAL,REAL,
+      x be Point of X,
+      x0 be Real
+    st g = f & x = x0
+  holds
+   ( for V be Subset of REAL st f.x in V & V is open holds
+       ex W be Subset of X st
+         x in W & W is open & f.:W c= V )
+  iff
+    g is_continuous_in x0;
+
+theorem :: DUALSP05:4
+  for X be strict non empty SubSpace of R^1,
+      f be RealMap of X,
+      g be PartFunc of REAL,REAL
+    st g = f
+  holds
+    f is continuous iff g is continuous;
+
+theorem :: DUALSP05:5
+  for A be non empty closed_interval Subset of REAL
+  holds the carrier of ClstoCmp(A) = A;
+
+theorem :: DUALSP05:6
+  for A be non empty closed_interval Subset of REAL,
+      u be Function
+  holds
+   ( u is Point of
+       R_Normed_Algebra_of_ContinuousFunctions(ClstoCmp(A))
+    iff
+   dom u = A & u is continuous PartFunc of REAL,REAL );
+
+theorem :: DUALSP05:7
+  for A be non empty closed_interval Subset of REAL,
+      v be Point of
+        R_Normed_Algebra_of_ContinuousFunctions ClstoCmp(A)
+  holds
+    v in BoundedFunctions the carrier of ClstoCmp(A);
+
+begin :: Preliminaries
+
+theorem :: DUALSP05:8
+  for A be non empty closed_interval Subset of REAL,
+      a,b be Real st A=[.a,b.]
+  ex x be Function of A, BoundedFunctions(A)
+    st for s be Real st s in [.a,b.]
+         holds
+          (s = a implies x.s = [.a,b.] --> 0)
+         &
+          (s <> a implies x.s = ([.a,s.] --> 1) +* (].s,b.] --> 0));
+
+definition
+  let A be non empty closed_interval Subset of REAL,
+      D be Division of A,
+      m be Function of A, BoundedFunctions(A),
+      i be Nat;
+  assume
+   i in Seg(len D + 1);
+  func Dp1(m,D,i) -> Point of
+                       R_Normed_Algebra_of_BoundedFunctions
+                         the carrier of ClstoCmp(A) equals
+:: DUALSP05:def 2
+
+  m.(lower_bound A) if i=1
+  otherwise m.(D.(i-1));
+end;
+
+definition
+  let A be non empty closed_interval Subset of REAL,
+      D be Division of A,
+      rho be Function of A, REAL,
+      i be Nat;
+:::  assume i in Seg(len D + 1);
+  func Dp2(rho,D,i) -> Real equals
+:: DUALSP05:def 3
+
+  rho.(lower_bound A) if i=1
+  otherwise rho.(D.(i-1));
+end;
+
+theorem :: DUALSP05:9
+  for A be non empty closed_interval Subset of REAL,
+      D be Division of A,
+      m be Function of A, BoundedFunctions(A),
+      rho be Function of A,REAL
+    ex s be FinSequence of
+          R_Normed_Algebra_of_BoundedFunctions
+            the carrier of ClstoCmp(A)
+      st len s = len D
+       & for i be Nat st i in dom s holds
+           s.i = sgn(Dp2(rho,D,i+1) - Dp2(rho,D,i))
+                * (Dp1(m,D,i+1) - Dp1(m,D,i));
+
+theorem :: DUALSP05:10
+  for V be RealLinearSpace,
+      f be Functional of V,
+      s be FinSequence of V
+    st f is additive
+  holds f.(Sum s) = Sum(f*s);
+
+theorem :: DUALSP05:11
+  for A be non empty set,
+      x be Element of R_Normed_Algebra_of_BoundedFunctions(A)
+  holds x is Function of A,REAL;
+
+theorem :: DUALSP05:12
+  for A be non empty closed_interval Subset of REAL,
+      s be FinSequence of
+            R_Normed_Algebra_of_BoundedFunctions
+              the carrier of ClstoCmp(A),
+      z be FinSequence of REAL,
+      g be Function of A,REAL,
+      t be Element of A
+    st len s = len z
+     & g = Sum s
+     & for k be Nat st k in dom z
+         holds ex sk be Function of A,REAL st
+                 sk = s.k & z.k = sk.t
+  holds g.t = Sum z;
+
+theorem :: DUALSP05:13
+  for A be non empty closed_interval Subset of REAL,
+      D be Division of A,
+      t be Element of A
+    st lower_bound A < D.1 holds
+    ex i be Element of NAT st
+      i in dom D
+    & t in divset(D,i)
+    & ( i = 1 or
+        (lower_bound divset(D,i) < t
+         & t <= (upper_bound divset(D,i)) ) );
+
+theorem :: DUALSP05:14
+  for A be non empty closed_interval Subset of REAL,
+      rho be Function of A,REAL,
+      B be Real
+    st 0 < vol A
+  holds
+  ( for D be Division of A, K be var_volume of rho,D
+      st lower_bound A < D.1
+    holds Sum(K) <= B )
+  implies
+  ( for D be Division of A, K be var_volume of rho,D
+    holds Sum(K) <= B );
+
+begin :: F. Riesz Theorem
+
+theorem :: DUALSP05:15
+  for A be non empty closed_interval Subset of REAL,
+      rho be Function of A,REAL,
+      f be Point of
+        DualSp (R_Normed_Algebra_of_ContinuousFunctions(ClstoCmp(A)))
+    st
+     rho is bounded_variation &
+     ( for u be continuous PartFunc of REAL,REAL
+         st dom u = A holds f.u = integral(u,rho) )
+  holds ||. f .|| <= total_vd(rho);
+
+theorem :: DUALSP05:16
+  for A be non empty closed_interval Subset of REAL,
+      x be Point of
+        DualSp R_Normed_Algebra_of_ContinuousFunctions ClstoCmp A
+    st 0 < vol A
+  holds
+    ex rho be Function of A,REAL st
+       rho is bounded_variation
+      &
+       ( for u be continuous PartFunc of REAL,REAL
+           st dom u = A holds x.u = integral(u,rho) )
+      &
+        ||.x.|| = total_vd(rho);

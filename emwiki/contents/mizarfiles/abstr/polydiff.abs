@@ -1,0 +1,408 @@
+:: Differentiability of Polynomials over Reals
+::  by Artur Korni{\l}owicz
+::
+:: Received February 23, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies LATTICES, VECTSP_1, POLYNOM1, FDIFF_1, PARTFUN1, NUMBERS, REAL_1,
+      RELAT_1, TARSKI, STRUCT_0, FUNCT_1, SUBSET_1, ALGSEQ_1, NAT_1, XXREAL_0,
+      SUPINF_2, POLYNOM2, POLYNOM3, POLYNOM5, FUNCSDOM, ARYTM_3, FUNCT_4,
+      NEWTON, CARD_1, FUNCT_7, MSAFREE2, MESFUNC1, FINSEQ_1, XBOOLE_0,
+      CALCUL_2, PREPOWER, FUNCOP_1, VALUED_0, HURWITZ, ARYTM_1, AFINSQ_1,
+      RCOMP_1, REALSET1, POLYNOM4, ORDINAL2, CARD_3, ORDINAL4, GROUP_1,
+      VALUED_1, XCMPLX_0, SQUARE_1, ALGSTR_0, RLVECT_1, POLYDIFF;
+ notations TARSKI, XBOOLE_0, SUBSET_1, NUMBERS, XXREAL_0, XREAL_0, XCMPLX_0,
+      RELAT_1, FUNCT_1, RELSET_1, PARTFUN1, FUNCT_2, FUNCOP_1, NAT_1, NAT_D,
+      FUNCT_7, NEWTON, PREPOWER, TAYLOR_1, FINSEQ_1, VALUED_0, VALUED_1,
+      RCOMP_1, FCONT_1, STRUCT_0, ALGSTR_0, RLVECT_1, VECTSP_1, GROUP_1,
+      FUNCSDOM, ALGSEQ_1, POLYNOM1, VFUNCT_1, NORMSP_1, POLYNOM3, POLYNOM4,
+      POLYNOM5, FDIFF_1, HURWITZ, RATFUNC1;
+ constructors RELSET_1, FDIFF_1, BINOP_2, POLYNOM4, POLYNOM5, ALGSEQ_1,
+      RATFUNC1, HURWITZ, FCONT_1, NAT_D, FUNCSDOM, RCOMP_1, PARTFUN2, FUNCT_7,
+      VFUNCT_1, TAYLOR_1, PREPOWER, NEWTON, ALGSTR_1;
+ registrations RELSET_1, FUNCT_2, VECTSP_1, STRUCT_0, XBOOLE_0, RELAT_1,
+      FUNCT_1, NAT_1, XREAL_0, NUMBERS, XCMPLX_0, ORDINAL1, POLYNOM3, MEMBERED,
+      FUNCOP_1, RATFUNC1, INT_1, POLYNOM5, FINSEQ_1, VALUED_1, VALUED_0,
+      FDIFF_1, RCOMP_1, FCONT_3, FUNCT_7, POLYNOM4, VFUNCT_1, RLVECT_1,
+      FINSET_1, MOEBIUS2, XXREAL_0, ALGSTR_1;
+ requirements SUBSET, BOOLE, NUMERALS, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+reserve c for Complex;
+reserve r for Real;
+reserve m,n for Nat;
+reserve f for complex-valued Function;
+
+theorem :: POLYDIFF:1
+  0 + f = f;
+
+theorem :: POLYDIFF:2
+  f - 0 = f;
+
+registration
+  let f be complex-valued Function;
+  reduce 0 + f to f;
+  reduce f - 0 to f;
+end;
+
+theorem :: POLYDIFF:3
+  c + f = ((dom f) --> c) + f;
+
+theorem :: POLYDIFF:4
+  f - c = f - ((dom f) --> c);
+
+theorem :: POLYDIFF:5
+  c (#) f = ((dom f) --> c) (#) f;
+
+theorem :: POLYDIFF:6
+  f + ((dom f) --> 0) = f;
+
+theorem :: POLYDIFF:7
+  f - ((dom f) --> 0) = f;
+
+theorem :: POLYDIFF:8
+  #Z 0 = REAL --> 1;
+
+begin :: Differentiability of real functions
+
+registration
+  cluster differentiable -> continuous for Function of REAL,REAL;
+end;
+
+definition
+  let f be differentiable Function of REAL,REAL;
+  func f`| -> Function of REAL,REAL equals
+:: POLYDIFF:def 1
+  f `| REAL;
+end;
+
+theorem :: POLYDIFF:9
+  for f being Function of REAL,REAL holds
+  f is differentiable iff for r holds f is_differentiable_in r;
+
+theorem :: POLYDIFF:10
+  for f being differentiable Function of REAL,REAL holds f`|.r = diff(f,r);
+
+definition
+  let f be Function of REAL,REAL;
+  redefine attr f is differentiable means
+:: POLYDIFF:def 2
+  for r holds f is_differentiable_in r;
+end;
+
+registration
+  cluster constant -> differentiable for Function of REAL,REAL;
+end;
+
+theorem :: POLYDIFF:11
+  for f being constant Function of REAL,REAL holds
+  f`| = REAL --> 0;
+
+registration
+  cluster id REAL -> differentiable for Function of REAL,REAL;
+end;
+
+theorem :: POLYDIFF:12
+  (id REAL)`| = REAL --> 1;
+
+registration
+  let n;
+  cluster #Z n -> differentiable;
+end;
+
+theorem :: POLYDIFF:13
+  ( #Z n) `| = n (#) #Z (n-1);
+
+reserve f,g for differentiable Function of REAL,REAL;
+
+registration
+  let f,g;
+  cluster f + g -> differentiable for Function of REAL,REAL;
+  cluster f - g -> differentiable for Function of REAL,REAL;
+  cluster f (#) g -> differentiable for Function of REAL,REAL;
+end;
+
+registration
+  let f,r;
+  cluster r+f -> differentiable for Function of REAL,REAL;
+  cluster r(#)f -> differentiable for Function of REAL,REAL;
+  cluster f-r -> differentiable for Function of REAL,REAL;
+end;
+
+registration
+  let f;
+  cluster -f -> differentiable for Function of REAL,REAL;
+  cluster f^2 -> differentiable for Function of REAL,REAL;
+end;
+
+theorem :: POLYDIFF:14
+  (f+g)`| = f`| + g`|;
+
+theorem :: POLYDIFF:15
+  (f-g)`| = f`| - g`|;
+
+theorem :: POLYDIFF:16
+  (f(#)g)`| = g(#)(f`|) + f(#)(g`|);
+
+theorem :: POLYDIFF:17
+  (r+f)`| = f`|;
+
+theorem :: POLYDIFF:18
+  (f-r)`| = f`|;
+
+theorem :: POLYDIFF:19
+  (r(#)f)`| = r(#)(f`|);
+
+theorem :: POLYDIFF:20
+  (-f)`| = -(f`|);
+
+begin :: Polynomials
+
+reserve L for non empty ZeroStr;
+reserve x for Element of L;
+
+theorem :: POLYDIFF:21
+  for f being (the carrier of L)-valued Function
+  for a being object holds
+  Support(f+*(a,x)) c= Support f \/ {a};
+
+registration
+  let L,x;
+  let f be finite-Support sequence of L;
+  let a be object;
+  cluster f+*(a,x) -> finite-Support for sequence of L;
+end;
+
+theorem :: POLYDIFF:22
+  for p being Polynomial of L st p <> 0_.L holds len p-'1 = len p-1;
+
+registration
+  let L be non empty ZeroStr;
+  let x be Element of L;
+  cluster <%x%> -> constant;
+  cluster <%x,0.L%> -> constant;
+end;
+
+theorem :: POLYDIFF:23
+  for L being non empty ZeroStr
+  for p being constant Polynomial of L holds
+  p = 0_.L or p = <%p.0%>;
+
+definition
+  let L,x,n;
+  func seq(n,x) -> sequence of L equals
+:: POLYDIFF:def 3
+  0_.L+*(n,x);
+end;
+
+registration
+  let L,x,n;
+  cluster seq(n,x) -> finite-Support;
+end;
+
+theorem :: POLYDIFF:24
+  seq(n,x).n = x;
+
+theorem :: POLYDIFF:25
+  m <> n implies seq(n,x).m = 0.L;
+
+theorem :: POLYDIFF:26
+  n+1 is_at_least_length_of seq(n,x);
+
+theorem :: POLYDIFF:27
+  x <> 0.L implies len seq(n,x) = n+1;
+
+theorem :: POLYDIFF:28
+  seq(n,0.L) = 0_.L;
+
+theorem :: POLYDIFF:29
+  for L being right_zeroed non empty addLoopStr, x,y being Element of L holds
+  seq(n,x) + seq(n,y) = seq(n,x+y);
+
+theorem :: POLYDIFF:30
+  for L being add-associative right_zeroed right_complementable
+        non empty addLoopStr
+  for x being Element of L holds
+  -seq(n,x) = seq(n,-x);
+
+theorem :: POLYDIFF:31
+  for L being add-associative right_zeroed right_complementable
+        non empty addLoopStr
+  for x,y being Element of L holds
+  seq(n,x) - seq(n,y) = seq(n,x-y);
+
+definition
+  let L be non empty ZeroStr;
+  let p be sequence of L;
+  let n;
+  func p||n -> sequence of L equals
+:: POLYDIFF:def 4
+  p +* (n,0.L);
+end;
+
+registration
+  let L be non empty ZeroStr;
+  let p be Polynomial of L;
+  let n;
+  cluster p||n -> finite-Support;
+end;
+
+theorem :: POLYDIFF:32
+  for L being non empty ZeroStr, p being sequence of L holds
+  (p||n).n = 0.L;
+
+theorem :: POLYDIFF:33
+  for L being non empty ZeroStr, p being sequence of L holds
+  m <> n implies (p||n).m = p.m;
+
+theorem :: POLYDIFF:34
+  for L being non empty ZeroStr holds (0_.L) || n = 0_.L;
+
+registration
+  let L be non empty ZeroStr;
+  let n;
+  reduce (0_.L) || n to 0_.L;
+end;
+
+theorem :: POLYDIFF:35
+  for L being non empty ZeroStr, p being Polynomial of L holds
+  n > len p-'1 implies p||n = p;
+
+theorem :: POLYDIFF:36
+  for L being non empty ZeroStr, p being Polynomial of L holds
+  p <> 0_.L implies len(p||(len p-'1)) < len p;
+
+theorem :: POLYDIFF:37
+  for L being add-associative right_zeroed right_complementable
+      non empty addLoopStr
+  for p being Polynomial of L holds
+  p||(len p-'1) + Leading-Monomial p = p;
+
+registration
+  let L be non empty ZeroStr;
+  let p be constant Polynomial of L;
+  cluster Leading-Monomial(p) -> constant;
+end;
+
+theorem :: POLYDIFF:38
+  for L being add-associative right_zeroed right_complementable
+              distributive unital non empty doubleLoopStr
+  for x,y being Element of L holds
+  eval(seq(n,x),y) = seq(n,x).n * power(y,n);
+
+begin :: Differentiability of polynomials over reals
+
+reserve p,q for Polynomial of F_Real;
+
+theorem :: POLYDIFF:39
+  for r being Element of F_Real holds power(r,n) = r|^n;
+
+theorem :: POLYDIFF:40
+  #Z n = FPower(1.F_Real,n);
+
+theorem :: POLYDIFF:41
+  for r being Element of F_Real holds
+  FPower(r,n+1) = FPower(r,n)(#)id(REAL);
+
+theorem :: POLYDIFF:42
+  for r being Element of F_Real holds
+  FPower(r,n) is differentiable Function of REAL,REAL;
+
+theorem :: POLYDIFF:43
+  for r being Element of F_Real holds power(r,n) = ( #Z n).r;
+
+definition
+  let p;
+  func poly_diff(p) -> sequence of F_Real means
+:: POLYDIFF:def 5
+  for n being Nat holds it.n = p.(n+1) * (n+1);
+end;
+
+registration
+  let p;
+  cluster poly_diff(p) -> finite-Support;
+end;
+
+theorem :: POLYDIFF:44
+  p <> 0_.F_Real implies len poly_diff(p) = len p - 1;
+
+theorem :: POLYDIFF:45
+  p <> 0_.F_Real implies len p = len poly_diff(p) + 1;
+
+theorem :: POLYDIFF:46
+  for p being constant Polynomial of F_Real holds poly_diff(p) = 0_.F_Real;
+
+theorem :: POLYDIFF:47
+  poly_diff(p+q) = poly_diff(p) + poly_diff(q);
+
+theorem :: POLYDIFF:48
+  poly_diff(-p) = -poly_diff(p);
+
+theorem :: POLYDIFF:49
+  poly_diff(p-q) = poly_diff(p) - poly_diff(q);
+
+theorem :: POLYDIFF:50
+  poly_diff(Leading-Monomial p) =
+   0_.F_Real +* (len p-'2,(p.(len p-'1))*(len p-'1));
+
+theorem :: POLYDIFF:51
+  for r,s being Element of F_Real holds poly_diff(<%r,s%>) = <%s%>;
+
+definition
+  let p;
+  func Eval(p) -> Function of REAL,REAL equals
+:: POLYDIFF:def 6
+  Polynomial-Function(F_Real,p);
+end;
+
+registration
+  let p;
+  cluster Eval(p) -> differentiable;
+end;
+
+theorem :: POLYDIFF:52
+  Eval(0_.F_Real) = REAL --> 0;
+
+theorem :: POLYDIFF:53
+  for r being Element of F_Real holds Eval(<%r%>) = REAL --> r;
+
+theorem :: POLYDIFF:54
+  p is constant implies Eval(p)`| = REAL --> 0;
+
+theorem :: POLYDIFF:55
+  Eval(p+q) = Eval(p) + Eval(q);
+
+theorem :: POLYDIFF:56
+  Eval(-p) = -Eval(p);
+
+theorem :: POLYDIFF:57
+  Eval(p-q) = Eval(p) - Eval(q);
+
+theorem :: POLYDIFF:58
+  Eval(Leading-Monomial p) = FPower(p.(len p-'1),len p-'1);
+
+theorem :: POLYDIFF:59
+  Eval(Leading-Monomial p) = p.(len p-'1) (#) #Z(len p-'1);
+
+theorem :: POLYDIFF:60
+  for r being Element of F_Real holds Eval(seq(n,r)) = r (#) #Z n;
+
+theorem :: POLYDIFF:61
+  (Eval(p))`| = Eval(poly_diff(p));
+
+registration
+  let p;
+  cluster (Eval p)`| -> differentiable;
+end;

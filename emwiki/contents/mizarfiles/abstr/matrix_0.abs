@@ -1,0 +1,563 @@
+:: Matrices.
+::  by Katarzyna Jankowska
+::
+:: Received June 8, 1991
+:: Copyright (c) 1991-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, NAT_1, XBOOLE_0, FINSEQ_1, SUBSET_1, RELAT_1, CARD_1,
+      FINSEQ_2, TARSKI, TREES_1, XXREAL_0, ZFMISC_1, FUNCT_1, QC_LANG1,
+      INCSP_1, ARYTM_1, ARYTM_3, MATRIX_1, GOBRD13, CARD_3, FUNCT_6, FINSET_1,
+      CARD_2, MATRIX_0, PARTFUN1, FUNCOP_1, FINSEQ_3;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, REAL_1, ORDINAL1, NUMBERS,
+      XCMPLX_0, XXREAL_0, COMPLEX1, NAT_1, VALUED_0, RELAT_1, CARD_1, CARD_2,
+      FUNCT_1, INT_1, PARTFUN1, FUNCT_2, FUNCOP_1, FINSET_1, FINSEQ_1,
+      FINSEQ_2, FINSEQ_3, FINSEQ_4, CARD_3, FUNCT_6, BINOP_1, FINSEQOP;
+ constructors BINOP_1, XXREAL_0, FINSEQOP, RELSET_1, FINSEQ_3, INT_1, CARD_3,
+      FUNCT_6, CARD_2, WELLORD2, NAT_1, PRE_POLY, FINSEQ_4, XCMPLX_0, DOMAIN_1,
+      REAL_1;
+ registrations XBOOLE_0, RELAT_1, FUNCT_1, XREAL_0, FINSEQ_1, FINSEQ_2,
+      ORDINAL1, CARD_1, FINSET_1, PRE_POLY, XXREAL_0, NAT_1, INT_1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin
+
+reserve x,y,z for object,
+  i,j,n,m for Nat,
+  D for non empty set,
+  s,t for FinSequence,
+  a,a1,a2,b1,b2,d for Element of D,
+  p, p1,p2,q,r for FinSequence of D;
+
+definition
+  let f be FinSequence;
+  attr f is tabular means
+:: MATRIX_0:def 1
+
+  ex n being Nat st for x st x in rng f ex s
+  being FinSequence st s=x & len s = n;
+end;
+
+registration
+  cluster tabular for FinSequence;
+end;
+
+theorem :: MATRIX_0:1
+  <*<*d*>*> is tabular;
+
+theorem :: MATRIX_0:2
+  m |-> (n |-> x) is tabular;
+
+theorem :: MATRIX_0:3
+  <*s*> is tabular;
+
+theorem :: MATRIX_0:4
+  for s1,s2 be FinSequence st len s1 =n & len s2 = n holds <*s1,s2
+  *> is tabular;
+
+theorem :: MATRIX_0:5
+  {} is tabular;
+
+theorem :: MATRIX_0:6
+  <*{},{}*> is tabular;
+
+theorem :: MATRIX_0:7
+  <*<*a1*>,<*a2*>*> is tabular;
+
+theorem :: MATRIX_0:8
+  <*<*a1,a2*>,<*b1,b2*>*> is tabular;
+
+registration
+  let D be set;
+  cluster tabular for FinSequence of D*;
+end;
+
+definition
+  let D be set;
+  mode Matrix of D is tabular FinSequence of D*;
+end;
+
+registration let X be set;
+ cluster -> Function-yielding for Matrix of X;
+end;
+
+registration
+  let D be non empty set;
+  cluster non empty-yielding for Matrix of D;
+end;
+
+theorem :: MATRIX_0:9
+  s is Matrix of D iff ex n st for x st x in rng s ex p st x = p & len p = n;
+
+definition let D; let m,n be Nat; let M be Matrix of D;
+ attr M is (m,n)-size means
+:: MATRIX_0:def 2
+ len M = m & for p st p in rng M holds len p = n;
+end;
+
+registration let D; let m,n be Nat;
+ cluster (m,n)-size for Matrix of D;
+end;
+
+definition
+  let D;
+  let m,n;
+  mode Matrix of m,n,D is (m,n)-size Matrix of D;
+end;
+
+definition
+  let D,n;
+  mode Matrix of n,D is Matrix of n,n,D;
+end;
+
+theorem :: MATRIX_0:10
+  m |-> (n |-> a) is Matrix of m,n,D;
+
+theorem :: MATRIX_0:11
+  for p being FinSequence of D holds <*p*> is Matrix of 1,len p,D;
+
+theorem :: MATRIX_0:12
+  for p1,p2 st len p1 =n & len p2 = n holds <*p1,p2*> is Matrix of 2,n,D;
+
+theorem :: MATRIX_0:13
+  {} is Matrix of 0,m,D;
+
+theorem :: MATRIX_0:14
+  <*{}*> is Matrix of 1,0,D;
+
+theorem :: MATRIX_0:15
+  <*<*a*>*> is Matrix of 1,D;
+
+theorem :: MATRIX_0:16
+  <*{},{}*> is Matrix of 2,0,D;
+
+theorem :: MATRIX_0:17
+  <*<*a1,a2*>*> is Matrix of 1,2,D;
+
+theorem :: MATRIX_0:18
+  <*<*a1*>,<*a2*>*> is Matrix of 2,1,D;
+
+theorem :: MATRIX_0:19
+  <*<*a1,a2*>,<*b1,b2*>*> is Matrix of 2,D;
+
+reserve M,M1,M2 for Matrix of D;
+
+definition
+  let M be tabular FinSequence;
+  func width M -> Nat means
+:: MATRIX_0:def 3
+
+  ex s st s in rng M & len s = it if len M > 0 otherwise it = 0;
+end;
+
+theorem :: MATRIX_0:20
+  len M > 0 implies for n holds M is Matrix of len M, n, D iff n = width M;
+
+definition
+  let M be tabular FinSequence;
+  func Indices M -> set equals
+:: MATRIX_0:def 4
+  [:dom M,Seg width M:];
+end;
+
+definition
+  let D be set;
+  let M be Matrix of D;
+  let i,j;
+  assume
+ [i,j] in Indices M;
+  func M*(i,j) -> Element of D means
+:: MATRIX_0:def 5
+
+  ex p being FinSequence of D st p = M.i & it = p.j;
+end;
+
+theorem :: MATRIX_0:21
+  len M1 = len M2 & width M1 = width M2 & (for i,j st [i,j] in
+  Indices M1 holds M1*(i,j) = M2*(i,j)) implies M1 = M2;
+
+scheme :: MATRIX_0:sch 1
+  MatrixLambda { D() -> non empty set, n, m() -> Nat, f(set,set) ->
+  Element of D()} : ex M being Matrix of n(),m(),D() st for i,j st [i,j] in
+  Indices M holds M*(i,j) = f(i,j);
+
+scheme :: MATRIX_0:sch 2
+  MatrixEx { D() -> non empty set, n, m() -> Nat,
+    P[object,object,object] }:
+ex M being Matrix of n(),m(),D() st for i,j st [i,j] in Indices M holds P[i,j
+  ,M*(i,j)]
+provided
+ for i,j st [i,j] in [:Seg n(), Seg m():] ex x being Element of D()
+st P[i,j,x];
+
+theorem :: MATRIX_0:22
+  for M being Matrix of 0,m,D holds len M = 0 & width M = 0 & Indices M = {};
+
+theorem :: MATRIX_0:23
+  n > 0 implies for M being Matrix of n,m,D holds len M = n &
+  width M = m & Indices M = [:Seg n, Seg m:];
+
+theorem :: MATRIX_0:24
+  for M being Matrix of n,D holds len M = n & width M = n &
+  Indices M = [:Seg n, Seg n:];
+
+theorem :: MATRIX_0:25
+  for M being Matrix of n,m,D holds len M = n & Indices M = [:Seg
+  n,Seg width M:];
+
+theorem :: MATRIX_0:26
+  for M1,M2 being Matrix of n,m,D holds Indices M1 = Indices M2;
+
+theorem :: MATRIX_0:27
+  for M1,M2 being Matrix of n,m,D st (for i,j st [i,j] in Indices
+  M1 holds M1*(i,j) = M2*(i,j)) holds M1 = M2;
+
+theorem :: MATRIX_0:28
+  for M1 being Matrix of n,D holds for i,j st [i,j] in Indices M1 holds
+  [j,i] in Indices M1;
+
+definition
+  let D;
+  let M be Matrix of D;
+  func M@ -> Matrix of D means
+:: MATRIX_0:def 6
+
+  len it = width M & (for i,j holds [i,j]
+in Indices it iff [j,i] in Indices M) & for i,j st [j,i] in Indices M holds it*
+  (i,j) = M*(j,i);
+end;
+
+theorem :: MATRIX_0:29
+for M being Matrix of D st width M > 0
+   holds len (M@)=width M & width (M@)=len M;
+
+registration let n,D;
+ let M be Matrix of n,D;
+ cluster M@ -> (n,n)-size;
+end;
+
+definition
+  let D,M,i;
+  func Line(M,i) -> FinSequence of D means
+:: MATRIX_0:def 7
+
+  len it = width M & for j st j in Seg width M holds it.j = M*(i,j);
+  func Col(M,i) -> FinSequence of D means
+:: MATRIX_0:def 8
+
+  len it = len M & for j st j in dom M holds it.j = M*(j,i);
+end;
+
+definition
+  let D;
+  let M be Matrix of D;
+  let i;
+  redefine func Line(M,i) -> Element of (width M)-tuples_on D;
+  redefine func Col(M,i) -> Element of (len M)-tuples_on D;
+end;
+
+theorem :: MATRIX_0:30
+  for D being set for i,j for M being Matrix of D st 1 <= i & i <=
+  len M & 1 <= j & j <= width M holds [i,j] in Indices M;
+
+theorem :: MATRIX_0:31
+  for M being Matrix of n,m,D st 1 <= i & i <= n & 1 <= j & j <= m holds
+  [i,j] in Indices M;
+
+:: from GOBOARD5, 2008.03.08, A.T.
+
+theorem :: MATRIX_0:32
+  for M being tabular FinSequence, i,j st [i,j] in Indices M holds
+  1 <= i & i <= len M & 1 <= j & j <= width M;
+
+theorem :: MATRIX_0:33
+  for M being Matrix of n,m,D st [i,j] in Indices M holds 1 <= i & i <=
+  n & 1 <= j & j <= m;
+
+:: from GOBRD13, 2011.07.26, A.T.
+
+definition
+  let F be Function-yielding Function;
+  func Values F -> set equals
+:: MATRIX_0:def 9
+  Union rngs F;
+end;
+
+theorem :: MATRIX_0:34
+  for M being FinSequence of D* holds M.i is FinSequence of D;
+
+theorem :: MATRIX_0:35
+  for M being FinSequence of D* holds Values M = union {rng f where
+  f is Element of D*: f in rng M};
+
+registration
+  let D be non empty set, M be FinSequence of D*;
+  cluster Values M -> finite;
+end;
+
+reserve f for FinSequence of D;
+
+theorem :: MATRIX_0:36
+  for M being Matrix of D st i in dom M & M.i = f holds len f = width M;
+
+theorem :: MATRIX_0:37
+  for M being Matrix of D st i in dom M & M.i = f & j in dom f
+  holds [i,j] in Indices M;
+
+theorem :: MATRIX_0:38
+  for M being Matrix of D st [i,j] in Indices M & M.i = f holds len
+  f = width M & j in dom f;
+
+theorem :: MATRIX_0:39
+  for M being Matrix of D
+   holds Values M =
+    { M*(i,j) where i is Nat, j is Nat:
+     [i,j] in Indices M };
+
+theorem :: MATRIX_0:40
+  for D being non empty set, M being Matrix of D
+   holds card Values M <= (len M)*(width M);
+
+reserve i,j,i1,j1 for Nat;
+
+theorem :: MATRIX_0:41
+ for M being Matrix of D st 1 <= i & i <= len M & 1 <= j & j <= width M
+holds M*(i,j) in Values M;
+
+:: from GOBOARD1, 2012.02.25, A.T.
+
+theorem :: MATRIX_0:42
+  for D being non empty set,M being Matrix of D holds for i,j st j
+  in dom M & i in Seg width M holds Col(M,i).j = Line(M,j).i;
+
+definition
+  let D be non empty set;
+  let M be Matrix of D;
+  redefine attr M is empty-yielding means
+:: MATRIX_0:def 10
+  0 = len M or 0 = width M;
+end;
+
+reserve k for Nat, G for Matrix of D;
+
+theorem :: MATRIX_0:43
+  rng f misses rng Col(G,i) & f/.n = G*(m,k) & n in dom f & m in
+  dom G implies i<>k;
+
+theorem :: MATRIX_0:44
+for D being non empty set, M being Matrix of D holds
+M is non empty-yielding iff 0 < len M & 0 < width M;
+
+theorem :: MATRIX_0:45
+  for M1 being Matrix of 0, n, D, M2 being Matrix of 0, m, D holds M1 = M2;
+
+begin :: Some Examples of Matrices, from MATRIX_2, 2012.02.26, A.T.
+
+reserve x,y,x1,x2,y1,y2 for object,
+  i,j,k,l,n,m for Nat,
+  D for non empty set,
+  s,s2 for FinSequence,
+  a,b,c,d for Element of D,
+  q,r for FinSequence of D,
+  a9,b9 for Element of D;
+
+definition
+  let n,m;
+  let a be object;
+  func (n,m) --> a -> tabular FinSequence equals
+:: MATRIX_0:def 11
+  n |-> (m |-> a);
+end;
+
+definition
+  let D,n,m;
+  let d;
+  redefine func (n,m) --> d -> Matrix of n,m,D;
+end;
+
+theorem :: MATRIX_0:46
+  [i,j] in Indices ((n,m)-->a) implies ((n,m)-->a) * (i,j)=a;
+
+definition
+  let a,b,c,d be object;
+  func (a,b)][(c,d) ->tabular FinSequence equals
+:: MATRIX_0:def 12
+  <*<*a,b*>,<*c,d*>*>;
+end;
+
+theorem :: MATRIX_0:47
+  len (x1,x2)][(y1,y2)=2 & width (x1,x2)][(y1,y2)=2 & Indices (x1,
+  x2)][(y1,y2)=[:Seg 2,Seg 2:];
+
+theorem :: MATRIX_0:48
+  [1,1] in Indices (x1,x2)][(y1,y2) & [1,2] in Indices (x1,x2)][(y1
+  ,y2) & [2,1] in Indices (x1,x2)][(y1,y2) & [2,2] in Indices (x1,x2)][(y1,y2);
+
+definition
+  let D;
+  let a be Element of D;
+  redefine func <*a*> -> Element of 1-tuples_on D;
+end;
+
+definition
+  let D;
+  let n;
+  let p be Element of n-tuples_on D;
+  redefine func <*p*> -> Matrix of 1,n,D;
+end;
+
+theorem :: MATRIX_0:49
+  [1,1] in Indices <*<*a*>*> & <*<*a*>*>*(1,1)=a;
+
+definition
+  let D;
+  let a,b,c,d be Element of D;
+  redefine func (a,b)][(c,d) -> Matrix of 2,D;
+end;
+
+theorem :: MATRIX_0:50
+  (a,b)][(c,d)*(1,1)=a & (a,b)][(c,d)*(1,2)=b & (a,b)][(c,d)*(2,1)=c & (
+  a,b)][(c,d)*(2,2)=d;
+
+theorem :: MATRIX_0:51
+  for M being Matrix of D st len M=n holds M is Matrix of n,width M,D;
+
+begin :: Deleting of Rows and Columns in a Matrix
+
+theorem :: MATRIX_0:52
+  for M be Matrix of n,m,D holds for k st k in Seg n holds M.k= Line(M,k);
+
+definition
+  let i, D;
+  let M be Matrix of D;
+  func DelCol(M,i) -> Matrix of D means
+:: MATRIX_0:def 13
+ len it=len M & for k st k in dom M holds it.k=Del(Line(M,k),i);
+end;
+
+theorem :: MATRIX_0:53
+  for M1,M2 being Matrix of D st M1@=M2@ & len M1=len M2 holds M1 = M2;
+
+theorem :: MATRIX_0:54
+  for M being Matrix of D st width M > 0 holds len (M@)=width M &
+  width (M@)=len M;
+
+theorem :: MATRIX_0:55
+  for M1,M2 being Matrix of D st width M1>0 & width M2>0 & M1@=M2@ holds M1=M2;
+
+theorem :: MATRIX_0:56
+  for M1,M2 being Matrix of D st width M1>0 & width M2>0 holds M1=M2 iff
+  M1@=M2@ & width M1 = width M2;
+
+theorem :: MATRIX_0:57
+  for M being Matrix of D st len M>0 & width M>0 holds (M@)@=M;
+
+theorem :: MATRIX_0:58
+  for M being Matrix of D holds for i st i in dom M holds Line(M,i )=Col(M@,i);
+
+theorem :: MATRIX_0:59
+  for M being Matrix of D holds for j st j in Seg width M holds Line(M@,
+  j)=Col(M,j);
+
+theorem :: MATRIX_0:60
+  for M being Matrix of D holds for i st i in dom M holds M.i=Line(M,i);
+
+notation
+  let D, i;
+  let M be Matrix of D;
+  synonym DelLine(M,i) for Del(M,i);
+end;
+
+registration
+  let D, i;
+  let M be Matrix of D;
+  cluster DelLine(M,i) -> tabular;
+end;
+
+definition
+  let D, i;
+  let M be Matrix of D;
+  redefine func DelLine(M,i) -> Matrix of D;
+end;
+
+definition
+  let i,j,n,D;
+  let M be Matrix of n,D;
+
+  func Deleting(M,i,j) -> Matrix of D equals
+:: MATRIX_0:def 14
+  DelCol(DelLine(M,i),j);
+end;
+
+theorem :: MATRIX_0:61
+ not i in Seg width M implies DelCol(M,i) = M;
+
+:: from GOBOARD1, 2012.03.01, A.T.
+
+theorem :: MATRIX_0:62
+ k in dom G implies Line(DelCol(G,i),k) = Del(Line(G,k),i);
+
+theorem :: MATRIX_0:63
+  i in Seg width G & width G = m+1 implies width DelCol(G,i) = m;
+
+theorem :: MATRIX_0:64
+  i in Seg width G & width G > 0 implies width G = width DelCol(G,i) + 1;
+
+theorem :: MATRIX_0:65
+ width G > 1 & i in Seg width G implies DelCol(G,i) is not empty-yielding;
+
+theorem :: MATRIX_0:66
+  i in Seg width G & width G > 1 & n in dom G & m in Seg width
+  DelCol(G,i) implies DelCol(G,i)*(n,m)=Del(Line(G,n),i).m;
+
+reserve m for Nat;
+
+theorem :: MATRIX_0:67
+  i in Seg width G & width G = m+1 & m>0 & 1<=k & k<i implies Col(
+  DelCol(G,i),k) = Col(G,k) & k in Seg width DelCol(G,i) & k in Seg width G;
+
+theorem :: MATRIX_0:68
+  i in Seg width G & width G = m+1 & m>0 & i<=k & k<=m implies Col
+(DelCol(G,i),k) = Col(G,k+1) & k in Seg width DelCol(G,i) & k+1 in Seg width G;
+
+theorem :: MATRIX_0:69
+  i in Seg width G & width G = m+1 & m>0 & n in dom G & 1<=k & k<i
+  implies DelCol(G,i)*(n,k) = G*(n,k) & k in Seg width G;
+
+theorem :: MATRIX_0:70
+  i in Seg width G & width G = m+1 & m>0 & n in dom G & i<=k & k<=
+  m implies DelCol(G,i)*(n,k) = G*(n,k+1) & k+1 in Seg width G;
+
+theorem :: MATRIX_0:71
+  width G = m+1 & m>0 & k in Seg m implies Col(DelCol(G,1),k) = Col(G,k+
+  1) & k in Seg width DelCol(G,1) & k+1 in Seg width G;
+
+theorem :: MATRIX_0:72
+  width G = m+1 & m>0 & k in Seg m & n in dom G implies DelCol(G,1)*(n,k
+  ) = G*(n,k+1) & 1 in Seg width G;
+
+theorem :: MATRIX_0:73
+  width G = m+1 & m>0 & k in Seg m implies Col(DelCol(G,width G),k) =
+  Col(G,k) & k in Seg width DelCol(G,width G);
+
+theorem :: MATRIX_0:74
+  width G = m+1 & m>0 & k in Seg m & n in dom G implies k in Seg
+  width G & DelCol(G,width G)*(n,k) = G*(n,k) & width G in Seg width G;
+
+reserve f for FinSequence of D,
+        G for Matrix of D;
+
+theorem :: MATRIX_0:75
+  rng f misses rng Col(G,i) & f/.n in rng Line(G,m) & n in dom f & i in
+  Seg width G & m in dom G & width G>1 implies f/.n in rng Line(DelCol(G,i),m);
+

@@ -1,0 +1,397 @@
+:: Introduction to Stochastic Finance: Random-Variables and Arbitrage Theory
+::  by Peter Jaeger
+::
+:: Received March 27, 2018
+:: Copyright (c) 2018-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies VALUED_1, SERIES_1, NUMBERS, XBOOLE_0, PROB_1, SUBSET_1, RELAT_1,
+      FUNCT_1, TARSKI, ARYTM_3, XXREAL_0, ARYTM_1, CARD_1, RPR_1, FINANCE3,
+      FUNCOP_1, FUNCT_7, RANDOM_3, FINANCE1, FUNCT_3, COMPLEX1, REAL_1, SEQ_1,
+      FINANCE6, MESFUNC1, NAT_1, XXREAL_1, RANDOM_1, INTEGRA5, FINANCE2,
+      MESFUNC5, SUPINF_2, MEASURE6, PROB_4, MESFUNC2, RFUNCT_3;
+ notations TARSKI, SUBSET_1, XBOOLE_0, ENUMSET1, RELAT_1, FUNCT_1, RELSET_1,
+      SUPINF_2, FUNCT_2, MESFUNC2, FUNCT_3, RANDOM_3, NUMBERS, XXREAL_0,
+      XCMPLX_0, XXREAL_3, XREAL_0, VALUED_0, VALUED_1, NAT_1, SEQ_1, FUNCOP_1,
+      FINANCE1, PROB_1, FINANCE2, FINANCE3, COMPLEX1, RCOMP_1, SERIES_1,
+      PROB_4, MESFUNC1, MESFUNC5, MESFUNC6, RANDOM_1;
+ constructors SERIES_1, RELSET_1, FINANCE3, COMPLEX1, MESFUNC2, MESFUNC1,
+      MESFUNC6, MESFUNC5, RCOMP_1, SEQ_4, REAL_1, FINANCE2, SUPINF_1, EXTREAL1,
+      PROB_4, RANDOM_1;
+ registrations RELAT_1, XCMPLX_0, PROB_1, XREAL_0, MEMBERED, ORDINAL1, FUNCT_2,
+      NUMBERS, VALUED_0, VALUED_1, RELSET_1, XBOOLE_0, XXREAL_0, FINANCE1,
+      SUBSET_1, XXREAL_3, NAT_1, FUNCOP_1;
+ requirements NUMERALS, REAL, BOOLE, SUBSET, ARITHM;
+
+
+begin :: Put-Option, Call-Option and Straddle are Random-variables
+
+ reserve Omega for non empty set;
+ reserve F for SigmaField of Omega;
+
+theorem :: FINANCE6:1
+  ].0,+infty.[ is Element of Borel_Sets;
+
+theorem :: FINANCE6:2
+  for RV being random_variable of F,Borel_Sets,
+      K being Element of REAL,
+      g2 being Function of Omega,REAL
+     st g2=chi((RV-(Omega-->K))"[.0,+infty.[,Omega) holds
+   Call-Option(RV,K) = g2(#)(RV-(Omega-->K));
+
+theorem :: FINANCE6:3
+  for RV being random_variable of F,Borel_Sets,
+      K being Real holds
+    (Omega-->K)-RV is random_variable of F,Borel_Sets;
+
+theorem :: FINANCE6:4
+  for A being Element of F holds
+    chi(A,Omega) is random_variable of F,Borel_Sets;
+
+registration let Omega;
+  let F;
+  cluster (F,Borel_Sets)-random_variable-like for Function of Omega, REAL;
+end;
+
+theorem :: FINANCE6:5
+  chi(Omega,Omega) is (F,Borel_Sets)-random_variable-like
+    Function of Omega,REAL;
+
+theorem :: FINANCE6:6
+  for f,RV being random_variable of F,Borel_Sets,
+      K being Real holds
+    (f-RV)"[.0,+infty.[ is Element of F;
+
+definition
+  let Omega, F;
+  let RV be random_variable of F,Borel_Sets;
+  let K be Real;
+  redefine func Call-Option(RV,K) -> random_variable of F,Borel_Sets;
+end;
+
+definition
+  let Omega, F;
+  let RV be random_variable of F,Borel_Sets;
+  let K be Real;
+  func Put-Option(RV,K) -> Function of Omega,REAL means
+:: FINANCE6:def 1
+  for w being Element of Omega holds
+    (((Omega-->K)-RV).w>=0 implies it.w=((Omega-->K)-RV).w) &
+    (((Omega-->K)-RV).w<0 implies it.w=0);
+end;
+
+theorem :: FINANCE6:7
+  for RV being random_variable of F,Borel_Sets,
+      K being Real,
+      g2 being Function of Omega,REAL
+     st g2=chi(((Omega-->K)-RV)"[.0,+infty.[,Omega) holds
+    Put-Option(RV,K) = g2(#)((Omega-->K)-RV);
+
+definition
+  let Omega, F;
+  let RV be random_variable of F,Borel_Sets;
+  let K be Real;
+  redefine func Put-Option(RV,K) -> random_variable of F,Borel_Sets;
+end;
+
+begin
+
+definition
+  let Omega, F;
+  let RV be random_variable of F,Borel_Sets;
+  let K be Real;
+  func Straddle(RV,K) -> random_variable of F,Borel_Sets equals
+:: FINANCE6:def 2
+    Put-Option(RV,K) + Call-Option(RV,K);
+end;
+
+theorem :: FINANCE6:8
+  for RV be random_variable of F,Borel_Sets,
+      K be Real
+  for w being Element of Omega holds
+    Straddle(RV,K).w=|.(RV-(Omega-->K)).w.|;
+
+definition let Omega, F;
+  func set_of_constant_RV(F) -> set equals
+:: FINANCE6:def 3
+    { f where f is Function of Omega,REAL:
+       f is random_variable of F, Borel_Sets & f is constant };
+  func set_of_chi_RV(F) -> set equals
+:: FINANCE6:def 4
+    { chi(A,Omega) where A is Element of F :
+        chi(A,Omega) is random_variable of F, Borel_Sets };
+end;
+
+definition let Omega, F; let X be set;
+  attr X is F-random-membered means
+:: FINANCE6:def 5
+    for x being object st x in X holds
+      x is random_variable of F, Borel_Sets;
+end;
+
+registration let Omega, F;
+  cluster set_of_constant_RV(F) -> non empty;
+  cluster set_of_chi_RV(F) -> non empty;
+end;
+
+registration let Omega, F;
+  cluster set_of_constant_RV(F) -> F-random-membered;
+  cluster set_of_chi_RV(F) -> F-random-membered;
+end;
+
+registration let Omega, F;
+  cluster F-random-membered non empty for set;
+end;
+
+definition
+  let Omega, F;
+  let D be F-random-membered non empty set;
+  let ChiFuncs be sequence of D;
+  let n be Nat;
+  func Conv_RV(ChiFuncs,n) -> random_variable of F,Borel_Sets equals
+:: FINANCE6:def 6
+  ChiFuncs.n;
+end;
+
+definition
+  let Omega, F;
+  let D be F-random-membered non empty set;
+  let ConstFuncs be sequence of D;
+  let w be Element of Omega;
+  func Conv2_RV(ConstFuncs,w) -> Function of NAT,REAL means
+:: FINANCE6:def 7
+    for n being Nat holds it.n=Conv_RV(ConstFuncs,n).w;
+end;
+
+definition
+  let Omega, F;
+  let D1, D2 be F-random-membered non empty set;
+  let ChiFuncs be sequence of D1;
+  let ConstFuncs be sequence of D2;
+  let n be Nat;
+  func simple_RV_help(ChiFuncs,ConstFuncs,n)
+       -> Function of Omega,REAL means
+:: FINANCE6:def 8
+    for w being Element of Omega holds
+    it.w = Partial_Sums((Conv2_RV(ConstFuncs,w)(#)Conv2_RV(ChiFuncs,w))).n;
+end;
+
+definition
+  let Omega, F;
+  let D1, D2 be F-random-membered non empty set;
+  let ChiFuncs be sequence of D1;
+  let ConstFuncs be sequence of D2;
+  let n be Nat;
+  redefine func simple_RV_help(ChiFuncs,ConstFuncs,n)
+     -> random_variable of F,Borel_Sets;
+end;
+
+begin :: Arbitrage theory: Definition and alternative representation
+
+ reserve phi for Real_Sequence;
+ reserve jpi for pricefunction;
+
+definition
+  let Omega, F;
+  let q be Nat;
+  let G be sequence of set_of_random_variables_on(F,Borel_Sets);
+  func Change_Element_to_Func(G,q) -> Real-Valued-Random-Variable of F equals
+:: FINANCE6:def 9
+  G.q;
+end;
+
+definition
+  let phi, Omega, F;
+  let G be sequence of set_of_random_variables_on(F,Borel_Sets);
+  let n be Nat;
+  func ArbitrageElSigma1(phi,Omega,F,G,n) -> Element of F equals
+:: FINANCE6:def 10
+    RVPortfolioValueFutExt(phi,F,G,n)"[.0,+infty.[;
+  func ArbitrageElSigma2(phi,Omega,F,G,n) -> Element of F equals
+:: FINANCE6:def 11
+    RVPortfolioValueFutExt(phi,F,G,n)"].0,+infty.[;
+end;
+
+definition
+  let Omega, F;
+  let Prob be Probability of F;
+  let G be sequence of set_of_random_variables_on(F,Borel_Sets);
+  let jpi be pricefunction;
+  let n be Nat;
+  pred Arbitrage_Opportunity_exists_wrt Prob,G,jpi,n means
+:: FINANCE6:def 12
+    ex phi being Real_Sequence st
+     (BuyPortfolioExt(phi,jpi,n)<=0 &
+     (Prob.ArbitrageElSigma1(phi,Omega,F,G,n)=1 &
+     Prob.ArbitrageElSigma2(phi,Omega,F,G,n)>0));
+end;
+
+definition let r be Real;
+  func RVfirst(r) -> Element of
+    set_of_random_variables_on(Special_SigmaField1,Borel_Sets) equals
+:: FINANCE6:def 13
+  {1,2,3,4} --> r;
+end;
+
+definition
+  let jpi be pricefunction;
+  let r be Real;
+  let d be Nat;
+  func RVfourth(jpi,r,d) -> Element of
+    set_of_random_variables_on(Special_SigmaField2,Borel_Sets) equals
+:: FINANCE6:def 14
+  RVfirst (jpi.d*(1+r));
+end;
+
+theorem :: FINANCE6:9
+  ex G being sequence of
+     set_of_random_variables_on(Special_SigmaField1,Borel_Sets) st
+  (G.0={1,2,3,4}-->1 & G.1={1,2,3,4}-->5 &
+  for k being Nat st k>1 holds G.k={1,2,3,4}-->0);
+
+theorem :: FINANCE6:10
+  for Prob being Probability of Special_SigmaField1 holds
+  for G being sequence of
+    set_of_random_variables_on(Special_SigmaField1,Borel_Sets) st
+  (G.0={1,2,3,4}-->1 & G.1={1,2,3,4}-->5 & for k being Nat st k>1
+   holds G.k={1,2,3,4}-->0) holds
+   ex jpi being pricefunction st
+     Arbitrage_Opportunity_exists_wrt Prob,G,jpi,1;
+
+theorem :: FINANCE6:11
+  for n being Nat
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+  {w where w is Element of Omega: PortfolioValueFutExt(n,phi,F,G,w) >= 0} =
+      RVPortfolioValueFutExt(phi,F,G,n)"[.0,+infty.[;
+
+theorem :: FINANCE6:12
+  for d,d2 being Nat st d2=d-1 holds
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+  {w where w is Element of Omega: PortfolioValueFut(d,phi,F,G,w)
+                               >= (1+r)*BuyPortfolio(phi,jpi,d)} =
+      (RVPortfolioValueFut(phi,F,G,d2)-
+       (Omega-->(1+r)*BuyPortfolio(phi,jpi,d)))"[.0,+infty.[;
+
+theorem :: FINANCE6:13
+  for d,d2 being Nat
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+   (RVPortfolioValueFut(phi,F,G,d2)-
+    (Omega-->(1+r)*BuyPortfolio(phi,jpi,d)))"[.0,+infty.[ is Event of F;
+
+theorem :: FINANCE6:14
+  for d being Nat
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+  {w where w is Element of Omega: PortfolioValueFutExt(d,phi,F,G,w) > 0} =
+        RVPortfolioValueFutExt(phi,F,G,d)"].0,+infty.[;
+
+theorem :: FINANCE6:15
+  for d,d2 being Nat st d2=d-1 holds
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+  {w where w is Element of Omega: PortfolioValueFut(d,phi,F,G,w)
+                                 > (1+r)*BuyPortfolio(phi,jpi,d)} =
+        (RVPortfolioValueFut(phi,F,G,d2)-
+         (Omega-->(1+r)*BuyPortfolio(phi,jpi,d)))"].0,+infty.[;
+
+theorem :: FINANCE6:16
+  for d,d2 being Nat
+  for r being Real
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) holds
+    (RVPortfolioValueFut(phi,F,G,d2)-
+    (Omega-->(1+r)*BuyPortfolio(phi,jpi,d)))"].0,+infty.[ is Event of F;
+
+theorem :: FINANCE6:17
+  for jpi being pricefunction
+  for d,d2 being Nat st d>0 & d2=d-1 holds
+  for Prob being Probability of F
+  for r being Real st r>-1 holds
+  for G being sequence of set_of_random_variables_on (F,Borel_Sets) st
+   Element_Of(F,Borel_Sets,G,0) = Omega-->1+r holds
+   (Arbitrage_Opportunity_exists_wrt Prob,G,jpi,d iff
+   (ex myphi being Real_Sequence st
+    (Prob.((RVPortfolioValueFut(myphi,F,G,d2)-
+     (Omega-->(1+r)*BuyPortfolio(myphi,jpi,d)))"[.0,+infty.[)=1) &
+     Prob.((RVPortfolioValueFut(myphi,F,G,d2)-
+     (Omega-->(1+r)*BuyPortfolio(myphi,jpi,d)))"].0,+infty.[)>0));
+
+begin :: Risk-neutral Probability measure
+
+definition
+  let Omega, F;
+  let RV be Real-Valued-Random-Variable of F;
+  let r be Real;
+  func Real_RV(r,RV) -> Real-Valued-Random-Variable of F equals
+:: FINANCE6:def 15
+    RV(#)(1/(1+r));
+end;
+
+definition
+  let Omega, F;
+  let jpi be pricefunction;
+  let G be sequence of set_of_random_variables_on(F,Borel_Sets);
+  let r be Real;
+  pred Risk_neutral_measure_exists_wrt G,jpi,r means
+:: FINANCE6:def 16
+  ex Prob being Probability of F st
+    for d being Nat holds
+      jpi.d=expect(Real_RV(r,Change_Element_to_Func(G,d)),Prob);
+end;
+
+ reserve Prob for Probability of Special_SigmaField2;
+
+theorem :: FINANCE6:18
+  for r being Real st r>0 holds
+  for jpi being pricefunction
+  for d being Nat holds
+    ex f being Real-Valued-Random-Variable of Special_SigmaField2 st
+    f = {1,2,3,4} --> (jpi.d*(1+r)) &
+    f is_integrable_on P2M(Prob) &
+    f is_simple_func_in Special_SigmaField2;
+
+theorem :: FINANCE6:19
+  for n being Nat
+  for r being Real st r>0 holds
+  for jpi being pricefunction
+  for d being Nat
+  for RV being Real-Valued-Random-Variable of Special_SigmaField2 st
+     RV={1,2,3,4}-->(jpi.d*(1+r)) &
+     RV is_integrable_on P2M(Prob) &
+     RV is_simple_func_in Special_SigmaField2 holds
+       jpi.d=expect(Real_RV(r,RV),Prob);
+
+theorem :: FINANCE6:20
+  for r being Real st r>0 holds
+  for jpi being pricefunction holds
+  ex G being sequence of
+      set_of_random_variables_on(Special_SigmaField2,Borel_Sets) st
+  (for d being Nat holds
+  G.d = ({1,2,3,4}-->(jpi.d*(1+r))) &
+      Change_Element_to_Func(G,d) is_integrable_on P2M(Prob) &
+      Change_Element_to_Func(G,d) is_simple_func_in Special_SigmaField2);
+
+theorem :: FINANCE6:21
+  for r being Real st r>0 holds
+  for jpi being pricefunction
+  for G being sequence of
+      set_of_random_variables_on(Special_SigmaField2,Borel_Sets) st
+  for d being Nat holds
+      G.d = ({1,2,3,4} --> (jpi.d*(1+r))) &
+      Change_Element_to_Func(G,d) is_integrable_on P2M(Prob) &
+      Change_Element_to_Func(G,d) is_simple_func_in Special_SigmaField2 holds
+  (Risk_neutral_measure_exists_wrt G,jpi,r &
+  for s being Nat holds
+    jpi.s = expect(Real_RV(r,Change_Element_to_Func(G,s)),Prob));
+

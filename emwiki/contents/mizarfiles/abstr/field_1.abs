@@ -1,0 +1,423 @@
+:: On Roots of Polynomials over K[X]/<p>
+::  by Christoph Schwarzweller
+:: 
+:: Received March 28, 2019
+:: Copyright (c) 2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ARYTM_3, VECTSP_1, ALGSTR_0, TARSKI, GROUP_6, NAT_1, MESFUNC1,
+      VECTSP_2, STRUCT_0, SUBSET_1, SUPINF_2, GROUP_1, POLYNOM1, POLYNOM2,
+      POLYNOM3, FUNCSDOM, HURWITZ, FINSEQ_1, QUOFIELD, ALGSEQ_1, FUNCT_1,
+      RELAT_1, CARD_1, POLYNOM8, IDEAL_1, MOD_4, XBOOLE_0, NUMBERS, MSSUBFAM,
+      CARD_3, POLYNOM5, YELLOW_8, WAYBEL20, EQREL_1, RING_2, RLVECT_1, RING_3,
+      AFINSQ_1, FUNCT_2, PARTFUN1, XXREAL_0, XCMPLX_0, ORDINAL4, POLYNOM4,
+      RATFUNC1, CARD_FIL, NEWTON, ARYTM_1, CALCUL_2, FIELD_1;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, BINOP_1, FINSEQ_1, EQREL_1, ORDINAL1, NUMBERS, XCMPLX_0,
+      XXREAL_0, NAT_1, NAT_D, GROUP_4, ALGSEQ_1, POLYDIFF, POLYNOM3, POLYNOM4,
+      POLYNOM5, VECTSP_1, VECTSP_2, QUOFIELD, STRUCT_0, ALGSTR_0, GROUP_1,
+      GROUP_6, RLVECT_1, GCD_1, BINOM, HURWITZ, RATFUNC1, IDEAL_1, MOD_4,
+      RING_1, RING_2, RING_3, RING_4;
+ constructors HURWITZ, POLYNOM4, RELSET_1, ABIAN, NAT_D, RATFUNC1, GCD_1,
+      BINOM, RINGCAT1, RING_3, ALGSEQ_1, RING_4, GROUP_4, POLYDIFF;
+ registrations XBOOLE_0, XXREAL_0, XREAL_0, CARD_1, ORDINAL1, RELSET_1, MOD_4,
+      FUNCT_1, FUNCT_2, NAT_1, INT_1, INT_2, POLYDIFF, FINSEQ_1, STRUCT_0,
+      RLVECT_1, VECTSP_1, ALGSTR_1, GROUP_6, RINGCAT1, GRCAT_1, RING_1, INT_3,
+      RING_2, RING_3, RING_4, RING_5, POLYNOM3, POLYNOM4, POLYNOM5, RATFUNC1;
+ requirements NUMERALS, SUBSET, BOOLE, REAL, ARITHM;
+
+
+begin :: Preliminaries
+
+ reserve n for Nat;
+
+notation
+  let L be non empty ZeroStr;
+  let p be Polynomial of L;
+  synonym LM p for Leading-Monomial p;
+end;
+
+theorem :: FIELD_1:1
+  for L being non empty ZeroStr, p being Polynomial of L
+  holds deg p is Element of NAT iff p <> 0_.L;
+
+definition
+  let R be non degenerated Ring;
+  let p be non zero Polynomial of R;
+  redefine func deg p -> Element of NAT;
+end;
+
+registration ::: move to RING_2
+  let R be add-associative right_zeroed right_complementable
+         right-distributive non empty doubleLoopStr;
+  let f be additive Function of R,R;
+  reduce f.(0.R) to 0.R;
+end;
+
+theorem :: FIELD_1:2
+  for R being Ring,
+      I being Ideal of R
+  for x being Element of R/I,
+      a being Element of R st x = Class(EqRel(R,I),a)
+  for n being Nat holds x|^n = Class(EqRel(R,I),a|^n);
+
+definition
+  let R be Ring, a,b be Element of R;
+  pred b is_a_irreducible_factor_of a means
+:: FIELD_1:def 1
+  b divides a & b is irreducible;
+end;
+
+registration
+  cluster non almost_left_invertible factorial for domRing;
+end;
+
+theorem :: FIELD_1:3
+  for R being non almost_left_invertible factorial domRing,
+      a being non zero NonUnit of R
+   ex b being Element of R st b is_a_irreducible_factor_of a;
+
+begin :: The polynomials a * x^n
+
+notation
+  let R be Ring;
+  let a be Element of R;
+  let n be Nat;
+  synonym anpoly(a,n) for seq(n,a);
+end;
+
+registration
+  let R be non degenerated Ring,
+      a be non zero Element of R,
+      n be Nat;
+  cluster anpoly(a,n) -> non zero;
+end;
+
+registration
+  let R be Ring,
+      a be zero Element of R,
+      n be Nat;
+  cluster anpoly(a,n) -> zero;
+end;
+
+theorem :: FIELD_1:4
+  for R being non degenerated Ring,
+      a being non zero Element of R holds deg anpoly(a,n) = n;
+
+theorem :: FIELD_1:5
+  for R being non degenerated Ring,
+    a being Element of R holds LC anpoly(a,n) = a;
+
+theorem :: FIELD_1:6
+  for R being non degenerated Ring, n being non zero Nat,
+    a,x being Element of R holds eval(anpoly(a,n),x) = a * x|^n;
+
+theorem :: FIELD_1:7
+  for R being non degenerated Ring,
+      a being Element of R holds anpoly(a,0) = a|R;
+
+theorem :: FIELD_1:8
+  for R being non degenerated Ring,
+      n being non zero Element of NAT holds anpoly(1.R,n) = rpoly(n,0.R);
+
+theorem :: FIELD_1:9
+  for R being non degenerated comRing,
+    a,b being non zero Element of R holds b * anpoly(a,n) = anpoly(a*b,n);
+
+theorem :: FIELD_1:10
+  for R being non degenerated comRing,
+      a,b being non zero Element of R, n,m being Nat holds
+   anpoly(a,n) *' anpoly(b,m) = anpoly(a*b,n+m);
+
+theorem :: FIELD_1:11
+  for R being non degenerated Ring, p being non zero Polynomial of R holds
+   LM p = anpoly(p.(deg p),deg p);
+
+theorem :: FIELD_1:12
+  for R being non degenerated comRing
+   holds (<%0.R,1.R%>)`^n = anpoly(1.R,n);
+
+begin :: More on Homomorphisms
+
+theorem :: FIELD_1:13
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for a being Element of R, n being Nat holds h.(a|^n) = (h.a)|^n;
+
+theorem :: FIELD_1:14
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S holds h.(Sum <*>(the carrier of R)) = 0.S;
+
+theorem :: FIELD_1:15
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F being FinSequence of R, a being Element of R holds
+   h.(Sum(<*a*>^F)) = h.a + h.(Sum F);
+
+theorem :: FIELD_1:16
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F being FinSequence of R, a being Element of R holds
+   h.(Sum(F^<*a*>)) = h.(Sum F) + h.a;
+
+theorem :: FIELD_1:17
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F,G being FinSequence of R holds h.(Sum(F^G)) = h.(Sum F) + h.(Sum G);
+
+theorem :: FIELD_1:18
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S holds
+   h.(Product <*>(the carrier of R)) = 1.S;
+
+theorem :: FIELD_1:19
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F being FinSequence of R, a being Element of R holds
+   h.(Product(<*a*>^F)) = h.a * h.(Product F);
+
+theorem :: FIELD_1:20
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F being FinSequence of R, a being Element of R holds
+   h.(Product(F^<*a*>)) = h.(Product F) * h.a;
+
+theorem :: FIELD_1:21
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for F,G being FinSequence of R
+   holds h.(Product(F^G)) = h.(Product F) * h.(Product G);
+
+begin :: Lifting Homomorphisms from R to R[X]
+
+definition
+  let R,S be Ring;
+  let f be Function of Polynom-Ring R, Polynom-Ring S;
+  let p be Element of the carrier of Polynom-Ring R;
+  redefine func f.p -> Element of the carrier of Polynom-Ring S;
+end;
+
+definition
+  let R be Ring, S be R-homomorphic Ring;
+  let h be additive Function of R,S;
+   func PolyHom h -> Function of Polynom-Ring R, Polynom-Ring S means
+:: FIELD_1:def 2
+   for f being Element of the carrier of Polynom-Ring R
+   for i being Nat holds (it.f).i = h.(f.i);
+end;
+
+registration
+  let R be Ring,
+      S be R-homomorphic Ring;
+  let h be Homomorphism of R,S;
+  cluster PolyHom h -> additive multiplicative unity-preserving;
+  end;
+
+theorem :: FIELD_1:22
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S holds (PolyHom h).(0_.R) = 0_.S;
+
+theorem :: FIELD_1:23
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S holds (PolyHom h).(1_.R) = 1_.S;
+
+theorem :: FIELD_1:24
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p,q being Element of the carrier of Polynom-Ring R
+   holds (PolyHom h).(p+q) = (PolyHom h).p + (PolyHom h).q;
+
+theorem :: FIELD_1:25
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p,q being Element of the carrier of Polynom-Ring R
+   holds (PolyHom h).(p*q) = (PolyHom h).p * (PolyHom h).q;
+
+theorem :: FIELD_1:26
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R), b being Element of R
+   holds (PolyHom h).(b*p) = h.b * (PolyHom h).p;
+
+theorem :: FIELD_1:27
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R), a being Element of R
+   holds h.eval(p,a) = eval((PolyHom h).p, h.a);
+
+:: RING_5:7 is required domRing
+theorem :: FIELD_1:28
+   for R being domRing, S being R-homomorphic domRing
+   for h being Homomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R),
+   b,x being Element of R holds
+   h.eval(b*p,x) = h.b * eval((PolyHom h).p,h.x);
+
+registration
+  let R be Ring;
+  cluster R-homomorphic R-monomorphic for Ring;
+cluster R-homomorphic R-isomorphic for Ring;
+end;
+
+registration
+  let R be Ring;
+  cluster R-monomorphic -> R-homomorphic for Ring;
+end;
+
+registration
+  let R be Ring,
+      S be R-homomorphic R-monomorphic Ring;
+  let h be Monomorphism of R,S;
+  cluster PolyHom h -> monomorphism;
+end;
+
+registration
+  let R be Ring,
+      S be R-isomorphic R-homomorphic Ring;
+  let h be Isomorphism of R,S;
+  cluster PolyHom h -> isomorphism;
+end;
+
+theorem :: FIELD_1:29
+  for R being Ring,
+      S being R-homomorphic Ring
+  for h being Homomorphism of R,S
+  for p being Element of the carrier of (Polynom-Ring R)
+  holds deg((PolyHom h).p) <= deg p;
+
+theorem :: FIELD_1:30
+   for R being non degenerated Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p being non zero Element of the carrier of (Polynom-Ring R)
+   holds deg((PolyHom h).p) = deg p iff h.(LC p) <> 0.S;
+
+theorem :: FIELD_1:31
+   for R being Ring, S being R-monomorphic R-homomorphic Ring
+   for h being Monomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R)
+   holds deg((PolyHom h).p) = deg p;
+
+theorem :: FIELD_1:32
+   for R being Ring, S being R-monomorphic R-homomorphic Ring
+   for h being Monomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R)
+   holds LM((PolyHom h).p) = (PolyHom h).(LM p);
+
+theorem :: FIELD_1:33
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p be Element of the carrier of (Polynom-Ring R), a be Element of R
+   holds a is_a_root_of p implies h.a is_a_root_of (PolyHom h).p;
+
+theorem :: FIELD_1:34
+   for R being Ring, S being R-monomorphic R-homomorphic Ring
+   for h being Monomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R), a being Element of R
+   holds a is_a_root_of p iff h.a is_a_root_of (PolyHom h).p;
+
+theorem :: FIELD_1:35
+   for R being Ring, S being R-isomorphic R-homomorphic Ring
+   for h being Isomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R),
+   b being Element of S holds b is_a_root_of (PolyHom h).p iff
+   ex a being Element of R st a is_a_root_of p & h.a = b;
+
+theorem :: FIELD_1:36
+   for R being Ring, S being R-homomorphic Ring
+   for h being Homomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R) holds
+   Roots p c= {a where a is Element of R : h.a in Roots (PolyHom h).p};
+
+theorem :: FIELD_1:37
+   for R being Ring, S being R-monomorphic R-homomorphic Ring
+   for h being Monomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R)
+   holds Roots p = {a where a is Element of R : h.a in Roots (PolyHom h).p};
+
+theorem :: FIELD_1:38
+   for R being Ring, S being R-isomorphic R-homomorphic Ring
+   for h being Isomorphism of R,S
+   for p being Element of the carrier of (Polynom-Ring R)
+   holds Roots (PolyHom h).p = {h.a where a is Element of R : a in Roots p};
+
+begin :: Kronecker's Theorem
+
+ reserve F for Field,
+         p for irreducible Element of the carrier of Polynom-Ring F,
+         f for Element of the carrier of Polynom-Ring F,
+         a for Element of F;
+
+definition
+  let F,p;
+  func KroneckerField(F,p) -> Field equals
+:: FIELD_1:def 3
+  (Polynom-Ring F)/({p}-Ideal);
+end;
+
+definition
+  let F, p;
+  func emb p -> Function of F, KroneckerField(F,p) equals
+:: FIELD_1:def 4
+  canHom({p}-Ideal) * canHom(F);
+end;
+
+registration
+  let F, p;
+  cluster emb p -> additive multiplicative unity-preserving;
+end;
+
+registration
+  let F, p;
+  cluster emb p -> monomorphism;
+end;
+
+registration
+  let F, p;
+  cluster KroneckerField(F,p) -> F-homomorphic F-monomorphic;
+end;
+
+definition
+  let F, p, f;
+  func emb(f,p) -> Element of the carrier of Polynom-Ring KroneckerField(F,p)
+  equals
+:: FIELD_1:def 5
+  (PolyHom (emb p)).f;
+end;
+
+definition
+  let F, p;
+  func KrRoot p -> Element of KroneckerField(F,p) equals
+:: FIELD_1:def 6
+  Class(EqRel(Polynom-Ring F,{p}-Ideal),<%0.F,1.F%>);
+end;
+
+theorem :: FIELD_1:39
+  for F, p, a holds (emb p).a = Class(EqRel(Polynom-Ring F,{p}-Ideal),a|F);
+
+theorem :: FIELD_1:40
+   (emb(f,p)).n = Class(EqRel(Polynom-Ring F,{p}-Ideal),(f.n)|F);
+
+theorem :: FIELD_1:41
+   eval(emb(f,p),KrRoot p) = Class(EqRel(Polynom-Ring F,{p}-Ideal),f);
+
+theorem :: FIELD_1:42
+   KrRoot p is_a_root_of emb(p,p);
+
+theorem :: FIELD_1:43
+   f is non constant implies ex p being irreducible Element of
+   the carrier of Polynom-Ring F st emb(f,p) is with_roots;
+
+theorem :: FIELD_1:44
+   emb p is isomorphism implies p is with_roots;
+
+theorem :: FIELD_1:45
+   p is non with_roots implies emb p is non isomorphism;

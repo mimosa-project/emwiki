@@ -1,0 +1,521 @@
+:: Analytical Metric Affine Spaces and Planes
+::  by Henryk Oryszczyszyn and Krzysztof Pra\.zmowski
+::
+:: Received August 10, 1990
+:: Copyright (c) 1990-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, RLVECT_1, REAL_1, RELAT_1, ARYTM_3, ARYTM_1, CARD_1,
+      SUPINF_2, ANALOAF, DIRAF, ZFMISC_1, STRUCT_0, SUBSET_1, XBOOLE_0,
+      SYMSP_1, INCSP_1, AFF_1, ANALMETR;
+ notations TARSKI, XBOOLE_0, ZFMISC_1, SUBSET_1, DOMAIN_1, ORDINAL1, XXREAL_0,
+      XCMPLX_0, XREAL_0, REAL_1, NUMBERS, STRUCT_0, DIRAF, RELSET_1, RLVECT_1,
+      AFF_1, ANALOAF;
+ constructors DOMAIN_1, XXREAL_0, REAL_1, MEMBERED, AFF_1;
+ registrations SUBSET_1, RELSET_1, XXREAL_0, STRUCT_0, ANALOAF, DIRAF, XREAL_0,
+      ORDINAL1;
+ requirements REAL, NUMERALS, SUBSET, BOOLE, ARITHM;
+
+
+begin
+
+reserve V for RealLinearSpace;
+reserve u,u1,u2,v,v1,v2,w,w1,y for VECTOR of V;
+reserve a,a1,a2,b,b1,b2,c1,c2 for Real;
+reserve x,z for set;
+
+definition
+  let V;
+  let w,y;
+  pred Gen w,y means
+:: ANALMETR:def 1
+
+  (for u ex a1,a2 st u = a1*w + a2*y) &
+  for a1,a2 st a1*w + a2*y = 0.V holds a1=0 & a2=0;
+end;
+
+definition
+  let V;
+  let u,v,w,y;
+  pred u,v are_Ort_wrt w,y means
+:: ANALMETR:def 2
+
+  ex a1,a2,b1,b2 st u = a1*w + a2*y & v = b1*w + b2*y & a1*b1 + a2*b2 = 0;
+end;
+
+theorem :: ANALMETR:1
+  for w,y st Gen w,y holds (u,v are_Ort_wrt w,y iff for a1,a2,b1,b2
+  st u = a1*w + a2*y & v = b1*w + b2*y holds a1*b1 + a2*b2 = 0 );
+
+theorem :: ANALMETR:2
+  w,y are_Ort_wrt w,y;
+
+theorem :: ANALMETR:3
+  ex V st ex w,y st Gen w,y;
+
+theorem :: ANALMETR:4
+  u,v are_Ort_wrt w,y implies v,u are_Ort_wrt w,y;
+
+theorem :: ANALMETR:5
+  Gen w,y implies for u,v holds u,0.V are_Ort_wrt w,y & 0.V,v are_Ort_wrt w,y;
+
+theorem :: ANALMETR:6
+  u,v are_Ort_wrt w,y implies a*u,b*v are_Ort_wrt w,y;
+
+theorem :: ANALMETR:7
+  u,v are_Ort_wrt w,y implies a*u,v are_Ort_wrt w,y & u,b*v are_Ort_wrt w,y;
+
+theorem :: ANALMETR:8
+  Gen w,y implies for u ex v st u,v are_Ort_wrt w,y & v<>0.V;
+
+theorem :: ANALMETR:9
+  Gen w,y & v,u1 are_Ort_wrt w,y & v,u2 are_Ort_wrt w,y & v<>0.V
+  implies ex a,b st a*u1 = b*u2 & (a<>0 or b<>0);
+
+theorem :: ANALMETR:10
+  Gen w,y & u,v1 are_Ort_wrt w,y & u,v2 are_Ort_wrt w,y implies u,
+  v1+v2 are_Ort_wrt w,y & u,v1-v2 are_Ort_wrt w,y;
+
+theorem :: ANALMETR:11
+  Gen w,y & u,u are_Ort_wrt w,y implies u = 0.V;
+
+theorem :: ANALMETR:12
+  Gen w,y & u,u1-u2 are_Ort_wrt w,y & u1,u2-u are_Ort_wrt w,y
+  implies u2,u-u1 are_Ort_wrt w,y;
+
+theorem :: ANALMETR:13
+  Gen w,y & u <> 0.V implies ex a st v - a*u,u are_Ort_wrt w,y;
+
+theorem :: ANALMETR:14
+  (u,v // u1,v1 or u,v // v1,u1) iff ex a,b st a*(v-u) = b*(v1-u1)
+  & (a<>0 or b<>0);
+
+theorem :: ANALMETR:15
+  [[u,v],[u1,v1]] in lambda(DirPar(V)) iff ex a,b st a*(v-u) = b*(
+  v1-u1) & (a<>0 or b<>0);
+
+definition
+  let V;
+  let u,u1,v,v1,w,y;
+  pred u,u1,v,v1 are_Ort_wrt w,y means
+:: ANALMETR:def 3
+
+  u1-u,v1-v are_Ort_wrt w,y;
+end;
+
+definition
+  let V;
+  let w,y;
+  func Orthogonality(V,w,y) -> Relation of [:the carrier of V,the carrier of V
+  :] means
+:: ANALMETR:def 4
+
+for x,z being object
+    holds [x,z] in it iff ex u,u1,v,v1 st x=[u,u1] & z=[v,v1] & u,u1,v,v1
+  are_Ort_wrt w,y;
+end;
+
+reserve p,p1,q,q1 for Element of Lambda(OASpace(V));
+
+theorem :: ANALMETR:16
+  the carrier of Lambda(OASpace(V)) = the carrier of V;
+
+theorem :: ANALMETR:17
+  the CONGR of Lambda(OASpace(V)) = lambda(DirPar(V));
+
+theorem :: ANALMETR:18
+  p=u & q=v & p1=u1 & q1=v1 implies (p,q // p1,q1 iff ex a,b st a*(v-u)
+  = b*(v1-u1) & (a<>0 or b<>0) );
+
+definition
+  struct(1-sorted) OrtStr (# carrier -> set,
+      orthogonality -> Relation of [:the carrier,the carrier:] #);
+end;
+
+definition
+  struct(AffinStruct,OrtStr) ParOrtStr (# carrier -> set,
+   CONGR, orthogonality -> Relation of [:the carrier,the carrier:] #);
+end;
+
+registration
+  cluster non empty for ParOrtStr;
+end;
+
+registration
+  cluster non empty for OrtStr;
+end;
+
+reserve POS for non empty ParOrtStr;
+
+definition
+  let POS be OrtStr;
+  let a,b,c,d be Element of POS;
+
+  pred a,b _|_ c,d means
+:: ANALMETR:def 5
+
+  [[a,b],[c,d]] in the orthogonality of POS;
+end;
+
+definition
+  let V,w,y;
+  func AMSpace(V,w,y) -> strict ParOrtStr equals
+:: ANALMETR:def 6
+  ParOrtStr(#the carrier of V,
+    lambda(DirPar(V)),Orthogonality(V,w,y)#);
+end;
+
+registration
+  let V,w,y;
+  cluster AMSpace(V,w,y) -> non empty;
+end;
+
+theorem :: ANALMETR:19
+  the carrier of AMSpace(V,w,y) = the carrier of V & the CONGR of
+  AMSpace(V,w,y) = lambda(DirPar(V)) & the orthogonality of AMSpace(V,w,y) =
+  Orthogonality(V,w,y);
+
+definition
+::$CD
+end;
+
+registration
+  let POS;
+  cluster the AffinStruct of POS -> non empty;
+end;
+
+theorem :: ANALMETR:20
+  the AffinStruct of AMSpace(V,w,y) = Lambda(OASpace(V));
+
+reserve p,p1,p2,q,q1,r,r1,r2 for Element of AMSpace(V,w,y);
+
+theorem :: ANALMETR:21
+  p=u & p1=u1 & q=v & q1=v1 implies (p,q _|_ p1,q1 iff u,v,u1,v1
+  are_Ort_wrt w,y);
+
+theorem :: ANALMETR:22
+  p=u & q=v & p1=u1 & q1=v1 implies (p,q // p1,q1 iff ex a,b st a*
+  (v-u) = b*(v1-u1) & (a<>0 or b<>0) );
+
+theorem :: ANALMETR:23
+  p,q _|_ p1,q1 implies p1,q1 _|_ p,q;
+
+theorem :: ANALMETR:24
+  p,q _|_ p1,q1 implies p,q _|_ q1,p1;
+
+theorem :: ANALMETR:25
+  Gen w,y implies for p,q,r holds p,q _|_ r,r;
+
+theorem :: ANALMETR:26
+  p,p1 _|_ q,q1 & p,p1 // r,r1 implies p=p1 or q,q1 _|_ r,r1;
+
+theorem :: ANALMETR:27
+  Gen w,y implies for p,q,r ex r1 st p,q _|_ r,r1 & r<>r1;
+
+theorem :: ANALMETR:28
+  Gen w,y & p,p1 _|_ q,q1 & p,p1 _|_ r,r1 implies p=p1 or q,q1 // r,r1;
+
+theorem :: ANALMETR:29
+  Gen w,y & p,q _|_ r,r1 & p,q _|_ r,r2 implies p,q _|_ r1,r2;
+
+theorem :: ANALMETR:30
+  Gen w,y & p,q _|_ p,q implies p = q;
+
+theorem :: ANALMETR:31
+  Gen w,y & p,q _|_ p1,p2 & p1,q _|_ p2,p implies p2,q _|_ p,p1;
+
+theorem :: ANALMETR:32
+  Gen w,y & p<>p1 implies for q ex q1 st p,p1 // p,q1 & p,p1 _|_ q1,q;
+
+definition
+  let IT be non empty ParOrtStr;
+  attr IT is OrtAfSp-like means
+:: ANALMETR:def 8
+
+  AffinStruct(#the carrier of IT,the
+CONGR of IT#) is AffinSpace & (for a,b,c,d,p,q,r,s being Element of IT holds (a
+,b _|_ a,b implies a=b) & a,b _|_ c,c & (a,b _|_ c,d implies a,b _|_ d,c & c,d
+_|_ a,b) & (a,b _|_ p,q & a,b // r,s implies p,q _|_ r,s or a=b) & (a,b _|_ p,q
+& a,b _|_ p,s implies a,b _|_ q,s)) & (for a,b,c being Element of IT st a<>b ex
+x being Element of IT st a,b // a,x & a,b _|_ x,c) & for a,b,c being Element of
+  IT ex x being Element of IT st a,b _|_ c,x & c <>x;
+end;
+
+registration
+  cluster strict OrtAfSp-like for non empty ParOrtStr;
+end;
+
+definition
+  mode OrtAfSp is OrtAfSp-like non empty ParOrtStr;
+end;
+
+theorem :: ANALMETR:33
+  Gen w,y implies AMSpace(V,w,y) is OrtAfSp;
+
+definition
+  let IT be non empty ParOrtStr;
+  attr IT is OrtAfPl-like means
+:: ANALMETR:def 9
+
+  AffinStruct(#the carrier of IT,the
+CONGR of IT#) is AffinPlane & (for a,b,c,d,p,q,r,s being Element of IT holds (a
+,b _|_ a,b implies a=b) & a,b _|_ c,c & (a,b _|_ c,d implies a,b _|_ d,c & c,d
+_|_ a,b) & (a,b _|_ p,q & a,b // r,s implies p,q _|_ r,s or a=b) & (a,b _|_ p,q
+& a,b _|_ r,s implies p,q // r,s or a=b)) & for a,b,c being Element of IT ex x
+  being Element of IT st a,b _|_ c,x & c <>x;
+end;
+
+registration
+  cluster strict OrtAfPl-like for non empty ParOrtStr;
+end;
+
+definition
+  mode OrtAfPl is OrtAfPl-like non empty ParOrtStr;
+end;
+
+theorem :: ANALMETR:34
+  Gen w,y implies AMSpace(V,w,y) is OrtAfPl;
+
+theorem :: ANALMETR:35
+  for x being set holds (x is Element of POS iff
+    x is Element of the AffinStruct of POS);
+
+theorem :: ANALMETR:36
+  for a,b,c,d being Element of POS, a9,b9,c9,d9 being Element of
+  the AffinStruct of POS st a=a9& b=b9 & c = c9 & d=d9
+   holds (a,b // c,d iff a9,b9 // c9,d9);
+
+registration
+  let POS be OrtAfSp;
+  cluster the AffinStruct of POS -> AffinSpace-like non trivial;
+end;
+
+registration
+  let POS be OrtAfPl;
+  cluster the AffinStruct of POS -> 2-dimensional AffinSpace-like non trivial;
+end;
+
+theorem :: ANALMETR:37
+  for POS being OrtAfPl holds POS is OrtAfSp;
+
+registration
+  cluster OrtAfPl-like -> OrtAfSp-like for non empty ParOrtStr;
+end;
+
+theorem :: ANALMETR:38
+  for POS being OrtAfSp st the AffinStruct of POS is AffinPlane
+     holds POS is OrtAfPl;
+
+theorem :: ANALMETR:39
+  for POS being non empty ParOrtStr holds POS is OrtAfPl-like iff (ex a,
+  b being Element of POS st a<>b) & for a,b,c,d,p,q,r,s being Element of POS
+holds a,b // b,a & a,b // c,c & (a,b // p,q & a,b // r,s implies p,q // r,s or
+a=b) & (a,b // a,c implies b,a // b,c) & (ex x being Element of POS st a,b // c
+  ,x & a,c // b,x) & (ex x,y,z being Element of POS st not x,y // x,z ) & (ex x
+  being Element of POS st a,b // c,x & c <>x) & (a,b // b,d & b<>a implies ex x
+being Element of POS st c,b // b,x & c,a // d,x) & (a,b _|_ a,b implies a=b) &
+a,b _|_ c,c & (a,b _|_ c,d implies a,b _|_ d,c & c,d _|_ a,b) & (a,b _|_ p,q &
+a,b // r,s implies p,q _|_ r,s or a=b) & (a,b _|_ p,q & a,b _|_ r,s implies p,q
+// r,s or a=b) & (ex x being Element of POS st a,b _|_ c,x & c <>x) & (not a,b
+  // c,d implies ex x being Element of POS st a,b // a,x & c,d // c,x );
+
+reserve x,a,b,c,d,p,q,y for Element of POS;
+
+definition
+  let POS;
+  let a,b,c;
+  pred LIN a,b,c means
+:: ANALMETR:def 10
+
+  a,b // a,c;
+end;
+
+definition
+  let POS,a,b;
+  func Line(a,b) -> Subset of POS means
+:: ANALMETR:def 11
+
+  for x being Element of POS holds x in it iff LIN a,b,x;
+end;
+
+reserve A,K,M for Subset of POS;
+
+definition
+  let POS;
+  let A;
+  attr A is being_line means
+:: ANALMETR:def 12
+
+  ex a,b st a<>b & A=Line(a,b);
+end;
+
+theorem :: ANALMETR:40
+  for POS being OrtAfSp for a,b,c being Element of POS, a9,b9,c9
+being Element of the AffinStruct of POS st a=a9& b=b9 & c = c9
+  holds (LIN a,b,c iff LIN a9,b9,c9);
+
+theorem :: ANALMETR:41
+  for POS being OrtAfSp for a,b being Element of POS, a9,b9 being
+  Element of the AffinStruct of POS st a=a9 & b=b9
+   holds Line(a,b) = Line(a9,b9);
+
+theorem :: ANALMETR:42
+  for X being set holds
+   X is Subset of POS iff X is Subset of the AffinStruct of POS;
+
+theorem :: ANALMETR:43
+  for POS being OrtAfSp for X being Subset of POS, Y being Subset
+  of the AffinStruct of POS st X=Y holds X is being_line iff Y is being_line;
+
+definition
+  let POS;
+  let a,b,K;
+  pred a,b _|_ K means
+:: ANALMETR:def 13
+
+  ex p,q st p<>q & K = Line(p,q) & a,b _|_ p,q;
+end;
+
+definition
+  let POS;
+  let K,M;
+  pred K _|_ M means
+:: ANALMETR:def 14
+
+  ex p,q st p<>q & K = Line(p,q) & p,q _|_ M;
+end;
+
+definition
+  let POS;
+  let K,M;
+  pred K // M means
+:: ANALMETR:def 15
+  ex a,b,c,d st a<>b & c <>d & K = Line(a,b) & M = Line(c,d) & a,b // c,d;
+end;
+
+theorem :: ANALMETR:44
+  (a,b _|_ K implies K is being_line) &
+  (K _|_ M implies K is being_line & M is being_line );
+
+theorem :: ANALMETR:45
+  K _|_ M iff ex a,b,c,d st a<>b & c <>d & K = Line(a,b) & M =
+  Line(c,d) & a,b _|_ c,d;
+
+theorem :: ANALMETR:46
+  for POS being OrtAfSp for M,N being Subset of POS, M9,N9 being
+  Subset of the AffinStruct of POS st M = M9 & N = N9
+  holds M // N iff M9 // N9;
+
+reserve POS for OrtAfSp;
+reserve A,K,M,N for Subset of POS;
+reserve a,b,c,d,p,q,r,s for Element of POS;
+
+theorem :: ANALMETR:47
+  K is being_line implies a,a _|_ K;
+
+theorem :: ANALMETR:48
+  a,b _|_ K & (a,b // c,d or c,d // a,b) & a<>b implies c,d _|_ K;
+
+theorem :: ANALMETR:49
+  a,b _|_ K implies b,a _|_ K;
+
+definition
+  let POS;
+  let K,M be Subset of POS;
+  redefine pred K // M;
+  symmetry;
+end;
+
+theorem :: ANALMETR:50
+  r,s _|_ K & K // M implies r,s _|_ M;
+
+theorem :: ANALMETR:51
+  a in K & b in K & a,b _|_ K implies a=b;
+
+definition
+  let POS;
+  let K,M be Subset of POS;
+  redefine pred K _|_ M;
+  irreflexivity;
+  symmetry;
+end;
+
+theorem :: ANALMETR:52
+  K _|_ M & K // N implies N _|_ M;
+
+theorem :: ANALMETR:53
+  a in K & b in K & c,d _|_ K implies c,d _|_ a,b & a,b _|_ c,d;
+
+theorem :: ANALMETR:54
+  a in K & b in K & a<>b & K is being_line implies K =Line(a,b);
+
+theorem :: ANALMETR:55
+  a in K & b in K & a<>b & K is being_line & (a,b _|_ c,d or c,d _|_ a,b
+  ) implies c,d _|_ K;
+
+theorem :: ANALMETR:56
+  a in M & b in M & c in N & d in N & M _|_ N implies a,b _|_ c,d;
+
+theorem :: ANALMETR:57
+  p in M & p in N & a in M & b in N & a<>b & a in K & b in K & A _|_ M &
+  A _|_ N & K is being_line implies A _|_ K;
+
+theorem :: ANALMETR:58
+  b,c _|_ a,a & a,a _|_ b,c & b,c // a,a & a,a // b,c;
+
+theorem :: ANALMETR:59
+  a,b // c,d implies a,b // d,c & b,a // c,d & b,a // d,c & c,d //
+  a,b & c,d // b,a & d,c // a,b & d,c // b,a;
+
+theorem :: ANALMETR:60
+  p<>q & ( p,q // a,b & p,q // c,d or p,q // a,b & c,d // p,q or a,b //
+  p,q & c,d // p,q or a,b // p,q & p,q // c,d ) implies a,b // c,d;
+
+theorem :: ANALMETR:61
+  a,b _|_ c,d implies a,b _|_ d,c & b,a _|_ c,d & b,a _|_ d,c & c,
+  d _|_ a,b & c,d _|_ b,a & d,c _|_ a,b & d,c _|_ b,a;
+
+theorem :: ANALMETR:62
+  p<>q & ( p,q // a,b & p,q _|_ c,d or p,q // c,d & p,q _|_ a,b or
+p,q // a,b & c,d _|_ p,q or p,q // c,d & a,b _|_ p,q or a,b // p,q & c,d _|_ p,
+  q or c,d // p,q & a,b _|_ p,q or a,b // p,q & p,q _|_ c,d or c,d // p,q & p,q
+  _|_ a,b ) implies a,b _|_ c,d;
+
+reserve POS for OrtAfPl;
+reserve K,M,N for Subset of POS;
+reserve x,a,b,c,d,p,q for Element of POS;
+
+theorem :: ANALMETR:63
+  p<>q & ( p,q _|_ a,b & p,q _|_ c,d or p,q _|_ a,b & c,d _|_ p,q
+or a,b _|_ p,q & c,d _|_ p,q or a,b _|_ p,q & p,q _|_ c,d ) implies a,b // c,d;
+
+theorem :: ANALMETR:64
+  a in M & b in M & a<>b & M is being_line & c in N & d in N & c <>d & N
+  is being_line & a,b // c,d implies M // N;
+
+theorem :: ANALMETR:65
+  M _|_ K & N _|_ K implies M // N;
+
+theorem :: ANALMETR:66
+  M _|_ N implies ex p st p in M & p in N;
+
+theorem :: ANALMETR:67
+  a,b _|_ c,d implies ex p st LIN a,b,p & LIN c,d,p;
+
+theorem :: ANALMETR:68
+  a,b _|_ K implies ex p st LIN a,b,p & p in K;
+
+theorem :: ANALMETR:69
+  ex x st a,x _|_ p,q & LIN p,q,x;
+
+theorem :: ANALMETR:70
+  K is being_line implies ex x st a,x _|_ K & x in K;

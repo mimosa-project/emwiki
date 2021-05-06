@@ -1,0 +1,292 @@
+:: Vieta's Formula about the Sum of Roots of Polynomials
+::  by Artur Korni{\l}owicz and Karol P\kak
+:: 
+:: Received May 25, 2017
+:: Copyright (c) 2017-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies NUMBERS, FINSEQ_1, SUBSET_1, RELAT_1, FUNCT_1, CARD_1, CARD_3,
+      FINSEQ_2, ARYTM_3, ORDINAL4, TARSKI, NAT_1, XXREAL_0, ARYTM_1, XBOOLE_0,
+      RLVECT_1, ALGSTR_0, SUPINF_2, PARTFUN1, FINSET_1, ALGSTR_1, ZFMISC_1,
+      PRE_POLY, FUNCT_4, VALUED_0, BINOP_1, STRUCT_0, POLYNOM1, POLYNOM3,
+      AFINSQ_1, MESFUNC1, VECTSP_1, POLYNOM5, VECTSP_2, POLYNOM2, FUNCT_2,
+      UPROOTS, AOFA_I00, XCMPLX_0, POLYVIE1, BINOM, SGRAPH1, CLASSES1;
+ notations TARSKI, XBOOLE_0, XCMPLX_0, XXREAL_0, SUBSET_1, NUMBERS, RVSUM_1,
+      RELAT_1, FINSET_1, FUNCT_1, RELSET_1, PARTFUN1, DOMAIN_1, FUNCT_2,
+      CARD_1, CLASSES1, FINSEQ_1, FINSEQ_2, FUNCT_7, XXREAL_2, NAT_1, NAT_D,
+      STRUCT_0, VECTSP_2, ALGSTR_0, ALGSTR_1, BINOM, RLVECT_1, RLAFFIN3,
+      VECTSP_1, PRE_POLY, ALGSEQ_1, POLYNOM3, POLYNOM4, POLYNOM5, FVSUM_1,
+      GROUP_1, UPROOTS, NIVEN;
+ constructors NAT_D, ALGSTR_1, POLYNOM4, POLYNOM5, RECDEF_1, XXREAL_2, FUNCT_7,
+      FVSUM_1, ALGSEQ_1, UPROOTS, RLAFFIN3, BINOM, FINSEQ_4, NIVEN, RVSUM_1,
+      CLASSES1, WSIERP_1;
+ registrations XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, ORDINAL1, FINSET_1,
+      XXREAL_0, XREAL_0, NAT_1, INT_1, CARD_1, MEMBERED, FINSEQ_1, STRUCT_0,
+      VECTSP_1, ALGSTR_1, PRE_POLY, POLYNOM3, POLYNOM4, POLYNOM5, VALUED_0,
+      XXREAL_2, FUNCT_2, RELSET_1, UPROOTS, NAT_2, RLVECT_1, RING_3, ALGSTR_0,
+      RATFUNC1, NEWTON04, FINSEQ_2;
+ requirements NUMERALS, BOOLE, SUBSET, ARITHM, REAL;
+
+
+begin
+
+registration
+  let F be FinSequence;
+  let f be Function of dom F,dom F;
+  cluster F*f -> FinSequence-like;
+end;
+
+theorem :: POLYVIE1:1
+  for a,b being object st a <> b holds
+  canFS({a,b}) = <*a,b*> or canFS({a,b}) = <*b,a*>;
+
+theorem :: POLYVIE1:2
+  for X being finite set holds canFS X is Enumeration of X;
+
+registration
+  let A be set;
+  let X be finite Subset of A;
+  cluster canFS X -> A-valued;
+end;
+
+theorem :: POLYVIE1:3
+  for L being right_zeroed non empty addLoopStr, a being Element of L
+  holds 2 * a = a + a;
+
+registration
+  let L be almost_left_invertible multLoopStr_0;
+  cluster non zero -> left_invertible for Element of L;
+end;
+
+registration
+  let L be almost_right_invertible multLoopStr_0;
+  cluster non zero -> right_invertible for Element of L;
+end;
+
+registration
+  let L be almost_left_cancelable multLoopStr_0;
+  cluster non zero -> left_mult-cancelable for Element of L;
+end;
+
+registration
+  let L be almost_right_cancelable multLoopStr_0;
+  cluster non zero -> right_mult-cancelable for Element of L;
+end;
+
+theorem :: POLYVIE1:4
+  for L being right_unital associative non trivial doubleLoopStr
+  for a,b being Element of L st b is left_invertible right_mult-cancelable
+  & b*(/b) = (/b)*b holds a*b/b = a;
+
+registration
+  let L be non degenerated ZeroOneStr;
+  let z0 be Element of L;
+  let z1 be non zero Element of L;
+  cluster <%z0,z1%> -> non-zero;
+  cluster <%z1,z0%> -> non-zero;
+end;
+
+theorem :: POLYVIE1:5
+  for L being non trivial ZeroStr, p being Polynomial of L st len p = 1
+  ex a being non zero Element of L st p = <%a%>;
+
+theorem :: POLYVIE1:6
+  for L being non trivial ZeroStr, p being Polynomial of L st len p = 2
+  ex a being Element of L, b being non zero Element of L st p = <%a,b%>;
+
+theorem :: POLYVIE1:7
+  for L being non trivial ZeroStr, p being Polynomial of L st len p = 3
+  ex a,b being Element of L, c being non zero Element of L st p = <%a,b,c%>;
+
+theorem :: POLYVIE1:8
+  for L being add-associative right_zeroed right_complementable
+        associative commutative left-distributive well-unital
+        almost_left_invertible non empty doubleLoopStr
+  for a,b,x being Element of L st b <> 0.L
+  holds eval(<%a,b%>,-a/b) = 0.L;
+
+theorem :: POLYVIE1:9
+  for L being Field
+  for a,x being Element of L
+  for b being non zero Element of L holds
+  x is_a_root_of <%a,b%> iff x = -a/b;
+
+theorem :: POLYVIE1:10
+  for L being Field
+  for a being Element of L
+  for b being non zero Element of L holds
+  Roots <%a,b%> = {-a/b};
+
+theorem :: POLYVIE1:11
+  for L being Field
+  for a being Element of L
+  for b being non zero Element of L holds
+  multiplicity(<%a,b%>,-a/b) = 1;
+
+theorem :: POLYVIE1:12
+  for L being Field
+  for a being Element of L
+  for b being non zero Element of L holds
+  BRoots <%a,b%> = ({-a/b},1)-bag;
+
+theorem :: POLYVIE1:13
+  for L being Field
+  for a,c being Element of L
+  for b,d being non zero Element of L holds
+  Roots(<%a,b%>*'<%c,d%>) = {-a/b,-c/d};
+
+theorem :: POLYVIE1:14
+  for L being Field
+  for a,x being Element of L
+  for b being non zero Element of L st x <> -a/b holds
+  multiplicity(<%a,b%>,x) = 0;
+
+theorem :: POLYVIE1:15
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L st not -a/b in Roots(p)
+  holds card Roots(<%a,b%>*'p) = 1 + card Roots(p);
+
+theorem :: POLYVIE1:16
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L st not -a/b in Roots(p)
+  holds (canFS Roots(p))^<*-a/b*> is Enumeration of Roots(<%a,b%>*'p);
+
+theorem :: POLYVIE1:17
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L
+  for E being Enumeration of Roots(<%a,b%>*'p) st E = (canFS Roots(p))^<*-a/b*>
+  holds len E = 1 + card Roots(p) &
+  E.(1+card Roots(p)) = -a/b &
+  for n being Nat st 1 <= n <= card Roots(p) holds E.n = (canFS Roots(p)).n;
+
+definition
+  let L be non empty doubleLoopStr;
+  let B be bag of the carrier of L;
+  let E be (the carrier of L)-valued FinSequence;
+  func B(++)E -> FinSequence of L means
+:: POLYVIE1:def 1
+  len it = len E &
+  for n being Nat st 1 <= n <= len it holds it.n = (B*E).n * (E/.n);
+end;
+
+theorem :: POLYVIE1:18
+  for L being domRing
+  for p being non-zero Polynomial of L
+  for B being bag of the carrier of L
+  for E being Enumeration of Roots p st Roots p = {}
+  holds B(++)E = {};
+
+theorem :: POLYVIE1:19
+  for L being left_zeroed add-associative non empty doubleLoopStr
+  for B1,B2 being bag of the carrier of L
+  for E being (the carrier of L)-valued FinSequence
+  holds (B1+B2)(++)E = (B1(++)E) + (B2(++)E);
+
+theorem :: POLYVIE1:20
+  for L being left_zeroed add-associative non empty doubleLoopStr
+  for B being bag of the carrier of L
+  for E,F being (the carrier of L)-valued FinSequence
+  holds B(++)(E^F) = (B(++)E) ^ (B(++)F);
+
+theorem :: POLYVIE1:21
+  for L being left_zeroed add-associative non empty doubleLoopStr
+  for B1,B2 being bag of the carrier of L
+  for E,F being (the carrier of L)-valued FinSequence
+  holds (B1+B2)(++)(E^F) = (B1(++)E)^(B1(++)F) + (B2(++)E)^(B2(++)F);
+
+theorem :: POLYVIE1:22
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L
+  for E being Enumeration of Roots(<%a,b%>*'p)
+  for P being Permutation of dom E
+  holds (BRoots(<%a,b%>*'p)(++)E)*P = BRoots(<%a,b%>*'p)(++)(E*P);
+
+theorem :: POLYVIE1:23
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L st not -a/b in Roots(p)
+  for E being Enumeration of Roots(<%a,b%>*'p) st E = (canFS Roots(p))^<*-a/b*>
+  holds (canFS Roots(<%a,b%>*'p))" * E is Permutation of dom E;
+
+theorem :: POLYVIE1:24
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L st not -a/b in Roots(p)
+  for E being Enumeration of Roots(<%a,b%>*'p) st E = (canFS Roots(p))^<*-a/b*>
+  holds
+  Sum(BRoots(<%a,b%>*'p)(++)E) =
+  Sum(BRoots(<%a,b%>*'p)(++)canFS Roots(<%a,b%>*'p));
+
+theorem :: POLYVIE1:25
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L
+  for E being Enumeration of Roots(<%a,b%>*'p)
+  holds Sum(BRoots(<%a,b%>)(++)E) = -a/b;
+
+definition
+  let L be domRing;
+  let p be non-zero Polynomial of L;
+  func SumRoots(p) -> Element of L equals
+:: POLYVIE1:def 2
+  Sum (BRoots(p)(++)canFS Roots p);
+end;
+
+theorem :: POLYVIE1:26
+  for L being domRing
+  for p being non-zero Polynomial of L st Roots p = {} holds
+  SumRoots p = 0.L;
+
+theorem :: POLYVIE1:27
+  for L being Field
+  for a being Element of L
+  for b being non zero Element of L holds
+  SumRoots <%a,b%> = -a/b;
+
+theorem :: POLYVIE1:28
+  for L being Field
+  for p being non-zero Polynomial of L
+  for a being Element of L
+  for b being non zero Element of L
+  holds SumRoots(<%a,b%>*'p) = -a/b + SumRoots(p);
+
+theorem :: POLYVIE1:29
+  for L being Field
+  for a,c being Element of L
+  for b,d being non zero Element of L
+  holds SumRoots(<%a,b%>*'<%c,d%>) = (-a/b) + (-c/d);
+
+theorem :: POLYVIE1:30
+  for L being algebraic-closed Field
+  for p,q being non-zero Polynomial of L st
+  len p >= 2 holds SumRoots(p*'q) = SumRoots(p) + SumRoots(q);
+
+theorem :: POLYVIE1:31
+  for L being algebraic-closed domRing, p being non-zero Polynomial of L
+  for r being FinSequence of L st r is one-to-one & len r = len p-'1 &
+  Roots p = rng r holds Sum r = SumRoots p;
+
+::$N Vieta's formula about the sum of roots
+theorem :: POLYVIE1:32
+  for L being algebraic-closed Field, p being non-zero Polynomial of L holds
+  len p >= 2 implies SumRoots p = - p.(len p-'2) / p.(len p-'1);
