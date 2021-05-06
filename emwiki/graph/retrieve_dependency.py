@@ -1,8 +1,8 @@
-import os
 import glob
-from pathlib import Path
-from emwiki.settings import MIZFILE_DIR
+import os
 import re
+
+from emwiki.settings import MIZFILE_DIR
 
 CATEGORIES = ['vocabularies', 'constructors', 'notations', 'registrations', 'theorems', 'schemes',
               'definitions', 'requirements', 'expansions', 'equalities']
@@ -27,7 +27,7 @@ def make_miz_dependency():
             with open(miz_file, 'rt', encoding='utf-8', errors="ignore") as f:
                 miz_file_contents = f.read()
             category2articles = extract_articles(miz_file_contents)
-            dependency_articles = merge_values(category2articles, remove_keys="vocabularies")
+            dependency_articles = merge_values(category2articles, remove_keys=["vocabularies"])
             article2dependency_articles[miz_file] = dependency_articles     
 
     finally:

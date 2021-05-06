@@ -5,10 +5,12 @@
 　　2. 交差削減
 　　3．座標決定
 """
-import networkx as nx
 import json
-from collections import defaultdict
 import math
+from collections import defaultdict
+
+import networkx as nx
+
 from graph.obtain_dependency import make_miz_dependency
 
 
