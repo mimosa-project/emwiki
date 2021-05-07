@@ -5,10 +5,11 @@
 　　2. 交差削減
 　　3．座標決定
 """
-import networkx as nx
 import json
-from collections import defaultdict
 import math
+from collections import defaultdict
+
+import networkx as nx
 
 
 class Node:

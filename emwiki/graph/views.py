@@ -1,6 +1,7 @@
+import json
+
 from django.views.generic import TemplateView
 from emwiki.settings import GRAPH_ELS_DIR
-import json
 
 
 class GraphView(TemplateView):
