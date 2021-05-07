@@ -674,7 +674,7 @@ def update_x_in_priority_order(nodes, node2priority_dict, node2idealx_dict):
         update_x2idealx_recursively(nodes.index(node), nodes, node2idealx_dict[node], node_stack, assigned_nodes, sign)
         assigned_nodes.append(node)
 
-        
+
 def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_stack, assigned_nodes, sign):
     """
     ノードのx座標を更新する。
@@ -716,8 +716,8 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_sta
             node_index += sign
             ideal_x += sign
             update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stack, assigned_nodes, sign)
-            
-            
+
+
 def assign_x_in_sequence(nodes_stack, x, sign):
     """
     nodes_stack内のノードを空になるまでポップして、順にx座標を割り当てる。

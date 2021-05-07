@@ -22,7 +22,7 @@ def make_miz_dependency():
         article2dependency_articles = dict()
         os.chdir(MIZFILE_DIR)
         miz_files = glob.glob("*.miz")  # mmlディレクトリの.mizファイルを取り出す
-        
+
         for miz_file in miz_files:
             with open(miz_file, 'rt', encoding='utf-8', errors="ignore") as f:
                 miz_file_contents = f.read()
@@ -88,7 +88,7 @@ def extract_articles(contents):
         # カテゴリ名が決まっているとき
         if category_name:
             category2articles[category_name].append(word)
-        
+
     return category2articles
 
 
@@ -115,7 +115,6 @@ def merge_values(key2list, remove_keys=list()):
         remove_keys: マージしたくない項目がある場合は，ここに記述することで取り除くことができる
     Return:
         merge_values_set: key2listのvalueをマージしたもの．set()．
-        
     """
     merge_values = []
     for k, v in key2list.items():
