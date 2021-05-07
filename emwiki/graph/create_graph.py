@@ -10,8 +10,11 @@ import math
 from collections import defaultdict
 
 import networkx as nx
+<<<<<<< HEAD
 
 from graph.obtain_dependency import make_miz_dependency
+=======
+>>>>>>> master
 
 
 class Node:
