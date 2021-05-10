@@ -34,8 +34,6 @@ def make_miz_dependency():
         dependency_articles = merge_values(category2articles, remove_keys=["vocabularies"])
         article2dependency_articles[miz_file] = dependency_articles
 
-    with open("graph_els_check.txt", "w") as f:
-        f.write(str(article2dependency_articles))
     return article2dependency_articles
 
 
