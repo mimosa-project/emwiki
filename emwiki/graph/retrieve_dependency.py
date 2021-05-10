@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+from collections import defaultdict
 
 from emwiki.settings import MIZFILE_DIR
 
@@ -47,7 +48,7 @@ def extract_articles(contents):
     Retrun:
         category2articles: keyがカテゴリ名、valueが参照しているarticleのリスト
     """
-    category2articles = create_key2list(CATEGORIES)
+    category2articles = defaultdict(list)
     # 単語、改行、::、;で区切ってファイルの内容を取得
     file_words = re.findall(r"\w+|\n|::|;", contents)
     is_comment = False
@@ -80,7 +81,7 @@ def extract_articles(contents):
         if re.match(r"begin", word):
             break
         # カテゴリ名が来たとき
-        if word in category2articles.keys():
+        if word in CATEGORIES:
             category_name = word
             continue
         # ;でそのカテゴリでの参照が終わったとき
@@ -92,20 +93,6 @@ def extract_articles(contents):
             category2articles[category_name].append(word)
 
     return category2articles
-
-
-def create_key2list(keys):
-    """
-    keyがkeys，valueがlist()の辞書を作成する．
-    Args:
-        keys: keyに設定したい値(リスト)
-    return:
-        key2list: keyがkeys，valueがlist()の辞書
-    """
-    key2list = dict()
-    for i in keys:
-        key2list[i] = list()
-    return key2list
 
 
 def merge_values(key2list, remove_keys=list()):
