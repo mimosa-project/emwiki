@@ -3,8 +3,6 @@ import json
 from django.views.generic import TemplateView
 from emwiki.settings import BASE_DIR, GRAPH_ELS_DIR
 
-from graph import create_graph
-
 
 class GraphView(TemplateView):
     template_name = 'graph/hierarchical_graph.html'

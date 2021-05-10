@@ -23,16 +23,18 @@ def make_miz_dependency():
         os.chdir(MIZFILE_DIR)
         miz_files = glob.glob("*.miz")  # mmlディレクトリの.mizファイルを取り出す
 
-        for miz_file in miz_files:
-            with open(miz_file, 'rt', encoding='utf-8', errors="ignore") as f:
-                miz_file_contents = f.read()
-            category2articles = extract_articles(miz_file_contents)
-            dependency_articles = merge_values(category2articles, remove_keys=["vocabularies"])
-            article2dependency_articles[miz_file] = dependency_articles     
-
     finally:
         os.chdir(cwd)
 
+    for miz_file in miz_files:
+        with open(os.path.join(MIZFILE_DIR, miz_file), 'rt', encoding='utf-8', errors="ignore") as f:
+            miz_file_contents = f.read()
+        category2articles = extract_articles(miz_file_contents)
+        dependency_articles = merge_values(category2articles, remove_keys=["vocabularies"])
+        article2dependency_articles[miz_file] = dependency_articles
+
+    with open("graph_els_check.txt", "w") as f:
+        f.write(str(article2dependency_articles))
     return article2dependency_articles
 
 
@@ -69,7 +71,7 @@ def extract_articles(contents):
                 break
 
     # 改行文字の削除
-    environ_words = [w for w in environ_words if not re.match(r"\n", w)] 
+    environ_words = [w for w in environ_words if not re.match(r"\n", w)]
 
     # カテゴリでどのarticleを参照しているかを得る
     category_name = str()
@@ -110,7 +112,7 @@ def merge_values(key2list, remove_keys=list()):
     """
     valueがlistのdictについて，そのvalueをマージする．
     その後，重複を取り除く．
-    Args: 
+    Args:
         key2list: valueがlist()の辞書
         remove_keys: マージしたくない項目がある場合は，ここに記述することで取り除くことができる
     Return:
