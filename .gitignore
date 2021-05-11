@@ -6,9 +6,10 @@ emwiki/mizarfiles/emwiki-contents
 emwiki/mizarfiles/abstr
 emwiki/mizarfiles/vct
 emwiki/search/data
-fmbibs/
+emwiki/templates/article/fmbibs/
 
 # Static files
+emwiki/staticfiles/
 htmlized_mml
 symbol_html
 

@@ -12,21 +12,12 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         && chown -R USERUID:USER_GID /home/vscode; \
     fi
 
-# Install emparser
-RUN apt -y update
-RUN apt -y upgrade
-RUN apt -y install cmake
-RUN pip -q install pipenv
-RUN git clone --recursive https://github.com/mimosa-project/emparser.git
-WORKDIR /emparser
-RUN pipenv install --system --skip-lock
-RUN python setup.py install
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y install cmake nkf unzip libpq-dev && \
+    pip -q install pipenv
 
-COPY . /workspace/
+# Copy emwiki
+COPY . /workspace/emwiki/
 
-# Install dependencies global
-WORKDIR /workspace
-RUN pipenv install --system --skip-lock --dev
-WORKDIR /
-
-RUN ["sh", "/workspace/.devcontainer/entrypoint.sh"]
+CMD ["sleep", "infinity"]
