@@ -31,8 +31,10 @@ def make_miz_dependency():
         with open(os.path.join(MIZFILE_DIR, miz_file), 'rt', encoding='utf-8', errors="ignore") as f:
             miz_file_contents = f.read()
         directive2articles = extract_articles(miz_file_contents)
-        dependency_articles = merge_values(directive2articles, remove_keys=["vocabularies"])
-        article2dependency_articles[miz_file] = dependency_articles
+        dependency_articles = merge_values(
+            directive2articles, remove_keys=["vocabularies"])
+        article2dependency_articles[format_mizfile_name_to_import_style(
+            miz_file)] = dependency_articles
 
     return article2dependency_articles
 
@@ -109,4 +111,20 @@ def merge_values(key2list, remove_keys=list()):
             continue
         merge_values.extend(v)
     merge_values_set = set(merge_values)
+
     return merge_values_set
+
+
+def format_mizfile_name_to_import_style(mizfile_name):
+    """
+    (小文字のファイル名).mizを(大文字のファイル名)に変換する．
+    例：tarski.miz -> TARSKI
+    Args:
+        mizfile_name: (小文字のファイル名).miz，str()
+    Return:
+        new_miz_name: (大文字のファイル名)，str()
+    """
+    new_miz_name = mizfile_name.rstrip(r'.miz')
+    new_miz_name = new_miz_name.upper()
+
+    return new_miz_name
