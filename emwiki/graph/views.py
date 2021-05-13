@@ -1,7 +1,8 @@
 import json
 
+from django.urls import reverse
 from django.views.generic import TemplateView
-from emwiki.settings import BASE_DIR, GRAPH_ELS_DIR
+from emwiki.settings import GRAPH_ELS_DIR
 
 
 class GraphView(TemplateView):
@@ -12,6 +13,8 @@ class GraphView(TemplateView):
         with open(GRAPH_ELS_DIR + "/graph_attrs/dot_graph.json", "r") as f_in:
             graph_elements = json.load(f_in)
         context['graph_elements'] = graph_elements
-        context['base'] = BASE_DIR
+        # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
+        context['base_url'] = reverse('article:index', kwargs=dict(
+            filename='content-name')).replace('content-name', '')
 
         return context
