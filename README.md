@@ -69,7 +69,6 @@ git clone {your forked origin repository}
   + **(must)**`COMMENT_COMMIT_BRANCH`を`mml_commented`に設定
   + **(must)**`SQL_USER`を再設定
   + **(must)**`SQL_PASSWORD`を再設定
-  + **(must)**`MIZAR_VERSION`を再設定
   + その他の設定を適宜再設定
 + `.env.db`を、`.env.db-sample`を元に新たに作成
   + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定

@@ -117,7 +117,6 @@ CACHES = {
     }
 }
 
-MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 
 # Internationalization
