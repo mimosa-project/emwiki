@@ -23,6 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
+        apt-get -y install libpq-dev cmake
         python -m pip install --upgrade pip
         pip -q install pipenv
         pipenv sync
