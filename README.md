@@ -177,24 +177,24 @@ docker-compose up -d --build
   sudo sh initialize.sh
   ```
 初回はすべてyを入力.<br>
-  実行例
-    ```
-    (emwiki) g063ff@DESKTOP-2RPAO3O:~/emwiki$ sudo sh initialize.sh
-    [sudo] password for g063ff: 
-    Loaded environment from .env
-    Do you want to download all mizarfiles?(y/n)
-    y
-    Do you want to clone emparser?(y/n)
-    y
-    Do you want to clone emwiki-contents?(y/n)
-    y
-    Do you want to sync with Pipfile.lock?(y/n)
-    y
-    Do you want to migrate?(y/n)
-    y
-    Do you want to generate emwiki files?(y/n)
-    y
-    ```
+実行例
+  ```
+  (emwiki) g063ff@DESKTOP-2RPAO3O:~/emwiki$ sudo sh initialize.sh
+  [sudo] password for g063ff: 
+  Loaded environment from .env
+  Do you want to download all mizarfiles?(y/n)
+  y
+  Do you want to clone emparser?(y/n)
+  y
+  Do you want to clone emwiki-contents?(y/n)
+  y
+  Do you want to sync with Pipfile.lock?(y/n)
+  y
+  Do you want to migrate?(y/n)
+  y
+  Do you want to generate emwiki files?(y/n)
+  y
+  ```
 + pipenvの仮想環境に入る
 ```
 pipenv shell
@@ -241,7 +241,7 @@ docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
 #### initialize.shについて
 + initialize.shを実行すると初期設定が行われます. 初回実行時はすべてyを入力してください. 
   + Do you want to download all mizarfiles?(y/n)<br>
-   yを入力するとemwikiで使用するMizarファイル等を自動でダウンロードし, 解凍, 文字コードの変換, 敵切な場所への配置を行います.<br>
+   yを入力するとemwikiで使用するMizarファイル等を自動でダウンロードし, 解凍, 文字コードの変換, 適切な場所への配置を行います.<br>
    すでにMizarファイルが存在する場合は終了します.<br>
    nを入力すると, 現在存在するMizarファイルを残しておくか, 削除するか質問されます. 残す場合はy, 削除する場合はnを入力してください.
 
