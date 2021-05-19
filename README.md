@@ -179,7 +179,7 @@ docker-compose up -d --build
 初回はすべてyを入力.<br>
 実行例
   ```
-  (emwiki) g063ff@DESKTOP-2RPAO3O:~/emwiki$ sudo sh initialize.sh
+  g063ff@DESKTOP-2RPAO3O:~/emwiki$ sudo sh initialize.sh
   [sudo] password for g063ff: 
   Loaded environment from .env
   Do you want to download all mizarfiles?(y/n)
