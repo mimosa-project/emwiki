@@ -38,7 +38,7 @@ def adjust_name(request):
         return HttpResponseNotFound
 
 
-@cache_page(60 * 60 * 24 * 365, cache=settings.MIZAR_VERSION)
+@cache_page(60 * 60 * 24)
 def get_names(request):
     return HttpResponse(
         serializers.serialize(

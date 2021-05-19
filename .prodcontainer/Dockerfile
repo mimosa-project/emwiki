@@ -10,6 +10,4 @@ RUN apt-get -y update && \
     pip -q install pipenv
 COPY . /workspace/
 WORKDIR /workspace/emwiki
-COPY ./entrypoint.sh /workspace/emwiki/.prodcontainer/entrypoint.sh
-
-ENTRYPOINT ["sh", "/workspace/emwiki/.prodcontainer/entrypoint.sh"]
+RUN pipenv sync

@@ -24,6 +24,7 @@ mypy = "*"
 flake8 = "*"
 gensim = "*"
 emparser = {path = "./emparser"}
+python-levenshtein = "*"
 
 [requires]
 python_version = "3.7"
