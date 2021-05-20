@@ -12,27 +12,27 @@
   </div>
 
   <div class="container">
-    <!-- Example row of columns -->
+    <div>
+      <h1>Search</h1>
+    </div>
     <div class="row">
       <div class="col-md-4">
-        <h2>Article</h2>
-        <p>You can add comments to the HTMLized MML</p>
-        <p><a class="btn btn-secondary" href="{% url 'article:index' 'abcmiz_0'  %}" role="button">Access &raquo;</a></p>
+        <a class="btn btn-lg btn-secondary m-1" href="{% url 'article:index' 'abcmiz_0'  %}" role="button">Article &raquo;</a>
       </div>
       <div class="col-md-4">
-        <h2>Symbol</h2>
-        <p>You can quickly find symbols.</p>
-        <p><a class="btn btn-secondary" href="{% url 'symbol:index' '!' %}" role="button">Access &raquo;</a></p>
+        <a class="btn btn-lg btn-secondary m-1" href="{% url 'symbol:index' '!' %}" role="button">Symbol &raquo;</a>
       </div>
       <div class="col-md-4">
-        <h2>Search</h2>
-        <p>Under Construction</p>
-        <p><a class="btn btn-secondary" href="{% url 'search:search_theorem' %}" role="button">Access &raquo;</a></p>
+        <a class="btn btn-lg btn-secondary m-1" href="{% url 'search:search_theorem' %}" role="button">Theorem/Definition &raquo;</a>
       </div>
+    </div>
+    <hr/>
+    <div>
+      <h1>Graph</h1>
+    </div>
+    <div class="row">
       <div class="col-md-4">
-        <h2>Graph</h2>
-        <p>You can check the dependencies of MML.</p>
-        <p><a class="btn btn-secondary" href="{% url 'graph:graph' %}" role="button">Access &raquo;</a></p>
+        <a class="btn btn-lg btn-secondary m-1" href="{% url 'graph:graph' %}" role="button">Article &raquo;</a>
       </div>
     </div>
 
