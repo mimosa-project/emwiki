@@ -156,7 +156,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/emwiki'
 
 AUTH_USER_MODEL = 'accounts.User'
 

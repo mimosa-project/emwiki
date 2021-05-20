@@ -288,6 +288,16 @@ $(function () {
         }
     });
 
+    // ノードをクリックした場合、リンクに飛ぶ(htmlリンクの設定)
+    // faded状態ならば反応しない
+    cy.nodes().on("cxttap", function(event){
+        try {  // your browser may block popups
+            window.open(this.data("href"));
+        } catch(e){  // fall back on url change
+            window.location.href = this.data("href");
+        }
+    });
+
     // クリックしたノードの親と子、自身を色変更
     cy.nodes().on("tap", function (e) {
         // 全ノードをクラスから除外

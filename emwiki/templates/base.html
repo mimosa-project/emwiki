@@ -32,17 +32,23 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <a class="navbar-brand" href="{% url 'home:home'%}">emwiki</a>
                 <ul class="navbar-nav mr-auto mw-100">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'article:index' 'abcmiz_0'  %}">Article</a>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
+                          Search
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'article:index' 'abcmiz_0'  %}">Article</a>
+                          <a class="dropdown-item" href="{% url 'symbol:index' '!'  %}">Symbol</a>
+                          <a class="dropdown-item" href="{% url 'search:search_theorem' %}">Theorem/Definition</a>
+                        </div>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'symbol:index' '!'  %}">Symbol</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'search:search_theorem' %}">Search</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link disabled" href="{% url 'graph:graph' %}">Graph</a>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
+                          Graph
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'graph:graph' %}">Article</a>
+                        </div>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -51,7 +57,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
                       {{ user.get_username }}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarAccounts">
+                    <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarAccounts">
                         <a class="dropdown-item" href="{% url 'accounts:user_detail' user.pk %}">
                             User informations
                         </a>
