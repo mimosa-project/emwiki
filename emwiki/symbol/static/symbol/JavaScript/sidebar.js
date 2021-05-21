@@ -1,24 +1,41 @@
-$(function() {
-    var context = JSON.parse(document.getElementById('context').textContent);
+function search(query, searcher) {
+    if ((query != null) && query.length > 0) {
+        $("#listdata").empty();
+        return searcher.run(query);
+    }
+}
 
-    $listdata = $('#listdata')
-    $.getJSON(
-        context['names_url'],
-        function(data){
-            $.each(data, function(index, symbol){
-                $listdata.append(
-                    `<a class="list-group-item list-group-item-action py-0" 
-                        href="${symbol.pk}">
-                        ${symbol.pk}
-                    </a>`
-                )
-            })
-        }
-    )
+function input_search_initial_value(searcher) {
+    if(Cookies.get('symbol_query')) {
+        $("#search-input").val(Cookies.get('symbol_query'));
+        return search(Cookies.get('symbol_query'), searcher);
+    }
+}
 
-    $("#listdata").searcher({
-        itemSelector: "a",
-        textSelector:  "", // the text is within the item element (li) itself
-        inputSelector: "#search-input"
-    });
+
+$(function(){
+	var symbols;
+	var searcher;
+	if(Cookies.get('symbols') != null) {
+		searcher = new Searcher(Cookies.get("symbols"));
+		input_search_initial_value(searcher);
+	} else {
+		$.getJSON(
+			context["names_url"],
+			function(data){
+				symbols = data;
+				Cookies.set('symbols', data);
+				searcher = new Searcher(data);
+				input_search_initial_value(searcher);
+			},
+		)
+	}
+
+	$('#search-input').on('keyup', function(){
+		search($('#search-input').val(), searcher);
+    })
+	$('#search-input').on('change', function(){
+		search($('#search-input').val(), searcher);
+    })
+
 });
