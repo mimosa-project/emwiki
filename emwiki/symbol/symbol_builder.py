@@ -20,7 +20,7 @@ class SymbolBuilder:
         processor.compose()
         symbols = []
         for content in processor.contents:
-            symbol = Symbol(name=content.symbol, filename=content.filename())
+            symbol = Symbol(name=content.symbol, filename=content.filename(), type=content.type)
             symbols.append(symbol)
         Symbol.objects.bulk_create(symbols)
         print('Created Symbols')
