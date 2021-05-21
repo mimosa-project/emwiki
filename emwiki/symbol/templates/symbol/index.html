@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cache %}
 
 {% block head %}
     {{ context_for_js|json_script:"context" }}
+
+    <!-- js-cookie -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+    <script src="{% static 'symbol/JavaScript/searcher.js'%}"></script>
     <script src="{% static 'symbol/JavaScript/index.js' %}"></script>
     <script src="{% static 'symbol/JavaScript/sidebar.js' %}"></script>
     <link rel='stylesheet' href="{% static 'symbol/CSS/index.css' %}" type='text/css'></link>
-    <script src="{% static 'symbol/JavaScript/jquery.searcher.js'%}"></script>
+    
 {% endblock %}
 
 {% block content %}
@@ -20,7 +26,6 @@
                     </ul>
                 </div>
             </div>
-            
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 h-100 overflow-auto">
                 <h1 class="h-10">
                     <span class='display-4' id="content_name">{{symbol.name}}</span>
