@@ -12,31 +12,21 @@
   </div>
 
   <div class="container">
-    <div>
-      <h1>Search</h1>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary m-1" href="{% url 'article:index' 'abcmiz_0'  %}" role="button">Article &raquo;</a>
-      </div>
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary m-1" href="{% url 'symbol:index' '!' %}" role="button">Symbol &raquo;</a>
-      </div>
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary m-1" href="{% url 'search:search_theorem' %}" role="button">Theorem/Definition &raquo;</a>
-      </div>
-    </div>
-    <hr/>
-    <div>
-      <h1>Graph</h1>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary m-1" href="{% url 'graph:graph' %}" role="button">Article &raquo;</a>
+    <div class="card w-100 m-1" style="width: 18rem;">
+      <div class="card-body">
+        <h1 class="card-title">Search</h1>
+            <a class="btn btn-primary card-link" href="{% url 'article:index' 'abcmiz_0'  %}" role="button">Article &raquo;</a>
+            <a class="btn btn-primary card-link" href="{% url 'symbol:index' '!' %}" role="button">Symbol &raquo;</a>
+            <a class="btn btn-primary card-link" href="{% url 'search:search_theorem' %}" role="button">Theorem/Definition &raquo;</a>
       </div>
     </div>
 
-
+    <div class="card w-100 m-1" style="width: 18rem;">
+      <div class="card-body">
+        <h1 class="card-title">Graph</h1>
+        <a class="btn btn-primary card-link" href="{% url 'graph:graph' %}" role="button">Article &raquo;</a>
+      </div>
+    </div>
   </div> <!-- /container -->
 
 {% endblock %}
