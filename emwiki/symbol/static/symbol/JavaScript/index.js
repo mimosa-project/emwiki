@@ -20,7 +20,11 @@ $(function(){
             url: context["adjust_name_url"],
             data: {name: link[0]},
         }).done(function (data) {
-            location.href = `${encodeURIComponent(data)}#${encodeURIComponent(link[1])}`;
+            url = encodeURIComponent(data);
+            if(link[1] != null){
+                url += "#"+encodeURIComponent(link[1])
+            }
+            location.href = url;
         select(link[1]);
         }).fail(function(XMLHttpRequest, textStatus, errorThrown){
             console.log('Failed to get symbol name\n' + textStatus);

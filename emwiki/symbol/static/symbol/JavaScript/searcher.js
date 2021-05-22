@@ -233,8 +233,7 @@ var Searcher = (function() {
 					badge = 'danger';
 					break;
 			}
-			//li += "<li data-order='" + i + "' class='" + t + "'>" + s + "</li>";
-			li = `<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start ${t} '`
+			li = `<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center ${t} '`
 					+ ` data-link="${encodeURIComponent(this.symbols[i].pk)}">`
 					+ `<span class="badge badge-pill badge-${badge} text-monospace mr-1">${t[0].toUpperCase()}</span>`
 					+ `<span class="text-monospace">${s}</span>`

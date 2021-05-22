@@ -7,35 +7,30 @@ function search(query, searcher) {
 
 function input_search_initial_value(searcher) {
     if(Cookies.get('symbol_query')) {
-        $("#search-input").val(Cookies.get('symbol_query'));
+		$('#search-input').val(Cookies.get('symbol_query'));
         return search(Cookies.get('symbol_query'), searcher);
     }
 }
 
-
 $(function(){
 	var symbols;
 	var searcher;
-	if(Cookies.get('symbols') != null) {
-		searcher = new Searcher(Cookies.get("symbols"));
+	$.ajax({
+		url: context["names_url"],
+		type: "GET",
+		dataType: 'json',
+		cache: true,
+		headers: {
+			'Cache-Control': 'max-age=3600, public'
+		}
+	}).done(function(data){
+		symbols = data;
+		searcher = new Searcher(data);
 		input_search_initial_value(searcher);
-	} else {
-		$.getJSON(
-			context["names_url"],
-			function(data){
-				symbols = data;
-				Cookies.set('symbols', data);
-				searcher = new Searcher(data);
-				input_search_initial_value(searcher);
-			},
-		)
-	}
+	})
+	
 
 	$('#search-input').on('keyup', function(){
 		search($('#search-input').val(), searcher);
     })
-	$('#search-input').on('change', function(){
-		search($('#search-input').val(), searcher);
-    })
-
 });
