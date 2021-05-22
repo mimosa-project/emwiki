@@ -110,13 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-    }
-}
-
 MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 
