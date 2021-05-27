@@ -40,9 +40,11 @@ def adjust_name(request):
 
 @cache_page(timeout=60 * 60 * 24)
 def get_names(request):
+    symbols = list(Symbol.objects.all())
+    symbols.sort(key=lambda a: a.name.lower())
     return HttpResponse(
         serializers.serialize(
-            'json', Symbol.objects.order_by("name").all()
+            'json', symbols
         ),
         content_type='application/json'
     )
