@@ -238,8 +238,9 @@ var Searcher = (function() {
 					+ `<span class="badge badge-pill badge-${badge} text-monospace mr-1">${t[0].toUpperCase()}</span>`
 					+ `<span class="text-monospace">${s}</span>`
 					+ "</button>";
+			$("#listdata").append(li);
 		}
-		return $("#listdata").append(li);
+		return
 	};
 
 	Searcher.prototype.run = function(query) {
