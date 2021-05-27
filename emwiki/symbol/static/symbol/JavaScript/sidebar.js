@@ -1,24 +1,36 @@
-$(function() {
-    var context = JSON.parse(document.getElementById('context').textContent);
+function search(query, searcher) {
+    if ((query != null) && query.length > 0) {
+        $("#listdata").empty();
+        return searcher.run(query);
+    }
+}
 
-    $listdata = $('#listdata')
-    $.getJSON(
-        context['names_url'],
-        function(data){
-            $.each(data, function(index, symbol){
-                $listdata.append(
-                    `<a class="list-group-item list-group-item-action py-0" 
-                        href="${symbol.pk}">
-                        ${symbol.pk}
-                    </a>`
-                )
-            })
-        }
-    )
+function input_search_initial_value(searcher) {
+    if(Cookies.get('symbol_query')) {
+		$('#search-input').val(Cookies.get('symbol_query'));
+        return search(Cookies.get('symbol_query'), searcher);
+    }
+}
 
-    $("#listdata").searcher({
-        itemSelector: "a",
-        textSelector:  "", // the text is within the item element (li) itself
-        inputSelector: "#search-input"
-    });
+$(function(){
+	var symbols;
+	var searcher;
+	$.ajax({
+		url: context["names_url"],
+		type: "GET",
+		dataType: 'json',
+		cache: true,
+		headers: {
+			'Cache-Control': 'max-age=3600, public'
+		}
+	}).done(function(data){
+		symbols = data;
+		searcher = new Searcher(data);
+		input_search_initial_value(searcher);
+	})
+	
+
+	$('#search-input').on('keyup', function(){
+		search($('#search-input').val(), searcher);
+    })
 });

@@ -9,6 +9,7 @@ from django.conf import settings
 class Symbol(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
     filename = models.CharField(max_length=20)
+    type = models.CharField(max_length=10)
 
     def __str__(self):
         return f'{self.name}:{self.filename}'

@@ -17,7 +17,7 @@ class SymbolView(View):
         context["symbol"] = symbol
         # you can use these variables in index.js
         context["context_for_js"] = {
-            'names_url': reverse('symbol:names'),
+            'names_url': reverse('symbol:names') + f"?MIZAR_VERSION={settings.MIZAR_VERSION}",
             'adjust_name_url': reverse('symbol:adjust_name'),
             # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
             'article_base_uri': reverse(
@@ -38,11 +38,13 @@ def adjust_name(request):
         return HttpResponseNotFound
 
 
-@cache_page(60 * 60 * 24 * 365, cache=settings.MIZAR_VERSION)
+@cache_page(timeout=60 * 60 * 24)
 def get_names(request):
+    symbols = list(Symbol.objects.all())
+    symbols.sort(key=lambda a: a.name.lower())
     return HttpResponse(
         serializers.serialize(
-            'json', Symbol.objects.order_by("name").all()
+            'json', symbols
         ),
         content_type='application/json'
     )
