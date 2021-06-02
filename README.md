@@ -22,9 +22,9 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 ![emwiki](https://user-images.githubusercontent.com/49423101/98566104-b8556900-22f1-11eb-89fb-662a353d0dcb.png)
 
 ## 3 Requirement
-+ docker, docker-composeが必要です.
-+ wslを用いて開発を行う場合は, pythonのバージョン3.7が必要です. 以下参考(https://hibiki-press.tech/python/install-from-source/5046)
-+ wslを用いて開発を行う場合は, cmake, libpq-dev, nkf, unzip, pipenvが必要です.(Dockerのみで開発を行う場合には不要)
+### 動作環境
++ WSL(Ubuntu20.04) + Docker(PostgreSQL) (開発用)
++ Docker only (本番用)
 
 ## 4 Install
 ### 4.1 ホストの準備
@@ -33,29 +33,31 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 
 + GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)と[mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkする<br>
 + emwikiをgit cloneする<br>
-
 ```
 git clone {your forked origin repository}
 ```
-+ wslを用いて開発を行う場合は, cmake, libpq-dev, nkf, unzip, pipenvをインストール
++ cmake, libpq-dev, nkf, unzip, pipenvをインストール
 ```
 apt-get -y update
 apt-get -y upgrade
-apt-get -y install cmake nkf unzip libpq-dev
+apt-get -y install cmake libpq-dev nkf unzip 
 pip -q install pipenv
 ```
 ### 4.2 .envファイルを更新
+開発環境、本番環境ともに, .envファイルは書き換えた後プロジェクトディレクトリの下にコピー(複製)をする.(pipenvが環境変数を読み込むため)
+```
+project_dir/.env
+```
 #### 開発環境
-+ `.env`を,`.env-sample`を元に新たに作成
++ `.env`を書き換える
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
     + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkしたレポジトリのURLに書き換える
-  + wslを使った開発環境では`SQL_HOST`の値を`localhost`に設定(Dockerのみで開発を行う場合には原則変更不要)
   + その他の変更は、原則必要なし
-+ データベースの設定ファイルを変更する場合は, docker-compose.ymlのdb部分のenvironment部を書き換える
++ `.env.db`を、必要に応じて書き換える
   + 変更は、原則必要なし
 #### 本番環境
-+ `.env`を、`.env-sample`を元に新たに作成
++ `.env`を書き換える
   + **(must)**`DEBUG=False`に設定
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
@@ -65,7 +67,7 @@ pip -q install pipenv
   + **(must)**`SQL_PASSWORD`を再設定
   + **(must)**`MIZAR_VERSION`を再設定
   + その他の設定を適宜再設定
-+ `.env.db`を、`.env.db-sample`を元に新たに作成
++ `.env.db`を書き換える
   + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
   + **(must)**`.env`に設定した`SQL_PASSWORD`の値を`POSTGRES_PASSWORD`に設定
 + `docker-compose.yml`内のhttps-portalを変更
@@ -76,41 +78,68 @@ pip -q install pipenv
 #### 開発環境
 + 必要ファイルは`.devcontainer`の中にある
 + VSCodeの拡張機能`ms-vscode-remote.remote-containers`を用いることで簡単に行うことができる
-+ 時間がかかる点に注意．
++ 時間がかかる点に注意
 ```
 cd .devcontainer
+docker-compose up -d
+```
+#### 本番環境
++ 必要ファイルは`.prodcontainer`の中にある
++ 時間がかかる点に注意
++ 実行後、20分程度待つ
+```
+cd .prodcontainer
 docker-compose up -d --build
 ```
-+ 以下をコンテナ内で実行
-  + 初期設定(初回のみの実行で良い)
-  ```
-  sh initialize.sh
-  ```
-    初回はすべてyを入力.<br>
-    実行例
-    ```
-    root ➜ /workspace (Master ✗) $ sh initialize.sh
-    Do you want to download all mizarfiles?(y/n)
-    y
-    Do you want to clone emparser?(y/n)
-    y
-    Do you want to clone emwiki-contents?(y/n)
-    y
-    Do you want to sync with Pipfile.lock?(y/n)
-    y
-    Do you want to migrate?(y/n)
-    y
-    Do you want to generate emwiki files?(y/n)
-    y
-    ```
-  + pipenvの仮想環境に入る
-  ```
-  pipenv shell
-  ```
-  + superuserの作成
-  ```
-  python manage.py createsuperuser
-  ```
+
+### 4.4 必要ファイルの追加
++ 開発環境、本番環境の、いずれかの方法でファイルを追加する
++ 最後に確認事項を読み、ファイルの存在を確認する
+  + なければ手動で追加する際の注意点を参考に、手動でファイルを追加する
+
+#### 開発環境
++ プロジェクトのルートディレクトリに戻り`initialize.sh`をsudoで実行する(初回のみ)
+```
+cd ..
+sudo sh initialize.sh dev
+```
+
+#### 本番環境
++ 本番環境ではコンテナ作成時に自動で`sh initialize.sh prod`が実行されるので特に操作は必要なし
+
+#### 手動で追加する際の注意点
++ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
++ **MML(.miz, .abs)をHP等からDownloadする際にはutf-8に変換を行うこと**
+
+#### 確認事項
++ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
+  + `project_dir/emwiki/mizarfiles/emwiki-contents/mml/{*.miz}`
+  + `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`
+  + `project_dir/emwiki/mizarfiles/abstr/{*.abs}`
+  + `project_dir/emwiki/mizarfiles/vct/mml.vct`
+  + `project_dir/emwiki/templates/article/fmbibs/{*.bib}`
++ 以下のディレクトリにabs_dictionary.txt等のファイルが11件あることを確認する
+  + `project_dir/emwiki/search/data`
+
+#### initialize.shについて
++ initialize.shを実行すると初期設定が行われます. 具体的には以下の処理が行われます. 設定を変更したい場合はinitialize.shを書き換えてください
+  + emwikiで使用するMizarファイル等を自動でダウンロードし, 解凍, 文字コードの変換, 敵切な場所への配置を行います<br>
+  + emparserがcloneされます
+  + .envファイルに記述した`COMMENT_REPOSITORY_URL`の`COMMENT_COMMIT_BRANCH`のブランチからemwiki-contentsがcloneされます
+  + キャッシュテーブルの作成と, マイグレーションが行われます
+  + ダウンロードしたMizarファイル等からemwikiの実行に必要なファイルが生成されます
++ initialize.shを実行したときに、Mizarファイルが既に存在する場合はエラーが出力され、Mizarファイルがダウンロードされません
+```
+sudo sh initialize.sh dev
+Loaded environment from .devcontainer/.env
+abstr files already exists
+```
++ rmオプションをつけて、initialize.shを実行すると既に存在するMizarファイルを削除できます. 上記のエラーが出た場合はこの操作を行ってください.
+```
+sudo sh initialize.sh rm
+```
+
+#### 独自コマンドについて
 + 独自コマンド(実行する必要なし)
   + MML, HTMLizedMMLファイルの加工
   ```
@@ -124,145 +153,35 @@ docker-compose up -d --build
   python manage.py load_symbols
   ```
 
-+ コンテナ作成・起動後、実行方法は通常通り(コンテナ内で実行)
-  ```
-  python manage.py runserver
-  ```
-
-#### wslを使った開発環境
-+ pythonコンテナを使わず, wslを使用する場合は, `.devcontainer/docker-compose.yml`ファイルのpython部分を削除する.
-```
-version: '3'
-
-services:
-  db:
-    image: postgres:latest
-    restart: unless-stopped
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-
-  # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
-  # (Adding the "ports" property to this file will not forward from a Codespace.)
-
-
-  adminer:
-    image: adminer:latest
-    restart: unless-stopped
-    ports: 
-      - 8080:8080
-    depends_on: 
-      - db
-```
-+ `.env`ファイルをpipfileと同じディレクトリに移動する(プロジェクトディレクトリの下).
-```
-project_dir/.env
-```
-+ `.devcontainer`に移動し, dbコンテナとadmirコンテナを立ち上げる
-```
-cd .devcontainer
-docker-compose up -d --build
-```
-+ コンテナを立ち上げ, プロジェクトのルートディレクトリに戻り`initialize.sh`を実行(初回のみ)
-+ `initialize.sh`を実行する前に, 以下のことを確認する.
-  + 自分の環境に, cmake, libpq-dev, nkf, unzip, pipenvがインストールされていること
-  + 同じ階層に`.env`ファイルが存在すること
-  + `.env`ファイルの`SQL_HOST`の値が`localhost`に設定されていること
-  + sudoで実行すること
-  ```
-  cd ..
-  sudo sh initialize.sh
-  ```
-初回はすべてyを入力.<br>
-  実行例
-
-    ```
-    (emwiki) g063ff@DESKTOP-2RPAO3O:~/emwiki$ sudo sh initialize.sh
-    [sudo] password for g063ff: 
-    Loaded environment from .env
-    Do you want to download all mizarfiles?(y/n)
-    y
-    Do you want to clone emparser?(y/n)
-    y
-    Do you want to clone emwiki-contents?(y/n)
-    y
-    Do you want to sync with Pipfile.lock?(y/n)
-    y
-    Do you want to migrate?(y/n)
-    y
-    Do you want to generate emwiki files?(y/n)
-    y
-    ```
+### 4.5 実行
+#### 開発環境
 + pipenvの仮想環境に入る
 ```
 pipenv shell
 ```
 + superuserの作成
 ```
+cd emwiki
 python manage.py createsuperuser
 ```
 + 実行
 ```
 python manage.py runserver
 ```
-
 #### 本番環境
-+ 時間がかかる点に注意．
-+ 実行後、5分程度待つ(uwsgiの起動を待つため)
-```
-docker-compose up -d --build
-```
 + superuserの作成
 ```
-docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
+docker-compose exec python pipenv run python /workspace/emwiki/manage.py createsuperuser
 ```
-
-### 4.4 必要ファイルの追加
-+ 前の項目で`sh initialize.sh`を実行していれば, 特に操作は必要なし
-+ 開発環境、本番環境の、いずれかの方法でファイルを追加する
-+ 最後に確認事項を読み、ファイルの存在を確認する
-  + なければ手動で追加する際の注意点を参考に、手動でファイルを追加する
-#### 手動で追加する際の注意点
-+ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
-+ **MML(.miz, .abs)をHP等からDownloadする際にはutf-8に変換を行うこと**
-
-#### 確認事項
-+ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
-  + `project_dir/emwiki/mizarfiles/emwiki-contents/mml/{*.miz}`
-  + `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`
-  + `project_dir/emwiki/mizarfiles/abstr/{*.abs}`
-  + `project_dir/emwiki/mizarfiles/vct/mml.vct`
-  + `project_dir/emwiki/templates/article/fmbibs/{*.bib}`
-+ 以下のディレクトリにabs_dictionary.txt等のファイルが11件あることを確認する
-  + `emwiki/search/data`
-
-#### initialize.shについて
-+ initialize.shを実行すると初期設定が行われます. 初回実行時はすべてyを入力してください. 
-  + Do you want to download all mizarfiles?(y/n)<br>
-   yを入力するとemwikiで使用するMizarファイル等を自動でダウンロードし, 解凍, 文字コードの変換, 敵切な場所への配置を行います.<br>
-   すでにMizarファイルが存在する場合は終了します.<br>
-   nを入力すると, 現在存在するMizarファイルを残しておくか, 削除するか質問されます. 残す場合はy, 削除する場合はnを入力してください.
-
-  + Do you want to clone emparser?(y/n)<br>
-   yを入力するとemparserがcloneされます.
-
-  + Do you want to clone emwiki-contents?(y/n)<br>
-   yを入力すると.envファイルに記述した`COMMENT_REPOSITORY_URL`の`COMMENT_COMMIT_BRANCH`のブランチからemwiki-contentsがcloneされます.
-
-  + Do you want to migrate?(y/n)<br>
-   yを入力すると, キャッシュテーブルの作成と, マイグレーションが行われます.
-
-  + Do you want to generate emwiki files?(y/n)<br>
-   yを入力すると, ダウンロードしたMizarファイル等からemwikiの実行に必要なファイルが生成されます.
-
++ 実行
+```
+docker-compose exec python pipenv run python /workspace/emwiki/manage.py runserver
+```
 ### 4.6 終了
 ```
 docker-compose down
 ```
-### 4.6 永続化データ
+### 4.7 永続化データ
 #### 開発環境
 + コード全体: ./
 + Postgres Data: postgres-data

@@ -4,32 +4,8 @@
 MIZFILE_DIR="emwiki/mizarfiles"
 MIZAR_VERSION="5.57.1355"
 
-if [ -e .env ]; then
-    . .devcontainer/.env
-    echo 'Loaded environment from .env'
-else :
-fi
-
-
-read_and_check() {
-    while :
-    do
-        read str
-        if [ $str = 'y' -o $str = 'n' ]; then
-            break
-        fi
-        echo 'Please enter "y" or "n"'
-    done
-}
-
-
-## ask about mizar files
-remove_mizarfiles='n'
-echo "Do you want to download all mizarfiles?(y/n)"
-read_and_check
-initialize_for_mizarfiles=$(echo $str)
-if [ $initialize_for_mizarfiles = 'y' ]; then
-    
+download_mizarfiles() {
+    # check files exists 
     if [ -d $MIZFILE_DIR/abstr ]; then
         echo "abstr files already exists"
         exit 1
@@ -43,49 +19,8 @@ if [ $initialize_for_mizarfiles = 'y' ]; then
         echo "htmlized_mml files already exists"
         exit 1
     fi
-else
-    echo "If you want to keep mizarfiles, type y.\nIf you want to delete all mizarfiles, type n.(y/n)"
-    read_and_check
-    if [ $str = 'n' ]; then
-        echo "removing all mizarfiles"
-        rm -rf ${MIZFILE_DIR}/abstr
-        rm -rf ${MIZFILE_DIR}/vct
-        rm -rf emwiki/templates/article/fmbibs
-        rm -rf ${MIZFILE_DIR}/htmlized_mml
-        exit 0
-    fi
-fi
-            
-## ask about emparser
-echo "Do you want to clone emparser?(y/n)"
-read_and_check
-initialize_for_emparser=$(echo $str)
-
-## ask about emwiki-contents
-echo "Do you want to clone emwiki-contents?(y/n)"
-read_and_check
-initialize_for_emwiki_contents=$(echo $str)
-
-## ask about pipfile.lock
-echo "Do you want to sync with Pipfile.lock?(y/n)"
-read_and_check
-initialize_for_pipfile_lock=$(echo $str)
-
-## ask about migrate
-echo "Do you want to migrate?(y/n)"
-read_and_check
-migrate_for_emwiki=$(echo $str)
-
-## ask about emwiki files
-echo "Do you want to generate emwiki files?(y/n)"
-read_and_check
-initialize_for_emwiki_files=$(echo $str)
-
-# execution
-
-## download mizar files
-if [ $initialize_for_mizarfiles = 'y' ]; then
-    ### abstr, vct, fmbibs
+    # download
+    ## abstr, vct, fmbibs
     echo "creating abstr, vct, fmbibs"
     echo "dowmloading abstr, vct, fmbibs"
     mkdir -p ./temp
@@ -107,8 +42,7 @@ if [ $initialize_for_mizarfiles = 'y' ]; then
     mv ./temp/fmbibs/*.bib emwiki/templates/article/fmbibs
     echo "Remoing chaches"
     rm -rf ./temp
-
-    ### htmlized mml
+    ## htmlized mml
     echo "creating htmlized_mml"
     mkdir -p ./temp
     wget https://ftp.icm.edu.pl/packages/mizar/xmlmml/html_abstr.${MIZAR_VERSION}.tar.gz -O ./temp/htmlized_mml.tar.gz
@@ -119,34 +53,54 @@ if [ $initialize_for_mizarfiles = 'y' ]; then
     mv ./temp/html/* ${MIZFILE_DIR}/htmlized_mml
     echo "Remoing chaches"
     rm -rf ./temp
+}
+
+remove_allmizarfiles() {
+    echo "removing all mizarfiles"
+    rm -rf ${MIZFILE_DIR}/abstr
+    rm -rf ${MIZFILE_DIR}/vct
+    rm -rf emwiki/templates/article/fmbibs
+    rm -rf ${MIZFILE_DIR}/htmlized_mml
+}
+
+# check the argument and Load environment variable
+if [ $1 = "dev" -a -e ./.env ]; then
+    . ./.env
+    echo 'Loaded environment from .devcontainer/.env'
+elif [ $1 = "prod" -a -e .prodcontainer/.env ]; then
+# elif [ $1 = "prod" -a -e .prodcontainer/.env ]; then
+    . .prodcontainer/.env
+    echo 'Loaded environment from .prodcontainer/.env'
+elif [ $1 = "rm" ]; then
+    remove_allmizarfiles
+    exit
+else
+    echo 'NO .env or .prodcontainer/.env Detected or Not specifyed "dev" or "prod"'
+    exit
 fi
 
-## git clone emparser
-if [ $initialize_for_emparser = 'y' ]; then
-    git clone --recursive https://github.com/mimosa-project/emparser.git ./emparser
-fi
+# setup
 
-## git clone emwiki-contents
-if [ $initialize_for_emwiki_contents = 'y' ]; then
-    git clone -b ${COMMENT_COMMIT_BRANCH} ${COMMENT_REPOSITORY_URL} ${MIZFILE_DIR}/emwiki-contents
-fi
+download_mizarfiles
 
-## pipenv sync
-if [ $initialize_for_pipfile_lock = 'y' ]; then
-    pipenv sync
-fi
+git clone --recursive https://github.com/mimosa-project/emparser.git ./emparser
+git clone -b ${COMMENT_COMMIT_BRANCH} ${COMMENT_REPOSITORY_URL} ${MIZFILE_DIR}/emwiki-contents
+
+## create a virtual environment
+pipenv sync
 
 ## migrate for emwiki
-if [ $migrate_for_emwiki = 'y' ]; then
-    pipenv run python ./emwiki/manage.py createcachetable
-    pipenv run python ./emwiki/manage.py migrate
-fi
+pipenv run python ./emwiki/manage.py createcachetable
+pipenv run python ./emwiki/manage.py migrate
 
 ## generate files for emwiki
-if [ $initialize_for_emwiki_files = 'y' ]; then
-    pipenv run python ./emwiki/manage.py build_htmlizedmml
-    pipenv run python ./emwiki/manage.py build_mmlreference
-    pipenv run python ./emwiki/manage.py build_search_data
-    pipenv run python ./emwiki/manage.py load_articles
-    pipenv run python ./emwiki/manage.py load_symbols
+pipenv run python ./emwiki/manage.py build_htmlizedmml
+pipenv run python ./emwiki/manage.py build_mmlreference
+pipenv run python ./emwiki/manage.py build_search_data
+pipenv run python ./emwiki/manage.py load_articles
+pipenv run python ./emwiki/manage.py load_symbols
+
+## prod only
+if [ $1 = "prod" ]; then
+  pipenv run uwsgi --chdir=/workspace/emwiki/ --mount /emwiki=/workspace/emwiki/emwiki/wsgi.py --manage-script-name --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
 fi

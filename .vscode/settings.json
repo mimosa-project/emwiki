@@ -7,11 +7,14 @@
     "editor.formatOnSave": true,
     "python.linting.flake8Args": [
         "--ignore=E501",
-        "--max-complexity","20"
+        "--max-complexity",
+        "20"
     ],
     "python.linting.mypyEnabled": true,
     "autoDocstring.docstringFormat": "google",
-    "python.autoComplete.extraPaths": ["./emwiki"],
+    "python.autoComplete.extraPaths": [
+        "./emwiki"
+    ],
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     },

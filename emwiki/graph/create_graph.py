@@ -5,10 +5,13 @@
 　　2. 交差削減
 　　3．座標決定
 """
-import networkx as nx
 import json
-from collections import defaultdict
 import math
+from collections import defaultdict
+
+import networkx as nx
+
+from graph.retrieve_dependency import make_miz_dependency
 
 
 class Node:
@@ -671,7 +674,7 @@ def update_x_in_priority_order(nodes, node2priority_dict, node2idealx_dict):
         update_x2idealx_recursively(nodes.index(node), nodes, node2idealx_dict[node], node_stack, assigned_nodes, sign)
         assigned_nodes.append(node)
 
-        
+
 def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_stack, assigned_nodes, sign):
     """
     ノードのx座標を更新する。
@@ -713,8 +716,8 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_sta
             node_index += sign
             ideal_x += sign
             update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stack, assigned_nodes, sign)
-            
-            
+
+
 def assign_x_in_sequence(nodes_stack, x, sign):
     """
     nodes_stack内のノードを空になるまでポップして、順にx座標を割り当てる。
@@ -805,26 +808,7 @@ def main():
                第1要素: keyのノードが指すノードの集合。set()
                第2要素: keyのノードのリンク先URL。str()
     """
-    input_node_dict = {"a": [set(), "example.html"],
-                       "b": [{"a"}, "example.html"],
-                       "c": [{"b", "e"}, "example.html"],
-                       "d": [{"c", "a"}, "example.html"],
-                       "e": [{"a"}, "example.html"],
-                       "f": [{"e", "b", "a"}, "example.html"],
-                       "g": [{"e"}, "example.html"],
-                       "h": [{"g", "f"}, "example.html"],
-                       "i": [{"a"}, "example.html"],
-                       "j": [{"i"}, "example.html"],
-                       "k": [{"j", "m"}, "example.html"],
-                       "l": [{"i", "a"}, "example.html"],
-                       "m": [{"i"}, "example.html"],
-                       "n": [{"j", "m"}, "example.html"],
-                       "o": [{"m", "l"}, "example.html"],
-                       "p": [{"n", "k"}, "example.html"],
-                       "q": [{"k", "o", "i"}, "example.html"],
-                       }
-
-    node_list = create_node_list(shuffle_dict(input_node_dict))
+    node_list = make_miz_dependency()
     remove_redundant_dependency(node_list)
     assign_top_node(node_list)
     assign_x_sequentially(node_list)

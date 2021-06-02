@@ -3,11 +3,11 @@ FROM python:3.7
 
 ENV PYTHONUNBUFFERED 1
 
-# Install emparser
+# Install 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install libpq-dev cmake && \
+    apt-get -y install cmake libpq-dev nkf unzip && \
     pip -q install pipenv
 COPY . /workspace/
-WORKDIR /workspace/emwiki
-RUN pipenv sync
+WORKDIR /workspace/
+ENTRYPOINT ["sh", "/workspace/initialize.sh", "prod"]

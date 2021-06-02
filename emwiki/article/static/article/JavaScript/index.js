@@ -227,7 +227,8 @@ class Parser {
                     article,
                     $(target),
                     block_name,
-                    ++counter[block_name]
+                    ++counter[block_name],
+                    "comments"
                 );
                 comments.push(comment);
             }
