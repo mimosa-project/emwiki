@@ -13,12 +13,12 @@ body {
     max-height: 90vh;
 }
 
-span[data-link] {
+#symbol span[data-link] {
     color: #007bff;
     font-weight: bold;
 }
 
-span[data-link]:hover {
+#symbol span[data-link]:hover {
     cursor: pointer;
     color: #ffffff;
     background: #007bff;
