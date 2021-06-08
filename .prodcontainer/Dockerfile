@@ -10,4 +10,5 @@ RUN apt-get -y update && \
     pip -q install pipenv
 COPY . /workspace/
 WORKDIR /workspace/
-ENTRYPOINT ["sh", "/workspace/initialize.sh", "prod"]
+RUN ["sh", "/workspace/initialize.sh", "prod1"]
+ENTRYPOINT ["sh", "/workspace/initialize.sh", "prod2"]

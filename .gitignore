@@ -6,7 +6,10 @@ emwiki/mizarfiles/emwiki-contents
 emwiki/mizarfiles/abstr
 emwiki/mizarfiles/vct
 emwiki/search/data
-emwiki/templates/article/fmbibs/
+emwiki/article/templates/article/fmbibs/
+
+# emparser
+/emparser/
 
 # Static files
 emwiki/staticfiles/
