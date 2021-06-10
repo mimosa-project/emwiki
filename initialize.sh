@@ -56,7 +56,7 @@ download_mizarfiles() {
     mv ./temp/mml.vct ${MIZFILE_DIR}/vct/mml.vct
     mkdir -p emwiki/article/templates/article/fmbibs/
     mv ./temp/fmbibs/*.bib emwiki/article/templates/article/fmbibs/
-    echo "Remoing chaches"
+    echo "removing chaches"
     rm -rf ./temp
     ## htmlized mml
     echo "creating htmlized_mml"
@@ -67,7 +67,7 @@ download_mizarfiles() {
     echo "moving new HTMLized_MML"
     mkdir ${MIZFILE_DIR}/htmlized_mml
     mv ./temp/html/* ${MIZFILE_DIR}/htmlized_mml
-    echo "Remoing chaches"
+    echo "removing chaches"
     rm -rf ./temp
 }
 

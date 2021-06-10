@@ -38,7 +38,7 @@ git clone {your forked origin repository}
 ```
 ### 4.2 .envファイルを更新
 #### 開発環境
-+ `.env`を書き換える
++ `./devcontainer/.env`を書き換える
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
     + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkしたレポジトリのURLに書き換える
@@ -46,7 +46,7 @@ git clone {your forked origin repository}
 + `.env.db`を、必要に応じて書き換える
   + 変更は、原則必要なし
 #### 本番環境
-+ `.env`を書き換える
++ `./prodcontainer/.env`を書き換える
   + **(must)**`DEBUG=False`に設定
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
@@ -65,7 +65,7 @@ git clone {your forked origin repository}
 ### 開発環境、本番環境共通
 開発環境、本番環境ともに, .envファイルは書き換えた後プロジェクトディレクトリの下にコピー(複製)をする(pipenvが環境変数を読み込むため).
 ```
-project_dir/.env
+${project_dir}/.env
 ```
 ### 4.3コンテナの作成
 #### 開発環境
@@ -122,20 +122,6 @@ docker-compose exec python pipenv run python /workspace/emwiki/manage.py runserv
 ```
 docker-compose down
 ```
-### 4.7 コンテナ内の永続化データ
-#### 開発環境
-+ Postgres Data: postgres-data
-+ emwiki-contentsは、.envに指定したレポジトリに自動的にPushされる
-#### 本番環境
-+ コード全体: ./
-+ Postgres Data: postgres-data
-+ static Data: static-volume
-+ media Data: media-volume
-+ emwiki-contents: emwiki-contents-volume
-+ nginx設定ファイル: nginx/nginx.conf
-+ uwsgi params: nginx/uwsgi_params
-+ emwiki-contentsは、.envに指定したレポジトリに自動的にPushされる
-
 ## 5 Update MML version
 + emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
@@ -169,7 +155,7 @@ docker-compose down
 
 ### 6.2 PostgreSQL data
 #### オフラインバックアップ
-+ 以下のファイルをコピーしておく
++ サーバーを停止させて以下のファイルをコピーしておく
   + 復元時には以下のディレクトリにバックアップしたデータを置きコンテナを立ち上げる
 + 開発環境
   + `.devcontainer/postgres-data`
