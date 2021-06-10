@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 

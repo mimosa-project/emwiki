@@ -22,46 +22,31 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 ![emwiki](https://user-images.githubusercontent.com/49423101/98566104-b8556900-22f1-11eb-89fb-662a353d0dcb.png)
 
 ## 3 Requirement
-written on [pipfile](https://github.com/mimosa-project/emwiki/blob/master/Pipfile)
+### 動作環境
++ WSL(Ubuntu20.04) + Docker(PostgreSQL) (開発用)
++ Docker only (本番用)
 
-### emparser
-emparserのインストールが必要です.
-#### Git clone
-```
-git clone --recursive https://github.com/mimosa-project/emparser.git
-```
-#### Setup development environment
-```
-pipenv install
-```
-#### Install
-```
-python setup.py install
-```
 ## 4 Install
 ### 4.1 ホストの準備
-docker, docker-composeをインストール
-+ [Get Docker](https://docs.docker.com/get-docker/)
-+ WSL2を用いる場合はDocker Desktop for Windowsをインストール
++ docker, docker-composeをインストール
+  + [Get Docker](https://docs.docker.com/get-docker/)
 
-GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)をForkする
-
-git clone
++ GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)と[mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkする<br>
++ emwikiをgit cloneする<br>
 ```
 git clone {your forked origin repository}
 ```
-
 ### 4.2 .envファイルを更新
 #### 開発環境
-+ `.devcontainer/.env`を、`.devcontainer/.env-sample`を元に新たに作成する
++ `./devcontainer/.env`を書き換える
+  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
-  + `MIZAR_VERSION`を再設定する
-    + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkして、ForkしたレポジトリのURLに書き換える
+    + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkしたレポジトリのURLに書き換える
   + その他の変更は、原則必要なし
-+ `.devcontainer/.env.db`を、`.devcontainer/.env.db-sample`を元に新たに作成する
++ `.env.db`を、必要に応じて書き換える
   + 変更は、原則必要なし
 #### 本番環境
-+ `.env`を、`.env-sample`を元に新たに作成
++ `./prodcontainer/.env`を書き換える
   + **(must)**`DEBUG=False`に設定
   + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
   + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
@@ -71,115 +56,72 @@ git clone {your forked origin repository}
   + **(must)**`SQL_PASSWORD`を再設定
   + **(must)**`MIZAR_VERSION`を再設定
   + その他の設定を適宜再設定
-+ `.env.db`を、`.env.db-sample`を元に新たに作成
++ `.env.db`を書き換える
   + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
   + **(must)**`.env`に設定した`SQL_PASSWORD`の値を`POSTGRES_PASSWORD`に設定
 + `docker-compose.yml`内のhttps-portalを変更
   + **(must)**`DOMAINS: 'localhost->http://nginx:8000'`の`localhost`を、デプロイするドメインに変更
   + **(must)**`STAGE: 'production'`をコメントから外す
-
-
-### 4.3 必要ファイルの追加
-+ 開発環境、本番環境の、いずれかの方法でファイルを追加する
-+ 最後に確認事項を読み、ファイルの存在を確認する
-  + なければを手動で追加する際の注意点を参考に、手動でファイルを追加する
-
-#### 開発・本番環境共通
-+ bibファイルを追加する
-  + bibファイルを用意する(Mizarの実行バイナリをダウンロードして解凍し，bib/fmbibs.zipを解凍することで入手可能)
-  + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`に、bibファイルを配置する
-#### 開発環境
-+ .devcontainer/.envを使用する
-  + 必ず先に`.devcontainer/.env`を作成する
-  ```
-  sh initialize.sh dev
-  ```
-#### 本番環境
-+ .prodcontainer/.envを使用する
-  + 必ず先に`.prodcontainer/.env`を作成する
-  ```
-  sh initialize.sh prod
-  ```
-#### 手動で追加する際の注意点
-+ **MML, HTMLized MML のMMLバージョンは必ず統一すること．**
-+ **MML(.miz, .abs)をHP等からDownloadする際にはutf-8に変換を行うこと**
-+ `initialize.sh <env file>`を実行する事で、必要ファイルのDLが完了する
-
-#### 確認事項
-+ 以下のディレクトリにMMLファイル、HTMLized MMLファイル、absrtファイル、vctファイルがあることを確認する
-  + `project_dir/emwiki/mizarfiles/emwiki-contents/mml/{*.miz}`
-  + `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`
-  + `project_dir/emwiki/mizarfiles/abstr/{*.abs}`
-  + `project_dir/emwiki/mizarfiles/vct/mml.vct`
-  + `project_dir/emwiki/contents/article/templates/article/fmbibs/{*.bib}`
-+ 以下のディレクトリを作成する
-  + `emwiki/search/data`
-
-### 4.4コンテナの作成
+### 開発環境、本番環境共通
+開発環境、本番環境ともに, .envファイルは書き換えた後プロジェクトディレクトリの下にコピー(複製)をする(pipenvが環境変数を読み込むため).
+```
+${project_dir}/.env
+```
+### 4.3コンテナの作成
 #### 開発環境
 + 必要ファイルは`.devcontainer`の中にある
-+ VSCodeの拡張機能`ms-vscode-remote.remote-containers`を用いることで簡単に行うことができる
-+ 時間がかかる点に注意．
 ```
 cd .devcontainer
+docker-compose up -d
+```
+#### 本番環境
++ 必要ファイルは`.prodcontainer`の中にある
++ 時間がかかる点に注意
++ 実行後、20分程度待つ
+```
+cd .prodcontainer
 docker-compose up -d --build
 ```
-+ 以下をコンテナ内で実行
-  + superuserの作成
-    ```
-    python manage.py createsuperuser
-    ```
-  + エラーが出る場合、以下のインタプリタが設定されているか確認する
-    ```
-    /usr/local/bin/python
-    ```
-+ 独自コマンド(実行する必要なし)
-  + MML, HTMLizedMMLファイルの加工
-  ```
-  python manage.py build_htmlizedmml
-  python manage.py build_mmlreference
-  python manage.py build_search_data
-  ```
-  + Article, Comment, Symbolの登録
-  ```
-  python manage.py load_articles
-  python manage.py load_symbols
-  ```
 
-+ コンテナ作成・起動後、実行方法は通常通り(コンテナ内で実行)
+### 4.4 必要ファイルの追加
+#### 開発環境
++ プロジェクトのルートディレクトリに戻り`initialize.sh`をsudoで実行する(初回のみ)
 ```
-python manage.py runserver
+cd ..
+sudo sh initialize.sh dev
 ```
 
 #### 本番環境
-+ 時間がかかる点に注意．
-+ 実行後、5分程度待つ(uwsgiの起動を待つため)
++ 本番環境ではコンテナ作成時に自動で`sh initialize.sh prod1`と`sh initialize.sh prod2`が実行されるので特に操作は必要なし
+
+### 4.5 実行
+#### 開発環境
++ pipenvの仮想環境に入る
 ```
-docker-compose up -d --build
+pipenv shell
 ```
 + superuserの作成
 ```
-docker-compose exec python python /workspace/emwiki/manage.py createsuperuser
+cd emwiki
+python manage.py createsuperuser
 ```
-### 4.5 終了
++ 実行
+```
+python manage.py runserver
+```
+#### 本番環境
++ superuserの作成
+```
+docker-compose exec python pipenv run python /workspace/emwiki/manage.py createsuperuser
+```
++ 実行
+```
+docker-compose exec python pipenv run python /workspace/emwiki/manage.py runserver
+```
+### 4.6 終了
 ```
 docker-compose down
 ```
-### 4.6 永続化データ
-#### 開発環境
-+ コード全体: ./
-+ Postgres Data: postgres-data
-+ emwiki-contentsは、.devcontainer/.envに指定したレポジトリに自動的にPushされる
-#### 本番環境
-+ コード全体: ./
-+ Postgres Data: postgres-data
-+ static Data: static-volume
-+ media Data: media-volume
-+ emwiki-contents: emwiki-contents-volume
-+ nginx設定ファイル: nginx/nginx.conf
-+ uwsgi params: nginx/uwsgi_params
-+ emwiki-contentsは、.envに指定したレポジトリに自動的にPushされる
-
 ## 5 Update MML version
 + emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
 + MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
@@ -212,15 +154,32 @@ docker-compose down
   + `git push origin mml_commented`
 
 ### 6.2 PostgreSQL data
-+ 以下のファイルをコピーしておく
+#### オフラインバックアップ
++ サーバーを停止させて以下のファイルをコピーしておく
   + 復元時には以下のディレクトリにバックアップしたデータを置きコンテナを立ち上げる
 + 開発環境
   + `.devcontainer/postgres-data`
 + 本番環境
   + `.prodcontainer/postgres-data`
+#### オンラインバックアップ
++ 以下を参考にバックアップを行う
+  + https://www.postgresql.jp/document/9.6/html/continuous-archiving.html
 
+##  7 独自コマンドについて
++ 独自コマンド(実行する必要なし)
+  + MML, HTMLizedMMLファイルの加工, 定理検索用ファイルの生成
+  ```
+  python manage.py build_htmlizedmml
+  python manage.py build_mmlreference
+  python manage.py build_search_data
+  ```
+  + Article, Comment, Symbolの登録
+  ```
+  python manage.py load_articles
+  python manage.py load_symbols
+  ```
 
-## 7 Licence
+## 8 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
 

@@ -6,9 +6,13 @@ emwiki/mizarfiles/emwiki-contents
 emwiki/mizarfiles/abstr
 emwiki/mizarfiles/vct
 emwiki/search/data
-fmbibs/
+emwiki/article/templates/article/fmbibs/
+
+# emparser
+/emparser/
 
 # Static files
+emwiki/staticfiles/
 htmlized_mml
 symbol_html
 
@@ -76,7 +80,6 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
-migrations/
 
 # Flask stuff:
 instance/
@@ -104,8 +107,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
-.env.db
+/.env
 .venv
 env/
 venv/
@@ -125,3 +127,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# temporary files
+/temp

@@ -6,12 +6,10 @@ services:
       context: ..
       dockerfile: ./.prodcontainer/Dockerfile
     volumes:
-      - ..:/workspace/emwiki:cached
-      - static-volume:/workspace/emwiki/emwiki/staticfiles
-      - media-volume:/workspace/emwiki/emwiki/mediafiles
+      - static-volume:/workspace/emwiki/staticfiles
+      - media-volume:/workspace/emwiki/mediafiles
     expose:
       - "8001"
-    command: pipenv run uwsgi --chdir=/workspace/emwiki/emwiki --mount /emwiki=/workspace/emwiki/emwiki/emwiki/wsgi.py --manage-script-name --env DJANGO_SETTINGS_MODULE=emwiki.settings --socket :8001
     depends_on:
       - db
   db:

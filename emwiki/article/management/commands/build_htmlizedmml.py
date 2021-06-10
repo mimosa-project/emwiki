@@ -7,9 +7,6 @@ class Command(BaseCommand):
     # python manage.py help count_entryで表示されるメッセージ
     help = 'Generate HTMLized MML'
 
-    def add_arguments(self, parser):
-        parser.add_argument('target')
-
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
         self.stdout.write('Start generating HTMLized MML')

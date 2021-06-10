@@ -5,12 +5,10 @@ from search.parse_abs import create_abs_dictionary, create_document_vectors, sav
 from search.svd import singular_value_analysis
 
 
+
 class DataGeneratorForSearch:
     def generate_data_for_search(self):
-        try:
-            os.mkdir(DATA_FOR_SEARCH_DIR)
-        except FileExistError:
-            pass
+        os.makedirs(settings.DATA_FOR_SEARCH_DIR, exist_ok=True)
         create_abs_dictionary()
         create_document_vectors()
         save_byte_index_of_lines(os.path.join(
