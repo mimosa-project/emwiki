@@ -196,3 +196,5 @@ TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
 
 TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
 TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
+
+TEST_DATA_FOR_SEARCH_DIR = os.path.join(TEST_DATA_DIR, 'data_for_search')

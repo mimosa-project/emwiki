@@ -10,21 +10,26 @@ from search.parse_abs import lexer, rename_variable_and_symbol
 
 
 class TheoremSearcher:
-    def search(self, search_word, count_top):
+    def search(self, search_word, count_top, **kwargs):
+        if(kwargs.get("mode") == "test"):
+            DATA_FOR_SEARCH_DIR = settings.TEST_DATA_FOR_SEARCH_DIR
+        else:
+            DATA_FOR_SEARCH_DIR = settings.DATA_FOR_SEARCH_DIR
+        
         search_word = search_word.replace(",", " ")
         search_word = search_word.replace(";", "")
         input_doc = rename_variable_and_symbol(search_word.split(), lexer)
         input_doc = input_doc.split()
 
         tfidf = models.TfidfModel.load(
-            os.path.join(settings.DATA_FOR_SEARCH_DIR, 'tfidf.model'))
+            os.path.join(DATA_FOR_SEARCH_DIR, 'tfidf.model'))
         lsi = models.LsiModel.load(os.path.join(
-            settings.DATA_FOR_SEARCH_DIR, 'lsi_topics300.model'))
+            DATA_FOR_SEARCH_DIR, 'lsi_topics300.model'))
         dictionary = corpora.Dictionary.load(os.path.join(
-            settings.DATA_FOR_SEARCH_DIR, 'search_dictionary.dict'))
+            DATA_FOR_SEARCH_DIR, 'search_dictionary.dict'))
 
         index = similarities.MatrixSimilarity.load(
-            os.path.join(settings.DATA_FOR_SEARCH_DIR, 'lsi_index.index'))
+            os.path.join(DATA_FOR_SEARCH_DIR, 'lsi_index.index'))
 
         query_vector = dictionary.doc2bow(input_doc)
 
@@ -35,12 +40,12 @@ class TheoremSearcher:
         result = []
         result_append = result.append
 
-        with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'tell.pkl'), "rb") as f:
+        with open(os.path.join(DATA_FOR_SEARCH_DIR, 'tell.pkl'), "rb") as f:
             tell = pickle.load(f)
 
         for idx in sims[:count_top]:
             search_result = {}
-            with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "rb") as f:
+            with open(os.path.join(DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "rb") as f:
                 f.seek(tell[idx[0]])
                 doc_list = f.read(
                     tell[idx[0] + 1] - tell[idx[0]]).decode('utf-8').split()
