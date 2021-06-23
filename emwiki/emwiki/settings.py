@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
+
+from git import Repo
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,6 +159,10 @@ if DEBUG is True:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# emwiki-content
+emwiki_contents_repo = Repo(os.path.join(BASE_DIR, 'emwiki-contents'))
+emwiki_contents_repo.git.checkout("mml_commented")
 
 CONTENTS_DIR = os.path.join(BASE_DIR, 'contents')
 
