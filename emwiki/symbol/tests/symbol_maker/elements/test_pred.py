@@ -1,4 +1,3 @@
-from symbol.symbol_maker.elements.element import Element
 from symbol.tests.symbol_maker.elements.test_element import TestElement
 
 
@@ -19,7 +18,7 @@ class TestPred(TestElement):
             self.assertEqual("definition", preds[i].defblock.xpath("./span")[0].text, i)
             self.assertEqual("oo:Definition", preds[i].main_sentence.attrib.get("typeof"), i)
             self.assertEqual("abcmiz_0", preds[i].filename)
-            self.assertEqual("R" + str(i+1), preds[i].anchor)
+            self.assertEqual("R" + str(i + 1), preds[i].anchor)
 
     def test_read_redefine(self):
         reader = self.read_by_name("abian")
@@ -32,7 +31,7 @@ class TestPred(TestElement):
             self.assertEqual(names[i], preds[i].symbol, i)
             self.assertEqual(i in redefine_indices, preds[i].is_redefine(), i)
             self.assertEqual("abian", preds[i].filename)
-            self.assertEqual("R" + str(i+1), preds[i].anchor)
+            self.assertEqual("R" + str(i + 1), preds[i].anchor)
 
     def test_read_synonym(self):
         reader = self.read_by_name("altcat_3")
@@ -63,4 +62,3 @@ class TestPred(TestElement):
             self.assertEqual(i in antonym_indices, preds[i].is_antonym(), i)
             self.assertEqual("boolealg", preds[i].filename)
             self.assertEqual(anchors[i], preds[i].anchor)
-

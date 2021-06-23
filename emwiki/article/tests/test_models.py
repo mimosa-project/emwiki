@@ -50,7 +50,7 @@ class CommentTest(TestCase):
                 'text': 'This is test\nline 2\nline 3'},
             {'block': 'definition', 'block_order': 1, 'text': '\nThis is test\n'},
             {'block': 'definition', 'block_order': 2,
-                'text': '$$This is test of MathJax$$\n$\star $'},
+                'text': '$$This is test of MathJax$$\n$\\star $'},
         ]
         for comment_answer in comment_answers:
             comment = Comment.objects.get(

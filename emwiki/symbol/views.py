@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
 from django.views.decorators.cache import cache_page

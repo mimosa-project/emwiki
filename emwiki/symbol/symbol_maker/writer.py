@@ -40,5 +40,6 @@ class Writer:
             </body>
         ''')
 
+
 if __name__ == '__main__':
     pass
