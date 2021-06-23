@@ -154,6 +154,8 @@ LOGIN_REDIRECT_URL = '/emwiki'
 
 AUTH_USER_MODEL = 'accounts.User'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 if DEBUG is True:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
