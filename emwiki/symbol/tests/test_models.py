@@ -1,8 +1,4 @@
-import os
-
-from django.template.loader import get_template
-from django.test import TestCase, Client
-from django.template.exceptions import TemplateSyntaxError
+from django.test import TestCase
 
 from symbol.symbol_builder import SymbolBuilder
 from symbol.models import Symbol
