@@ -1,6 +1,8 @@
 import configparser
 import os
 
+from git import Repo
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -173,3 +175,5 @@ TEST_SEARCH_INDEX_DIR = os.path.join(TEST_DATA_DIR, 'search_index')
 mml_config = configparser.ConfigParser()
 mml_config.read(MML_INI_PATH)
 MIZAR_VERSION = mml_config["MML"]["MMLVersion"]
+emwiki_contents_repo = Repo(os.path.join(BASE_DIR, 'emwiki-contents'))
+emwiki_contents_repo.git.checkout("mml_commented")
