@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "pipenv run coverage run",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki"
+            }
+        },
+        {
+            "label": "Check codestyle",
+            "type": "shell",
+            "command": "pipenv run flake8",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Coverage report",
+            "type": "shell",
+            "command": "pipenv run coverage report",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki"
+            }
+        },
+    ]
+}

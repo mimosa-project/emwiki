@@ -5,15 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Django",
+            "name": "Run server",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/emwiki/manage.py",
-            "python": "/usr/local/bin/python",
             "console": "integratedTerminal",
             "args": [
                 "runserver",
-                "0.0.0.0:5000",
+                "0.0.0.0:8000",
             ],
 			"django": true,
         }

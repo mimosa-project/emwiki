@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  python:
+    build: .
+    container_name: emwiki-python-develop
+    entrypoint: sleep infinity
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    container_name: emwiki-db-develop
+    expose:
+      - "5432"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  adminer:
+    image: adminer:latest
+    container_name: emwiki-adminer-develop
+    restart: unless-stopped
+    ports: 
+      - 8080:8080
+    depends_on: 
+      - db
