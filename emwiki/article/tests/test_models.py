@@ -1,5 +1,4 @@
-from django.template.loader import get_template
-from django.test import TestCase, Client
+from django.test import TestCase
 
 from article.article_builder import ArticleBuilder
 from article.models import Article, Comment
