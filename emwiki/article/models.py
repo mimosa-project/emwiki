@@ -9,7 +9,7 @@ from article.miz_text_converter import MizTextConverter
 
 class Article(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    mizfile_dir = settings.MIZFILE_DIR
+    mizfile_dir = settings.MML_MML_DIR
 
     def __str__(self):
         return f'{self.name}'

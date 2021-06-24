@@ -39,9 +39,9 @@ class TestAttr(TestElement):
         for i in range(len(attrs)):
             self.assertEqual(names[i], attrs[i].symbol, i)
             self.assertEqual('kw', attrs[i].keyword_node.attrib.get('class'), i)
-            #self.assertEqual('attr', attrs[i].keyword_node.text.strip(), i)
-            #self.assertEqual("definition", attrs[i].defblock.xpath("./span")[0].text, i)
-            #self.assertEqual("oo:Definition", attrs[i].main_sentence.attrib.get("typeof"), i)
+            # self.assertEqual('attr', attrs[i].keyword_node.text.strip(), i)
+            # self.assertEqual("definition", attrs[i].defblock.xpath("./span")[0].text, i)
+            # self.assertEqual("oo:Definition", attrs[i].main_sentence.attrib.get("typeof"), i)
             self.assertEqual(i in synonym_indices, attrs[i].is_synonym())
             self.assertEqual(i in antonym_indices, attrs[i].is_antonym())
             self.assertEqual("armstrng", attrs[i].filename)

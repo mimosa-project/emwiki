@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 class SymbolBuilder:
-    from_dir = settings.RAW_HTMLIZEDMML_DIR
+    from_dir = settings.MML_HTML_DIR
 
     def __init__(self):
         self.objects = []
@@ -20,7 +20,8 @@ class SymbolBuilder:
         processor.compose()
         symbols = []
         for content in processor.contents:
-            symbol = Symbol(name=content.symbol, filename=content.filename(), type=content.type)
+            symbol = Symbol(name=content.symbol,
+                            filename=content.filename(), type=content.type)
             symbols.append(symbol)
         Symbol.objects.bulk_create(symbols)
         print('Created Symbols')

@@ -25,7 +25,7 @@ class HtmlFile:
 
 
 class HtmlizedMmlBuilder:
-    from_dir = settings.RAW_HTMLIZEDMML_DIR
+    from_dir = settings.MML_HTML_DIR
     to_dir = settings.PRODUCT_HTMLIZEDMML_DIR
 
     def delete_files(self):
