@@ -20,7 +20,7 @@ class TestProcessor(TestCase):
         return [e for e in elements if e.type() == typename]
 
     def test_read(self):
-        from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
+        from_dir = settings.TEST_MML_HTML_DIR
         processor = Processor()
         processor.read(from_dir)
 
@@ -43,7 +43,7 @@ class TestProcessor(TestCase):
         for path in symbolhtml_paths:
             os.remove(path)
 
-        from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
+        from_dir = settings.TEST_MML_HTML_DIR
         to_dir = settings.TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR
         processor = Processor()
         processor.execute(from_dir, to_dir)

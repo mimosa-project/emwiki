@@ -31,7 +31,7 @@ class Composer:
             if element.type() in ["cluster", "reduce"]:
                 continue
             key = (element.type(), element.symbol)
-            if not key in contents_dict:
+            if key not in contents_dict:
                 content = Content()
                 content.symbol = element.symbol
                 content.type = element.type()
@@ -61,6 +61,7 @@ class Composer:
     def adjust_elements(self):
         for element in self.elements:
             element.adjust()
+
 
 if __name__ == '__main__':
     pass

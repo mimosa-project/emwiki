@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from django.conf import settings
 from search.models import Theorem, History, HistoryItem
 from search.theorem_searcher import TheoremSearcher
 
@@ -11,7 +12,7 @@ class TheoremTest(TestCase):
         self.number_of_results = 100
         searcher = TheoremSearcher()
         self.search_results = searcher.search(
-            self.query_text, self.number_of_results)
+            self.query_text, self.number_of_results, settings.TEST_SEARCH_INDEX_DIR)
 
     def test_register_theorem(self):
         # 検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存

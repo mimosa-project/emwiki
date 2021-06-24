@@ -16,7 +16,7 @@ class TestFunc(TestElement):
             self.assertEqual("definition", funcs[i].defblock.xpath("./span")[0].text, i)
             self.assertEqual("oo:Definition", funcs[i].main_sentence.attrib.get("typeof"), i)
             self.assertEqual("abcmiz_0", funcs[i].filename)
-            self.assertEqual("K" + str(i+1), funcs[i].anchor)
+            self.assertEqual("K" + str(i + 1), funcs[i].anchor)
 
     def test_read_bracket(self):
         reader = self.read_by_name("afinsq_1")
@@ -58,6 +58,7 @@ class TestFunc(TestElement):
             self.assertEqual('kw', funcs[i].keyword_node.attrib.get('class'), i)
             self.assertEqual(i in synonym_indices, funcs[i].is_synonym(), i)
             self.assertEqual("abcmiz_1", funcs[i].filename)
+
 
 """
     def test_read_funct_1(self):
