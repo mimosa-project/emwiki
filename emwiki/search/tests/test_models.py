@@ -43,7 +43,7 @@ class HistoryItemTest(TestCase):
         self.number_of_results = 100
         searcher = TheoremSearcher()
         self.search_results = searcher.search(
-            self.query_text, self.number_of_results)
+            self.query_text, self.number_of_results, settings.TEST_SEARCH_INDEX_DIR)
 
     def test_register_history_item(self):
         # 検索結果の中から定理のテーブルに登録されていない定理をテーブルに保存
