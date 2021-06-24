@@ -20,7 +20,12 @@ class ArticleView(View):
         context = dict()
         context['name'] = article.name
         context['template_path'] = f"article/htmlized_mml/{article.name}.html"
-        context['bib_path'] = f'article/fmbibs/{article.name}.bib'
+        bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article.name}.bib')
+        if os.path.exists(bib_file_path):
+            with open(bib_file_path, "r") as f:
+                context['bib_text'] = f.read()
+        else:
+            context['bib_text'] = f"{bib_file_path.basename()} not found"
         context["context_for_js"] = {
             'is_authenticated': self.request.user.is_authenticated,
             'name': article.name,
@@ -34,7 +39,7 @@ class ArticleView(View):
 class ProofView(View):
     def get(self, request, article_name, proof_name):
         return HttpResponse(
-            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR, 'proofs',
+            open(os.path.join(settings.MML_HTML_DIR, 'proofs',
                  article_name, proof_name)).read(),
             content_type='application/xml'
         )
@@ -43,7 +48,7 @@ class ProofView(View):
 class RefView(View):
     def get(self, request, article_name, ref_name):
         return HttpResponse(
-            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR,
+            open(os.path.join(settings.MML_HTML_DIR,
                  'refs', article_name, ref_name)).read(),
             content_type='application/xml'
         )

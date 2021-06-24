@@ -174,7 +174,6 @@ class Element:
                     <h3>{str(i)}. {self.element_link_html(self)} [{self.source_link_html(self)}]</h3>
                 </div>
                 <div class='card-body'>
-        
         ''')
         self.write_source_code(fp)
         self.write_relations(fp)
@@ -192,8 +191,7 @@ class Element:
 
     @staticmethod
     def element_link_html(element):
-        return ("<span data-link='" + element.data_link() + "'>" +
-                Element.escape_html_characters(element.symbol) + "</span>")
+        return (f"<span data-link='{element.data_link()}'>{Element.escape_html_characters(element.symbol)}</span>")
 
     def write_source_code(self, fp):
         # Markup main sentences

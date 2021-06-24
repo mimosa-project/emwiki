@@ -14,7 +14,7 @@ class SymbolTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = SymbolBuilder()
-        cls.builder.from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
+        cls.builder.from_dir = settings.TEST_MML_HTML_DIR
         cls.builder.create_models()
 
     @classmethod

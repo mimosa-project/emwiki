@@ -2,7 +2,6 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from lxml import html
 from .element import Element
 
 
@@ -51,7 +50,7 @@ class Func(Element):
                     if len([k for k in keywords if k in title]) > 0:
                         index = int(link.split('#ELM')[1])
                         e = elements[index]
-                        if not self in e.relations:
+                        if self not in e.relations:
                             e.relations.append(self)
         finally:
             self.restore_nodes(substitution)

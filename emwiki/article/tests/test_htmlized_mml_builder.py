@@ -15,7 +15,7 @@ class HtmlizedMmlBuilderTest(TestCase):
             shutil.rmtree(settings.TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR)
         os.mkdir(settings.TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR)
         cls.builder = HtmlizedMmlBuilder()
-        cls.builder.from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
+        cls.builder.from_dir = settings.TEST_MML_HTML_DIR
         cls.builder.to_dir = settings.TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR
 
     @classmethod

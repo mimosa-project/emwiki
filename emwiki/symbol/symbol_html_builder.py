@@ -1,13 +1,13 @@
 import os
 import shutil
-
 from symbol.models import Symbol
 from symbol.symbol_maker.processor import Processor
+
 from django.conf import settings
 
 
 class SymbolHtmlBuilder:
-    from_dir = settings.RAW_HTMLIZEDMML_DIR
+    from_dir = settings.MML_HTML_DIR
     to_dir = Symbol.get_htmlfile_dir()
 
     def delete_files(self):
