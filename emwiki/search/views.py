@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.urls import reverse
-from django.views.decorators.http import require_http_methods
 from django.views.defaults import bad_request
 from django.views.generic import TemplateView
 
@@ -9,7 +8,7 @@ from search.models import Theorem, History, HistoryItem
 
 
 class SearchTheoremView(TemplateView):
-    template_name= 'search/search_theorem.html'
+    template_name = 'search/search_theorem.html'
 
     def get(self, request, **kwargs):
         query_text = request.GET.get('search_query', default='')
@@ -20,7 +19,7 @@ class SearchTheoremView(TemplateView):
             pass
         # ascii文字以外を含む場合
         elif max([ord(char) for char in query_text]) >= 128:
-            return bad_request(request, SyntaxError,template_name='search/bad_request.html')
+            return bad_request(request, SyntaxError, template_name='search/bad_request.html')
         else:
             # 検索
             searcher = TheoremSearcher()
@@ -35,7 +34,7 @@ class SearchTheoremView(TemplateView):
                 # 検索結果のIDをデータベースから取得
                 HistoryItem.collect_history_item_id(search_results, history)
                 # 関連度順に並べ替え
-                search_results = sorted(search_results, key=lambda x:x['relevance'], reverse=True)
+                search_results = sorted(search_results, key=lambda x: x['relevance'], reverse=True)
             # contextの情報を更新
             context.update({
                 'query_text': query_text,

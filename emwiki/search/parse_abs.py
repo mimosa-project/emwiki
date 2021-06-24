@@ -199,7 +199,7 @@ def rename_variable_and_symbol(line, lexer):
     変数を___に変更し、最期に変数の種類の____を入れている
     例
     line
-    let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
+    let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded;
     return
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____
     """
@@ -226,10 +226,10 @@ def create_document_vectors():
     変数を___に変更し、最期に変数の種類数の____を入れている
     例
     abs_dictionary.txt
-    definition 51 abcmiz_0.abs BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
+    definition 51 abcmiz_0.abs BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded;
 
     document_vectors.txt
-    let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____ 
+    let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____
     """
 
     with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'document_vectors.txt'), "w") as file_document_vectors:

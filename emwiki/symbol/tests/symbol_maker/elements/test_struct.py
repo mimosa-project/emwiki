@@ -16,7 +16,7 @@ class TestStruct(TestElement):
             self.assertEqual("definition", structs[i].defblock.xpath("./span")[0].text, i)
             self.assertEqual(None, structs[i].main_sentence, i)
             self.assertEqual("abcmiz_0", structs[i].filename)
-            self.assertEqual("L" + str(i+1), structs[i].anchor)
+            self.assertEqual("L" + str(i + 1), structs[i].anchor)
 
     def test_read_over(self):
         reader = self.read_by_name("aofa_a00")
@@ -34,4 +34,4 @@ class TestStruct(TestElement):
             self.assertEqual("definition", structs[i].defblock.xpath("./span")[0].text, i)
             self.assertEqual(None, structs[i].main_sentence, i)
             self.assertEqual("aofa_a00", structs[i].filename)
-            self.assertEqual("L" + str(i+1), structs[i].anchor)
+            self.assertEqual("L" + str(i + 1), structs[i].anchor)
