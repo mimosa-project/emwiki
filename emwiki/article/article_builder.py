@@ -8,7 +8,7 @@ from article.models import Article, Comment
 
 
 class ArticleBuilder:
-    from_dir = settings.MIZFILE_DIR
+    from_dir = settings.MML_MML_DIR
 
     def __init__(self):
         self.objects = []
