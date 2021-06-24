@@ -172,7 +172,7 @@ docker-compose down
   python manage.py build_htmlizedmml
   python manage.py build_mmlreference
   python manage.py build_search_data
-  python manage.py build_bib
+  python manage.py build_fmbibs
   ```
   + Article, Comment, Symbolの登録
   ```
