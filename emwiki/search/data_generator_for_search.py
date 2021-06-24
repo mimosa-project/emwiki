@@ -5,7 +5,6 @@ from search.parse_abs import create_abs_dictionary, create_document_vectors, sav
 from search.svd import singular_value_analysis
 
 
-
 class DataGeneratorForSearch:
     def generate_data_for_search(self):
         os.makedirs(settings.DATA_FOR_SEARCH_DIR, exist_ok=True)

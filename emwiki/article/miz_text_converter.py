@@ -77,8 +77,7 @@ class MizTextConverter:
             comment_text_candidates = [
                 comment['text']
                 for comment in comments
-                if comment['block'] == block
-                and comment['block_order'] == block_order
+                if comment['block'] == block and comment['block_order'] == block_order
             ]
             comment_text = comment_text_candidates[0] if comment_text_candidates else None
             if comment_text is None or comment_text == '':

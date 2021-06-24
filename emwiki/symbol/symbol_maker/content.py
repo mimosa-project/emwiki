@@ -2,8 +2,6 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-from .elements.element import Element
-
 
 class Content:
     _total_num = 0
@@ -26,7 +24,7 @@ class Content:
         fp.write('<div id="content" class="col-9 pl-3">')
         self.write_summary(fp)
         for i, e in enumerate(self.elements):
-            e.write(fp, i+1)
+            e.write(fp, i + 1)
         fp.write('</div>')
 
         fp.write('<div id="scrollspy" class="col-3" >')
