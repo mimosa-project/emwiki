@@ -3,6 +3,12 @@ emwiki
 
 Wiki for eco-Mizar
 
+| Stage   | name        | address                               |
+|---------|-------------|---------------------------------------|
+| Release | application | https://em1.cs.shinshu-u.ac.jp/emwiki |
+| Develop | application | http://localhost:8000/                |
+|         | adminer     | http://localhost:8080/                |
+
 ## 1 Description
 This Web application can write a TeX-format description in the Mizar Mathmatical Library (MML), and make the description follow the MML update. This Web application provides users with the function of adding, editing, and browsing description of MML on a Wiki format Web platform. If there is an update to the MML, link the description to the new MML by running the program on the server.
 
@@ -22,164 +28,128 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 ![emwiki](https://user-images.githubusercontent.com/49423101/98566104-b8556900-22f1-11eb-89fb-662a353d0dcb.png)
 
 ## 3 Requirement
-### 動作環境
-+ WSL(Ubuntu20.04) + Docker(PostgreSQL) (開発用)
-+ Docker only (本番用)
++ Docker
++ VSCode
 
 ## 4 Install
-### 4.1 ホストの準備
-+ docker, docker-composeをインストール
-  + [Get Docker](https://docs.docker.com/get-docker/)
 
-+ GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)と[mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkする<br>
-+ emwikiをgit cloneする<br>
-```
-git clone {your forked origin repository}
-```
-### 4.2 .envファイルを更新
-#### 開発環境
-+ `./devcontainer/.env`を書き換える
-  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
-  + **(must)**`COMMENT_REPOSITORY_URL`を再設定する
-    + [mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkしたレポジトリのURLに書き換える
-  + その他の変更は、原則必要なし
-+ `.env.db`を、必要に応じて書き換える
-  + 変更は、原則必要なし
-#### 本番環境
-+ `./prodcontainer/.env`を書き換える
-  + **(must)**`DEBUG=False`に設定
-  + **(must)**`SECRET_KEY`をランダムな値に設定(50文字以上)
-  + **(must)**`DJANGO_ALLOWED_HOSTS`を、デプロイするホストに設定
-  + **(must)**`COMMENT_REPOSITORY_URL`を再設定
-  + **(must)**`COMMENT_COMMIT_BRANCH`を`mml_commented`に設定
-  + **(must)**`SQL_USER`を再設定
-  + **(must)**`SQL_PASSWORD`を再設定
-  + **(must)**`MIZAR_VERSION`を再設定
-  + その他の設定を適宜再設定
-+ `.env.db`を書き換える
-  + **(must)**`.env`に設定した`SQL_USER`の値を`POSTGRES_USER`に設定
-  + **(must)**`.env`に設定した`SQL_PASSWORD`の値を`POSTGRES_PASSWORD`に設定
-+ `docker-compose.yml`内のhttps-portalを変更
-  + **(must)**`DOMAINS: 'localhost->http://nginx:8000'`の`localhost`を、デプロイするドメインに変更
-  + **(must)**`STAGE: 'production'`をコメントから外す
-### 開発環境、本番環境共通
-開発環境、本番環境ともに, .envファイルは書き換えた後プロジェクトディレクトリの下にコピー(複製)をする(pipenvが環境変数を読み込むため).
-```
-${project_dir}/.env
-```
-### 4.3コンテナの作成
-#### 開発環境
-+ 必要ファイルは`.devcontainer`の中にある
-```
-cd .devcontainer
-docker-compose up -d
-```
-#### 本番環境
-+ 必要ファイルは`.prodcontainer`の中にある
-+ 時間がかかる点に注意
-+ 実行後、20分程度待つ
-```
-cd .prodcontainer
-docker-compose up -d --build
+Install docker
+  - [Docker Desktop WSL 2 backend](https://docs.docker.com/docker-for-windows/wsl/)
+
+Clone this repository with all submodules
+```bash
+$ git clone --recursive {repository url}
 ```
 
-### 4.4 必要ファイルの追加
-#### 開発環境
-+ プロジェクトのルートディレクトリに戻り`initialize.sh`をsudoで実行する(初回のみ)
-```
-cd ..
-sudo sh initialize.sh dev
+Create docker containers
+```bash
+$ docker compose up -d
 ```
 
-#### 本番環境
-+ 本番環境ではコンテナ作成時に自動で`sh initialize.sh prod1`と`sh initialize.sh prod2`が実行されるので特に操作は必要なし
+Install VSCode
+[Download Visual Studio Code](https://code.visualstudio.com/download)
 
-### 4.5 実行
-#### 開発環境
-+ pipenvの仮想環境に入る
+Install Remote-Containers plugin to VSCode
+- `ms-vscode-remote.remote-containers`
+- ![image](https://user-images.githubusercontent.com/49423101/123077640-33205e00-d455-11eb-8aaa-2049b066d354.png)
+
+Open folder in container using VSCode
+- ![image](https://user-images.githubusercontent.com/49423101/123078181-af1aa600-d455-11eb-8a3e-a1e0bb40f509.png)
+
+Install plugins reccomended at `.vscode/extenstions.json` to VSCode
+- ![image](https://user-images.githubusercontent.com/49423101/123080809-4680f880-d458-11eb-86b3-e94706c4b7f2.png)
+
+
+Select python interpreter
+1. Use the `Python: Select Interpreter` command from the Command Palette (`Ctrl+Shift+P`)(Check `ms-python.python` plugin is installed if you can't find it)
+    - ![select-interpreters-command](https://code.visualstudio.com/assets/docs/python/environments/select-interpreters-command.png)
+1. Select python interpreter
+- [Select and activate an environment](https://code.visualstudio.com/docs/python/environments#_select-and-activate-an-environment)
+- ![image](https://user-images.githubusercontent.com/49423101/123081380-dc1c8800-d458-11eb-9bef-0c22ea86b929.png)
+
+```bash
+# run in emwiki-python-develop container
+$ pwd
+/emwiki
+
+# Entry virtual environment
+$ pipenv shell
+
+# Migrate databse
+$ python emwiki/manage.py migrate
+
+# Build local files and load initial data
+$ sh start.sh
+
+# Create superuser
+$ python manage.py createsuperuser
 ```
-pipenv shell
+
+## 5 Runsever
+```bash
+$ python manage.py runserver
 ```
-+ superuserの作成
+![image](https://user-images.githubusercontent.com/49423101/123082422-f3a84080-d459-11eb-99cd-38d29c176fd2.png)
+
+
+## 6 Tasks
+Some tasks can run as [Integrate with External Tools via Tasks](https://code.visualstudio.com/docs/editor/tasks)
+
+![image](https://user-images.githubusercontent.com/49423101/123096671-4c7fd500-d46a-11eb-8a07-3f88aaae6ef9.png)
+![image](https://user-images.githubusercontent.com/49423101/123096885-85b84500-d46a-11eb-93ca-764e75ec34fe.png)
+
+### Test
+```bash
+$ pwd
+/emwiki/emwiki
+$ coverage run
 ```
-cd emwiki
-python manage.py createsuperuser
+
+### Check codestyle
+```bash
+$ pwd
+/emwiki
+$ flake8
 ```
-+ 実行
+
+### Coverage report
+```bash
+$ pwd
+/emwiki/emwiki
+$ coverage report
 ```
-python manage.py runserver
-```
-#### 本番環境
-+ superuserの作成
-```
-docker-compose exec python pipenv run python /workspace/emwiki/manage.py createsuperuser
-```
-+ 実行
-```
-docker-compose exec python pipenv run python /workspace/emwiki/manage.py runserver
-```
-### 4.6 終了
-```
-docker-compose down
-```
-## 5 Update MML version
-+ emwiki内のコンテンツは，MMLとHTMLizedMMLを用いて作成されています．
-+ MMLとHTMLizedMMLのバージョンは，**必ず一致させてください．**
-### 5.1 emwiki-contents
-+ `mml`ブランチにcheckoutする
-+ `/emwiki/mizarfiles/emwiki-contents/mml`を新しいMMLと交換する
-+ add, commit(commitメッセージにバージョン情報をつける)
-+ `mml_commented`ブランチにcheckoutする
-+ 新たな`mml`ブランチの変更を`mml_commented`ブランチにマージする
-### 5.2 HTMLized MML
-+ [ここ](https://ftp.icm.edu.pl/packages/mizar/xmlmml/)からDL可能
-+ emwiki-contentsのバージョンと統一させる
-+ `project_dir/emwiki/mizarfiles/htmlized_mml/{*.html}`に配置する
-+ `initialize.sh`を書き換える
-### 5.3 data for search theorem
+
+##  7 Appendix
+### How to generate data for search theorem
 + 定理検索を使用するには`project_dir/emwiki/search/data/`内にabsファイルとvctファイルから生成されるデータが必要
-+ absファイルとvctファイルはMizarをダウンロードすることで入手可能
-+ データを生成するにはabsファイルとvctファイルをそれぞれ`project_dir/emwiki/mizarfiles/abstr/{*.abs}`, `project_dir/emwiki/mizarfiles/vct/mml.vct`に配置し, 以下のコマンドを実行(実行に時間がかかります)
-  ```
-  python manage.py generate_files search
-  ```
-+ absファイルとvctファイルのダウンロード等は, `initialize.sh`を書き換えることで行う
-## 6 Buckup
-### 6.1 emwiki-contents
-+ pythonコンテナに入る
-  + `docker exec <container name> bash`
-+ emwiki-contentsのレポジトリに移動
-  + `cd /workspace/emwiki/mizarfiles/emwiki-contents`
-+ 上のリポジトリに移動してGitのPushを実行
-  + `git push origin mml_commented`
++ データを生成するには`/emwiki/emwiki/mmlfiles/mml.vct`, `/emwiki/emwiki/mmlfiles/abstr/`が存在することを確認し、以下のコマンドを実行(実行に時間がかかります)
+```bash
+$ python manage.py generate_files search
+```
 
-### 6.2 PostgreSQL data
-#### オフラインバックアップ
-+ サーバーを停止させて以下のファイルをコピーしておく
-  + 復元時には以下のディレクトリにバックアップしたデータを置きコンテナを立ち上げる
-+ 開発環境
-  + `.devcontainer/postgres-data`
-+ 本番環境
-  + `.prodcontainer/postgres-data`
-#### オンラインバックアップ
-+ 以下を参考にバックアップを行う
-  + https://www.postgresql.jp/document/9.6/html/continuous-archiving.html
+### How to build local files
+```bash
+# Build HTMLized files
+python manage.py build_htmlizedmml
 
-##  7 独自コマンドについて
-+ 独自コマンド(実行する必要なし)
-  + MML, HTMLizedMMLファイルの加工, 定理検索用ファイルの生成
-  ```
-  python manage.py build_htmlizedmml
-  python manage.py build_mmlreference
-  python manage.py build_search_data
-  ```
-  + Article, Comment, Symbolの登録
-  ```
-  python manage.py load_articles
-  python manage.py load_symbols
-  ```
+# Build MML Reference files
+python manage.py build_mmlreference
 
-## 8 Licence
+# Build search data
+python manage.py build_search_data
+
+# Build fmbibs
+python manage.py build_fmbibs
+```
+### How to load models
+```bash
+# Load articles
+python manage.py load_articles
+
+# Load symbols
+python manage.py load_symbols
+```
+
+## 7 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
-
