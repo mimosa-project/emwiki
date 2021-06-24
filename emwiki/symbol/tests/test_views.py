@@ -21,6 +21,7 @@ class SymbolTest(TestCase):
         cls.symbol_builder.create_models()
         cls.symbol_html_builder = SymbolHtmlBuilder()
         cls.symbol_html_builder.from_dir = settings.TEST_MML_HTML_DIR
+        cls.symbol_html_builder.to_dir = os.path.join(settings.BASE_DIR, "symbol", "tests", "templates", "symbol", "symbol_html")
         cls.symbol_html_builder.delete_files()
         cls.symbol_html_builder.create_files()
 
