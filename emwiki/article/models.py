@@ -1,6 +1,5 @@
 import os
 
-import git
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -10,7 +9,7 @@ from article.miz_text_converter import MizTextConverter
 
 class Article(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    mizfile_dir = settings.MIZFILE_DIR
+    mizfile_dir = settings.MML_MML_DIR
 
     def __str__(self):
         return f'{self.name}'
@@ -72,13 +71,9 @@ class Article(models.Model):
             f.write(commented_text)
 
     def commit_mizfile(self, username):
-        repo = git.Repo(settings.LOCAL_COMMENT_REPOSITORY_DIR)
-        repo.config_writer().set_value("user", "name", "emwiki").release()
-        repo.config_writer().set_value("user", "email", "emwiki-email").release()
-        repo.git.checkout(settings.COMMENT_COMMIT_BRANCH)
         commit_message = f'Update {self.name}\n\nUsername: {username}'
-        repo.git.add(self.get_mizfile_path())
-        repo.index.commit(commit_message)
+        settings.emwiki_contents_repo.git.add(self.get_mizfile_path())
+        settings.emwiki_contents_repo.index.commit(commit_message)
 
 
 class Comment(models.Model):

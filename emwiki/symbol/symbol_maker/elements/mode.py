@@ -2,7 +2,6 @@
 # encoding: utf-8
 __author__ = 'nakasho'
 
-import re
 from .element import Element
 
 

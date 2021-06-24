@@ -15,7 +15,7 @@ class TestElement(TestCase):
         pass
 
     def read_by_name(self, name):
-        path = os.path.join(settings.TEST_RAW_HTMLIZEDMML_DIR, name + ".html")
+        path = os.path.join(settings.TEST_MML_HTML_DIR, name + ".html")
         path = path.replace('\\', '/')
         reader = Reader()
         reader.read(path)

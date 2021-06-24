@@ -1,0 +1,4 @@
+[flake8]
+ignore = E501
+max-complexity = -1
+exclude = migrations/,emparser/,.eggs/

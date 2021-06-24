@@ -10,7 +10,7 @@ from emparser.preprocess import Lexer
 from django.conf import settings
 
 lexer = Lexer()
-lexer.load_symbol_dict(os.path.join(settings.VCT_DIR, 'mml.vct'))
+lexer.load_symbol_dict(os.path.join(settings.MML_VCT_PATH))
 lexer.build_len2symbol()
 RESERVED_WORDS = set(["according", "aggregate", "all", "and", "antonym", "are", "as", "associativity", "assume", "asymmetry", "attr",
                       "be", "begin", "being", "by", "canceled", "case", "cases", "cluster", "coherence", "commutativity", "compatibility",
@@ -48,7 +48,7 @@ def create_abs_dictionary():
 
     cwd = os.getcwd()
     try:
-        path = settings.ABSTR_DIR
+        path = settings.MML_ABSTR_DIR
         os.chdir(path)
         abs_files = sorted(glob.glob("*.abs"))
     finally:
@@ -56,7 +56,7 @@ def create_abs_dictionary():
 
     with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "w") as abs_dictionary_file:
         for file in abs_files:
-            with codecs.open(os.path.join(settings.ABSTR_DIR, file), "r", "utf-8", "ignore") as f:
+            with codecs.open(os.path.join(settings.MML_ABSTR_DIR, file), "r", "utf-8", "ignore") as f:
                 save_abs_dictionary_by_theorem_or_definition(
                     abs_dictionary_file, file, f)
 
@@ -199,7 +199,7 @@ def rename_variable_and_symbol(line, lexer):
     変数を___に変更し、最期に変数の種類の____を入れている
     例
     line
-    let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
+    let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded;
     return
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____
     """
@@ -226,10 +226,10 @@ def create_document_vectors():
     変数を___に変更し、最期に変数の種類数の____を入れている
     例
     abs_dictionary.txt
-    definition 51 abcmiz_0.abs BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded; 
+    definition 51 abcmiz_0.abs BCMIZ_0:def 1   let T be RelStr;   attr T is Noetherian means   the InternalRel of T is co-well_founded;
 
     document_vectors.txt
-    let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____ 
+    let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____
     """
 
     with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'document_vectors.txt'), "w") as file_document_vectors:
