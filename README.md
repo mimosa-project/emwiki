@@ -119,7 +119,30 @@ $ pwd
 $ coverage report
 ```
 
-##  7 Appendix
+## 7 For Administrator
+### To enable Build CI
+Set secret variables
+- Access "Settings" and "Secrets" on GitHub
+- Set `DOCKER_USERNAME`
+- Set `DOCKER_PASSWORD`
+- If you set these variables, Build CI automatically push to your repository named `emwiki` with tag.
+
+### How to publish Release or Prerelease
+- Access "Releases" on GitHub
+- Click "Draft new release"
+  - Set tag version
+  - If you want to release as beta, check "This is a pre-release"
+- Click "Publish release"
+
+### How to change Prerelease to Release
+- Access "Releases" on GitHub
+- Select prerelease you want to edit
+- Click "Edit release"
+  - Turn off "This is a pre-release"
+- Click "Update release"
+
+
+## 8 Appendix
 ### How to generate data for search theorem
 + 定理検索を使用するには`project_dir/emwiki/search/data/`内にabsファイルとvctファイルから生成されるデータが必要
 + データを生成するには`/emwiki/emwiki/mmlfiles/mml.vct`, `/emwiki/emwiki/mmlfiles/abstr/`が存在することを確認し、以下のコマンドを実行(実行に時間がかかります)
@@ -150,6 +173,6 @@ python manage.py load_articles
 python manage.py load_symbols
 ```
 
-## 7 Licence
+## 9 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
