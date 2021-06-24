@@ -175,7 +175,7 @@ PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol',
 
 ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
 VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
-DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
+SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'search', 'index')
 
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
@@ -197,4 +197,4 @@ TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
 TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
 TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
 
-TEST_DATA_FOR_SEARCH_DIR = os.path.join(TEST_DATA_DIR, 'data_for_search')
+TEST_SEARCH_INDEX_DIR = os.path.join(TEST_DATA_DIR, 'search_index')
