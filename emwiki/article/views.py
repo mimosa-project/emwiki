@@ -34,7 +34,7 @@ class ArticleView(View):
 class ProofView(View):
     def get(self, request, article_name, proof_name):
         return HttpResponse(
-            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR, 'proofs',
+            open(os.path.join(settings.MML_HTML_DIR, 'proofs',
                  article_name, proof_name)).read(),
             content_type='application/xml'
         )
@@ -43,7 +43,7 @@ class ProofView(View):
 class RefView(View):
     def get(self, request, article_name, ref_name):
         return HttpResponse(
-            open(os.path.join(settings.RAW_HTMLIZEDMML_DIR,
+            open(os.path.join(settings.MML_HTML_DIR,
                  'refs', article_name, ref_name)).read(),
             content_type='application/xml'
         )

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import configparser
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -110,10 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -159,40 +156,47 @@ if DEBUG is True:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-CONTENTS_DIR = os.path.join(BASE_DIR, 'contents')
+# Additional settings(Django framework doesn't refer these settings)
 
-MIZARFILE_DIR = os.path.join(BASE_DIR, 'mizarfiles')
-MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')\
-
-LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
-REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
-COMMENT_COMMIT_BRANCH = os.environ.get('COMMENT_COMMIT_BRANCH')
-
-RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
-PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
-
-PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
-
-ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
-VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
+# Directory configurations
+# mmlfiles
+MMLFIELS_DIR = os.path.join(BASE_DIR, 'mmlfiles')
+MML_ABSTR_DIR = os.path.join(MMLFIELS_DIR, 'abstr')
+MML_FMBIBS_DIR = os.path.join(MMLFIELS_DIR, 'fmbibs')
+MML_HTML_DIR = os.path.join(MMLFIELS_DIR, 'html')
+MML_MML_DIR = os.path.join(MMLFIELS_DIR, 'mml')
+MML_INI_PATH = os.path.join(MMLFIELS_DIR, 'mml.ini')
+MML_LAR_PATH = os.path.join(MMLFIELS_DIR, 'mml.lar')
+MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
+# Article
+PRODUCT_HTMLIZEDMML_DIR = os.path.join(
+    BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
+# Symbol
+PRODUCT_SYMBOLHTML_DIR = os.path.join(
+    BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
+# Search
 DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
-
+# Graph
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
-
+# Tests
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
-
 TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
-TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_htmlized_mml')
-TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_symbol_html')
-
-TEST_RAW_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml')
-TEST_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
-
-TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
-TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
-
-TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
-
+TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(
+    TEST_OUTPUTS_DIR, 'product_htmlized_mml')
+TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(
+    TEST_OUTPUTS_DIR, 'product_symbol_html')
+TEST_RAW_MML_MML_DIR = os.path.join(TEST_DATA_DIR, 'mml')
+TEST_MML_MML_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
+TEST_MML_HTML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
+TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(
+    TEST_DATA_DIR, 'product_htmlized_mml')
+TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(
+    TEST_DATA_DIR, 'product_symbol_html')
 TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
 TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
+
+# emwiki-contents
+mml_config = configparser.ConfigParser()
+mml_config.read(MML_INI_PATH)
+MIZAR_VERSION = mml_config["MML"]["MMLVersion"]

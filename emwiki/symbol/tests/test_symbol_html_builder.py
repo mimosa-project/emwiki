@@ -15,7 +15,7 @@ class SymbolHtmlBuilderTest(TestCase):
             shutil.rmtree(settings.TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR)
         os.mkdir(settings.TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR)
         cls.builder = SymbolHtmlBuilder()
-        cls.builder.from_dir = settings.TEST_RAW_HTMLIZEDMML_DIR
+        cls.builder.from_dir = settings.TEST_MML_HTML_DIR
         cls.builder.to_dir = settings.TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR
 
     @classmethod
