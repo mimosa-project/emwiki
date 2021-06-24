@@ -20,6 +20,5 @@
     },
     "python.analysis.extraPaths": [
         "./emwiki"
-    ],
-    "python.pythonPath": "/home/daichi/.local/share/virtualenvs/emwiki-eKyBtLvK/bin/python"
+    ]
 }
