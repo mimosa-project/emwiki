@@ -54,7 +54,7 @@ def create_abs_dictionary():
     finally:
         os.chdir(cwd)
 
-    with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "w") as abs_dictionary_file:
+    with open(os.path.join(settings.SEARCH_INDEX_DIR, 'abs_dictionary.txt'), "w") as abs_dictionary_file:
         for file in abs_files:
             with codecs.open(os.path.join(settings.MML_ABSTR_DIR, file), "r", "utf-8", "ignore") as f:
                 save_abs_dictionary_by_theorem_or_definition(
@@ -232,8 +232,8 @@ def create_document_vectors():
     let ___ be RelStr ; attr ___ is Noetherian means the InternalRel of ___ is co-well_founded ; ____
     """
 
-    with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'document_vectors.txt'), "w") as file_document_vectors:
-        with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "r") as f:
+    with open(os.path.join(settings.SEARCH_INDEX_DIR, 'document_vectors.txt'), "w") as file_document_vectors:
+        with open(os.path.join(settings.SEARCH_INDEX_DIR, 'abs_dictionary.txt'), "r") as f:
             lines = f.readlines()
             for line in lines:
                 # "," ";" は、ほぼすべての定理に存在しておりノイズになる可能性が高いため除いている
