@@ -13,7 +13,6 @@ class TheoremSearcher:
     def search(self, search_word, count_top, index_dir=None):
         if not index_dir:
             index_dir = settings.SEARCH_INDEX_DIR
-        
         search_word = search_word.replace(",", " ")
         search_word = search_word.replace(";", "")
         input_doc = rename_variable_and_symbol(search_word.split(), lexer)
