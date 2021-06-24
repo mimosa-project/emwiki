@@ -23,13 +23,6 @@ class ArticleTest(TestCase):
             self.assertIsNotNone(article.name)
             self.assertFalse(article.name.endswith('.html'))
 
-    def test_url_methods(self):
-        client = Client()
-        for article in Article.objects.all():
-            absolute_response = client.get(article.get_absolute_url())
-            self.assertEqual(absolute_response.status_code, 200)
-            self.assertIsNotNone(get_template(article.template_url))
-
 
 class CommentTest(TestCase):
 
