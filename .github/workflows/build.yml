@@ -27,7 +27,7 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/emwiki:{{ steps.tagName.outputs.tag }}
+            ${{ secrets.DOCKER_USERNAME }}/emwiki:${{ steps.tagName.outputs.tag }}
             ${{ secrets.DOCKER_USERNAME }}/emwiki:release
       - name: Push Beta to Docker Hub
         uses: docker/build-push-action@v2
@@ -35,5 +35,5 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/emwiki:{{ steps.tagName.outputs.tag }}
+            ${{ secrets.DOCKER_USERNAME }}/emwiki:${{ steps.tagName.outputs.tag }}
             ${{ secrets.DOCKER_USERNAME }}/emwiki:beta
