@@ -28,4 +28,4 @@ RUN pipenv install && \
 WORKDIR /emwiki
 RUN pipenv sync --dev
 
-ENTRYPOINT ["sh", "/emwiki/entrypoint.sh"]
+CMD ["sleep", "infinity"]
