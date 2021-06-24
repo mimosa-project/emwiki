@@ -20,7 +20,7 @@ class ArticleView(View):
         context = dict()
         context['name'] = article.name
         context['template_path'] = f"article/htmlized_mml/{article.name}.html"
-        bib_file_path = os.path.join(settings.FMBIBS_DIR, f'{article.name}.bib')
+        bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article.name}.bib')
         if os.path.exists(bib_file_path):
             with open(bib_file_path, "r") as f:
                 context['bib_text'] = f.read()
