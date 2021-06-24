@@ -9,7 +9,7 @@ class ArticleBuilderTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = settings.TEST_MIZFILE_DIR
+        cls.builder.from_dir = settings.TEST_MML_MML_DIR
 
     @classmethod
     def tearDownClass(cls):
@@ -24,7 +24,7 @@ class ArticleBuilderTest(TestCase):
         self.assertEqual(1, len(Article.objects.all()))
 
     def test_create_comments(self):
-        self.builder.from_dir = settings.TEST_MIZFILE_DIR
+        self.builder.from_dir = settings.TEST_MML_MML_DIR
         self.builder.create_models()
         article = Article.objects.get(name='abcmiz_0')
         self.assertIsNotNone(article)

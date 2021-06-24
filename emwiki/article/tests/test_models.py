@@ -11,7 +11,7 @@ class ArticleTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = settings.TEST_RAW_MIZFILE_DIR
+        cls.builder.from_dir = settings.TEST_RAW_MML_MML_DIR
         cls.builder.create_models()
 
     @classmethod
@@ -36,7 +36,7 @@ class CommentTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.builder = ArticleBuilder()
-        cls.builder.from_dir = settings.TEST_MIZFILE_DIR
+        cls.builder.from_dir = settings.TEST_MML_MML_DIR
         cls.builder.create_models()
         cls.article = Article.objects.get(name='abcmiz_0')
 

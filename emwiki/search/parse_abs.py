@@ -10,7 +10,7 @@ from emparser.preprocess import Lexer
 from django.conf import settings
 
 lexer = Lexer()
-lexer.load_symbol_dict(os.path.join(settings.VCT_DIR, 'mml.vct'))
+lexer.load_symbol_dict(os.path.join(settings.MML_VCT_PATH))
 lexer.build_len2symbol()
 RESERVED_WORDS = set(["according", "aggregate", "all", "and", "antonym", "are", "as", "associativity", "assume", "asymmetry", "attr",
                       "be", "begin", "being", "by", "canceled", "case", "cases", "cluster", "coherence", "commutativity", "compatibility",
@@ -48,7 +48,7 @@ def create_abs_dictionary():
 
     cwd = os.getcwd()
     try:
-        path = settings.ABSTR_DIR
+        path = settings.MML_ABSTR_DIR
         os.chdir(path)
         abs_files = sorted(glob.glob("*.abs"))
     finally:
@@ -56,7 +56,7 @@ def create_abs_dictionary():
 
     with open(os.path.join(settings.DATA_FOR_SEARCH_DIR, 'abs_dictionary.txt'), "w") as abs_dictionary_file:
         for file in abs_files:
-            with codecs.open(os.path.join(settings.ABSTR_DIR, file), "r", "utf-8", "ignore") as f:
+            with codecs.open(os.path.join(settings.MML_ABSTR_DIR, file), "r", "utf-8", "ignore") as f:
                 save_abs_dictionary_by_theorem_or_definition(
                     abs_dictionary_file, file, f)
 
