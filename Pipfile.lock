@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9534dc620b55921f3ef9fd8e7e2b78ee391b334661a0847a21529389cd8e575b"
+            "sha256": "65c727cf8ba00bd16f9f9dcea921499d6456739ea32e0b1e73066b2a7e8375a8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,6 +21,14 @@
                 "sha256:31f5abdc7faf16a1a6e9bf2eb31565d004359b821b09944436a34361929ae85a"
             ],
             "version": "==4.9.2"
+        },
+        "asgiref": {
+            "hashes": [
+                "sha256:92906c611ce6c967347bbfea733f13d6313901d54dcca88195eaeb52b2a8e8ee",
+                "sha256:d1216dfbdfb63826470995d31caed36225dcaf34f182e0fa257a4dd9e86f1b78"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==3.3.4"
         },
         "beautifulsoup4": {
             "hashes": [
@@ -48,11 +56,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:2484f115891ab1a0e9ae153602a641fbc15d7894c036d79fb78662c0965d7954",
-                "sha256:2569f9dc5f8e458a5e988b03d6b7a02bda59b006d6782f4ea0fd590ed7336a64"
+                "sha256:66c9d8db8cc6fe938a28b7887c1596e42d522e27618562517cc8929eb7e7f296",
+                "sha256:ea735cbbbb3b2fba6d4da4784a0043d84c67c92f1fdf15ad6db69900e792c10f"
             ],
             "index": "pypi",
-            "version": "==2.2.20"
+            "version": "==3.2.4"
         },
         "emparser": {
             "path": "./emparser",
@@ -432,10 +440,10 @@
         },
         "uwsgi": {
             "hashes": [
-                "sha256:3dc2e9b48db92b67bfec1badec0d3fdcc0771316486c5efa3217569da3528bf2"
+                "sha256:faa85e053c0b1be4d5585b0858d3a511d2cd10201802e8676060fd0a109e5869"
             ],
             "index": "pypi",
-            "version": "==2.0.17"
+            "version": "==2.0.19.1"
         },
         "zipp": {
             "hashes": [
