@@ -176,6 +176,7 @@ PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol',
 ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
 VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
 SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'search', 'index')
+MML_FMBIBS_DIR = os.path.join(MIZARFILE_DIR, 'fmbibs')
 
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')

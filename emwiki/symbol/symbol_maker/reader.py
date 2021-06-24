@@ -18,6 +18,7 @@ class Reader:
     """
     A Reader is correspond to one HTML page.
     """
+
     def __init__(self):
         self.elements = []
 
@@ -44,6 +45,7 @@ class Reader:
         for node in hides:
             parent = node.getparent()
             parent.remove(node)
+
 
 if __name__ == '__main__':
     pass

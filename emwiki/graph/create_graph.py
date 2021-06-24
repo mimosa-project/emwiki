@@ -52,6 +52,7 @@ class Stack:
     Attributes:
         items: スタックの内容。list。
     """
+
     def __init__(self):
         self.items = []
 
@@ -76,6 +77,7 @@ class Count:
         count: 関数funcを読んだ回数。int。
         func: 関数オブジェクト。
     """
+
     def __init__(self, func):
         self.count = 0
         self.func = func
@@ -211,7 +213,7 @@ def search_removable_dependency(node, node2ancestors):
 def assign_top_node(node_list):
     """
     グラフのルートを決定する。ルートは矢印が出ていない(参照をしていない)ノードとなる。
-　　その後、level2node()でその下の階層のノードを決めていく。
+　　　　その後、level2node()でその下の階層のノードを決めていく。
 
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
@@ -230,7 +232,7 @@ def assign_level2node_recursively(node_list, target, target_level):
     階層が1以上（y座標が1以上）のノードの階層を再帰的に決定する。階層の割当は次のルールに従う。
     ・まだ階層を割り当てていないノードならば、targetの1つ下の階層に割り当てる。そして、再帰する。
     ・既に座標を割り当てており、その階層が今の階層(assign_node_level)以上高い階層ならば、一つ下の階層に再割当する。
-　　・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
+　　　　・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
 
     Args:
         node_list: 全ノードをNodeクラスでまとめたリスト。
@@ -333,7 +335,7 @@ def cut_edge(source, target):
                  targets={target},
                  sources={source},
                  x=0,
-                 y=source.y-1,
+                 y=source.y - 1,
                  is_dummy=True
                  )
     source.targets.add(dummy)
@@ -558,7 +560,9 @@ def move_node_closer_to_connected_nodes(all_nodes, downward):
     Return:
     """
     level2nodes = divide_nodes_by_level(all_nodes)
-    key = lambda k: k[0] if downward else -k[0]  # 処理の順(上の階層からか、下の階層からか)を設定する
+
+    def key(k):
+        return k[0] if downward else -k[0]  # 処理の順(上の階層からか、下の階層からか)を設定する
     for level, nodes in sorted(level2nodes.items(), key=key):
         node2priority_dict = node2priority(nodes, downward)
         node2idealx_dict = node2idealx(nodes, downward)
@@ -675,7 +679,7 @@ def update_x_in_priority_order(nodes, node2priority_dict, node2idealx_dict):
         assigned_nodes.append(node)
 
 
-def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_stack, assigned_nodes, sign):
+def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stack, assigned_nodes, sign):
     """
     ノードのx座標を更新する。
     アルゴリズム
@@ -702,7 +706,7 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_sta
         assign_x_in_sequence(node_stack, ideal_x, -sign)
         return
 
-    next_node = same_level_nodes[node_index+sign]
+    next_node = same_level_nodes[node_index + sign]
 
     if (next_node.x > ideal_x and sign == 1) or (next_node.x < ideal_x and sign == -1):
         assign_x_in_sequence(node_stack, ideal_x, -sign)
@@ -710,7 +714,7 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,  node_sta
 
     else:
         if next_node in assigned_nodes:
-            assign_x_in_sequence(node_stack, next_node.x-sign, -sign)
+            assign_x_in_sequence(node_stack, next_node.x - sign, -sign)
         else:
             node_stack.push(next_node)
             node_index += sign

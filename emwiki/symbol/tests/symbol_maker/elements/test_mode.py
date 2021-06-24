@@ -7,7 +7,7 @@ class TestMode(TestElement):
         modes = self.filter_by_type(reader.elements, 'mode')
 
         self.assertEqual(2, len(modes))
-        #names = ['type of', 'adjective of']
+        # names = ['type of', 'adjective of']
         names = ['type', 'adjective']
         for i in range(len(modes)):
             self.assertEqual(names[i], modes[i].symbol, i)
@@ -16,13 +16,13 @@ class TestMode(TestElement):
             self.assertEqual("definition", modes[i].defblock.xpath("./span")[0].text, i)
             self.assertEqual(None, modes[i].main_sentence, i)
             self.assertEqual("abcmiz_0", modes[i].filename)
-            self.assertEqual("NM" + str(i+1), modes[i].anchor)
+            self.assertEqual("NM" + str(i + 1), modes[i].anchor)
 
         reader = self.read_by_name("abcmiz_1")
         modes = self.filter_by_type(reader.elements, 'mode')
         self.assertEqual(13, len(modes))
 
-        #names = ['Subset of', 'FinSequence of', 'variable', 'quasi-loci',
+        # names = ['Subset of', 'FinSequence of', 'variable', 'quasi-loci',
         #         'ConstructorSignature', 'expression of', 'expression of',
         #         'OperSymbol of', 'quasi-term of', 'quasi-adjective of',
         #         'quasi-type of', 'term-transformation of', 'valuation of']
@@ -37,7 +37,7 @@ class TestMode(TestElement):
             self.assertEqual('kw', modes[i].keyword_node.attrib.get('class'), i)
             self.assertEqual('mode', modes[i].keyword_node.text.strip(), i)
             self.assertEqual("definition", modes[i].defblock.xpath("./span")[0].text, i)
-            #self.assertEqual(None, modes[i].main_sentence, i)
+            # self.assertEqual(None, modes[i].main_sentence, i)
             self.assertEqual("abcmiz_1", modes[i].filename)
             self.assertEqual(anchors[i], modes[i].anchor)
 
@@ -55,7 +55,7 @@ class TestMode(TestElement):
             self.assertEqual('kw', modes[i].keyword_node.attrib.get('class'), i)
             self.assertEqual('mode', modes[i].keyword_node.text.strip(), i)
             self.assertEqual("definition", modes[i].defblock.xpath("./span")[0].text, i)
-            #self.assertEqual(None, modes[i].main_sentence, i)
+            # self.assertEqual(None, modes[i].main_sentence, i)
             self.assertEqual(i in redefine_indices, modes[i].is_redefine())
             self.assertEqual("altcat_5", modes[i].filename)
             self.assertEqual(anchors[i], modes[i].anchor)
@@ -65,16 +65,16 @@ class TestMode(TestElement):
         modes = self.filter_by_type(reader.elements, 'mode')
         self.assertEqual(1, len(modes))
 
-        #names = ['File of']
+        # names = ['File of']
         names = ['File']
         anchors = ['NM1']
         synonym_indices = [0]
         for i in range(len(modes)):
             self.assertEqual(names[i], modes[i].symbol, i)
             self.assertEqual('kw', modes[i].keyword_node.attrib.get('class'), i)
-            #self.assertEqual('mode', modes[i].keyword_node.text.strip(), i)
-            #self.assertEqual("definition", modes[i].defblock.xpath("./span")[0].text, i)
-            #self.assertEqual(None, modes[i].main_sentence, i)
+            # self.assertEqual('mode', modes[i].keyword_node.text.strip(), i)
+            # self.assertEqual("definition", modes[i].defblock.xpath("./span")[0].text, i)
+            # self.assertEqual(None, modes[i].main_sentence, i)
             self.assertEqual(i in synonym_indices, modes[i].is_synonym())
             self.assertEqual("filerec1", modes[i].filename)
             self.assertEqual(anchors[i], modes[i].anchor)

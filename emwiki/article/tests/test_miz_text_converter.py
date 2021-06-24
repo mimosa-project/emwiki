@@ -24,10 +24,10 @@ class MizTextConverterTest(TestCase):
             'commented_text': '::: \n::: This is test\n::: '
         },
         {
-            'text': '$$This is test of MathJax$$\n$\star $',
+            'text': '$$This is test of MathJax$$\n$\\star $',
             'block': 'definition',
             'block_order': 2,
-            'commented_text': '::: $$This is test of MathJax$$\n::: $\star $'
+            'commented_text': '::: $$This is test of MathJax$$\n::: $\\star $'
         },
     ]
 
