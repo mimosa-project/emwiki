@@ -6,5 +6,5 @@ class SearchTheoremViewTest(TestCase):
 
     def test_response_status(self):
         client = Client()
-        response = client.get(reverse('search:search_theorem'))
+        response = client.get(reverse('search:search_theorem'), follow=True)
         self.assertEqual(response.status_code, 200)
