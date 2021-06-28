@@ -120,7 +120,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Account
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = os.environ.get('MEDIA_URL', '/')
+LOGIN_REDIRECT_URL = os.environ.get('LOGIN_REDIRECT_URL', '/')
 AUTH_USER_MODEL = 'accounts.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
