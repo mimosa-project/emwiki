@@ -16,7 +16,7 @@
 
     <form class="form-inline mx-auto" action='{% url "search:search_theorem" %}' method='get'>
       <div class='form-row w-100 mt-4 px-5 mb-3 mx-auto'>
-        <textarea id='search-theorem' class="form-control px-3 col-10" type="search" placeholder='Search Theorem and Definition' name='search_query' value='{{ query_text }}'>{{ query_text }}</textarea>
+        <textarea id='search-theorem' class="form-control px-3 col-10" rows="4" type="search" placeholder='Search Theorem and Definition' name='search_query' value='{{ query_text }}'>{{ query_text }}</textarea>
         <span class='col-1'>
           <button class="btn btn-outline-success" type="submit">Search</button>
         </span>
