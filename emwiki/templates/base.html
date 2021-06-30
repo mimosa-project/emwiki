@@ -1,94 +1,107 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang='en'>
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <title>emwiki</title>
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <title>emwiki</title>
 
-        <!-- Select2 -->
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-        <!-- base CSS, JavaScript -->
-        <link rel='stylesheet' href="{% static 'CSS/base.css' %}" type='text/css'></link>
-        <script src="{% static 'JavaScript/base.js' %}"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
 
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        {% csrf_token %}
-        <header class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <a class="navbar-brand" href="{% url 'home:home'%}">emwiki</a>
-                <ul class="navbar-nav mr-auto mw-100">
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
-                          Search
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="{% url 'article:index' 'abcmiz_0'  %}">Article</a>
-                          <a class="dropdown-item" href="{% url 'symbol:index' '!'  %}">Symbol</a>
-                          <a class="dropdown-item" href="{% url 'search:search_theorem' %}">Theorem/Definition</a>
-                        </div>
-                    </li>
-                    
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
-                          Graph
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item disabled" href="{% url 'graph:graph' %}">Article(developing)</a>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarAccounts" role="button" data-toggle="dropdown" aria-haspopupp="true" aria-expanded="false">
-                      {{ user.get_username }}
-                    </a>
-                    <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarAccounts">
-                        <a class="dropdown-item" href="{% url 'accounts:user_detail' user.pk %}">
-                            User informations
-                        </a>
-                        <a class="dropdown-item" href="{% url 'accounts:logout' %}" class="logout">
-                            Logout
-                        </a>
-                    </div>
-                </li>
-                {% else %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'accounts:signup' %}" class="signup">
-                        Sign up
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'accounts:login' %}" class="login">
-                        Login
-                    </a>
-                </li>
-                {% endif %}
-                </ul>
-            </div>
-        </header>
-            
-        <main id='main' role="main">
-            {% block content %}{% endblock %}
-        </main>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        {% block foot %}{% endblock %}
-    </body>
+  <!-- Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+  <!-- base CSS, JavaScript -->
+  <link rel='stylesheet' href="{% static 'CSS/base.css' %}" type='text/css'>
+  </link>
+  <script src="{% static 'JavaScript/base.js' %}"></script>
+
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  {% csrf_token %}
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home:home'%}">emwiki</a>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button" data-toggle="dropdown"
+            aria-expanded="false">
+            Search
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'article:index' 'abcmiz_0'  %}">Article</a></li>
+            <li><a class="dropdown-item" href="{% url 'symbol:index' '!'  %}">Symbol</a></li>
+            <li><a class="dropdown-item" href="{% url 'search:search_theorem' %}">Theorem/Definition</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button" data-toggle="dropdown"
+            aria-expanded="false">
+            Graph
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item disabled" href="{% url 'graph:graph' %}">Article(developing)</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button" data-toggle="dropdown"
+            aria-expanded="false">
+            {{ user.get_username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end active">
+            <li>
+              <a class="dropdown-item" href="{% url 'accounts:user_detail' user.pk %}">
+                User informations
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'accounts:logout' %}" class="logout">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'accounts:signup' %}" class="signup">
+            Sign up
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'accounts:login' %}" class="login">
+            Login
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <main id='main' role="main" class="container-fluid">
+    {% block content %}{% endblock %}
+  </main><!-- /.container -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+  {% block foot %}{% endblock %}
+</body>
+
 </html>

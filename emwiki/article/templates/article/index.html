@@ -28,10 +28,9 @@
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 h-100 overflow-auto">
                 <h1 class="h-10">
                     <span class='display-4' id="content_name">{{name}}</span>
-                    <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
-                    data-content="<pre>{{ bib_text }}</pre>">
-                    bib
-                    </button>
+                    <a id="bib-popover" tabindex="0" class="btn btn-secondary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-content="<pre>{{ bib_text }}</pre>">
+                        bib
+                    </a>
                 </h1>
                 <div id="article" class="h-90 overflow-auto" style="height:90%;">
                     {% include template_path%}
