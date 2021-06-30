@@ -269,10 +269,9 @@ $(function() {
             }
         }
     });
+    var popover = new bootstrap.Popover(document.getElementById("bib-popover"), {"html": true})
     let article = new Article(context["name"], $("#article"));
     let parser = new Parser(article.element);
     let comments = parser.list_comments(article);
     Comment.bulk_fetch(article, comments);
-    
-    $('[data-toggle="popover"]').popover()
 });

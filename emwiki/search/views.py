@@ -8,7 +8,7 @@ from search.models import Theorem, History, HistoryItem
 
 
 class SearchTheoremView(TemplateView):
-    template_name = 'search/search_theorem.html'
+    template_name = 'search/index.html'
 
     def get(self, request, **kwargs):
         query_text = request.GET.get('search_query', default='')

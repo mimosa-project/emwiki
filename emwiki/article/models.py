@@ -9,7 +9,7 @@ from article.miz_text_converter import MizTextConverter
 
 class Article(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    mizfile_dir = settings.MML_MML_DIR
+    mizfile_dir = settings.EMWIKI_CONTENTS_MML_DIR
 
     def __str__(self):
         return f'{self.name}'
@@ -72,8 +72,8 @@ class Article(models.Model):
 
     def commit_mizfile(self, username):
         commit_message = f'Update {self.name}\n\nUsername: {username}'
-        settings.emwiki_contents_repo.git.add(self.get_mizfile_path())
-        settings.emwiki_contents_repo.index.commit(commit_message)
+        settings.EMWIKI_CONTENTS_REPO.git.add(self.get_mizfile_path())
+        settings.EMWIKI_CONTENTS_REPO.index.commit(commit_message)
 
 
 class Comment(models.Model):
