@@ -1,10 +1,10 @@
 var Searcher, escape_txt;
-__bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+__bind = function (fn, me) { return function () { return fn.apply(me, arguments); }; };
 
-escape_txt = function(s) {
+escape_txt = function (s) {
 	return s.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;');
 };
-var Searcher = (function() {
+var Searcher = (function () {
 	function Searcher(symbols) {
 		this.symbols = symbols
 		this.run = __bind(this.run, this);
@@ -29,14 +29,14 @@ var Searcher = (function() {
 
 	Searcher.search_id = 0;
 
-	Searcher.prototype.build_regexps = function(query) {
+	Searcher.prototype.build_regexps = function (query) {
 		var converter, q, queries, _i, _len, _results;
-		queries = $.grep(query.split(/\s+/), function(s) {
+		queries = $.grep(query.split(/\s+/), function (s) {
 			return s.match(/\S/);
 		});
-		converter = function(s) {
+		converter = function (s) {
 			if ("\\*+.?{}()[]^$-|".indexOf(s) !== -1) {
-			s = "\\" + s;
+				s = "\\" + s;
 			}
 			return "([" + s + "])([^" + s + "]*?)";
 		};
@@ -48,11 +48,11 @@ var Searcher = (function() {
 		return _results;
 	};
 
-	Searcher.prototype.match_beginning_as_is = function(symbol, query, regexps) {
-	return symbol.toLowerCase().indexOf(query) === 0;
+	Searcher.prototype.match_beginning_as_is = function (symbol, query, regexps) {
+		return symbol.toLowerCase().indexOf(query) === 0;
 	};
 
-	Searcher.prototype.match_beginning = function(symbol, query, regexps) {
+	Searcher.prototype.match_beginning = function (symbol, query, regexps) {
 		var ls, q, r, _i, _len, _ref;
 		q = query.split(/\s+/)[0];
 		ls = symbol.toLowerCase();
@@ -63,31 +63,31 @@ var Searcher = (function() {
 		for (_i = 0, _len = _ref.length; _i < _len; _i++) {
 			r = _ref[_i];
 			if (!ls.match(r)) {
-			return false;
+				return false;
 			}
 		}
 		return true;
 	};
 
-	Searcher.prototype.match_beginning_substrings = function(symbol, query, regexps) {
+	Searcher.prototype.match_beginning_substrings = function (symbol, query, regexps) {
 		var i, pos, queries, _i, _ref;
 		queries = query.split(/\s+/);
 		for (i = _i = 0, _ref = queries.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
 			pos = symbol.toLowerCase().indexOf(queries[i]);
 			if (i === 0 && pos !== 0) {
-			return false;
+				return false;
 			} else if (pos < 0) {
-			return false;
+				return false;
 			}
 		}
 		return true;
 	};
 
-	Searcher.prototype.match_containing_as_is = function(symbol, query, regexps) {
+	Searcher.prototype.match_containing_as_is = function (symbol, query, regexps) {
 		return symbol.toLowerCase().indexOf(query) >= 0;
 	};
 
-	Searcher.prototype.match_containing = function(symbol, query, regexps) {
+	Searcher.prototype.match_containing = function (symbol, query, regexps) {
 		var ls, q, r, _i, _len, _ref;
 		q = query.split(/\s+/)[0];
 		ls = symbol.toLowerCase();
@@ -98,34 +98,34 @@ var Searcher = (function() {
 		for (_i = 0, _len = _ref.length; _i < _len; _i++) {
 			r = _ref[_i];
 			if (!ls.match(r)) {
-			return false;
+				return false;
 			}
 		}
 		return true;
 	};
 
-	Searcher.prototype.match_containing_substrings = function(symbol, query, regexps) {
+	Searcher.prototype.match_containing_substrings = function (symbol, query, regexps) {
 		var pos, q, queries, _i, _len;
 		queries = query.split(/\s+/);
 		for (_i = 0, _len = queries.length; _i < _len; _i++) {
 			q = queries[_i];
 			pos = symbol.toLowerCase().indexOf(q);
 			if (pos < 0) {
-			return false;
+				return false;
 			}
 		}
 		return true;
 	};
 
-	Searcher.prototype.build_highlighters = function(query) {
+	Searcher.prototype.build_highlighters = function (query) {
 		var i, q, queries, _i, _len, _results;
-		queries = $.grep(query.split(/\s+/), function(s) {
+		queries = $.grep(query.split(/\s+/), function (s) {
 			return s.match(/\S/);
 		});
 		_results = [];
 		for (_i = 0, _len = queries.length; _i < _len; _i++) {
 			q = queries[_i];
-			_results.push(((function() {
+			_results.push(((function () {
 				var _j, _ref, _results1;
 				_results1 = [];
 				for (i = _j = 0, _ref = q.length; 0 <= _ref ? _j < _ref : _j > _ref; i = 0 <= _ref ? ++_j : --_j) {
@@ -137,17 +137,17 @@ var Searcher = (function() {
 		return _results;
 	};
 
-	Searcher.prototype.highlight_substring = function(s, pos, len) {
+	Searcher.prototype.highlight_substring = function (s, pos, len) {
 		return s.slice(0, pos) + "\u0001" + s.slice(pos, pos + len) + "\u0002" + s.slice(pos + len);
 	};
 
-	Searcher.prototype.highlight_as_is = function(symbol, query, regexps, highlighters) {
+	Searcher.prototype.highlight_as_is = function (symbol, query, regexps, highlighters) {
 		var pos;
 		pos = symbol.toLowerCase().indexOf(query);
 		return this.highlight_substring(symbol, pos, query.length);
 	};
 
-	Searcher.prototype.highlight_query = function(symbol, query, regexps, highlighters) {
+	Searcher.prototype.highlight_query = function (symbol, query, regexps, highlighters) {
 		var i, len, pos, q, _i, _ref;
 		q = query.split(/\s+/)[0];
 		len = q.length;
@@ -159,7 +159,7 @@ var Searcher = (function() {
 		return symbol;
 	};
 
-	Searcher.prototype.search_in_chunk = function(query, regexps, highlighters, state) {
+	Searcher.prototype.search_in_chunk = function (query, regexps, highlighters, state) {
 		var highlighted, hlt_fn, i, j, k, len, match_fn, results, symbol, _i, _ref, _ref1;
 		results = [];
 		len = this.symbols.length;
@@ -173,20 +173,20 @@ var Searcher = (function() {
 			if (state[String(i)]) {
 				continue;
 			}
-			_ref1 = (function() {
+			_ref1 = (function () {
 				switch (j) {
 					case 0:
-					return [this.match_beginning_as_is, this.highlight_as_is];
+						return [this.match_beginning_as_is, this.highlight_as_is];
 					case 1:
-					return [this.match_beginning_substrings, this.highlight_query];
+						return [this.match_beginning_substrings, this.highlight_query];
 					case 2:
-					return [this.match_containing_substrings, this.highlight_query];
+						return [this.match_containing_substrings, this.highlight_query];
 					case 3:
-					return [this.match_beginning, this.highlight_query];
+						return [this.match_beginning, this.highlight_query];
 					case 4:
-					return [this.match_containing, this.highlight_query];
+						return [this.match_containing, this.highlight_query];
 					default:
-					return [null, null];
+						return [null, null];
 				}
 			}).call(this);
 			match_fn = _ref1[0];
@@ -207,7 +207,7 @@ var Searcher = (function() {
 		return results;
 	};
 
-	Searcher.prototype.update_search_results = function(results) {
+	Searcher.prototype.update_search_results = function (results) {
 		var i, li, result, s, t, _i, _len;
 		li = "";
 		for (_i = 0, _len = results.length; _i < _len; _i++) {
@@ -216,7 +216,7 @@ var Searcher = (function() {
 			t = this.symbols[i].fields.type;
 			s = escape_txt(result.highlighted).split("\u0001").join("<mark>").split("\u0002").join("</mark>");
 			let badge;
-			switch(t) {
+			switch (t) {
 				case 'pred':
 					badge = 'warning';
 					break;
@@ -234,16 +234,16 @@ var Searcher = (function() {
 					break;
 			}
 			li = `<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center ${t} '`
-					+ ` data-link="${encodeURIComponent(this.symbols[i].pk)}">`
-					+ `<span class="badge badge-pill badge-${badge} text-monospace mr-1">${t[0].toUpperCase()}</span>`
-					+ `<span class="text-monospace">${s}</span>`
-					+ "</button>";
+				+ ` data-link="${encodeURIComponent(this.symbols[i].pk)}">`
+				+ `<span class="badge rounded-pill bg-${badge} text-monospace mr-1">${t[0].toUpperCase()}</span>`
+				+ `<span class="text-monospace">${s}</span>`
+				+ "</button>";
 			$("#listdata").append(li);
 		}
 		return
 	};
 
-	Searcher.prototype.run = function(query) {
+	Searcher.prototype.run = function (query) {
 		var highlighters, regexps, runner, state;
 		if (query == null) {
 			return;
@@ -256,8 +256,8 @@ var Searcher = (function() {
 			"matched": 0,
 			"search_id": ++this.constructor.search_id
 		};
-		runner = (function(_this) {
-			return function() {
+		runner = (function (_this) {
+			return function () {
 				var results;
 				if (state.search_id !== _this.constructor.search_id) {
 					return;
