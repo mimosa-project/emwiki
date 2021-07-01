@@ -29,8 +29,8 @@
         <div class="card-title align-text-bottom">
           <a class="button_url h5" name="{{ result.id }}" target="_blank" href="{{ result.url }}">{{ result.label }}</a>
           <button name="{{ result.id }}" type="button" class="button_fav btn btn-outline-success btn-sm">☆</button>
-          <span class="badge badge-secondary">Relevance: {{ result.relevance |floatformat:2 }}</span>
-          <span class="badge badge-secondary">File: {{ result.filename }}#L{{ result.line_no}}</span>
+          <span class="badge bg-secondary">Relevance: {{ result.relevance |floatformat:2 }}</span>
+          <span class="badge bg-secondary">File: {{ result.filename }}#L{{ result.line_no}}</span>
         </div>
         <code class="card-text">
           {{ result.text | linebreaksbr}}
