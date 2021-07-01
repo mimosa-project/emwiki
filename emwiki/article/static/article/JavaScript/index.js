@@ -25,7 +25,6 @@ class Editor {
                 <div class='toolbar'>
                     <button type='button' class='submitButton'>submit</button>
                     <button type='button' class='cancelButton'>cancel</button>
-                    <button type='button' class='previewButton'>preview</button>
                 </div>
             </div>
         </div>`;
@@ -68,10 +67,7 @@ class Editor {
             editor.hide();
             editor.comment.fetch();
         });
-        //edit class previewButton clicked
-        editor.element.find('.previewButton').on( "click", function(){
-            editor.render();
-        });
+
         //edit class commentTextarea changed
         editor.element.find(".commentTextarea").on( "input", function(){
             editor.render();
