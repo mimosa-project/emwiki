@@ -78,13 +78,13 @@ div#article body {
 
 
 
-div#article .div{ padding: 0 0 0 0; margin: 0 0 0 0; } 
-div#article .div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
-div#article .div.box { border-width:thin; border-color:blue; border-style:solid; }
-div#article .p{ margin: 0 0 0 0; } 
-div#article .a{text-decoration:none} a:hover { color: red; } 
-div#article .a.ref { font-size:x-small; }
-div#article .a.ref:link { color:green; } 
+div#article div{ padding: 0 0 0 0; margin: 0 0 0 0; } 
+div#article div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div#article div.box { border-width:thin; border-color:blue; border-style:solid; }
+div#article p{ margin: 0 0 0 0; } 
+div#article a{text-decoration:none} a:hover { color: red; } 
+div#article a.ref { font-size:x-small; }
+div#article a.ref:link { color:green; } 
 div#article a.ref:hover { color: red; } 
 div#article a.txt:link { color:black; } 
 div#article a.txt:hover { color: red; } 
