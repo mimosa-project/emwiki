@@ -91,39 +91,36 @@ class Count:
         self.count = 0
 
 
-def create_node_list(input_node_dict):
+def create_nodes(node2targets):
     """
-    input_node_dictをNodeクラスでインスタンス化したものをリストにまとめる。
-    各属性には次の物を格納する。
-        ・name:  input_node_dictのkey。str。
-        ・target_nodes: input_node_dictのvalueの第一要素。set()。
-        ・source_nodes: target_nodesをもとに作成したsource_nodes。set()。
-        ・x, y: -1。int。
-        ・href: INPUT_NODE_DICTのvalueの第二要素。str。
-        ・is_dummy: False。bool。
+    node2targetsをNodeクラスでインスタンス化したものをリストで返す．
+    各属性には次の値を格納する．
+        - name:     node2targetsのkey名．str()．
+        - targets:  node2targetsのvalue．set()．
+        - sources:  node2targetsのnodeのソースノードの集合．set()．
+        - x, y:     -1．int()．
+        - href:     空文字．str()．
+        - is_dummy: False．bool()．
 
     Args:
-        input_node_dict: 入力されたノードの関係を示す辞書型データ。
-                         ノードの名前をキーに持ち、値としてリストを持つ。リストの要素は次のようになる。
-                             第1要素: keyのノードが指すノードの集合。set()
-                             第2要素: keyのノードのリンク先URL。str()
+        node2targets: dict．key:ノード名，value:keyのノードのターゲットノードの集合．
 
     Returns:
-        インスタンス化されたノードのリスト。
+        nodes: インスタンス化されたノードのlist．
     """
-    node_list = []
+    nodes = []
     name2node = {}
-    # node_dict, node_listの作成
-    # k: ノードの名前(str)、v[1]: ノードkのリンクURL(str)
-    for k, v in input_node_dict.items():
-        n = Node(name=k, href=v[1])
+    # name2node, nodesの作成
+    # k: ノードの名前(str)、v: ノードkのリンクURL(str)
+    for k in node2targets.keys():
+        n = Node(name=k)
         name2node[k] = n
-        node_list.append(n)
+        nodes.append(n)
 
     # targetsの作成
-    # k: ノードの名前(str)、v[0]: ノードkがターゲットとするノードの名前(str)の集合
-    for k, v in input_node_dict.items():
-        for target in v[0]:
+    # k: ノードの名前(str)、v: ノードkがターゲットとするノードの名前(str)の集合
+    for k, v in node2targets.items():
+        for target in v:
             name2node[k].targets.add(name2node[target])
 
     # sourcesの作成
@@ -131,7 +128,7 @@ def create_node_list(input_node_dict):
     for k, v in name2node.items():
         for target in v.targets:
             target.sources.add(name2node[k])
-    return node_list
+    return nodes
 
 
 """
