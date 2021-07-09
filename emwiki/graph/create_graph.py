@@ -10,6 +10,7 @@ import math
 from collections import defaultdict
 
 import networkx as nx
+from emwiki.settings import GRAPH_ELS_DIR
 
 from graph.retrieve_dependency import make_miz_dependency
 
@@ -116,6 +117,10 @@ def create_nodes(node2targets):
         n = Node(name=k)
         name2node[k] = n
         nodes.append(n)
+
+    # リンクの作成
+    for n in nodes:
+        n.href = n.name.lower() + '.html'
 
     # targetsの作成
     # k: ノードの名前(str)、v: ノードkがターゲットとするノードの名前(str)の集合
@@ -780,50 +785,35 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
-def main():
+def create_graph(node2targets):
     """
     関数の実行を行う関数。
 
     Return:
     """
-    import random
+    
+    node2targets = make_miz_dependency()
+    nodes = create_nodes(node2targets)
+    # 間引き
+    remove_redundant_dependency(nodes)
+    # 階層割当
+    assign_top_node(nodes)
+    assign_x_sequentially(nodes)
+    # 交差削減
+    for _ in range(10):
+        sort_nodes_by_xcenter(nodes, downward=True)
+        sort_nodes_by_xcenter(nodes, downward=False)
+    # 座標割当
+    for _ in range(2):
+       move_node_closer_to_connected_nodes(nodes, downward=True)
+       move_node_closer_to_connected_nodes(nodes, downward=False)
 
-    def shuffle_dict(d):
-        """
-        辞書（のキー）の順番をランダムにする
-
-        Args:
-            d: 順番をランダムにしたい辞書。
-
-        Return:
-            dの順番をランダムにしたもの
-        """
-        keys = list(d.keys())
-        random.shuffle(keys)
-        return dict([(key, d[key]) for key in keys])
-
-    """
-       input_node_dict: 全ノードについての情報を辞書にまとめたもの。dict()
-           key: ノードの名前。
-           value: リスト
-               第1要素: keyのノードが指すノードの集合。set()
-               第2要素: keyのノードのリンク先URL。str()
-    """
-    node_list = make_miz_dependency()
-    remove_redundant_dependency(node_list)
-    assign_top_node(node_list)
-    assign_x_sequentially(node_list)
-    cut_edges_higher_than_1(node_list)
-    assign_x_sequentially(node_list)
-    sort_nodes_by_xcenter(node_list, downward=True)
-    sort_nodes_by_xcenter(node_list, downward=False)
-
-    node_attributes = node_list2node_dict(node_list)
+    node_attributes = node_list2node_dict(nodes)
 
     # 有向グラフGraphの作成
     graph = nx.DiGraph()
 
-    create_dependency_graph(node_list, graph)
+    create_dependency_graph(nodes, graph)
 
     # nodes_attrsを用いて各ノードの属性値を設定
     nx.set_node_attributes(graph, node_attributes)
@@ -834,9 +824,5 @@ def main():
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open('demo_sample.json', 'w') as f:
-        f.write(json.dumps(graph_json))
-
-
-if __name__ == "__main__":
-    main()
+    with open(GRAPH_ELS_DIR + '/graph_attrs/layered_graph.json', 'w') as f:
+        f.write(json.dumps(graph_json, indent=4))

@@ -26,6 +26,8 @@ flake8 = "*"
 gensim = "*"
 emparser = {path = "./emparser"}
 python-levenshtein = "*"
+networkx = "~=2.5"
+matplotlib = "*"
 
 [requires]
 python_version = "3.7"

@@ -51,11 +51,6 @@ $(function () {
                 "target-arrow-color": "black", "arrow-scale": 3, "width": 5, "opacity": 0.3, "z-index": 1
             }
         },
-        // Style of non-linked nodes
-        {
-            selector: "node[!href]",
-            css: { "background-color": "#a9a9a9", "z-index": 1 }
-        },
         // Style of highlight nodes
         {
             selector: "node.highlight",
@@ -290,10 +285,10 @@ $(function () {
 
     // ノードをクリックした場合、リンクに飛ぶ(htmlリンクの設定)
     // faded状態ならば反応しない
-    cy.nodes().on("cxttap", function(event){
+    cy.nodes().on("cxttap", function (event) {
         try {  // your browser may block popups
             window.open(this.data("href"));
-        } catch(e){  // fall back on url change
+        } catch (e) {  // fall back on url change
             window.location.href = this.data("href");
         }
     });
