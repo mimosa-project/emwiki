@@ -805,8 +805,8 @@ def create_graph(node2targets):
         sort_nodes_by_xcenter(nodes, downward=False)
     # 座標割当
     for _ in range(2):
-       move_node_closer_to_connected_nodes(nodes, downward=True)
-       move_node_closer_to_connected_nodes(nodes, downward=False)
+        move_node_closer_to_connected_nodes(nodes, downward=True)
+        move_node_closer_to_connected_nodes(nodes, downward=False)
 
     node_attributes = node_list2node_dict(nodes)
 
