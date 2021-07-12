@@ -791,7 +791,7 @@ def create_graph(node2targets):
 
     Return:
     """
-    
+
     node2targets = make_miz_dependency()
     nodes = create_nodes(node2targets)
     # 間引き
