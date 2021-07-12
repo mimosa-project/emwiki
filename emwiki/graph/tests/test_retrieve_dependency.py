@@ -18,4 +18,3 @@ class RetrieveDependencyTest(TestCase):
 
         article2references = retrieve_dependency.make_miz_dependency()
         self.assertEqual(len(miz_files), len(article2references))
-
