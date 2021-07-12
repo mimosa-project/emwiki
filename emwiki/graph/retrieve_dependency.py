@@ -124,6 +124,7 @@ def format_mizfile_name_to_import_style(mizfile_name):
     Return:
         new_miz_name: (大文字のファイル名)，str()
     """
+    
     new_miz_name = re.sub(r'\.miz', '', mizfile_name)
     new_miz_name = new_miz_name.upper()
 
