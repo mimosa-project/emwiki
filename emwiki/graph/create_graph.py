@@ -157,8 +157,8 @@ def remove_redundant_dependency(nodes):
         make_node2ancestors_recursively(node, node2ancestors)
 
     for node in nodes:
-        removable_dependency_list = search_removable_dependency
-        (node, node2ancestors)
+        removable_dependency_list = \
+            search_removable_dependency(node, node2ancestors)
         for source, target in removable_dependency_list:
             source.targets.remove(target)
             target.sources.remove(source)
