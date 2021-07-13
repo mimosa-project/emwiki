@@ -28,7 +28,8 @@ class Node:
         is_dummy: ノードがダミーか否か。bool()。デフォルトはFalse。
     """
 
-    def __init__(self, name, targets=None, sources=None, x=None, y=None, href=None, is_dummy=None):
+    def __init__(self, name, targets=None, sources=None, x=None, y=None,
+                 href=None, is_dummy=None):
         self.name = name
         self.targets = set() if targets is None else targets
         self.sources = set() if sources is None else sources
@@ -43,7 +44,9 @@ class Node:
         sources = self.sources
         x = self.x
         y = self.y
-        return f"name: {name}, targets: {targets}, sources: {sources}, (x, y)= ({x}, {y})"
+        return f"""
+        name: {name}, targets: {targets}, sources: {sources}, (x, y)=({x}, {y})
+        """
 
 
 class Stack:
@@ -154,7 +157,8 @@ def remove_redundant_dependency(nodes):
         make_node2ancestors_recursively(node, node2ancestors)
 
     for node in nodes:
-        removable_dependency_list = search_removable_dependency(node, node2ancestors)
+        removable_dependency_list = search_removable_dependency
+        (node, node2ancestors)
         for source, target in removable_dependency_list:
             source.targets.remove(target)
             target.sources.remove(source)
@@ -208,18 +212,16 @@ def search_removable_dependency(node, node2ancestors):
 
 
 """
-#1．階層割当(最長パス法)
+# 1．階層割当(最長パス法)
 """
 
 
 def assign_top_node(node_list):
     """
     グラフのルートを決定する。ルートは矢印が出ていない(参照をしていない)ノードとなる。
-　　　　その後、level2node()でその下の階層のノードを決めていく。
-
+    その後、level2node()でその下の階層のノードを決めていく。
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
-
     Return:
     """
     for top_node in node_list:
@@ -234,8 +236,7 @@ def assign_level2node_recursively(node_list, target, target_level):
     階層が1以上（y座標が1以上）のノードの階層を再帰的に決定する。階層の割当は次のルールに従う。
     ・まだ階層を割り当てていないノードならば、targetの1つ下の階層に割り当てる。そして、再帰する。
     ・既に座標を割り当てており、その階層が今の階層(assign_node_level)以上高い階層ならば、一つ下の階層に再割当する。
-　　　　・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
-
+    ・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
     Args:
         node_list: 全ノードをNodeクラスでまとめたリスト。
         target: ターゲットとなるノード。このノードを指すノードに階層を割り当てていく。
@@ -246,10 +247,12 @@ def assign_level2node_recursively(node_list, target, target_level):
         if assign_node.x < 0:
             assign_node.y = assign_node_level
             assign_node.x = 0
-            assign_level2node_recursively(node_list, assign_node, assign_node_level)
+            assign_level2node_recursively(node_list,
+                                          assign_node, assign_node_level)
         elif assign_node.x > -1 and assign_node.y <= assign_node_level:
             assign_node.y = assign_node_level
-            assign_level2node_recursively(node_list, assign_node, assign_node_level)
+            assign_level2node_recursively(node_list,
+                                          assign_node, assign_node_level)
 
 
 def assign_x_sequentially(node_list):
@@ -266,7 +269,7 @@ def assign_x_sequentially(node_list):
 
 
 """
-#2. 交差削減
+# 2. 交差削減
 """
 
 
@@ -425,7 +428,8 @@ def assign_x_by_xcenter(node2xcenter_tuple):
         node2xcenter_tuple: (v1, v2) のタプルのリスト(v1, v2は同上)
     Return:
     """
-    sorted_node2xcenter = sorted(node2xcenter_tuple, key=lambda tup: tup[1])  # 重心の値で昇順にソート
+    # 重心の値で昇順にソート
+    sorted_node2xcenter = sorted(node2xcenter_tuple, key=lambda tup: tup[1])
     sorted_nodes = [node[0] for node in sorted_node2xcenter]
     assign_x_sequentially(sorted_nodes)
 
@@ -456,7 +460,9 @@ def count_cross(all_nodes):
         for edge in edges:
             for other_edge in edges:
                 # edge[0]: sourceノード, エッジのソース.  edge[1]: targetノード, エッジのターゲット.
-                if edge[0].y == other_edge[0].y and edge[0].x < other_edge[0].x and edge[1].x > other_edge[1].x:
+                if edge[0].y == other_edge[0].y \
+                        and edge[0].x < other_edge[0].x \
+                        and edge[1].x > other_edge[1].x:
                     cross_counter += 1
     return cross_counter
 
@@ -539,12 +545,13 @@ def add_edges(edges):
     Return:
     """
     for edge in edges:
-        edge[0].targets.add(edge[1])  # edge[0]: エッジのsource, edge[1]: エッジのtarget
+        # edge[0]: エッジのsource, edge[1]: エッジのtarget
+        edge[0].targets.add(edge[1])
         edge[1].sources.add(edge[0])
 
 
 """
-#3. 座標決定
+# 3. 座標決定
 """
 
 
@@ -631,9 +638,11 @@ def calc_idealx(node, from_target):
         計算結果(int)
     """
     if from_target:
-        return int(sum([node.x for node in node.targets]) / len(node.targets)) if len(node.targets) else node.x
+        return int(sum([node.x for node in node.targets]) / len(node.targets))\
+            if len(node.targets) else node.x
     else:
-        return int(sum([node.x for node in node.sources]) / len(node.sources)) if len(node.sources) else node.x
+        return int(sum([node.x for node in node.sources]) / len(node.sources))\
+            if len(node.sources) else node.x
 
 
 def update_idealx(node2idealx_dict):
@@ -673,15 +682,19 @@ def update_x_in_priority_order(nodes, node2priority_dict, node2idealx_dict):
     """
     assigned_nodes = []
     nodes = sorted(nodes, key=lambda a: a.x)
-    for node, priority in sorted(node2priority_dict.items(), key=lambda a: (-a[1], a[0].x)):
+    for node, priority in sorted(node2priority_dict.items(),
+                                 key=lambda a: (-a[1], a[0].x)):
         node_stack = Stack()
         node_stack.push(node)
         sign = 1 if node.x < node2idealx_dict[node] else -1
-        update_x2idealx_recursively(nodes.index(node), nodes, node2idealx_dict[node], node_stack, assigned_nodes, sign)
+        update_x2idealx_recursively(nodes.index(node), nodes,
+                                    node2idealx_dict[node], node_stack,
+                                    assigned_nodes, sign)
         assigned_nodes.append(node)
 
 
-def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stack, assigned_nodes, sign):
+def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x,
+                                node_stack, assigned_nodes, sign):
     """
     ノードのx座標を更新する。
     アルゴリズム
@@ -704,13 +717,15 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stac
         sign: 理想x座標が今のx座標より大きいければ+1, 小さければ-1。
     Return:
     """
-    if (node_index == 0 and sign == -1) or (node_index == len(same_level_nodes) - 1 and sign == 1):
+    if (node_index == 0 and sign == -1) or \
+            (node_index == len(same_level_nodes) - 1 and sign == 1):
         assign_x_in_sequence(node_stack, ideal_x, -sign)
         return
 
     next_node = same_level_nodes[node_index + sign]
 
-    if (next_node.x > ideal_x and sign == 1) or (next_node.x < ideal_x and sign == -1):
+    if (next_node.x > ideal_x and sign == 1) or \
+            (next_node.x < ideal_x and sign == -1):
         assign_x_in_sequence(node_stack, ideal_x, -sign)
         return
 
@@ -721,7 +736,9 @@ def update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stac
             node_stack.push(next_node)
             node_index += sign
             ideal_x += sign
-            update_x2idealx_recursively(node_index, same_level_nodes, ideal_x, node_stack, assigned_nodes, sign)
+            update_x2idealx_recursively(node_index, same_level_nodes,
+                                        ideal_x, node_stack,
+                                        assigned_nodes, sign)
 
 
 def assign_x_in_sequence(nodes_stack, x, sign):
@@ -747,15 +764,14 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 def node_list2node_dict(node_list):
     """
     ノードについての情報（属性）をリスト形式から辞書形式に変換する。
-
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
-
     Return:
         各ノードのname, href, x, y, is_dummyを持つ辞書。
         キーはnameで、その値としてhref, x, y, is_dummyをキーに持つ辞書が与えられる。
         例:
-        node_dict = {"f": { "href": "example.html", "x": 0, "y": 2, "is_dummy": false}, ... }
+        node_dict = {"f": { "href": "example.html", "x": 0, "y": 2,
+                     "is_dummy": false}, ... }
     """
     node_dict = {}
     for node in node_list:
