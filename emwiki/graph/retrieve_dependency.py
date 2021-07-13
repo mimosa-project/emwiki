@@ -5,8 +5,9 @@ from collections import defaultdict
 
 from emwiki.settings import MML_MML_DIR
 
-DIRECTIVES = ['vocabularies', 'constructors', 'notations', 'registrations', 'theorems', 'schemes',
-              'definitions', 'requirements', 'expansions', 'equalities']
+DIRECTIVES = ['vocabularies', 'constructors', 'notations', 'registrations',
+              'theorems', 'schemes', 'definitions', 'requirements',
+              'expansions', 'equalities']
 
 
 def make_miz_dependency():
@@ -28,7 +29,8 @@ def make_miz_dependency():
         os.chdir(cwd)
 
     for miz_file in miz_files:
-        with open(os.path.join(MML_MML_DIR, miz_file), 'rt', encoding='utf-8', errors="ignore") as f:
+        with open(os.path.join(MML_MML_DIR, miz_file), 'rt',
+                  encoding='utf-8', errors="ignore") as f:
             miz_file_contents = f.read()
         directive2articles = extract_articles(miz_file_contents)
         dependency_articles = merge_values(
