@@ -211,7 +211,7 @@ def search_removable_dependency(node, node2ancestors):
 
 
 """
-#1．階層割当(最長パス法)
+# 1．階層割当(最長パス法)
 """
 
 
@@ -221,7 +221,6 @@ def assign_top_node(node_list):
     その後、level2node()でその下の階層のノードを決めていく。
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
-
     Return:
     """
     for top_node in node_list:
@@ -236,8 +235,7 @@ def assign_level2node_recursively(node_list, target, target_level):
     階層が1以上（y座標が1以上）のノードの階層を再帰的に決定する。階層の割当は次のルールに従う。
     ・まだ階層を割り当てていないノードならば、targetの1つ下の階層に割り当てる。そして、再帰する。
     ・既に座標を割り当てており、その階層が今の階層(assign_node_level)以上高い階層ならば、一つ下の階層に再割当する。
-    ・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
-
+    ・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない．
     Args:
         node_list: 全ノードをNodeクラスでまとめたリスト。
         target: ターゲットとなるノード。このノードを指すノードに階層を割り当てていく。
@@ -270,7 +268,7 @@ def assign_x_sequentially(node_list):
 
 
 """
-#2. 交差削減
+# 2. 交差削減
 """
 
 
@@ -552,7 +550,7 @@ def add_edges(edges):
 
 
 """
-#3. 座標決定
+# 3. 座標決定
 """
 
 
@@ -764,10 +762,8 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 def node_list2node_dict(node_list):
     """
     ノードについての情報（属性）をリスト形式から辞書形式に変換する。
-
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
-
     Return:
         各ノードのname, href, x, y, is_dummyを持つ辞書。
         キーはnameで、その値としてhref, x, y, is_dummyをキーに持つ辞書が与えられる。
