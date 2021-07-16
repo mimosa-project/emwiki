@@ -103,5 +103,5 @@ div#article span.p5:hover { color : inherit; background-color : #CAFFCA; }
 div#article span.p0:hover { color : inherit; background-color : #FFBAFF; }
 div#article .default { background-color: white; color: black; } 
 div#article .default:hover { background-color: white; color: black; }
-div#article #tt { position:absolute; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+#tt { position:fixed; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
 div#article :target { background: #5D9BF7; border: solid 1px #aaa;}
