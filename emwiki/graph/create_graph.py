@@ -213,7 +213,7 @@ def search_removable_dependency(node, node2ancestors):
 def assign_top_node(node_list):
     """
     グラフのルートを決定する。ルートは矢印が出ていない(参照をしていない)ノードとなる。
-　　　　その後、level2node()でその下の階層のノードを決めていく。
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　その後、level2node()でその下の階層のノードを決めていく。
 
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト。
@@ -232,7 +232,7 @@ def assign_level2node_recursively(node_list, target, target_level):
     階層が1以上（y座標が1以上）のノードの階層を再帰的に決定する。階層の割当は次のルールに従う。
     ・まだ階層を割り当てていないノードならば、targetの1つ下の階層に割り当てる。そして、再帰する。
     ・既に座標を割り当てており、その階層が今の階層(assign_node_level)以上高い階層ならば、一つ下の階層に再割当する。
-　　　　・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　・既に階層を割り当てており、その階層が今の階層よりも低い階層ならば、何もしない。
 
     Args:
         node_list: 全ノードをNodeクラスでまとめたリスト。
