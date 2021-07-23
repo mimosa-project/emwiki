@@ -1,8 +1,7 @@
-{{ user.username }} 様
+Dear {{ user.username }} 
 
-下記URLよりサイトにアクセスの上、パスワードの再設定を行ってください。
+To reset your password, please visit the following page.
 
-再設定用URL
 {{ protocol}}://{{ domain }}{% url 'accounts:password_reset_confirm' uid token %}
 
 emwiki

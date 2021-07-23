@@ -11,7 +11,7 @@
                     {{ field.errors }}
                     <hr>
                 {% endfor %}
-                <button type="submit" class="btn btn-success btn-lg btn-block" >ログイン</button><hr>
+                <button type="submit" class="btn btn-success btn-lg btn-block" >Login</button><hr>
                 <a href="{% url 'accounts:signup' %}" class="btn btn-success btn-lg btn-block" >Sign up</a>
                 <a href="{% url 'accounts:password_reset' %}" class="btn btn-success btn-lg btn-block" >Password reset</a>
                 <input type="hidden" name="next" value="{{ next }}" />
