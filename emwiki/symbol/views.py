@@ -8,10 +8,9 @@ from django.views.decorators.cache import cache_page
 
 from .models import Symbol
 
-
 class SymbolView(View):
-    def get(self, request, name):
-        symbol = Symbol.objects.get(name=str(name).replace('.html', ''))
+    def get(self, request):
+        symbol = Symbol.objects.all()
         context = dict()
         # you can use these variables in index.html
         context["symbol"] = symbol
@@ -26,6 +25,24 @@ class SymbolView(View):
             ).replace('content-name', ''),
         }
         return render(request, 'symbol/index.html', context)
+
+# class SymbolView(View):
+#     def get(self, request, name):
+#         symbol = Symbol.objects.get(name=str(name).replace('.html', ''))
+#         context = dict()
+#         # you can use these variables in index.html
+#         context["symbol"] = symbol
+#         # you can use these variables in index.js
+#         context["context_for_js"] = {
+#             'names_url': reverse('symbol:names') + f"?MIZAR_VERSION={settings.MIZAR_VERSION}",
+#             'adjust_name_url': reverse('symbol:adjust_name'),
+#             # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
+#             'article_base_uri': reverse(
+#                 'article:index',
+#                 kwargs=dict(filename='content-name')
+#             ).replace('content-name', ''),
+#         }
+#         return render(request, 'symbol/index.html', context)
 
 
 def adjust_name(request):
