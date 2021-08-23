@@ -3,47 +3,40 @@
 {% load cache %}
 
 {% block head %}
-    {{ context_for_js|json_script:"context" }}
+{{ context_for_js|json_script:"context" }}
 
-    <!-- js-cookie -->
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<!-- js-cookie -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
-    <!-- ver3 -->
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="https://unpkg.com/vue-router@4.0.10/dist/vue-router.global.js"></script>
-    <script src="https://unpkg.com/vue3-sfc-loader@0.8.4/dist/vue3-sfc-loader.js"></script>
+<script src="{% static 'symbol/JavaScript/searcher.js'%}"></script>
+<script src="{% static 'symbol/JavaScript/mml-index.js' %}"></script>
+<script src="{% static 'symbol/JavaScript/index.js' %}"></script>
 
-    <script src="{% static 'symbol/JavaScript/searcher.js'%}"></script>
-    <script src="{% static 'symbol/JavaScript/index.js' %}"></script>
-    <script src="{% static 'symbol/JavaScript/sidebar.js' %}"></script>
-    <link rel='stylesheet' href="{% static 'symbol/CSS/index.css' %}" type='text/css'></link>
-    
+<link rel='stylesheet' href="{% static 'symbol/CSS/index.css' %}" type='text/css'>
+</link>
+
 {% endblock %}
 
 {% block content %}
-    <div id="app" class="container-fluid h-100">
-        <div class="row h-100 flex-xl-nowrap">
-            <div class="col-12 col-md-3 col-lg-2 pt-2 bd-sidebar h-100" style="overflow: scroll;">
-                <input type="search" class="form-control sticky-top" id="search-input" placeholder="Search symbols">
-                <br>
-                <div>
-                    <ul class="list-group list-group-flush" id="listdata">
-                        <span data-link='0.html#ELM0'>is_applicable_to</span>    
-                        <li><router-link to="/symbol/is_applicable_to" class="list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center">is_applicable_to</router-link></li>
-                        <li><router-link to="/symbol/is_properly_applicable_to">is_properly_applicable_to</router-link></li>
-                    </ul>
-                </div>
+<div class="container-fluid h-100">
+    <div class="row h-100 flex-xl-nowrap">
+        <div class="col-12 col-md-3 col-lg-2 pt-2 bd-sidebar h-100" style="overflow: scroll;">
+            <input type="search" class="form-control sticky-top" id="search-input" placeholder="Search symbols">
+            <br>
+            <div>
+                <ul class="list-group list-group-flush" id="index-listdata">
+                </ul>
+                <ul class="list-group list-group-flush" id="results-listdata">
+                </ul>
             </div>
-            <div class="col-12 col-md-9 col-lg-10 px-4 h-100 overflow-auto">
-                <h1 class="h-10">
-                    <span class='display-4' id="content_name">{{symbol.name}}</span>
-                </h1>
-                <div id="symbol" class="h-90 overflow-auto" style="height:90%;">
-                    <router-view ref="symbolv"></router-view>
-                </div>
+        </div>
+        <div class="col-12 col-md-9 col-lg-10 px-4 h-100 overflow-auto">
+            <h1 class="h-10">
+                <span class='display-4' id="symbol-name"></span>
+            </h1>
+            <div id="symbol" class="h-90 overflow-auto" style="height:90%;">
             </div>
         </div>
     </div>
-<script src="{% static 'symbol/JavaScript/spa.js' %}"></script>
+</div>
 {% endblock %}
-

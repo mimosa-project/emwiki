@@ -41,6 +41,10 @@ span[data-href]:hover {
     border: 3px solid #007bff !important;
 }
 
+.mml-element.selected {
+    border: 5px solid #2693ec;
+}
+
 .mml-element .source-box div.add {
     padding-left: 3mm;
     padding-bottom: 0mm;
