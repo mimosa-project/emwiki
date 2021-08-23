@@ -162,7 +162,7 @@ var Searcher = (function () {
 	Searcher.prototype.search_in_chunk = function (query, regexps, highlighters, state) {
 		var highlighted, hlt_fn, i, j, k, len, match_fn, results, symbol, _i, _ref, _ref1;
 		results = [];
-		len = this.symbols.length;
+		len = index_data.symbols.length;
 		for (k = _i = 0, _ref = this.constructor.CHUNK_SIZE; 0 <= _ref ? _i < _ref : _i > _ref; k = 0 <= _ref ? ++_i : --_i) {
 			i = state.counter % len;
 			j = Math.floor(state.counter / len);
@@ -191,7 +191,7 @@ var Searcher = (function () {
 			}).call(this);
 			match_fn = _ref1[0];
 			hlt_fn = _ref1[1];
-			symbol = this.symbols[i].pk;
+			symbol = index_data.symbols[i];
 			if (match_fn(symbol, query, regexps, highlighters)) {
 				state[String(i)] = true;
 				highlighted = hlt_fn(symbol, query, regexps, highlighters);
@@ -208,38 +208,20 @@ var Searcher = (function () {
 	};
 
 	Searcher.prototype.update_search_results = function (results) {
-		var i, li, result, s, t, _i, _len;
-		li = "";
+		var i, li, result, symbol, type, filename, _i, _len;
+		li = [];
 		for (_i = 0, _len = results.length; _i < _len; _i++) {
 			result = results[_i];
 			i = result.index;
-			t = this.symbols[i].fields.type;
-			s = escape_txt(result.highlighted).split("\u0001").join("<mark>").split("\u0002").join("</mark>");
-			let badge;
-			switch (t) {
-				case 'pred':
-					badge = 'warning';
-					break;
-				case 'struct':
-					badge = 'secondary';
-					break;
-				case 'mode':
-					badge = 'success';
-					break;
-				case 'func':
-					badge = 'primary';
-					break;
-				case 'attr':
-					badge = 'danger';
-					break;
-			}
-			li = `<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center ${t} '`
-				+ ` data-link="${encodeURIComponent(this.symbols[i].pk)}">`
-				+ `<span class="badge rounded-pill bg-${badge} text-monospace mr-1">${t[0].toUpperCase()}</span>`
-				+ `<span class="text-monospace">${s}</span>`
-				+ "</button>";
-			$("#listdata").append(li);
+			type = index_data.types[i];
+			symbol = escape_txt(result.highlighted).split("\u0001").join("<mark>").split("\u0002").join("</mark>");
+			filename = index_data.filenames[i];
+			badge = get_badge(type);
+			li.push("<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center "
+				+ type + "' data-link='" + filename + "'><span class='badge rounded-pill bg-" + badge + " text-monospace'>"
+				+ type[0].toUpperCase() + "</span>" + "<span class='text-monospace px-2'> " + symbol + "</span></button>");
 		}
+		$("#results-listdata").append(li.join(''));
 		return
 	};
 
@@ -264,7 +246,7 @@ var Searcher = (function () {
 				}
 				results = _this.search_in_chunk(query, regexps, highlighters, state);
 				_this.update_search_results(results);
-				if (state.counter < 5 * _this.symbols.length && state.matched < _this.constructor.MAX_RESULT) {
+				if (state.counter < 5 * index_data.symbols.length && state.matched < _this.constructor.MAX_RESULT) {
 					return setTimeout(runner, 1);
 				}
 			};

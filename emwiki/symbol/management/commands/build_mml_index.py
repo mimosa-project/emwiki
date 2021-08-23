@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from symbol.symbol_components_builder import SymbolComponentsBuilder
+from symbol.symbol_javascript_builder import SymbolJavascriptBuilder
 
 
 class Command(BaseCommand):
@@ -10,6 +10,5 @@ class Command(BaseCommand):
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
         self.stdout.write('Start initializing emwiki contents')
-        symbol_components_builder = SymbolComponentsBuilder()
-        symbol_components_builder.delete_files()
-        symbol_components_builder.create_files()
+        symbol_javascript_builder = SymbolJavascriptBuilder()
+        symbol_javascript_builder.create_files()
