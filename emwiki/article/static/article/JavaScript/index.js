@@ -201,7 +201,6 @@ class Parser {
             'registration',
             'scheme',
             'notation',
-            'proof'
         ];
         this.target_CSS_selector = 'span.kw';
     }
@@ -215,10 +214,6 @@ class Parser {
             //sometimes $(target).text() return string like "theorem " so trim()
             let block_name = $(target).text().trim();
             if(this.target_block_names.includes(block_name)){
-                if(
-                    block_name === "proof" &&
-                    !$(target).closest("div").attr("typeof") === "oo:Proof"
-                ) {console.log("skipped!");continue;}
                 let comment = new Comment(
                     article,
                     $(target),

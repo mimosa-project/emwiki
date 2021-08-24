@@ -10,6 +10,8 @@ pytest = "*"
 wheel = "*"
 isort = "*"
 coverage = "*"
+networkx = "~=2.5"
+matplotlib = "*"
 
 [packages]
 django = ">=3.2, <4.0"
@@ -26,6 +28,7 @@ flake8 = "*"
 gensim = "*"
 emparser = {path = "./emparser"}
 python-levenshtein = "*"
+pydot = "*"
 
 [requires]
 python_version = "3.7"
