@@ -766,8 +766,8 @@ def assgin_dot_coordinate(node2targets, nodes):
     G = nx.DiGraph(nodes_to_node2targets(nodes))
     pos = nx.nx_pydot.pydot_layout(G, prog="dot")
     for n in nodes:
-        n.y = pos[n.name][0]
-        n.x = pos[n.name][1]
+        n.y = pos[n.name][1] * 0.02
+        n.x = pos[n.name][0] * 0.02
 
 
 def nodes_to_node2targets(nodes):
