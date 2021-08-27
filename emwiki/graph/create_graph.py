@@ -96,12 +96,12 @@ def create_nodes(node2targets):
     """
     node2targetsをNodeクラスでインスタンス化したものをリストにまとめる．
     各属性には次の物を格納する．
-        - name:    node2targetsのkey．str()．
-        - targets: node2targetsのvalue．set()．
-        - sources: node2targetsのnodeのソースノードの集合．set()．
-        - x, y:    -1．int()．
-        - href:    (ノード名).html．ただし，ノード名は小文字．str()．
-        - is_dummy: False．bool()．
+        - name:    node2targetsのkey．
+        - targets: node2targetsのvalue．set[str]．
+        - sources: node2targetsのnodeのソースノードの集合．set[str]．
+        - x, y:    -1．
+        - href:    (ノード名).html．ただし，ノード名は小文字．
+        - is_dummy: False
     Args:
         node2targets: key:ノード名，value:keyのノードのターゲットノードの集合
     Returns:
@@ -110,7 +110,7 @@ def create_nodes(node2targets):
     nodes = []
     name2node = {}
     # nodes, name2nodeの作成
-    # k: ノードの名前(str)、v: ノードkのリンクURL(str)
+    # k: ノードの名前(str)
     for k in node2targets.keys():
         n = Node(name=k)
         name2node[k] = n
@@ -121,13 +121,13 @@ def create_nodes(node2targets):
         n.href = n.name.lower() + '.html'
 
     # targetsの作成
-    # k: ノードの名前(str)、v: ノードkがターゲットとするノードの名前(str)の集合
+    # k: ノードの名前、v: ノードkがターゲットとするノード名のset
     for k, v in node2targets.items():
         for target in v:
             name2node[k].targets.add(name2node[target])
 
     # sourcesの作成
-    # k: ノードの名前(str)、v: ノードkのNodeオブジェクト(object)
+    # k: ノードの名前、v: ノードkのNodeオブジェクト
     for k, v in name2node.items():
         for target in v.targets:
             target.sources.add(name2node[k])
