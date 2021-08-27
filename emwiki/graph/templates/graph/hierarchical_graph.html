@@ -5,9 +5,9 @@
 {% block head %}
         <base href="{{ base_url }}" target="_blank">
         <script src="https://unpkg.com/cytoscape@3.18.2/dist/cytoscape.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="{% static "graph/CSS/graph.css"%}">
+        <link rel="stylesheet" type="text/css" href="{% static 'graph/CSS/graph.css'%}">
         {{ graph_elements|json_script:"graph_elements" }}
-        <script src="{% static "graph/JavaScript/graph.js" %}"></script>
+        <script src="{% static 'graph/JavaScript/graph.js' %}"></script>
 {% endblock %}
 
 

@@ -696,7 +696,7 @@ def update_x2idealx_recursively(node_index, same_level_nodes,
     """
     ノードのx座標を更新する．
     アルゴリズム
-        1. 更新するノード(same_level_nodes[node_index])が、ノード列の端に到達していた場合、
+        1. 更新するノード(same_level_nodes[node_index])がノード列の端に到達していた場合、
            node_stackに入ったノードを理想x座標まで動かし、割り当てて、走査終了
         2. node_indexの隣のインデックスのノードを取得する
         3. 2で取得したノードのx座標が理想x座標よりも遠い場所にあった場合
@@ -755,6 +755,31 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 
 
 """
+階層グラフ(graphviz dot style)
+"""
+
+
+def assgin_dot_coordinate(node2targets, nodes):
+    """
+    graphvizのdotレイアウトを適用したときの座標を返す
+    """
+    G = nx.DiGraph(nodes_to_node2targets(nodes))
+    pos = nx.nx_pydot.pydot_layout(G, prog="dot")
+    for n in nodes:
+        n.y = pos[n.name][1] * 0.02
+        n.x = pos[n.name][0] * 0.02
+
+
+def nodes_to_node2targets(nodes):
+    node2targets = dict()
+    for n in nodes:
+        node2targets[n.name] = list()
+        for t in n.targets:
+            node2targets[n.name].append(t.name)
+    return node2targets
+
+
+"""
 仕上げ
 """
 
@@ -804,24 +829,16 @@ def create_dependency_graph(node_list, graph):
 
 def create_graph(node2targets):
     """
-       依存関係を示すグラフを作る．
+    依存関係を示すグラフを作る．
 
-       Return:
+    Return:
     """
     nodes = create_nodes(node2targets)
     # 間引き
     remove_redundant_dependency(nodes)
-    # 階層割当
-    assign_top_node(nodes)
-    assign_x_sequentially(nodes)
-    # 交差削減
-    for _ in range(50):
-        sort_nodes_by_xcenter(nodes, downward=True)
-        sort_nodes_by_xcenter(nodes, downward=False)
-    # 座標割当
-    for _ in range(10):
-        move_node_closer_to_connected_nodes(nodes, downward=True)
-        move_node_closer_to_connected_nodes(nodes, downward=False)
+
+    # レイアウト
+    assgin_dot_coordinate(node2targets, nodes)
 
     node_attributes = node_list2node_dict(nodes)
 
@@ -839,5 +856,5 @@ def create_graph(node2targets):
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open(GRAPH_ELS_DIR + '/graph_attrs/layered_graph.json', 'w') as f:
+    with open(GRAPH_ELS_DIR + '/graph_attrs/dot_graph.json', 'w') as f:
         f.write(json.dumps(graph_json, indent=4))
