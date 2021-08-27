@@ -1,6 +1,6 @@
 [submodule "emparser"]
 	path = emparser
-	url = https://github.com/mimosa-project/emparser.git
+	url = git@github.com:mimosa-project/emparser.git
 [submodule "emwiki/mmlfiles"]
 	path = emwiki/mmlfiles
-	url = https://github.com/mimosa-project/mmlfiles.git
+	url = git@github.com:mimosa-project/emwiki-contents.git
