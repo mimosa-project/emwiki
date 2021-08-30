@@ -4,6 +4,3 @@
 [submodule "emwiki/mmlfiles"]
 	path = emwiki/mmlfiles
 	url = https://github.com/mimosa-project/mmlfiles.git
-[submodule "emwiki/emwiki-contents"]
-	path = emwiki/emwiki-contents
-	url = https://github.com/mimosa-project/emwiki-contents.git
