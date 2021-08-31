@@ -121,7 +121,7 @@ def create_nodes(node2targets):
         n.href = n.name.lower() + '.html'
 
     # targetsの作成
-    # k: ノードの名前、v: ノードkがターゲットとするノード名のset
+    # k: ノードの名前、v: ノードkのターゲットノードのset[str]
     for k, v in node2targets.items():
         for target in v:
             name2node[k].targets.add(name2node[target])
@@ -759,15 +759,15 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 """
 
 
-def assgin_dot_coordinate(node2targets, nodes):
+def assgin_dot_coordinate(nodes):
     """
     graphvizのdotレイアウトを適用したときの座標を返す
     """
-    G = nx.DiGraph(nodes_to_node2targets(nodes))
+    G = nx.DiGraphnodes_to_node2targets(nodes)
     pos = nx.nx_pydot.pydot_layout(G, prog="dot")
     for n in nodes:
-        n.y = pos[n.name][1] * 0.02
         n.x = pos[n.name][0] * 0.02
+        n.y = pos[n.name][1] * 0.02
 
 
 def nodes_to_node2targets(nodes):
@@ -827,7 +827,7 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
-def create_graph(node2targets):
+def create_graph(node2targets, output_graph_file):
     """
     依存関係を示すグラフを作る．
 
@@ -856,5 +856,5 @@ def create_graph(node2targets):
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open(GRAPH_ELS_DIR + '/graph_attrs/dot_graph.json', 'w') as f:
+    with open(GRAPH_ELS_DIR + '/graph_attrs/' + output_graph_file + '.json', 'w') as f:
         f.write(json.dumps(graph_json, indent=4))
