@@ -11,8 +11,8 @@ class CreateGraphTest(TestCase):
         node2targets_mml = retrieve_dependency.make_miz_dependency()
         create_graph.create_graph(node2targets_mml, 'test_dot_graph')
         with open(GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json", "r") as f_in:
-            dot_graph_new = json.load(f_in)
+            dot_graph = json.load(f_in)
 
         # テスト
-        nodes = dot_graph_new["elements"]["nodes"]
+        nodes = dot_graph["elements"]["nodes"]
         self.assertEqual(len(node2targets_mml), len(nodes))

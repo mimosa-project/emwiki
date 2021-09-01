@@ -763,7 +763,7 @@ def assgin_dot_coordinate(nodes):
     """
     graphvizのdotレイアウトを適用したときの座標を返す
     """
-    G = nx.DiGraphnodes_to_node2targets(nodes)
+    G = nx.DiGraph(nodes_to_node2targets(nodes))
     pos = nx.nx_pydot.pydot_layout(G, prog="dot")
     for n in nodes:
         n.x = pos[n.name][0] * 0.02
@@ -838,7 +838,7 @@ def create_graph(node2targets, output_graph_file):
     remove_redundant_dependency(nodes)
 
     # レイアウト
-    assgin_dot_coordinate(node2targets, nodes)
+    assgin_dot_coordinate(nodes)
 
     node_attributes = node_list2node_dict(nodes)
 
