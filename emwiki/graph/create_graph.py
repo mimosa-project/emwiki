@@ -827,7 +827,7 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
-def create_graph(node2targets, output_graph_file):
+def create_graph(node2targets, output_graph_json):
     """
     依存関係を示すグラフを作る．
 
@@ -856,5 +856,5 @@ def create_graph(node2targets, output_graph_file):
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open(GRAPH_ELS_DIR + '/graph_attrs/' + output_graph_file + '.json', 'w') as f:
+    with open(GRAPH_ELS_DIR + '/graph_attrs/' + output_graph_json, 'w') as f:
         f.write(json.dumps(graph_json, indent=4))

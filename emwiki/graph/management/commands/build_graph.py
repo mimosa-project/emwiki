@@ -11,4 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Start generating dot_graph.json')
         node2targets_mml = make_miz_dependency()
-        create_graph(node2targets_mml, 'dot_graph')
+        create_graph(node2targets_mml, 'dot_graph.json')
