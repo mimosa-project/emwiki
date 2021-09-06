@@ -1,0 +1,9 @@
+body {
+    height: 100vh;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}

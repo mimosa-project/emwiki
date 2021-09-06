@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+        <base href="{{ base_url }}" target="_blank">
+        <script src="https://unpkg.com/cytoscape@3.18.2/dist/cytoscape.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'graph/CSS/graph.css'%}">
+        {{ graph_elements|json_script:"graph_elements" }}
+        <script src="{% static 'graph/JavaScript/graph.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<form class="p-2">
+    <div class="form-row">
+        <div class="col">
+            <label for="article_name">Article</label>
+            <div class="input-group">
+                <input type="text" name="article_name" id="article_name" autocomplete="on"
+                    placeholder="Search" list="article_list" spellcheck="false" class="form-control">
+                <datalist id="article_list"></datalist>
+                <div class="input-group-append">
+                    <input class="btn btn-outline-success" type="button" id="search" value="search">
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-1 col-sm-2">
+            <label for="ancestor_generations">Upper Level</label>
+            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="100" class="form-control">
+        </div>
+        <div class="col-xl-1 col-sm-2">
+            <label for="descendant_generations">Lower Level</label>
+            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="100" class="form-control">
+        </div>
+        <div class="col-md-1 col-sm-2 col-3">
+            <label for="reload">reset</label>
+            <button type="button" value="reload" id="reload", class="btn btn-outline-danger form-control">reset</button>
+        </div>
+    </div>
+</form>
+<div id="graph">   
+</div>
+{% endblock %}
