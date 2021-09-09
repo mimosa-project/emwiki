@@ -7,6 +7,8 @@ from django.conf import settings
 
 
 class SymbolHtmlBuilder:
+    """Create symbol HTML files from HTMLized MML.
+    """
     from_dir = settings.MML_HTML_DIR
     to_dir = Symbol.get_htmlfile_dir()
 
