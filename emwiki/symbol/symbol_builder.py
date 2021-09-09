@@ -5,6 +5,8 @@ from django.conf import settings
 
 
 class SymbolBuilder:
+    """Load Symbol to database from HTMLized MML.
+    """
     from_dir = settings.MML_HTML_DIR
 
     def __init__(self):
