@@ -23,6 +23,13 @@ class Article(models.Model):
         return f"article/htmlized_mml/{self.name}.html"
 
     def get_absolute_url(self):
+        """Get self absolute url.
+
+        This method is also used by Django flamework.
+
+        Returns:
+            text: self absolute url.
+        """
         return reverse(
             'article:index',
             kwargs={'filename': self.name}
@@ -35,6 +42,8 @@ class Article(models.Model):
         return os.path.join(self.mizfile_dir, f'{self.name}.miz')
 
     def load_mizfile2db(self):
+        """Renew comments in databse by .miz files.
+        """
         with open(self.get_mizfile_path(), 'r') as f:
             text = f.read()
         miztextconverter = MizTextConverter()
@@ -54,6 +63,8 @@ class Article(models.Model):
         Comment.objects.bulk_create(comment_model_instances)
 
     def save_db2mizfile(self):
+        """Overwrite .miz file with comments in database.
+        """
         with open(self.get_mizfile_path(), 'r') as f:
             text = f.read()
         comments = [

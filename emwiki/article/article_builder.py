@@ -8,6 +8,11 @@ from article.models import Article, Comment
 
 
 class ArticleBuilder:
+    """Articleテーブルを作成する.
+
+    Attributes:
+        from_dir(os.path): Directory where commented .miz file exists.
+    """
     from_dir = settings.MML_MML_DIR
 
     def __init__(self):

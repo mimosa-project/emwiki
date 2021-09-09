@@ -9,6 +9,8 @@ from tqdm import tqdm
 
 
 class HtmlFile:
+    """HTMLファイルの読み込み・書き込みを行う
+    """
 
     def __init__(self, path):
         self.path = path
@@ -25,15 +27,25 @@ class HtmlFile:
 
 
 class HtmlizedMmlBuilder:
+    """HTMLized MMLをarticleアプリケーション用に書き換える
+
+    Attributes:
+        from_dir(os.path): Directory where HTMLized MML files for input.
+        to_dir(os.path): Directory where generated HTML files for output.
+    """
     from_dir = settings.MML_HTML_DIR
     to_dir = settings.PRODUCT_HTMLIZEDMML_DIR
 
     def delete_files(self):
+        """Delete current HTML files.
+        """
         if os.path.exists(self.to_dir):
             shutil.rmtree(self.to_dir)
         os.mkdir(self.to_dir)
 
     def create_files(self):
+        """Create HTML files.
+        """
         html_paths = glob.glob(os.path.join(self.from_dir, "*.html"))
         if not os.path.exists(self.to_dir):
             os.mkdir(self.to_dir)
@@ -57,10 +69,21 @@ class HtmlizedMmlBuilder:
         )
 
     def convert_head(self, root):
+        """Convert head element
+
+        Args:
+            root (lxml.etree._ElementTree): root tree.
+
+        Returns:
+            lxml.etree._ElementTree: root tree.
+        """
+        # Remove head elements
         for node in root.xpath('//head/*'):
             parent = node.getparent()
             parent.remove(node)
         head = root.xpath('//head')[0]
+
+        # Add head elements
         head_elements = OrderedDict()
         for element in head_elements.values():
             head.append(element)
