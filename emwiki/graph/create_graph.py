@@ -830,7 +830,6 @@ def create_dependency_graph(node_list, graph):
 def create_graph(node2targets, output_graph_json):
     """
     依存関係を示すグラフを作る．
-
     Return:
     """
     nodes = create_nodes(node2targets)
