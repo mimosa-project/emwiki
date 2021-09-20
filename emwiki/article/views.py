@@ -32,7 +32,7 @@ class ArticleView(View):
             with open(bib_file_path, "r") as f:
                 context['bib_text'] = f.read()
         else:
-            context['bib_text'] = f"{bib_file_path.basename()} not found"
+            context['bib_text'] = f"{bib_file_path} not found"
         context["context_for_js"] = {
             'is_authenticated': self.request.user.is_authenticated,
             'name': article.name,
