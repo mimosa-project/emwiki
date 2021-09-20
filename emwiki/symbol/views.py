@@ -1,14 +1,11 @@
 import os
 
-from django.conf import settings
-from django.core import serializers
-from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
-from django.views.decorators.cache import cache_page
 
 from .models import Symbol
+
 
 class SymbolIndexView(View):
     def get(self, request):
@@ -19,6 +16,7 @@ class SymbolIndexView(View):
             'symbol_base_uri': reverse('symbol:index')
         }
         return render(request, 'symbol/index.html', context)
+
 
 class SymbolView(View):
     def get(self, request, filename):

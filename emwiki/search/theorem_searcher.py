@@ -2,7 +2,6 @@ import os
 import pickle
 import re
 
-from django.urls import reverse
 from gensim import corpora, models, similarities
 
 from django.conf import settings

@@ -8,11 +8,11 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.cache import cache_page
 
 from .models import Article, Comment
 
-class ArticleIndexView(View): 
+
+class ArticleIndexView(View):
     def get(self, request):
         context = dict()
         context["context_for_js"] = {
@@ -20,7 +20,8 @@ class ArticleIndexView(View):
         }
         return render(request, "article/index.html", context)
 
-class ArticleView(View): 
+
+class ArticleView(View):
     def get(self, request, filename, *args, **kwargs):
         name = os.path.splitext(filename)[0]
         article = Article.objects.get(name=name)

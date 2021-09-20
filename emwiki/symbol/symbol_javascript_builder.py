@@ -1,17 +1,21 @@
 import json
 import os
-import shutil
 from symbol.models import Symbol
 
 from django.conf import settings
 
 
 class SymbolJavascriptBuilder:
-    path = os.path.join(settings.BASE_DIR, 'symbol', 'static', 'symbol', 'JavaScript', 'mml-index.js')
-
+    path = os.path.join(
+        settings.BASE_DIR, 'symbol', 'static', 'symbol', 'JavaScript', 'mml-index.js'
+    )
 
     # Symbolアプリケーションで使用するJavascritを生成する
-    # var index_data ={"symbols": ["!", "!=", "\"",...], "types": ["func", "pred", "func",..], "filenames": ["2069.html", "3499.html", "43.html",...]}
+    # var index_data ={
+    #     "symbols": ["!", "!=", "\"",...],
+    #     "types": ["func", "pred", "func",..],
+    #     "filenames": ["2069.html", "3499.html", "43.html",...]
+    # }
     def create_files(self):
         print('Building javascript for symbol')
         symbols = list(Symbol.objects.all())

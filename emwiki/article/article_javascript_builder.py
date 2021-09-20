@@ -1,6 +1,5 @@
 import json
 import os
-import shutil
 from article.models import Article
 
 from django.conf import settings
