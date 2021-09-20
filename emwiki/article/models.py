@@ -24,7 +24,7 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            'article:index',
+            'article:article',
             kwargs={'filename': self.name}
         )
 
