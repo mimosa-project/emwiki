@@ -1,5 +1,6 @@
 var context = JSON.parse(document.getElementById('context').textContent);
 var jump_to, get_badge;
+// ページを切り替える関数
 jump_to = (function (_this) {
   return function (filename, anchor, push_state) {
     if (anchor == null) {
@@ -15,7 +16,8 @@ jump_to = (function (_this) {
         if (anchor) {
           $("#" + anchor).addClass('selected');
         }
-        offsetTop = anchor != null ? $(".selected")[0].offsetTop : 0;
+        // offsetTopがずれるので80を引いている
+        offsetTop = anchor != null ? ($(".selected")[0].offsetTop - 80) : 0;
         $('#symbol').animate({scrollTop: offsetTop}, "slow");
         if (push_state) {
           return history.pushState({
@@ -28,6 +30,7 @@ jump_to = (function (_this) {
   };
 })(this);
 
+// typeに応じたbadgeを返す(Bootstrap用)
 get_badge = function (type) {
   let badge;
   switch (type) {
@@ -51,6 +54,7 @@ get_badge = function (type) {
 }
 
 $(document).ready(function () {
+  // サイドバーの生成
   var i, len, li, symbol, type, filename, badge, _i, _ref;
   len = index_data.symbols.length;
   li = [];
@@ -64,8 +68,10 @@ $(document).ready(function () {
       + type[0].toUpperCase() + "</span>" + "<span class='text-monospace px-2'> " + symbol + "</span></button>");
   }
   $("#index-listdata").append(li.join(''));
+  // 初期画面で表示されるsymbol
   jump_to(index_data.filenames[0], null, true);
   $("#symbol-name").val(index_data.symbols[0]);
+  // symbolからsymbolへのジャンプ
   $("#main").on("click", "button[data-link],span[data-link]", function () {
     let anchor, filename, links, index;
     links = $(this).attr("data-link").split('#');
@@ -75,11 +81,13 @@ $(document).ready(function () {
     $("#symbol-name").val(index_data.symbols[index]);
     return jump_to(filename, anchor, true);
   });
+  // symbolからarticleへのジャンプ
   $("#main").on("click", "span[data-href]", function () {
-    let url;
-    url = context['article_base_uri'] + $(this).attr("data-href");
-    return window.open(url, '_blank').focus();
+    // クッキーにArticle名を保存すると, Articleアプリを開いたときロードされる
+    Cookies.set('next', $(this).attr("data-href"));
+    return window.open(context['article_base_uri'], '_blank').focus();
   });
+  // サイドバー検索
   $("#search-input").keyup(function () {
     var query, searcher;
     $("#index-listdata").css("display", "none");

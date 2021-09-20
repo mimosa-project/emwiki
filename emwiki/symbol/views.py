@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseNotFound
@@ -13,17 +15,12 @@ class SymbolIndexView(View):
         context = dict()
         # you can use these variables in index.js
         context["context_for_js"] = {
-            'adjust_name_url': reverse('symbol:adjust_name'),
-            # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
-            'article_base_uri': reverse(
-                'article:index',
-                kwargs=dict(filename='content-name')
-            ).replace('content-name', ''),
+            'article_base_uri': reverse('article:index'),
             'symbol_base_uri': reverse('symbol:index')
         }
         return render(request, 'symbol/index.html', context)
 
 class SymbolView(View):
     def get(self, request, filename):
-        path = "symbol/symbol_html/" + filename
+        path = os.path.join(Symbol.get_htmlfile_dir(), filename)
         return render(request, path)

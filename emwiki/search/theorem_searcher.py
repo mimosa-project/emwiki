@@ -63,13 +63,11 @@ class TheoremSearcher:
         # URLを生成
         for res in result:
             filename, anchor = res['label'].split(':')
-            path = reverse('article:index', kwargs=dict(
-                filename=filename.lower()))
             if re.match('def', anchor):
                 anchor = anchor.replace('def', 'D')
             else:
                 anchor = f"T{anchor}"
-            urldict = {'url': f'{path}#{anchor}'}
+            urldict = {'url': f'{filename.lower()}#{anchor}'}
             res.update(urldict)
 
         return result

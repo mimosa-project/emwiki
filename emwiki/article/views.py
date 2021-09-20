@@ -12,8 +12,15 @@ from django.views.decorators.cache import cache_page
 
 from .models import Article, Comment
 
+class ArticleIndexView(View): 
+    def get(self, request):
+        context = dict()
+        context["context_for_js"] = {
+            'article_base_uri': reverse('article:index'),
+        }
+        return render(request, "article/index.html", context)
 
-class ArticleView(View):
+class ArticleView(View): 
     def get(self, request, filename, *args, **kwargs):
         name = os.path.splitext(filename)[0]
         article = Article.objects.get(name=name)
@@ -30,10 +37,9 @@ class ArticleView(View):
             'is_authenticated': self.request.user.is_authenticated,
             'name': article.name,
             'comments': list(Comment.objects.filter(article=article).values()),
-            'comment_url': reverse('article:comment'),
-            'names_url': reverse('article:names')
+            'comment_url': reverse('article:comment')
         }
-        return render(request, "article/index.html", context)
+        return render(request, "article/article.html", context)
 
 
 class ProofView(View):
@@ -93,13 +99,3 @@ class CommentView(View):
         article.save_db2mizfile()
         article.commit_mizfile(request.user.username)
         return HttpResponse(status=201)
-
-
-@cache_page(60 * 60 * 24)
-def get_names(request):
-    return HttpResponse(
-        serializers.serialize(
-            'json', Article.objects.order_by("name").all()
-        ),
-        content_type='application/json'
-    )
