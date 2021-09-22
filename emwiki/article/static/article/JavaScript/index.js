@@ -11,13 +11,23 @@ jump_to = (function (_this) {
             push_state = false;
         }
         if (filename != null) {
-            return $("#article").load(context_for_index['article_base_uri'] + filename, null, function () {
+            return $("#htmlized-mml").load(context_for_index['article_base_uri'] + filename, null, function () {
+                var context = JSON.parse(document.getElementById('context').textContent);
+                $("#article-name").text(context["name"]);
+                $("#bib-popover").attr("data-bs-content", "<pre>" + context["bib_text"] + "</pre>");
+                var popover = new bootstrap.Popover(document.getElementById("bib-popover"), { "html": true })
+                let article = new Article(context["name"], $("#htmlized-mml"));
+                let parser = new Parser(article.element);
+                let comments = parser.list_comments(article);
+                Comment.bulk_fetch(article, comments, context_for_index["comment_url"]);
                 // アンカーの部分にselectedクラスを与え, その位置までスクロールする
-                $("#article").removeClass('selected');
+                $("#htmlized-mml").removeClass('selected');
                 if (anchor) {
                     $("[name=" + anchor + "]").addClass('selected');
                 }
-                // アンカーまでスクロールする処理はarticle.jsで行う
+                // selectedクラスを持つ箇所の位置を取得し, そこまでスクロール(ずれるで130を引いている)
+                offsetTop = $(".selected")[0] != null ? ($(".selected")[0].offsetTop - 130) : 0;
+                $('#htmlized-mml').animate({ scrollTop: offsetTop }, "slow");
                 if (push_state) {
                     return history.pushState({
                         filename: filename,
@@ -149,7 +159,7 @@ class Editor {
         editor.element = editor.comment.element.prev();
         //edit class editButton clicked
         editor.element.find('.editButton').on("click", function (event) {
-            if (context["is_authenticated"]) {
+            if (context_for_index["is_authenticated"]) {
                 editor.element.find(".editcomment").show();
                 editor.element.find(".editButton").hide();
             } else {
@@ -266,7 +276,7 @@ class Comment {
         });
     }
 
-    static bulk_fetch(article, comments, comment_url = context["comment_url"]) {
+    static bulk_fetch(article, comments, comment_url = context_for_index["comment_url"]) {
         $.get({
             url: comment_url,
             data: { article_name: article.name }
@@ -292,7 +302,7 @@ class Comment {
             });
     }
 
-    fetch(comment_url = context["comment_url"]) {
+    fetch(comment_url = context_for_index["comment_url"]) {
         // declarate decause `this` reserved by jQuery in $.get
         let comment = this;
         $.get({

@@ -17,6 +17,8 @@ class ArticleIndexView(View):
         context = dict()
         context["context_for_js"] = {
             'article_base_uri': reverse('article:index'),
+            'comment_url': reverse('article:comment'),
+            'is_authenticated': self.request.user.is_authenticated,
         }
         return render(request, "article/index.html", context)
 
@@ -26,21 +28,18 @@ class ArticleView(View):
         name = os.path.splitext(filename)[0]
         article = Article.objects.get(name=name)
         context = dict()
-        context['name'] = article.name
-        context['template_path'] = f"article/htmlized_mml/{article.name}.html"
         bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article.name}.bib')
         if os.path.exists(bib_file_path):
             with open(bib_file_path, "r") as f:
-                context['bib_text'] = f.read()
+                bib_text = f.read()
         else:
-            context['bib_text'] = f"{bib_file_path} not found"
+            bib_text = f"{bib_file_path} not found"
         context["context_for_js"] = {
-            'is_authenticated': self.request.user.is_authenticated,
             'name': article.name,
             'comments': list(Comment.objects.filter(article=article).values()),
-            'comment_url': reverse('article:comment')
+            'bib_text': bib_text
         }
-        return render(request, "article/article.html", context)
+        return render(request, article.template_url, context)
 
 
 class ProofView(View):

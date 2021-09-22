@@ -16,8 +16,8 @@ jump_to = (function (_this) {
         if (anchor) {
           $("#" + anchor).addClass('selected');
         }
-        // offsetTopがずれるので80を引いている
-        offsetTop = anchor != null ? ($(".selected")[0].offsetTop - 80) : 0;
+        // offsetTopがずれるので130を引いている
+        offsetTop = anchor != null ? ($(".selected")[0].offsetTop -130) : 0;
         $('#symbol').animate({scrollTop: offsetTop}, "slow");
         if (push_state) {
           return history.pushState({
@@ -70,7 +70,7 @@ $(document).ready(function () {
   $("#index-listdata").append(li.join(''));
   // 初期画面で表示されるsymbol
   jump_to(index_data.filenames[0], null, true);
-  $("#symbol-name").val(index_data.symbols[0]);
+  $("#symbol-name").text(index_data.symbols[0]);
   // symbolからsymbolへのジャンプ
   $("#main").on("click", "button[data-link],span[data-link]", function () {
     let anchor, filename, links, index;
@@ -78,7 +78,7 @@ $(document).ready(function () {
     filename = links[0];
     anchor = links[1];
     index = index_data.filenames.indexOf(filename)
-    $("#symbol-name").val(index_data.symbols[index]);
+    $("#symbol-name").text(index_data.symbols[index]);
     return jump_to(filename, anchor, true);
   });
   // symbolからarticleへのジャンプ
