@@ -4,6 +4,8 @@ emwiki/article/templates/article/fmbibs/
 emwiki/article/templates/article/htmlized_mml/
 emwiki/symbol/templates/symbol/symbol_html/
 emwiki/search/index/
+emwiki/graph/static/graph/graph_attrs/dot_graph.json
+emwiki/emwiki-contents
 
 # testdata
 testdata/outputs/
