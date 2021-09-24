@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.test import TestCase
 from emwiki.settings import GRAPH_ELS_DIR
@@ -6,6 +7,11 @@ from graph import create_graph, retrieve_dependency
 
 
 class CreateGraphTest(TestCase):
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove(GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json")
+
     def test_create_graph(self):
 
         node2targets_mml = retrieve_dependency.make_miz_dependency()
