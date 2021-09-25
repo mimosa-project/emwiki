@@ -8,10 +8,6 @@ from graph import create_graph, retrieve_dependency
 
 class CreateGraphTest(TestCase):
 
-    @classmethod
-    def tearDownClass(cls):
-        os.remove(GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json")
-
     def test_create_graph(self):
 
         node2targets_mml = retrieve_dependency.make_miz_dependency()
@@ -22,3 +18,6 @@ class CreateGraphTest(TestCase):
         # テスト
         nodes = dot_graph["elements"]["nodes"]
         self.assertEqual(len(node2targets_mml), len(nodes))
+
+    def tearDown(self):
+        os.remove(GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json")
