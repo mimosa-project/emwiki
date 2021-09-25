@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.test import TestCase
 from emwiki.settings import GRAPH_ELS_DIR
@@ -16,3 +17,6 @@ class CreateGraphTest(TestCase):
         # テスト
         nodes = dot_graph["elements"]["nodes"]
         self.assertEqual(len(node2targets_mml), len(nodes))
+
+    def tearDown(self):
+        os.remove(GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json")
