@@ -3,7 +3,7 @@ import os
 import re
 from collections import defaultdict
 
-from django.conf import settings
+from emwiki.settings import MML_MML_DIR
 
 DIRECTIVES = ['vocabularies', 'constructors', 'notations', 'registrations',
               'theorems', 'schemes', 'definitions', 'requirements',
@@ -22,14 +22,14 @@ def make_miz_dependency():
     cwd = os.getcwd()
     try:
         article2dependency_articles = dict()
-        os.chdir(settings.MML_MML_DIR)
+        os.chdir(MML_MML_DIR)
         miz_files = glob.glob("*.miz")  # mmlディレクトリの.mizファイルを取り出す
 
     finally:
         os.chdir(cwd)
 
     for miz_file in miz_files:
-        with open(os.path.join(settings.MML_MML_DIR, miz_file), 'rt',
+        with open(os.path.join(MML_MML_DIR, miz_file), 'rt',
                   encoding='utf-8', errors="ignore") as f:
             miz_file_contents = f.read()
         directive2articles = extract_articles(miz_file_contents)

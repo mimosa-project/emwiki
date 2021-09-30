@@ -10,7 +10,7 @@ import math
 from collections import defaultdict
 
 import networkx as nx
-from django.conf import settings
+from emwiki.settings import GRAPH_ELS_DIR
 
 
 class Node:
@@ -854,5 +854,5 @@ def create_graph(node2targets, output_json_file):
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open(settings.GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
+    with open(GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
         f.write(json.dumps(graph_json, indent=4))

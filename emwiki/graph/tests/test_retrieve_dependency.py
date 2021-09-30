@@ -2,8 +2,8 @@
 import glob
 import os
 
-from django.conf import settings
 from django.test import TestCase
+from emwiki.settings import MML_MML_DIR
 from graph import retrieve_dependency
 
 
@@ -11,7 +11,7 @@ class RetrieveDependencyTest(TestCase):
     def test_retrieve_dependency(self):
         cwd = os.getcwd()
         try:
-            os.chdir(settings.MML_MML_DIR)
+            os.chdir(MML_MML_DIR)
             miz_files = glob.glob("*.miz")
 
         finally:
