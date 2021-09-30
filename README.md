@@ -163,6 +163,9 @@ python manage.py build_search_data
 
 # Build fmbibs
 python manage.py build_fmbibs
+
+# Build graph json files
+python manage.py build_graph
 ```
 ### How to load models
 ```bash
