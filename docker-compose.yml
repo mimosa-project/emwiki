@@ -9,6 +9,11 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    # If you use these configurations, use --compatibility when `docker run`
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 1G
   db:
     image: postgres:latest
     container_name: emwiki-db-develop
