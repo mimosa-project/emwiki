@@ -4,10 +4,6 @@ body {
     margin: 0;
 }
 
-#symbol {
-    font-family: consolas;
-}
-
 #list-of-definition {
     overflow: auto;
     max-height: 90vh;

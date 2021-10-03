@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-{{ context_for_js|json_script:"context_for_index" }}
+{{ context_for_js|json_script:"context" }}
 <!-- js-cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
@@ -35,7 +35,7 @@
             <h1 class="h-10">
                 <span class='display-4' id="article-name"></span>
                 <a id="bib-popover" tabindex="0" class="btn btn-secondary" role="button" data-bs-toggle="popover"
-                    data-bs-placement="bottom" data-bs-trigger="focus" data-bs-content="<pre>{{ bib_text }}</pre>">
+                    data-bs-placement="bottom" data-bs-trigger="focus" data-bs-content="">
                     bib
                 </a>
             </h1>

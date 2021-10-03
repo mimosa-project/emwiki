@@ -1,3 +1,6 @@
+import os
+
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from symbol.symbol_javascript_builder import SymbolJavascriptBuilder
@@ -12,4 +15,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Start creating javascript for Symbol')
         symbol_javascript_builder = SymbolJavascriptBuilder()
-        symbol_javascript_builder.create_files()
+        symbol_javascript_builder.create_files(
+            os.path.join(settings.SYMBOL_JAVASCRIPT_DIR, 'mml-index.js')
+        )

@@ -1,4 +1,4 @@
-var context_for_index = JSON.parse(document.getElementById('context_for_index').textContent);
+var context = JSON.parse(document.getElementById('context').textContent);
 var jump_to;
 // ページを切り替える関数
 jump_to = (function (_this) {
@@ -11,22 +11,30 @@ jump_to = (function (_this) {
             push_state = false;
         }
         if (filename != null) {
-            return $("#htmlized-mml").load(context_for_index['article_base_uri'] + filename, null, function () {
-                var context = JSON.parse(document.getElementById('context').textContent);
-                $("#article-name").text(context["name"]);
-                $("#bib-popover").attr("data-bs-content", "<pre>" + context["bib_text"] + "</pre>");
-                var popover = new bootstrap.Popover(document.getElementById("bib-popover"), { "html": true })
-                let article = new Article(context["name"], $("#htmlized-mml"));
+            return $("#htmlized-mml").load(context['article_base_uri'] + filename, null, function () {
+                $("#article-name").text(filename);
+                let article = new Article(filename, $("#htmlized-mml"));
                 let parser = new Parser(article.element);
                 let comments = parser.list_comments(article);
-                Comment.bulk_fetch(article, comments, context_for_index["comment_url"]);
+                Comment.bulk_fetch(article, comments, context["comment_uri"]);
+                // bibテキストを取得
+                $.get({
+                    url: context['bib_uri'],
+                    data: { article_name: filename }
+                })
+                    .done(function (respons) {
+                        $("#bib-popover").attr("data-bs-content", "<pre>" + respons["bib_text"] + "</pre>");
+                        var popover = new bootstrap.Popover(document.getElementById("bib-popover"), { "html": true })
+                    }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('Failed to get bib text\n' + textStatus);
+                    });
                 // アンカーの部分にselectedクラスを与え, その位置までスクロールする
                 $("#htmlized-mml").removeClass('selected');
                 if (anchor) {
                     $("[name=" + anchor + "]").addClass('selected');
                 }
-                // selectedクラスを持つ箇所の位置を取得し, そこまでスクロール(ずれるで130を引いている)
-                offsetTop = $(".selected")[0] != null ? ($(".selected")[0].offsetTop - 130) : 0;
+                // offsetTopがずれるので関数calculateMisalignmentでズレを計算し引いている
+                offsetTop = anchor != null ? ($(".selected")[0].offsetTop - calculateMisalignment()) : 0;
                 $('#htmlized-mml').animate({ scrollTop: offsetTop }, "slow");
                 if (push_state) {
                     return history.pushState({
@@ -38,6 +46,12 @@ jump_to = (function (_this) {
         }
     };
 })(this);
+
+//スクロールのズレを計算する関数
+calculateMisalignment = function () {
+    hight = $('html').height() - $('#htmlized-mml').height();
+    return hight;
+}
 
 $(document).ready(function () {
     // サイドバーのボタンを生成
@@ -51,9 +65,9 @@ $(document).ready(function () {
     }
     $("#index-listdata").append(li.join(''));
     // Symbol, Searchアプリケーションからジャンプしてきた場合, クッキーで指定されたページをロード
-    let next = Cookies.get('next');
+    let next = Cookies.get('next-link');
     if (next != null) {
-        Cookies.remove('next');
+        Cookies.remove('next-link');
         let links, filename, anchor;
         links = next.split('#');
         filename = links[0];
@@ -76,9 +90,7 @@ $(document).ready(function () {
     $("#main").on("click", "a[href]", function (event) {
         event.preventDefault();
         // proof, refがクリックされた場合はhrefに"javascript:()"という値が入っているので無視する
-        if ($(this).attr("href") == "javascript:()") {
-        }
-        else {
+        if ($(this).attr("href") != "javascript:()") {
             let links, filename, anchor;
             links = $(this).attr("href").split('#');
             filename = links[0];
@@ -159,7 +171,7 @@ class Editor {
         editor.element = editor.comment.element.prev();
         //edit class editButton clicked
         editor.element.find('.editButton').on("click", function (event) {
-            if (context_for_index["is_authenticated"]) {
+            if (context["is_authenticated"]) {
                 editor.element.find(".editcomment").show();
                 editor.element.find(".editButton").hide();
             } else {
@@ -276,7 +288,7 @@ class Comment {
         });
     }
 
-    static bulk_fetch(article, comments, comment_url = context_for_index["comment_url"]) {
+    static bulk_fetch(article, comments, comment_url = context["comment_uri"]) {
         $.get({
             url: comment_url,
             data: { article_name: article.name }
@@ -302,7 +314,7 @@ class Comment {
             });
     }
 
-    fetch(comment_url = context_for_index["comment_url"]) {
+    fetch(comment_url = context["comment_uri"]) {
         // declarate decause `this` reserved by jQuery in $.get
         let comment = this;
         $.get({

@@ -16,8 +16,8 @@ jump_to = (function (_this) {
         if (anchor) {
           $("#" + anchor).addClass('selected');
         }
-        // offsetTopがずれるので130を引いている
-        offsetTop = anchor != null ? ($(".selected")[0].offsetTop -130) : 0;
+        // offsetTopがずれるので関数calculateMisalignmentでズレを計算し引いている
+        offsetTop = anchor != null ? ($(".selected")[0].offsetTop - calculateMisalignment()) : 0;
         $('#symbol').animate({scrollTop: offsetTop}, "slow");
         if (push_state) {
           return history.pushState({
@@ -53,6 +53,12 @@ get_badge = function (type) {
   return badge;
 }
 
+//スクロールのズレを計算する関数
+calculateMisalignment = function () {
+  hight = $('html').height() - $('#symbol').height();
+  return hight;
+}
+
 $(document).ready(function () {
   // サイドバーの生成
   var i, len, li, symbol, type, filename, badge, _i, _ref;
@@ -84,7 +90,7 @@ $(document).ready(function () {
   // symbolからarticleへのジャンプ
   $("#main").on("click", "span[data-href]", function () {
     // クッキーにArticle名を保存すると, Articleアプリを開いたときロードされる
-    Cookies.set('next', $(this).attr("data-href"));
+    Cookies.set('next-link', $(this).attr("data-href"));
     return window.open(context['article_base_uri'], '_blank').focus();
   });
   // サイドバー検索

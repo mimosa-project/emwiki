@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -17,7 +17,8 @@ class ArticleIndexView(View):
         context = dict()
         context["context_for_js"] = {
             'article_base_uri': reverse('article:index'),
-            'comment_url': reverse('article:comment'),
+            'comment_uri': reverse('article:comment'),
+            'bib_uri': reverse('article:bib'),
             'is_authenticated': self.request.user.is_authenticated,
         }
         return render(request, "article/index.html", context)
@@ -27,19 +28,20 @@ class ArticleView(View):
     def get(self, request, filename, *args, **kwargs):
         name = os.path.splitext(filename)[0]
         article = Article.objects.get(name=name)
-        context = dict()
-        bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article.name}.bib')
-        if os.path.exists(bib_file_path):
-            with open(bib_file_path, "r") as f:
-                bib_text = f.read()
-        else:
-            bib_text = f"{bib_file_path} not found"
-        context["context_for_js"] = {
-            'name': article.name,
-            'comments': list(Comment.objects.filter(article=article).values()),
-            'bib_text': bib_text
-        }
-        return render(request, article.template_url, context)
+        return render(request, article.template_url)
+
+
+class BibView(View):
+    def get(self, request):
+        if 'article_name' in request.GET:
+            article_name = request.GET.get("article_name")
+            bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article_name}.bib')
+            if os.path.exists(bib_file_path):
+                with open(bib_file_path, "r") as f:
+                    bib_text = f.read()
+            else:
+                bib_text = f"{bib_file_path} not found"
+            return JsonResponse({"bib_text": bib_text})
 
 
 class ProofView(View):

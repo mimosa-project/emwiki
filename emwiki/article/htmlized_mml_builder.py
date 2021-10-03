@@ -45,8 +45,6 @@ class HtmlizedMmlBuilder:
             product_html_file = HtmlFile(to_path)
             product_html_file.root = self.convert_head(raw_html_file.root)
             product_html_file.write()
-            with open(to_path, mode="a", encoding="utf-8") as f:
-                f.write('{{ context_for_js|json_script:"context" }}')
         print("Copying proofs...")
         shutil.copytree(
             os.path.join(self.from_dir, 'proofs'),

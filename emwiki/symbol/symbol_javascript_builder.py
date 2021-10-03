@@ -1,25 +1,19 @@
 import json
-import os
-from symbol.models import Symbol
+from natsort import humansorted
 
-from django.conf import settings
+from symbol.models import Symbol
 
 
 class SymbolJavascriptBuilder:
-    path = os.path.join(
-        settings.BASE_DIR, 'symbol', 'static', 'symbol', 'JavaScript', 'mml-index.js'
-    )
-
     # Symbolアプリケーションで使用するJavascritを生成する
     # var index_data ={
     #     "symbols": ["!", "!=", "\"",...],
     #     "types": ["func", "pred", "func",..],
     #     "filenames": ["2069.html", "3499.html", "43.html",...]
     # }
-    def create_files(self):
-        print('Building javascript for symbol')
+    def create_files(self, path):
         symbols = list(Symbol.objects.all())
-        symbols.sort(key=lambda a: a.name.lower())
+        symbols = humansorted(symbols, key=lambda a: a.name.lower())
         name_list = []
         type_list = []
         filename_list = []
@@ -31,6 +25,6 @@ class SymbolJavascriptBuilder:
         dict["symbols"] = name_list
         dict["types"] = type_list
         dict["filenames"] = filename_list
-        with open(self.path, mode='w', encoding='utf-8') as f:
+        with open(path, mode='w', encoding='utf-8') as f:
             f.write("var index_data = ")
             json.dump(dict, f)
