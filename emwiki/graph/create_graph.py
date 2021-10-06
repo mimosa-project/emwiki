@@ -10,7 +10,7 @@ import math
 from collections import defaultdict
 
 import networkx as nx
-from emwiki.settings import GRAPH_ELS_DIR
+from django.conf import settings
 
 
 class Node:
@@ -96,12 +96,12 @@ def create_nodes(node2targets):
     """
     node2targetsをNodeクラスでインスタンス化したものをリストにまとめる．
     各属性には次の物を格納する．
-        - name:    node2targetsのkey．str()．
-        - targets: node2targetsのvalue．set()．
-        - sources: node2targetsのnodeのソースノードの集合．set()．
-        - x, y:    -1．int()．
-        - href:    (ノード名).html．ただし，ノード名は小文字．str()．
-        - is_dummy: False．bool()．
+        - name:    node2targetsのkey．
+        - targets: node2targetsのvalue．set[str]．
+        - sources: node2targetsのnodeのソースノードの集合．set[str]．
+        - x, y:    -1．
+        - href:    (ノード名).html．ただし，ノード名は小文字．
+        - is_dummy: False
     Args:
         node2targets: key:ノード名，value:keyのノードのターゲットノードの集合
     Returns:
@@ -110,7 +110,7 @@ def create_nodes(node2targets):
     nodes = []
     name2node = {}
     # nodes, name2nodeの作成
-    # k: ノードの名前(str)、v: ノードkのリンクURL(str)
+    # k: ノードの名前(str)
     for k in node2targets.keys():
         n = Node(name=k)
         name2node[k] = n
@@ -121,13 +121,13 @@ def create_nodes(node2targets):
         n.href = n.name.lower() + '.html'
 
     # targetsの作成
-    # k: ノードの名前(str)、v: ノードkがターゲットとするノードの名前(str)の集合
+    # k: ノードの名前(str)、v: ノードkのターゲットノードのset[str]
     for k, v in node2targets.items():
         for target in v:
             name2node[k].targets.add(name2node[target])
 
     # sourcesの作成
-    # k: ノードの名前(str)、v: ノードkのNodeオブジェクト(object)
+    # k: ノードの名前、v: ノードkのNodeオブジェクト
     for k, v in name2node.items():
         for target in v.targets:
             target.sources.add(name2node[k])
@@ -755,6 +755,31 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 
 
 """
+階層グラフ(graphviz dot style)
+"""
+
+
+def assgin_dot_coordinate(nodes):
+    """
+    graphvizのdotレイアウトを適用したときの座標を返す
+    """
+    G = nx.DiGraph(nodes_to_node2targets(nodes))
+    pos = nx.nx_pydot.pydot_layout(G, prog="dot")
+    for n in nodes:
+        n.x = pos[n.name][0] * 0.02
+        n.y = pos[n.name][1] * 0.02
+
+
+def nodes_to_node2targets(nodes):
+    node2targets = dict()
+    for n in nodes:
+        node2targets[n.name] = list()
+        for t in n.targets:
+            node2targets[n.name].append(t.name)
+    return node2targets
+
+
+"""
 仕上げ
 """
 
@@ -762,10 +787,8 @@ def assign_x_in_sequence(nodes_stack, x, sign):
 def node_list2node_dict(node_list):
     """
     ノードについての情報（属性）をリスト形式から辞書形式に変換する．
-
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト．
-
     Return:
         各ノードのname, href, x, y, is_dummyを持つ辞書．
         キーはnameで、その値としてhref, x, y, is_dummyをキーに持つ辞書が与えられる．
@@ -788,11 +811,9 @@ def node_list2node_dict(node_list):
 def create_dependency_graph(node_list, graph):
     """
     依存関係を示すグラフを作成する．
-
     Args:
         node_list:全ノードをNodeクラスでまとめたリスト．
         graph:操作する有向グラフ．networkx.DiGraph()
-
     Return:
     """
     for source in node_list:
@@ -802,26 +823,20 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
-def create_graph(node2targets):
+def create_graph(node2targets, output_json_file):
     """
-       依存関係を示すグラフを作る．
-
-       Return:
+    依存関係を示すグラフを作る．
+    Args:
+        node2targets: valueがkeyのtargetsとなる辞書.
+        output_json_file: 出力ファイル名．末尾に'.json'を記述．
+    Return:
     """
     nodes = create_nodes(node2targets)
     # 間引き
     remove_redundant_dependency(nodes)
-    # 階層割当
-    assign_top_node(nodes)
-    assign_x_sequentially(nodes)
-    # 交差削減
-    for _ in range(50):
-        sort_nodes_by_xcenter(nodes, downward=True)
-        sort_nodes_by_xcenter(nodes, downward=False)
-    # 座標割当
-    for _ in range(10):
-        move_node_closer_to_connected_nodes(nodes, downward=True)
-        move_node_closer_to_connected_nodes(nodes, downward=False)
+
+    # レイアウト
+    assgin_dot_coordinate(nodes)
 
     node_attributes = node_list2node_dict(nodes)
 
@@ -839,5 +854,5 @@ def create_graph(node2targets):
     # cytoscape.jsの記述形式(JSON)でグラフを記述
     graph_json = nx.cytoscape_data(graph, attrs=None)
 
-    with open(GRAPH_ELS_DIR + '/graph_attrs/layered_graph.json', 'w') as f:
+    with open(settings.GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
         f.write(json.dumps(graph_json, indent=4))

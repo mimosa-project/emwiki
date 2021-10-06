@@ -163,6 +163,9 @@ python manage.py build_search_data
 
 # Build fmbibs
 python manage.py build_fmbibs
+
+# Build graph json files
+python manage.py build_graph
 ```
 ### How to load models
 ```bash
@@ -171,6 +174,45 @@ python manage.py load_articles
 
 # Load symbols
 python manage.py load_symbols
+```
+
+### How to limit memory usage of WSL on your Windows
+
+Create .wslconfig file at `C:\Users\{ username }\.wslconfig`
+
+Add wsl2 configureration in `.wslconfig`(Change the value which you want)(See this [manual](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig) for detail)
+```
+[wsl2]
+memory=2GB
+```
+
+Restart WSL on PowerShell for apply the configuration.
+```
+$ wsl --shutdown
+```
+
+### How to limit memory usage of development container.
+
+**この方法は現在非推奨で、将来サポートが打ち切られます。**
+
+Add `services.python.deploy.resources.limits.memory` to `emwiki/ docker-compose.yml`
+```yaml
+services:
+  python:
+    build: .
+    ~~~
+    deploy:
+      resources:
+        limits:
+          memory: 1G # Change this value which you want
+    ~~~
+...
+```
+
+Recreate python container.
+Add `--compatibility` when you create development containers(because `deploy` can be used only version 2)
+```Bash
+docker-compose --compatibility up -d
 ```
 
 ## 9 Licence
