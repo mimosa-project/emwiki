@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from article.article_builder import ArticleBuilder
 from article.htmlized_mml_builder import HtmlizedMmlBuilder
@@ -13,6 +14,7 @@ TEMPLATES[0]["DIRS"].append(os.path.join(settings.BASE_DIR, "article", "tests", 
 
 @override_settings(TEMPLATES=TEMPLATES)
 class ArticleTest(TestCase):
+    test_templates_dir = os.path.join(settings.BASE_DIR, "article", "tests", "templates", "article", "htmlized_mml")
 
     @classmethod
     def setUpClass(cls):
@@ -21,14 +23,13 @@ class ArticleTest(TestCase):
         cls.article_builder.create_models()
         cls.htmlized_mml_builder = HtmlizedMmlBuilder()
         cls.htmlized_mml_builder.from_dir = settings.TEST_MML_HTML_DIR
-        cls.htmlized_mml_builder.to_dir = os.path.join(settings.BASE_DIR, "article", "tests", "templates", "article", "htmlized_mml")
-        cls.htmlized_mml_builder.delete_files()
+        cls.htmlized_mml_builder.to_dir = cls.test_templates_dir
         cls.htmlized_mml_builder.create_files()
 
     @classmethod
     def tearDownClass(cls):
+        shutil.rmtree(cls.test_templates_dir)
         cls.article_builder.delete_models()
-        cls.htmlized_mml_builder.delete_files()
 
     def test_get(self):
         client = Client()
