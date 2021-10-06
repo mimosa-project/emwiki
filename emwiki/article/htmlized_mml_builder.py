@@ -41,9 +41,9 @@ class HtmlizedMmlBuilder:
         """
         existing_files = glob.glob(os.path.join(self.to_dir, '*'))
         for file in existing_files:
-            if os.isfile(file):
+            if os.path.isfile(file):
                 os.remove(file)
-            elif os.isdir(file):
+            elif os.path.isdir(file):
                 shutil.rmtree(file)
         html_paths = glob.glob(os.path.join(self.from_dir, "*.html"))
         if not os.path.exists(self.to_dir):
