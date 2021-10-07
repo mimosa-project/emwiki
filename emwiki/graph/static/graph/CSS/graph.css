@@ -1,5 +1,41 @@
 #graph{
     position: absolute;
-    height: 80%;
-    width: 100%;
+    height: 90%;
+    width: 80%;
+    z-index: 10;
+    top: 10%;
+    left: 20%;
+}
+
+.color_index{
+    position: absolute;
+    z-index: 20;
+    top: 30px;
+    right: 20px;
+}
+
+.hidden_show {
+    visibility: hidden;
+}
+
+.color_labels .number_row{
+    width: 20px;
+    text-align: center;
+}
+
+.color_labels .color_row{
+    width: 40px;
+}
+
+.color_labels .generation_param_row{
+    width: 140px;
+    font-size: 100%;
+}
+
+.color_labels .node_size_param_row{
+    width: 80px;
+}
+
+.functions{
+    z-index: 10;
 }
