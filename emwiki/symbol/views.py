@@ -27,7 +27,4 @@ class SymbolView(View):
             path = os.path.join(Symbol.get_htmlfile_dir(), filename)
             if os.path.exists(path):
                 return render(request, path)
-            else:
-                raise Http404("Symbol html does not exist")
-        else:
-            raise Http404("Symbol html does not exist")
+        raise Http404("Symbol html does not exist")

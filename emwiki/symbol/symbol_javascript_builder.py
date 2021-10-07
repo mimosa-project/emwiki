@@ -13,7 +13,7 @@ class SymbolJavascriptBuilder:
     # }
     def create_files(self, path):
         symbols = list(Symbol.objects.all())
-        symbols = humansorted(symbols, key=lambda a: a.name.lower())
+        symbols = humansorted(symbols, key=lambda a: a.name)
         name_list = []
         type_list = []
         filename_list = []
