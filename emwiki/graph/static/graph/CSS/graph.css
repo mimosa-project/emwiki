@@ -39,3 +39,10 @@
 .functions{
     z-index: 10;
 }
+
+#name-plate {
+    position: absolute;
+    z-index: 1000;
+    font-size: 25px;
+    background-color: #ffe4c4;
+}

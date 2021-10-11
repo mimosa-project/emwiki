@@ -230,7 +230,6 @@ $(function () {
         }
     });
 
-
     // 強調表示したい祖先、子孫の世代数を取得
     $("#ancestor_generations").on("change", function () {
         ancestor_generations = $("#ancestor_generations").val();
@@ -251,6 +250,18 @@ $(function () {
     cy.edges().on("tap", function (event) {
         reset_elements_style(cy);
         $(".color_index").addClass("hidden_show");
+    });
+
+    // ノードの上にカーソルが来たとき，ノード名を表示する
+    $(window).on("mousemove", function (window_event) {
+        cy.nodes().on("mouseover", function (cy_event) {
+            document.getElementById("name-plate").style.top = window_event.clientY + (10) + "px";
+            document.getElementById("name-plate").style.left = window_event.clientX + (10) + "px";
+            document.getElementById("name-plate").textContent = cy_event.target.data("name");
+        });
+        cy.nodes().on("mouseout", function () {
+            document.getElementById("name-plate").textContent = "";
+        })
     });
 
     // ノードをクリックした場合、リンクに飛ぶ(htmlリンクの設定)
