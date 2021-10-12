@@ -37,7 +37,7 @@ $(function () {
         {
             selector: "node",
             css: {
-                "background-color": "#ff0000", "shape": "ellipse", "width": 150, "height": "150",
+                "background-color": "#ff0000", "shape": "ellipse", "width": 150, "height": 150,
                 "content": "data(name)", "font-size": 40, "opacity": 1, "z-index": 1,
                 "text-halign": "center", "text-valign": "center", "font-style": "normal",
                 "font-weight": "bold", "color": "#ffffff",
@@ -103,7 +103,6 @@ $(function () {
                 "text-outline-color": "#ff0000", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
-        // 選択された(強調表示する)子孫のスタイル
         {
             selector: "node.selected_descendants0",
             css: {
