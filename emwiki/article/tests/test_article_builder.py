@@ -28,4 +28,4 @@ class ArticleBuilderTest(TestCase):
         self.builder.create_models()
         article = Article.objects.get(name='abcmiz_0')
         self.assertIsNotNone(article)
-        self.assertEqual(241, len(article.comment_set.all()))
+        self.assertEqual(136, len(article.comment_set.all()))
