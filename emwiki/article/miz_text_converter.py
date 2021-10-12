@@ -113,16 +113,9 @@ class MizTextConverter:
             comment_location_dict = locations.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
-            line_number = comment_location_dict["line_number"]
-
-            # Except for "proof", the comment is written before block,
-            # but in "proof",     the comment is written after block
-            if block == "proof":
-                start = line_number + 1
-                step = 1
-            else:
-                start = line_number - 1
-                step = -1
+            line_number = comment_location_dict["line_number"]            
+            start = line_number - 1
+            step = -1
 
             # Add comment_one_line_text to comment_deque if match push_pattern
             # Then, add comment made by comment_deque to comments
@@ -132,10 +125,7 @@ class MizTextConverter:
                 line_match = push_pattern.match(line)
                 if line_match:
                     comment_one_line_text = line_match.group('comment')
-                    if block == "proof":
-                        comment_deque.append(comment_one_line_text)
-                    else:
-                        comment_deque.appendleft(comment_one_line_text)
+                    comment_deque.appendleft(comment_one_line_text)
                 else:
                     comment = {
                         'block': block,
@@ -203,11 +193,13 @@ class MizTextConverter:
                 if block_stack.count("proof") == 1 or target_match.group('block') != 'proof':
                     block = target_match.group('block')
                     count_dict[block] += 1
-                    locations.append({
-                        "block": block,
-                        "block_order": count_dict[block],
-                        "line_number": line_number
-                    })
+                    # proofのcommentは生成しない
+                    if block != "proof":
+                        locations.append({
+                            "block": block,
+                            "block_order": count_dict[block],
+                            "line_number": line_number
+                        })
         return locations
 
     def add_comment_header(self, text):

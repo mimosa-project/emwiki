@@ -22,13 +22,13 @@ class ArticleBuilder:
         html_paths = glob.glob(os.path.join(self.from_dir, "*.miz"))
         articles = []
         for from_path in tqdm(
-                html_paths, desc='Creating Article, Comment Models'):
+                html_paths, desc='Creating Article Models'):
             basename = os.path.basename(from_path)
             name = os.path.splitext(basename)[0]
             article = Article(name)
             articles.append(article)
         Article.objects.bulk_create(articles)
 
-        for article in Article.objects.all():
+        for article in tqdm(Article.objects.all(), desc='Creating Comment Models'):
             article.mizfile_dir = self.from_dir
             article.load_mizfile2db()
