@@ -113,7 +113,7 @@ class MizTextConverter:
             comment_location_dict = locations.pop(-1)
             block = comment_location_dict["block"]
             block_order = comment_location_dict["block_order"]
-            line_number = comment_location_dict["line_number"]            
+            line_number = comment_location_dict["line_number"]
             start = line_number - 1
             step = -1
 
