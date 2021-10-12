@@ -33,31 +33,25 @@ $(function () {
     cy.add(nodes_and_edges);
     // Set graph style
     cy.style([
-        /* 初期状態のスタイル */
+        // Initial style
         {
             selector: "node",
             css: {
-                "background-color": "#ff0000", "shape": "ellipse", "width": "150", "height": "150",
+                "background-color": "#ff0000", "shape": "ellipse", "width": 150, "height": "150",
                 "content": "data(name)", "font-size": 40, "opacity": 1, "z-index": 1,
                 "text-halign": "center", "text-valign": "center", "font-style": "normal",
                 "font-weight": "bold", "color": "#ffffff",
                 "text-outline-color": "red", "text-outline-opacity": 1, "text-outline-width": 10
-            }  // 0.8 30
+            }
         },
         {
             selector: "edge",
             css: {
                 "line-color": "black", "target-arrow-shape": "triangle", "curve-style": "straight",
                 "target-arrow-color": "black", "arrow-scale": 3, "width": 5, "opacity": 0.3, "z-index": 1
-            }  //0.3
+            }
         },
-        /* リンクのないノードは灰色 */
-        {
-            selector: "node[!href][!is_dummy]",
-            css: { "background-color": "#a9a9a9", "z-index": 1 }
-        },
-        /* ノードが左クリックされたときに適応されるスタイル */
-        // 選択されたノード全てのスタイル
+        // Style of highlight nodes
         {
             selector: "node.highlight",
             css: {
@@ -65,7 +59,7 @@ $(function () {
                 "content": "data(name)", "opacity": 1, "z-index": 10
             }
         },
-        // 選択(左クリック)されたノードのスタイル
+        // Style of selected(clicked) node
         {
             selector: "node.selected",
             css: {
@@ -73,7 +67,7 @@ $(function () {
                 "text-outline-color": "#fff100", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
-        // 選択された(強調表示する)祖先のスタイル
+        // Style of ancestor nodes
         {
             selector: "node.selected_ancestors0",
             css: {
@@ -145,7 +139,7 @@ $(function () {
                 "text-outline-color": "#0000ff", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
-        // 強調表示されたノードをつなぐエッジのスタイル
+        // Style of highlight edges
         {
             selector: "edge.highlight",
             css: {
@@ -153,23 +147,15 @@ $(function () {
                 "target-arrow-color": "#006400", "arrow-scale": 5, "width": 10, "opacity": 1, "z-index": 20
             }
         },
-        /* ダミーノードを指すエッジが選択された場合 */
-        {
-            selector: cy.nodes().edgesTo("node.selected[?is_dummy]"),
-            css: {
-                "line-color": "green", "target-arrow-shape": "none", "curve-style": "straight",
-                "arrow-scale": 10, "width": 5, "z-index": 10, width: 20
-            }  //arrow-scale 0
-        },
-        // 選択されていないノードの色を変更
+        // Style of not highlight nodes
         {
             selector: "node.faded",
             css: { "background-color": "#808080", "text-outline-color": "#808080" }
         },
-        // 選択されていないノードとエッジは薄く表示する
+        // Style of not highlight nodes and edges
         {
             selector: ".faded",
-            css: { "opacity": 0.4, "z-index": 0 }  // 0.05, 0
+            css: { "opacity": 0.4, "z-index": 0 }
         },
     ]);
 
