@@ -1,9 +1,3 @@
-div#article body {
-    margin-left: 30px;
-    font-size: 120%;
-    font-family: consolas;
-}
-
 .commentPreviewWrapper{
     background-color: #e6ffed;
     margin-right: 10px;
@@ -105,3 +99,4 @@ div#article .default { background-color: white; color: black; }
 div#article .default:hover { background-color: white; color: black; }
 #tt { position:fixed; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
 div#article :target { background: #5D9BF7; border: solid 1px #aaa;}
+div#article .selected {background-color : #b0c8f5;}

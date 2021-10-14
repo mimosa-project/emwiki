@@ -31,7 +31,7 @@ class Article(models.Model):
             text: self absolute url.
         """
         return reverse(
-            'article:index',
+            'article:article',
             kwargs={'filename': self.name}
         )
 

@@ -151,9 +151,13 @@ MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
 # Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(
     BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
+ARTICLE_JAVASCRIPT_DIR = os.path.join(
+    BASE_DIR, 'article', 'static', 'article', 'JavaScript')
 # Symbol
 PRODUCT_SYMBOLHTML_DIR = os.path.join(
     BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
+SYMBOL_JAVASCRIPT_DIR = os.path.join(
+    BASE_DIR, 'symbol', 'static', 'symbol', 'JavaScript')
 # Search
 SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'search', 'index')
 # Graph

@@ -5,3 +5,5 @@ pipenv run python /emwiki/emwiki/manage.py build_search_data
 pipenv run python /emwiki/emwiki/manage.py build_graph
 pipenv run python /emwiki/emwiki/manage.py load_articles
 pipenv run python /emwiki/emwiki/manage.py load_symbols
+pipenv run python /emwiki/emwiki/manage.py build_article_javascript
+pipenv run python /emwiki/emwiki/manage.py build_symbol_javascript
