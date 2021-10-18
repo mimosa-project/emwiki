@@ -190,7 +190,7 @@ $(function () {
             reset_elements_style(cy);
             cy.$(select_node).addClass("selected");
             highlight_select_elements(cy, select_node, ancestor_generations, descendant_generations);
-            $(".color_index").removeClass("hidden_show");
+            document.getElementById("highlight_coloring_index").style.visibility = "visible";
         }
         else {
             alert("ERROR: Don't have '" + select_node_name + "' node. Please select existed nodes.");
@@ -209,7 +209,7 @@ $(function () {
             reset_elements_style(cy);
             cy.$(select_node).addClass("selected");
             highlight_select_elements(cy, select_node, ancestor_generations, descendant_generations);
-            $(".color_index").removeClass("hidden_show");
+            document.getElementById("highlight_coloring_index").style.visibility = "visible";
         }
     });
 
@@ -226,13 +226,13 @@ $(function () {
         let clicked_point = event.target;
         if (clicked_point === cy) {
             reset_elements_style(cy);
-            $(".color_index").addClass("hidden_show");
+            document.getElementById("highlight_coloring_index").style.visibility = "hidden";
         }
     });
     // エッジをクリックしたとき，グラフを初期状態のスタイルにする
     cy.edges().on("tap", function (event) {
         reset_elements_style(cy);
-        $(".color_index").addClass("hidden_show");
+        document.getElementById("highlight_coloring_index").style.visibility = "hidden";
     });
 
     // ノードの上にカーソルが来たとき，ノード名を表示する
@@ -243,6 +243,8 @@ $(function () {
             document.getElementById("name-plate").textContent = cy_event.target.data("name");
         });
         cy.nodes().on("mouseout", function () {
+            document.getElementById("name-plate").style.top = "0px";
+            document.getElementById("name-plate").style.left = "0px";
             document.getElementById("name-plate").textContent = "";
         })
     });
@@ -265,7 +267,7 @@ $(function () {
         let clicked_node = e.target;
         highlight_select_elements(cy, clicked_node, ancestor_generations, descendant_generations);
         let clicked_node_name = clicked_node.data("name");
-        $(".color_index").removeClass("hidden_show");
+        document.getElementById("highlight_coloring_index").style.visibility = "visible";
     });
 
     // re-highlightボタンで再度ハイライトする
