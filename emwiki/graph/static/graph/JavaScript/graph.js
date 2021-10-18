@@ -190,7 +190,6 @@ $(function () {
             reset_elements_style(cy);
             cy.$(select_node).addClass("selected");
             highlight_select_elements(cy, select_node, ancestor_generations, descendant_generations);
-            $("#select_article").text("SELECT: " + select_node_name);
             $(".color_index").removeClass("hidden_show");
         }
         else {
@@ -210,7 +209,6 @@ $(function () {
             reset_elements_style(cy);
             cy.$(select_node).addClass("selected");
             highlight_select_elements(cy, select_node, ancestor_generations, descendant_generations);
-            $("#select_article").text("SELECT: " + select_node_name);
             $(".color_index").removeClass("hidden_show");
         }
     });
@@ -267,7 +265,6 @@ $(function () {
         let clicked_node = e.target;
         highlight_select_elements(cy, clicked_node, ancestor_generations, descendant_generations);
         let clicked_node_name = clicked_node.data("name");
-        $("#select_article").text("SELECT: " + clicked_node_name);
         $(".color_index").removeClass("hidden_show");
     });
 
