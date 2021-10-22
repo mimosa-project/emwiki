@@ -823,6 +823,32 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
+def format_output_graph_file(nodes):
+    node_dict = {"nodes": []}
+    for node in nodes:
+        data = {"data": dict()}
+        data["data"]["id"] = node.name
+        data["data"]["name"] = node.name
+        data["data"]["x"] = node.x
+        data["data"]["y"] = node.y
+        data["data"]["href"] = node.href
+        node_dict["nodes"].append(data)
+
+    edge_dict = {"edges": []}
+    for node in nodes:
+        for target in node.targets:
+            data = {"data": dict()}
+            data["data"]["source"] = node.name
+            data["data"]["target"] = target.name
+            edge_dict["edges"].append(data)
+
+    graph = dict()
+    graph["nodes"] = node_dict["nodes"]
+    graph["edges"] = edge_dict["edges"]
+
+    return graph
+
+
 def create_graph(node2targets, output_json_file):
     """
     依存関係を示すグラフを作る．
@@ -838,21 +864,23 @@ def create_graph(node2targets, output_json_file):
     # レイアウト
     assgin_dot_coordinate(nodes)
 
-    node_attributes = node_list2node_dict(nodes)
+    # node_attributes = node_list2node_dict(nodes)
 
-    # 有向グラフGraphの作成
-    graph = nx.DiGraph()
+    # # 有向グラフGraphの作成
+    # graph = nx.DiGraph()
 
-    create_dependency_graph(nodes, graph)
+    # create_dependency_graph(nodes, graph)
 
-    # nodes_attrsを用いて各ノードの属性値を設定
-    nx.set_node_attributes(graph, node_attributes)
+    # # nodes_attrsを用いて各ノードの属性値を設定
+    # nx.set_node_attributes(graph, node_attributes)
 
-    # グラフの描画
-    nx.draw_networkx(graph)
+    # # グラフの描画
+    # nx.draw_networkx(graph)
 
-    # cytoscape.jsの記述形式(JSON)でグラフを記述
-    graph_json = nx.cytoscape_data(graph, attrs=None)
+    # # cytoscape.jsの記述形式(JSON)でグラフを記述
+    # graph_json = nx.cytoscape_data(graph, attrs=None)
+
+    graph = format_output_graph_file(nodes)
 
     with open(settings.GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
-        f.write(json.dumps(graph_json, indent=4))
+        f.write(json.dumps(graph, indent=4))
