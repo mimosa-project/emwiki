@@ -37,11 +37,11 @@ $(function () {
         {
             selector: "node",
             css: {
-                "background-color": "#ff0000", "shape": "ellipse", "width": 150, "height": 150,
+                "background-color": "#000000", "shape": "ellipse", "width": "150", "height": "150",
                 "content": "data(name)", "font-size": 40, "opacity": 1, "z-index": 1,
                 "text-halign": "center", "text-valign": "center", "font-style": "normal",
                 "font-weight": "bold", "color": "#ffffff",
-                "text-outline-color": "red", "text-outline-opacity": 1, "text-outline-width": 10
+                "text-outline-color": "#000000", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
@@ -63,23 +63,23 @@ $(function () {
         {
             selector: "node.selected",
             css: {
-                "background-color": "#fff100", "color": "#ff0000", "width": 300, "height": 300,
-                "text-outline-color": "#fff100", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#99ff00", "color": "#006633", "width": 300, "height": 300,
+                "text-outline-color": "#99ff00", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         // Style of ancestor nodes
         {
             selector: "node.selected_ancestors0",
             css: {
-                "background-color": "#ffbb00", "color": "#ffffff",
-                "text-outline-color": "#ffbb00", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#ff0000", "color": "#ffffff",
+                "text-outline-color": "#ff0000", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
             selector: "node.selected_ancestors1",
             css: {
-                "background-color": "#ff9900", "color": "#ffffff",
-                "text-outline-color": "#ff9900", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#ff4400", "color": "#ffffff",
+                "text-outline-color": "#ff4400", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
@@ -92,29 +92,30 @@ $(function () {
         {
             selector: "node.selected_ancestors3",
             css: {
-                "background-color": "#ff4400", "color": "#ffffff",
-                "text-outline-color": "#ff4400", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#ff9900", "color": "#ffffff",
+                "text-outline-color": "#ff9900", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
             selector: "node.selected_ancestors4",
             css: {
-                "background-color": "#ff0000", "color": "#ffffff",
-                "text-outline-color": "#ff0000", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#ffbb00", "color": "#ffffff",
+                "text-outline-color": "#ffbb00", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
+        // Style of descendant nodes.
         {
             selector: "node.selected_descendants0",
             css: {
-                "background-color": "#00ffff", "color": "#ffffff",
-                "text-outline-color": "#00ffff", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#0000ff", "color": "#ffffff",
+                "text-outline-color": "#0000ff", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
             selector: "node.selected_descendants1",
             css: {
-                "background-color": "#00ddff", "color": "#ffffff",
-                "text-outline-color": "#00ddff", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#0077ff", "color": "#ffffff",
+                "text-outline-color": "#0077ff", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
@@ -127,29 +128,29 @@ $(function () {
         {
             selector: "node.selected_descendants3",
             css: {
-                "background-color": "#0077ff", "color": "#ffffff",
-                "text-outline-color": "#0077ff", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#00ddff", "color": "#000000",
+                "text-outline-color": "#00ddff", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         {
             selector: "node.selected_descendants4",
             css: {
-                "background-color": "#0000ff", "color": "#ffffff",
-                "text-outline-color": "#0000ff", "text-outline-opacity": 1, "text-outline-width": 10
+                "background-color": "#00ffff", "color": "#000000",
+                "text-outline-color": "#00ffff", "text-outline-opacity": 1, "text-outline-width": 10
             }
         },
         // Style of highlight edges
         {
             selector: "edge.highlight",
             css: {
-                "line-color": "#006400", "curve-style": "straight",
-                "target-arrow-color": "#006400", "arrow-scale": 5, "width": 10, "opacity": 1, "z-index": 20
+                "line-color": "#004400", "curve-style": "straight",
+                "target-arrow-color": "#004400", "arrow-scale": 5, "width": 10, "opacity": 1, "z-index": 20
             }
         },
         // Style of not highlight nodes
         {
             selector: "node.faded",
-            css: { "background-color": "#808080", "text-outline-color": "#808080" }
+            css: { "background-color": "#808080", "text-outline-color": "#808080", "color": "#ffffff" }
         },
         // Style of not highlight nodes and edges
         {
