@@ -13,5 +13,9 @@ class GraphView(TemplateView):
         with open(settings.GRAPH_ELS_DIR + "/graph_attrs/dot_graph.json", "r") as f_in:
             graph_elements = json.load(f_in)
         context['graph_elements'] = graph_elements
-        context['base_url'] = reverse('article:index')
+        # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
+
+        context['base_url'] = reverse('article:index', kwargs=dict(
+            filename='content-name')).replace('content-name', '')
+
         return context
