@@ -823,6 +823,27 @@ def create_dependency_graph(node_list, graph):
             graph.add_edge(source.name, target.name)
 
 
+def format_output_graph_file(nodes):
+    graph = list()
+    for n in nodes:
+        node = dict()
+        node["group"] = "nodes"
+        node["data"] = {"id": n.name, "name": n.name, "href": n.href}
+        node["position"] = {"x": n.x * 300, "y": n.y * 300}
+        graph.append(node)
+
+    for node in nodes:
+        for target in node.targets:
+            edge = dict()
+            edge["group"] = "edges"
+            edge["data"] = {"source": node.name, "target": target.name}
+            graph.append(edge)
+
+    ele_object = {"eleObjs": graph}
+
+    return ele_object
+
+
 def create_graph(node2targets, output_json_file):
     """
     依存関係を示すグラフを作る．
@@ -838,21 +859,7 @@ def create_graph(node2targets, output_json_file):
     # レイアウト
     assgin_dot_coordinate(nodes)
 
-    node_attributes = node_list2node_dict(nodes)
-
-    # 有向グラフGraphの作成
-    graph = nx.DiGraph()
-
-    create_dependency_graph(nodes, graph)
-
-    # nodes_attrsを用いて各ノードの属性値を設定
-    nx.set_node_attributes(graph, node_attributes)
-
-    # グラフの描画
-    nx.draw_networkx(graph)
-
-    # cytoscape.jsの記述形式(JSON)でグラフを記述
-    graph_json = nx.cytoscape_data(graph, attrs=None)
+    graph = format_output_graph_file(nodes)
 
     with open(settings.GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
-        f.write(json.dumps(graph_json, indent=4))
+        f.write(json.dumps(graph, indent=4))

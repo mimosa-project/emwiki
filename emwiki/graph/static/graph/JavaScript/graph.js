@@ -9,28 +9,7 @@ $(function () {
         wheelSensitivity: 0.1
     });
     let graph = JSON.parse(document.getElementById('graph_elements').textContent);
-    let nodes = graph["elements"]["nodes"];
-    let edges = graph["elements"]["edges"];
-    let nodes_and_edges = [];
-
-    for (let i in nodes) {
-        for (let j in nodes[i]) {
-            let node = {};
-            node["group"] = "nodes";
-            node["data"] = { "id": nodes[i][j]["id"], "name": nodes[i][j]["name"], "href": nodes[i][j]["href"] };
-            node["position"] = { "x": (nodes[i][j]["x"] + 1) * 300, "y": (nodes[i][j]["y"] + 1) * 300 };
-            nodes_and_edges.push(node);
-        }
-    }
-    for (let i in edges) {
-        for (let j in edges[i]) {
-            let edge = {};
-            edge["group"] = "edges";
-            edge["data"] = { "source": edges[i][j]["source"], "target": edges[i][j]["target"] };
-            nodes_and_edges.push(edge);
-        }
-    }
-    cy.add(nodes_and_edges);
+    cy.add(graph["eleObjs"]);
     // Set graph style
     cy.style([
         // Initial style
