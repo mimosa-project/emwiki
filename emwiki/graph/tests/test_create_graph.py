@@ -16,8 +16,11 @@ class CreateGraphTest(TestCase):
             dot_graph = json.load(f_in)
 
         # テスト
-        nodes = dot_graph["elements"]["nodes"]
-        self.assertEqual(len(node2targets_mml), len(nodes))
+        nodes_num = 0
+        for els in dot_graph["eleObjs"]:
+            if els["group"] == "nodes":
+                nodes_num += 1
+        self.assertEqual(len(node2targets_mml), nodes_num)
 
     def tearDown(self):
         os.remove(settings.GRAPH_ELS_DIR + "/graph_attrs/test_dot_graph.json")
