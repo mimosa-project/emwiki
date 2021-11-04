@@ -1,21 +1,13 @@
-import json
-
-from django.conf import settings
 from django.urls import reverse
 from django.views.generic import TemplateView
 
 
 class GraphView(TemplateView):
-    template_name = 'graph/hierarchical_graph.html'
+    template_name = 'graph/index.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        with open(settings.GRAPH_ELS_DIR + "/graph_attrs/dot_graph.json", "r") as f_in:
-            graph_elements = json.load(f_in)
-        context['graph_elements'] = graph_elements
-        # nameの空文字指定ができないため，'content-name'で仮作成し，削除している
-
-        context['base_url'] = reverse('article:index', kwargs=dict(
-            filename='content-name')).replace('content-name', '')
-
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["context_for_js"] = {
+            'article_names_uri': reverse('article:names')
+        }
         return context
