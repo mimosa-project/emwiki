@@ -1,22 +1,15 @@
 var ArticleDrawer = {
-  methods: {
-    onArticleRowClick(row) {
-      if (this.$route.params.name !== row.name) {
-        this.$router.push({ name: 'Article', params: { name: row.name } })
-      }
-    }
-  },
   data: () => ({
     headers: [{ text: 'name', value: 'name' }],
     searchText: '',
     index: []
   }),
-  async mounted() {
-    try {
-      this.index = await ArticleService.getIndex(context['names_uri']);
-    } catch (e) {
-      alert(e);
-    }
+  mounted() {
+    ArticleService.getIndex(context['names_uri']).then((index) => {
+      this.index = index
+    }).catch((e) => {
+      alert(e)
+    })
   },
   methods: {
     getIndex() {
