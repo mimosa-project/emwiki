@@ -13,7 +13,7 @@ class SymbolHtmlBuilder:
     from_dir = settings.MML_HTML_DIR
     to_dir = Symbol.get_htmlfile_dir()
 
-    def create_files(self):
+    def update_files(self):
         existing_files = glob.glob(os.path.join(self.to_dir, '*'))
         for file in existing_files:
             os.remove(file)

@@ -36,7 +36,7 @@ class HtmlizedMmlBuilder:
     from_dir = settings.MML_HTML_DIR
     to_dir = settings.PRODUCT_HTMLIZEDMML_DIR
 
-    def create_files(self):
+    def update_files(self):
         """Create HTML files.
         """
         existing_files = glob.glob(os.path.join(self.to_dir, '*'))

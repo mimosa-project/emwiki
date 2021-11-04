@@ -11,4 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Start initializing emwiki contents')
         symbol_html_builder = SymbolHtmlBuilder()
-        symbol_html_builder.create_files()
+        symbol_html_builder.update_files()

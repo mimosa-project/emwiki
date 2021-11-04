@@ -24,7 +24,7 @@ class ArticleTest(TestCase):
         cls.htmlized_mml_builder = HtmlizedMmlBuilder()
         cls.htmlized_mml_builder.from_dir = settings.TEST_MML_HTML_DIR
         cls.htmlized_mml_builder.to_dir = cls.test_templates_dir
-        cls.htmlized_mml_builder.create_files()
+        cls.htmlized_mml_builder.update_files()
 
     @classmethod
     def tearDownClass(cls):

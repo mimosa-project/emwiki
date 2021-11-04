@@ -24,7 +24,7 @@ class SymbolTest(TestCase):
         cls.symbol_html_builder = SymbolHtmlBuilder()
         cls.symbol_html_builder.from_dir = settings.TEST_MML_HTML_DIR
         cls.symbol_html_builder.to_dir = cls.test_templates_dir
-        cls.symbol_html_builder.create_files()
+        cls.symbol_html_builder.update_files()
 
     @classmethod
     def tearDownClass(cls):

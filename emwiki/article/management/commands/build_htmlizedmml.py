@@ -11,4 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Start generating HTMLized MML')
         htmlized_mml_builder = HtmlizedMmlBuilder()
-        htmlized_mml_builder.create_files()
+        htmlized_mml_builder.update_files()
