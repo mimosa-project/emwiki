@@ -1,30 +1,34 @@
-import os
-import re
-
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, Http404
 from django.urls import reverse
 from django.views import View
-from django.http import Http404
 
 from .models import Symbol
 
 
-class SymbolIndexView(View):
-    def get(self, request):
+class SymbolView(View):
+    def get(self, request, name):
         context = dict()
         # you can use these variables in index.js
         context["context_for_js"] = {
-            'article_base_uri': reverse('article:index'),
-            'symbol_base_uri': reverse('symbol:index')
+            'symbol_html_uri': reverse('symbol:htmls'),
+            'names_uri': reverse('symbol:names')
         }
+        context['article_base_uri'] = reverse('article:index', kwargs=dict(name_or_filename="temp")).replace('temp', '')
         return render(request, 'symbol/index.html', context)
 
 
-class SymbolView(View):
-    def get(self, request, filename):
-        # 「数字 + .html」(例：2096.html)以外でのリクエストでは404を返す
-        if(re.match("[0-9]+.html", filename)):
-            path = os.path.join(Symbol.get_htmlfile_dir(), filename)
-            if os.path.exists(path):
-                return render(request, path)
-        raise Http404("Symbol html does not exist")
+class SymbolIndexView(View):
+    def get(self, request):
+        return JsonResponse({'index': [
+            dict(name=symbol.name) for symbol in Symbol.objects.all()
+        ]})
+
+
+class SymbolHtmlView(View):
+    def get(self, request):
+        if 'symbol_name' in request.GET:
+            symbol = get_object_or_404(Symbol, name=request.GET.get("symbol_name"))
+            return render(request, symbol.template_path)
+        else:
+            raise Http404()

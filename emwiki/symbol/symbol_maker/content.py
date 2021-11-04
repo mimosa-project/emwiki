@@ -49,7 +49,7 @@ class Content:
         for i, e in enumerate(self.elements):
             fp.write(f'''
                             <li class="toc-entry toc-h2">
-                                {e.element_link_html(e)}[{e.source_link_html(e)}]
+                                {e.element_link_html(e)}{e.source_link_html(e)}
                             </li>
             ''')
         fp.write('''
@@ -69,7 +69,7 @@ class Content:
         for i, e in enumerate(self.elements):
             fp.write(f'''
                 <li class="toc-entry toc-h2">
-                    {e.element_link_html(e)}[{e.source_link_html(e)}]
+                    {e.element_link_html(e)}{e.source_link_html(e)}
                 </li>
             ''')
 
