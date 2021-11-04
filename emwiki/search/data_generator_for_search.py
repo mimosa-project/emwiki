@@ -10,7 +10,10 @@ class DataGeneratorForSearch:
     def generate_data_for_search(self):
         existing_files = glob.glob(os.path.join(settings.SEARCH_INDEX_DIR, '*'))
         for file in existing_files:
-            os.remove(file)
+            if file.endwith('.tar.bz2'):
+                pass
+            else:
+                os.remove(file)
         create_abs_dictionary()
         create_document_vectors()
         save_byte_index_of_lines(os.path.join(
