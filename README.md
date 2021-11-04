@@ -215,6 +215,10 @@ Add `--compatibility` when you create development containers(because `deploy` ca
 docker-compose --compatibility up -d
 ```
 
+### How to update Mizar version
+Update files in [mmlfiles](https://github.com/mimosa-project/mmlfiles)
+
+
 ## 9 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)
