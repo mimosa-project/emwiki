@@ -48,7 +48,11 @@ ROOT_URLCONF = 'emwiki.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'mmlfiles', 'article', 'templates'),
+            os.path.join(BASE_DIR, 'mmlfiles', 'symbol', 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,14 +152,17 @@ MML_MML_DIR = os.path.join(MMLFIELS_DIR, 'mml')
 MML_INI_PATH = os.path.join(MMLFIELS_DIR, 'mml.ini')
 MML_LAR_PATH = os.path.join(MMLFIELS_DIR, 'mml.lar')
 MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
+MML_ARTICLE_DIR = os.path.join(MMLFIELS_DIR, 'article')
+MML_SYMBOL_DIR = os.path.join(MMLFIELS_DIR, 'symbol')
+MML_SEARCH_DIR = os.path.join(MMLFIELS_DIR, 'search')
 # Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(
-    BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
+    MML_ARTICLE_DIR, 'templates', 'article', 'htmlized_mml')
 # Symbol
 PRODUCT_SYMBOLHTML_DIR = os.path.join(
-    BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
+    MML_SYMBOL_DIR, 'templates', 'symbol', 'symbol_html')
 # Search
-SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'search', 'index')
+SEARCH_INDEX_DIR = os.path.join(MML_SEARCH_DIR, 'index')
 # Graph
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
