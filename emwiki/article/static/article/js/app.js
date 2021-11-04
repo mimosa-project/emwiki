@@ -6,7 +6,6 @@ new Vue({
     components: {'article-drawer': ArticleDrawer},
     data: () => ({
         drawer: true,
-        headers: [{ text: 'name', value: 'name' }],
     }),
     delimiters: ['$(', ')']
 })
