@@ -1,6 +1,6 @@
 const ArticleView = {
   data: () => ({
-    bibTooltip: false,
+    bibTooltip: 'no bibs found',
     articleHtml: '',
     articleName: '',
     anchorElement: null
@@ -13,7 +13,7 @@ const ArticleView = {
       name = name.replace('.html', '')
       ArticleService.getHtml(context['article_base_uri'], name).then((articleHtml) => {
         this.articleHtml = articleHtml
-        setTimeout(() => {
+        this.$nextTick(() => {
           anchorName = this.$route.hash.split('#')[1]
           if(anchorName) {
             this.anchorElement = document.getElementsByName(anchorName)[0]
@@ -21,10 +21,10 @@ const ArticleView = {
             window.scroll({top: 0, behavior: 'smooth'})
           }
           this.addComment(name, $("#htmlized-mml"));
-        }, 1000);
+        })
       });
       ArticleService.getBib(context['bibs_uri'], name).then((bibText) => {
-        this.bibText = bibText
+        this.bibTooltip = bibText
       });
       this.articleName = name;
     },
@@ -52,13 +52,16 @@ const ArticleView = {
       <v-container id="article" fluid>
           <v-row>
               <v-col class='display-3'>$( articleName )</v-col>
-              <v-tooltip
-                  v-model="bibTooltip"
-                  top
-              > id="bib-popover" tabindex="0" class="btn btn-secondary" role="button" data-bs-toggle="popover"
-                  data-bs-placement="bottom" data-bs-trigger="focus" data-bs-content="">
-                  bib
-              </v-btn>
+              <v-col>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on">
+                      bib
+                    </v-btn>
+                  </template>
+                  <pre>$(bibTooltip)</pre>
+                </v-tooltip>
+              </v-col>
           </v-row>
           <v-row>
               <div id="htmlized-mml" v-html="articleHtml">
