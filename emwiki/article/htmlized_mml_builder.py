@@ -36,16 +36,15 @@ class HtmlizedMmlBuilder:
     from_dir = settings.MML_HTML_DIR
     to_dir = settings.PRODUCT_HTMLIZEDMML_DIR
 
-    def delete_files(self):
-        """Delete current HTML files.
-        """
-        if os.path.exists(self.to_dir):
-            shutil.rmtree(self.to_dir)
-        os.mkdir(self.to_dir)
-
-    def create_files(self):
+    def update_files(self):
         """Create HTML files.
         """
+        existing_files = glob.glob(os.path.join(self.to_dir, '*'))
+        for file in existing_files:
+            if os.path.isfile(file):
+                os.remove(file)
+            elif os.path.isdir(file):
+                shutil.rmtree(file)
         html_paths = glob.glob(os.path.join(self.from_dir, "*.html"))
         if not os.path.exists(self.to_dir):
             os.mkdir(self.to_dir)

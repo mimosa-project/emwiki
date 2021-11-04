@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_HTTP_TIMEOUT: 180
     steps:
     - name: Checkout
       uses: actions/checkout@v2

@@ -1,4 +1,5 @@
 import os
+import shutil
 from symbol.models import Symbol
 from symbol.symbol_builder import SymbolBuilder
 from symbol.symbol_html_builder import SymbolHtmlBuilder
@@ -13,6 +14,7 @@ TEMPLATES[0]["DIRS"].append(os.path.join(settings.BASE_DIR, "symbol", "tests", "
 
 @override_settings(TEMPLATES=TEMPLATES)
 class SymbolTest(TestCase):
+    test_templates_dir = os.path.join(settings.BASE_DIR, "symbol", "tests", "templates", "symbol", "symbol_html")
 
     @classmethod
     def setUpClass(cls):
@@ -21,14 +23,13 @@ class SymbolTest(TestCase):
         cls.symbol_builder.create_models()
         cls.symbol_html_builder = SymbolHtmlBuilder()
         cls.symbol_html_builder.from_dir = settings.TEST_MML_HTML_DIR
-        cls.symbol_html_builder.to_dir = os.path.join(settings.BASE_DIR, "symbol", "tests", "templates", "symbol", "symbol_html")
-        cls.symbol_html_builder.delete_files()
-        cls.symbol_html_builder.create_files()
+        cls.symbol_html_builder.to_dir = cls.test_templates_dir
+        cls.symbol_html_builder.update_files()
 
     @classmethod
     def tearDownClass(cls):
+        shutil.rmtree(cls.test_templates_dir)
         cls.symbol_builder.delete_models()
-        cls.symbol_html_builder.delete_files()
 
     def test_get(self):
         client = Client()
