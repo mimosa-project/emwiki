@@ -31,8 +31,8 @@ class Article(models.Model):
             text: self absolute url.
         """
         return reverse(
-            'article:article',
-            kwargs={'filename': self.name}
+            'article:index',
+            kwargs={'name_or_filename': self.name}
         )
 
     def get_htmlfile_path(self):
