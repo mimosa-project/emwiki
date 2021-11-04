@@ -169,7 +169,10 @@ new Vue({
       this.highlightElements(articleName, this.upperLevel, this.lowerLevel)
       this.$emit('article-model-changed', { name: articleName })
     },
-    openOverall() {
+    reset() {
+      this.articleName = ''
+      this.upperLevel = 0
+      this.lowerLevel = 0
       this.createGraph(this.graphModel).then((cyto) => {
         window.cy = cyto
       })

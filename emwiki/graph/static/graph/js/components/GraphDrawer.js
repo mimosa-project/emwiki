@@ -53,7 +53,7 @@ var GraphDrawer = {
   },
   template: `
     <div>
-        <v-btn block @click="$emit('overall-clicked')" >Overall</v-btn>
+        <v-btn block @click="$emit('reset-clicked')">Reset</v-btn>
         <v-container>
         <v-row>
             <v-col>
