@@ -10,23 +10,4 @@
       <p>This Web application can write a TeX-format description in the Mizar Mathmatical Library (MML), and make the description follow the MML update. This Web application provides users with the function of adding, editing, and browsing description of MML on a Wiki format Web platform. If there is an update to the MML, link the description to the new MML by running the program on the server.</p>
     </div>
   </div>
-
-  <div class="container">
-    <div class="card w-100 m-1" style="width: 18rem;">
-      <div class="card-body">
-        <h1 class="card-title">Search</h1>
-            <a class="btn btn-primary card-link" href="{% url 'article:index' %}" role="button">Article &raquo;</a>
-            <a class="btn btn-primary card-link" href="{% url 'symbol:index' %}" role="button">Symbol &raquo;</a>
-            <a class="btn btn-primary card-link" href="{% url 'search:search_theorem' %}" role="button">Theorem/Definition &raquo;</a>
-      </div>
-    </div>
-
-    <div class="card w-100 m-1" style="width: 18rem;">
-      <div class="card-body">
-        <h1 class="card-title">Graph</h1>
-        <a class="btn btn-primary card-link disabled" href="{% url 'graph:graph' %}" role="button">Article(developing) &raquo;</a>
-      </div>
-    </div>
-  </div> <!-- /container -->
-
 {% endblock %}
