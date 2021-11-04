@@ -58,6 +58,7 @@ class Comment {
             .done(function (data) {
                 data.forEach((comment_fetched) => {
                     try {
+                        // TODO 線形探索をやめる
                         const comment = comments.find((comment) => {
                             return (
                                 comment.block === comment_fetched.fields.block &&
