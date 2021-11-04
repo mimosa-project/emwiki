@@ -44,6 +44,9 @@ $(function(){
         })
         .fail(function(){
         });
+        // クッキーにArticle名を保存すると, Articleアプリを開いたときロードされる
+        Cookies.set('next-link', $(this).attr("data-href"));
+        return window.open(context['article_base_uri'], '_blank').focus();
     });
 });
 

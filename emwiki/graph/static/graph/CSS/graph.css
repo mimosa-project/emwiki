@@ -1,5 +1,39 @@
 #graph{
     position: absolute;
-    height: 80%;
-    width: 100%;
+    height: 90%;
+    width: 80%;
+    top: 10%;
+    left: 20%;
+}
+
+.color_index{
+    position: absolute;
+    z-index: 10;
+    top: 30px;
+    right: 20px;
+}
+
+.color_labels .number_row{
+    width: 20px;
+    text-align: center;
+}
+
+.color_labels .color_row{
+    width: 40px;
+}
+
+.color_labels .generation_param_row{
+    width: 140px;
+    font-size: 100%;
+}
+
+.color_labels .node_size_param_row{
+    width: 80px;
+}
+
+#name-plate {
+    position: absolute;
+    z-index: 20;
+    font-size: 25px;
+    background-color: #ffe4c4;
 }

@@ -12,7 +12,6 @@ class SearchTheoremView(TemplateView):
 
     def get(self, request, **kwargs):
         query_text = request.GET.get('search_query', default='')
-        order_by = request.GET.get('order_by', default='relevance')
         context = super().get_context_data(**kwargs)
 
         if not query_text:
@@ -39,9 +38,9 @@ class SearchTheoremView(TemplateView):
             context.update({
                 'query_text': query_text,
                 'result_list': search_results,
-                'order_by': order_by,
                 'context_for_js': {
-                    'search_uri': reverse('search:search_theorem')
+                    'search_uri': reverse('search:search_theorem'),
+                    'article_base_uri': reverse('article:index')
                 }
             })
         return self.render_to_response(context)

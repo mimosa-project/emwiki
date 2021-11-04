@@ -9,8 +9,9 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
 <script src="{% static 'symbol/JavaScript/searcher.js'%}"></script>
+<script src="{% static 'symbol/JavaScript/mml-index.js' %}"></script>
 <script src="{% static 'symbol/JavaScript/index.js' %}"></script>
-<script src="{% static 'symbol/JavaScript/sidebar.js' %}"></script>
+
 <link rel='stylesheet' href="{% static 'symbol/CSS/index.css' %}" type='text/css'>
 </link>
 
@@ -23,16 +24,17 @@
             <input type="search" class="form-control sticky-top" id="search-input" placeholder="Search symbols">
             <br>
             <div>
-                <ul class="list-group list-group-flush" id="listdata">
+                <ul class="list-group list-group-flush" id="index-listdata">
+                </ul>
+                <ul class="list-group list-group-flush" id="results-listdata">
                 </ul>
             </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 px-4 h-100 overflow-auto">
             <h1 class="h-10">
-                <span class='display-4' id="content_name">{{symbol.name}}</span>
+                <span class='display-4' id="symbol-name"></span>
             </h1>
             <div id="symbol" class="h-90 overflow-auto" style="height:90%;">
-                {% include symbol.template_path%}
             </div>
         </div>
     </div>

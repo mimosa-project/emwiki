@@ -158,9 +158,13 @@ MML_SEARCH_DIR = os.path.join(MMLFIELS_DIR, 'search')
 # Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(
     MML_ARTICLE_DIR, 'templates', 'article', 'htmlized_mml')
+ARTICLE_JAVASCRIPT_DIR = os.path.join(
+    BASE_DIR, 'article', 'static', 'article', 'JavaScript')
 # Symbol
 PRODUCT_SYMBOLHTML_DIR = os.path.join(
     MML_SYMBOL_DIR, 'templates', 'symbol', 'symbol_html')
+SYMBOL_JAVASCRIPT_DIR = os.path.join(
+    BASE_DIR, 'symbol', 'static', 'symbol', 'JavaScript')
 # Search
 SEARCH_INDEX_DIR = os.path.join(MML_SEARCH_DIR, 'index')
 # Graph

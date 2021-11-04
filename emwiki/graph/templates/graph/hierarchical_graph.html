@@ -12,13 +12,14 @@
 
 
 {% block content %}
-<form class="p-2">
+
+<form class="p-2 functions">
     <div class="form-row">
-        <div class="col">
+        <div class="col-sm-2">
             <label for="article_name">Article</label>
             <div class="input-group">
-                <input type="text" name="article_name" id="article_name" autocomplete="on" placeholder="Search"
-                    list="article_list" spellcheck="false" class="form-control">
+                <input type="text" name="article_name" id="article_name" autocomplete="on"
+                    placeholder="Search" list="article_list" spellcheck="false" class="form-control">
                 <datalist id="article_list"></datalist>
                 <div class="input-group-append">
                     <input class="btn btn-outline-success" type="button" id="search" value="search">
@@ -27,21 +28,84 @@
         </div>
         <div class="col-xl-1 col-sm-2">
             <label for="ancestor_generations">Upper Level</label>
-            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="100"
-                class="form-control">
+            <input type="number" name="ancestor_generations" id="ancestor_generations" value="1" min="0" max="100" class="form-control">
         </div>
         <div class="col-xl-1 col-sm-2">
             <label for="descendant_generations">Lower Level</label>
-            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="100"
-                class="form-control">
+            <input type="number" name="ancestor_generations" id="descendant_generations" value="1" min="0" max="100" class="form-control">
         </div>
-        <div class="col-md-1 col-sm-2 col-3">
-            <label for="reload">reset</label>
-            <button type="button" value="reload" id="reload" ,
-                class="btn btn-outline-danger form-control">reset</button>
+        <div class="col-md-1 col-sm-1 col-3">
+            <label for="re-highlight">re-highlight</label>
+            <button type="button" value="re-highlight" id="re-highlight", class="btn btn-outline-secondary form-control">re-highlight</button>
+        </div>
+        <div class="col-md-1 col-sm-1 col-3">
+            <label for="reset">reset</label>
+            <button type="button" value="reset" id="reset", class="btn btn-outline-danger form-control">reset</button>
         </div>
     </div>
 </form>
+<div class="color_index" id="highlight_coloring_index">
+    <p><b>Highlight Coloring</b></p>
+    <table class="color_labels">
+        <tr>
+            <td class="generation_param_row">Ancestors</td>
+            <td class="color_row"><span style="background-color: #ff0000;">&emsp;&emsp;</span></td>
+            <td class="number_row">5~</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #ff4400;">&emsp;&emsp;</span></td>
+            <td class="number_row">4</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #ff7700;">&emsp;&emsp;</span></td>
+            <td class="number_row">3</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #ff9900;">&emsp;&emsp;</span></td>
+            <td class="number_row">2</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #ffbb00;">&emsp;&emsp;</span></td>
+            <td class="number_row">1</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row">Selecting</td>
+            <td class="color_row"><span style="background-color: #fff100;">&emsp;&emsp;</span></td>
+            <td class="number_row">0</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #00ffff;">&emsp;&emsp;</span></td>
+            <td class="number_row">1</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #00ddff;">&emsp;&emsp;</span></td>
+            <td class="number_row">2</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #00bbff;">&emsp;&emsp;</span></td>
+            <td class="number_row">3</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row"></td>
+            <td class="color_row"><span style="background-color: #0077ff;">&emsp;&emsp;</span></td>
+            <td class="number_row">4</td>
+        </tr>
+        <tr>
+            <td class="generation_param_row">Descendants</td>
+            <td class="color_row"><span style="background-color: #0000ff;">&emsp;&emsp;</span></td>
+            <td class="number_row">5~</td>
+        </tr>
+    </table>
+</div>
+<div id="name-plate"></div>
 <div id="graph">
 </div>
+
 {% endblock %}

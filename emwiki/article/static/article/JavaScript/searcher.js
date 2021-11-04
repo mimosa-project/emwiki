@@ -5,8 +5,8 @@ escape_txt = function (s) {
 	return s.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;');
 };
 var Searcher = (function () {
-	function Searcher(symbols) {
-		this.symbols = symbols
+	function Searcher(articles) {
+		this.articles = articles
 		this.run = __bind(this.run, this);
 		this.update_search_results = __bind(this.update_search_results, this);
 		this.search_in_chunk = __bind(this.search_in_chunk, this);
@@ -48,14 +48,14 @@ var Searcher = (function () {
 		return _results;
 	};
 
-	Searcher.prototype.match_beginning_as_is = function (symbol, query, regexps) {
-		return symbol.toLowerCase().indexOf(query) === 0;
+	Searcher.prototype.match_beginning_as_is = function (article, query, regexps) {
+		return article.toLowerCase().indexOf(query) === 0;
 	};
 
-	Searcher.prototype.match_beginning = function (symbol, query, regexps) {
+	Searcher.prototype.match_beginning = function (article, query, regexps) {
 		var ls, q, r, _i, _len, _ref;
 		q = query.split(/\s+/)[0];
-		ls = symbol.toLowerCase();
+		ls = article.toLowerCase();
 		if (ls.indexOf(q) !== 0) {
 			return false;
 		}
@@ -69,11 +69,11 @@ var Searcher = (function () {
 		return true;
 	};
 
-	Searcher.prototype.match_beginning_substrings = function (symbol, query, regexps) {
+	Searcher.prototype.match_beginning_substrings = function (article, query, regexps) {
 		var i, pos, queries, _i, _ref;
 		queries = query.split(/\s+/);
 		for (i = _i = 0, _ref = queries.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-			pos = symbol.toLowerCase().indexOf(queries[i]);
+			pos = article.toLowerCase().indexOf(queries[i]);
 			if (i === 0 && pos !== 0) {
 				return false;
 			} else if (pos < 0) {
@@ -83,14 +83,14 @@ var Searcher = (function () {
 		return true;
 	};
 
-	Searcher.prototype.match_containing_as_is = function (symbol, query, regexps) {
-		return symbol.toLowerCase().indexOf(query) >= 0;
+	Searcher.prototype.match_containing_as_is = function (article, query, regexps) {
+		return article.toLowerCase().indexOf(query) >= 0;
 	};
 
-	Searcher.prototype.match_containing = function (symbol, query, regexps) {
+	Searcher.prototype.match_containing = function (article, query, regexps) {
 		var ls, q, r, _i, _len, _ref;
 		q = query.split(/\s+/)[0];
-		ls = symbol.toLowerCase();
+		ls = article.toLowerCase();
 		if (!(ls.indexOf(q) > 0)) {
 			return false;
 		}
@@ -104,12 +104,12 @@ var Searcher = (function () {
 		return true;
 	};
 
-	Searcher.prototype.match_containing_substrings = function (symbol, query, regexps) {
+	Searcher.prototype.match_containing_substrings = function (article, query, regexps) {
 		var pos, q, queries, _i, _len;
 		queries = query.split(/\s+/);
 		for (_i = 0, _len = queries.length; _i < _len; _i++) {
 			q = queries[_i];
-			pos = symbol.toLowerCase().indexOf(q);
+			pos = article.toLowerCase().indexOf(q);
 			if (pos < 0) {
 				return false;
 			}
@@ -141,28 +141,28 @@ var Searcher = (function () {
 		return s.slice(0, pos) + "\u0001" + s.slice(pos, pos + len) + "\u0002" + s.slice(pos + len);
 	};
 
-	Searcher.prototype.highlight_as_is = function (symbol, query, regexps, highlighters) {
+	Searcher.prototype.highlight_as_is = function (article, query, regexps, highlighters) {
 		var pos;
-		pos = symbol.toLowerCase().indexOf(query);
-		return this.highlight_substring(symbol, pos, query.length);
+		pos = article.toLowerCase().indexOf(query);
+		return this.highlight_substring(article, pos, query.length);
 	};
 
-	Searcher.prototype.highlight_query = function (symbol, query, regexps, highlighters) {
+	Searcher.prototype.highlight_query = function (article, query, regexps, highlighters) {
 		var i, len, pos, q, _i, _ref;
 		q = query.split(/\s+/)[0];
 		len = q.length;
-		pos = symbol.toLowerCase().indexOf(q);
-		symbol = this.highlight_substring(symbol, pos, len);
+		pos = article.toLowerCase().indexOf(q);
+		article = this.highlight_substring(article, pos, len);
 		for (i = _i = 1, _ref = regexps.length; 1 <= _ref ? _i < _ref : _i > _ref; i = 1 <= _ref ? ++_i : --_i) {
-			symbol = symbol.replace(regexps[i], highlighters[i]);
+			article = article.replace(regexps[i], highlighters[i]);
 		}
-		return symbol;
+		return article;
 	};
 
 	Searcher.prototype.search_in_chunk = function (query, regexps, highlighters, state) {
-		var highlighted, hlt_fn, i, j, k, len, match_fn, results, symbol, _i, _ref, _ref1;
+		var highlighted, hlt_fn, i, j, k, len, match_fn, results, article, _i, _ref, _ref1;
 		results = [];
-		len = index_data.symbols.length;
+		len = article_names.length;
 		for (k = _i = 0, _ref = this.constructor.CHUNK_SIZE; 0 <= _ref ? _i < _ref : _i > _ref; k = 0 <= _ref ? ++_i : --_i) {
 			i = state.counter % len;
 			j = Math.floor(state.counter / len);
@@ -191,10 +191,10 @@ var Searcher = (function () {
 			}).call(this);
 			match_fn = _ref1[0];
 			hlt_fn = _ref1[1];
-			symbol = index_data.symbols[i];
-			if (match_fn(symbol, query, regexps, highlighters)) {
+			article = article_names[i];
+			if (match_fn(article, query, regexps, highlighters)) {
 				state[String(i)] = true;
-				highlighted = hlt_fn(symbol, query, regexps, highlighters);
+				highlighted = hlt_fn(article, query, regexps, highlighters);
 				results.push({
 					"index": i,
 					"highlighted": highlighted
@@ -208,18 +208,15 @@ var Searcher = (function () {
 	};
 
 	Searcher.prototype.update_search_results = function (results) {
-		var i, li, result, symbol, type, filename, _i, _len;
+		var i, li, result, article, article_name, _i, _len;
 		li = [];
 		for (_i = 0, _len = results.length; _i < _len; _i++) {
 			result = results[_i];
 			i = result.index;
-			type = index_data.types[i];
-			symbol = escape_txt(result.highlighted).split("\u0001").join("<mark>").split("\u0002").join("</mark>");
-			filename = index_data.filenames[i];
-			badge = get_badge(type);
-			li.push("<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center "
-				+ type + "' data-link='" + filename + "'><span class='badge rounded-pill bg-" + badge + " text-monospace'>"
-				+ type[0].toUpperCase() + "</span>" + "<span class='text-monospace px-2'> " + symbol + "</span></button>");
+			article = escape_txt(result.highlighted).split("\u0001").join("<mark>").split("\u0002").join("</mark>");
+			article_name = article_names[i];
+			li.push("<button class='list-group-item list-group-item-action py-0 d-flex justify-content-start align-items-center' " + 
+			"data-link='" + article_name + ".html'>" + article + "</button>");
 		}
 		$("#results-listdata").append(li.join(''));
 		return
@@ -246,7 +243,7 @@ var Searcher = (function () {
 				}
 				results = _this.search_in_chunk(query, regexps, highlighters, state);
 				_this.update_search_results(results);
-				if (state.counter < 5 * index_data.symbols.length && state.matched < _this.constructor.MAX_RESULT) {
+				if (state.counter < 5 * article_names.length && state.matched < _this.constructor.MAX_RESULT) {
 					return setTimeout(runner, 1);
 				}
 			};

@@ -4,8 +4,10 @@
 {% block head %}
 {{ query_text|json_script:"query_text" }}
 {{ context_for_js|json_script:"context" }}
-<script src="{% static 'search/JavaScript/search_theorem.js' %}"></script>
+<!-- js-cookie -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
+<script src="{% static 'search/JavaScript/search_theorem.js' %}"></script>
 {% endblock %}
 
 
@@ -27,7 +29,7 @@
     <div class="card m-1">
       <div class="card-body">
         <div class="card-title align-text-bottom">
-          <a class="button_url h5" name="{{ result.id }}" target="_blank" href="{{ result.url }}">{{ result.label }}</a>
+          <button class="button_url h5 btn btn-link" name="{{ result.id }}" target="_blank" data-href="{{ result.url }}">{{ result.label }}</button>
           <button name="{{ result.id }}" type="button" class="button_fav btn btn-outline-success btn-sm">☆</button>
           <span class="badge bg-secondary">Relevance: {{ result.relevance |floatformat:2 }}</span>
           <span class="badge bg-secondary">File: {{ result.filename }}#L{{ result.line_no}}</span>

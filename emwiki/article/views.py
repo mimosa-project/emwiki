@@ -3,37 +3,45 @@ import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.cache import cache_page
 
 from .models import Article, Comment
+
+
+class ArticleIndexView(View):
+    def get(self, request):
+        context = dict()
+        context["context_for_js"] = {
+            'article_base_uri': reverse('article:index'),
+            'comment_uri': reverse('article:comment'),
+            'bib_uri': reverse('article:bib'),
+            'is_authenticated': self.request.user.is_authenticated,
+        }
+        return render(request, "article/index.html", context)
 
 
 class ArticleView(View):
     def get(self, request, filename, *args, **kwargs):
         name = os.path.splitext(filename)[0]
         article = Article.objects.get(name=name)
-        context = dict()
-        context['name'] = article.name
-        context['template_path'] = f"article/htmlized_mml/{article.name}.html"
-        bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article.name}.bib')
-        if os.path.exists(bib_file_path):
-            with open(bib_file_path, "r") as f:
-                context['bib_text'] = f.read()
-        else:
-            context['bib_text'] = f"{bib_file_path.basename()} not found"
-        context["context_for_js"] = {
-            'is_authenticated': self.request.user.is_authenticated,
-            'name': article.name,
-            'comments': list(Comment.objects.filter(article=article).values()),
-            'comment_url': reverse('article:comment'),
-            'names_url': reverse('article:names')
-        }
-        return render(request, "article/index.html", context)
+        return render(request, article.template_url)
+
+
+class BibView(View):
+    def get(self, request):
+        if 'article_name' in request.GET:
+            article_name = request.GET.get("article_name")
+            bib_file_path = os.path.join(settings.MML_FMBIBS_DIR, f'{article_name}.bib')
+            if os.path.exists(bib_file_path):
+                with open(bib_file_path, "r") as f:
+                    bib_text = f.read()
+            else:
+                bib_text = f"{bib_file_path} not found"
+            return JsonResponse({"bib_text": bib_text})
 
 
 class ProofView(View):
@@ -93,13 +101,3 @@ class CommentView(View):
         article.save_db2mizfile()
         article.commit_mizfile(request.user.username)
         return HttpResponse(status=201)
-
-
-@cache_page(60 * 60 * 24)
-def get_names(request):
-    return HttpResponse(
-        serializers.serialize(
-            'json', Article.objects.order_by("name").all()
-        ),
-        content_type='application/json'
-    )
