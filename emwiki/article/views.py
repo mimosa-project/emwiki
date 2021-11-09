@@ -3,8 +3,8 @@ import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse, Http404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -12,23 +12,33 @@ from django.views import View
 from .models import Article, Comment
 
 
-class ArticleIndexView(View):
-    def get(self, request):
+class ArticleView(View):
+    def get(self, request, name_or_filename):
         context = dict()
         context["context_for_js"] = {
-            'article_base_uri': reverse('article:index'),
-            'comment_uri': reverse('article:comment'),
-            'bib_uri': reverse('article:bib'),
+            'article_base_uri': reverse('article:htmls'),
+            'comments_uri': reverse('article:comments'),
+            'bibs_uri': reverse('article:bibs'),
+            'names_uri': reverse('article:names'),
             'is_authenticated': self.request.user.is_authenticated,
         }
         return render(request, "article/index.html", context)
 
 
-class ArticleView(View):
-    def get(self, request, filename, *args, **kwargs):
-        name = os.path.splitext(filename)[0]
-        article = Article.objects.get(name=name)
-        return render(request, article.template_url)
+class ArticleIndexView(View):
+    def get(self, request):
+        return JsonResponse({'index': [
+            dict(name=article.name) for article in Article.objects.all()
+        ]})
+
+
+class ArticleHtmlView(View):
+    def get(self, request, *args, **kwargs):
+        if 'article_name' in request.GET:
+            article = get_object_or_404(Article, name=request.GET.get('article_name'))
+            return render(request, article.template_url)
+        else:
+            raise Http404()
 
 
 class BibView(View):

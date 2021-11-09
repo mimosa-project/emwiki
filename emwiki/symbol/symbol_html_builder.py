@@ -1,5 +1,6 @@
+import glob
 import os
-import shutil
+
 from symbol.models import Symbol
 from symbol.symbol_maker.processor import Processor
 
@@ -12,12 +13,10 @@ class SymbolHtmlBuilder:
     from_dir = settings.MML_HTML_DIR
     to_dir = Symbol.get_htmlfile_dir()
 
-    def delete_files(self):
-        if os.path.exists(self.to_dir):
-            shutil.rmtree(self.to_dir)
-        os.mkdir(self.to_dir)
-
-    def create_files(self):
+    def update_files(self):
+        existing_files = glob.glob(os.path.join(self.to_dir, '*'))
+        for file in existing_files:
+            os.remove(file)
         print('Building Files')
         print(f'    from {self.from_dir}')
         print(f'    to   {self.to_dir}')
