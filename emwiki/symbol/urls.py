@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'symbol'
 urlpatterns = [
-    path('', views.SymbolIndexView.as_view(), name='index'),
-    path('<path:filename>', views.SymbolView.as_view(), name='symbol')
+    path('names', views.SymbolIndexView.as_view(), name='names'),
+    path('htmls', views.SymbolHtmlView.as_view(), name='htmls'),
+    path('<path:name>', views.SymbolView.as_view(), name='index'),
 ]

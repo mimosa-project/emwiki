@@ -39,8 +39,8 @@ class SearchTheoremView(TemplateView):
                 'query_text': query_text,
                 'result_list': search_results,
                 'context_for_js': {
-                    'search_uri': reverse('search:search_theorem'),
-                    'article_base_uri': reverse('article:index')
+                    'search_uri': reverse('search:index'),
+                    'article_base_uri': reverse('article:index', kwargs=dict(name_or_filename="temp")).replace('temp', '')
                 }
             })
         return self.render_to_response(context)

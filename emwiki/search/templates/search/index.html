@@ -12,7 +12,7 @@
 
 
 {% block content %}
-<form class="m-1" action='{% url "search:search_theorem" %}' method='get'>
+<form class="m-1" action='{% url "search:index" %}' method='get'>
   <div class="form-group">
     <textarea class="form-control p-1" id="search-theorem" rows="6" placeholder='Search Theorem and Definition'
       value="{{ query_text }}" name="search_query">{{ query_text }}</textarea>

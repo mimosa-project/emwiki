@@ -1,14 +1,10 @@
 #graph{
-    position: absolute;
-    height: 90%;
-    width: 80%;
-    top: 10%;
-    left: 20%;
+    height: 100%;
+    width: 100%;
 }
 
 .color_index{
     position: absolute;
-    z-index: 10;
     top: 30px;
     right: 20px;
 }
@@ -29,11 +25,4 @@
 
 .color_labels .node_size_param_row{
     width: 80px;
-}
-
-#name-plate {
-    position: absolute;
-    z-index: 20;
-    font-size: 25px;
-    background-color: #ffe4c4;
 }

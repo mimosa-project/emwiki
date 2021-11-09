@@ -63,6 +63,10 @@ class Element:
     def escape_html_characters(s):
         return s.replace('<', '&lt;')
 
+    @staticmethod
+    def escape_js_characters(s):
+        return ''.join(['\\u' + format(ord(c), '04x') for c in s])
+
     def find_symbol(self):
         node = self.keyword_node
         finder = "./following::a[contains(@title, ':" + self.type() + ".')][1]/text()"
@@ -146,10 +150,14 @@ class Element:
             href = a.attrib.get('href')
             if href in link2element:
                 element = link2element[href]
-                a.attrib['data-link'] = element.data_link()
+                a.attrib[':to'] = element.router_link()
+                a.attrib['data-link'] = ""
+                a.tag = 'router-link'
             else:
-                a.attrib['data-href'] = href
-            a.tag = 'span'
+                a.attrib['href'] = href
+                # force color style because vuetify overwrite style using <style>
+                a.attrib['style'] = 'color: #00796B;'
+                a.tag = 'a'
             del a.attrib['href']
 
     def adjust(self):
@@ -162,7 +170,10 @@ class Element:
             parent.replace(node, child)
 
     def data_link(self):
-        return self.content.filename() + "#" + self.html_id()
+        return self.content.symbol + "#" + self.html_id()
+
+    def router_link(self):
+        return f"{{ name: 'Symbol', hash: '#{self.html_id()}', params: {{ name: '{Element.escape_js_characters(self.content.symbol)}' }}}}"
 
     def html_id(self):
         return 'ELM' + str(self.id)
@@ -187,11 +198,12 @@ class Element:
         href = e.filename + ".html"
         if e.anchor is not None:
             href += "#" + e.anchor
-        return "<span data-href='" + href + "'>" + e.filename + "</span>"
+        # force color style because vuetify overwrite style using <style>
+        return "<a href='" + href + "' data-href style='color: #00796B;'>" + e.filename + "</a>"
 
     @staticmethod
     def element_link_html(element):
-        return (f"<span data-link='{element.data_link()}'>{Element.escape_html_characters(element.symbol)}</span>")
+        return f'<router-link :to="{element.router_link()}" data-link>{Element.escape_html_characters(element.symbol)}</router-link>'
 
     def write_source_code(self, fp):
         # Markup main sentences

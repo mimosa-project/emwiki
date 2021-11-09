@@ -8,3 +8,7 @@ body {
     width: 100%;
     padding: 0;
 }
+
+.v-navigation-drawer .v-data-table tr {
+    cursor: pointer;
+}
