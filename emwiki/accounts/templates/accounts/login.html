@@ -11,9 +11,9 @@
                     {{ field.errors }}
                     <hr>
                 {% endfor %}
-                <button type="submit" class="btn btn-success btn-lg btn-block" >Login</button><hr>
-                <a href="{% url 'accounts:signup' %}" class="btn btn-success btn-lg btn-block" >Sign up</a>
-                <a href="{% url 'accounts:password_reset' %}" class="btn btn-success btn-lg btn-block" >Password reset</a>
+                <v-btn type="submit">Login</v-btn><hr>
+                <v-btn href="{% url 'accounts:signup' %}">Sign up</v-btn>
+                <v-btn href="{% url 'accounts:password_reset' %}">Password reset</v-btn>
                 <input type="hidden" name="next" value="{{ next }}" />
                 {% csrf_token %}
             </div>
