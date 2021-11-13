@@ -21,7 +21,7 @@ class SymbolView(View):
 class SymbolIndexView(View):
     def get(self, request):
         return JsonResponse({'index': [
-            dict(name=symbol.name) for symbol in Symbol.objects.all()
+            dict(name=symbol.name, type=symbol.type) for symbol in Symbol.objects.all()
         ]})
 
 

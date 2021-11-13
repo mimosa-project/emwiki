@@ -7,7 +7,7 @@ var SymbolDrawer = {
     }
   },
   data: () => ({
-    headers: [{ text: 'name', value: 'name' }],
+    headers: [{ text: 'type', value: 'type' }, { text: 'name', value: 'name' }],
     searchText: '',
     index: []
   }),
