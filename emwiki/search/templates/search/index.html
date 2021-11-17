@@ -7,39 +7,42 @@
 <!-- js-cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
-<script src="{% static 'search/JavaScript/search_theorem.js' %}"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+
+<!-- for Article In SeachTheorem -->
+<link rel='stylesheet' href="{% static 'article/css/index.css' %}" type='text/css'></link>
+<script src="{% static 'search/JavaScript/htmlized-mml-in-search.js' %}"></script>
+<script type="text/javascript" src="{% static 'article/js/mathjax.js'%}"></script>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" , type="text/javascript"
+    )></script>
 {% endblock %}
 
 
 {% block content %}
-<form class="m-1" action='{% url "search:index" %}' method='get'>
-  <div class="form-group">
-    <textarea class="form-control p-1" id="search-theorem" rows="6" placeholder='Search Theorem and Definition'
-      value="{{ query_text }}" name="search_query">{{ query_text }}</textarea>
-  </div>
-  <button class="btn btn-outline-success w-100" type="submit">Search</button>
-</form>
+<theorem-view />
+{% endblock %}
+{% block foot %}
+<!-- for Article In SeachTheorem -->
+<!-- Models -->
+<script src="{% static 'article/js/models/article.js'%}"></script>
+<script src="{% static 'article/js/models/comment.js'%}"></script>
+<script src="{% static 'article/js/models/editor.js'%}"></script>
+<script src="{% static 'article/js/models/parser.js'%}"></script>
+<!-- Services-->
+<script src="{% static 'article/js/services/article-service.js'%}"></script>
+<!-- Views -->
+<script src="{% static 'search/JavaScript/article-in-search-view.js' %}"></script>
 
-<div>
-  <div class="text-secondary m-1">
-    {{ result_list|length }}results
-  </div>
-  <div>
-    {% for result in result_list %}
-    <div class="card m-1">
-      <div class="card-body">
-        <div class="card-title align-text-bottom">
-          <button class="button_url h5 btn btn-link" name="{{ result.id }}" target="_blank" data-href="{{ result.url }}">{{ result.label }}</button>
-          <button name="{{ result.id }}" type="button" class="button_fav btn btn-outline-success btn-sm">☆</button>
-          <span class="badge bg-secondary">Relevance: {{ result.relevance |floatformat:2 }}</span>
-          <span class="badge bg-secondary">File: {{ result.filename }}#L{{ result.line_no}}</span>
-        </div>
-        <code class="card-text">
-          {{ result.text | linebreaksbr}}
-        </code>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
+<!-- for SearchTheorem -->
+<!-- Service-->
+<script src="{% static 'search/JavaScript/theorem-service.js' %}"></script>
+<!-- Views -->
+<script src="{% static 'search/JavaScript/theorem-view.js' %}"></script>
+<!-- App -->
+<script src="{% static 'search/JavaScript/app.js'%}"></script>
 {% endblock %}

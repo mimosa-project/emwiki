@@ -25,7 +25,7 @@ class Parser {
                     $(target),
                     block_name,
                     ++counter[block_name],
-                    "comments"
+                    context["comments_uri"]
                 );
                 comments.push(comment);
             }
