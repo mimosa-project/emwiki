@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const ArticleView = {
   data: () => ({
     bibTooltip: 'no bibs found',
@@ -6,9 +7,10 @@ const ArticleView = {
     hash: '',
   }),
   mounted() {
-    this.reloadArticle(this.$route.params.name.replace('.html', '')).then(() => {
-      this.hash = this.$route.hash
-    })
+    this.reloadArticle(this.$route.params.name.replace('.html', ''))
+        .then(() => {
+          this.hash = this.$route.hash;
+        });
   },
   methods: {
     reloadArticle(name) {
@@ -36,27 +38,27 @@ const ArticleView = {
   },
   watch: {
     $route(newRoute, oldRoute) {
-      if(newRoute.params.name !== oldRoute.params.name) {
-        this.reloadArticle(newRoute.params.name.replace('.html', ''))
+      if (newRoute.params.name !== oldRoute.params.name) {
+        this.reloadArticle(newRoute.params.name.replace('.html', ''));
       }
-      if(newRoute.hash !== oldRoute.hash) {
-        this.hash = newRoute.hash
+      if (newRoute.hash !== oldRoute.hash) {
+        this.hash = newRoute.hash;
       }
     },
     hash(newHash, oldHash) {
-      if(oldHash) {
-        oldHashElement = document.getElementsByName(oldHash.split('#')[1])[0]
-        oldHashElement.style.backgroundColor = 'white'
+      if (oldHash) {
+        oldHashElement = document.getElementsByName(oldHash.split('#')[1])[0];
+        oldHashElement.style.backgroundColor = 'white';
       }
-      if(newHash) {
-        newHashElement = document.getElementsByName(newHash.split('#')[1])[0]
+      if (newHash) {
+        newHashElement = document.getElementsByName(newHash.split('#')[1])[0];
         // #5D9BF7 means default anchor color like blue
-        newHashElement.style.backgroundColor = '#5D9BF7'
-        newHashElement.scrollIntoView()
+        newHashElement.style.backgroundColor = '#5D9BF7';
+        newHashElement.scrollIntoView();
       } else {
-        window.scroll({top: 0, behavior: 'smooth'})
+        window.scroll({top: 0, behavior: 'smooth'});
       }
-    }
+    },
   },
   template: `
       <v-container id="article" fluid>
@@ -78,5 +80,5 @@ const ArticleView = {
               </div>
           </v-row>
       </v-container>`,
-  delimiters: ['$(', ')']
-}
+  delimiters: ['$(', ')'],
+};

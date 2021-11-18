@@ -1,4 +1,5 @@
 var context = JSON.parse(document.getElementById('context').textContent);
+// eslint-disable-next-line no-unused-vars
 const router = new VueRouter({
   mode: 'history',
   base: context['article_base_uri'],
@@ -6,7 +7,7 @@ const router = new VueRouter({
     {
       path: '/:name',
       name: 'Article',
-      component: ArticleView
-    }
-  ]
-})
+      component: ArticleView,
+    },
+  ],
+});

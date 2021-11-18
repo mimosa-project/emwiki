@@ -6,7 +6,7 @@ const router = new VueRouter({
     {
       path: '/:name',
       name: 'Symbol',
-      component: SymbolView
-    }
-  ]
-})
+      component: SymbolView,
+    },
+  ],
+});

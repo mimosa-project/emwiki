@@ -1,95 +1,132 @@
+/* eslint-disable no-unused-vars */
+/**
+ * Comment
+ */
 class Comment {
-    constructor(article, element, block, block_order, comment_url) {
-        this.article = article;
-        this.block = block;
-        this.block_order = block_order;
-        this.comment_url = comment_url;
-        if (block == 'proof') {
-            this.element = element.closest('a')
-        } else {
-            this.element = element;
+  /**
+   * Constructor of Comment
+   * @param {Article} article
+   * @param {Element} element
+   * @param {string} block
+   * @param {number} blockOrder
+   * @param {string} commentUrl
+   */
+  constructor(article, element, block, blockOrder, commentUrl) {
+    this.article = article;
+    this.block = block;
+    this.blockOrder = blockOrder;
+    this.commentUrl = commentUrl;
+    if (block == 'proof') {
+      this.element = element.closest('a');
+    } else {
+      this.element = element;
+    }
+    this.editor = new Editor(this);
+  }
+
+  /** Getter of editor.text */
+  get text() {
+    return this.editor.text;
+  };
+
+  /**
+  * Submit comment
+  * @param {function} callback
+  */
+  submit(callback = () => { }) {
+    const csrftoken = Cookies.get('csrftoken');
+    /**
+     * Returns a Boolean value that indicates
+     * whether or not a pattern exists in the method.
+     * @param {stirng} method
+     * @return {Boolean} whether or not a pattern exists in a searched string.
+     */
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader('X-CSRFToken', csrftoken);
         }
-        this.editor = new Editor(this);
-    }
+      },
+    });
+    $.post({
+      url: this.commentUrl,
+      dataType: 'text',
+      data: {
+        'article_name': this.article.name,
+        'block': this.block,
+        'blockOrder': this.blockOrder,
+        'comment': this.text,
+      },
+    }).done(function(data) {
+      callback();
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+      console.log(XMLHttpRequest, textStatus, errorThrown);
+      if (errorThrown === 'Forbidden') {
+        alert('Editing is only allowed to registered users\n' +
+              'Please login or signup');
+      } else {
+        alert(`Error: ${textStatus}`);
+      }
+    });
+  }
 
-    get text() {
-        return this.editor.text;
-    };
-
-    submit(callback = function () { }) {
-        var csrftoken = Cookies.get('csrftoken');
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  /**
+   * Bulk fetch
+   * @param {Article} article
+   * @param {Array} comments
+   * @param {string} commentUrl
+   */
+  static bulkFetch(article, comments, commentUrl = context['comments_uri']) {
+    $.get({
+      url: commentUrl,
+      data: {article_name: article.name},
+    }).done((data) => {
+      data.forEach((commentFetched) => {
+        try {
+          // TODO 線形探索をやめる
+          const comment = comments.find((comment) => {
+            return (
+              comment.block === commentFetched.fields.block &&
+              comment.blockOrder === commentFetched.fields.blockOrder
+            );
+          });
+          if (comment) {
+            comment.editor.text = commentFetched.fields.text;
+          }
+        } catch (e) {
+          console.log(e);
         }
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-        $.post({
-            url: this.comment_url,
-            dataType: 'text',
-            data: {
-                'article_name': this.article.name,
-                'block': this.block,
-                'block_order': this.block_order,
-                'comment': this.text
-            },
-        }).done(function (data) {
-            callback();
-        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log(XMLHttpRequest, textStatus, errorThrown)
-            if (errorThrown === "Forbidden") {
-                alert("Editing is only allowed to registered users \nPlease login or signup");
-            } else {
-                alert(`Error: ${textStatus}`)
-            }
-        });
-    }
+      });
+      const editors = comments.map((comment) => comment.editor);
+      Editor.bulk_render(editors);
+    }).fail((XMLHttpRequest, textStatus, errorThrown) => {
+      alert('Failed to get some comment\n' + textStatus);
+    });
+  }
 
-    static bulk_fetch(article, comments, comment_url = context["comments_uri"]) {
-        $.get({
-            url: comment_url,
-            data: { article_name: article.name }
-        })
-            .done(function (data) {
-                data.forEach((comment_fetched) => {
-                    try {
-                        // TODO 線形探索をやめる
-                        const comment = comments.find((comment) => {
-                            return (
-                                comment.block === comment_fetched.fields.block &&
-                                comment.block_order === comment_fetched.fields.block_order
-                            )
-                        })
-                        if(comment){
-                            comment.editor.text = comment_fetched.fields.text;
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                })
-                let editors = comments.map((comment) => comment.editor);
-                Editor.bulk_render(editors);
-            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('Failed to get some comment\n' + textStatus);
-            });
-    }
-
-    fetch(comment_url = context["comments_uri"]) {
-        // declarate decause `this` reserved by jQuery in $.get
-        let comment = this;
-        $.get({
-            url: `${comment_url}`,
-            data: { article_name: comment.article.name, block: comment.block, block_order: comment.block_order },
-        }).done(function (data) {
-            comment.editor.text = data[0]["fields"]["text"];
-            comment.editor.render();
-        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-            alert('Failed to get some comment\n' + textStatus);
-        });
-    }
+  /**
+   * Fetch a comment
+   * @param {string} commentUrl
+   */
+  fetch(commentUrl = context['comments_uri']) {
+    // declarate decause `this` reserved by jQuery in $.get
+    const comment = this;
+    $.get({
+      url: `${commentUrl}`,
+      data: {
+        article_name: comment.article.name,
+        block: comment.block,
+        blockOrder: comment.blockOrder,
+      },
+    }).done(function(data) {
+      comment.editor.text = data[0]['fields']['text'];
+      comment.editor.render();
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+      alert('Failed to get some comment\n' + textStatus);
+    });
+  }
 }
