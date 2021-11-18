@@ -17,7 +17,7 @@ const ArticleView = {
         ArticleService.getBib(context['bibs_uri'], this.articleName).then((bibText) => {
           this.bibTooltip = bibText
         });
-        ArticleService.getHtml(context['article_base_uri'], this.articleName).then((articleHtml) => {
+        ArticleService.getHtml(context['article_html_base_uri'], this.articleName).then((articleHtml) => {
           this.articleHtml = articleHtml
           this.$nextTick(() => {
             this.addComment(this.articleName, $("#htmlized-mml"));
