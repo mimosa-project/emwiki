@@ -1,13 +1,17 @@
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 
 class GraphView(TemplateView):
     template_name = 'graph/index.html'
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["context_for_js"] = {
-            'article_names_uri': reverse('article:names')
+    extra_context = {
+        "context_for_js": {
+            'article_names_uri': reverse_lazy('article:names'),
         }
-        return context
+    }
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        response.context_data['context_for_js']['article_base_uri'] = reverse(
+            'article:index', kwargs=dict(name_or_filename="temp")).replace('temp', '')
+        return response
