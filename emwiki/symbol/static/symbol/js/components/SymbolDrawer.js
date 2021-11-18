@@ -11,19 +11,14 @@ var SymbolDrawer = {
     searchText: '',
     index: []
   }),
-  async mounted() {
-    try {
-      this.index = await this.getIndex();
-    } catch (e) {
+  mounted() {
+    SymbolService.getIndex(context['names_uri']).then((index) => {
+      this.index = index
+    }).catch((e) => {
       alert(e);
-    }
+    });
   },
   methods: {
-    getIndex() {
-      return axios.get(context['names_uri']).then((response) => {
-        return response.data.index
-      })
-    },
     onSymbolRowClick(row) {
       if (this.$route.params.name !== row.name) {
         this.$router.push({ name: 'Symbol', params: { name: row.name } })
