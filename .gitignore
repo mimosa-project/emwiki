@@ -15,6 +15,9 @@ testdata/outputs/
 # Database
 postgres-data/
 
+# node
+node_modules/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
