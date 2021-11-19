@@ -56,3 +56,7 @@ a[data-href]:hover {
 .mml-element .source-box .main-sentence {
     background: #fffbdd;
 }
+
+[id] {
+    scroll-margin-top: 64px;
+}

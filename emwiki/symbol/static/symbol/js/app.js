@@ -6,7 +6,6 @@ new Vue({
     components: {'symbol-drawer': SymbolDrawer},
     data: () => ({
         drawer: true,
-        headers: [{ text: 'name', value: 'name' }],
     }),
     delimiters: ['$(', ')']
 })
