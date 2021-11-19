@@ -5,17 +5,17 @@
         <tr>
             <th>Username</th>
             <td>{{ user.username }}</td>
-            <td><a class='btn btn-primary' href="{% url 'accounts:user_update' user.pk %}">Change</a></td>
+            <td><v-btn href="{% url 'accounts:user_update' user.pk %}">Change</v-btn></td>
         </tr>
         <tr>
             <th>Email</th>
             <td>{{ user.email }}</td>
-            <td><a class='btn btn-primary' href="{% url 'accounts:email_change' %}">Change</a></td>
+            <td><v-btn href="{% url 'accounts:email_change' %}">Change</v-btn></td>
         </tr>
         <tr>
             <th>Password</th>
             <td>●●●●●●●●●●●</td>
-            <td><a class='btn btn-primary' href="{% url 'accounts:password_change' %}">Change</a></td>
+            <td><v-btn href="{% url 'accounts:password_change' %}">Change</v-btn></td>
         </tr>
     </tbody>
 </table>

@@ -3,30 +3,29 @@ const ArticleView = {
     bibTooltip: 'no bibs found',
     articleHtml: '',
     articleName: '',
-    anchorElement: null
+    hash: '',
   }),
   mounted() {
-    this.reload(this.$route.params.name);
+    this.reloadArticle(this.$route.params.name.replace('.html', '')).then(() => {
+      this.hash = this.$route.hash
+    })
   },
   methods: {
-    reload(name) {
-      name = name.replace('.html', '')
-      ArticleService.getHtml(context['article_base_uri'], name).then((articleHtml) => {
-        this.articleHtml = articleHtml
-        this.$nextTick(() => {
-          anchorName = this.$route.hash.split('#')[1]
-          if(anchorName) {
-            this.anchorElement = document.getElementsByName(anchorName)[0]
-          } else {
-            window.scroll({top: 0, behavior: 'smooth'})
-          }
-          this.addComment(name, $("#htmlized-mml"));
+    reloadArticle(name) {
+      return new Promise((resolve) => {
+        this.articleName = name.replace('.html', '')
+        ArticleService.getBib(context['bibs_uri'], this.articleName).then((bibText) => {
+          this.bibTooltip = bibText
+        });
+        ArticleService.getHtml(context['article_base_uri'], this.articleName).then((articleHtml) => {
+          this.articleHtml = articleHtml
+          this.$nextTick(() => {
+            this.addComment(this.articleName, $("#htmlized-mml"));
+          })
+        }).then(() => {
+          resolve()
         })
-      });
-      ArticleService.getBib(context['bibs_uri'], name).then((bibText) => {
-        this.bibTooltip = bibText
-      });
-      this.articleName = name;
+      })
     },
     addComment(name, root) {
       const article = new Article(name, root);
@@ -36,16 +35,27 @@ const ArticleView = {
     }
   },
   watch: {
-    $route(newVal, oldVal) {
-      this.reload(this.$route.params.name);
-    },
-    anchorElement(newVal, oldVal) {
-      if(oldVal){
-        oldVal.style.backgroundColor = "white"
+    $route(newRoute, oldRoute) {
+      if(newRoute.params.name !== oldRoute.params.name) {
+        this.reloadArticle(newRoute.params.name.replace('.html', ''))
       }
-      // #5D9BF7 means default anchor color like blue
-      newVal.style.backgroundColor = '#5D9BF7'
-      newVal.scrollIntoView()
+      if(newRoute.hash !== oldRoute.hash) {
+        this.hash = newRoute.hash
+      }
+    },
+    hash(newHash, oldHash) {
+      if(oldHash) {
+        oldHashElement = document.getElementsByName(oldHash.split('#')[1])[0]
+        oldHashElement.style.backgroundColor = 'white'
+      }
+      if(newHash) {
+        newHashElement = document.getElementsByName(newHash.split('#')[1])[0]
+        // #5D9BF7 means default anchor color like blue
+        newHashElement.style.backgroundColor = '#5D9BF7'
+        newHashElement.scrollIntoView()
+      } else {
+        window.scroll({top: 0, behavior: 'smooth'})
+      }
     }
   },
   template: `

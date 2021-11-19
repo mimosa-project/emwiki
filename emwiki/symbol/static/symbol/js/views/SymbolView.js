@@ -1,48 +1,40 @@
 const SymbolView = {
     data: () => ({
-      symbolHtml: '',
       symbolName: '',
       compiled: null,
       anchorElement: null
     }),
-    async mounted () {
-      this.reload(this.$route.params.name);
+    mounted () {
+      this.reload(this.$route.params.name, this.$route.hash);
     },
     methods: {
-      async reload (name) {
+      reload (name, hash) {
         this.symbolName = name;
-        this.compiled = Vue.compile(await this.getSymbolHtml(name));
-        this.jumpTo(this.$route.params.name, this.$route.hash);
-      },
-      getSymbolHtml(name) {
-        return axios.get(context['symbol_html_uri'], {params: {symbol_name: name}}).then((response) => {
-          return response.data
-        })
+        this.jumpTo(name, hash);
       },
       jumpTo(name, anchor) {
-        this.getSymbolHtml(name).then((symbolHtml) => {
+        SymbolService.getHtml(context['symbol_html_uri'], name).then((symbolHtml) => {
           this.compiled = Vue.compile(symbolHtml);
-          setTimeout(() => {
-            anchorName = this.$route.hash.split('#')[1]
+          this.$nextTick(() => {
+            anchorName = anchor.split('#')[1]
             if(anchorName) {
-              this.anchorElement = document.getElementsByName(anchorName)[0]
+              this.anchorElement = document.getElementById(anchorName)
             } else {
               window.scroll({top: 0, behavior: 'smooth'})
             }
-          }, 1000);
+          });
         })
       }
     },
     watch: {
       $route () {
-        this.reload(this.$route.params.name);
+        this.reload(this.$route.params.name, this.$route.hash);
       },
       anchorElement(newVal, oldVal) {
-        if(oldVal){
-          oldVal.style.backgroundColor = "white"
+        if(oldVal) {
+          oldVal.classList.remove('selected')
         }
-        // #5D9BF7 means default anchor color like blue
-        newVal.style.backgroundColor = '#5D9BF7'
+        newVal.classList.add('selected')
         newVal.scrollIntoView()
       }
     },
