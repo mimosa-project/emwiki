@@ -10,7 +10,7 @@ class Parser {
         ];
         this.target_CSS_selector = 'span.kw';
     }
-    list_comments(article) {
+    list_comments(article, comments_uri) {
         let comments = [];
         let counter = {}
         this.target_block_names.forEach(function (value) {
@@ -25,7 +25,7 @@ class Parser {
                     $(target),
                     block_name,
                     ++counter[block_name],
-                    "comments"
+                    comments_uri
                 );
                 comments.push(comment);
             }

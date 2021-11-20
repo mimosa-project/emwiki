@@ -30,7 +30,7 @@ const ArticleView = {
     addComment(name, root) {
       const article = new Article(name, root);
       const parser = new Parser(root);
-      const comments = parser.list_comments(article);
+      const comments = parser.list_comments(article, context["comments_uri"]);
       Comment.bulk_fetch(article, comments, context["comments_uri"]);
     }
   },
