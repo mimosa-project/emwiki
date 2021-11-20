@@ -17,9 +17,23 @@ const ArticleView = {
         ArticleService.getBib(context['bibs_uri'], this.articleName).then((bibText) => {
           this.bibTooltip = bibText
         });
-        ArticleService.getHtml(context['article_base_uri'], this.articleName).then((articleHtml) => {
+        ArticleService.getHtml(context['article_html_base_uri'], this.articleName).then((articleHtml) => {
           this.articleHtml = articleHtml
           this.$nextTick(() => {
+            // targetがtheoremの場合はaタグの挙動を変更
+            if(context['target'] === 'theorem'){
+              const aTagElements = this.$el.getElementsByTagName('a')
+              for (let i = 0; i < aTagElements.length; i++) {
+                if(aTagElements[i].href != 'javascript:()' && aTagElements[i].href != ''){
+                  aTagElements[i].addEventListener('click', function(event){
+                    event.preventDefault();
+                    // リンクを抽出 例: /search/theorem/graphsp.html#T42 -> graphsp#T42
+                    const link = this.href.split('/').slice(-1)[0].replace('.html', '')
+                    return window.open(context['article_base_uri'] + link, '_blank')
+                  })
+                }
+              }
+            }
             this.addComment(this.articleName, $("#htmlized-mml"));
           })
         }).then(() => {
