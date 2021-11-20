@@ -44,11 +44,11 @@
   {% csrf_token %}
   <div id="app">
     <v-app>
-      <v-navigation-drawer app v-model="drawer">
+      <v-navigation-drawer app v-model="drawer" :width="drawerWidth">
         {% block drawer %}{% endblock %}
       </v-navigation-drawer>
 
-      <v-app-bar app height="64px" id="toolbar">
+      <v-app-bar app height="64px">
         <v-toolbar-title>emwiki</v-toolbar-title>
         
         <v-spacer></v-spacer>
