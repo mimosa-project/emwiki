@@ -16,10 +16,11 @@ class ArticleView(View):
     def get(self, request, name_or_filename):
         context = dict()
         context["context_for_js"] = {
-            'article_base_uri': reverse('article:htmls'),
+            'article_html_base_uri': reverse('article:htmls'),
             'comments_uri': reverse('article:comments'),
             'bibs_uri': reverse('article:bibs'),
             'names_uri': reverse('article:names'),
+            'article_base_uri': reverse('article:index', kwargs=dict(name_or_filename="temp")).replace('temp', ''),
             'is_authenticated': self.request.user.is_authenticated,
         }
         return render(request, "article/index.html", context)

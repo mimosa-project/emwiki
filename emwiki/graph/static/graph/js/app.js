@@ -108,7 +108,7 @@ new Vue({
               selector: 'node',
               hasTrailingDivider: true,
               onClickFunction: (event) => {
-                window.open(`/article/${event.target.data('name').toLowerCase()}`, '_blank')
+                window.open(context.article_base_uri + event.target.data('name').toLowerCase(), '_blank')
               }
             }
           ]
