@@ -15,26 +15,30 @@ const ArticleView = {
   methods: {
     reloadArticle(name) {
       return new Promise((resolve) => {
-        this.articleName = name.replace('.html', '')
-        ArticleService.getBib(context['bibs_uri'], this.articleName).then((bibText) => {
-          this.bibTooltip = bibText
-        });
-        ArticleService.getHtml(context['article_html_base_uri'], this.articleName).then((articleHtml) => {
-          this.articleHtml = articleHtml
+        this.articleName = name.replace('.html', '');
+        ArticleService.getBib(context['bibs_uri'], this.articleName)
+            .then((bibText) => {
+              this.bibTooltip = bibText;
+            });
+        ArticleService.getHtml(
+            context['article_html_base_uri'],
+            this.articleName,
+        ).then((articleHtml) => {
+          this.articleHtml = articleHtml;
           this.$nextTick(() => {
-            this.addComment(this.articleName, $("#htmlized-mml"));
-          })
+            this.addComment(this.articleName, $('#htmlized-mml'));
+          });
         }).then(() => {
-          resolve()
-        })
-      })
+          resolve();
+        });
+      });
     },
     addComment(name, root) {
       const article = new Article(name, root);
       const parser = new Parser(root);
-      const comments = parser.list_comments(article, context["comments_uri"]);
-      Comment.bulk_fetch(article, comments, context["comments_uri"]);
-    }
+      const comments = parser.list_comments(article, context['comments_uri']);
+      Comment.bulk_fetch(article, comments, context['comments_uri']);
+    },
   },
   watch: {
     $route(newRoute, oldRoute) {

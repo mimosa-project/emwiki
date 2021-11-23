@@ -110,13 +110,16 @@ new Vue({
               selector: 'node',
               hasTrailingDivider: true,
               onClickFunction: (event) => {
-                window.open(context.article_base_uri + event.target.data('name').toLowerCase(), '_blank')
-              }
-            }
-          ]
-        })
-        resolve(cyto)
-      })
+                window.open(
+                    context.article_base_uri +
+                      event.target.data('name').toLowerCase(),
+                    '_blank');
+              },
+            },
+          ],
+        }),
+        resolve(cyto);
+      });
     },
     resetElements() {
       window.cy.elements().removeClass(this.selectors);

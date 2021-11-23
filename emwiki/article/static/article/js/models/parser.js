@@ -22,9 +22,10 @@ class Parser {
   /**
    * List commnets of article
    * @param {Article} article article
+   * @param {String} commentsUri
    * @return {Array<Comment>} comments
    */
-  list_comments(article, comments_uri) {
+  list_comments(article, commentsUri) {
     const comments = [];
     const counter = {};
     this.targetBlockNames.forEach((value) => {
@@ -39,7 +40,7 @@ class Parser {
             $(target),
             blockName,
             ++counter[blockName],
-            comments_uri,
+            commentsUri,
         );
         comments.push(comment);
       }

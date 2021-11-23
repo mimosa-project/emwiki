@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-var
 var context = JSON.parse(document.getElementById('context').textContent);
 // eslint-disable-next-line no-unused-vars
 const router = new VueRouter({
