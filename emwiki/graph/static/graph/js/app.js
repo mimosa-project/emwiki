@@ -4,6 +4,7 @@ new Vue({
   components: {'graph-drawer': GraphDrawer},
   data: () => ({
     drawer: true,
+    drawerWidth: 256,
     headers: [{text: 'name', value: 'name'}],
     searchText: '',
     graphModel: null,

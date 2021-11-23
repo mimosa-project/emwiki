@@ -5,6 +5,7 @@ new Vue({
   components: {'article-drawer': ArticleDrawer},
   data: () => ({
     drawer: true,
+    drawerWidth: 256,
   }),
   delimiters: ['$(', ')'],
 });
