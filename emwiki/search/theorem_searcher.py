@@ -53,7 +53,7 @@ class TheoremSearcher:
             #         [4::] : text
             search_result["label"] = (doc_list[3])
             search_result["text"] = (" ".join(doc_list[4::]))
-            search_result["relevance"] = (idx[1])
+            search_result["relevance"] = "{:.2f}".format(idx[1])
             search_result["filename"] = (doc_list[2])
             search_result["line_no"] = (doc_list[1])
 

@@ -56,7 +56,7 @@
         <v-btn href="{% url 'home:index' %}" text>Home</v-btn>
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}" text>Article</v-btn>
         <v-btn href="{% url 'symbol:index' '0' %}" text>Symbol</v-btn>
-        <v-btn href="{% url 'search:index' %}" text>Theorem</v-btn>
+        <v-btn href="{% url 'article:index' 'abcmiz_0' %}?target=theorem" text>Theorem</v-btn>
         <v-btn href="{% url 'graph:index' %}" text>Graph</v-btn>
         
         <v-menu offset-y>

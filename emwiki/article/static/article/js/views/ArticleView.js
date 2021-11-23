@@ -26,6 +26,19 @@ const ArticleView = {
         ).then((articleHtml) => {
           this.articleHtml = articleHtml;
           this.$nextTick(() => {
+            // targetがtheoremの場合はaタグの挙動を変更(変更しないとページが再ロードされ定理検索の結果が消えてしまうため)
+            if (context['target'] === 'theorem') {
+              const aTagElements = this.$el.getElementsByTagName('a');
+              for (let i = 0; i < aTagElements.length; i++) {
+                if (aTagElements[i].href !== 'javascript:()' &&
+                    aTagElements[i].href !== '') {
+                  aTagElements[i].addEventListener('click', (event) => {
+                    event.preventDefault();
+                    return window.open(event.target.href, '_blank');
+                  });
+                }
+              }
+            }
             this.addComment(this.articleName, $('#htmlized-mml'));
           });
         }).then(() => {
@@ -41,9 +54,9 @@ const ArticleView = {
     },
   },
   watch: {
-    $route(newRoute, oldRoute) {
+    async $route(newRoute, oldRoute) {
       if (newRoute.params.name !== oldRoute.params.name) {
-        this.reloadArticle(newRoute.params.name.replace('.html', ''));
+        await this.reloadArticle(newRoute.params.name.replace('.html', ''));
       }
       if (newRoute.hash !== oldRoute.hash) {
         this.hash = newRoute.hash;
