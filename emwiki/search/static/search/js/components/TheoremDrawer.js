@@ -30,18 +30,14 @@ const TheoremDrawer = {
     },
     loadArticle(url) {
       // urlの例: graphsp#T42
-      linkAndHash = url.split('#');
-      filename = linkAndHash[0];
-      hash = linkAndHash[1];
+      const linkAndHash = url.split('#');
       this.$router.push({
         name: 'Article',
-        params: {name: filename},
-        hash: '#' + hash,
-        query: {target: 'theorem'},
-      });
+        params: {name: linkAndHash[0]},
+        hash: '#' + linkAndHash[1],
+        query: {target: 'theorem'}});
     },
     recordReactions(id, buttonType) {
-      console.log('aas');
       TheoremService.recordReactions(id, buttonType);
       if (buttonType === 'fav') {
         // ボタンの見た目を切り替える
@@ -75,38 +71,38 @@ const TheoremDrawer = {
         Search text allows ascii characters only
       </div>
         <div v-bind:style="'height: ' + searchHeight + 'px; overflow-y: auto;'">
-          <div v-for="TheoremModel in TheoremModels" :key="TheoremModel.id">
-            <v-card v-bind:name="TheoremModel.id">
+          <v-card
+            v-for="TheoremModel in TheoremModels"
+            :key="TheoremModel.id"
+            :name="TheoremModel.id"
+          >
+            <v-btn
+              text
+              block
+              color="blue"
+              class="theorem-label p-4 pl-2" 
+              @click.once="recordReactions(TheoremModel.id, 'url')"
+              @click="loadArticle(TheoremModel.url)"
+            >
+              <p class="text-h5 m-0 mr-auto">$(TheoremModel.label)</p>
+            </v-btn>
+            <v-card-text class="black--text">$(TheoremModel.text)</v-card-text>
+            <v-card-actions outlined rounded text background-color="blue">
               <v-btn
-               text
-               block
-               color="blue"
-               class="theorem-label p-4 pl-2" 
-               @click.once="recordReactions(TheoremModel.id, 'url')"
-               @click="loadArticle(TheoremModel.url)"
-               >
-                <p class="text-h5 m-0 mr-auto">$(TheoremModel.label)</p>
+                @click="recordReactions(TheoremModel.id, 'fav')"
+                :id="'fav-btm-' + TheoremModel.id"
+                class="mr-3"
+              >
+                <v-icon color="blue">mdi-thumb-up</v-icon>
               </v-btn>
-              <v-card-text class="black--text">
-                $(TheoremModel.text)
-              </v-card-text>
-              <v-card-actions outlined rounded text background-color="blue">
-                <v-btn 
-                  @click="recordReactions(TheoremModel.id, 'fav')"
-                  v-bind:id="'fav-btm-' + TheoremModel.id" 
-                  class="mr-3"
-                >
-                  <v-icon color="blue">mdi-thumb-up</v-icon>
-                </v-btn>
-                <span class="pr-5 text-subtitle-2 grey--text text--darken-2">
-                  relevance: $(TheoremModel.relevance)
-                </span>
-                <span class="pr-5 text-subtitle-2 grey--text text--darken-2">
-                  file: $(TheoremModel.filename) $(TheoremModel.line_no)
-                </span>
-              </v-card-actions>
-            </v-card>
-          </div>
+              <span class="pr-5 text-subtitle-2 grey--text text--darken-2">
+                relevance: $(TheoremModel.relevance)
+              </span>
+              <span class="pr-5 text-subtitle-2 grey--text text--darken-2">
+                file: $(TheoremModel.filename) $(TheoremModel.line_no)
+              </span>
+            </v-card-actions>
+          </v-card>
         </div>
     </div>`,
   delimiters: ['$(', ')'],
