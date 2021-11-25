@@ -61,7 +61,7 @@ new Vue({
     }
   },
   mounted() {
-    GraphService.getModel().then((graphModel) => {
+    GraphService.getModel(context['dot_graph_uri']).then((graphModel) => {
       this.graphModel = graphModel
       this.createGraph(graphModel).then((cyto) => {
         window.cy = cyto
