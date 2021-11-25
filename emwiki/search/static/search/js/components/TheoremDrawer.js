@@ -1,7 +1,7 @@
-const regex = new RegExp(/^[\x20-\x7e\s]+$/);
 // eslint-disable-next-line no-unused-vars
 const TheoremDrawer = {
   data: () => ({
+    PRINTABLE_STRING_REG: new RegExp(/^[\x20-\x7e\s]+$/),
     searchHeight: 0,
     searchText: '',
     loading: false,
@@ -16,7 +16,7 @@ const TheoremDrawer = {
   methods: {
     // 検索クエリのバリデーション
     isAscii(value) {
-      if (regex.test(value)) {
+      if (this.PRINTABLE_STRING_REG.test(value)) {
         return true;
       } else {
         return 'Search text allows ascii characters only';
