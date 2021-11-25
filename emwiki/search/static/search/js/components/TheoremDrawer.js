@@ -1,20 +1,11 @@
+const regex = new RegExp(/^[\x20-\x7e\s]+$/);
 // eslint-disable-next-line no-unused-vars
 const TheoremDrawer = {
   data: () => ({
-    articleHeight: 0,
     searchHeight: 0,
     searchText: '',
     loading: false,
-    TheoremModels: [],
-    // 検索クエリのバリデーション
-    isAscii: (value) => {
-      const regex = new RegExp(/^[\x20-\x7e\s]*$/);
-      if (regex.test(value)) {
-        return true;
-      } else {
-        return 'Search text allows ascii characters only';
-      }
-    },
+    theoremModels: [],
   }),
   mounted() {
     // 検索結果表示枠の高さを計算
@@ -23,15 +14,21 @@ const TheoremDrawer = {
       document.getElementById('search-btn').getBoundingClientRect().bottom;
   },
   methods: {
-    search(searchText) {
-      // バリデーションを通過した場合のみ検索を実行
-      if (this.$refs.searchForm.validate()) {
-        this.loading = true;
-        TheoremService.searchTheorem(searchText).then((response) => {
-          this.TheoremModels = response.searchResults;
-          this.loading = false;
-        });
+    // 検索クエリのバリデーション
+    isAscii(value) {
+      if (regex.test(value)) {
+        return true;
+      } else {
+        return 'Search text allows ascii characters only';
       }
+    },
+    search(searchText) {
+      this.loading = true;
+      TheoremService.searchTheorem(
+          context['search_uri'], searchText).then((response) => {
+        this.theoremModels = response.searchResults;
+        this.loading = false;
+      });
     },
     loadArticle(url) {
       // urlの例: graphsp#T42
@@ -43,14 +40,16 @@ const TheoremDrawer = {
         query: {target: 'theorem'}});
     },
     recordReactions(id, buttonType) {
-      TheoremService.recordReactions(id, buttonType);
+      const csrftoken = Cookies.get('csrftoken');
+      TheoremService.recordReactions(
+          context['search_uri'], csrftoken, id, buttonType);
       if (buttonType === 'fav') {
         // ボタンの見た目を切り替える
-        const btnElement = document.getElementById('fav-btm-' + id);
-        if (btnElement.className.match(/blue/)) {
-          btnElement.classList.remove('blue');
+        const btnElement = document.getElementById('fav-btn-' + id);
+        if (btnElement.className.match(/grey/)) {
+          btnElement.classList.remove('grey');
         } else {
-          btnElement.classList.add('blue');
+          btnElement.classList.add('grey');
         }
       }
     },
@@ -69,40 +68,38 @@ const TheoremDrawer = {
         class="pt-10"
       >
       </v-textarea>
-      <v-btn v-if="loading" block disabled>
-        <v-progress-circular indeterminate color="primary" />
-      </v-btn>
       <v-btn
         id="search-btn"
-        v-else
         block
         @click="search(searchText)"
+        :disabled="isAscii(searchText) !== true"
       >
-        Search
+        <v-progress-circular indeterminate v-if="loading" color="primary" />
+        <p v-else class="m-auto">Search</p>
       </v-btn>
     </v-form>
     <v-list :height="searchHeight" class="overflow-auto">
       <v-list-item-group>
         <v-list-item
-          v-for="TheoremModel in TheoremModels"
-          :key="TheoremModel.id"
-          @click.once="recordReactions(TheoremModel.id, 'url')"
-          @click="loadArticle(TheoremModel.url)"
+          v-for="theoremModel in theoremModels"
+          :key="theoremModel.id"
+          @click.once="recordReactions(theoremModel.id, 'url')"
+          @click="loadArticle(theoremModel.url)"
         >
-          <v-list-item-content v-bind:name="TheoremModel.id">
+          <v-list-item-content v-bind:name="theoremModel.id">
             <v-card-title class="d-flex justify-space-between">
-              $(TheoremModel.label)
+              $(theoremModel.label)
               <v-chip color="secondary" small>
-                relevance: $(TheoremModel.relevance)
+                relevance: $(theoremModel.relevance)
               </v-chip>
-              <v-btn 
-                @click="recordReactions(TheoremModel.id, 'fav')" 
-                :id="'fav-btm-' + TheoremModel.id"
+              <v-btn
+                @click.stop="recordReactions(theoremModel.id, 'fav')" 
+                :id="'fav-btn-' + theoremModel.id"
               >
                 <v-icon color="blue">mdi-thumb-up</v-icon>
               </v-btn>
             </v-card-title>
-            <v-card-text><code>$(TheoremModel.text)</code></v-card-text>
+            <v-card-text><code>$(theoremModel.text)</code></v-card-text>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>

@@ -5,11 +5,12 @@
 class TheoremService {
   /**
    * Search theorem
+   * @param {string} url
    * @param {string} searchText
-   * @return {Array<Object>} search results
+   * @return {Promise<Array>} search results
    */
-  static searchTheorem(searchText) {
-    return axios.get(context['search_uri'], {
+  static searchTheorem(url, searchText) {
+    return axios.get(url, {
       params: {
         search_query: searchText,
       },
@@ -19,17 +20,18 @@ class TheoremService {
   }
   /**
    * Record reactions
+   * @param {string} url
+   * @param {string} csrftoken
    * @param {int} id
    * @param {string} buttonType
    * @return {Promise<Object>} An Object that has a key 'id'
    */
-  static recordReactions(id, buttonType) {
-    const csrftoken = Cookies.get('csrftoken');
+  static recordReactions(url, csrftoken, id, buttonType) {
     const headers = {'X-CSRFToken': csrftoken};
     // content-typeをapplication/x-www-form-urlencodedに変換
     const params = new URLSearchParams();
     params.append('button_type', buttonType);
     params.append('id', id);
-    return axios.post(context['search_uri'], params, {headers: headers});
+    return axios.post(url, params, {headers: headers});
   }
 }
