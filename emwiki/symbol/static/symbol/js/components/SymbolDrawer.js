@@ -1,19 +1,20 @@
-var SymbolDrawer = {
+// eslint-disable-next-line no-unused-vars
+const SymbolDrawer = {
   methods: {
     onSymbolRowClick(row) {
       if (this.$route.params.name !== row.name) {
-        this.$router.push({ name: 'Symbol', params: { name: row.name } })
+        this.$router.push({name: 'Symbol', params: {name: row.name}});
       }
-    }
+    },
   },
   data: () => ({
-    headers: [{ text: 'type', value: 'type' }, { text: 'name', value: 'name' }],
+    headers: [{text: 'type', value: 'type'}, {text: 'name', value: 'name'}],
     searchText: '',
-    index: []
+    index: [],
   }),
   mounted() {
     SymbolService.getIndex(context['names_uri']).then((index) => {
-      this.index = index
+      this.index = index;
     }).catch((e) => {
       alert(e);
     });
@@ -21,9 +22,9 @@ var SymbolDrawer = {
   methods: {
     onSymbolRowClick(row) {
       if (this.$route.params.name !== row.name) {
-        this.$router.push({ name: 'Symbol', params: { name: row.name } })
+        this.$router.push({name: 'Symbol', params: {name: row.name}});
       }
-    }
+    },
   },
   template: `
       <div>
@@ -43,5 +44,5 @@ var SymbolDrawer = {
               @click:row="onSymbolRowClick"
           >
           </v-data-table>
-      </div>`
-}
+      </div>`,
+};
