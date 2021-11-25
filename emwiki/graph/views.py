@@ -1,5 +1,6 @@
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
+from django.templatetags.static import static
 
 
 class GraphView(TemplateView):
@@ -7,6 +8,7 @@ class GraphView(TemplateView):
     extra_context = {
         "context_for_js": {
             'article_names_uri': reverse_lazy('article:names'),
+            'dot_graph_uri': static('graph/graph_attrs/dot_graph.json')
         }
     }
 

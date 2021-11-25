@@ -6,10 +6,11 @@
 class GraphService {
   /**
    * get model data of graph
+   * @param {string} url of dot_graph.json
    * @return {Object} model data of graph
    */
-  static getModel() {
-    return axios.get('/static/graph/graph_attrs/dot_graph.json').then((response) => {
+  static getModel(url) {
+    return axios.get(url).then((response) => {
       return response.data;
     });
   }
