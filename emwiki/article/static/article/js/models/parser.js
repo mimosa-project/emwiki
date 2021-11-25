@@ -1,35 +1,50 @@
+/* eslint-disable no-unused-vars */
+/**
+ * Parser
+ */
 class Parser {
-    constructor($root) {
-        this.root = $root;
-        this.target_block_names = [
-            'definition',
-            'theorem',
-            'registration',
-            'scheme',
-            'notation',
-        ];
-        this.target_CSS_selector = 'span.kw';
-    }
-    list_comments(article, comments_uri) {
-        let comments = [];
-        let counter = {}
-        this.target_block_names.forEach(function (value) {
-            counter[value] = 0;
-        });
-        for (let target of this.root.find(this.target_CSS_selector)) {
-            //sometimes $(target).text() return string like "theorem " so trim()
-            let block_name = $(target).text().trim();
-            if (this.target_block_names.includes(block_name)) {
-                let comment = new Comment(
-                    article,
-                    $(target),
-                    block_name,
-                    ++counter[block_name],
-                    comments_uri
-                );
-                comments.push(comment);
-            }
-        };
-        return comments
-    }
+  /**
+   * Constructor of Parser
+   * @param {Element} $root
+   */
+  constructor($root) {
+    this.root = $root;
+    this.targetBlockNames = [
+      'definition',
+      'theorem',
+      'registration',
+      'scheme',
+      'notation',
+    ];
+    this.targetCssSelector = 'span.kw';
+  }
+
+  /**
+   * List commnets of article
+   * @param {Article} article article
+   * @param {String} commentsUri
+   * @return {Array<Comment>} comments
+   */
+  list_comments(article, commentsUri) {
+    const comments = [];
+    const counter = {};
+    this.targetBlockNames.forEach((value) => {
+      counter[value] = 0;
+    });
+    for (const target of this.root.find(this.targetCssSelector)) {
+      // sometimes $(target).text() return string like "theorem " so trim()
+      const blockName = $(target).text().trim();
+      if (this.targetBlockNames.includes(blockName)) {
+        const comment = new Comment(
+            article,
+            $(target),
+            blockName,
+            ++counter[blockName],
+            commentsUri,
+        );
+        comments.push(comment);
+      }
+    };
+    return comments;
+  }
 }

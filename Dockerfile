@@ -2,10 +2,10 @@ FROM python:3.7
 
 ENV PYTHONUNBUFFERED 1
 
-# Install 
+# Install
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz && \
+    apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz npm && \
     python -m pip install --upgrade pip && \
     pip -q install pipenv --upgrade
 
@@ -27,5 +27,9 @@ RUN pipenv install && \
 # Install python dependencies
 WORKDIR /emwiki
 RUN pipenv sync --dev
+
+# Install npm dependencies
+WORKDIR /emwiki
+RUN npm install
 
 CMD ["sleep", "infinity"]
