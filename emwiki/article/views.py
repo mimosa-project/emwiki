@@ -5,24 +5,35 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.generic.base import TemplateView
 
 from .models import Article, Comment
 
 
-class ArticleView(View):
-    def get(self, request, name_or_filename):
-        context = dict()
-        context["context_for_js"] = {
-            'article_base_uri': reverse('article:htmls'),
-            'comments_uri': reverse('article:comments'),
-            'bibs_uri': reverse('article:bibs'),
-            'names_uri': reverse('article:names'),
-            'is_authenticated': self.request.user.is_authenticated,
+class ArticleView(TemplateView):
+    template_name = 'article/index.html'
+    extra_context = {
+        'context_for_js': {
+            'article_html_base_uri': reverse_lazy('article:htmls'),
+            'comments_uri': reverse_lazy('article:comments'),
+            'bibs_uri': reverse_lazy('article:bibs'),
+            'names_uri': reverse_lazy('article:names'),
+            'search_uri': reverse_lazy('search:index')
         }
-        return render(request, "article/index.html", context)
+    }
+
+    def get(self, request, name_or_filename, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        # These context data cannot define in class field.
+        response.context_data['context_for_js']['article_base_uri'] = \
+            reverse('article:index', kwargs=dict(name_or_filename="temp")).replace('temp', '')
+        response.context_data['context_for_js']['is_authenticated'] = request.user.is_authenticated
+        response.context_data['context_for_js']['target'] = request.GET.get('target', 'article')
+        response.context_data['target'] = request.GET.get('target', 'article')
+        return response
 
 
 class ArticleIndexView(View):

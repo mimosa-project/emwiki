@@ -1,55 +1,59 @@
-var context = JSON.parse(document.getElementById('context').textContent);
-var GraphDrawer = {
+/* eslint-disable no-unused-vars */
+const context = JSON.parse(document.getElementById('context').textContent);
+/**
+ * GraphDrawer
+ */
+const GraphDrawer = {
   name: 'GraphDrawer',
   props: ['graphArticleName', 'graphUpperLevel', 'graphLowerLevel'],
   data: () => ({
-    headers: [{ text: 'name', value: 'name' }],
+    headers: [{text: 'name', value: 'name'}],
     searchText: '',
     index: [],
   }),
   mounted() {
     ArticleService.getIndex(context['article_names_uri']).then((index) => {
-      this.index = index
+      this.index = index;
     });
   },
   computed: {
     articleName: {
       get() {
-        return this.graphArticleName
+        return this.graphArticleName;
       },
       set(newVal) {
-        this.$emit('article-name-changed', newVal)
-      }
+        this.$emit('article-name-changed', newVal);
+      },
     },
     upperLevel: {
       get() {
-        if(this.graphUpperLevel) {
-          return this.graphUpperLevel
+        if (this.graphUpperLevel) {
+          return this.graphUpperLevel;
         } else {
-          return 0
+          return 0;
         }
       },
       set(newVal) {
-        this.$emit('upper-level-changed', newVal)
-      }
+        this.$emit('upper-level-changed', newVal);
+      },
     },
     lowerLevel: {
       get() {
-        if(this.graphLowerLevel) {
-          return this.graphLowerLevel
+        if (this.graphLowerLevel) {
+          return this.graphLowerLevel;
         } else {
-          return 0
+          return 0;
         }
       },
       set(newVal) {
-        this.$emit('lower-level-changed', newVal)
-      }
-    }
+        this.$emit('lower-level-changed', newVal);
+      },
+    },
   },
   methods: {
     onGraphRowClick(row) {
-      this.articleName = row.name
-    }
+      this.articleName = row.name;
+    },
   },
   template: `
     <div>
@@ -89,5 +93,5 @@ var GraphDrawer = {
             @click:row="onGraphRowClick"
         >
         </v-data-table>
-    </div>`
-}
+    </div>`,
+};
