@@ -1,11 +1,11 @@
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
-  components: {'graph-drawer': GraphDrawer},
+  components: { 'graph-drawer': GraphDrawer },
   data: () => ({
     drawer: true,
     drawerWidth: 256,
-    headers: [{text: 'name', value: 'name'}],
+    headers: [{ text: 'name', value: 'name' }],
     searchText: '',
     graphModel: null,
     articleName: null,
@@ -21,23 +21,13 @@ new Vue({
       'ancestor2',
       'ancestor3',
       'ancestor4',
-      'ancestor5',
-      'ancestor6',
-      'ancestor7',
-      'ancestor8',
-      'ancestor9',
       'descendant',
       'descendant0',
       'descendant1',
       'descendant2',
       'descendant3',
-      'descendant4',
-      'descendant5',
-      'descendant6',
-      'descendant7',
-      'descendant8',
-      'descendant9',
-    ],
+      'descendant4'
+    ]
   }),
   delimiters: ['$(', ')'],
   watch: {
@@ -67,9 +57,9 @@ new Vue({
         window.cy = cyto;
         if (this.articleName) {
           this.highlightElements(
-              this.articleName,
-              this.upperLevel,
-              this.lowerLevel);
+            this.articleName,
+            this.upperLevel,
+            this.lowerLevel);
         }
       });
     });
@@ -112,14 +102,14 @@ new Vue({
               hasTrailingDivider: true,
               onClickFunction: (event) => {
                 window.open(
-                    context.article_base_uri +
-                      event.target.data('name').toLowerCase(),
-                    '_blank');
+                  context.article_base_uri +
+                  event.target.data('name').toLowerCase(),
+                  '_blank');
               },
             },
           ],
         }),
-        resolve(cyto);
+          resolve(cyto);
       });
     },
     resetElements() {
@@ -137,24 +127,24 @@ new Vue({
         const connectedElements = [];
         currentElements.find((element) => {
           element.outgoers().difference().find((element) => {
-            element.addClass('highlight');
-            element.addClass(`ancestor${Math.min(9, i)}`);
-            connectedElements.push(element);
-          });
-        });
-        currentElements = connectedElements;
+            element.addClass('highlight')
+            element.addClass(`ancestor${Math.min(4, i)}`)
+            connectedElements.push(element)
+          })
+        })
+        currentElements = connectedElements
       }
       currentElements = cy.collection().union(element);
       for (let i = 0; i < lowerLevel; i++) {
         const connectedElements = [];
         currentElements.find((element) => {
           element.incomers().difference().find((element) => {
-            element.addClass('highlight');
-            element.addClass(`descendant${Math.min(9, i)}`);
-            connectedElements.push(element);
-          });
-        });
-        currentElements = connectedElements;
+            element.addClass('highlight')
+            element.addClass(`descendant${Math.min(4, i)}`)
+            connectedElements.push(element)
+          })
+        })
+        currentElements = connectedElements
       }
       this.fadeElements(cy.elements().difference(cy.elements('.highlight')));
     },
@@ -173,7 +163,7 @@ new Vue({
       this.articleName = articleName;
       this.resetElements();
       this.highlightElements(articleName, this.upperLevel, this.lowerLevel);
-      this.$emit('article-model-changed', {name: articleName});
+      this.$emit('article-model-changed', { name: articleName });
     },
     reset() {
       this.articleName = '';
