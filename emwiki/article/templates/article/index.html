@@ -17,7 +17,11 @@
 {% endblock %}
 
 {% block drawer %}
-<article-drawer/>
+  {% if target == 'article' %}
+    <article-drawer/>
+  {% elif target == 'theorem' %}
+    <theorem-drawer/>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -32,8 +36,10 @@
 <script src="{% static 'article/js/models/parser.js'%}"></script>
 <!-- Services-->
 <script src="{% static 'article/js/services/article-service.js'%}"></script>
+<script src="{% static 'search/js/services/theorem-service.js'%}"></script>
 <!-- Components -->
 <script src="{% static 'article/js/components/ArticleDrawer.js'%}"></script>
+<script src="{% static 'search/js/components/TheoremDrawer.js'%}"></script>
 <!-- Views -->
 <script src="{% static 'article/js/views/ArticleView.js'%}"></script>
 <!-- Router -->

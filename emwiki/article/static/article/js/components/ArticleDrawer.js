@@ -1,27 +1,31 @@
-var ArticleDrawer = {
+/* eslint-disable no-unused-vars */
+/**
+ * ArticleDrawer
+ */
+const ArticleDrawer = {
   data: () => ({
-    headers: [{ text: 'name', value: 'name' }],
+    headers: [{text: 'name', value: 'name'}],
     searchText: '',
-    index: []
+    index: [],
   }),
   mounted() {
     ArticleService.getIndex(context['names_uri']).then((index) => {
-      this.index = index
+      this.index = index;
     }).catch((e) => {
-      alert(e)
-    })
+      alert(e);
+    });
   },
   methods: {
     getIndex() {
       return axios.get(context['names_uri']).then((response) => {
-        return response.data.index
-      })
+        return response.data.index;
+      });
     },
     onArticleRowClick(row) {
       if (this.$route.params.name !== row.name) {
-        this.$router.push({ name: 'Article', params: { name: row.name } })
+        this.$router.push({name: 'Article', params: {name: row.name}});
       }
-    }
+    },
   },
   template: `
 <div>
@@ -43,5 +47,5 @@ var ArticleDrawer = {
     >
     </v-data-table>
 </div>
-        `
-}
+        `,
+};

@@ -2,9 +2,7 @@
 staticfiles/
 emwiki/article/templates/article/fmbibs/
 emwiki/article/templates/article/htmlized_mml/
-emwiki/article/static/article/JavaScript/article_names.js
 emwiki/symbol/templates/symbol/symbol_html/
-emwiki/symbol/static/symbol/JavaScript/mml-index.js
 emwiki/search/index/
 emwiki/graph/static/graph/graph_attrs/dot_graph.json
 emwiki/emwiki-contents
@@ -14,6 +12,9 @@ testdata/outputs/
 
 # Database
 postgres-data/
+
+# node
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

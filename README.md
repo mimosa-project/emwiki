@@ -110,6 +110,7 @@ $ coverage run
 $ pwd
 /emwiki
 $ flake8
+$ npx eslint "emwiki/**/*.js"
 ```
 
 ### Coverage report

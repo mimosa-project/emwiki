@@ -1,19 +1,40 @@
+/* eslint-disable no-unused-vars */
+/**
+ * A service of Article
+ */
 class ArticleService {
-    static getIndex(url) {
-        return axios.get(url).then((response) => {
-            return response.data.index
-        })
-    }
+  /**
+   * Get index data.
+   * @param {string} url url of index API.
+   * @return {Promise} index data.
+   */
+  static getIndex(url) {
+    return axios.get(url).then((response) => {
+      return response.data.index;
+    });
+  }
 
-    static getHtml(url, name) {
-        return axios.get(url, {params: {article_name: name}}).then((response) => {
-            return response.data
-        })
-    }
+  /**
+   * Get HTML of the article.
+   * @param {string} url
+   * @param {string} name
+   * @return {Promise}
+   */
+  static getHtml(url, name) {
+    return axios.get(url, {params: {article_name: name}}).then((response) => {
+      return response.data;
+    });
+  }
 
-    static getBib(url, name) {
-        return axios.get(url, {params: {article_name: name}}).then((response) => {
-            return response.data.bib_text
-        })
-    }
-}
+  /**
+   * get bib string
+   * @param {string} url
+   * @param {string} name
+   * @return {Promise}
+   */
+  static getBib(url, name) {
+    return axios.get(url, {params: {article_name: name}}).then((response) => {
+      return response.data.bib_text;
+    });
+  }
+};
