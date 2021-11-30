@@ -12,7 +12,8 @@ class SymbolView(View):
         # you can use these variables in index.js
         context["context_for_js"] = {
             'symbol_html_uri': reverse('symbol:htmls'),
-            'names_uri': reverse('symbol:names')
+            'names_uri': reverse('symbol:names'),
+            'symbol_base_uri': reverse('symbol:index', kwargs=dict(name="temp")).replace('temp', '')
         }
         context['article_base_uri'] = reverse('article:index', kwargs=dict(name_or_filename="temp")).replace('temp', '')
         return render(request, 'symbol/index.html', context)

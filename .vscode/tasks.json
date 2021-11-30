@@ -12,7 +12,7 @@
         {
             "label": "Check codestyle",
             "type": "shell",
-            "command": "pipenv run flake8",
+            "command": "pipenv run flake8 && npx eslint \"emwiki/**/*.js\"",
             "options": {
                 "cwd": "${workspaceFolder}"
             }
