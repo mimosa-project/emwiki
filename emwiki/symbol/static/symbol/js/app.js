@@ -6,6 +6,8 @@ new Vue({
   data: () => ({
     drawer: true,
     drawerWidth: 256,
+    stateless: false,
+    MenuButton: true,
   }),
   delimiters: ['$(', ')'],
 });
