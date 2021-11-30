@@ -10,20 +10,207 @@
             }
         },
         {
-            "label": "Check codestyle",
+            "label": "Check python codestyle",
             "type": "shell",
-            "command": "pipenv run flake8 && npx eslint \"emwiki/**/*.js\"",
+            "command": "pipenv run flake8",
             "options": {
                 "cwd": "${workspaceFolder}"
             }
         },
         {
+            "label": "Check js codestyle",
+            "type": "shell",
+            "command": "npx eslint \"emwiki/**/*.js\"",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Check codestyle",
+            "type": "shell",
+            "dependsOn": [
+                "Check python codestyle",
+                "Check js codestyle"
+            ]
+        },
+        {
             "label": "Coverage report",
             "type": "shell",
             "command": "pipenv run coverage report",
+            "dependsOn": ["Test"],
             "options": {
                 "cwd": "${workspaceFolder}/emwiki"
             }
+        },
+        {
+            "label": "PullRequest check",
+            "type": "shell",
+            "dependsOn": [
+                "Check codestyle",
+                "Test"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Install pipenv",
+            "type": "shell",
+            "command": "python -m pip install --upgrade pip && pip -q install pipenv --upgrade"
+        },
+        {
+            "label": "Clone emwiki-contents",
+            "type": "shell",
+            "command": "git clone https://github.com/mimosa-project/emwiki-contents.git ${workspaceFolder}/emwiki/emwiki-contents",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Compress mmlfiles",
+            "type": "shell",
+            "command": "sh compress.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki/mmlfiles"
+            }
+        },
+        {
+            "label": "Decompress mmlfiles",
+            "type": "shell",
+            "command": "sh decompress.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki/mmlfiles"
+            }
+        },
+        {
+            "label": "Build emparser",
+            "type": "shell",
+            "command": "pipenv install && pipenv run python setup.py build",
+            "options": {
+                "cwd": "${workspaceFolder}/emparser"
+            }
+        },
+        {
+            "label": "Install python dependencies",
+            "type": "shell",
+            "command": "pipenv sync --dev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Install npm dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Create docker containers for development",
+            "type": "shell",
+            "command": "docker-compose up -d",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Migrate",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py migrate",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build graph data",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py build_graph",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Load article data to database",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py load_articles",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build HTMLized MML",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py build_htmlizedmml",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Load symbol data to database",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py load_symbols",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build MML Reference",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py build_mmlreference",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build Search files",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py build_search_data",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Create superuser",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py createsuperuser",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Setup",
+            "dependsOn": [
+                "Install pipenv",
+                "Clone emwiki-contents",
+                "Decompress mmlfiles",
+                "Build emparser",
+                "Install python dependencies",
+                "Install npm dependencies",
+                "Create docker containers for development",
+                "Migrate",
+                "Load article data to database",
+                "Load symbol data to database"
+            ]
+        },
+        {
+            "label": "Create superuser",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py createsuperuser",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build application staitc files",
+            "dependsOn": [
+                "Build HTMLized MML",
+                "Build MML Reference",
+                "Build Search files",
+                "Build graph data"
+            ]
         },
     ]
 }
