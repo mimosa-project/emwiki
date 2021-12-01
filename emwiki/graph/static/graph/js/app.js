@@ -6,7 +6,7 @@ new Vue({
     drawer: true,
     drawerWidth: 256,
     stateless: false,
-    MenuButton: true,
+    menuButton: true,
     headers: [{text: 'name', value: 'name'}],
     searchText: '',
     graphModel: null,

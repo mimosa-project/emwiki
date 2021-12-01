@@ -7,7 +7,7 @@ new Vue({
     drawer: true,
     drawerWidth: 256,
     stateless: false,
-    MenuButton: true,
+    menuButton: true,
   }),
   delimiters: ['$(', ')'],
 });

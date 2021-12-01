@@ -10,7 +10,7 @@ new Vue({
     drawer: true,
     drawerWidth: 256,
     stateless: false,
-    MenuButton: true,
+    menuButton: true,
   }),
   mounted() {
     if (context['target'] === 'theorem') {
