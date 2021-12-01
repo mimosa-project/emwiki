@@ -1,11 +1,11 @@
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
-  components: { 'graph-drawer': GraphDrawer },
+  components: {'graph-drawer': GraphDrawer},
   data: () => ({
     drawer: true,
     drawerWidth: 256,
-    headers: [{ text: 'name', value: 'name' }],
+    headers: [{text: 'name', value: 'name'}],
     searchText: '',
     graphModel: null,
     articleName: null,
@@ -57,9 +57,9 @@ new Vue({
         window.cy = cyto;
         if (this.articleName) {
           this.highlightElements(
-            this.articleName,
-            this.upperLevel,
-            this.lowerLevel);
+              this.articleName,
+              this.upperLevel,
+              this.lowerLevel);
         }
       });
     });
@@ -101,15 +101,14 @@ new Vue({
               selector: 'node',
               hasTrailingDivider: true,
               onClickFunction: (event) => {
-                window.open(
-                  context.article_base_uri +
+                window.open(context.article_base_uri +
                   event.target.data('name').toLowerCase(),
-                  '_blank');
+                '_blank');
               },
             },
           ],
         }),
-          resolve(cyto);
+        resolve(cyto);
       });
     },
     resetElements() {
@@ -163,7 +162,7 @@ new Vue({
       this.articleName = articleName;
       this.resetElements();
       this.highlightElements(articleName, this.upperLevel, this.lowerLevel);
-      this.$emit('article-model-changed', { name: articleName });
+      this.$emit('article-model-changed', {name: articleName});
     },
     reset() {
       this.articleName = '';
