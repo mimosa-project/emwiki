@@ -44,7 +44,7 @@
   {% csrf_token %}
   <div id="app">
     <v-app>
-      <v-navigation-drawer app v-model="drawer" :width="drawerWidth" :stateless="stateless" >
+      <v-navigation-drawer app v-model="drawer" :width="drawerWidth" :disable-resize-watcher="disableResizeWatcher" >
         {% block drawer %}{% endblock %}
       </v-navigation-drawer>
 
