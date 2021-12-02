@@ -8,6 +8,7 @@
 import json
 import math
 from collections import defaultdict
+import os
 
 import networkx as nx
 from django.conf import settings
@@ -861,5 +862,5 @@ def create_graph(node2targets, output_json_file):
 
     graph = format_output_graph_file(nodes)
 
-    with open(settings.GRAPH_ELS_DIR + '/graph_attrs/' + output_json_file, 'w') as f:
+    with open(os.path.join(settings.GRAPH_ELS_DIR, 'graph_attrs', output_json_file), 'w') as f:
         f.write(json.dumps(graph, indent=4))

@@ -119,7 +119,10 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'mmlfiles', 'graph', 'static'),
+]
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
@@ -155,6 +158,7 @@ MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
 MML_ARTICLE_DIR = os.path.join(MMLFIELS_DIR, 'article')
 MML_SYMBOL_DIR = os.path.join(MMLFIELS_DIR, 'symbol')
 MML_SEARCH_DIR = os.path.join(MMLFIELS_DIR, 'search')
+MML_GRAPH_DIR = os.path.join(MMLFIELS_DIR, 'graph')
 # Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(
     MML_ARTICLE_DIR, 'templates', 'article', 'htmlized_mml')
@@ -164,8 +168,7 @@ PRODUCT_SYMBOLHTML_DIR = os.path.join(
 # Search
 SEARCH_INDEX_DIR = os.path.join(MML_SEARCH_DIR, 'index')
 # Graph
-GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
-GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
+GRAPH_ELS_DIR = os.path.join(MML_GRAPH_DIR, 'static', 'graph')
 # Tests
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
 TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
