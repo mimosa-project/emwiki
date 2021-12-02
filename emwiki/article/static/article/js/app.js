@@ -9,10 +9,13 @@ new Vue({
   data: () => ({
     drawer: true,
     drawerWidth: 256,
+    disableResizeWatcher: false,
+    menuButton: true,
   }),
   mounted() {
     if (context['target'] === 'theorem') {
       this.drawerWidth = 512;
+      this.disableResizeWatcher = true;
     }
   },
   delimiters: ['$(', ')'],

@@ -44,11 +44,12 @@
   {% csrf_token %}
   <div id="app">
     <v-app>
-      <v-navigation-drawer app v-model="drawer" :width="drawerWidth">
+      <v-navigation-drawer app v-model="drawer" :width="drawerWidth" :disable-resize-watcher="disableResizeWatcher" >
         {% block drawer %}{% endblock %}
       </v-navigation-drawer>
 
       <v-app-bar app height="64px">
+        <v-app-bar-nav-icon v-if="menuButton" @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>emwiki</v-toolbar-title>
         
         <v-spacer></v-spacer>
