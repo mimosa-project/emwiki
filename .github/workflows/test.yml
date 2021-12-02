@@ -17,17 +17,42 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
         submodules: recursive
-    - name: Create containers
-      run: |
-        docker-compose up -d
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+    - name: Install packages
+      run: sudo apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz npm
+    - name: Install pipenv
+      run: python -m pip install --upgrade pip && pip -q install pipenv --upgrade
+    - name: Clone emwiki-contents
+      run: git clone https://github.com/mimosa-project/emwiki-contents.git ./emwiki/emwiki-contents
+    - name: Decompress mmlfiles
+      run: sh decompress.sh
+      working-directory: ./emwiki/mmlfiles
+    - name: Build emparser
+      run: pipenv install && pipenv run python setup.py build
+      working-directory: ./emparser
+    - name: Install python dependencies
+      run: pipenv sync --dev
+    - name: Install npm dependencies
+      run: npm install
+    - name: Create docker containers for development
+      run: docker-compose up -d
+    - name: Migrate
+      run: pipenv run python ./emwiki/manage.py migrate
+    - name: Load article data to database
+      run: pipenv run python ./emwiki/manage.py load_articles
+    - name: Load symbol data to database
+      run: pipenv run python ./emwiki/manage.py load_symbols
     - name: Check codestyle
       run: |
-         docker exec emwiki-python-develop pipenv run flake8
-         docker exec emwiki-python-develop npx eslint "/emwiki/emwiki/**/*.js"
+         pipenv run flake8
+         npx eslint "./emwiki/**/*.js"
     - name: Test
       run: |
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run coverage run
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run coverage report
+         pipenv run coverage run
+         pipenv run coverage report
+      working-directory: ./emwiki
     - name: Check django deployment settings
-      run: |
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run python manage.py check --deploy
+      run: pipenv run python ./emwiki/manage.py check --deploy
