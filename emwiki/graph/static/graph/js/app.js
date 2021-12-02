@@ -21,22 +21,12 @@ new Vue({
       'ancestor2',
       'ancestor3',
       'ancestor4',
-      'ancestor5',
-      'ancestor6',
-      'ancestor7',
-      'ancestor8',
-      'ancestor9',
       'descendant',
       'descendant0',
       'descendant1',
       'descendant2',
       'descendant3',
       'descendant4',
-      'descendant5',
-      'descendant6',
-      'descendant7',
-      'descendant8',
-      'descendant9',
     ],
   }),
   delimiters: ['$(', ')'],
@@ -111,10 +101,9 @@ new Vue({
               selector: 'node',
               hasTrailingDivider: true,
               onClickFunction: (event) => {
-                window.open(
-                    context.article_base_uri +
-                      event.target.data('name').toLowerCase(),
-                    '_blank');
+                window.open(context.article_base_uri +
+                  event.target.data('name').toLowerCase(),
+                '_blank');
               },
             },
           ],
@@ -138,7 +127,7 @@ new Vue({
         currentElements.find((element) => {
           element.outgoers().difference().find((element) => {
             element.addClass('highlight');
-            element.addClass(`ancestor${Math.min(9, i)}`);
+            element.addClass(`ancestor${Math.min(4, i)}`);
             connectedElements.push(element);
           });
         });
@@ -150,7 +139,7 @@ new Vue({
         currentElements.find((element) => {
           element.incomers().difference().find((element) => {
             element.addClass('highlight');
-            element.addClass(`descendant${Math.min(9, i)}`);
+            element.addClass(`descendant${Math.min(4, i)}`);
             connectedElements.push(element);
           });
         });
