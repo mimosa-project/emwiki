@@ -7,7 +7,8 @@
             "command": "pipenv run coverage run",
             "options": {
                 "cwd": "${workspaceFolder}/emwiki"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Check python codestyle",
@@ -15,7 +16,8 @@
             "command": "pipenv run flake8",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Check js codestyle",
@@ -23,7 +25,8 @@
             "command": "npx eslint \"emwiki/**/*.js\"",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Check codestyle",
@@ -31,16 +34,20 @@
             "dependsOn": [
                 "Check python codestyle",
                 "Check js codestyle"
-            ]
+            ],
+            "problemMatcher": [],
         },
         {
             "label": "Coverage report",
             "type": "shell",
             "command": "pipenv run coverage report",
-            "dependsOn": ["Test"],
+            "dependsOn": [
+                "Test"
+            ],
             "options": {
                 "cwd": "${workspaceFolder}/emwiki"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "PullRequest check",
@@ -58,7 +65,8 @@
         {
             "label": "Install pipenv",
             "type": "shell",
-            "command": "python -m pip install --upgrade pip && pip -q install pipenv --upgrade"
+            "command": "python -m pip install --upgrade pip && pip -q install pipenv --upgrade",
+            "problemMatcher": [],
         },
         {
             "label": "Clone emwiki-contents",
@@ -66,7 +74,8 @@
             "command": "git clone https://github.com/mimosa-project/emwiki-contents.git ${workspaceFolder}/emwiki/emwiki-contents",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Compress mmlfiles",
@@ -74,7 +83,8 @@
             "command": "sh compress.sh",
             "options": {
                 "cwd": "${workspaceFolder}/emwiki/mmlfiles"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Decompress mmlfiles",
@@ -82,7 +92,8 @@
             "command": "sh decompress.sh",
             "options": {
                 "cwd": "${workspaceFolder}/emwiki/mmlfiles"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build emparser",
@@ -90,7 +101,8 @@
             "command": "pipenv install && pipenv run python setup.py build",
             "options": {
                 "cwd": "${workspaceFolder}/emparser"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Install python dependencies",
@@ -98,7 +110,8 @@
             "command": "pipenv sync --dev",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Install npm dependencies",
@@ -106,7 +119,8 @@
             "command": "npm install",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Create docker containers for development",
@@ -114,7 +128,8 @@
             "command": "docker-compose up -d",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Migrate",
@@ -122,7 +137,8 @@
             "command": "pipenv run python emwiki/manage.py migrate",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build graph data",
@@ -130,7 +146,8 @@
             "command": "pipenv run python emwiki/manage.py build_graph",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Load article data to database",
@@ -138,7 +155,8 @@
             "command": "pipenv run python emwiki/manage.py load_articles",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build HTMLized MML",
@@ -146,7 +164,8 @@
             "command": "pipenv run python emwiki/manage.py build_htmlizedmml",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Load symbol data to database",
@@ -154,7 +173,8 @@
             "command": "pipenv run python emwiki/manage.py load_symbols",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build MML Reference",
@@ -162,7 +182,8 @@
             "command": "pipenv run python emwiki/manage.py build_mmlreference",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build Search files",
@@ -170,7 +191,8 @@
             "command": "pipenv run python emwiki/manage.py build_search_data",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Create superuser",
@@ -178,10 +200,12 @@
             "command": "pipenv run python emwiki/manage.py createsuperuser",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Setup",
+            "dependsOrder": "sequence",
             "dependsOn": [
                 "Install pipenv",
                 "Clone emwiki-contents",
@@ -193,7 +217,8 @@
                 "Migrate",
                 "Load article data to database",
                 "Load symbol data to database"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "label": "Create superuser",
@@ -201,7 +226,8 @@
             "command": "pipenv run python emwiki/manage.py createsuperuser",
             "options": {
                 "cwd": "${workspaceFolder}"
-            }
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Build application staitc files",
@@ -210,7 +236,8 @@
                 "Build MML Reference",
                 "Build Search files",
                 "Build graph data"
-            ]
-        },
+            ],
+            "problemMatcher": [],
+        }
     ]
 }
