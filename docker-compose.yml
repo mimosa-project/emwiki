@@ -19,7 +19,3 @@ services:
       - 8080:8080
     depends_on: 
       - db
-
-volumes:
-  mmlfiles-volume-develop:
-    name: mmlfiles-volume-develop
