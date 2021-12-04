@@ -57,7 +57,11 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
         ```
     1. Install
         ```bash
-        sudo apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz npm
+        sudo apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz python3-pip
+        ```
+
+        ```
+        sudo apt-get -y install npm 
         ```
 1. Setup develop environment
     - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Setup` command.

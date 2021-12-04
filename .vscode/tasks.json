@@ -65,7 +65,7 @@
         {
             "label": "Install pipenv",
             "type": "shell",
-            "command": "python -m pip install --upgrade pip && pip -q install pipenv --upgrade",
+            "command": "sudo pip install pipenv --upgrade",
             "problemMatcher": [],
         },
         {
@@ -102,6 +102,12 @@
             "options": {
                 "cwd": "${workspaceFolder}/emparser"
             },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Install node",
+            "type": "shell",
+            "command": "sudo curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - && sudo apt-get install -y nodejs",
             "problemMatcher": [],
         },
         {
@@ -205,8 +211,11 @@
         },
         {
             "label": "Setup",
+            "type": "shell",
+            "command": "echo Finished setup",
             "dependsOrder": "sequence",
             "dependsOn": [
+                "Install node",
                 "Install pipenv",
                 "Clone emwiki-contents",
                 "Decompress mmlfiles",
