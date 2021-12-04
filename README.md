@@ -46,25 +46,10 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 1. Install Remote-Development plugin to VSCode
     - Open extensions (`Ctrl+Shift+X`) and search `ms-vscode-remote.vscode-remote-extensionpack` and install it.
 1. Open cloned folder in WSL using Remote-Development plugin.
-1. Install packages
-    1. Update
-        ```bash
-        sudo apt-get update
-        ```
-    1. Upgrade
-        ```bash
-        sudo apt-get upgrade
-        ```
-    1. Install
-        ```bash
-        sudo apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz python3-pip
-        ```
-
-        ```
-        sudo apt-get -y install npm 
-        ```
 1. Setup develop environment
     - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Setup` command.
+    - **It takes a long time.**
+    - **Sometimes you will be requested sudo password. Input your password if you agree with that.**
 1. Create superuser
     - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Create superuser` command and follow the instructions.
 
