@@ -1,5 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-const SymbolDrawer = {
+import {SymbolService} from '../services/symbol-service.js';
+import {context} from '../context.js';
+
+export const SymbolDrawer = {
   methods: {
     onSymbolRowClick(row) {
       if (this.$route.params.name !== row.name) {

@@ -1,7 +1,8 @@
-// eslint-disable-next-line no-var
-var context = JSON.parse(document.getElementById('context').textContent);
+import {SymbolView} from '../views/SymbolView.js';
+import {context} from '../context.js';
+
 // eslint-disable-next-line no-unused-vars
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   base: context['symbol_base_uri'],
   routes: [

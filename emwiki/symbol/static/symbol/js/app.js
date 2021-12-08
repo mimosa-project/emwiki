@@ -1,3 +1,6 @@
+import {router} from './router/index.js';
+import {SymbolDrawer} from './components/SymbolDrawer.js';
+
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),

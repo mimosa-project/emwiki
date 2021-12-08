@@ -1,8 +1,10 @@
-/* eslint-disable no-unused-vars */
+import {SymbolService} from '../services/symbol-service.js';
+import {context} from '../context.js';
+
 /**
  * View of Symbol
  */
-const SymbolView = {
+export const SymbolView = {
   data: () => ({
     symbolName: '',
     compiled: null,
@@ -21,7 +23,7 @@ const SymbolView = {
           .then((symbolHtml) => {
             this.compiled = Vue.compile(symbolHtml);
             this.$nextTick(() => {
-              anchorName = anchor.split('#')[1];
+              const anchorName = anchor.split('#')[1];
               if (anchorName) {
                 this.anchorElement = document.getElementById(anchorName);
               } else {
