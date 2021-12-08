@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /**
  * Service of Grpah
  */
-class GraphService {
+export class GraphService {
   /**
    * get model data of graph
    * @param {string} url of dot_graph.json

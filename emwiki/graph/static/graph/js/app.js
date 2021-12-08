@@ -1,3 +1,7 @@
+import {GraphDrawer} from './components/GraphDrawer.js';
+import {GraphService} from './services/graph-service.js';
+import {context} from './context.js';
+
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
