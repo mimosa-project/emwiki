@@ -58,7 +58,7 @@ class Comment {
       data: {
         'article_name': this.article.name,
         'block': this.block,
-        'blockOrder': this.blockOrder,
+        'block_order': this.blockOrder,
         'comment': this.text,
       },
     }).done(function(data) {
@@ -120,7 +120,7 @@ class Comment {
       data: {
         article_name: comment.article.name,
         block: comment.block,
-        blockOrder: comment.blockOrder,
+        block_order: comment.blockOrder,
       },
     }).done(function(data) {
       comment.editor.text = data[0]['fields']['text'];
