@@ -1,8 +1,10 @@
-/* eslint-disable no-unused-vars */
+import {ArticleService} from '../services/article-service.js';
+import {context} from '../context.js';
+
 /**
  * ArticleDrawer
  */
-const ArticleDrawer = {
+export const ArticleDrawer = {
   data: () => ({
     headers: [{text: 'name', value: 'name'}],
     searchText: '',

@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /**
  * A service of Article
  */
-class ArticleService {
+export class ArticleService {
   /**
    * Get index data.
    * @param {string} url url of index API.

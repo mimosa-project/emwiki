@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
+import {Comment} from './comment.js';
 /**
  * Parser
  */
-class Parser {
+export class Parser {
   /**
    * Constructor of Parser
    * @param {Element} $root

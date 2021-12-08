@@ -1,9 +1,10 @@
+import {context} from '../context.js';
+
 /* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 /**
  * Editor
  */
-class Editor {
+export class Editor {
   /**
    * Constructor of Editor
    * @param {Comment} comment

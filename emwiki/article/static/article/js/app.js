@@ -1,3 +1,8 @@
+import {router} from './router/index.js';
+import {ArticleDrawer} from './components/ArticleDrawer.js';
+import {TheoremDrawer} from './components/TheoremDrawer.js';
+import {context} from './context.js';
+
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),

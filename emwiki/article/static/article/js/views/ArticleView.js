@@ -1,5 +1,10 @@
-// eslint-disable-next-line no-unused-vars
-const ArticleView = {
+import {ArticleService} from '../services/article-service.js';
+import {Article} from '../models/article.js';
+import {Comment} from '../models/comment.js';
+import {Parser} from '../models/parser.js';
+import {context} from '../context.js';
+
+export const ArticleView = {
   data: () => ({
     bibTooltip: 'no bibs found',
     articleHtml: '',
@@ -64,11 +69,13 @@ const ArticleView = {
     },
     hash(newHash, oldHash) {
       if (oldHash) {
-        oldHashElement = document.getElementsByName(oldHash.split('#')[1])[0];
+        const oldHashElement =
+          document.getElementsByName(oldHash.split('#')[1])[0];
         oldHashElement.style.backgroundColor = 'white';
       }
       if (newHash) {
-        newHashElement = document.getElementsByName(newHash.split('#')[1])[0];
+        const newHashElement =
+          document.getElementsByName(newHash.split('#')[1])[0];
         // #5D9BF7 means default anchor color like blue
         newHashElement.style.backgroundColor = '#5D9BF7';
         newHashElement.scrollIntoView();

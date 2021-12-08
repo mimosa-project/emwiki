@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /**
  * A service of Theorem
  */
-class TheoremService {
+export class TheoremService {
   /**
    * Search theorem
    * @param {string} url
