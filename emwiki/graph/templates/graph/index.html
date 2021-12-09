@@ -29,11 +29,6 @@
 {% endblock %}
 
 {% block foot %}
-<!-- Services-->
-<script src="{% static 'article/js/services/article-service.js'%}"></script>
-<script src="{% static 'graph/js/services/graph-service.js'%}"></script>
-<!-- Components -->
-<script src="{% static 'graph/js/components/GraphDrawer.js'%}"></script>
 <!-- App -->
-<script src="{% static 'graph/js/app.js'%}"></script>
+<script src="{% static 'graph/js/app.js'%}" type="module"></script>
 {% endblock %}

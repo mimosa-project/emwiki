@@ -1,5 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-const TheoremDrawer = {
+import {TheoremService} from '../services/theorem-service.js';
+import {context} from '../../../js/context.js';
+
+export const TheoremDrawer = {
   data: () => ({
     PRINTABLE_STRING_REG: new RegExp(/^[\x20-\x7e\s]+$/),
     searchHeight: 0,

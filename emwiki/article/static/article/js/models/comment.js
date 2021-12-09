@@ -1,8 +1,10 @@
-/* eslint-disable no-unused-vars */
+import {Editor} from '../models/editor.js';
+import {context} from '../../../js/context.js';
+
 /**
  * Comment
  */
-class Comment {
+export class Comment {
   /**
    * Constructor of Comment
    * @param {Article} article

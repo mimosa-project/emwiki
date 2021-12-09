@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /**
  * A model of Article
  */
-class Article {
+export class Article {
   /**
    * A constructor of Article
    * @param {string} name

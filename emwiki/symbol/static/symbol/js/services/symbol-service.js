@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /**
  * Service of Symbol
  */
-class SymbolService {
+export class SymbolService {
   /**
    * Get index data of Symbol
    * @param {string} url

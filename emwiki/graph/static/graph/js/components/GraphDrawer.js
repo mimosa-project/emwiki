@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-vars */
-const context = JSON.parse(document.getElementById('context').textContent);
+import {ArticleService} from '../../../article/js/services/article-service.js';
+import {context} from '../../../js/context.js';
+
 /**
  * GraphDrawer
  */
-const GraphDrawer = {
+export const GraphDrawer = {
   name: 'GraphDrawer',
   props: ['graphArticleName', 'graphUpperLevel', 'graphLowerLevel'],
   data: () => ({

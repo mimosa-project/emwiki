@@ -23,14 +23,6 @@
 {% endblock %}
 
 {% block foot %}
-<!-- Services -->
-<script src="{% static 'symbol/js/services/symbol-service.js'%}"></script>
-<!-- Components -->
-<script src="{% static 'symbol/js/components/SymbolDrawer.js'%}"></script>
-<!-- Views -->
-<script src="{% static 'symbol/js/views/SymbolView.js'%}"></script>
-<!-- Router -->
-<script src="{% static 'symbol/js/router/index.js'%}"></script>
 <!-- App -->
-<script src="{% static 'symbol/js/app.js'%}"></script>
+<script src="{% static 'symbol/js/app.js'%}" type="module"></script>
 {% endblock %}
