@@ -1,4 +1,4 @@
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 /* eslint-disable max-len */
 /**

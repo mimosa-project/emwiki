@@ -1,5 +1,5 @@
 import {TheoremService} from '../services/theorem-service.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 export const TheoremDrawer = {
   data: () => ({

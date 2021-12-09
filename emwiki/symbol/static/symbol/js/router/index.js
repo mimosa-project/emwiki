@@ -1,5 +1,5 @@
 import {SymbolView} from '../views/SymbolView.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 // eslint-disable-next-line no-unused-vars
 export const router = new VueRouter({

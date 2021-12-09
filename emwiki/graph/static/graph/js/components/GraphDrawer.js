@@ -1,5 +1,5 @@
 import {ArticleService} from '../../../article/js/services/article-service.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 /**
  * GraphDrawer

@@ -1,5 +1,5 @@
 import {ArticleView} from '../views/ArticleView.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 export const router = new VueRouter({
   mode: 'history',

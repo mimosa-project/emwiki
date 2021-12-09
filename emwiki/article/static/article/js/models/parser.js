@@ -1,4 +1,5 @@
 import {Comment} from './comment.js';
+
 /**
  * Parser
  */

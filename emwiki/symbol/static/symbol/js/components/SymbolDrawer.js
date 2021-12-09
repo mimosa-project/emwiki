@@ -1,5 +1,5 @@
 import {SymbolService} from '../services/symbol-service.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 export const SymbolDrawer = {
   methods: {

@@ -1,5 +1,5 @@
 import {ArticleService} from '../services/article-service.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 /**
  * ArticleDrawer

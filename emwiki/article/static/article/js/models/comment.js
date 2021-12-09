@@ -1,5 +1,5 @@
 import {Editor} from '../models/editor.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 /**
  * Comment

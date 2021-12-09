@@ -2,7 +2,7 @@ import {ArticleService} from '../services/article-service.js';
 import {Article} from '../models/article.js';
 import {Comment} from '../models/comment.js';
 import {Parser} from '../models/parser.js';
-import {context} from '../context.js';
+import {context} from '../../../js/context.js';
 
 export const ArticleView = {
   data: () => ({
