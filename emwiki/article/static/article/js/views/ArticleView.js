@@ -9,7 +9,6 @@ export const ArticleView = {
     bibTooltip: 'no bibs found',
     articleHtml: '',
     articleName: '',
-    hash: '',
   }),
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
@@ -57,28 +56,27 @@ export const ArticleView = {
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
     },
+    scrollToHash(hash) {
+      const newHashElement =
+        document.getElementsByName(hash.split('#')[1])[0];
+      // #5D9BF7 means default anchor color like blue
+      newHashElement.style.backgroundColor = '#5D9BF7';
+      newHashElement.scrollIntoView();
+    },
   },
   watch: {
     async $route(newRoute, oldRoute) {
       if (newRoute.params.name !== oldRoute.params.name) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
+      } else {
+        if (oldRoute.hash) {
+          const oldHashElement =
+            document.getElementsByName(oldRoute.hash.split('#')[1])[0];
+          oldHashElement.style.backgroundColor = 'white';
+        }
       }
-      if (newRoute.hash !== oldRoute.hash) {
-        this.hash = newRoute.hash;
-      }
-    },
-    hash(newHash, oldHash) {
-      if (oldHash) {
-        const oldHashElement =
-          document.getElementsByName(oldHash.split('#')[1])[0];
-        oldHashElement.style.backgroundColor = 'white';
-      }
-      if (newHash) {
-        const newHashElement =
-          document.getElementsByName(newHash.split('#')[1])[0];
-        // #5D9BF7 means default anchor color like blue
-        newHashElement.style.backgroundColor = '#5D9BF7';
-        newHashElement.scrollIntoView();
+      if (newRoute.hash) {
+        this.scrollToHash(newRoute.hash);
       } else {
         window.scroll({top: 0, behavior: 'smooth'});
       }
