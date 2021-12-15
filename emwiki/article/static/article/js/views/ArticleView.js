@@ -62,6 +62,12 @@ export const ArticleView = {
     async $route(newRoute, oldRoute) {
       if (newRoute.params.name !== oldRoute.params.name) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
+      } else {
+        if (oldRoute.hash) {
+          const oldHashElement =
+            document.getElementsByName(oldRoute.hash.split('#')[1])[0];
+          oldHashElement.style.backgroundColor = 'white';
+        }
       }
       if (newRoute.hash !== oldRoute.hash) {
         this.hash = newRoute.hash;
@@ -71,11 +77,6 @@ export const ArticleView = {
       }
     },
     hash(newHash, oldHash) {
-      if (oldHash) {
-        const oldHashElement =
-          document.getElementsByName(oldHash.split('#')[1])[0];
-        oldHashElement.style.backgroundColor = 'white';
-      }
       if (newHash) {
         const newHashElement =
           document.getElementsByName(newHash.split('#')[1])[0];
