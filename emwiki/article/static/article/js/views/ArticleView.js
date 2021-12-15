@@ -66,6 +66,9 @@ export const ArticleView = {
       if (newRoute.hash !== oldRoute.hash) {
         this.hash = newRoute.hash;
       }
+      if (!newRoute.hash) {
+        window.scroll({top: 0, behavior: 'smooth'});
+      }
     },
     hash(newHash, oldHash) {
       if (oldHash) {
@@ -79,8 +82,6 @@ export const ArticleView = {
         // #5D9BF7 means default anchor color like blue
         newHashElement.style.backgroundColor = '#5D9BF7';
         newHashElement.scrollIntoView();
-      } else {
-        window.scroll({top: 0, behavior: 'smooth'});
       }
     },
   },
