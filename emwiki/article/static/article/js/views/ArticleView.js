@@ -71,9 +71,9 @@ export const ArticleView = {
       } else {
         if (oldRoute.hash) {
           const oldHashElement =
-            document.getElementsByName(oldRoute.hash.replace('#', ''))[0];
+            document.getElementsByName(oldRoute.hash.replace('#', ''));
           if (oldHashElement.length) {
-            oldHashElement.style.backgroundColor = 'white';
+            oldHashElement[0].style.backgroundColor = 'white';
           }
         }
       }
