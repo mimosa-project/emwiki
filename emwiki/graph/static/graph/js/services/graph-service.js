@@ -58,15 +58,15 @@ export class GraphService {
       {
         selector: 'node.ancestor0',
         css: {
-          'background-color': '#ff0000', 'color': '#ffffff',
-          'text-outline-color': '#ff0000', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#ffbb00', 'color': '#ffffff',
+          'text-outline-color': '#ffbb00', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
         selector: 'node.ancestor1',
         css: {
-          'background-color': '#ff4400', 'color': '#ffffff',
-          'text-outline-color': '#ff4400', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#ff9900', 'color': '#ffffff',
+          'text-outline-color': '#ff9900', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
@@ -79,30 +79,30 @@ export class GraphService {
       {
         selector: 'node.ancestor3',
         css: {
-          'background-color': '#ff9900', 'color': '#ffffff',
-          'text-outline-color': '#ff9900', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#ff4400', 'color': '#ffffff',
+          'text-outline-color': '#ff4400', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
         selector: 'node.ancestor4',
         css: {
-          'background-color': '#ffbb00', 'color': '#ffffff',
-          'text-outline-color': '#ffbb00', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#ff0000', 'color': '#ffffff',
+          'text-outline-color': '#ff0000', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       // Style of descendant nodes.
       {
         selector: 'node.descendant0',
         css: {
-          'background-color': '#0000ff', 'color': '#ffffff',
-          'text-outline-color': '#0000ff', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#00ffff', 'color': '#ffffff',
+          'text-outline-color': '#00ffff', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
         selector: 'node.descendant1',
         css: {
-          'background-color': '#0077ff', 'color': '#ffffff',
-          'text-outline-color': '#0077ff', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#00ddff', 'color': '#ffffff',
+          'text-outline-color': '#00ddff', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
@@ -115,15 +115,15 @@ export class GraphService {
       {
         selector: 'node.descendant3',
         css: {
-          'background-color': '#00ddff', 'color': '#000000',
-          'text-outline-color': '#00ddff', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#0077ff', 'color': '#ffffff',
+          'text-outline-color': '#0077ff', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       {
         selector: 'node.descendant4',
         css: {
-          'background-color': '#00ffff', 'color': '#000000',
-          'text-outline-color': '#00ffff', 'text-outline-opacity': 1, 'text-outline-width': 10,
+          'background-color': '#0000ff', 'color': '#ffffff',
+          'text-outline-color': '#0000ff', 'text-outline-opacity': 1, 'text-outline-width': 10,
         },
       },
       // Style of highlight edges
