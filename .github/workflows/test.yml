@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       COMPOSE_HTTP_TIMEOUT: 240
     steps:
@@ -23,9 +23,8 @@ jobs:
         python-version: '3.7'
     - name: Install packages
       run: sh scripts/setup/install-packages.sh
-    - name: Install pipenv
     - name: Clone emwiki-contents
-      run: sh emwiki-contents.sh
+      run: sh scripts/setup/emwiki-contents.sh
     - name: Decompress mmlfiles
       run: sh decompress.sh
       working-directory: ./emwiki/mmlfiles
