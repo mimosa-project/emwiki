@@ -13,7 +13,7 @@ export const ArticleView = {
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
         .then(() => {
-          this.hash = this.$route.hash;
+          this.navigateToHash(this.$route.hash);
         });
   },
   methods: {
@@ -56,9 +56,9 @@ export const ArticleView = {
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
     },
-    scrollToHash(hash) {
+    navigateToHash(hash) {
       const newHashElement =
-        document.getElementsByName(hash.split('#')[1])[0];
+        document.getElementsByName(hash.replace('#', ''))[0];
       // #5D9BF7 means default anchor color like blue
       newHashElement.style.backgroundColor = '#5D9BF7';
       newHashElement.scrollIntoView();
@@ -71,12 +71,12 @@ export const ArticleView = {
       } else {
         if (oldRoute.hash) {
           const oldHashElement =
-            document.getElementsByName(oldRoute.hash.split('#')[1])[0];
+            document.getElementsByName(oldRoute.hash.replace('#', ''))[0];
           oldHashElement.style.backgroundColor = 'white';
         }
       }
       if (newRoute.hash) {
-        this.scrollToHash(newRoute.hash);
+        this.navigateToHash(newRoute.hash);
       } else {
         window.scroll({top: 0, behavior: 'smooth'});
       }
