@@ -4,25 +4,25 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "pipenv run coverage run",
-            "options": {
-                "cwd": "${workspaceFolder}/emwiki"
-            },
-            "problemMatcher": [],
-        },
-        {
-            "label": "Check python codestyle",
-            "type": "shell",
-            "command": "pipenv run flake8",
+            "command": "sh scripts/test/python.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [],
         },
         {
-            "label": "Check js codestyle",
+            "label": "Check python codestyle",
             "type": "shell",
-            "command": "npx eslint \"emwiki/**/*.js\"",
+            "command": "sh scripts/check/python.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Check javascript codestyle",
+            "type": "shell",
+            "command": "sh scripts/check/javascript.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -33,19 +33,19 @@
             "type": "shell",
             "dependsOn": [
                 "Check python codestyle",
-                "Check js codestyle"
+                "Check javascript codestyle"
             ],
             "problemMatcher": [],
         },
         {
             "label": "Coverage report",
             "type": "shell",
-            "command": "pipenv run coverage report",
+            "command": "sh scripts/test/report.sh",
             "dependsOn": [
                 "Test"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/emwiki"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [],
         },
@@ -63,15 +63,27 @@
             }
         },
         {
-            "label": "Install pipenv",
+            "label": "Install packages",
             "type": "shell",
-            "command": "sudo pip install pipenv --upgrade",
+            "command": "sh scripts/setup/install-packages.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "problemMatcher": [],
         },
         {
             "label": "Clone emwiki-contents",
             "type": "shell",
-            "command": "git clone https://github.com/mimosa-project/emwiki-contents.git ${workspaceFolder}/emwiki/emwiki-contents",
+            "command": "sh scripts/setup/emwiki-contents.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Clone emwiki-contents",
+            "type": "shell",
+            "command": "sh scripts/setup/emwiki-contents.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -98,40 +110,34 @@
         {
             "label": "Build emparser",
             "type": "shell",
-            "command": "pipenv install && pipenv run python setup.py build",
-            "options": {
-                "cwd": "${workspaceFolder}/emparser"
-            },
-            "problemMatcher": [],
-        },
-        {
-            "label": "Install node",
-            "type": "shell",
-            "command": "sudo curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - && sudo apt-get install -y nodejs",
-            "problemMatcher": [],
-        },
-        {
-            "label": "Install python dependencies",
-            "type": "shell",
-            "command": "pipenv sync --dev",
+            "command": "sh scripts/build/emparser.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [],
         },
         {
-            "label": "Install npm dependencies",
+            "label": "Install node packages",
             "type": "shell",
-            "command": "npm install",
+            "command": "sh scripts/setup/install-node-packages.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [],
         },
         {
-            "label": "Create docker containers for development",
+            "label": "Install python packages",
             "type": "shell",
-            "command": "docker-compose up -d",
+            "command": "sh scripts/setup/install-python-packages.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Create services for development",
+            "type": "shell",
+            "command": "sh scripts/setup/dev-services.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -149,7 +155,7 @@
         {
             "label": "Build graph data",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py build_graph",
+            "command": "sh scripts/build/graph.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -158,7 +164,7 @@
         {
             "label": "Load article data to database",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py load_articles",
+            "command": "sh scripts/other/load-articles.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -167,7 +173,7 @@
         {
             "label": "Build HTMLized MML",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py build_htmlizedmml",
+            "command": "sh scripts/build/htmlizedmml.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -176,7 +182,7 @@
         {
             "label": "Load symbol data to database",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py load_symbols",
+            "command": "sh scripts/other/load-symbols.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -185,7 +191,7 @@
         {
             "label": "Build MML Reference",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py build_mmlreference",
+            "command": "sh scripts/build/mmlreference.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -194,16 +200,7 @@
         {
             "label": "Build Search files",
             "type": "shell",
-            "command": "pipenv run python emwiki/manage.py build_search_data",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-        },
-        {
-            "label": "Create superuser",
-            "type": "shell",
-            "command": "pipenv run python emwiki/manage.py createsuperuser",
+            "command": "sh scripts/build/search.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -215,13 +212,12 @@
             "command": "echo Finished setup",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Install node",
-                "Install pipenv",
+                "Install packages",
                 "Clone emwiki-contents",
                 "Decompress mmlfiles",
                 "Build emparser",
-                "Install python dependencies",
-                "Install npm dependencies",
+                "Install python packages",
+                "install node packages",
                 "Create docker containers for development",
                 "Migrate",
                 "Load article data to database",
