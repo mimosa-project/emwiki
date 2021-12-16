@@ -62,12 +62,6 @@ export const ArticleView = {
     async $route(newRoute, oldRoute) {
       if (newRoute.params.name !== oldRoute.params.name) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
-      } else {
-        if (oldRoute.hash) {
-          const oldHashElement =
-            document.getElementsByName(oldRoute.hash.split('#')[1])[0];
-          oldHashElement.style.backgroundColor = 'white';
-        }
       }
       if (newRoute.hash !== oldRoute.hash) {
         this.hash = newRoute.hash;
@@ -77,12 +71,21 @@ export const ArticleView = {
       }
     },
     hash(newHash, oldHash) {
+      if (oldHash) {
+        const oldHashElement =
+          document.getElementsByName(oldHash.replace('#', ''))[0];
+        if (oldHashElement) {
+          oldHashElement.style.backgroundColor = 'white';
+        }
+      }
       if (newHash) {
         const newHashElement =
-          document.getElementsByName(newHash.split('#')[1])[0];
+          document.getElementsByName(newHash.replace('#', ''))[0];
         // #5D9BF7 means default anchor color like blue
         newHashElement.style.backgroundColor = '#5D9BF7';
         newHashElement.scrollIntoView();
+      } else {
+        window.scroll({top: 0, behavior: 'smooth'});
       }
     },
   },
