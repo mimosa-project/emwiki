@@ -72,7 +72,9 @@ export const ArticleView = {
         if (oldRoute.hash) {
           const oldHashElement =
             document.getElementsByName(oldRoute.hash.replace('#', ''))[0];
-          oldHashElement.style.backgroundColor = 'white';
+          if (oldHashElement.length) {
+            oldHashElement.style.backgroundColor = 'white';
+          }
         }
       }
       if (newRoute.hash) {
