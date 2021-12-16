@@ -22,37 +22,32 @@ jobs:
       with:
         python-version: '3.7'
     - name: Install packages
-      run: sudo apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz npm
+      run: sh scripts/setup/install-packages.sh
     - name: Install pipenv
-      run: python -m pip install --upgrade pip && pip -q install pipenv --upgrade
     - name: Clone emwiki-contents
-      run: git clone https://github.com/mimosa-project/emwiki-contents.git ./emwiki/emwiki-contents
+      run: sh emwiki-contents.sh
     - name: Decompress mmlfiles
       run: sh decompress.sh
       working-directory: ./emwiki/mmlfiles
     - name: Build emparser
-      run: pipenv install && pipenv run python setup.py build
-      working-directory: ./emparser
+      run: sh scripts/setup/emparser.sh
     - name: Install python dependencies
-      run: pipenv sync --dev
+      run: sh scripts/setup/install-python-packages.sh
     - name: Install npm dependencies
       run: npm install
     - name: Create docker containers for development
-      run: docker-compose up -d
+      run: sh scripts/setup/dev-services.sh
     - name: Migrate
       run: pipenv run python ./emwiki/manage.py migrate
     - name: Load article data to database
-      run: pipenv run python ./emwiki/manage.py load_articles
+      run: sh scripts/other/load-articles.sh
     - name: Load symbol data to database
-      run: pipenv run python ./emwiki/manage.py load_symbols
-    - name: Check codestyle
-      run: |
-         pipenv run flake8
-         npx eslint "./emwiki/**/*.js"
+      run: sh scripts/other/load-symbols.sh
+    - name: Check python codestyle
+      run: sh scripts/check/python.sh
+    - name: Check javascript codestyle
+      run: sh scripts/check/javascript.sh
     - name: Test
-      run: |
-         pipenv run coverage run
-         pipenv run coverage report
-      working-directory: ./emwiki
+      run: sh scripts/test/python.sh
     - name: Check django deployment settings
-      run: pipenv run python ./emwiki/manage.py check --deploy
+      run: sh scripts/test/django-deployment.sh
