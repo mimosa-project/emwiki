@@ -9,12 +9,11 @@ export const ArticleView = {
     bibTooltip: 'no bibs found',
     articleHtml: '',
     articleName: '',
-    hash: '',
   }),
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
         .then(() => {
-          this.hash = this.$route.hash;
+          this.navigateToHash(this.$route.hash);
         });
   },
   methods: {
@@ -57,28 +56,29 @@ export const ArticleView = {
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
     },
+    navigateToHash(hash) {
+      const newHashElement =
+        document.getElementsByName(hash.replace('#', ''))[0];
+      // #5D9BF7 means default anchor color like blue
+      newHashElement.style.backgroundColor = '#5D9BF7';
+      newHashElement.scrollIntoView();
+    },
   },
   watch: {
     async $route(newRoute, oldRoute) {
       if (newRoute.params.name !== oldRoute.params.name) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
+      } else {
+        if (oldRoute.hash) {
+          const oldHashElement =
+            document.getElementsByName(oldRoute.hash.replace('#', ''));
+          if (oldHashElement.length) {
+            oldHashElement[0].style.backgroundColor = 'white';
+          }
+        }
       }
-      if (newRoute.hash !== oldRoute.hash) {
-        this.hash = newRoute.hash;
-      }
-    },
-    hash(newHash, oldHash) {
-      if (oldHash) {
-        const oldHashElement =
-          document.getElementsByName(oldHash.split('#')[1])[0];
-        oldHashElement.style.backgroundColor = 'white';
-      }
-      if (newHash) {
-        const newHashElement =
-          document.getElementsByName(newHash.split('#')[1])[0];
-        // #5D9BF7 means default anchor color like blue
-        newHashElement.style.backgroundColor = '#5D9BF7';
-        newHashElement.scrollIntoView();
+      if (newRoute.hash) {
+        this.navigateToHash(newRoute.hash);
       } else {
         window.scroll({top: 0, behavior: 'smooth'});
       }
