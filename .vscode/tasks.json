@@ -72,6 +72,15 @@
             "problemMatcher": [],
         },
         {
+            "label": "Install python3.7",
+            "type": "shell",
+            "command": "sh scripts/setup/install-python3.7.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
             "label": "Clone emwiki-contents",
             "type": "shell",
             "command": "sh scripts/setup/emwiki-contents.sh",
