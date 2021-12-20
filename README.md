@@ -3,11 +3,13 @@ emwiki
 
 Wiki for eco-Mizar
 
-| Stage   | name        | address                               |
-|---------|-------------|---------------------------------------|
-| Release | application | https://em1.cs.shinshu-u.ac.jp/emwiki |
-| Develop | application | http://localhost:8000/                |
-|         | adminer     | http://localhost:8080/                |
+| Stage   | name        | address                                       |
+|---------|-------------|-----------------------------------------------|
+| Release | application | https://em1.cs.shinshu-u.ac.jp/emwiki/release |
+| Beta    | application | https://em1.cs.shinshu-u.ac.jp/emwiki/beta    |
+| Develop | application | http://localhost:8000/                        |
+|         | postgres    | http://localhost:5432/                        |
+|         | adminer     | http://localhost:8080/                        |
 
 ## 1 Description
 This Web application can write a TeX-format description in the Mizar Mathmatical Library (MML), and make the description follow the MML update. This Web application provides users with the function of adding, editing, and browsing description of MML on a Wiki format Web platform. If there is an update to the MML, link the description to the new MML by running the program on the server.
@@ -33,94 +35,38 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 
 ## 4 Install
 
-Install docker
-  - [Docker Desktop WSL 2 backend](https://docs.docker.com/docker-for-windows/wsl/)
-
-Clone this repository with all submodules
-```bash
-$ git clone --recursive {repository url}
-```
-
-Create docker containers
-```bash
-$ docker compose up -d
-```
-
-Install VSCode
-[Download Visual Studio Code](https://code.visualstudio.com/download)
-
-Install Remote-Containers plugin to VSCode
-- `ms-vscode-remote.remote-containers`
-- ![image](https://user-images.githubusercontent.com/49423101/123077640-33205e00-d455-11eb-8aaa-2049b066d354.png)
-
-Open folder in container using VSCode
-- ![image](https://user-images.githubusercontent.com/49423101/123078181-af1aa600-d455-11eb-8a3e-a1e0bb40f509.png)
-
-Install plugins reccomended at `.vscode/extenstions.json` to VSCode
-- ![image](https://user-images.githubusercontent.com/49423101/123080809-4680f880-d458-11eb-86b3-e94706c4b7f2.png)
-
-
-Select python interpreter
-1. Use the `Python: Select Interpreter` command from the Command Palette (`Ctrl+Shift+P`)(Check `ms-python.python` plugin is installed if you can't find it)
-    - ![select-interpreters-command](https://code.visualstudio.com/assets/docs/python/environments/select-interpreters-command.png)
-1. Select python interpreter
-- [Select and activate an environment](https://code.visualstudio.com/docs/python/environments#_select-and-activate-an-environment)
-- ![image](https://user-images.githubusercontent.com/49423101/123081380-dc1c8800-d458-11eb-9bef-0c22ea86b929.png)
-
-```bash
-# run in emwiki-python-develop container
-$ pwd
-/emwiki
-
-# Entry virtual environment
-$ pipenv shell
-
-# Migrate databse
-$ python emwiki/manage.py migrate
-
-# Build local files and load initial data
-$ sh start.sh
-
-# Create superuser
-$ python manage.py createsuperuser
-```
+1. Fork
+    - Fork [mimosa-project/emwiki](https://github.com/mimosa-project/emwiki) to origin repository.
+1. Clone this repository with all submodules.
+    ```bash
+    $ git clone --recursive {origin repository url}
+    ```
+1. Install VSCode
+    - [Download Visual Studio Code](https://code.visualstudio.com/download)
+1. Install Remote-Development plugin to VSCode
+    - Open extensions (`Ctrl+Shift+X`) and search `ms-vscode-remote.vscode-remote-extensionpack` and install it.
+1. Open cloned folder in WSL using Remote-Development plugin.
+1. Setup develop environment
+    - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Setup` command.
+    - **It takes a long time.**
+    - **Sometimes you will be requested sudo password. Input your password if you agree with that.**
+1. Create superuser
+    - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Create superuser` command and follow the instructions.
 
 ## 5 Runsever
-```bash
-$ python manage.py runserver
-```
-![image](https://user-images.githubusercontent.com/49423101/123082422-f3a84080-d459-11eb-99cd-38d29c176fd2.png)
+Start debugging (`F5`).
 
+## 6 Test
+To check codestyle and test, open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Test Task` command.
 
-## 6 Tasks
-Some tasks can run as [Integrate with External Tools via Tasks](https://code.visualstudio.com/docs/editor/tasks)
+## 7 Tasks
+See document for detail. [Integrate with External Tools via Tasks](https://code.visualstudio.com/docs/editor/tasks)
 
-![image](https://user-images.githubusercontent.com/49423101/123096671-4c7fd500-d46a-11eb-8a07-3f88aaae6ef9.png)
-![image](https://user-images.githubusercontent.com/49423101/123096885-85b84500-d46a-11eb-93ca-764e75ec34fe.png)
+To run a task, open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the task.
 
-### Test
-```bash
-$ pwd
-/emwiki/emwiki
-$ coverage run
-```
+If you want to execute tasks manually in your terminal, definitions are witten on  `./vscode/tasks.json`.
 
-### Check codestyle
-```bash
-$ pwd
-/emwiki
-$ flake8
-$ npx eslint "emwiki/**/*.js"
-```
-
-### Coverage report
-```bash
-$ pwd
-/emwiki/emwiki
-$ coverage report
-```
-
-## 7 For Administrator
+## 8 For Administrator
 ### To enable Build CI
 Set secret variables
 - Access "Settings" and "Secrets" on GitHub
@@ -143,83 +89,37 @@ Set secret variables
 - Click "Update release"
 
 
-## 8 Appendix
-### How to generate data for search theorem
-+ 定理検索を使用するには`project_dir/emwiki/search/data/`内にabsファイルとvctファイルから生成されるデータが必要
-+ データを生成するには`/emwiki/emwiki/mmlfiles/mml.vct`, `/emwiki/emwiki/mmlfiles/abstr/`が存在することを確認し、以下のコマンドを実行(実行に時間がかかります)
-```bash
-$ python manage.py generate_files search
-```
+## 9 Appendix
 
-### How to build local files
-```bash
-# Build HTMLized files
-python manage.py build_htmlizedmml
+### 9.1 How to update Mizar version
+[mmlfiles](https://github.com/mimosa-project/mmlfiles)
 
-# Build MML Reference files
-python manage.py build_mmlreference
+1. Update below files
+    -  abstr/*.abs
+    -  fmbibs/*.bib
+    -  html/*.html
+    -  mml/*.miz
+    -  mml.ini
+    -  mml.lar
+    -  mml.vct
+2. Build files
+    - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Build application staitc files` command.
+3. Compress mmlfiles
+    - Open the Command Palette (`Ctrl+Shift+P`) and select the `Tasks: Run Task` command and select the `Compress mmlfiles` command.
+4. Commit  & Push & PullRequest
 
-# Build search data
-python manage.py build_search_data
+### 9.2 PR Checklist
+- [ ] **Protect GitHub-flow**
+- [ ] Execute [Test task](#6-test)
+- [ ] Create PullRequest
+    - [ ] Write title and each sections
+    - [ ] Set Reviewers
+    - [ ] Set Assignees
+    - [ ] Set Labels
+    - [ ] Set Linked issues
+        - [プルリクエストをIssueにリンクする](https://docs.github.com/ja/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
+- [ ] Check if CI has passed
 
-# Build fmbibs
-python manage.py build_fmbibs
-
-# Build graph json files
-python manage.py build_graph
-```
-### How to load models
-```bash
-# Load articles
-python manage.py load_articles
-
-# Load symbols
-python manage.py load_symbols
-```
-
-### How to limit memory usage of WSL on your Windows
-
-Create .wslconfig file at `C:\Users\{ username }\.wslconfig`
-
-Add wsl2 configureration in `.wslconfig`(Change the value which you want)(See this [manual](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig) for detail)
-```
-[wsl2]
-memory=2GB
-```
-
-Restart WSL on PowerShell for apply the configuration.
-```
-$ wsl --shutdown
-```
-
-### How to limit memory usage of development container.
-
-**この方法は現在非推奨で、将来サポートが打ち切られます。**
-
-Add `services.python.deploy.resources.limits.memory` to `emwiki/ docker-compose.yml`
-```yaml
-services:
-  python:
-    build: .
-    ~~~
-    deploy:
-      resources:
-        limits:
-          memory: 1G # Change this value which you want
-    ~~~
-...
-```
-
-Recreate python container.
-Add `--compatibility` when you create development containers(because `deploy` can be used only version 2)
-```Bash
-docker-compose --compatibility up -d
-```
-
-### How to update Mizar version
-Update files in [mmlfiles](https://github.com/mimosa-project/mmlfiles)
-
-
-## 9 Licence
+## 10 Licence
 
 ![MIT License](https://github.com/mimosa-project/emwiki/blob/master/LICENSE)

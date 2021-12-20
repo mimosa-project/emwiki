@@ -10,7 +10,7 @@
         "--max-complexity",
         "20"
     ],
-    "python.linting.mypyEnabled": true,
+    "python.linting.mypyEnabled": false,
     "autoDocstring.docstringFormat": "google",
     "python.autoComplete.extraPaths": [
         "./emwiki"

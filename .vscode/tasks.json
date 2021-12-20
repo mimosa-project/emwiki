@@ -4,26 +4,254 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "pipenv run coverage run",
+            "command": "sh scripts/test/python.sh",
             "options": {
-                "cwd": "${workspaceFolder}/emwiki"
-            }
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Check python codestyle",
+            "type": "shell",
+            "command": "sh scripts/check/python.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Check javascript codestyle",
+            "type": "shell",
+            "command": "sh scripts/check/javascript.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Check codestyle",
             "type": "shell",
-            "command": "pipenv run flake8 && npx eslint \"emwiki/**/*.js\"",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            }
+            "dependsOn": [
+                "Check python codestyle",
+                "Check javascript codestyle"
+            ],
+            "problemMatcher": [],
         },
         {
             "label": "Coverage report",
             "type": "shell",
-            "command": "pipenv run coverage report",
+            "command": "sh scripts/test/report.sh",
+            "dependsOn": [
+                "Test"
+            ],
             "options": {
-                "cwd": "${workspaceFolder}/emwiki"
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "PullRequest check",
+            "type": "shell",
+            "dependsOn": [
+                "Check codestyle",
+                "Test"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
             }
         },
+        {
+            "label": "Install packages",
+            "type": "shell",
+            "command": "sh scripts/setup/install-packages.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Install python3.7",
+            "type": "shell",
+            "command": "sh scripts/setup/install-python3.7.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Clone emwiki-contents",
+            "type": "shell",
+            "command": "sh scripts/setup/emwiki-contents.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Clone emwiki-contents",
+            "type": "shell",
+            "command": "sh scripts/setup/emwiki-contents.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Compress mmlfiles",
+            "type": "shell",
+            "command": "sh compress.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki/mmlfiles"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Decompress mmlfiles",
+            "type": "shell",
+            "command": "sh decompress.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/emwiki/mmlfiles"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build emparser",
+            "type": "shell",
+            "command": "sh scripts/build/emparser.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Install node packages",
+            "type": "shell",
+            "command": "sh scripts/setup/install-node-packages.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Install python packages",
+            "type": "shell",
+            "command": "sh scripts/setup/install-python-packages.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Create services for development",
+            "type": "shell",
+            "command": "sh scripts/setup/dev-services.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Migrate",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py migrate",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build graph data",
+            "type": "shell",
+            "command": "sh scripts/build/graph.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Load article data to database",
+            "type": "shell",
+            "command": "sh scripts/other/load-articles.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build HTMLized MML",
+            "type": "shell",
+            "command": "sh scripts/build/htmlizedmml.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Load symbol data to database",
+            "type": "shell",
+            "command": "sh scripts/other/load-symbols.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build MML Reference",
+            "type": "shell",
+            "command": "sh scripts/build/mmlreference.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build Search files",
+            "type": "shell",
+            "command": "sh scripts/build/search.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Setup",
+            "type": "shell",
+            "command": "echo Finished setup",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Install packages",
+                "Clone emwiki-contents",
+                "Decompress mmlfiles",
+                "Build emparser",
+                "Install python packages",
+                "install node packages",
+                "Create docker containers for development",
+                "Migrate",
+                "Load article data to database",
+                "Load symbol data to database"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Create superuser",
+            "type": "shell",
+            "command": "pipenv run python emwiki/manage.py createsuperuser",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "Build application staitc files",
+            "dependsOn": [
+                "Build HTMLized MML",
+                "Build MML Reference",
+                "Build Search files",
+                "Build graph data"
+            ],
+            "problemMatcher": [],
+        }
     ]
 }

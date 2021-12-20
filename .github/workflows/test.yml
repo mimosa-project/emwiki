@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       COMPOSE_HTTP_TIMEOUT: 240
     steps:
@@ -17,17 +17,36 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
         submodules: recursive
-    - name: Create containers
-      run: |
-        docker-compose up -d
-    - name: Check codestyle
-      run: |
-         docker exec emwiki-python-develop pipenv run flake8
-         docker exec emwiki-python-develop npx eslint "/emwiki/emwiki/**/*.js"
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+    - name: Install packages
+      run: sh scripts/setup/install-packages.sh
+    - name: Clone emwiki-contents
+      run: sh scripts/setup/emwiki-contents.sh
+    - name: Decompress mmlfiles
+      run: sh decompress.sh
+      working-directory: ./emwiki/mmlfiles
+    - name: Build emparser
+      run: sh scripts/setup/emparser.sh
+    - name: Install python dependencies
+      run: sh scripts/setup/install-python-packages.sh
+    - name: Install npm dependencies
+      run: npm install
+    - name: Create docker containers for development
+      run: sh scripts/setup/dev-services.sh
+    - name: Migrate
+      run: pipenv run python ./emwiki/manage.py migrate
+    - name: Load article data to database
+      run: sh scripts/other/load-articles.sh
+    - name: Load symbol data to database
+      run: sh scripts/other/load-symbols.sh
+    - name: Check python codestyle
+      run: sh scripts/check/python.sh
+    - name: Check javascript codestyle
+      run: sh scripts/check/javascript.sh
     - name: Test
-      run: |
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run coverage run
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run coverage report
+      run: sh scripts/test/python.sh
     - name: Check django deployment settings
-      run: |
-         docker exec --workdir /emwiki/emwiki emwiki-python-develop pipenv run python manage.py check --deploy
+      run: sh scripts/test/django-deployment.sh
