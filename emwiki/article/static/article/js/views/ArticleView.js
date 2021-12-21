@@ -58,10 +58,12 @@ export const ArticleView = {
     },
     navigateToHash(hash) {
       const newHashElement =
-        document.getElementsByName(hash.replace('#', ''))[0];
-      // #5D9BF7 means default anchor color like blue
-      newHashElement.style.backgroundColor = '#5D9BF7';
-      newHashElement.scrollIntoView();
+        document.getElementsByName(hash.replace('#', ''));
+      if (newHashElement.length) {
+        // #5D9BF7 means default anchor color like blue
+        newHashElement[0].style.backgroundColor = '#5D9BF7';
+        newHashElement[0].scrollIntoView();
+      }
     },
   },
   watch: {
