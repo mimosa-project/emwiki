@@ -144,7 +144,7 @@
             "problemMatcher": [],
         },
         {
-            "label": "Create docker containers for development",
+            "label": "Create services for development",
             "type": "shell",
             "command": "sh scripts/setup/dev-services.sh",
             "options": {
@@ -227,7 +227,7 @@
                 "Build emparser",
                 "Install python packages",
                 "install node packages",
-                "Create docker containers for development",
+                "Create services for development",
                 "Migrate",
                 "Load article data to database",
                 "Load symbol data to database"
