@@ -119,7 +119,7 @@
         {
             "label": "Build emparser",
             "type": "shell",
-            "command": "sh scripts/build/emparser.sh",
+            "command": "sh scripts/setup/emparser.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -227,7 +227,7 @@
                 "Build emparser",
                 "Install python packages",
                 "install node packages",
-                "Create docker containers for development",
+                "Create services for development",
                 "Migrate",
                 "Load article data to database",
                 "Load symbol data to database"
