@@ -12,3 +12,18 @@ body {
 .v-navigation-drawer .v-data-table tr {
     cursor: pointer;
 }
+
+#splitter {
+    position: fixed;
+    width: 6px;
+    height: 100vh;
+    cursor: col-resize;
+    /* v-navigation-drawerのz-indexが6であるため */
+    z-index: 7;
+}
+#splitter:hover {
+    background-color: rgb(37, 146, 235);
+}
+#splitter:active {
+    background-color: rgb(148, 200, 243);
+}

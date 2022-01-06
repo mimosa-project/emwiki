@@ -96,7 +96,7 @@
           {% endif %}
         </v-menu>
       </v-app-bar>
-
+      <splitter v-if="drawer" :drawer-width.sync="drawerWidth" :drawer.sync="drawer"></splitter>
       <v-main>
         {% block content %}{% endblock %}
       </v-main>
