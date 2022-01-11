@@ -1,7 +1,7 @@
 /**
  * splitter
  */
-export const splitter = {
+export const Splitter = {
   props: {
     drawerWidth: Number,
     drawer: Boolean,

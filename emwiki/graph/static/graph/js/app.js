@@ -1,14 +1,14 @@
 import {GraphDrawer} from './components/GraphDrawer.js';
 import {GraphService} from './services/graph-service.js';
 import {context} from '../../js/context.js';
-import {splitter} from '../../js/splitter.js';
+import {Splitter} from '../../js/Splitter.js';
 
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   components: {
     'graph-drawer': GraphDrawer,
-    'splitter': splitter,
+    'splitter': Splitter,
   },
   data: () => ({
     drawer: true,

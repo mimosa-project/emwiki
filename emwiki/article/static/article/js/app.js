@@ -2,7 +2,7 @@ import {router} from './router/index.js';
 import {ArticleDrawer} from './components/ArticleDrawer.js';
 import {TheoremDrawer} from './components/TheoremDrawer.js';
 import {context} from '../../js/context.js';
-import {splitter} from '../../js/splitter.js';
+import {Splitter} from '../../js/Splitter.js';
 
 new Vue({
   el: '#app',
@@ -11,7 +11,7 @@ new Vue({
   components: {
     'article-drawer': ArticleDrawer,
     'theorem-drawer': TheoremDrawer,
-    'splitter': splitter,
+    'splitter': Splitter,
   },
   data: () => ({
     drawer: true,

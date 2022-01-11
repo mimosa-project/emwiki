@@ -1,6 +1,6 @@
 import {router} from './router/index.js';
 import {SymbolDrawer} from './components/SymbolDrawer.js';
-import {splitter} from '../../js/splitter.js';
+import {Splitter} from '../../js/Splitter.js';
 
 new Vue({
   el: '#app',
@@ -8,7 +8,7 @@ new Vue({
   router,
   components: {
     'symbol-drawer': SymbolDrawer,
-    'splitter': splitter,
+    'splitter': Splitter,
   },
   data: () => ({
     drawer: true,
