@@ -18,6 +18,8 @@ export const Splitter = {
   },
   methods: {
     changeWidth(event) {
+      // 幅を調整する際に、テキストが選択される動作を防ぐ
+      event.preventDefault();
       // 指定した最小幅を下回った場合、drawerを閉じる
       if (event.clientX < this.minDrawerWidth) {
         this.$emit('update:drawer', false);
