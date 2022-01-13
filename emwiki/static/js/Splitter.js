@@ -38,8 +38,8 @@ export const Splitter = {
   },
   template: `
     <div 
-      id="splitter" 
-      @mousedown="startChangeWidth" 
+      id='splitter' 
+      @mousedown='startChangeWidth' 
       @mouseup='endChangeWidth'
     />`,
 };
