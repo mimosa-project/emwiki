@@ -4,7 +4,7 @@
 export const Splitter = {
   props: {
     drawerWidth: Number,
-    drawer: Boolean,
+    drawerExists: Boolean,
   },
   data: () => ({
     minDrawerWidth: 128,
@@ -22,7 +22,7 @@ export const Splitter = {
       event.preventDefault();
       // 指定した最小幅を下回った場合、drawerを閉じる
       if (event.clientX < this.minDrawerWidth) {
-        this.$emit('update:drawer', false);
+        this.$emit('update:drawerExists', false);
         this.endChangeWidth();
       } else {
         this.$emit('update:drawerWidth', event.clientX);

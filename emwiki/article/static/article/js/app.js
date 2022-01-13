@@ -14,7 +14,7 @@ new Vue({
     'splitter': Splitter,
   },
   data: () => ({
-    drawer: true,
+    drawerExists: true,
     drawerWidth: 256,
     disableResizeWatcher: false,
     menuButton: true,

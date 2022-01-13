@@ -2,7 +2,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    drawer: false,
+    drawerExists: false,
     drawerWidth: 256,
     // disableResizeWatcher->true:画面サイズが変更されてもdrawerが自動的に開いたり閉じたりしない
     disableResizeWatcher: true,
