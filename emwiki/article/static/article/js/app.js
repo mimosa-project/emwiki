@@ -2,6 +2,7 @@ import {router} from './router/index.js';
 import {ArticleDrawer} from './components/ArticleDrawer.js';
 import {TheoremDrawer} from './components/TheoremDrawer.js';
 import {context} from '../../js/context.js';
+import {Splitter} from '../../js/Splitter.js';
 
 new Vue({
   el: '#app',
@@ -10,14 +11,15 @@ new Vue({
   components: {
     'article-drawer': ArticleDrawer,
     'theorem-drawer': TheoremDrawer,
+    'splitter': Splitter,
   },
   data: () => ({
-    drawer: true,
+    drawerExists: true,
     drawerWidth: 256,
     disableResizeWatcher: false,
     menuButton: true,
   }),
-  mounted() {
+  created() {
     if (context['target'] === 'theorem') {
       this.drawerWidth = 512;
       this.disableResizeWatcher = true;
