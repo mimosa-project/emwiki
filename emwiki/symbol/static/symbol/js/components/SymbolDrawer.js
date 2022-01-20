@@ -2,13 +2,6 @@ import {SymbolService} from '../services/symbol-service.js';
 import {context} from '../../../js/context.js';
 
 export const SymbolDrawer = {
-  methods: {
-    onSymbolRowClick(row) {
-      if (this.$route.params.name !== row.name) {
-        this.$router.push({name: 'Symbol', params: {name: row.name}});
-      }
-    },
-  },
   data: () => ({
     headers: [{text: 'type', value: 'type'}, {text: 'name', value: 'name'}],
     searchText: '',
