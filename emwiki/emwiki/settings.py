@@ -123,7 +123,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'mmlfiles', 'graph', 'static'),
 ]
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+if not DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
