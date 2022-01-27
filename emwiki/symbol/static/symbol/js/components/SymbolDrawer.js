@@ -2,13 +2,6 @@ import {SymbolService} from '../services/symbol-service.js';
 import {context} from '../../../js/context.js';
 
 export const SymbolDrawer = {
-  methods: {
-    onSymbolRowClick(row) {
-      if (this.$route.params.name !== row.name) {
-        this.$router.push({name: 'Symbol', params: {name: row.name}});
-      }
-    },
-  },
   data: () => ({
     headers: [{text: 'type', value: 'type'}, {text: 'name', value: 'name'}],
     searchText: '',
@@ -40,9 +33,9 @@ export const SymbolDrawer = {
               :headers="headers"
               :items="index"
               :search="searchText"
-              :items-per-page="-1"
+              :items-per-page="1000"
               dense
-              hide-default-footer
+              :footer-props="{'items-per-page-options': [100, 1000, 5000, -1]}"
               @click:row="onSymbolRowClick"
           >
           </v-data-table>
