@@ -1,4 +1,5 @@
 import os
+from natsort import humansorted
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -38,8 +39,10 @@ class ArticleView(TemplateView):
 
 class ArticleIndexView(View):
     def get(self, request):
+        articles = list(Article.objects.all())
+        articles = humansorted(articles, key=lambda a: a.name)
         return JsonResponse({'index': [
-            dict(name=article.name) for article in Article.objects.all()
+            dict(name=article.name) for article in articles
         ]})
 
 

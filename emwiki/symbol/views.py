@@ -1,3 +1,5 @@
+from natsort import humansorted
+
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, Http404
 from django.urls import reverse
@@ -21,8 +23,10 @@ class SymbolView(View):
 
 class SymbolIndexView(View):
     def get(self, request):
+        symbols = list(Symbol.objects.all())
+        symbols = humansorted(symbols, key=lambda a: a.name)
         return JsonResponse({'index': [
-            dict(name=symbol.name, type=symbol.type) for symbol in Symbol.objects.all()
+            dict(name=symbol.name, type=symbol.type) for symbol in symbols
         ]})
 
 
