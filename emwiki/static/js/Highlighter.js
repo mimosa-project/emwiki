@@ -1,5 +1,5 @@
 /**
- * Highlighter of symbol
+ * Highlighter of symbol or article
  */
 export class Highlighter {
   /**
@@ -70,48 +70,48 @@ export class Highlighter {
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {String} query
    * @return {String}
    */
-  highlightAsIs(symbol, query) {
-    const pos = symbol.toLowerCase().indexOf(query);
-    return this.highlightSubstring(symbol, pos, query.length);
+  highlightAsIs(item, query) {
+    const pos = item.toLowerCase().indexOf(query);
+    return this.highlightSubstring(item, pos, query.length);
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {String} query
    * @param {Array<RegExp>} regexps
    * @param {Array<String>} highlighters
    * @return {String}
    */
-  highlightQuery(symbol, query, regexps, highlighters) {
+  highlightQuery(item, query, regexps, highlighters) {
     const q = query.split(/\s+/)[0];
     const len = q.length;
-    const pos = symbol.toLowerCase().indexOf(q);
+    const pos = item.toLowerCase().indexOf(q);
     const numberOfRegexps = regexps.length;
-    symbol = this.highlightSubstring(symbol, pos, len);
+    item = this.highlightSubstring(item, pos, len);
     for (let i = 1; i < numberOfRegexps; i++) {
-      symbol = symbol.replace(regexps[i], highlighters[i]);
+      item = item.replace(regexps[i], highlighters[i]);
     }
-    return symbol;
+    return item;
   };
 
   /**
-   * @param {String} symbol
+   * @param {String} item
    * @param {String} query
-   * @return {String} highlighted symbol
+   * @return {String} highlighted item
    */
-  run(symbol, query) {
+  run(item, query) {
     query = query.toLowerCase();
     const regexps = this.buildRegexps(query);
     const highlighters = this.buildHighlighters(query);
     let highlighted = '';
-    if (symbol.toLowerCase().indexOf(query) === 0) {
-      highlighted = this.highlightAsIs(symbol, query);
+    if (item.toLowerCase().indexOf(query) === 0) {
+      highlighted = this.highlightAsIs(item, query);
     } else {
-      highlighted = this.highlightQuery(symbol, query, regexps, highlighters);
+      highlighted = this.highlightQuery(item, query, regexps, highlighters);
     }
     return this.escapeText(highlighted)
         .split('\u0001').join('<span class="blue lighten-4">')

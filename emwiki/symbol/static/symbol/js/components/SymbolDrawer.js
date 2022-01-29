@@ -1,6 +1,6 @@
 import {SymbolService} from '../services/symbol-service.js';
-import {Searcher} from '../Searcher.js';
-import {Highlighter} from '../Highlighter.js';
+import {Searcher} from '../../../js/Searcher.js';
+import {Highlighter} from '../../../js/Highlighter.js';
 import {context} from '../../../js/context.js';
 
 export const SymbolDrawer = {
@@ -17,7 +17,7 @@ export const SymbolDrawer = {
     SymbolService.getIndex(context['names_uri']).then((index) => {
       this.index = index;
       this.items = index;
-      this.searcher = new Searcher(index);
+      this.searcher = new Searcher(index, 'symbol');
     }).catch((e) => {
       alert(e);
     });
@@ -29,15 +29,16 @@ export const SymbolDrawer = {
         this.$router.push({name: 'Symbol', params: {name: row.name}});
       }
     },
-    highlight(symbol) {
+    highlight(symbolName) {
       if (this.query !== '') {
-        return this.highlighter.run(symbol, this.query);
+        return this.highlighter.run(symbolName, this.query);
       } else {
-        return symbol;
+        return symbolName;
       }
     },
     // searcher.runで非同期で処理される関数
     updateSearchResults(resultsList) {
+      // チャンクごとの検索結果をハイライトしsearchResultに追加する
       resultsList.map((symbol) => {
         symbol.name = this.highlight(symbol.name);
         this.searchResult.push(symbol);

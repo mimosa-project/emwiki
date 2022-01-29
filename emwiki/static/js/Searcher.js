@@ -1,12 +1,14 @@
 /**
- * Searcher of symbol
+ * Searcher of symbol or Article
  */
 export class Searcher {
   /**
-   * @param {Array<Object>} symbols
+   * @param {Array<Object>} items
+   * @param {'article'|'symbol'} searchTarget
    */
-  constructor(symbols) {
-    this.symbols = symbols;
+  constructor(items, searchTarget) {
+    this.items = items;
+    this.searchTarget = searchTarget;
     this.CHUNK_SIZE = 1000;
     this.MAX_RESULT = 1000;
     this.search_id = 0;
@@ -36,26 +38,26 @@ export class Searcher {
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {string} query
    * @param {RegExp} regexps
    * @return {boolean}
    */
-  matchBeginningAsIs(symbol, query, regexps) {
-    return symbol.toLowerCase().indexOf(query) === 0;
+  matchBeginningAsIs(item, query, regexps) {
+    return item.toLowerCase().indexOf(query) === 0;
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {string} query
    * @param {RegExp} regexps
    * @return {boolean}
    */
-  matchBeginningSubstrings(symbol, query, regexps) {
+  matchBeginningSubstrings(item, query, regexps) {
     const queries = query.split(/\s+/);
     const len = queries.length;
     for (let i = 0; i < len; i++) {
-      const pos = symbol.toLowerCase().indexOf(queries[i]);
+      const pos = item.toLowerCase().indexOf(queries[i]);
       if (i === 0 && pos !== 0) {
         return false;
       } else if (pos < 0) {
@@ -66,17 +68,17 @@ export class Searcher {
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {string} query
    * @param {RegExp} regexps
    * @return {boolean}
    */
-  matchContainingSubstrings(symbol, query, regexps) {
+  matchContainingSubstrings(item, query, regexps) {
     const queries = query.split(/\s+/);
     const len = queries.length;
     for (let i = 0; i < len; i++) {
       const q = queries[i];
-      const pos = symbol.toLowerCase().indexOf(q);
+      const pos = item.toLowerCase().indexOf(q);
       if (pos < 0) {
         return false;
       }
@@ -85,22 +87,22 @@ export class Searcher {
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {string} query
    * @param {RegExp} regexps
    * @return {boolean}
    */
-  matchBeginning(symbol, query, regexps) {
+  matchBeginning(item, query, regexps) {
     const q = query.split(/\s+/)[0];
-    const lowerSymbol = symbol.toLowerCase();
-    if (lowerSymbol.indexOf(q) !== 0) {
+    const lowerItem = item.toLowerCase();
+    if (lowerItem.indexOf(q) !== 0) {
       return false;
     }
     const ref = regexps.slice(1);
     const len = ref.length;
     for (let i = 0; i < len; i++) {
       const r = ref[i];
-      if (!lowerSymbol.match(r)) {
+      if (!lowerItem.match(r)) {
         return false;
       }
     }
@@ -108,22 +110,22 @@ export class Searcher {
   };
 
   /**
-   * @param {string} symbol
+   * @param {string} item
    * @param {string} query
    * @param {RegExp} regexps
    * @return {boolean}
    */
-  matchContaining(symbol, query, regexps) {
+  matchContaining(item, query, regexps) {
     const q = query.split(/\s+/)[0];
-    const lowerSymbol = symbol.toLowerCase();
-    if (!(lowerSymbol.indexOf(q) > 0)) {
+    const lowerItem = item.toLowerCase();
+    if (!(lowerItem.indexOf(q) > 0)) {
       return false;
     }
     const ref = regexps.slice(1);
     const len = ref.length;
     for (let i = 0; i < len; i++) {
       const r = ref[i];
-      if (!lowerSymbol.match(r)) {
+      if (!lowerItem.match(r)) {
         return false;
       }
     }
@@ -138,7 +140,7 @@ export class Searcher {
    */
   searchInChunk(query, regexps, state) {
     const results = [];
-    const len = this.symbols.length;
+    const len = this.items.length;
     for (let i = 0; i < this.CHUNK_SIZE; i++) {
       const j = state.counter % len;
       const k = Math.floor(state.counter / len);
@@ -165,13 +167,19 @@ export class Searcher {
             return null;
         }
       }).call(this);
-      const symbol = this.symbols[j].name;
-      if (matchFunc(symbol, query, regexps)) {
+      const item = this.items[j].name;
+      if (matchFunc(item, query, regexps)) {
         state[String(j)] = true;
-        results.push({
-          'type': this.symbols[j].type,
-          'name': this.symbols[j].name,
-        });
+        if (this.searchTarget === 'article') {
+          results.push({
+            'name': this.items[j].name,
+          });
+        } else if (this.searchTarget === 'symbol') {
+          results.push({
+            'name': this.items[j].name,
+            'type': this.items[j].type,
+          });
+        }
         if (++state.matched > this.MAX_RESULT) {
           break;
         }
@@ -200,7 +208,7 @@ export class Searcher {
         }
         const resultsInChunk = _this.searchInChunk(query, regexps, state);
         updateSearchResults(resultsInChunk);
-        if (state.counter < 5 * _this.symbols.length &&
+        if (state.counter < 5 * _this.items.length &&
           state.matched < _this.MAX_RESULT) {
           return setTimeout(runner, 1);
         }
