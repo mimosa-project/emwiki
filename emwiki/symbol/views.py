@@ -23,8 +23,7 @@ class SymbolView(View):
 
 class SymbolIndexView(View):
     def get(self, request):
-        symbols = list(Symbol.objects.all())
-        symbols = humansorted(symbols, key=lambda a: a.name)
+        symbols = humansorted(list(Symbol.objects.all()), key=lambda a: a.name)
         return JsonResponse({'index': [
             dict(name=symbol.name, type=symbol.type) for symbol in symbols
         ]})
