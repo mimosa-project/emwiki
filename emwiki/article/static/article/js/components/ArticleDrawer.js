@@ -9,9 +9,9 @@ import {context} from '../../../js/context.js';
 export const ArticleDrawer = {
   data: () => ({
     headers: [{text: 'name', value: 'name'}],
-    query: '',
+    queryText: '',
     index: [],
-    searchResult: [],
+    searchResults: [],
     items: [],
     searcher: null,
     highlighter: null,
@@ -37,28 +37,28 @@ export const ArticleDrawer = {
         this.$router.push({name: 'Article', params: {name: row.name}});
       }
     },
-    highlight(articleName) {
-      if (this.query !== '') {
-        return this.highlighter.run(articleName, this.query);
+    highlight(articleName, queryText) {
+      if (queryText !== '') {
+        return this.highlighter.run(articleName, queryText);
       } else {
         return articleName;
       }
     },
     // searcher.runで非同期で処理される関数
-    updateSearchResults(resultsList) {
+    updateSearchResults(resultList) {
       // チャンクごとの検索結果をハイライトしsearchResultに追加する
-      resultsList.map((article) => {
-        article.name = this.highlight(article.name);
-        this.searchResult.push(article);
+      resultList.forEach((result) => {
+        result.name = this.highlight(result.name, this.queryText);
+        this.searchResults.push(result);
       });
     },
   },
   watch: {
-    query(newQuery) {
-      if (newQuery !== '') {
-        this.searchResult = [];
-        this.items = this.searchResult;
-        this.searcher.run(newQuery, this.updateSearchResults);
+    queryText(newQueryText) {
+      if (newQueryText !== '') {
+        this.searchResults = [];
+        this.items = this.searchResults;
+        this.searcher.run(newQueryText, this.updateSearchResults);
       } else {
         this.items = this.index;
       }
@@ -69,23 +69,21 @@ export const ArticleDrawer = {
     <v-text-field
         name="search"
         label="search"
-        v-model="query"
+        v-model="queryText"
         filled
     >
     </v-text-field>
     <v-data-table
         :headers="headers"
         :items="items"
-        :search="query"
+        :search="queryText"
         :items-per-page="-1"
         item-key="name"
         dense
-        hide-default-footer
         @click:row="onArticleRowClick"
     >
       <template v-slot:item.name="props">
-        <p class="m-0 p-2" v-html="props.item.name">
-        </p>
+        <p class="m-0 p-2" v-html="props.item.name"></p>
        </template>
     </v-data-table>
 </div>

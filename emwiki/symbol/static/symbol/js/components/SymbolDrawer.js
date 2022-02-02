@@ -6,9 +6,9 @@ import {context} from '../../../js/context.js';
 export const SymbolDrawer = {
   data: () => ({
     headers: [{text: 'type', value: 'type'}, {text: 'name', value: 'name'}],
-    query: '',
+    queryText: '',
     index: [],
-    searchResult: [],
+    searchResults: [],
     items: [],
     searcher: null,
     highlighter: null,
@@ -29,28 +29,27 @@ export const SymbolDrawer = {
         this.$router.push({name: 'Symbol', params: {name: row.name}});
       }
     },
-    highlight(symbolName) {
-      if (this.query !== '') {
-        return this.highlighter.run(symbolName, this.query);
+    highlight(symbolName, queryText) {
+      if (queryText !== '') {
+        return this.highlighter.run(symbolName, queryText);
       } else {
         return symbolName;
       }
     },
-    // searcher.runで非同期で処理される関数
-    updateSearchResults(resultsList) {
+    updateSearchResults(resultList) {
       // チャンクごとの検索結果をハイライトしsearchResultに追加する
-      resultsList.map((symbol) => {
-        symbol.name = this.highlight(symbol.name);
-        this.searchResult.push(symbol);
+      resultList.forEach((result) => {
+        result.name = this.highlight(result.name, this.queryText);
+        this.searchResults.push(result);
       });
     },
   },
   watch: {
-    query(newQuery) {
-      if (newQuery !== '') {
-        this.searchResult = [];
-        this.items = this.searchResult;
-        this.searcher.run(newQuery, this.updateSearchResults);
+    queryText(newQueryText) {
+      if (newQueryText !== '') {
+        this.searchResults = [];
+        this.items = this.searchResults;
+        this.searcher.run(newQueryText, this.updateSearchResults);
       } else {
         this.items = this.index;
       }
@@ -61,7 +60,7 @@ export const SymbolDrawer = {
           <v-text-field
               name="search"
               label="search"
-              v-model="query"
+              v-model="queryText"
               filled
           >
           </v-text-field>
@@ -74,8 +73,7 @@ export const SymbolDrawer = {
               @click:row="onSymbolRowClick"
           >
             <template v-slot:item.name="props">
-              <p class="m-0 p-2" v-html="props.item.name">
-              </p>
+              <p class="m-0 p-2" v-html="props.item.name"></p>
             </template>
           </v-data-table>
       </div>`,
