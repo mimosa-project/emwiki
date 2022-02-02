@@ -39,7 +39,7 @@ export const SymbolDrawer = {
     updateSearchResults(resultList) {
       // チャンクごとの検索結果をハイライトしsearchResultに追加する
       resultList.forEach((result) => {
-        result.name = this.highlight(result.name, this.queryText);
+        result.highlightedName = this.highlight(result.name, this.queryText);
         this.searchResults.push(result);
       });
     },
@@ -73,7 +73,18 @@ export const SymbolDrawer = {
               @click:row="onSymbolRowClick"
           >
             <template v-slot:item.name="props">
-              <p class="m-0 p-2" v-html="props.item.name"></p>
+                  <p 
+                      v-if="queryText===''" 
+                      class="m-0 p-2" 
+                      v-html="props.item.name"
+                  >
+                  </p>
+                  <p
+                      v-else 
+                      class="m-0 p-2" 
+                      v-html="props.item.highlightedName"
+                  >
+                  </p>
             </template>
           </v-data-table>
       </div>`,

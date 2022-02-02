@@ -44,11 +44,10 @@ export const ArticleDrawer = {
         return articleName;
       }
     },
-    // searcher.runで非同期で処理される関数
     updateSearchResults(resultList) {
       // チャンクごとの検索結果をハイライトしsearchResultに追加する
       resultList.forEach((result) => {
-        result.name = this.highlight(result.name, this.queryText);
+        result.highlightedName = this.highlight(result.name, this.queryText);
         this.searchResults.push(result);
       });
     },
@@ -82,9 +81,20 @@ export const ArticleDrawer = {
         dense
         @click:row="onArticleRowClick"
     >
-      <template v-slot:item.name="props">
-        <p class="m-0 p-2" v-html="props.item.name"></p>
-       </template>
+        <template v-slot:item.name="props">
+        <p 
+            v-if="queryText===''" 
+            class="m-0 p-2" 
+            v-html="props.item.name"
+        >
+        </p>
+        <p
+            v-else 
+            class="m-0 p-2" 
+            v-html="props.item.highlightedName"
+        >
+        </p>
+        </template>
     </v-data-table>
 </div>
         `,
