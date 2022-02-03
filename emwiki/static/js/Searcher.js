@@ -1,4 +1,3 @@
-import {Highlighter} from './Highlighter.js';
 /**
  * Searcher of symbol or Article
  */
@@ -13,7 +12,6 @@ export class Searcher {
     this.CHUNK_SIZE = 1000;
     this.MAX_RESULT = 1000;
     this.search_id = 0;
-    this.highlighter = new Highlighter();
   }
 
   /**
@@ -39,6 +37,16 @@ export class Searcher {
     return results;
   };
 
+  /**
+   * @param {String} s
+   * @return {String} escaped string
+   */
+  escapeText(s) {
+    // eslint-disable-next-line max-len
+    return s.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;');
+  }
+
+  // Search
   /**
    * @param {string} item
    * @param {string} query
@@ -134,13 +142,82 @@ export class Searcher {
     return true;
   };
 
+  // highlight
+  /**
+   * @param {string} query
+   * @return {Array<String>}
+   */
+  buildHighlighters(query) {
+    const queries = query.split(/\s+/).filter(function(s) {
+      return s.match(/\S/);
+    });
+    const results = [];
+    const numberOfQueries = queries.length;
+    for (let i = 0; i < numberOfQueries; i++) {
+      const query = queries[i];
+      results.push(((function() {
+        const ref = [];
+        const len = query.length;
+        for (let j = 0; j < len; j++) {
+          ref.push('\u0001$' + (j * 2 + 1) + '\u0002$' + (j * 2 + 2));
+        }
+        return ref;
+      })()).join(''));
+    }
+    return results;
+  };
+
+  /**
+   * @param {string} s
+   * @param {Number} pos
+   * @param {Number} len
+   * @return {String}
+   */
+  highlightSubstring(s, pos, len) {
+    // eslint-disable-next-line max-len
+    return s.slice(0, pos) + '\u0001' + s.slice(pos, pos + len) + '\u0002' + s.slice(pos + len);
+  };
+
+  /**
+   * @param {string} item
+   * @param {String} query
+   * @param {Array<RegExp>} regexps
+   * @param {Array<String>} highlighters
+   * @return {String}
+   */
+  highlightAsIs(item, query, regexps, highlighters) {
+    const pos = item.toLowerCase().indexOf(query);
+    return this.highlightSubstring(item, pos, query.length);
+  };
+
+  /**
+   * @param {string} item
+   * @param {String} query
+   * @param {Array<RegExp>} regexps
+   * @param {Array<String>} highlighters
+   * @return {String}
+   */
+  highlightQuery(item, query, regexps, highlighters) {
+    const q = query.split(/\s+/)[0];
+    const len = q.length;
+    const pos = item.toLowerCase().indexOf(q);
+    const numberOfRegexps = regexps.length;
+    item = this.highlightSubstring(item, pos, len);
+    for (let i = 1; i < numberOfRegexps; i++) {
+      item = item.replace(regexps[i], highlighters[i]);
+    }
+    return item;
+  };
+
+  // main codes for finding
   /**
    * @param {string} query
    * @param {RegExp} regexps
+   * @param {Array<String>} highlighters
    * @param {Object} state
    * @return {Array<Object>} results in Chunk
    */
-  searchInChunk(query, regexps, state) {
+  searchInChunk(query, regexps, highlighters, state) {
     const results = [];
     const len = this.items.length;
     for (let i = 0; i < this.CHUNK_SIZE; i++) {
@@ -153,18 +230,18 @@ export class Searcher {
       if (state[String(j)]) {
         continue;
       }
-      const matchFunc = (function() {
+      const [matchFunc, highlightFunc] = (function() {
         switch (k) {
           case 0:
-            return this.matchBeginningAsIs;
+            return [this.matchBeginningAsIs, this.highlightAsIs];
           case 1:
-            return this.matchBeginningSubstrings;
+            return [this.matchBeginningSubstrings, this.highlightQuery];
           case 2:
-            return this.matchContainingSubstrings;
+            return [this.matchContainingSubstrings, this.highlightQuery];
           case 3:
-            return this.matchBeginning;
+            return [this.matchBeginning, this.highlightQuery];
           case 4:
-            return this.matchContaining;
+            return [this.matchContaining, this.highlightQuery];
           default:
             return null;
         }
@@ -172,15 +249,19 @@ export class Searcher {
       const item = this.items[j].name;
       if (matchFunc(item, query, regexps)) {
         state[String(j)] = true;
+        // eslint-disable-next-line max-len
+        const highlightedName = this.escapeText(highlightFunc.bind(this)(this.items[j].name, query, regexps, highlighters))
+            .split('\u0001').join('<span class="blue lighten-4">')
+            .split('\u0002').join('</span>');
         if (this.searchTarget === 'article') {
           results.push({
             'name': this.items[j].name,
-            'highlightedName': this.highlighter.run(this.items[j].name, query),
+            'highlightedName': highlightedName,
           });
         } else if (this.searchTarget === 'symbol') {
           results.push({
             'name': this.items[j].name,
-            'highlightedName': this.highlighter.run(this.items[j].name, query),
+            'highlightedName': highlightedName,
             'type': this.items[j].type,
           });
         }
@@ -201,6 +282,7 @@ export class Searcher {
   run(query, setResults, pushResults) {
     query = query.toLowerCase();
     const regexps = this.buildRegexps(query);
+    const highlighters = this.buildHighlighters(query);
     const state = {
       'counter': 0,
       'matched': 0,
@@ -217,7 +299,7 @@ export class Searcher {
         if (state.search_id !== _this.search_id) {
           return;
         }
-        pushResults(_this.searchInChunk(query, regexps, state));
+        pushResults(_this.searchInChunk(query, regexps, highlighters, state));
         if (state.counter < 5 * _this.items.length &&
           state.matched < _this.MAX_RESULT) {
           return setTimeout(runner, 1);
