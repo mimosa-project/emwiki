@@ -1,3 +1,4 @@
+import {Highlighter} from './Highlighter.js';
 /**
  * Searcher of symbol or Article
  */
@@ -12,6 +13,7 @@ export class Searcher {
     this.CHUNK_SIZE = 1000;
     this.MAX_RESULT = 1000;
     this.search_id = 0;
+    this.highlighter = new Highlighter();
   }
 
   /**
@@ -173,10 +175,12 @@ export class Searcher {
         if (this.searchTarget === 'article') {
           results.push({
             'name': this.items[j].name,
+            'highlightedName': this.highlighter.run(this.items[j].name, query),
           });
         } else if (this.searchTarget === 'symbol') {
           results.push({
             'name': this.items[j].name,
+            'highlightedName': this.highlighter.run(this.items[j].name, query),
             'type': this.items[j].type,
           });
         }
@@ -190,10 +194,11 @@ export class Searcher {
 
   /**
    * @param {string} query
-   * @param {Function} updateSearchResults
+   * @param {Function} setResults
+   * @param {Function} pushResults
    * @return {Function}
    */
-  run(query, updateSearchResults) {
+  run(query, setResults, pushResults) {
     query = query.toLowerCase();
     const regexps = this.buildRegexps(query);
     const state = {
@@ -201,13 +206,18 @@ export class Searcher {
       'matched': 0,
       'search_id': ++this.search_id,
     };
+    // search_idを更新した後にresultsを初期化する
+    setResults([]);
+    if (query === '') {
+      setResults(this.items);
+      return;
+    }
     const runner = (function(_this) {
       return function() {
         if (state.search_id !== _this.search_id) {
           return;
         }
-        const resultsInChunk = _this.searchInChunk(query, regexps, state);
-        updateSearchResults(resultsInChunk);
+        pushResults(_this.searchInChunk(query, regexps, state));
         if (state.counter < 5 * _this.items.length &&
           state.matched < _this.MAX_RESULT) {
           return setTimeout(runner, 1);

@@ -8,7 +8,6 @@ export const SymbolDrawer = {
     headers: [{text: 'type', value: 'type'}, {text: 'name', value: 'name'}],
     queryText: '',
     index: [],
-    searchResults: [],
     items: [],
     searcher: null,
     highlighter: null,
@@ -29,30 +28,13 @@ export const SymbolDrawer = {
         this.$router.push({name: 'Symbol', params: {name: row.name}});
       }
     },
-    highlight(symbolName, queryText) {
-      if (queryText !== '') {
-        return this.highlighter.run(symbolName, queryText);
-      } else {
-        return symbolName;
-      }
-    },
-    updateSearchResults(resultList) {
-      // チャンクごとの検索結果をハイライトしsearchResultに追加する
-      resultList.forEach((result) => {
-        result.highlightedName = this.highlight(result.name, this.queryText);
-        this.searchResults.push(result);
-      });
-    },
   },
   watch: {
     queryText(newQueryText) {
-      if (newQueryText !== '') {
-        this.searchResults = [];
-        this.items = this.searchResults;
-        this.searcher.run(newQueryText, this.updateSearchResults);
-      } else {
-        this.items = this.index;
-      }
+      this.searcher.run(
+          newQueryText,
+          (items) => this.items = items,
+          (items) => items.forEach((item) => this.items.push(item)) );
     },
   },
   template: `
@@ -73,15 +55,15 @@ export const SymbolDrawer = {
               @click:row="onSymbolRowClick"
           >
             <template v-slot:item.name="props">
-                  <p 
-                      v-if="queryText===''" 
-                      class="m-0 p-2" 
+                  <p
+                      v-if="queryText===''"
+                      class="m-0 p-2"
                       v-html="props.item.name"
                   >
                   </p>
                   <p
-                      v-else 
-                      class="m-0 p-2" 
+                      v-else
+                      class="m-0 p-2"
                       v-html="props.item.highlightedName"
                   >
                   </p>

@@ -1,6 +1,5 @@
 import {ArticleService} from '../services/article-service.js';
 import {Searcher} from '../../../js/Searcher.js';
-import {Highlighter} from '../../../js/Highlighter.js';
 import {context} from '../../../js/context.js';
 
 /**
@@ -11,10 +10,8 @@ export const ArticleDrawer = {
     headers: [{text: 'name', value: 'name'}],
     queryText: '',
     index: [],
-    searchResults: [],
     items: [],
     searcher: null,
-    highlighter: null,
   }),
   mounted() {
     ArticleService.getIndex(context['names_uri']).then((index) => {
@@ -24,7 +21,6 @@ export const ArticleDrawer = {
     }).catch((e) => {
       alert(e);
     });
-    this.highlighter = new Highlighter();
   },
   methods: {
     getIndex() {
@@ -37,30 +33,13 @@ export const ArticleDrawer = {
         this.$router.push({name: 'Article', params: {name: row.name}});
       }
     },
-    highlight(articleName, queryText) {
-      if (queryText !== '') {
-        return this.highlighter.run(articleName, queryText);
-      } else {
-        return articleName;
-      }
-    },
-    updateSearchResults(resultList) {
-      // チャンクごとの検索結果をハイライトしsearchResultに追加する
-      resultList.forEach((result) => {
-        result.highlightedName = this.highlight(result.name, this.queryText);
-        this.searchResults.push(result);
-      });
-    },
   },
   watch: {
     queryText(newQueryText) {
-      if (newQueryText !== '') {
-        this.searchResults = [];
-        this.items = this.searchResults;
-        this.searcher.run(newQueryText, this.updateSearchResults);
-      } else {
-        this.items = this.index;
-      }
+      this.searcher.run(
+          newQueryText,
+          (items) => this.items = items,
+          (items) => items.forEach((item) => this.items.push(item)) );
     },
   },
   template: `
@@ -82,18 +61,18 @@ export const ArticleDrawer = {
         @click:row="onArticleRowClick"
     >
         <template v-slot:item.name="props">
-        <p 
-            v-if="queryText===''" 
-            class="m-0 p-2" 
-            v-html="props.item.name"
-        >
-        </p>
-        <p
-            v-else 
-            class="m-0 p-2" 
-            v-html="props.item.highlightedName"
-        >
-        </p>
+            <p 
+                v-if="queryText===''" 
+                class="m-0 p-2" 
+                v-html="props.item.name"
+            >
+            </p>
+            <p
+                v-else 
+                class="m-0 p-2" 
+                v-html="props.item.highlightedName"
+            >
+            </p>
         </template>
     </v-data-table>
 </div>
