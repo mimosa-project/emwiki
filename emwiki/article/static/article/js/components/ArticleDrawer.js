@@ -58,6 +58,7 @@ export const ArticleDrawer = {
         :items-per-page="-1"
         item-key="name"
         dense
+        :footer-props="{'items-per-page-options': [100, 500, 1000, -1]}"
         @click:row="onArticleRowClick"
     >
         <template v-slot:item.name="props">
