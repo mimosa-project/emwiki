@@ -25,6 +25,7 @@ class Theorem(models.Model):
 
 class History(models.Model):
     query = models.TextField('query')
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.query
