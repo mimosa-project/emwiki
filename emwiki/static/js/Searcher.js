@@ -1,4 +1,13 @@
 /**
+ * @typedef {Object} Article
+ * @property {string} name
+ */
+/**
+ * @typedef {Object} Symbol
+ * @property {String} name
+ * @property {String} type
+ */
+/**
  * Searcher of symbol or Article
  */
 export class Searcher {
