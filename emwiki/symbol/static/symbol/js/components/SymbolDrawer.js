@@ -52,18 +52,13 @@ export const SymbolDrawer = {
               @click:row="onSymbolRowClick"
           >
             <template v-slot:item.name="props">
-                  <p
-                      v-if="queryText===''"
-                      class="m-0 p-2"
-                      v-html="props.item.name"
-                  >
-                  </p>
-                  <p
-                      v-else
-                      class="m-0 p-2"
-                      v-html="props.item.highlightedName"
-                  >
-                  </p>
+                <p
+                    class="m-0 p-2"
+                    v-html="queryText === ''
+                        ? props.item.name
+                        : props.item.highlightedName"
+                >
+                </p>
             </template>
           </v-data-table>
       </div>`,
