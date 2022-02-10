@@ -1,6 +1,5 @@
 import {SymbolService} from '../services/symbol-service.js';
 import {Searcher} from '../../../js/Searcher.js';
-import {Highlighter} from '../../../js/Highlighter.js';
 import {context} from '../../../js/context.js';
 
 export const SymbolDrawer = {
@@ -10,7 +9,6 @@ export const SymbolDrawer = {
     index: [],
     items: [],
     searcher: null,
-    highlighter: null,
   }),
   mounted() {
     SymbolService.getIndex(context['names_uri']).then((index) => {
@@ -20,7 +18,6 @@ export const SymbolDrawer = {
     }).catch((e) => {
       alert(e);
     });
-    this.highlighter = new Highlighter();
   },
   methods: {
     onSymbolRowClick(row) {
