@@ -3,11 +3,11 @@
  */
 export class Searcher {
   /**
-   * @param {Array<Object>} items
+   * @param {Array<Article|Symbol>} articleOrSymbolArray
    * @param {'article'|'symbol'} searchTarget
    */
-  constructor(items, searchTarget) {
-    this.items = items;
+  constructor(articleOrSymbolArray, searchTarget) {
+    this.articleOrSymbolArray = articleOrSymbolArray;
     this.searchTarget = searchTarget;
     this.CHUNK_SIZE = 1000;
     this.MAX_RESULT = 1000;
@@ -219,7 +219,7 @@ export class Searcher {
    */
   searchInChunk(query, regexps, highlighters, state) {
     const results = [];
-    const len = this.items.length;
+    const len = this.articleOrSymbolArray.length;
     for (let i = 0; i < this.CHUNK_SIZE; i++) {
       const j = state.counter % len;
       const k = Math.floor(state.counter / len);
@@ -246,23 +246,23 @@ export class Searcher {
             return null;
         }
       }).call(this);
-      const item = this.items[j].name;
+      const item = this.articleOrSymbolArray[j].name;
       if (matchFunc(item, query, regexps)) {
         state[String(j)] = true;
         // eslint-disable-next-line max-len
-        const highlightedName = this.escapeText(highlightFunc.bind(this)(this.items[j].name, query, regexps, highlighters))
+        const highlightedName = this.escapeText(highlightFunc.bind(this)(this.articleOrSymbolArray[j].name, query, regexps, highlighters))
             .split('\u0001').join('<span class="blue lighten-4">')
             .split('\u0002').join('</span>');
         if (this.searchTarget === 'article') {
           results.push({
-            'name': this.items[j].name,
+            'name': this.articleOrSymbolArray[j].name,
             'highlightedName': highlightedName,
           });
         } else if (this.searchTarget === 'symbol') {
           results.push({
-            'name': this.items[j].name,
+            'name': this.articleOrSymbolArray[j].name,
             'highlightedName': highlightedName,
-            'type': this.items[j].type,
+            'type': this.articleOrSymbolArray[j].type,
           });
         }
         if (++state.matched > this.MAX_RESULT) {
@@ -291,7 +291,7 @@ export class Searcher {
     // search_idを更新した後にresultsを初期化する
     setResults([]);
     if (query === '') {
-      setResults(this.items);
+      setResults(this.articleOrSymbolArray);
       return;
     }
     const runner = (function(_this) {
@@ -300,7 +300,7 @@ export class Searcher {
           return;
         }
         pushResults(_this.searchInChunk(query, regexps, highlighters, state));
-        if (state.counter < 5 * _this.items.length &&
+        if (state.counter < 5 * _this.articleOrSymbolArray.length &&
           state.matched < _this.MAX_RESULT) {
           return setTimeout(runner, 1);
         }
