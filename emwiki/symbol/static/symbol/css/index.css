@@ -4,9 +4,13 @@ body {
     margin: 0;
 }
 
-#list-of-definition {
+#list-of-definitions {
     overflow: auto;
-    max-height: 90vh;
+    /* ナビバー(64px)＋ 影(4px) */
+    top: 68px;
+    /* ナビバー(64px)＋ 影(4px) + colクラスのpadding(12px) */
+    height: calc(100vh - 80px);
+    padding-left: 1rem;
 }
 
 a[data-link] {
