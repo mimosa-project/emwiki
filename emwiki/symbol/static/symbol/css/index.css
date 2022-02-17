@@ -35,10 +35,6 @@ a[data-href]:hover {
     background: #adfff5;
 }
 
-:target{
-    border: 3px solid #007bff !important;
-}
-
 .mml-element.selected {
     border: 5px solid #2693ec;
 }
