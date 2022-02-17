@@ -23,7 +23,9 @@ class HtmlFile:
         text = html.tostring(self.root, pretty_print=True,
                              encoding='utf-8').decode('utf-8')
         with open(self.path, mode='w') as f:
+            f.write("{% verbatim %}\n")
             f.write(text)
+            f.write("{% endverbatim %}")
 
 
 class HtmlizedMmlBuilder:
