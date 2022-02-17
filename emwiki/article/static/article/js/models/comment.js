@@ -93,7 +93,7 @@ export class Comment {
           const comment = comments.find((comment) => {
             return (
               comment.block === commentFetched.fields.block &&
-              comment.blockOrder === commentFetched.fields.blockOrder
+              comment.blockOrder === commentFetched.fields.block_order
             );
           });
           if (comment) {
