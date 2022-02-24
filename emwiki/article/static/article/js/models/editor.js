@@ -92,9 +92,18 @@ export class Editor {
     });
 
     // edit class commentTextarea changed
-    editor.element.find('.commentTextarea').on('input', function() {
-      editor.render();
-    });
+    const debounce = (func, wait = 500) => {
+      let timerId;
+      return (...args) => {
+        if (timerId) {
+          clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+          func.apply(...args);
+        }, wait);
+      };
+    };
+    editor.element.find('.commentTextarea').on('input', debounce(async () => await editor.render()));
   }
 
   /**
@@ -116,25 +125,25 @@ export class Editor {
   /**
    * Render input text to html text
    */
-  render() {
+  async render() {
     // convert commentText to HTML for converion to Tex format
     this.element
         .find('.commentPreview')
         .html(Editor.commentText2html(this.text));
-    MathJax.typesetPromise(this.element.find('.commentPreview'));
+    await MathJax.typesetPromise(this.element.find('.commentPreview'));
   }
 
   /**
    * Bulk render input text to html text
    * @param {Array<Editor>} editors
    */
-  static bulk_render(editors) {
+  static async bulk_render(editors) {
     editors.forEach((editor) => {
       editor.element
           .find('.commentPreview')
           .html(Editor.commentText2html(editor.text));
     });
-    MathJax.typesetPromise();
+    await MathJax.typesetPromise();
   }
 
   /**
