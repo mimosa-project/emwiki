@@ -4,5 +4,5 @@
 cd "$(dirname "$0")/../../emparser"
 
 # Main
-pipenv install
+pipenv install --python 3.7
 pipenv run python setup.py build
