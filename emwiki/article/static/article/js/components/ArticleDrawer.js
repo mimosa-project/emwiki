@@ -62,10 +62,10 @@ export const ArticleDrawer = {
         @click:row="onArticleRowClick"
     >
         <template v-slot:item.name="props">
-            <p 
-                class="m-0 p-2" 
-                v-html="queryText === '' 
-                    ? props.item.name 
+            <p
+                class="mb-0 py-2"
+                v-html="queryText === ''
+                    ? props.item.name
                     : props.item.highlightedName"
             >
             </p>
