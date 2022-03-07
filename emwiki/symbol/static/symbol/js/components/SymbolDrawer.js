@@ -53,7 +53,7 @@ export const SymbolDrawer = {
           >
             <template v-slot:item.name="props">
                 <p
-                    class="m-0 p-2"
+                    class="mb-0 py-2"
                     v-html="queryText === ''
                         ? props.item.name
                         : props.item.highlightedName"
