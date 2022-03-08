@@ -30,7 +30,7 @@ export class Editor {
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
               </button>
-              <div class='commentPreviewWrapper flex-fill'>    
+              <div class='commentPreviewWrapper flex-fill'>
                   <div class='commentPreview mathjax' style='display:block'></div>
               </div>
           </div>
@@ -47,7 +47,7 @@ export class Editor {
 
   /** Getter of comment text */
   get text() {
-    return this.element.find('.commentTextarea').val();
+    return this.element.getElementsByClassName('commentTextarea')[0].value;
   }
 
   /**
@@ -55,40 +55,38 @@ export class Editor {
    * @param {string} text
    */
   set text(text) {
-    this.element.find('.commentTextarea').val(text);
+    this.element.getElementsByClassName('commentTextarea')[0].value = text;
   }
 
   /**
    * Create Elements and Events
    */
   create() {
-    const editor = this;
-    editor.comment.element.before(editor.html);
-    editor.element = editor.comment.element.prev();
+    this.comment.element.insertAdjacentHTML('beforebegin', this.html);
+    this.element = this.comment.element.previousElementSibling;
     // edit class editButton clicked
-    editor.element.find('.editButton').on('click', function(event) {
+    this.element.getElementsByClassName('editButton')[0].addEventListener('click', (event) => {
       if (context['is_authenticated']) {
-        editor.element.find('.editcomment').show();
-        editor.element.find('.editButton').hide();
+        this.element.getElementsByClassName('editcomment')[0].style.display = 'block';
+        this.element.getElementsByClassName('editButton')[0].style.display = 'none';
       } else {
         alert('Editing is only allowed to registered users \n' +
               'Please login or signup');
       }
-
       event.stopPropagation();
     });
 
     // edit class submitButton clicked
-    editor.element.find('.submitButton').on('click', function() {
-      editor.comment.submit(function() {
-        editor.hide();
-        editor.comment.fetch();
+    this.element.getElementsByClassName('submitButton')[0].addEventListener('click', () => {
+      this.comment.submit(() => {
+        this.hide();
+        this.comment.fetch();
       });
     });
     // edit class cancelButton clicked
-    editor.element.find('.cancelButton').on('click', function() {
-      editor.hide();
-      editor.comment.fetch();
+    this.element.getElementsByClassName('cancelButton')[0].addEventListener('click', () => {
+      this.hide();
+      this.comment.fetch();
     });
 
     // edit class commentTextarea changed
@@ -103,23 +101,23 @@ export class Editor {
         }, wait);
       };
     };
-    editor.element.find('.commentTextarea').on('input', debounce(async () => await editor.render()));
+    this.element.getElementsByClassName('commentTextarea')[0].addEventListener('input', debounce(async () => await this.render()));
   }
 
   /**
    * Hide editor
    */
   hide() {
-    this.element.find('.editcomment').hide();
-    this.element.find('.editButton').show();
+    this.element.getElementsByClassName('editcomment')[0].style.display = 'none';
+    this.element.getElementsByClassName('editButton')[0].style.display = 'block';
   }
 
   /**
    * Show editor
    */
   show() {
-    this.element.find('.editcomment').show();
-    this.element.find('.editButton').hide();
+    this.element.getElementsByClassName('editcomment')[0].style.display = 'block';
+    this.element.getElementsByClassName('editButton')[0].style.display = 'none';
   }
 
   /**
@@ -127,10 +125,8 @@ export class Editor {
    */
   async render() {
     // convert commentText to HTML for converion to Tex format
-    this.element
-        .find('.commentPreview')
-        .html(Editor.commentText2html(this.text));
-    await MathJax.typesetPromise(this.element.find('.commentPreview'));
+    this.element.getElementsByClassName('commentPreview')[0].innerHTML = Editor.commentText2html(this.text);
+    await MathJax.typesetPromise(this.element.getElementsByClassName('commentPreview'));
   }
 
   /**
@@ -139,9 +135,7 @@ export class Editor {
    */
   static async bulk_render(editors) {
     editors.forEach((editor) => {
-      editor.element
-          .find('.commentPreview')
-          .html(Editor.commentText2html(editor.text));
+      editor.element.getElementsByClassName('commentPreview')[0].innerHTML = Editor.commentText2html(editor.text);
     });
     await MathJax.typesetPromise();
   }
