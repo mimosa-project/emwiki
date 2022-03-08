@@ -6,10 +6,10 @@ import {Comment} from './comment.js';
 export class Parser {
   /**
    * Constructor of Parser
-   * @param {Element} $root
+   * @param {Element} root
    */
-  constructor($root) {
-    this.root = $root;
+  constructor(root) {
+    this.root = root;
     this.targetBlockNames = [
       'definition',
       'theorem',
@@ -32,13 +32,13 @@ export class Parser {
     this.targetBlockNames.forEach((value) => {
       counter[value] = 0;
     });
-    for (const target of this.root.find(this.targetCssSelector)) {
+    for (const target of this.root.querySelectorAll(this.targetCssSelector)) {
       // sometimes $(target).text() return string like "theorem " so trim()
-      const blockName = $(target).text().trim();
+      const blockName = target.innerText.trim();
       if (this.targetBlockNames.includes(blockName)) {
         const comment = new Comment(
             article,
-            $(target),
+            target,
             blockName,
             ++counter[blockName],
             commentsUri,
