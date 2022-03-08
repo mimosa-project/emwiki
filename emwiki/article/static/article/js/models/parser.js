@@ -33,7 +33,7 @@ export class Parser {
       counter[value] = 0;
     });
     for (const target of this.root.querySelectorAll(this.targetCssSelector)) {
-      // sometimes $(target).text() return string like "theorem " so trim()
+      // sometimes target.innerText return string like "theorem " so trim()
       const blockName = target.innerText.trim();
       if (this.targetBlockNames.includes(blockName)) {
         const comment = new Comment(

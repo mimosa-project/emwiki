@@ -124,7 +124,7 @@ export class Editor {
    * Render input text to html text
    */
   async render() {
-    // convert commentText to HTML for converion to Tex format
+    // convert commentText to HTML for conversion to Tex format
     this.element.getElementsByClassName('commentPreview')[0].innerHTML = Editor.commentText2html(this.text);
     await MathJax.typesetPromise(this.element.getElementsByClassName('commentPreview'));
   }
@@ -141,7 +141,7 @@ export class Editor {
   }
 
   /**
-   * Convert commnet raw text to html string
+   * Convert comment raw text to html string
    * @param {string} commentText
    * @return {string} HTML string of commentText
    */
