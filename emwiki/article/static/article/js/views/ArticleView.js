@@ -43,7 +43,10 @@ export const ArticleView = {
                 }
               }
             }
-            this.addComment(this.articleName, $('#htmlized-mml'));
+            this.addComment(
+                this.articleName,
+                document.getElementById('htmlized-mml'),
+            );
           });
         }).then(() => {
           resolve();
