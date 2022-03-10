@@ -34,7 +34,7 @@ export class Editor {
                   <div class='commentPreview mathjax' style='display:block'></div>
               </div>
           </div>
-          <div class='editcomment' style='display:none'>
+          <div class='editComment' style='display:none'>
               <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
               <div class='toolbar'>
                   <button type='button' class='submitButton'>submit</button>
@@ -72,9 +72,9 @@ export class Editor {
     if (editButton) {
       editButton.addEventListener('click', (event) => {
         if (context['is_authenticated']) {
-          const editcomment = this.element.getElementsByClassName('editcomment')[0];
-          if (editcomment) {
-            editcomment.style.display = 'block';
+          const editComment = this.element.getElementsByClassName('editComment')[0];
+          if (editComment) {
+            editComment.style.display = 'block';
           }
           editButton.style.display = 'none';
         } else {
@@ -123,9 +123,9 @@ export class Editor {
    * Hide editor
    */
   hide() {
-    const editcomment = this.element.getElementsByClassName('editcomment')[0];
-    if (editcomment) {
-      editcomment.style.display = 'none';
+    const editComment = this.element.getElementsByClassName('editComment')[0];
+    if (editComment) {
+      editComment.style.display = 'none';
     }
     const editButton = this.element.getElementsByClassName('editButton')[0];
     if (editButton) {
@@ -137,9 +137,9 @@ export class Editor {
    * Show editor
    */
   show() {
-    const editcomment = this.element.getElementsByClassName('editcomment')[0];
-    if (editcomment) {
-      editcomment.style.display = 'block';
+    const editComment = this.element.getElementsByClassName('editComment')[0];
+    if (editComment) {
+      editComment.style.display = 'block';
     }
     const editButton = this.element.getElementsByClassName('editButton')[0];
     if (editButton) {
