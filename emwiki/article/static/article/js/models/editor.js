@@ -47,7 +47,7 @@ export class Editor {
 
   /** Getter of comment text */
   get text() {
-    return this.element.getElementsByClassName('commentTextarea')[0].value;
+    return this.element.getElementsByClassName('commentTextarea')[0]?.value;
   }
 
   /**
@@ -55,7 +55,10 @@ export class Editor {
    * @param {string} text
    */
   set text(text) {
-    this.element.getElementsByClassName('commentTextarea')[0].value = text;
+    const commentTextarea = this.element.getElementsByClassName('commentTextarea')[0];
+    if (commentTextarea) {
+      commentTextarea.value = text;
+    }
   }
 
   /**
@@ -64,30 +67,42 @@ export class Editor {
   create() {
     this.comment.element.insertAdjacentHTML('beforebegin', this.html);
     this.element = this.comment.element.previousElementSibling;
+    const editButton = this.element.getElementsByClassName('editButton')[0];
     // edit class editButton clicked
-    this.element.getElementsByClassName('editButton')[0].addEventListener('click', (event) => {
-      if (context['is_authenticated']) {
-        this.element.getElementsByClassName('editcomment')[0].style.display = 'block';
-        this.element.getElementsByClassName('editButton')[0].style.display = 'none';
-      } else {
-        alert('Editing is only allowed to registered users \n' +
-              'Please login or signup');
-      }
-      event.stopPropagation();
-    });
+    if (editButton) {
+      editButton.addEventListener('click', (event) => {
+        if (context['is_authenticated']) {
+          const editcomment = this.element.getElementsByClassName('editcomment')[0];
+          if (editcomment) {
+            editcomment.style.display = 'block';
+          }
+          editButton.style.display = 'none';
+        } else {
+          alert('Editing is only allowed to registered users \n' +
+                'Please login or signup');
+        }
+        event.stopPropagation();
+      });
+    }
 
     // edit class submitButton clicked
-    this.element.getElementsByClassName('submitButton')[0].addEventListener('click', () => {
-      this.comment.submit(() => {
+    const submitButton = this.element.getElementsByClassName('submitButton')[0];
+    if (submitButton) {
+      submitButton.addEventListener('click', () => {
+        this.comment.submit(() => {
+          this.hide();
+          this.comment.fetch();
+        });
+      });
+    }
+    // edit class cancelButton clicked
+    const cancelButton = this.element.getElementsByClassName('cancelButton')[0];
+    if (cancelButton) {
+      cancelButton.addEventListener('click', () => {
         this.hide();
         this.comment.fetch();
       });
-    });
-    // edit class cancelButton clicked
-    this.element.getElementsByClassName('cancelButton')[0].addEventListener('click', () => {
-      this.hide();
-      this.comment.fetch();
-    });
+    }
 
     // edit class commentTextarea changed
     const debounce = (func, wait = 500) => {
@@ -101,23 +116,35 @@ export class Editor {
         }, wait);
       };
     };
-    this.element.getElementsByClassName('commentTextarea')[0].addEventListener('input', debounce(async () => await this.render()));
+    this.element.getElementsByClassName('commentTextarea')[0]?.addEventListener('input', debounce(async () => await this.render()));
   }
 
   /**
    * Hide editor
    */
   hide() {
-    this.element.getElementsByClassName('editcomment')[0].style.display = 'none';
-    this.element.getElementsByClassName('editButton')[0].style.display = 'block';
+    const editcomment = this.element.getElementsByClassName('editcomment')[0];
+    if (editcomment) {
+      editcomment.style.display = 'none';
+    }
+    const editButton = this.element.getElementsByClassName('editButton')[0];
+    if (editButton) {
+      editButton.style.display = 'block';
+    }
   }
 
   /**
    * Show editor
    */
   show() {
-    this.element.getElementsByClassName('editcomment')[0].style.display = 'block';
-    this.element.getElementsByClassName('editButton')[0].style.display = 'none';
+    const editcomment = this.element.getElementsByClassName('editcomment')[0];
+    if (editcomment) {
+      editcomment.style.display = 'block';
+    }
+    const editButton = this.element.getElementsByClassName('editButton')[0];
+    if (editButton) {
+      editButton.style.display = 'none';
+    }
   }
 
   /**
@@ -125,8 +152,12 @@ export class Editor {
    */
   async render() {
     // convert commentText to HTML for conversion to Tex format
-    this.element.getElementsByClassName('commentPreview')[0].innerHTML = Editor.commentText2html(this.text);
-    await MathJax.typesetPromise(this.element.getElementsByClassName('commentPreview'));
+    const commentPreview = this.element.getElementsByClassName('commentPreview')[0];
+    if (commentPreview) {
+      commentPreview.innerHTML = Editor.commentText2html(this.text);
+      // typesetPromise takes a HTMLCollection as an argument
+      await MathJax.typesetPromise(this.element.getElementsByClassName('commentPreview'));
+    }
   }
 
   /**
@@ -135,7 +166,10 @@ export class Editor {
    */
   static async bulk_render(editors) {
     editors.forEach((editor) => {
-      editor.element.getElementsByClassName('commentPreview')[0].innerHTML = Editor.commentText2html(editor.text);
+      const commentPreview = editor.element.getElementsByClassName('commentPreview')[0];
+      if (commentPreview) {
+        commentPreview.innerHTML = Editor.commentText2html(editor.text);
+      }
     });
     await MathJax.typesetPromise();
   }
