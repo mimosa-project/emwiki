@@ -77,7 +77,7 @@ export const TheoremDrawer = {
         :disabled="isAscii(searchText) !== true"
       >
         <v-progress-circular indeterminate v-if="loading" color="primary" />
-        <p v-else class="m-auto">Search</p>
+        <p v-else class="mb-0">Search</p>
       </v-btn>
     </v-form>
     <v-list :height="searchHeight" class="overflow-auto">
@@ -95,7 +95,7 @@ export const TheoremDrawer = {
                 relevance: $(theoremModel.relevance)
               </v-chip>
               <v-btn
-                @click.stop="recordReactions(theoremModel.id, 'fav')" 
+                @click.stop="recordReactions(theoremModel.id, 'fav')"
                 :id="'fav-btn-' + theoremModel.id"
               >
                 <v-icon color="blue">mdi-thumb-up</v-icon>

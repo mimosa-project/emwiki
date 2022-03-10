@@ -12,15 +12,13 @@ class Writer:
     def write(self, path):
         with codecs.open(path, 'w', 'utf-8-sig') as fp:
             fp.write('''
-                <div data-spy="scroll" data-target="#list-of-definitions">
-                <div class="container-fluid">
-                <div class="row">
+                <v-container fluid>
+                <v-row>
             ''')
             self.content.write(fp)
             fp.write('''
-                </div>
-                </div>
-                </div>
+                </v-row>
+                </v-container>
             ''')
 
 

@@ -180,17 +180,15 @@ class Element:
 
     def write(self, fp, i):
         fp.write(f'''
-            <div class='card mml-element mt-2'  id='{self.html_id()}'>
-                <div class='card-header'>
+            <v-card class='mml-element pa-4 my-3' id='{self.html_id()}'>
+                <v-card-title class="grey lighten-3">
                     <h3>{str(i)}. {self.element_link_html(self)} [{self.source_link_html(self)}]</h3>
-                </div>
-                <div class='card-body'>
+                </v-card-title>
         ''')
         self.write_source_code(fp)
         self.write_relations(fp)
         fp.write('''
-                </div>
-            </div>
+            </v-card>
         ''')
 
     @staticmethod
@@ -212,10 +210,10 @@ class Element:
             source_code = html.tostring(self.defblock, pretty_print=True, encoding='utf-8').decode('utf-8')
             fp.write(f'''
                 <div class='source'>
-                    <h4>Source <span class='defined-in'> [{self.source_link_html(self)}]</span></h4>
-                    <div class='source-box bg-light p-3'>
+                    <div class="text-h5 pa-4 pb-2">Source <span class='defined-in'> [{self.source_link_html(self)}]</span></div>
+                    <v-card-text class='source-box grey lighten-4 body-1'>
                         {source_code}
-                    </div>
+                    </v-card-text>
                 </div>
             ''')
         finally:
