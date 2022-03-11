@@ -30,11 +30,11 @@ export class Editor {
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
               </button>
-              <div class='commentPreviewWrapper flex-fill'>    
+              <div class='commentPreviewWrapper flex-fill'>
                   <div class='commentPreview mathjax' style='display:block'></div>
               </div>
           </div>
-          <div class='editcomment' style='display:none'>
+          <div class='editComment' style='display:none'>
               <textarea class='commentTextarea' cols='75' rows='10' wrap='hard'></textarea>
               <div class='toolbar'>
                   <button type='button' class='submitButton'>submit</button>
@@ -47,7 +47,7 @@ export class Editor {
 
   /** Getter of comment text */
   get text() {
-    return this.element.find('.commentTextarea').val();
+    return this.element.getElementsByClassName('commentTextarea')[0]?.value;
   }
 
   /**
@@ -55,41 +55,54 @@ export class Editor {
    * @param {string} text
    */
   set text(text) {
-    this.element.find('.commentTextarea').val(text);
+    const commentTextarea = this.element.getElementsByClassName('commentTextarea')[0];
+    if (commentTextarea) {
+      commentTextarea.value = text;
+    }
   }
 
   /**
    * Create Elements and Events
    */
   create() {
-    const editor = this;
-    editor.comment.element.before(editor.html);
-    editor.element = editor.comment.element.prev();
+    this.comment.element.insertAdjacentHTML('beforebegin', this.html);
+    this.element = this.comment.element.previousElementSibling;
+    const editButton = this.element.getElementsByClassName('editButton')[0];
     // edit class editButton clicked
-    editor.element.find('.editButton').on('click', function(event) {
-      if (context['is_authenticated']) {
-        editor.element.find('.editcomment').show();
-        editor.element.find('.editButton').hide();
-      } else {
-        alert('Editing is only allowed to registered users \n' +
-              'Please login or signup');
-      }
-
-      event.stopPropagation();
-    });
+    if (editButton) {
+      editButton.addEventListener('click', (event) => {
+        if (context['is_authenticated']) {
+          const editComment = this.element.getElementsByClassName('editComment')[0];
+          if (editComment) {
+            editComment.style.display = 'block';
+          }
+          editButton.style.display = 'none';
+        } else {
+          alert('Editing is only allowed to registered users \n' +
+                'Please login or signup');
+        }
+        event.stopPropagation();
+      });
+    }
 
     // edit class submitButton clicked
-    editor.element.find('.submitButton').on('click', function() {
-      editor.comment.submit(function() {
-        editor.hide();
-        editor.comment.fetch();
+    const submitButton = this.element.getElementsByClassName('submitButton')[0];
+    if (submitButton) {
+      submitButton.addEventListener('click', () => {
+        this.comment.submit(() => {
+          this.hide();
+          this.comment.fetch();
+        });
       });
-    });
+    }
     // edit class cancelButton clicked
-    editor.element.find('.cancelButton').on('click', function() {
-      editor.hide();
-      editor.comment.fetch();
-    });
+    const cancelButton = this.element.getElementsByClassName('cancelButton')[0];
+    if (cancelButton) {
+      cancelButton.addEventListener('click', () => {
+        this.hide();
+        this.comment.fetch();
+      });
+    }
 
     // edit class commentTextarea changed
     const debounce = (func, wait = 500) => {
@@ -103,34 +116,48 @@ export class Editor {
         }, wait);
       };
     };
-    editor.element.find('.commentTextarea').on('input', debounce(async () => await editor.render()));
+    this.element.getElementsByClassName('commentTextarea')[0]?.addEventListener('input', debounce(async () => await this.render()));
   }
 
   /**
    * Hide editor
    */
   hide() {
-    this.element.find('.editcomment').hide();
-    this.element.find('.editButton').show();
+    const editComment = this.element.getElementsByClassName('editComment')[0];
+    if (editComment) {
+      editComment.style.display = 'none';
+    }
+    const editButton = this.element.getElementsByClassName('editButton')[0];
+    if (editButton) {
+      editButton.style.display = 'block';
+    }
   }
 
   /**
    * Show editor
    */
   show() {
-    this.element.find('.editcomment').show();
-    this.element.find('.editButton').hide();
+    const editComment = this.element.getElementsByClassName('editComment')[0];
+    if (editComment) {
+      editComment.style.display = 'block';
+    }
+    const editButton = this.element.getElementsByClassName('editButton')[0];
+    if (editButton) {
+      editButton.style.display = 'none';
+    }
   }
 
   /**
    * Render input text to html text
    */
   async render() {
-    // convert commentText to HTML for converion to Tex format
-    this.element
-        .find('.commentPreview')
-        .html(Editor.commentText2html(this.text));
-    await MathJax.typesetPromise(this.element.find('.commentPreview'));
+    // convert commentText to HTML for conversion to Tex format
+    const commentPreview = this.element.getElementsByClassName('commentPreview')[0];
+    if (commentPreview) {
+      commentPreview.innerHTML = Editor.commentText2html(this.text);
+      // typesetPromise takes a HTMLCollection as an argument
+      await MathJax.typesetPromise(this.element.getElementsByClassName('commentPreview'));
+    }
   }
 
   /**
@@ -139,15 +166,16 @@ export class Editor {
    */
   static async bulk_render(editors) {
     editors.forEach((editor) => {
-      editor.element
-          .find('.commentPreview')
-          .html(Editor.commentText2html(editor.text));
+      const commentPreview = editor.element.getElementsByClassName('commentPreview')[0];
+      if (commentPreview) {
+        commentPreview.innerHTML = Editor.commentText2html(editor.text);
+      }
     });
     await MathJax.typesetPromise();
   }
 
   /**
-   * Convert commnet raw text to html string
+   * Convert comment raw text to html string
    * @param {string} commentText
    * @return {string} HTML string of commentText
    */

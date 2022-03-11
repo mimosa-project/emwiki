@@ -36,44 +36,20 @@ export class Comment {
   * @param {function} callback
   */
   submit(callback = () => { }) {
-    const csrftoken = Cookies.get('csrftoken');
-    /**
-     * Returns a Boolean value that indicates
-     * whether or not a pattern exists in the method.
-     * @param {stirng} method
-     * @return {Boolean} whether or not a pattern exists in a searched string.
-     */
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader('X-CSRFToken', csrftoken);
-        }
-      },
-    });
-    $.post({
-      url: this.commentUrl,
-      dataType: 'text',
-      data: {
-        'article_name': this.article.name,
-        'block': this.block,
-        'block_order': this.blockOrder,
-        'comment': this.text,
-      },
-    }).done(function(data) {
-      callback();
-    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-      console.log(XMLHttpRequest, textStatus, errorThrown);
-      if (errorThrown === 'Forbidden') {
-        alert('Editing is only allowed to registered users\n' +
-              'Please login or signup');
-      } else {
-        alert(`Error: ${textStatus}`);
-      }
-    });
+    const headers = {'X-CSRFToken': Cookies.get('csrftoken')};
+    const params = new URLSearchParams();
+    params.append('article_name', this.article.name);
+    params.append('block', this.block);
+    params.append('block_order', this.blockOrder);
+    params.append('comment', this.text);
+    axios.post(this.commentUrl, params, {headers: headers})
+        .then(() => {
+          callback();
+        })
+        .catch((error) => {
+          alert('Failed to submit comment');
+          console.log(error.response);
+        });
   }
 
   /**
@@ -83,31 +59,31 @@ export class Comment {
    * @param {string} commentUrl
    */
   static bulkFetch(article, comments, commentUrl = context['comments_uri']) {
-    $.get({
-      url: commentUrl,
-      data: {article_name: article.name},
-    }).done((data) => {
-      data.forEach((commentFetched) => {
-        try {
-          // TODO 線形探索をやめる
-          const comment = comments.find((comment) => {
-            return (
-              comment.block === commentFetched.fields.block &&
-              comment.blockOrder === commentFetched.fields.block_order
-            );
+    axios.get(commentUrl, {article_name: article.name})
+        .then((response) => {
+          response.data.forEach((commentFetched) => {
+            try {
+              // TODO 線形探索をやめる
+              const comment = comments.find((comment) => {
+                return (
+                  comment.block === commentFetched.fields.block &&
+                  comment.blockOrder === commentFetched.fields.block_order
+                );
+              });
+              if (comment) {
+                comment.editor.text = commentFetched.fields.text;
+              }
+            } catch (e) {
+              console.log(e);
+            }
           });
-          if (comment) {
-            comment.editor.text = commentFetched.fields.text;
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      });
-      const editors = comments.map((comment) => comment.editor);
-      Editor.bulk_render(editors);
-    }).fail((XMLHttpRequest, textStatus, errorThrown) => {
-      alert('Failed to get some comment\n' + textStatus);
-    });
+          const editors = comments.map((comment) => comment.editor);
+          Editor.bulk_render(editors);
+        })
+        .catch((error) => {
+          alert('Failed to get some comment');
+          console.log(error.response);
+        });
   }
 
   /**
@@ -115,20 +91,20 @@ export class Comment {
    * @param {string} commentUrl
    */
   fetch(commentUrl = context['comments_uri']) {
-    // declarate decause `this` reserved by jQuery in $.get
-    const comment = this;
-    $.get({
-      url: `${commentUrl}`,
-      data: {
-        article_name: comment.article.name,
-        block: comment.block,
-        block_order: comment.blockOrder,
+    axios.get(commentUrl, {
+      params: {
+        article_name: this.article.name,
+        block: this.block,
+        block_order: this.blockOrder,
       },
-    }).done(function(data) {
-      comment.editor.text = data[0]['fields']['text'];
-      comment.editor.render();
-    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-      alert('Failed to get some comment\n' + textStatus);
-    });
+    })
+        .then((response) => {
+          this.editor.text = response.data[0]['fields']['text'];
+          this.editor.render();
+        })
+        .catch((error) => {
+          alert('Failed to get some comment');
+          console.log(error.response);
+        });
   }
 }
