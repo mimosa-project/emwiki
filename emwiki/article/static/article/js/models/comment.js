@@ -59,7 +59,9 @@ export class Comment {
    * @param {string} commentUrl
    */
   static bulkFetch(article, comments, commentUrl = context['comments_uri']) {
-    axios.get(commentUrl, {article_name: article.name})
+    axios.get(commentUrl, {
+      params: {article_name: article.name},
+    })
         .then((response) => {
           response.data.forEach((commentFetched) => {
             try {
