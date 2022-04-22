@@ -60,12 +60,18 @@ export const GraphDrawer = {
     <div>
         <v-btn block @click="$emit('reset-clicked')">Reset</v-btn>
         <v-container>
+        <v-row justify="center">
+            <p class="subtitle-1 pt-2">
+                Highlight generations
+            </p>
+        </v-row>
+        <v-divider></v-divider>
         <v-row>
             <v-col>
             <v-text-field
                 v-model="upperLevel"
                 type="number"
-                label="Upper level"
+                label="Ancestor"
                 min="0"
             ></v-text-field>
             </v-col>
@@ -73,7 +79,7 @@ export const GraphDrawer = {
             <v-text-field
                 v-model="lowerLevel"
                 type="number"
-                label="Lower level"
+                label="Descendant"
                 min="0"
             ></v-text-field>
             </v-col>
