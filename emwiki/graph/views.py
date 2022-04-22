@@ -8,7 +8,8 @@ class GraphView(TemplateView):
     extra_context = {
         "context_for_js": {
             'article_names_uri': reverse_lazy('article:names'),
-            'dot_graph_uri': static('graph/graph_attrs/dot_graph.json')
+            'dot_graph_uri': static('graph/graph_attrs/dot_graph.json'),
+            'graph_images_path': static('graph/images')
         }
     }
 
