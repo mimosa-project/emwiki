@@ -13,7 +13,6 @@ export const HelpDialog = {
     this.helpImageUrlList = [
       `${context['graph_images_path']}/description-emgraph.png`,
       `${context['graph_images_path']}/description-highlight-coloring.png`,
-      `${context['graph_images_path']}/description-highlight-param.png`,
     ];
   },
   template: `
