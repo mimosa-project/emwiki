@@ -86,8 +86,9 @@ export const GraphDrawer = {
         </v-row>
         </v-container>
         <v-text-field
-        label="Search"
-        v-model="searchText"
+            label="Search"
+            v-model="searchText"
+            filled
         ></v-text-field>
         <v-data-table
             :headers="headers"
