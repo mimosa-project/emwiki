@@ -14,9 +14,9 @@
 
 {% block drawer %}
 <graph-drawer
-  :graphArticleName="articleName"
-  :graphUpperLevel="upperLevel"
-  :graphLowerLevel="lowerLevel"
+  :graph-article-name="articleName"
+  :graph-upper-level="upperLevel"
+  :graph-lower-level="lowerLevel"
   @reset-clicked="reset"
   @article-name-changed="changeArticleName"
   @upper-level-changed="changeUpperLevel"
@@ -25,6 +25,7 @@
 {% endblock %}
 
 {% block content %}
+<help-dialog id="help-dialog"></help-dialog>
 <div id="graph"></div>
 {% endblock %}
 

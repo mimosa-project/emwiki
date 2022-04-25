@@ -1,4 +1,5 @@
 import {GraphDrawer} from './components/GraphDrawer.js';
+import {HelpDialog} from './components/HelpDialog.js';
 import {GraphService} from './services/graph-service.js';
 import {context} from '../../js/context.js';
 import {Splitter} from '../../js/Splitter.js';
@@ -8,6 +9,7 @@ new Vue({
   vuetify: new Vuetify(),
   components: {
     'graph-drawer': GraphDrawer,
+    'help-dialog': HelpDialog,
     'splitter': Splitter,
   },
   data: () => ({

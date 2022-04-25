@@ -35,3 +35,11 @@
 .cy-context-menus-cxt-menuitem {
     background-color: #f5f5f5;
 }
+
+#help-dialog {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    margin: 16px;
+    z-index: 4;
+}
