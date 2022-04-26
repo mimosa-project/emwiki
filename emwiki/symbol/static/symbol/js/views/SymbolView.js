@@ -18,17 +18,15 @@ export const SymbolView = {
       this.symbolName = name;
       this.jumpTo(name, hash);
     },
-    jumpTo(name, anchor) {
+    jumpTo(name, hash) {
       SymbolService.getHtml(context['symbol_html_uri'], name)
           .then((symbolHtml) => {
             this.compiled = Vue.compile(symbolHtml);
             this.$nextTick(() => {
-              const anchorName = anchor.split('#')[1];
-              if (anchorName) {
-                this.anchorElement = document.getElementById(anchorName);
-              } else {
-                window.scroll({top: 0, behavior: 'smooth'});
-              }
+              const anchorName = hash.replace('#', '');
+              this.anchorElement = anchorName ?
+                document.getElementById(anchorName) :
+                null;
             });
           });
     },
@@ -41,8 +39,10 @@ export const SymbolView = {
       if (oldVal) {
         oldVal.classList.remove('selected');
       }
-      newVal.classList.add('selected');
-      newVal.scrollIntoView();
+      if (newVal) {
+        newVal.classList.add('selected');
+        newVal.scrollIntoView();
+      }
     },
   },
   template: `
