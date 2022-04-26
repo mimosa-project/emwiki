@@ -21,9 +21,8 @@ export const SymbolDrawer = {
   },
   methods: {
     onSymbolRowClick(row) {
-      if (this.$route.params.name !== row.name) {
-        this.$router.push({name: 'Symbol', params: {name: row.name}});
-      }
+      this.$router.push({name: 'Symbol', params: {name: row.name}});
+      window.scroll({top: 0, behavior: 'smooth'});
     },
   },
   watch: {
