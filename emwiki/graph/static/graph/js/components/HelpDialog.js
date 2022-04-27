@@ -10,10 +10,7 @@ export const HelpDialog = {
     helpImageUrlList: [],
   }),
   created() {
-    this.helpImageUrlList = [
-      `${context['graph_images_path']}/description-emgraph.png`,
-      `${context['graph_images_path']}/description-highlight-coloring.png`,
-    ];
+    this.helpImageUrlList = context['help_image_uri_list'];
   },
   template: `
     <div>

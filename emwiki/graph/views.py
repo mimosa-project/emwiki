@@ -9,7 +9,10 @@ class GraphView(TemplateView):
         "context_for_js": {
             'article_names_uri': reverse_lazy('article:names'),
             'dot_graph_uri': static('graph/graph_attrs/dot_graph.json'),
-            'graph_images_path': static('graph/images')
+            'help_image_uri_list': [
+                static('graph/images/description-emgraph.png'),
+                static('graph/images/description-highlight-coloring.png')
+            ]
         }
     }
 
