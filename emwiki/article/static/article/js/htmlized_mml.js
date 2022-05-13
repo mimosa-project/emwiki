@@ -162,8 +162,8 @@ var tooltip = function() {
       }, timer);
     },
     pos: function(e) {
-      const u = ie ? event.clientY + document.documentElement.scrollTop : e.pageY;
-      const l = ie ? event.clientX + document.documentElement.scrollLeft : e.pageX;
+      const u = ie ? event.clientY + document.documentElement.scrollTop : e.clientY;
+      const l = ie ? event.clientX + document.documentElement.scrollLeft : e.clientX;
       tt.style.top = (u - h) + 'px';
       tt.style.left = (l + left) + 'px';
     },
