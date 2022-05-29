@@ -94,11 +94,16 @@ export const ArticleView = {
       });
     },
     navigateToHash(hash) {
-      const newHashElement =
-        document.getElementsByName(hash.replace('#', ''));
-      if (newHashElement.length > 0) {
-        newHashElement[0].classList.add('selected');
-        newHashElement[0].scrollIntoView();
+      let newHashElement =
+          document.querySelector(`[name=${hash.replace('#', '')}]`);
+      // ハッシュ先がLemmaの場合, "#E"からスタートする. 例:aescip_1#E56
+      // Lemmaでは, name属性を持っている要素が空文字なので, 次の要素をハイライトする
+      if (hash.startsWith('#E')) {
+        newHashElement = newHashElement.nextElementSibling;
+      }
+      if (newHashElement) {
+        newHashElement.classList.add('selected');
+        newHashElement.scrollIntoView();
       }
     },
   },
