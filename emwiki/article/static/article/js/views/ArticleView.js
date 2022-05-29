@@ -97,8 +97,7 @@ export const ArticleView = {
       const newHashElement =
         document.getElementsByName(hash.replace('#', ''));
       if (newHashElement.length > 0) {
-        // #5D9BF7 means default anchor color like blue
-        newHashElement[0].style.backgroundColor = '#5D9BF7';
+        newHashElement[0].classList.add('selected');
         newHashElement[0].scrollIntoView();
       }
     },
@@ -109,11 +108,7 @@ export const ArticleView = {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
       } else {
         if (oldRoute.hash) {
-          const oldHashElement =
-            document.getElementsByName(oldRoute.hash.replace('#', ''));
-          if (oldHashElement.length > 0) {
-            oldHashElement[0].style.backgroundColor = 'white';
-          }
+          document.querySelector('.selected')?.classList.remove('selected');
         }
       }
       if (newRoute.hash) {
