@@ -82,8 +82,7 @@ export const ArticleView = {
         // insertBeforeElementの直前にボタンを挿入する
         let insertBeforeElement = null;
         if (type === 'oo:Theorem') {
-          insertBeforeElement =
-            targetElement.getElementsByClassName('kw')[0];
+          insertBeforeElement = targetElement.querySelector('.kw');
         } else if (type === 'oo:Lemma') {
           insertBeforeElement =
             document.querySelector(
