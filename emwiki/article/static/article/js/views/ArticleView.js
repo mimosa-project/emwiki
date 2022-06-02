@@ -47,6 +47,7 @@ export const ArticleView = {
                 this.articleName,
                 document.getElementById('htmlized-mml'),
             );
+            this.addLinkToKeyword();
           });
         }).then(() => {
           resolve();
@@ -58,6 +59,23 @@ export const ArticleView = {
       const parser = new Parser(root);
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
+    },
+    addLinkToKeyword() {
+      // Lemmaにリンクを追加
+      const LemmaElements =
+        document.querySelectorAll('#htmlized-mml>[typeof="oo:Lemma"]');
+      LemmaElements.forEach((LemmaElement) => {
+        if (LemmaElement.previousElementSibling) {
+          LemmaElement.previousElementSibling.style.cursor = 'pointer';
+          LemmaElement.previousElementSibling.addEventListener('click', () => {
+            this.$router.push({
+              name: 'Article',
+              params: {name: this.articleName},
+              hash: LemmaElement.getAttribute('about'),
+            });
+          });
+        }
+      });
     },
     navigateToHash(hash) {
       if (hash) {
