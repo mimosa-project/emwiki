@@ -107,7 +107,9 @@ export const ArticleView = {
   },
   watch: {
     async $route(newRoute, oldRoute) {
-      if (newRoute.params.name !== oldRoute.params.name) {
+      if (newRoute.params.name.replace('.html', '') !==
+        oldRoute.params.name.replace('.html', '')
+      ) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
       } else {
         if (oldRoute.hash) {
