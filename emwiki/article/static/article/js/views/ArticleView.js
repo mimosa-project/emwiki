@@ -60,15 +60,17 @@ export const ArticleView = {
       Comment.bulkFetch(article, comments, context['comments_uri']);
     },
     navigateToHash(hash) {
-      let newHashElement =
+      if (hash) {
+        const newHashElement =
           document.querySelector(`[name=${hash.replace('#', '')}]`);
-      // ハッシュ先がLemmaの場合, "#E"からスタートする. 例:aescip_1#E56
-      // Lemmaでは, name属性を持っている要素が空文字なので, 次の要素をハイライトする
-      if (hash.startsWith('#E')) {
-        newHashElement = newHashElement.nextElementSibling;
-      }
-      if (newHashElement) {
-        newHashElement.classList.add('selected');
+        // Lemmaでは, name属性を持っているa要素が空文字なので, 次の要素をハイライトする
+        // <a name="E2"></a>
+        // <span>Lm1</span>
+        if (hash.startsWith('#E')) {
+          newHashElement.nextElementSibling.classList.add('selected');
+        } else {
+          newHashElement.classList.add('selected');
+        }
         newHashElement.scrollIntoView();
       }
     },
