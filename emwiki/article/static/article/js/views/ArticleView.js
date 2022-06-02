@@ -76,6 +76,18 @@ export const ArticleView = {
           });
         }
       });
+      // Lemma以外のキーワードにリンクを追加
+      document.querySelectorAll('a[name]').forEach((element) => {
+        if (element.querySelector('.kw, .comment')) {
+          element.addEventListener('click', () => {
+            this.$router.push({
+              name: 'Article',
+              params: {name: this.articleName},
+              hash: '#' + element.getAttribute('name'),
+            });
+          });
+        }
+      });
     },
     navigateToHash(hash) {
       if (hash) {
