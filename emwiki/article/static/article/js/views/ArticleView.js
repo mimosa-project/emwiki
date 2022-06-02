@@ -2,7 +2,6 @@ import {ArticleService} from '../services/article-service.js';
 import {Article} from '../models/article.js';
 import {Comment} from '../models/comment.js';
 import {Parser} from '../models/parser.js';
-import {CopyUrlButton} from '../components/CopyUrlButton.js';
 import {context} from '../../../js/context.js';
 
 export const ArticleView = {
@@ -48,7 +47,6 @@ export const ArticleView = {
                 this.articleName,
                 document.getElementById('htmlized-mml'),
             );
-            this.addCopyUrlButton();
           });
         }).then(() => {
           resolve();
@@ -60,37 +58,6 @@ export const ArticleView = {
       const parser = new Parser(root);
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
-    },
-    addCopyUrlButton() {
-      const targetElements = document.querySelectorAll(
-          '#htmlized-mml>[typeof="oo:Theorem"],' +
-          '#htmlized-mml>[typeof="oo:Lemma"]');
-      targetElements.forEach((targetElement) => {
-        const anchor = targetElement.getAttribute('about');
-        const url = location.host + context['article_base_uri'] +
-          this.articleName + anchor;
-        // ボタンコンポーネントを生成
-        const ComponentClass = Vue.extend(CopyUrlButton);
-        const instance = new ComponentClass({
-          propsData: {
-            url: url,
-          },
-        });
-        instance.$mount();
-        // theorem, schemaの場合は'oo:Theorem', lemmaの場合は'oo:Lemma'が代入される
-        const type = targetElement.getAttribute('typeof');
-        // insertBeforeElementの直前にボタンを挿入する
-        let insertBeforeElement = null;
-        if (type === 'oo:Theorem') {
-          insertBeforeElement = targetElement.querySelector('.kw');
-        } else if (type === 'oo:Lemma') {
-          insertBeforeElement =
-            document.querySelector(
-                `#htmlized-mml>a[name=${anchor.replace('#', '')}]`);
-        }
-        insertBeforeElement.parentNode.insertBefore(
-            instance.$el, insertBeforeElement);
-      });
     },
     navigateToHash(hash) {
       let newHashElement =
