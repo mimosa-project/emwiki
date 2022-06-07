@@ -47,6 +47,7 @@ export const ArticleView = {
                 this.articleName,
                 document.getElementById('htmlized-mml'),
             );
+            this.addLinkToKeyword();
           });
         }).then(() => {
           resolve();
@@ -59,27 +60,60 @@ export const ArticleView = {
       const comments = parser.list_comments(article, context['comments_uri']);
       Comment.bulkFetch(article, comments, context['comments_uri']);
     },
+    addLinkToKeyword() {
+      // Lemmaにリンクを追加
+      const LemmaElements =
+        document.querySelectorAll('#htmlized-mml>[typeof="oo:Lemma"]');
+      LemmaElements.forEach((LemmaElement) => {
+        if (LemmaElement.previousElementSibling) {
+          LemmaElement.previousElementSibling.style.cursor = 'pointer';
+          LemmaElement.previousElementSibling.addEventListener('click', () => {
+            this.$router.push({
+              name: 'Article',
+              params: {name: this.articleName},
+              hash: LemmaElement.getAttribute('about'),
+            });
+          });
+        }
+      });
+      // Lemma以外のキーワードにリンクを追加
+      document.querySelectorAll('a[name]').forEach((element) => {
+        if (element.querySelector('.kw, .comment')) {
+          element.addEventListener('click', () => {
+            this.$router.push({
+              name: 'Article',
+              params: {name: this.articleName},
+              hash: '#' + element.getAttribute('name'),
+            });
+          });
+        }
+      });
+    },
     navigateToHash(hash) {
-      const newHashElement =
-        document.getElementsByName(hash.replace('#', ''));
-      if (newHashElement.length > 0) {
-        // #5D9BF7 means default anchor color like blue
-        newHashElement[0].style.backgroundColor = '#5D9BF7';
-        newHashElement[0].scrollIntoView();
+      if (hash) {
+        const newHashElement =
+          document.querySelector(`[name=${hash.replace('#', '')}]`);
+        // Lemmaでは, name属性を持っているa要素が空文字なので, 次の要素をハイライトする
+        // <a name="E2"></a>
+        // <span>Lm1</span>
+        if (hash.startsWith('#E')) {
+          newHashElement.nextElementSibling.classList.add('selected');
+        } else {
+          newHashElement.classList.add('selected');
+        }
+        newHashElement.scrollIntoView();
       }
     },
   },
   watch: {
     async $route(newRoute, oldRoute) {
-      if (newRoute.params.name !== oldRoute.params.name) {
+      if (newRoute.params.name.replace('.html', '') !==
+        oldRoute.params.name.replace('.html', '')
+      ) {
         await this.reloadArticle(newRoute.params.name.replace('.html', ''));
       } else {
         if (oldRoute.hash) {
-          const oldHashElement =
-            document.getElementsByName(oldRoute.hash.replace('#', ''));
-          if (oldHashElement.length > 0) {
-            oldHashElement[0].style.backgroundColor = 'white';
-          }
+          document.querySelector('.selected')?.classList.remove('selected');
         }
       }
       if (newRoute.hash) {
