@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <p>TITLE:{{ explanation.title }}</p>
+    <p>TEXT:<br>{{ explanation.text }}</p>
+</div>
+<div class='mt-4'>
+    <a href='{% url "explanation:update" explanation.pk %}' class='btn btn-outline-primary mr-2'>edit</a>
+
+    <a href='{% url "explanation:index" %}' class='btn btn-outline-primary'>back</a>
+
+    <a href='{% url "explanation:delete" explanation.pk %}' class='btn btn-danger ml-5'>delete</a>
+</div>
+{% endblock %}

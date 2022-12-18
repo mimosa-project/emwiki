@@ -1,4 +1,4 @@
-import {context} from '../../../js/context.js';
+import { context } from '../../../js/context.js';
 
 /* eslint-disable max-len */
 /**
@@ -79,13 +79,13 @@ export class Editor {
           editButton.style.display = 'none';
         } else {
           alert('Editing is only allowed to registered users \n' +
-                'Please login or signup');
+            'Please login or signup');
         }
         event.stopPropagation();
       });
     }
 
-    // edit class submitButton clicked
+    // edit class tton clicked
     const submitButton = this.element.getElementsByClassName('submitButton')[0];
     if (submitButton) {
       submitButton.addEventListener('click', () => {

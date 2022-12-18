@@ -21,9 +21,11 @@ body {
     /* v-navigation-drawerのz-indexが6であるため */
     z-index: 7;
 }
+
 #splitter:hover {
     background-color: rgb(37, 146, 235);
 }
+
 #splitter:active {
     background-color: rgb(148, 200, 243);
 }

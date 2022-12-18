@@ -1,0 +1,264 @@
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    showProcessingMessages: false,
+    tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+    TeX: { equationNumbers: {autoNumber: "AMS"} }
+  });
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="lib/marked/lib/marked.js"></script>
+
+<script>
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false, // IMPORTANT, because we do MathJax before markdown,
+        //            however we do escaping in 'CreatePreview'.
+        smartLists: true,
+        smartypants: false
+    });
+</script>
+
+<script>
+    var Preview = {
+        delay: 50,        // delay after keystroke before updating
+
+        preview: null,     // filled in by Init below
+        buffer: null,      // filled in by Init below
+
+        timeout: null,     // store setTimout id
+        mjRunning: false,  // true when MathJax is processing
+        oldText: null,     // used to check if an update is needed
+
+        //
+        //  プレビューとバッファーのDIVの取得
+        //
+        Init: function () {
+            this.preview = document.getElementById("marked-mathjax-preview");
+            this.buffer = document.getElementById("marked-mathjax-preview-buffer");
+            this.textarea = document.getElementById("marked-mathjax-input");
+        },
+
+        //
+        //  Switch the buffer and preview, and display the right one.
+        //  (We use visibility:hidden rather than display:none since
+        //  the results of running MathJax are more accurate that way.)
+        //  バッファとプレビューを切り替えて、正しい方を表示する。
+        // (MathJaxの実行結果がその方が正確なので、display:noneではなくvisibility:hiddenを使っています)。
+
+        SwapBuffers: function () {
+            var buffer = this.preview;
+            var preview = this.buffer;
+            this.buffer = buffer;
+            this.preview = preview;
+            buffer.style.display = "none";
+            buffer.style.position = "absolute";
+            preview.style.position = "";
+            preview.style.display = "";
+        },
+
+        //
+        //  This gets called when a key is pressed in the textarea.
+        //    We check if there is already a pending update and clear it if so.
+        //    Then set up an update to occur after a small delay (so if more keys
+        //      are pressed, the update won't occur until after there has been 
+        //      a pause in the typing).
+        //    The callback function is set up below, after the Preview object is set up.
+        //  テキストエリア内でキーが押されたときに呼び出されます。
+        //   すでに保留中の更新があるかどうかをチェックし、ある場合はそれをクリアします。
+        //    そして、少し遅れて更新が行われるように設定します（つまり、さらにキーが押された場合
+        //      キーが押された場合、入力が一時停止するまで更新は行われません。
+        //      を設定します。）
+        //    コールバック関数は、Preview オブジェクトがセットアップされた後、以下のようにセットアップされます。
+
+        Update: function () {
+            if (this.timeout) { clearTimeout(this.timeout) }
+            this.timeout = setTimeout(this.callback, this.delay);
+        },
+
+        //
+        //    Creates the preview and runs MathJax on it.
+        //    If MathJax is already trying to render the code, return
+        //    If the text hasn't changed, return
+        //    Otherwise, indicate that MathJax is running, and start the
+        //      typesetting.  After it is done, call PreviewDone.
+        //   プレビューを作成し、その上で MathJax を実行します。
+        //    MathJax がすでにコードをレンダリングしようとしている場合は、return を返します。
+        //    テキストが変更されていない場合、return
+        //    それ以外の場合は、MathJax が実行中であることを示し、タイプセットを開始します。
+        //      タイプセットを開始する。 終了後、PreviewDoneを呼び出す。
+
+        CreatePreview: function () {
+            Preview.timeout = null;
+            if (this.mjRunning) return;
+            var text = this.textarea.value;
+            if (text === this.oldtext) return;
+            text = this.Escape(text);                       //Escape tags before doing stuff
+            this.buffer.innerHTML = this.oldtext = text;
+            this.mjRunning = true;
+            MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, this.buffer],
+                ["PreviewDone", this],
+                ["resetEquationNumbers", MathJax.InputJax.TeX]
+            );
+        },
+
+        //
+        //    Indicate that MathJax is no longer running,
+        //    do markdown over MathJax's result, 
+        //    and swap the buffers to show the results.
+        //MathJaxが実行されなくなったことを示す。
+        //    MathJaxの結果に対してmarkdownを実行する。
+        //    を表示し、バッファを入れ替えて結果を表示する。
+
+        PreviewDone: function () {
+            this.mjRunning = false;
+            text = this.buffer.innerHTML;
+            text = this.PartialDescape(text);
+            this.buffer.innerHTML = marked(text);
+            this.SwapBuffers();
+        },
+
+        Escape: function (html, encode) {
+            return html
+                .replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        },
+
+        PartialDescape: function (html) {
+            var lines = html.split('\n');
+            var out = '';
+
+            // is true when we are 
+            // ```
+            //  inside a code block
+            // ```
+            var inside_code = false;
+
+            for (var i = 0; i < lines.length; i++) {
+                // a hack to properly rendre the blockquotes
+                if (lines[i].startsWith('&gt;')) {
+                    lines[i] = lines[i].replace(/&gt;/g, '>');
+                }
+
+                // rendrer properly stuff like this
+                // ```c
+                //  if (a > b)
+                // ```
+                if (inside_code) {
+                    // inside the code we descape stuff
+                    lines[i] = lines[i]
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, '\'');
+                }
+                if (lines[i].startsWith('```')) {
+                    inside_code = !inside_code;
+                }
+                out += lines[i] + '\n';
+            }
+            return out;
+        },
+
+        // The idea here is to perform fast updates.
+        // See http://stackoverflow.com/questions/11228558/let-pagedown-and-mathjax-work-together/21563171?noredirect=1#comment46869312_21563171
+        // But our implementation is a bit buggy: flickering, bad rendering when someone types very fast.
+
+        // If you want to enable such buggy fast updates, you should 
+        // add something like  onkeypress="Preview.UpdateKeyPress(event)" to textarea's attributes.
+
+        // ここでは、高速なアップデートを実行することを目的としています。
+        // See http://stackoverflow.com/questions/11228558/let-pagedown-and-mathjax-work-together/21563171?noredirect=1#comment46869312_21563171
+        // しかし、私たちの実装は少しバグがあります。誰かが非常に速くタイプしたときにちらついたり、レンダリングがおかしくなったりします。
+
+        // もし、このようなバギーな高速更新を有効にしたい場合は、次のようにします。
+        // onkeypress="Preview.UpdateKeyPress(event)" のようなものをtextareaの属性に追加してください。
+
+        UpdateKeyPress: function (event) {
+            if (event.keyCode < 16 || event.keyCode > 47) {
+                this.preview.innerHTML = '<p>' + marked(this.textarea.value) + '</p>';
+                this.buffer.innerHTML = '<p>' + marked(this.textarea.value) + '</p>';
+            }
+            this.Update();
+        }
+
+    };
+
+    //
+    //  Cache a callback to the CreatePreview action
+    //createPreviewアクションのコールバックをキャッシュします。
+
+    Preview.callback = MathJax.Callback(["CreatePreview", Preview]);
+    Preview.callback.autoReset = true;  // make sure it can run more than once</script>
+</head>
+
+<body>
+
+    <div style="float:right">
+        <a href="https://github.com/kerzol/markdown-mathjax">Get the source of this page</a>
+    </div>
+
+    <h4>Type something:</h4>
+
+    <textarea id="marked-mathjax-input" onkeyup="Preview.Update()" name="comment" "autofocus">
+
+```
+#include<cmath>
+#include <stdio.h>
+int main()
+{
+   // printf() displays the string inside quotation
+   printf("Hello, World!");
+   return 0;
+}      
+```
+      
+    ##### test
+$ \Gamma, G$
+
+$A_G A_\Gamma$
+
+> test
+>> $\Gamma$ [Example](http://exmaple.com)
+
+<marquee> NOT! </marquee>
+
+$$ 
+\begin{array}{|c|c|c|c|}
+\hline
+1& 1 > -1 & 1 & -1 \\ \hline
+& 3 & 55 & 44\\ \hline
+& 4 & 93 & 33\\ \hline
+& 5 & 6 &  22\\ \hline
+\end{array}$$
+
+```
+if (1 <b> a </b> 2)
+```
+
+# test
+$$\frac{dy}{dx}\\
+\frac{(d^2y)}{dx^2}$$
+  </textarea>
+
+    <div class="preview" id="marked-mathjax-preview"></div>
+    <div class="preview" id="marked-mathjax-preview-buffer" style="display:none;
+              position:absolute; 
+              top:0; left: 0"></div>
+
+    <script>
+        Preview.Init();
+        Preview.Update();
+    </script>
+
+</body>
+
+</html>

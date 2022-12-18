@@ -1,0 +1,47 @@
+#input-field-wrapper,
+#preview-field-wrapper {
+    height: calc(100vh - 52px);
+}
+
+#input-field-wrapper #input-field,
+#preview-field-wrapper #preview-field {
+    height: calc(100% - 1rem);
+    overflow-wrap: break-word;
+    overflow: scroll;
+}
+
+.submitButton {
+    display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    background-color: white;
+    color: #61ff4d;
+    border: solid 2px #61ff4d;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.submitButton:hover {
+    background: #61ff4d;
+    color: white;
+}
+
+.cancelButton {
+    display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    background-color: white;
+    color: #ff4242;
+    border: solid 2px #ff4242;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.cancelButton:hover {
+    background: #ff4242;
+    color: white;
+}
+
+#title {
+    border: 2px solid #c2c3c5;
+}

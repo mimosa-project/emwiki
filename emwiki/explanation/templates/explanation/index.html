@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<!-- js-cookie -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+<link rel='stylesheet' href="{% static 'explanation/css/index.css' %}" type='text/css'>
+</link>
+
+{% endblock %}
+
+{% block drawer %}
+<explanation-drawer />
+{% endblock %}
+
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Document</h1>
+        <p>Overview of this page.</p>
+        {% if user.is_authenticated %}
+        <p>
+            <v-btn outlined href="{% url 'explanation:create' %}" text>Registration</v-btn>
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block foot %}
+<!-- App -->
+<script src="{% static 'explanation/js/app.js'%}" type="module"></script>
+{% endblock %}

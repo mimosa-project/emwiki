@@ -1,8 +1,8 @@
-import {ArticleService} from '../services/article-service.js';
-import {Article} from '../models/article.js';
-import {Comment} from '../models/comment.js';
-import {Parser} from '../models/parser.js';
-import {context} from '../../../js/context.js';
+import { context } from '../../../js/context.js';
+import { Article } from '../models/article.js';
+import { Comment } from '../models/comment.js';
+import { Parser } from '../models/parser.js';
+import { ArticleService } from '../services/article-service.js';
 
 export const ArticleView = {
   data: () => ({
@@ -12,21 +12,21 @@ export const ArticleView = {
   }),
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
-        .then(() => {
-          this.navigateToHash(this.$route.hash);
-        });
+      .then(() => {
+        this.navigateToHash(this.$route.hash);
+      });
   },
   methods: {
     reloadArticle(name) {
       return new Promise((resolve) => {
         this.articleName = name.replace('.html', '');
         ArticleService.getBib(context['bibs_uri'], this.articleName)
-            .then((bibText) => {
-              this.bibTooltip = bibText;
-            });
+          .then((bibText) => {
+            this.bibTooltip = bibText;
+          });
         ArticleService.getHtml(
-            context['article_html_base_uri'],
-            this.articleName,
+          context['article_html_base_uri'],
+          this.articleName,
         ).then((articleHtml) => {
           this.articleHtml = articleHtml;
           this.$nextTick(() => {
@@ -35,7 +35,7 @@ export const ArticleView = {
               const aTagElements = this.$el.getElementsByTagName('a');
               for (let i = 0; i < aTagElements.length; i++) {
                 if (aTagElements[i].href !== 'javascript:()' &&
-                    aTagElements[i].href !== '') {
+                  aTagElements[i].href !== '') {
                   aTagElements[i].addEventListener('click', (event) => {
                     event.preventDefault();
                     return window.open(event.target.href, '_blank');
@@ -44,8 +44,8 @@ export const ArticleView = {
               }
             }
             this.addComment(
-                this.articleName,
-                document.getElementById('htmlized-mml'),
+              this.articleName,
+              document.getElementById('htmlized-mml'),
             );
             this.addLinkToKeyword();
           });
@@ -70,7 +70,7 @@ export const ArticleView = {
           LemmaElement.previousElementSibling.addEventListener('click', () => {
             this.$router.push({
               name: 'Article',
-              params: {name: this.articleName},
+              params: { name: this.articleName },
               hash: LemmaElement.getAttribute('about'),
             });
           });
@@ -82,7 +82,7 @@ export const ArticleView = {
           element.addEventListener('click', () => {
             this.$router.push({
               name: 'Article',
-              params: {name: this.articleName},
+              params: { name: this.articleName },
               hash: '#' + element.getAttribute('name'),
             });
           });
@@ -119,11 +119,14 @@ export const ArticleView = {
       if (newRoute.hash) {
         this.navigateToHash(newRoute.hash);
       } else {
-        window.scroll({top: 0, behavior: 'smooth'});
+        window.scroll({ top: 0, behavior: 'smooth' });
       }
     },
   },
+
+
   template: `
+
       <v-container id="article" fluid>
           <v-row>
               <v-col class='display-3'>$( articleName )</v-col>
