@@ -14,14 +14,14 @@ export class ExplanationService {
     }
 
     /**
-     * Get HTML of the article.
+     * Get HTML of the explanation.
      * @param {string} url
-     * @param {string} name
+     * @param {int} id
      * @return {Promise}
      */
-    static getHtml(url, name) {
-        return axios.get(url, { params: { article_name: name } }).then((response) => {
-            return response.data;
+    static getExplanation(url, id) {
+        return axios.get(url, { params: { id: id } }).then((response) => {
+            return response.data.title;
         });
     }
 };

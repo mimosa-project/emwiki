@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block head %}
+{{ context_for_js|json_script:"context" }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
 <link rel='stylesheet' href="{% static 'explanation/css/index.css' %}" type='text/css'>
 </link>
@@ -29,6 +30,10 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 {% endblock %}
 
+{% block drawer %}
+<explanation-drawer />
+{% endblock %}
+
 {% block content %}
 <create-explanation />
 {% endblock %}
@@ -39,5 +44,4 @@
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.4.0/marked.min.js"></script>
 <script src="{% static 'explanation/js/app.js' %}" type="module"></script>
-<!-- <script src="{% static 'explanation/js/math_editor.js' %}" type="module"></script> -->
 {% endblock %}

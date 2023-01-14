@@ -3,11 +3,13 @@
 
 {% block head %}
 {{ context_for_js|json_script:"context" }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
 <link rel='stylesheet' href="{% static 'explanation/css/index.css' %}" type='text/css'>
 </link>
 
 <!-- js-cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
 <script type="text/javascript" src="{% static 'explanation/js/mathjax.js'%}"></script>
 
 <!-- Markdown -->
@@ -45,5 +47,5 @@
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.4.0/marked.min.js"></script>
 <!-- App -->
-<script src="{% static 'explanation/js/app.js'%}" type="module"></script>
+<script src="{% static 'explanation/js/app.js' %}" type="module"></script>
 {% endblock %}

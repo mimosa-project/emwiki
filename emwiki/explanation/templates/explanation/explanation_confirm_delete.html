@@ -2,20 +2,19 @@
 {% load static %}
 
 {% block head %}
+{{ context_for_js|json_script:"context" }}
 <link rel='stylesheet' href="{% static 'explanation/css/index.css' %}" type='text/css'>
 </link>
 {% endblock %}
 
+{% block drawer %}
+<explanation-drawer />
+{% endblock %}
+
 {% block content %}
+<router-view />
+{% endblock %}
 
-<h1>Delete explanation</h1>
-<p>Do you want to delete explanation?</p>
-<p>TITLE: {{ explanation.title }}</p>
-<p>TEXT :{{ explanation.text }}</p>
-
-<form action='' method='post'>{% csrf_token %}
-    <a href='JavaScript:history.back()' class='cancelButton'>cancel</a>
-    <button type='submit' class='submitButton'>delete</button>
-</form>
-
+{% block foot %}
+<script src="{% static 'explanation/js/app.js' %}" type="module"></script>
 {% endblock %}

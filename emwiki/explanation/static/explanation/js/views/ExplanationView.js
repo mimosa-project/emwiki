@@ -1,60 +1,49 @@
-export const createExplanation = {
-    data() {
-        return {
-            title: '',
-            text: '',
-            preview: '',
-            input: '',
-            output: '',
-            buffer: '',
-            oldtext: '',
-            // content:'',
-        };
+// import { createExplanation } from './createExplanation.js';
+
+export const ExplanationView = {
+    data: () => ({
+        explanationID: '',
+        explanationTitle: '',
+        explanationText: '',
+        content: '',
+        preview: '',
+        buffer: '',
+    }),
+    mounted() {
+        this.explanationID = this.$route.params.id;
+        this.reloadExplanation(this.explanationID);
+
     },
     methods: {
-        createExplanation: function () {
-            axios.defaults.xsrfCookieName = 'csrftoken'
-            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-            axios.post('/explanation/explanation', {
-                title: this.title,
-                text: this.text,
+        reloadExplanation(id) {
+            return axios.get('/explanation/explanation', {
+            }).then((response) => {
+                this.explanationTitle = response.data.index[id].title;
+                this.content = response.data.index[id].text;
+                this.buffer = document.getElementById("content");
+                this.explanationText = document.getElementById("content");
+                var text = this.Escape(this.content);
+                this.buffer.innerHTML = this.preview = text;
+                MathJax.typesetPromise([this.buffer]).then(() => {
+                    this.PreviewDone();
+                });
+                return this.explanationTitle, this.content;
             })
-                .then((response) => {
-                    console.log("取得成功", response);
-                })
-                .catch(error => console.log(error))
+                .catch(error => console.log(error));
         },
-        // SwapBuffers: function () {
-        //     console.log("Swap Buffer");
-        //     var buffer = this.preview;
-        //     var preview = this.buffer;
-        //     this.buffer = buffer;
-        //     this.preview = preview;
-        //     console.log(this.preview);
-        //     console.log(this.buffer);
-        // },
-        createPreview: function () {
-            this.preview = document.getElementById("preview-field");
-            this.buffer = document.getElementById("preview-buffer");
-            this.input = document.getElementById("input-field");
-            var content = this.input.value;
-            if (content === this.oldtext) return;
-            content = this.Escape(content);
-            this.buffer.innerHTML = this.oldtext = content;
-            MathJax.typesetPromise([this.buffer]).then(() => {
-                this.PreviewDone();
-            });
-            // MathJax.typeset([this.buffer]).then(() => {
-            //     console.log("RUN");
-            //     this.PreviewDone();
-            // });
-            // this.PreviewDone();
+        reloadDelete_form() {
+            this.$router.push({ name: 'Delete', params: { id: this.explanationID } });
+
+        },
+        reloadUpdate_form() {
+            this.$router.push({ name: 'Update', params: { id: this.explanationID } });
+            location.reload();
         },
         PreviewDone: function () {
-            var content = this.buffer.innerHTML;
-            content = this.PartialDescape(content);
+            var detail = this.buffer.innerHTML;
+            detail = this.PartialDescape(detail);
             // this.buffer.innerHTML = marked(content);
-            this.preview.innerHTML = marked(content);
+            this.explanationText.innerHTML = marked(detail);
             // this.SwapBuffers();
         },
         Escape: function (html, encode) {
@@ -101,33 +90,14 @@ export const createExplanation = {
             return out;
         },
     },
-    // computed: {
-    //     convertMarkdown: function () {
-    //         return this.preview;
-    //     },
-    // },
-    template:
-        `<div class="container" id="app">
-        <v-form ref="explanationForm">
-            <p>TITLE:</p><input  id="title" v-model='title'/>
-            <div class="columns">
-                <div class="column is-6" id="input-field-wrapper">
-                    <h2><i class="fas fa-edit"></i> Input</h2>
-                    <textarea class="textarea" name="input-field" id="input-field" v-model="text" v-on:keyup=createPreview><br>
-                    </textarea>
-                </div>
-                <div class="column is-6" id="preview-field-wrapper">
-                    <h2><i class="fas fa-eye"></i> Preview</h2>
-                    <div class="content" id="preview-field"></div>
-                    <div class="preview content" id="preview-buffer" style="display:none;
-                    position:absolute; 
-                    top:0; left: 0"></div>
-                </div>
-            </div>
+    template: `
+    <div class='mt-4'>
+        <h1 class='display-3'>$( explanationTitle )</h1>
+        <div id="content" name="content">$( content )</div>
 
-            <v-btn class="ma-2" outlined color="green" @click="createExplanation">submit</v-btn>
-            <v-btn class="ma-2" outlined color="red" @click="history.back()">cancel</v-btn>
-        </v-form>
-    </div>`,
+        <v-btn class="ma-2" outlined color="green" @click=reloadUpdate_form()>change</v-btn>
+        <v-btn class="ma-2" outlined color="red" @click=reloadDelete_form()>delete</v-btn>
+    </div>
+    `,
     delimiters: ['$(', ')'],
 };
