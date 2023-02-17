@@ -26,7 +26,7 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
-emparser = {path = "./emparser"}
+mizcore = {path = "./mizcore"}
 python-levenshtein = "*"
 pydot = "*"
 

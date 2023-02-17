@@ -19,10 +19,9 @@ RUN git clone https://github.com/mimosa-project/emwiki-contents.git /emwiki/emwi
 WORKDIR /emwiki/emwiki/mmlfiles
 RUN sh decompress.sh
 
-# Build emparser
-WORKDIR /emwiki/emparser
-RUN pipenv install && \
-    pipenv run python setup.py build
+# Build mizcore
+WORKDIR /emwiki/mizcore
+RUN python setup.py build
 
 # Install python dependencies
 WORKDIR /emwiki
