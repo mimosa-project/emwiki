@@ -2,14 +2,13 @@ import os
 import pickle
 import re
 
-from gensim import corpora, models, similarities
-
 from django.conf import settings
-from search.parse_abs import process_for_search_word
+from gensim import corpora, models, similarities
+from search.parse_abs import transform_query
 
 
 class TheoremSearcher:
-    def search(self, search_word, count_top, index_dir=None):
+    def search(self, query_text, count_top, index_dir=None):
         if not index_dir:
             index_dir = settings.SEARCH_INDEX_DIR
 
@@ -23,7 +22,7 @@ class TheoremSearcher:
         index = similarities.MatrixSimilarity.load(
             os.path.join(index_dir, 'lsi_index.index'))
 
-        query_vector = dictionary.doc2bow(process_for_search_word(search_word).split())
+        query_vector = dictionary.doc2bow(transform_query(query_text).split())
 
         vec_lsi = lsi[tfidf[query_vector]]
         sims = index[vec_lsi]
