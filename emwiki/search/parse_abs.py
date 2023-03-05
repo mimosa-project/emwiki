@@ -8,9 +8,9 @@ from django.conf import settings
 
 
 def is_variable(token):
-    return (token.token_type == py_miz_controller.TokenType.IDENTIFIER and
-            (token.identifier_type == py_miz_controller.IdentifierType.RESERVED or
-             token.identifier_type == py_miz_controller.IdentifierType.VARIABLE))
+    return (token.token_type == py_miz_controller.TokenType.IDENTIFIER
+            and (token.identifier_type == py_miz_controller.IdentifierType.RESERVED
+                 or token.identifier_type == py_miz_controller.IdentifierType.VARIABLE))
 
 
 def create_theorem_and_definition_tokens_list(token_table, file_name):
@@ -55,8 +55,8 @@ def create_theorem_and_definition_tokens_list(token_table, file_name):
                     current_statement = []
             # コメントの始まりがarticle名と一致するかどうかで, ラベル名か判断.
             # :: ABCMIZ_0:def 1 -> ABCMIZ_0:def1
-            elif (token.token_type == py_miz_controller.TokenType.COMMENT and
-                  token.text.replace('::', '').replace(' ', '').startswith(upper_article_name + ":def")):
+            elif (token.token_type == py_miz_controller.TokenType.COMMENT
+                  and token.text.replace('::', '').replace(' ', '').startswith(upper_article_name + ":def")):
                 current_statement.append(token)
                 state["is_definition"] = True
             else:
@@ -220,8 +220,8 @@ def create_text(token, variables):
         text_of_type = ""
         # variablesの中に, tokenまたは, tokenのref_tokenの型情報があるか調査する
         for variable in variables:
-            if ((token.id == variable["variable_token"].id) or
-               (token.ref_token and token.ref_token.id == variable["variable_token"].id)):
+            if ((token.id == variable["variable_token"].id)
+               or (token.ref_token and token.ref_token.id == variable["variable_token"].id)):
                 # variable["type_tokens"]には型のtoken列が格納されている
                 for type_token in variable["type_tokens"]:
                     text_of_type += type_token.text + " "
