@@ -7,7 +7,8 @@ from search.parse_abs import (convert_to_abs_dictionary_line,
                               count_number_of_variable,
                               create_common_variables,
                               create_theorem_and_definition_tokens_list,
-                              replace_variable_with_type, transform_query)
+                              replace_variables_with_types_in_tokens,
+                              transform_query)
 
 
 class ParseAbsTest(TestCase):
@@ -54,26 +55,33 @@ class ParseAbsTest(TestCase):
         self.assertEqual(count_number_of_variable(theorem_and_definition_tokens_list[1]), 3)
         self.assertEqual(count_number_of_variable(theorem_and_definition_tokens_list[2]), 2)
 
-    def test_replace_variable_with_type(self):
+    def test_replace_variables_with_types_in_tokens(self):
         theorem_and_definition_tokens_list = create_theorem_and_definition_tokens_list(self.miz_controller.token_table, self.file_name)
         common_variables = create_common_variables(self.miz_controller.token_table)
         # テストケース1(TARSKI:1)
-        document_vectors_line_tarski_1 = replace_variable_with_type(theorem_and_definition_tokens_list[0], common_variables)
+        document_vectors_line_tarski_1 = replace_variables_with_types_in_tokens(theorem_and_definition_tokens_list[0], common_variables)
         expected_tarski_1 = "for object being object holds object is set   ____  "
         self.assertEqual(document_vectors_line_tarski_1.split(), expected_tarski_1.split())
 
         # テストケース2(TARSKI:def1)
-        document_vectors_line_tarski_def_1 = replace_variable_with_type(theorem_and_definition_tokens_list[2], common_variables)
+        document_vectors_line_tarski_def_1 = replace_variables_with_types_in_tokens(theorem_and_definition_tokens_list[2], common_variables)
         expected_tarski_def_1 = "let object be object  func { object } -> set means for object being object holds object in it iff object = object   ____ ____"
         self.assertEqual(document_vectors_line_tarski_def_1.split(), expected_tarski_def_1.split())
 
         # テストケース2(TARSKI:def2)
-        document_vectors_line_tarski_def_2 = replace_variable_with_type(theorem_and_definition_tokens_list[3], common_variables)
+        document_vectors_line_tarski_def_2 = replace_variables_with_types_in_tokens(theorem_and_definition_tokens_list[3], common_variables)
         expected_tarski_def_2 = "let object be object  let object be object  func { object  object } -> set means object in it iff object = object or object = object   ____ ____ ____"
         self.assertEqual(document_vectors_line_tarski_def_2.split(), expected_tarski_def_2.split())
 
     def test_transform_query(self):
+        # テストケース1(ABCMIZ_0:def7)
         query = "for x, y being object ex z being set st for a being object holds ( a in z iff ( a = x or a = y ) ) ;"
         processed_text = transform_query(query)
         expected = "for object  object being object ex set being set st for object being object holds ( object in set iff ( object = object or object = object ) )   ____ ____ ____ ____"
+        self.assertEqual(processed_text.split(), expected.split())
+
+        # テストケース2(オリジナル)
+        query = "for x be set , y be Element of x holds y is ;"
+        processed_text = transform_query(query)
+        expected = "for set be set Element of set be Element of set holds Element of set is  ____ ____"
         self.assertEqual(processed_text.split(), expected.split())
