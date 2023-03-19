@@ -150,6 +150,147 @@ def add_variables(variable_tokens, type_tokens, variables):
         variables.append({"variable_token": variable_token, "type_tokens": replaced_type_tokens})
 
 
+def extract_reserve_statements(token_table):
+    """
+    入力: token_table
+    出力: reserveで始まる文のトークン列のリスト
+    出力例: [["reserve", "a", "for", "set"], ["reserve", "b", "for", "object"]]
+    """
+    state = {
+        "is_reserve_block": False,  # reserveのblock内にあるかどうか  reserve ~ ;までの部分
+    }
+    reserve_statements: list[list[py_miz_controller.token]] = []
+    reserve_statement: list[py_miz_controller.token] = []
+    for i in range(token_table.token_num):
+        token = token_table.token(i)
+        if (state["is_reserve_block"]):
+            reserve_statement.append(token)
+            if (token.text == ";"):
+                state["is_reserve_block"] = False
+                reserve_statements.append(copy.copy(reserve_statement))
+                reserve_statement.clear()
+        elif (token.text == "reserve"):
+            state["is_reserve_block"] = True
+            reserve_statement.append(token)
+    return reserve_statements
+
+
+def extract_declarations_from_reserve_statements(reserve_statements):
+    """
+    入力: reserveで始まる文のトークン列のリスト
+    出力: 変数宣言部分ごとに分割したトークン列のリスト
+    入力例:[["reserve", "a", ",", "b", "for", "set", ",", "c", "for", "object", ";"], ["reserve", "d", "for", "object", ";"]]
+    出力例:[["a", "b", "for", "set", ","], ["c", "for", "object"], ["d", "for", "object"]]
+    """
+    state = {
+        "for_has_appeared": False  # forが出現したかどうか
+    }
+    variable_declaration_statements: list[list[py_miz_controller.token]] = []
+    variable_declaration_statement: list[py_miz_controller.token] = []
+    for reserve_statement in reserve_statements:
+        for token in reserve_statement:
+            if (token.text == "reserve"):
+                continue
+            # 変数宣言部の終了条件:
+            # 1. ";"が出現,
+            # 2. forが出現した後, ref_tokenを持たない変数が出現した場合. 下の例ではaの前で一つの変数宣言部が終了
+            # 例: reserve X for ARS, a,b,c,u,v,w,x,y,z for Element of X;
+            if (token.text == ";"
+               or (state["for_has_appeared"] and is_variable(token) and token.ref_token is None)):
+                variable_declaration_statements.append(copy.copy(variable_declaration_statement))
+                variable_declaration_statement.clear()
+                state["for_has_appeared"] = False
+                # 終了条件2の場合, 変数を新しい変数宣言部に追加
+                if (is_variable(token)):
+                    variable_declaration_statement.append(token)
+            else:
+                variable_declaration_statement.append(token)
+                if (token.text == "for"):
+                    state["for_has_appeared"] = True
+
+    return variable_declaration_statements
+
+
+def extract_declarations_from_tokens(tokens):
+    """
+    入力: 定理のtoken列
+    出力: 変数宣言部分ごとに分割されたtoken列
+    入力例: ["for", "l", "being", "set", ",", "x", "being", "object", "holds"]
+    出力例: [["l", "being", "set", ","], ["x", "being", "object"]]
+    """
+    state = {
+        "is_variable_declaration_statement": False,  # 変数宣言部分内にあるかどうか(for|let|given|ex ~~ st|holds|;|suchまでの部分)
+        "being_has_appeared": False  # 変数宣言部分内でbeing|beが出現したかどうか
+    }
+    KEYWORDS_OF_END_OF_VARIABLE_DECLARATION_STATEMENT = ["st", "holds", ";", "such", "for", "let", "given", "ex"]  # 変数宣言の部分が終了するキーワード
+    variable_declaration_statements: list[list[py_miz_controller.token]] = []
+    variable_declaration_statement: list[py_miz_controller.token] = []
+    for token in tokens:
+        if not state["is_variable_declaration_statement"]:
+            if (is_variable(token) and (token.ref_token is None)):
+                state["is_variable_declaration_statement"] = True
+                variable_declaration_statement.append(token)
+            continue
+        if (state["being_has_appeared"]):
+            # 変数宣言部分で, be/beingが出現した後の処理
+            if (token.text in KEYWORDS_OF_END_OF_VARIABLE_DECLARATION_STATEMENT):
+                variable_declaration_statements.append(copy.copy(variable_declaration_statement))
+                variable_declaration_statement.clear()
+                state["is_variable_declaration_statement"] = False
+                state["being_has_appeared"] = False
+            # 変数宣言終了のキーワードが出現せずに, 新しい変数宣言開始
+            # 例: for l being set, x being object holds
+            elif (is_variable(token) and (token.ref_token is None)):
+                variable_declaration_statements.append(copy.copy(variable_declaration_statement))
+                variable_declaration_statement.clear()
+                state["being_has_appeared"] = False
+                variable_declaration_statement = [token]
+            else:
+                variable_declaration_statement.append(token)
+        elif (token.text == "be" or token.text == "being"):
+            variable_declaration_statement.append(token)
+            state["being_has_appeared"] = True
+        else:
+            variable_declaration_statement.append(token)
+
+    return variable_declaration_statements
+
+
+def create_variables_from_declarations(variable_declaration_statements):
+    """
+    入力: 変数宣言部分ごとに分割されたトークン列のリスト
+    出力: 変数と型のマッピング
+    入力例: [["a", "b", "for", "set", ","], ["c", "for", "object"], ["d", "for", "object"]]
+    出力例: [
+        {"variable_token": a, "type_token", [set]},
+        {"variable_token": b, "type_token", [set]},
+        {"variable_token": c, "type_token", [object]},
+        {"variable_token": d, "type_token", [object]}]
+    """
+    variables: list[dict] = []  # 変数の型情報を保存した辞書のリスト(この関数の出力)
+    current_variable_tokens = []  # 宣言された変数を一時的に保存するリスト
+    current_type_tokens = []  # 宣言された変数の型のtoken列を保存するリスト
+    SEPARATORS = ["for", "be", "being"]  # 分割するためのキーワード
+    state = {
+        "keywords_has_appeared": False  # forが出現したかどうか
+    }
+    for variable_declaration_statement in variable_declaration_statements:
+        for token in variable_declaration_statement:
+            if (state["keywords_has_appeared"]):
+                current_type_tokens.append(token)
+                # 宣言部分の最後のトークンの場合
+                if (token == variable_declaration_statement[-1]):
+                    add_variables(current_variable_tokens, current_type_tokens, variables)
+                    [list.clear() for list in [current_variable_tokens, current_type_tokens]]
+                    state["keywords_has_appeared"] = False
+            elif (is_variable(token) and (token.ref_token is None)):
+                current_variable_tokens.append(token)
+            elif (token.text in SEPARATORS):
+                state["keywords_has_appeared"] = True
+
+    return variables
+
+
 def create_common_variables(token_table):
     """
     入力: absファイルを解析して得られたtoken_table
@@ -167,51 +308,11 @@ def create_common_variables(token_table):
      {variable_token: Y, type_tokens: [set]},
      ...]
     """
-    state = {
-        "is_reserve_block": False,  # reserveのblock内にあるかどうか  reserve ~ ;までの部分
-        "for_has_appeared": False  # reserveのblock内でforが出現したかどうか
-    }
-    token_num = token_table.token_num
-    variables: list[dict] = []  # 変数の型情報を保存した辞書のリスト(この関数の出力)
-    current_variable_tokens = []  # 宣言された変数を一時的に保存するリスト
-    current_type_tokens = []  # 宣言された変数の型のtoken列を保存するリスト
     # reserveで始まる文をreserve_statementsに集める
-    reserve_statements: list[list[py_miz_controller.token]] = []
-    reserve_statement: list[py_miz_controller.token] = []
-    for i in range(token_num):
-        token = token_table.token(i)
-        if (state["is_reserve_block"]):
-            reserve_statement.append(token)
-            if (token.text == ";"):
-                state["is_reserve_block"] = False
-                reserve_statements.append(copy.copy(reserve_statement))
-                reserve_statement.clear()
-        elif (token.text == "reserve"):
-            state["is_reserve_block"] = True
-            reserve_statement.append(token)
-    # reserve_statementsから変数の情報を抽出する
-    for reserve_statement in reserve_statements:
-        for token in reserve_statement:
-            if (state["for_has_appeared"]):
-                # 変数宣言部の終了条件:
-                #   1. ";"が出現,
-                #   2. forが出現した後, ref_tokenを持たない変数が出現した場合. 下の例ではaの前で一つの変数宣言部が終了
-                # 例: reserve X for ARS, a,b,c,u,v,w,x,y,z for Element of X;
-                if ((token.text == ";")
-                   or is_variable(token) and token.ref_token is None):
-                    add_variables(current_variable_tokens, current_type_tokens, variables)
-                    [list.clear() for list in [current_variable_tokens, current_type_tokens]]
-                    state["for_has_appeared"] = False
-                    if (is_variable(token)):
-                        current_variable_tokens.append(token)
-                else:
-                    current_type_tokens.append(token)
-            elif (token.text == "for"):
-                state["for_has_appeared"] = True
-            elif (is_variable(token) and token.ref_token is None):
-                current_variable_tokens.append(token)
-
-    return variables
+    reserve_statements = extract_reserve_statements(token_table)
+    # reserve_statementsから変数宣言部分ごとに分割したリストを得る
+    variable_declaration_statements = extract_declarations_from_reserve_statements(reserve_statements)
+    return create_variables_from_declarations(variable_declaration_statements)
 
 
 def count_number_of_variable(tokens):
@@ -252,61 +353,12 @@ def replace_variable_with_type(token, variables):
         return "___" + " "
 
 
-def extract_types_form_in_tokens(tokens, common_variables):
-    state = {
-        "is_variable_declaration_statement": False,  # 変数宣言部分内にあるかどうか(for|let|given|ex ~~ st|holds|;|suchまでの部分)
-        "being_has_appeared": False  # 変数宣言部分内でbeing|beが出現したかどうか
-    }
-    variables: list[dict] = copy.copy(common_variables)  # variablesは定理ごとにcommon_variablesを上書きする
-    current_variables: list[dict] = []  # 宣言された変数を一時的に保存するリスト
-    current_type_tokens = []  # 宣言された変数の型のtoken列を保存するリスト
-    KEYWORDS_OF_END_OF_VARIABLE_DECLARATION_STATEMENT = ["st", "holds", ";", "such", "for", "let", "given", "ex"]  # 変数宣言の部分が終了するキーワード
+def extract_types_from_in_tokens(tokens, common_variables):
+    # variablesは定理ごとにcommon_variablesを上書きする
+    variables: list[dict] = copy.copy(common_variables)
     # 変数宣言部分をvariable_declaration_statementsに集める(","は後の処理で消すのでそのまま)
-    # 例: for l being set, x being object holds -> [["l", "being", "set", ","], ["x", "being", "object"]]
-    variable_declaration_statements: list[list[py_miz_controller.token]] = []
-    variable_declaration_statement: list[py_miz_controller.token] = []
-    for token in tokens:
-        if (state["is_variable_declaration_statement"]):
-            if (state["being_has_appeared"]):
-                # 変数宣言部分で, be/beingが出現した後の処理
-                if (token.text in KEYWORDS_OF_END_OF_VARIABLE_DECLARATION_STATEMENT):
-                    variable_declaration_statements.append(copy.copy(variable_declaration_statement))
-                    variable_declaration_statement.clear()
-                    state["is_variable_declaration_statement"] = False
-                    state["being_has_appeared"] = False
-                # 変数宣言終了のキーワードが出現せずに, 新しい変数宣言開始
-                # 例: for l being set, x being object holds
-                elif (is_variable(token) and (token.ref_token is None)):
-                    variable_declaration_statements.append(copy.copy(variable_declaration_statement))
-                    variable_declaration_statement.clear()
-                    state["being_has_appeared"] = False
-                    variable_declaration_statement = [token]
-                else:
-                    variable_declaration_statement.append(token)
-            elif (token.text == "be" or token.text == "being"):
-                variable_declaration_statement.append(token)
-                state["being_has_appeared"] = True
-            else:
-                variable_declaration_statement.append(token)
-        elif (is_variable(token) and (token.ref_token is None)):
-            state["is_variable_declaration_statement"] = True
-            variable_declaration_statement.append(token)
-
-    for variable_declaration_statement in variable_declaration_statements:
-        for token in variable_declaration_statement:
-            # 変数宣言部分で, be/beingが出現した後の処理
-            if (state["being_has_appeared"]):
-                current_type_tokens.append(token)
-                # 変数宣言部分の終了
-                if (token == variable_declaration_statement[-1]):
-                    add_variables(current_variables, current_type_tokens, variables)
-                    [list.clear() for list in [current_variables, current_type_tokens]]
-                    state["being_has_appeared"] = False
-            elif (token.text == "be" or token.text == "being"):
-                state["being_has_appeared"] = True
-            elif (is_variable(token)):
-                current_variables.append(token)
-
+    variable_declaration_statements = extract_declarations_from_tokens(tokens)
+    variables.extend(create_variables_from_declarations(variable_declaration_statements))
     return variables
 
 
@@ -318,8 +370,7 @@ def replace_variables_with_types_in_tokens(tokens, common_variables):
     処理後: let RelStr be RelStr  attr RelStr is Noetherian means the InternalRel of RelStr is co-well_founded   ____
     """
     number_of_variable = count_number_of_variable(tokens)
-    variables: list[dict] = copy.copy(common_variables)
-    variables.extend(extract_types_form_in_tokens(tokens, common_variables))
+    variables = extract_types_from_in_tokens(tokens, common_variables)
     processed_text = ""
     for token in tokens:
         # コメントは無視
