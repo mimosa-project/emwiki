@@ -5,8 +5,8 @@ from django.conf import settings
 from django.test import TestCase
 from search.parse_abs import (convert_to_abs_dictionary_line,
                               count_number_of_variable,
-                              create_common_variables,
                               create_theorem_and_definition_tokens_list,
+                              listup_reserved_variable2type,
                               replace_variables_with_types_in_tokens,
                               transform_query)
 
@@ -22,8 +22,8 @@ class ParseAbsTest(TestCase):
         # tarski.absには検索対象の定義・定理は9件存在する
         self.assertEqual(len(theorem_and_definition_tokens_list), 9)
 
-    def test_create_common_variables(self):
-        common_variables = create_common_variables(self.miz_controller.token_table)
+    def test_listup_reserved_variable2type(self):
+        common_variables = listup_reserved_variable2type(self.miz_controller.token_table)
         # tarski.absでは, reserveによって9個の変数が宣言されている
         self.assertEqual(len(common_variables), 9)
         # tarski.absでreserveによって最初に宣言された変数の型は"object"である
@@ -57,7 +57,7 @@ class ParseAbsTest(TestCase):
 
     def test_replace_variables_with_types_in_tokens(self):
         theorem_and_definition_tokens_list = create_theorem_and_definition_tokens_list(self.miz_controller.token_table, self.file_name)
-        common_variables = create_common_variables(self.miz_controller.token_table)
+        common_variables = listup_reserved_variable2type(self.miz_controller.token_table)
         # テストケース1(TARSKI:1)
         document_vectors_line_tarski_1 = replace_variables_with_types_in_tokens(theorem_and_definition_tokens_list[0], common_variables)
         expected_tarski_1 = "for object being object holds object is set   ____  "

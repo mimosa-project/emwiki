@@ -127,7 +127,7 @@ def resolve_variable_type(token, variables):
     return []
 
 
-def add_variables(variable_tokens, type_tokens, variables):
+def add_variable2type(variable_tokens, type_tokens, variables):
     """
     変数と, 型のtoken列の, 対応マッピングを追加する関数.
     ただし, 型のtoken列に変数が含まれる場合は, その変数の型に置き換えてマッピングする.
@@ -256,7 +256,7 @@ def extract_declarations_from_tokens(tokens):
     return variable_declaration_statements
 
 
-def create_variables_from_declarations(variable_declaration_statements):
+def listup_declared_variable2type(variable_declaration_statements):
     """
     入力: 変数宣言部分ごとに分割されたトークン列のリスト
     出力: 変数と型のマッピング
@@ -280,7 +280,7 @@ def create_variables_from_declarations(variable_declaration_statements):
                 current_type_tokens.append(token)
                 # 宣言部分の最後のトークンの場合
                 if (token == variable_declaration_statement[-1]):
-                    add_variables(current_variable_tokens, current_type_tokens, variables)
+                    add_variable2type(current_variable_tokens, current_type_tokens, variables)
                     [list.clear() for list in [current_variable_tokens, current_type_tokens]]
                     state["keywords_has_appeared"] = False
             elif (is_variable(token) and (token.ref_token is None)):
@@ -291,7 +291,7 @@ def create_variables_from_declarations(variable_declaration_statements):
     return variables
 
 
-def create_common_variables(token_table):
+def listup_reserved_variable2type(token_table):
     """
     入力: absファイルを解析して得られたtoken_table
     出力: reserveで宣言された変数の情報
@@ -312,7 +312,7 @@ def create_common_variables(token_table):
     reserve_statements = extract_reserve_statements(token_table)
     # reserve_statementsから変数宣言部分ごとに分割したリストを得る
     variable_declaration_statements = extract_declarations_from_reserve_statements(reserve_statements)
-    return create_variables_from_declarations(variable_declaration_statements)
+    return listup_declared_variable2type(variable_declaration_statements)
 
 
 def count_number_of_variable(tokens):
@@ -335,7 +335,7 @@ def count_number_of_variable(tokens):
     return len(variable_token_list)
 
 
-def replace_variable_with_type(token, variables):
+def replace_variable_with_type_string(token, variables):
     """
     token(変数)のテキストを作成する関数
     入力: 変数のtokenと, 定理で出現する変数の情報
@@ -353,12 +353,12 @@ def replace_variable_with_type(token, variables):
         return "___" + " "
 
 
-def extract_types_from_in_tokens(tokens, common_variables):
+def extract_variables_with_type_in_tokens(tokens, common_variables):
     # variablesは定理ごとにcommon_variablesを上書きする
     variables: list[dict] = copy.copy(common_variables)
     # 変数宣言部分をvariable_declaration_statementsに集める(","は後の処理で消すのでそのまま)
     variable_declaration_statements = extract_declarations_from_tokens(tokens)
-    variables.extend(create_variables_from_declarations(variable_declaration_statements))
+    variables.extend(listup_declared_variable2type(variable_declaration_statements))
     return variables
 
 
@@ -370,14 +370,14 @@ def replace_variables_with_types_in_tokens(tokens, common_variables):
     処理後: let RelStr be RelStr  attr RelStr is Noetherian means the InternalRel of RelStr is co-well_founded   ____
     """
     number_of_variable = count_number_of_variable(tokens)
-    variables = extract_types_from_in_tokens(tokens, common_variables)
+    variables = extract_variables_with_type_in_tokens(tokens, common_variables)
     processed_text = ""
     for token in tokens:
         # コメントは無視
         if (token.token_type == py_miz_controller.TokenType.COMMENT):
             pass
         elif (is_variable(token)):
-            processed_text += replace_variable_with_type(token, variables)
+            processed_text += replace_variable_with_type_string(token, variables)
         else:
             processed_text += token.text + " "
     # "," ";" は, ほぼすべての定理に存在しておりノイズになる可能性が高いため除く
@@ -408,7 +408,7 @@ def create_abs_dictionary_and_document_vectors(output_dir):
             miz_controller.exec_file(os.path.join(settings.MML_ABSTR_DIR, file_name), settings.MML_VCT_PATH)
             token_table = miz_controller.token_table
             theorem_and_definition_tokens_list = create_theorem_and_definition_tokens_list(token_table, file_name)
-            common_variables = create_common_variables(token_table)
+            common_variables = listup_reserved_variable2type(token_table)
             # abs_dictionary.txtとdocument_vectors.txtに1行(1つの定理)づつ書き込み
             for theorem_and_definition_tokens in theorem_and_definition_tokens_list:
                 file_abs_dictionary.write(
@@ -422,7 +422,7 @@ def transform_query(query):
     miz_controller = py_miz_controller.MizController()
     miz_controller.exec_buffer(query, settings.MML_VCT_PATH)
     token_table = miz_controller.token_table
-    common_variables = create_common_variables(token_table)
+    common_variables = listup_reserved_variable2type(token_table)
     # replace_variables_with_types_in_tokens関数の入力形式に合わせるための処理
     token_list = []
     for i in range(token_table.token_num):
