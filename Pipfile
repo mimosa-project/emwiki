@@ -26,9 +26,9 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
-emparser = {path = "./emparser"}
+mizcore = {path = "./mizcore"}
 python-levenshtein = "*"
 pydot = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
