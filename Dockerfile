@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 # Install
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz npm && \
+    apt-get -y install cmake libpq-dev python3-dev libssl-dev libffi-dev pbzip2 graphviz build-essential flex bison npm && \
     python -m pip install --upgrade pip && \
     pip -q install pipenv --upgrade
 
