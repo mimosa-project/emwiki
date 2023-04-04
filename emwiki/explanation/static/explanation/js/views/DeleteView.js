@@ -40,17 +40,15 @@ export const deleteExplanation = {
 
     },
     template: `
-    <div class='mt-4'>
-        <h1>Delete explanation</h1>
-        <p>Do you want to delete explanation?</p>
+    <v-container fluid>
+        <h1>Delete document</h1>
+        <p>Are you sure?</p>
 
         <v-form>
             <v-btn class="ma-2" outlined color="green" @click="Explanationdelete()">delete</v-btn>
             <v-btn class="ma-2" outlined color="red" @click="reloadDetail_form()">cancel</v-btn>
         </v-form>
-
-
-    </div>
+    <v-container>
     `,
     delimiters: ['$(', ')'],
 };

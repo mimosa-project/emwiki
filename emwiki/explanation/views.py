@@ -51,12 +51,10 @@ class UpdateView(View):
     
     def put(self, request, id):
         post = json.loads(request.body)
-        title = post.get('title', None)
-        text = post.get('text', None)
         explanations = humansorted(list(Explanation.objects.all()), key=lambda a: a.title)
         updatedExplanation = Explanation.objects.get(title=explanations[int(id)].title, text=explanations[int(id)].text)
+        updatedExplanation.title = post.get('title', None)
         updatedExplanation.text = post.get('text', None)
-        # updatedExplanation.update(text=updatedExplanation.text)
         updatedExplanation.save()
         return render(request, 'explanation/index.html')
         

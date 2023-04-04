@@ -1,5 +1,3 @@
-// import { createExplanation } from './createExplanation.js';
-
 export const ExplanationView = {
     data: () => ({
         explanationID: '',
@@ -89,15 +87,20 @@ export const ExplanationView = {
             }
             return out;
         },
+        test: function () {
+            console.log(this.explanationID);
+
+        }
     },
-    template: `
-    <div class='mt-4'>
-        <h1 class='display-3'>$( explanationTitle )</h1>
+    template:
+        `
+    <v-container fluid>
+        <h1 class='display-3' id="explanationTitle">$( explanationTitle )</h1>
         <div id="content" name="content">$( content )</div>
 
-        <v-btn class="ma-2" outlined color="green" @click=reloadUpdate_form()>change</v-btn>
+        <v-btn class="ma-2" outlined color="green" @click=reloadUpdate_form()>update</v-btn>
         <v-btn class="ma-2" outlined color="red" @click=reloadDelete_form()>delete</v-btn>
-    </div>
+    </v-container>
     `,
     delimiters: ['$(', ')'],
 };

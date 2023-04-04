@@ -43,10 +43,6 @@ export const createExplanation = {
             MathJax.typesetPromise([this.buffer]).then(() => {
                 this.PreviewDone();
             });
-            // MathJax.typeset([this.buffer]).then(() => {
-            //     this.PreviewDone();
-            // });
-            // this.PreviewDone();
         },
         PreviewDone: function () {
             var content = this.buffer.innerHTML;
@@ -98,6 +94,7 @@ export const createExplanation = {
             }
             return out;
         },
+
     },
     template:
         `<div class="container" id="app">

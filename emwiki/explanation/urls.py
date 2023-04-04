@@ -10,4 +10,5 @@ urlpatterns = [
     path('detail/<str:id>', views.DetailView.as_view(), name='detail'), 
     path('detail/<str:id>/update', views.UpdateView.as_view(), name='update'),
     path('detail/<str:id>/delete', views.DeleteView.as_view(), name='delete'), 
+    # urlをpkで作成
 ]

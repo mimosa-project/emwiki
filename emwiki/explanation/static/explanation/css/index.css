@@ -1,16 +1,27 @@
 #title,
 #content {
-    border: 2px solid #c2c3c5;
+    border: 2px solid #dfe2e9;
+}
+
+#content {
+    margin: 5vh 30px 10px 30px;
+    padding: 10px 10px 10px 10px;
+}
+
+#explanationTitle {
+    border-bottom: double 5px #dfe2e9;
 }
 
 #input-field-wrapper,
 #preview-field-wrapper {
     height: calc(100vh - 52px);
+    /* height: 100vh */
 }
 
 #input-field-wrapper #input-field,
 #preview-field-wrapper #preview-field {
-    height: calc(100% - 1rem);
+    /* height: calc(100% - 1rem); */
+    height: 65vh;
     overflow-wrap: break-word;
     overflow: scroll;
 }

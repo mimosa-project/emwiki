@@ -10,6 +10,8 @@ export const updateExplanation = {
             buffer: '',
             oldtext: '',
             explanationID: '',
+            xplanationText: '',
+            content: '',
             url: '/explanation/explanation',
             updateurl: '/explanation/detail/',
         };
@@ -20,6 +22,14 @@ export const updateExplanation = {
             this.explanationID = this.$route.params.id;
             this.title = response.data.index[this.$route.params.id].title;
             this.text = response.data.index[this.$route.params.id].text;
+            // this.content = this.text;
+            // this.buffer = document.getElementById("content");
+            // this.explanationText = document.getElementById("content");
+            // var text = this.Escape(this.content);
+            // this.buffer.innerHTML = this.preview = text;
+            // MathJax.typesetPromise([this.buffer]).then(() => {
+            //     this.PreviewDone();
+            // });
             return this.title, this.text;
         })
             .catch(error => console.log(error));
@@ -118,7 +128,7 @@ export const updateExplanation = {
     template:
         `<div class="container" id="app">
             <v-form ref="explanationForm">
-                <input  id="title" v-model='title' style=display:none;/>
+                <input  id="title" v-model='title'/>
                 <div class="columns">
                     <div class="column is-6" id="input-field-wrapper">
                         <h2><i class="fas fa-edit"></i> Input</h2>
@@ -134,7 +144,7 @@ export const updateExplanation = {
                     </div>
                 </div>
 
-                <v-btn class="ma-2" outlined color="green" @click="changeExplanation()">change</v-btn>
+                <v-btn class="ma-2" outlined color="green" @click="changeExplanation()">submit</v-btn>
                 <v-btn class="ma-2" outlined color="red" @click="reloadDetail_form()">cancel</v-btn>
             </v-form>
         </div>`,

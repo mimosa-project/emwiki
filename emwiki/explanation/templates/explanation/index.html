@@ -17,7 +17,7 @@
 {% block content %}
 <v-container fluid>
     <h1 class="display-3">Document</h1>
-    <p>Overview of this page.</p>
+    <p>This page allows you to create MML Explanatory documents in Markdown format.</p>
     {% if user.is_authenticated %}
     <p>
         <v-btn outlined href="{% url 'explanation:create' %}" text>Registration</v-btn>
