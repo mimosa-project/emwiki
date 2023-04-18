@@ -19,10 +19,14 @@ export const ExplanationDrawer = {
         onExplanationRowClick(row) {
             for (var i = 0; i < this.explanations.length; i++) {
                 if (row.id === this.explanations[i].id) {
-                    this.selectedID = i;
+                    this.selectedTitle = this.explanations[i].title;
+                    console.log(this.selectedTitle);
                 }
             }
-            location.href = "/explanation/detail/" + this.selectedID;
+            location.href = "/explanation/detail/" + this.selectedTitle;
+        },
+        reloadCreate_form() {
+            location.href = "/explanation/create";
         },
     },
 
@@ -48,6 +52,7 @@ export const ExplanationDrawer = {
                 </p>
             </template>
         </v-data-table>
+        <v-btn style="width: 100%;" @click=reloadCreate_form()>Create New</v-btn>
     </div>
     `,
     delimiters: ['$(', ')'],

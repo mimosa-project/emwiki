@@ -5,14 +5,19 @@ export const deleteExplanation = {
         explanationTitle: '',
         explanationText: '',
         url: '/explanation/explanation',
-        deleteurl: '/explanation/detail/',
+        detailurl: '/explanation/detail/',
     }),
     mounted() {
         return axios.get(this.url, {
         }).then((response) => {
-            this.explanationID = this.$route.params.id;
-            this.explanationTitle = response.data.index[this.explanationID].title;
-            this.texplanationText = response.data.index[this.$route.params.id].text;
+            this.explanationTitle = this.$route.params.title;
+            this.explanations = response.data.index;
+            for (var i = 0; i < this.explanations.length; i++) {
+                if (this.explanationTitle === this.explanations[i].title) {
+                    this.explanationID = i;
+                    this.explanationText = this.explanations[i].text;
+                }
+            }
             return this.explanationID, this.explanationTitle, this.texplanationText;
         })
             .catch(error => console.log(error));
@@ -21,23 +26,21 @@ export const deleteExplanation = {
         Explanationdelete() {
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-            axios.delete(this.deleteurl + this.explanationID + '/delete', {
+            axios.delete(this.detailurl + this.explanationTitle + '/delete', {
                 id: this.explanationID,
                 title: this.explanationTitle,
                 text: this.texplanationText,
 
             })
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
                     location.href = "/explanation";
                 })
                 .catch(error => console.log(error))
         },
         reloadDetail_form() {
-            this.$router.push({ name: 'Detail', params: { id: this.explanationID } });
+            this.$router.push({ name: 'Detail', params: { title: this.explanationTitle } });
             location.reload();
         },
-
     },
     template: `
     <v-container fluid>

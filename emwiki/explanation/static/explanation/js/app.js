@@ -1,7 +1,7 @@
 import { Splitter } from '../../js/Splitter.js';
 import { ExplanationDrawer } from './components/ExplanationDrawer.js';
-import { createExplanation } from './createExplanation.js';
 import { router } from './router/index.js';
+import { createExplanation } from './views/createExplanation.js';
 
 
 new Vue({
