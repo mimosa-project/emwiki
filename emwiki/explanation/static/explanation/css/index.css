@@ -1,0 +1,64 @@
+#title {
+    border: 2px solid #dfe2e9;
+}
+
+#explanationText {
+    margin: 5vh 30px 10px 30px;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #dfe2e9;
+}
+
+#explanationTitle {
+    border-bottom: double 5px #dfe2e9;
+}
+
+.flex-container {
+    display: flex;
+}
+
+p {
+    margin: 0;
+    padding-right: 10px;
+}
+
+#title {
+    flex-grow: 1;
+    /* 可能な限り幅を広げる */
+}
+
+#input-field-wrapper,
+#preview-field-wrapper {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+#preview-field {
+    background-color: #f1f1f1;
+    height: 100%;
+    overflow-y: scroll;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .columns {
+        flex-direction: row;
+    }
+
+    #input-field-wrapper,
+    #preview-field-wrapper {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+}

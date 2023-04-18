@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+{{ context_for_js|json_script:"context" }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+<link rel='stylesheet' href="{% static 'explanation/css/index.css' %}" type='text/css'>
+</link>
+<script type="text/javascript" src="{% static 'explanation/js/mathjax.js'%}"></script>
+
+<!-- Markdown -->
+<script src="https://unpkg.com/marked@0.3.6/lib/marked.js"></script>
+<script src="https://unpkg.com/vue-md-editor/dist/vue-editor.min.js"></script>
+<script>
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false, // IMPORTANT, because we do MathJax before markdown,
+        //            however we do escaping in 'CreatePreview'.
+        smartLists: true,
+        smartypants: false
+    });
+</script>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+{% endblock %}
+
+{% block drawer %}
+<explanation-drawer />
+{% endblock %}
+
+{% block content %}
+<create-explanation />
+{% endblock %}
+
+{% block foot %}
+<script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+    integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.4.0/marked.min.js"></script>
+<script src="{% static 'explanation/js/app.js' %}" type="module"></script>
+{% endblock %}

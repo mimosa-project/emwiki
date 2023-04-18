@@ -10,18 +10,13 @@
 <script src="https://cdn.jsdelivr.net/npm/cytoscape-context-menus@4.1.0/cytoscape-context-menus.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'graph/css/index.css'%}">
+</link>
 {% endblock %}
 
 {% block drawer %}
-<graph-drawer
-  :graph-article-name="articleName"
-  :graph-upper-level="upperLevel"
-  :graph-lower-level="lowerLevel"
-  @reset-clicked="reset"
-  @article-name-changed="changeArticleName"
-  @upper-level-changed="changeUpperLevel"
-  @lower-level-changed="changeLowerLevel"
-></graph-drawer>
+<graph-drawer :graph-article-name="articleName" :graph-upper-level="upperLevel" :graph-lower-level="lowerLevel"
+  @reset-clicked="reset" @article-name-changed="changeArticleName" @upper-level-changed="changeUpperLevel"
+  @lower-level-changed="changeLowerLevel"></graph-drawer>
 {% endblock %}
 
 {% block content %}
