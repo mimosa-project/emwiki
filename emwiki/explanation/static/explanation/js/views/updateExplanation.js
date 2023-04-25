@@ -8,6 +8,7 @@ export const updateExplanation = {
             preview: '',
             input: '',
             buffer: '',
+            content: '',
             explanationTitle: '',
             explanationText: '',
             url: '/explanation/explanation',
@@ -28,7 +29,16 @@ export const updateExplanation = {
                         this.explanationText = this.explanations[i].text;
                     }
                 }
-
+                this.preview = document.getElementById("preview-field");
+                this.buffer = document.getElementById("preview-buffer");
+                this.content = this.explanationText;
+                this.content = Escape(this.content);
+                //preview-bufferにcontentを代入する
+                this.buffer.innerHTML = this.content;
+                //MathJaxを適用する
+                MathJax.typesetPromise([this.buffer]).then(() => {
+                    this.preview.innerHTML = marked(PartialDescape(this.buffer.innerHTML));
+                });
 
                 return this.explanationTitle, this.explanationText;
             })
@@ -51,11 +61,11 @@ export const updateExplanation = {
             this.buffer = document.getElementById("preview-buffer");
             this.input = document.getElementById("input-field");
             // 入力した文字を取得
-            var content = this.input.value;
+            this.content = this.input.value;
             // content内の文字列をエスケープする
-            content = Escape(content);
+            this.content = Escape(this.content);
             //preview-bufferにcontentを代入する
-            this.buffer.innerHTML = content;
+            this.buffer.innerHTML = this.content;
             //MathJaxを適用する
             MathJax.typesetPromise([this.buffer]).then(() => {
                 this.preview.innerHTML = marked(PartialDescape(this.buffer.innerHTML));
@@ -79,7 +89,7 @@ export const updateExplanation = {
                     <div class="column is-6" id="input-field-wrapper">
                         <h2><i class="fas fa-edit"></i> Input</h2>
                         <textarea class="textarea" name="input-field" id="input-field" v-model="explanationText" 
-                            @keyup="createPreview(); complementwords()"><br>
+                            @keyup="createPreview(); complementwords()" spellcheck="false"><br>
                         </textarea>
                     </div>
                     <div class="column is-6" id="preview-field-wrapper">

@@ -49,7 +49,7 @@ export const createExplanation = {
                 onTextAreaKeyDown(event, this);
             }
         },
-        checkInput() {
+        checkTitle() {
             const invalidChars = /[!@$%#^&*()=+\[\]{};':"\\|,<>\/?]/g;
             if (this.title.match(invalidChars)) {
                 alert("You can't use that character.");
@@ -62,7 +62,7 @@ export const createExplanation = {
         <v-form ref="explanationForm">
             <div class="flex-container">
                 <p class='display-3'>TITLE:</p>
-                <input id="title" v-model='title' class='display-3' @keyup="checkInput"/>
+                <input id="title" v-model='title' class='display-3' @keyup="checkTitle"/>
             </div>
             <div class="columns">
                 <div class="column is-6" id="input-field-wrapper">
