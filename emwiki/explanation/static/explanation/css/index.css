@@ -1,15 +1,8 @@
+/* explanation_form.html */
 #title {
     border: 2px solid #dfe2e9;
-}
-
-#explanationText {
-    margin: 5vh 30px 10px 30px;
-    padding: 10px 10px 10px 10px;
-    border: 2px solid #dfe2e9;
-}
-
-#explanationTitle {
-    border-bottom: double 5px #dfe2e9;
+    /* Widen as much as possible */
+    flex-grow: 1;
 }
 
 .flex-container {
@@ -21,11 +14,6 @@ p {
     padding-right: 10px;
 }
 
-#title {
-    flex-grow: 1;
-    /* 可能な限り幅を広げる */
-}
-
 #input-field-wrapper,
 #preview-field-wrapper {
     flex-grow: 1;
@@ -34,20 +22,24 @@ p {
     align-items: stretch;
 }
 
-.textarea {
+#input-field {
     width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    resize: none;
+    height: 600px;
+    resize: both;
+    overflow: auto;
 }
 
 #preview-field {
     background-color: #f1f1f1;
-    height: 100%;
-    overflow-y: scroll;
-    border: none;
-    outline: none;
+    width: 100%;
+    height: 600px;
+    resize: both;
+    overflow: auto;
+
+}
+
+#Article-field {
+    width: 50%;
     resize: none;
 }
 
@@ -61,4 +53,15 @@ p {
         flex-grow: 1;
         margin-left: 10px;
     }
+}
+
+/* explanation_detail.html */
+#explanationTitle {
+    border-bottom: double 5px #dfe2e9;
+}
+
+#explanationText {
+    margin: 5vh 30px 10px 30px;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #dfe2e9;
 }
