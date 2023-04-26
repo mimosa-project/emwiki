@@ -1,36 +1,36 @@
 
 export const ExplanationDrawer = {
-    data() {
-        return {
-            explanations: [],
-            headers: [{ text: 'title', value: 'title' }],
-            queryText: '',
-            selectedID: '',
-        };
+  data() {
+    return {
+      explanations: [],
+      headers: [{text: 'title', value: 'title'}],
+      queryText: '',
+      selectedID: '',
+    };
+  },
+  mounted() {
+    axios.get('/explanation/explanation')
+        .then((response) => {
+          this.explanations = response.data.index;
+        })
+        .catch((error) => console.log(error));
+  },
+  methods: {
+    onExplanationRowClick(row) {
+      for (let i = 0; i < this.explanations.length; i++) {
+        if (row.id === this.explanations[i].id) {
+          this.selectedTitle = this.explanations[i].title;
+          console.log(this.selectedTitle);
+        }
+      }
+      location.href = '/explanation/detail/' + this.selectedTitle;
     },
-    mounted() {
-        axios.get('/explanation/explanation')
-            .then((response) => {
-                this.explanations = response.data.index;
-            })
-            .catch(error => console.log(error))
+    reloadCreate_form() {
+      location.href = '/explanation/create';
     },
-    methods: {
-        onExplanationRowClick(row) {
-            for (var i = 0; i < this.explanations.length; i++) {
-                if (row.id === this.explanations[i].id) {
-                    this.selectedTitle = this.explanations[i].title;
-                    console.log(this.selectedTitle);
-                }
-            }
-            location.href = "/explanation/detail/" + this.selectedTitle;
-        },
-        reloadCreate_form() {
-            location.href = "/explanation/create";
-        },
-    },
+  },
 
-    template: `
+  template: `
     <div>
         <v-data-table
             :headers="headers"
@@ -52,8 +52,9 @@ export const ExplanationDrawer = {
                 </p>
             </template>
         </v-data-table>
-        <v-btn style="width: 100%;" @click=reloadCreate_form()>Create New</v-btn>
+        <v-btn style="width: 100%;" @click=reloadCreate_form()>Create New
+        </v-btn>
     </div>
     `,
-    delimiters: ['$(', ')'],
+  delimiters: ['$(', ')'],
 };

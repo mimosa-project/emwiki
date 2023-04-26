@@ -1,8 +1,8 @@
-import { context } from '../../../js/context.js';
-import { Article } from '../models/article.js';
-import { Comment } from '../models/comment.js';
-import { Parser } from '../models/parser.js';
-import { ArticleService } from '../services/article-service.js';
+import {context} from '../../../js/context.js';
+import {Article} from '../models/article.js';
+import {Comment} from '../models/comment.js';
+import {Parser} from '../models/parser.js';
+import {ArticleService} from '../services/article-service.js';
 
 export const ArticleView = {
   data: () => ({
@@ -12,21 +12,21 @@ export const ArticleView = {
   }),
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
-      .then(() => {
-        this.navigateToHash(this.$route.hash);
-      });
+        .then(() => {
+          this.navigateToHash(this.$route.hash);
+        });
   },
   methods: {
     reloadArticle(name) {
       return new Promise((resolve) => {
         this.articleName = name.replace('.html', '');
         ArticleService.getBib(context['bibs_uri'], this.articleName)
-          .then((bibText) => {
-            this.bibTooltip = bibText;
-          });
+            .then((bibText) => {
+              this.bibTooltip = bibText;
+            });
         ArticleService.getHtml(
-          context['article_html_base_uri'],
-          this.articleName,
+            context['article_html_base_uri'],
+            this.articleName,
         ).then((articleHtml) => {
           this.articleHtml = articleHtml;
           this.$nextTick(() => {
@@ -44,8 +44,8 @@ export const ArticleView = {
               }
             }
             this.addComment(
-              this.articleName,
-              document.getElementById('htmlized-mml'),
+                this.articleName,
+                document.getElementById('htmlized-mml'),
             );
             this.addLinkToKeyword();
           });
@@ -70,7 +70,7 @@ export const ArticleView = {
           LemmaElement.previousElementSibling.addEventListener('click', () => {
             this.$router.push({
               name: 'Article',
-              params: { name: this.articleName },
+              params: {name: this.articleName},
               hash: LemmaElement.getAttribute('about'),
             });
           });
@@ -82,7 +82,7 @@ export const ArticleView = {
           element.addEventListener('click', () => {
             this.$router.push({
               name: 'Article',
-              params: { name: this.articleName },
+              params: {name: this.articleName},
               hash: '#' + element.getAttribute('name'),
             });
           });
@@ -119,7 +119,7 @@ export const ArticleView = {
       if (newRoute.hash) {
         this.navigateToHash(newRoute.hash);
       } else {
-        window.scroll({ top: 0, behavior: 'smooth' });
+        window.scroll({top: 0, behavior: 'smooth'});
       }
     },
   },

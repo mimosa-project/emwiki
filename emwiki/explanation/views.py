@@ -1,29 +1,29 @@
 import json
 from natsort import humansorted
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse, Http404
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Explanation
 from django.views import generic
-from django.views import View
+# from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import View
- 
-from django.urls import reverse, reverse_lazy
-
+from django.urls import reverse
 
 
 class IndexView(TemplateView):
     template_name = 'explanation/index.html'
 
+
 class CreateView(generic.CreateView):
     model = Explanation
     fields = ['title', 'text']
 
-class ExplanationView(View): 
-    def get(self, request):
+
+class ExplanationView(View):
+    def get(self):
         explanations = humansorted(list(Explanation.objects.all()), key=lambda a: a.title)
         return JsonResponse({'index': [
-            dict(id = explanation.id, title=explanation.title, text=explanation.text) for explanation in explanations
+            dict(id=explanation.id, title=explanation.title, text=explanation.text) for explanation in explanations
         ]})
 
     def post(self, request):
@@ -45,40 +45,41 @@ class ExplanationView(View):
             Explanation.objects.create(title=posted_title, text=posted_text)
             return redirect('explanation:index')
 
+
 class DetailView(View):
-    def get(self, request, title):
+    def get(self, request):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
         }
         return render(request, 'explanation/explanation_detail.html', context)
 
+
 class UpdateView(View):
-    def get(self, request, title):
+    def get(self, request):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
         }
         return render(request, 'explanation/explanation_change.html', context)
-    
+
     def put(self, request, title):
         post = json.loads(request.body)
         updatedExplanation = Explanation.objects.get(title=title)
-        # updatedExplanation.title = post.get('title', None)
         updatedExplanation.text = post.get('text', None)
         updatedExplanation.save()
         return render(request, 'explanation/index.html')
-        
+
+
 class DeleteView(View):
-    def get(self, request, title):
+    def get(self, request):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
         }
         return render(request, 'explanation/explanation_confirm_delete.html', context)
-    
+
     def delete(self, request, title):
         deleteExplanation = Explanation.objects.get(title=title)
         deleteExplanation.delete()
         return render(request, 'explanation/index.html')
-

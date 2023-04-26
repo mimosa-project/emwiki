@@ -1,13 +1,13 @@
-import { context } from '../../../js/context.js';
-import { Searcher } from '../../../js/Searcher.js';
-import { ArticleService } from '../services/article-service.js';
+import {context} from '../../../js/context.js';
+import {Searcher} from '../../../js/Searcher.js';
+import {ArticleService} from '../services/article-service.js';
 
 /**
  * ArticleDrawer
  */
 export const ArticleDrawer = {
   data: () => ({
-    headers: [{ text: 'name', value: 'name' }],
+    headers: [{text: 'name', value: 'name'}],
     queryText: '',
     index: [],
     items: [],
@@ -30,16 +30,16 @@ export const ArticleDrawer = {
     },
     onArticleRowClick(row) {
       if (this.$route.params.name !== row.name) {
-        this.$router.push({ name: 'Article', params: { name: row.name } });
+        this.$router.push({name: 'Article', params: {name: row.name}});
       }
     },
   },
   watch: {
     queryText(newQueryText) {
       this.searcher.run(
-        newQueryText,
-        (items) => this.items = items,
-        (items) => items.forEach((item) => this.items.push(item)));
+          newQueryText,
+          (items) => this.items = items,
+          (items) => items.forEach((item) => this.items.push(item)));
     },
   },
   template: `
