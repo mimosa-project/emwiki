@@ -20,7 +20,7 @@ class CreateView(generic.CreateView):
 
 
 class ExplanationView(View):
-    def get(self):
+    def get(self, title):
         explanations = humansorted(list(Explanation.objects.all()), key=lambda a: a.title)
         return JsonResponse({'index': [
             dict(id=explanation.id, title=explanation.title, text=explanation.text) for explanation in explanations
@@ -47,7 +47,7 @@ class ExplanationView(View):
 
 
 class DetailView(View):
-    def get(self, request):
+    def get(self, request, title):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
@@ -56,7 +56,7 @@ class DetailView(View):
 
 
 class UpdateView(View):
-    def get(self, request):
+    def get(self, request, title):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
@@ -72,7 +72,7 @@ class UpdateView(View):
 
 
 class DeleteView(View):
-    def get(self, request):
+    def get(self, request, title):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
