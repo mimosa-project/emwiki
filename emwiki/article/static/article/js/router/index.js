@@ -1,5 +1,5 @@
-import { context } from '../../../js/context.js';
-import { ArticleView } from '../views/ArticleView.js';
+import {context} from '../../../js/context.js';
+import {ArticleView} from '../views/ArticleView.js';
 
 export const router = new VueRouter({
   mode: 'history',
@@ -10,7 +10,7 @@ export const router = new VueRouter({
       name: 'Article',
       components: {
         'article-view': ArticleView,
-      }
+      },
     },
   ],
 });
