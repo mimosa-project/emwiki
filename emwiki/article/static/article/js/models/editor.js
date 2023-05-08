@@ -1,4 +1,4 @@
-import {context} from '../../../js/context.js';
+import { context } from '../../../js/context.js';
 
 /* eslint-disable max-len */
 /**
@@ -85,7 +85,7 @@ export class Editor {
       });
     }
 
-    // edit class tton clicked
+    // edit class submitButton clicked
     const submitButton = this.element.getElementsByClassName('submitButton')[0];
     if (submitButton) {
       submitButton.addEventListener('click', () => {
