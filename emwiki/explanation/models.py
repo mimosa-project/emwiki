@@ -20,7 +20,7 @@ class Explanation(models.Model):
         subprocess.call(['git', 'commit', '-m', commit_message])
 
     # モデルの作成や変更後に実行するコード
-    commit_model_changes('Model changes: Updated database models')
+    # commit_model_changes()
     
     # def get_explanation_path(self):
     #     return os.path.join(self.explanation_dir, f'{self.title}.md')
