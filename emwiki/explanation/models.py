@@ -1,12 +1,7 @@
 from django.db import models
 from django.conf import settings
 import subprocess
-# from django.contrib.auth import get_user_model
 from django.utils import timezone
-
-# User = get_user_model()
-# default_author = User.objects.first()
-# default_created_at = timezone.now()
 
 
 class Explanation(models.Model):
@@ -20,6 +15,10 @@ class Explanation(models.Model):
     def __str__(self):
         return self.title, self.author, self.created_at, self.updated_at
     
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        return super().save(*args, **kwargs)
+
     def commit_explanation_creates(self):
         commit_message = f'Create {self.title}\t {self.text}\n'
         subprocess.call(['git', 'add', 'explanation/models.py'])
