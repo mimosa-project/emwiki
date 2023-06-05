@@ -20,11 +20,11 @@ class Explanation(models.Model):
         return super().save(*args, **kwargs)
 
     def commit_explanation_creates(self):
-        commit_message = f'Create {self.title}\t {self.text}\n'
+        commit_message = f'Create {self.text}\t {self.author}\n'
         subprocess.call(['git', 'add', 'explanation/models.py'])
         subprocess.call(['git', 'commit', '-m', commit_message])
 
     def commit_explanation_changes(self):
-        commit_message = f'Update {self.title}\t {self.text}\n'
+        commit_message = f'Update {self.text}\t {self.author}\n'
         subprocess.call(['git', 'add', 'explanation/models.py'])
         subprocess.call(['git', 'commit', '-m', commit_message])
