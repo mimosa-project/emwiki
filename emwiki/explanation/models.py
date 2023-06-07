@@ -7,7 +7,6 @@ from django.utils import timezone
 class Explanation(models.Model):
     title = models.CharField(max_length=200, unique=True)
     text = models.TextField()
-    # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=default_author)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(null=True, blank=True)
