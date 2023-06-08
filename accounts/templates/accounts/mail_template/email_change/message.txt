@@ -1,0 +1,7 @@
+Dear {{ user.username }} 
+
+To reset your email address, please visit the following page.
+
+{{ protocol}}://{{ domain }}{% url 'accounts:email_change_complete' token %}
+
+emwiki

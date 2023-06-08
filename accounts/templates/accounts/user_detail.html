@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<v-row justify="center mt-5">
+    <v-col
+      cols="12"
+      sm="10"
+      md="8"
+      lg="6"
+    >
+        <v-card ref="form">
+            <form action="" method="post">
+                <v-card-text>
+                    <p class="text-h4 text--primary mb-12">User Information</p>
+                    <v-row class="d-flex">
+                        <v-col class="font-weight-black">Username:</v-col>
+                        <v-col class="mr-auto">{{ user.username }}</v-col>
+                        <v-col>
+                            <v-btn class="ml-auto" href="{% url 'accounts:user_update' user.pk %}">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-divider class="mb-3"></v-divider>
+                    <v-row class="d-flex">
+                        <v-col class="font-weight-black">Email:</v-col>
+                        <v-col class="mr-auto">{{ user.email }}</v-col>
+                        <v-col>
+                            <v-btn class="ml-auto" href="{% url 'accounts:email_change' %}">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-divider class="mb-3"></v-divider>
+                    <v-row class="d-flex">
+                        <v-col class="font-weight-black">Password:</v-col>
+                        <v-col class="mr-auto">●●●●●●●●●●●</v-col>
+                        <v-col>
+                            <v-btn class="ml-auto" href="{% url 'accounts:password_change' %}">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-divider class="mb-3"></v-divider>
+                </v-card-text>
+            </form>
+      </v-card>
+    </v-col>
+</v-row>
+{% endblock %}

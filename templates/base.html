@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>emwiki</title>
+
+
+  <!-- Vue 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+
+  <!-- Vue Router -->
+  <script src="https://unpkg.com/vue-router@3.0.7/dist/vue-router.js"></script>
+
+  <!-- Vuetify -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.js"></script>
+
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  {% csrf_token %}
+  <div id="app">
+    <v-app>
+      <v-navigation-drawer app v-model="drawerExists" :width="drawerWidth"
+        :disable-resize-watcher="disableResizeWatcher">
+        {% block drawer %}{% endblock %}
+      </v-navigation-drawer>
+
+      <v-app-bar app height="64px">
+        <v-app-bar-nav-icon v-if="menuButton" @click="drawerExists = !drawerExists"></v-app-bar-nav-icon>
+        <v-toolbar-title>emwiki</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-btn href="{% url 'home:index' %}" text>Home</v-btn>
+        <v-btn href="{% url 'explanation:index' %}" text>Document</v-btn>
+        <v-btn href="{% url 'article:index' 'abcmiz_0' %}" text>Article</v-btn>
+        <v-btn href="{% url 'symbol:index' '0' %}" text>Symbol</v-btn>
+        <v-btn href="{% url 'article:index' 'abcmiz_0' %}?target=theorem" text>Theorem</v-btn>
+        <v-btn href="{% url 'graph:index' %}" text>Graph</v-btn>
+
+        <v-menu offset-y>
+          {% if user.is_authenticated %}
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" text>
+              {{ user.get_username }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item href="{% url 'accounts:user_detail' user.pk %}">
+                User information
+              </v-list-item>
+              <v-list-item href="{% url 'accounts:logout' %}">
+                Logout
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+          {% else %}
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" text>
+              Account
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item href="{% url 'accounts:signup' %}">
+                Sign up
+              </v-list-item>
+              <v-list-item href="{% url 'accounts:login' %}">
+                Login
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+          {% endif %}
+        </v-menu>
+      </v-app-bar>
+      <splitter v-if="drawerExists" :drawer-width.sync="drawerWidth" :drawer-exists.sync="drawerExists"></splitter>
+      <v-main>
+        {% block content %}{% endblock %}
+      </v-main>
+    </v-app>
+  </div>
+
+  <!-- base CSS, JavaScript -->
+  <link rel='stylesheet' href="{% static 'css/base.css' %}" type='text/css'>
+  </link>
+  {% block foot %}
+  <script src="{% static 'js/main.js' %}"></script>
+  {% endblock %}
+</body>
+
+</html>

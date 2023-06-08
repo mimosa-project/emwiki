@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+{{ context_for_js|json_script:"context" }}
+<!-- cytoscape -->
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.20.0/dist/cytoscape.min.js"></script>
+
+<!-- cytoscape context menus -->
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-context-menus@4.1.0/cytoscape-context-menus.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'graph/css/index.css'%}">
+</link>
+{% endblock %}
+
+{% block drawer %}
+<graph-drawer :graph-article-name="articleName" :graph-upper-level="upperLevel" :graph-lower-level="lowerLevel"
+  @reset-clicked="reset" @article-name-changed="changeArticleName" @upper-level-changed="changeUpperLevel"
+  @lower-level-changed="changeLowerLevel"></graph-drawer>
+{% endblock %}
+
+{% block content %}
+<help-dialog id="help-dialog"></help-dialog>
+<div id="graph"></div>
+{% endblock %}
+
+{% block foot %}
+<!-- App -->
+<script src="{% static 'graph/js/app.js'%}" type="module"></script>
+{% endblock %}
