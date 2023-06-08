@@ -1,4 +1,4 @@
-import {escape, partialDescape} from '../models/markdown-mathjax.js';
+import { escape, partialDescape } from '../models/markdown-mathjax.js';
 
 export const ExplanationView = {
   data: () => ({
@@ -13,41 +13,40 @@ export const ExplanationView = {
   },
   methods: {
     reloadExplanation() {
-      return axios.get(this.url, {
-      }).then((response) => {
-        this.explanations = response.data.index;
-        for (let i = 0; i < this.explanations.length; i++) {
-          if (this.explanationTitle === this.explanations[i].title) {
-            this.explanationText = this.explanations[i].text;
-          }
-        }
-
+      return axios.get(this.url,
+        { params: { title: this.explanationTitle } }
+      ).then((response) => {
+        this.explanationText = response.data;
         this.content = document.getElementById('explanationText');
         this.content.innerHTML = escape(this.explanationText);
         MathJax.typesetPromise([this.content]).then(() => {
           this.content.innerHTML =
-                        marked(partialDescape(this.content.innerHTML));
+            marked(partialDescape(this.content.innerHTML));
         });
-        return this.explanationTitle;
+        return this.explanationTitle, this.explanationText;
       })
-          .catch((error) => console.log(error));
+        .catch((error) => console.log(error));
+    },
+    getTextByTitle(dataArray, title) {
+      const element = dataArray.find(item => item.title === title);
+      return element ? element.text : null;
     },
     reloadUpdate_form() {
       this.$router.push({
         name: 'Update',
-        params: {title: this.explanationTitle},
+        params: { title: this.explanationTitle },
       });
       location.reload();
     },
     reloadDelete_form() {
       this.$router.push({
         name: 'Delete',
-        params: {title: this.explanationTitle},
+        params: { title: this.explanationTitle },
       });
     },
   },
   template:
-        `<v-container fluid>
+    `<v-container fluid>
             <h1 class='display-3' id="explanationTitle">$( explanationTitle )
             </h1>
             <div id="explanationText" name="content"></div>
