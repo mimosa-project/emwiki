@@ -21,13 +21,13 @@ class Explanation(models.Model):
     def commit_explanation_creates(self):
         commit_message = f'Create {self.text}\n {self.author}\n'
         settings.EXPLANATION_REPO.git.add('models.py')
-        settings.EXPLANATION_REPO.git.commit(commit_message)
+        settings.EXPLANATION_REPO.git.commit('--allow-empty', '-m', commit_message)
         # subprocess.call(['git', 'add', 'explanation/models.py'])
         # subprocess.call(['git', 'commit', '-m', commit_message])
 
     def commit_explanation_changes(self):
         commit_message = f'Update {self.text}\n {self.author}\n'
         settings.EXPLANATION_REPO.git.add('models.py')
-        settings.EXPLANATION_REPO.git.commit(commit_message)
+        settings.EXPLANATION_REPO.git.commit('--allow-empty', '-m', commit_message)
         # subprocess.call(['git', 'add', 'explanation/models.py'])
         # subprocess.call(['git', 'commit', '-m', commit_message])
