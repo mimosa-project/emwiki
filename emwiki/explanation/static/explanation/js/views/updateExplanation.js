@@ -1,5 +1,5 @@
-import {onTextAreaKeyDown} from '../models/editor.js';
-import {escape, partialDescape} from '../models/markdown-mathjax.js';
+import { onTextAreaKeyDown } from '../models/editor.js';
+import { escape, partialDescape } from '../models/markdown-mathjax.js';
 
 export const updateExplanation = {
   data() {
@@ -21,14 +21,9 @@ export const updateExplanation = {
   },
   methods: {
     reload_Explanation() {
-      return axios.get(this.url, {
-      }).then((response) => {
-        this.explanations = response.data.index;
-        for (let i = 0; i < this.explanations.length; i++) {
-          if (this.explanationTitle === this.explanations[i].title) {
-            this.explanationText = this.explanations[i].text;
-          }
-        }
+      return axios.get(this.url).then((response) => {
+        const explanations = response.data.explanation;
+        this.explanationText = this.getTextByTitle(explanations, this.explanationTitle);
         this.preview = document.getElementById('preview-field');
         this.buffer = document.getElementById('preview-buffer');
         this.content = this.explanationText;
@@ -38,26 +33,30 @@ export const updateExplanation = {
         // MathJaxを適用する
         MathJax.typesetPromise([this.buffer]).then(() => {
           this.preview.innerHTML =
-                        marked(partialDescape(this.buffer.innerHTML));
+            marked(partialDescape(this.buffer.innerHTML));
         });
 
         return this.explanationTitle, this.explanationText;
       })
-          .catch((error) => console.log(error));
+        .catch((error) => console.log(error));
     },
-
+    getTextByTitle(dataArray, title) {
+      const element = dataArray.find(item => item.title === title);
+      return element ? element.text : null;
+    },
     changeExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
       axios.put(this.detailurl + this.explanationTitle +
-                '/update', {
+        '/update', {
         text: this.explanationText,
       })
-          .then(() => {
-            location.href = '/explanation';
-          })
-          .catch((error) => console.log(error));
+        .then(() => {
+          location.href = '/explanation';
+        })
+        .catch((error) => console.log(error));
     },
+    // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
       this.preview = document.getElementById('preview-field');
       this.buffer = document.getElementById('preview-buffer');
@@ -71,25 +70,25 @@ export const updateExplanation = {
       // MathJaxを適用する
       MathJax.typesetPromise([this.buffer]).then(() => {
         this.preview.innerHTML =
-                    marked(partialDescape(this.buffer.innerHTML));
+          marked(partialDescape(this.buffer.innerHTML));
       });
     },
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function(event) {
+      inputField.onkeydown = function (event) {
         onTextAreaKeyDown(event, this);
       };
     },
     reloadDetail_form() {
       this.$router.push({
         name: 'Detail',
-        params: {title: this.explanationTitle},
+        params: { title: this.explanationTitle },
       });
       location.reload();
     },
   },
   template:
-        `<div class="container" id="app">
+    `<div class="container" id="app">
             <v-form ref="explanationForm">
                 <div class="columns">
                     <div class="column is-6" id="input-field-wrapper">

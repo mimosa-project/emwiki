@@ -1,38 +1,25 @@
 
 export const deleteExplanation = {
   data: () => ({
-    explanationID: '',
     explanationTitle: '',
-    explanationText: '',
     url: '/explanation/explanation',
     detailurl: '/explanation/detail/',
   }),
   mounted() {
     return axios.get(this.url, {
-    }).then((response) => {
+    }).then(() => {
       this.explanationTitle = this.$route.params.title;
-      this.explanations = response.data.index;
-      for (let i = 0; i < this.explanations.length; i++) {
-        if (this.explanationTitle === this.explanations[i].title) {
-          this.explanationID = i;
-          this.explanationText = this.explanations[i].text;
-        }
-      }
-      return this.explanationID, this.explanationTitle,
-      this.texplanationText;
+      return this.explanationTitle;
     })
-        .catch((error) => console.log(error));
+      .catch((error) => console.log(error));
   },
   methods: {
     Explanationdelete() {
       axios.defaults.xsrfCookieName = 'csrftoken',
-      axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN',
-      axios.delete(this.detailurl + this.explanationTitle +
-            '/delete', {
-        id: this.explanationID,
-        title: this.explanationTitle,
-        text: this.texplanationText,
-      })
+        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN',
+        axios.delete(this.detailurl + this.explanationTitle +
+          '/delete', {
+        })
           .then(() => {
             location.href = '/explanation';
           })
@@ -41,7 +28,7 @@ export const deleteExplanation = {
     reloadDetail_form() {
       this.$router.push({
         name: 'Detail',
-        params: {title: this.explanationTitle},
+        params: { title: this.explanationTitle },
       });
       location.reload();
     },

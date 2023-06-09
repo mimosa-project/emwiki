@@ -1,28 +1,29 @@
-
+// import { context } from '../../../js/context.js';
+import { ExplanationService } from '../services/explanation-service.js';
 export const ExplanationDrawer = {
   data() {
     return {
-      explanations: [],
-      headers: [{text: 'title', value: 'title'}],
+      Titles: [],
+      headers: [{ text: 'title', value: 'title' }],
       queryText: '',
-      selectedID: '',
+      selectedTitle: '',
     };
   },
   mounted() {
-    axios.get('/explanation/explanation')
-        .then((response) => {
-          this.explanations = response.data.index;
-        })
-        .catch((error) => console.log(error));
+    ExplanationService.getTitle('/explanation/titles')
+      .then((titles) => {
+        this.Titles = titles;
+      })
+      .catch((error) => console.log(error));
   },
   methods: {
+    getTitle() {
+      return axios.get('/explanation/titles').then((response) => {
+        return response.data.index;
+      });
+    },
     onExplanationRowClick(row) {
-      for (let i = 0; i < this.explanations.length; i++) {
-        if (row.id === this.explanations[i].id) {
-          this.selectedTitle = this.explanations[i].title;
-          console.log(this.selectedTitle);
-        }
-      }
+      this.selectedTitle = row.title;
       location.href = '/explanation/detail/' + this.selectedTitle;
     },
     reloadCreate_form() {
@@ -34,7 +35,7 @@ export const ExplanationDrawer = {
     <div>
         <v-data-table
             :headers="headers"
-            :items="explanations"
+            :items="Titles"
             :search="queryText"
             :items-per-page="-1"
             item-key="title"
