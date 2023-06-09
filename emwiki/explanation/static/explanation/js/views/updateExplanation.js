@@ -56,6 +56,7 @@ export const updateExplanation = {
         })
         .catch((error) => console.log(error));
     },
+    // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
       this.preview = document.getElementById('preview-field');
       this.buffer = document.getElementById('preview-buffer');

@@ -17,6 +17,7 @@ export const ExplanationView = {
         { params: { title: this.explanationTitle } }
       ).then((response) => {
         this.explanationText = response.data;
+        // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
         this.content = document.getElementById('explanationText');
         this.content.innerHTML = escape(this.explanationText);
         MathJax.typesetPromise([this.content]).then(() => {
