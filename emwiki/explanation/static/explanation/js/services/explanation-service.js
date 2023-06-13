@@ -33,7 +33,7 @@ export class ExplanationService {
    */
   static getArticle(url, name) {
     return axios.get(url,
-      { params: { article_name: name } }
+        {params: {article_name: name}},
     ).then((response) => {
       console.log(response);
       return response;

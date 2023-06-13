@@ -1,20 +1,20 @@
 // import { context } from '../../../js/context.js';
-import { ExplanationService } from '../services/explanation-service.js';
+import {ExplanationService} from '../services/explanation-service.js';
 export const ExplanationDrawer = {
   data() {
     return {
       Titles: [],
-      headers: [{ text: 'title', value: 'title' }],
+      headers: [{text: 'title', value: 'title'}],
       queryText: '',
       selectedTitle: '',
     };
   },
   mounted() {
     ExplanationService.getTitle('/explanation/titles')
-      .then((titles) => {
-        this.Titles = titles;
-      })
-      .catch((error) => console.log(error));
+        .then((titles) => {
+          this.Titles = titles;
+        })
+        .catch((error) => console.log(error));
   },
   methods: {
     getTitle() {

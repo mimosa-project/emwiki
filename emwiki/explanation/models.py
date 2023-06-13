@@ -13,7 +13,7 @@ class Explanation(models.Model):
 
     def __str__(self):
         return self.title, self.author, self.created_at, self.updated_at
-    
+
     def save(self, *args, **kwargs):
         self.updated_at = timezone.now()
         return super().save(*args, **kwargs)

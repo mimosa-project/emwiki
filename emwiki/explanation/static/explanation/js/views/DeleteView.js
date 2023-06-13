@@ -11,15 +11,15 @@ export const deleteExplanation = {
       this.explanationTitle = this.$route.params.title;
       return this.explanationTitle;
     })
-      .catch((error) => console.log(error));
+        .catch((error) => console.log(error));
   },
   methods: {
     Explanationdelete() {
       axios.defaults.xsrfCookieName = 'csrftoken',
-        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN',
-        axios.delete(this.detailurl + this.explanationTitle +
+      axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN',
+      axios.delete(this.detailurl + this.explanationTitle +
           '/delete', {
-        })
+      })
           .then(() => {
             location.href = '/explanation';
           })
@@ -28,7 +28,7 @@ export const deleteExplanation = {
     reloadDetail_form() {
       this.$router.push({
         name: 'Detail',
-        params: { title: this.explanationTitle },
+        params: {title: this.explanationTitle},
       });
       location.reload();
     },
