@@ -14,7 +14,7 @@ export function onTextAreaKeyDown(event, object) {
   // カーソルの左右の文字列値
   const leftString = object.value.substr(0, cursorPosition);
   const rightString = object.value.substr(cursorPosition,
-    object.value.length);
+      object.value.length);
 
   // タブキーの場合
   if (keyCode === 9) {
@@ -23,27 +23,19 @@ export function onTextAreaKeyDown(event, object) {
     object.value = leftString + '\t' + rightString;
     // カーソル位置をタブスペースの後ろにする
     object.selectionEnd = cursorPosition + 1;
-  }
-  // $マークの場合
-  if (keyVal === '$') {
+  } if (keyVal === '$') {
     event.preventDefault();
     object.value = leftString + '$$' + rightString;
     object.selectionEnd = cursorPosition + 1;
-  }
-  // {の場合 
-  else if (keyVal === '{') {
+  } else if (keyVal === '{') {
     event.preventDefault();
     object.value = leftString + '{}' + rightString;
     object.selectionEnd = cursorPosition + 1;
-  }
-  // [の場合
-  else if (keyVal === '[') {
+  } else if (keyVal === '[') {
     event.preventDefault();
     object.value = leftString + '[]' + rightString;
     object.selectionEnd = cursorPosition + 1;
-  }
-  // "の場合
-  else if (keyVal === '"') {
+  } else if (keyVal === '"') {
     event.preventDefault();
     object.value = leftString + '""' + rightString;
     object.selectionEnd = cursorPosition + 1;

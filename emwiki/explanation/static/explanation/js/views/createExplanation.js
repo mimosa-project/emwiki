@@ -1,5 +1,5 @@
-import { onTextAreaKeyDown } from '../models/editor.js';
-import { escape, partialDescape } from '../models/markdown-mathjax.js';
+import {onTextAreaKeyDown} from '../models/editor.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 export const createExplanation = {
   data() {
     return {
@@ -20,12 +20,12 @@ export const createExplanation = {
         title: this.title,
         text: this.text,
       })
-        .then(() => {
-          location.href = '/explanation';
-        })
-        .catch((error) => {
-          alert(error.response.data.errors);
-        });
+          .then(() => {
+            location.href = '/explanation';
+          })
+          .catch((error) => {
+            alert(error.response.data.errors);
+          });
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
@@ -47,7 +47,7 @@ export const createExplanation = {
 
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function (event) {
+      inputField.onkeydown = function(event) {
         onTextAreaKeyDown(event, this);
       };
     },
@@ -55,7 +55,7 @@ export const createExplanation = {
       const invalidChars = /[!@$%#^&*()=+\[\]{};':"\\|,<>\/?]/g;
       if (this.title.match(invalidChars)) {
         const invalidChar = this.title.match(invalidChars);
-        alert("'" + invalidChar + "'cannot be used in titles");
+        alert(invalidChar + 'cannot be used in titles');
         this.title = '';
       }
     },
@@ -64,7 +64,8 @@ export const createExplanation = {
     //   Articlefield.style.display = 'block'; // inputを表示する
     //   Articlefield.focus(); // inputにフォーカスを当てる
 
-    //   document.getElementById('Article-field').addEventListener('keyup', function (event) {
+    //   document.getElementById('Article-field')
+    // .addEventListener('keyup', function (event) {
     //     if (event.key === 'Enter') { // Enterキーが押されたら
     //       const inputField = document.getElementById('input-field');
     //       const articleName = event.target.value; //入力された値をarticleNameに代入
@@ -91,7 +92,9 @@ export const createExplanation = {
                 <input id="title" v-model='title' class='display-3' 
                     @keyup="checkTitle"/>
             </div>
-            <p id='notes'>The following characters cannot be used in the title.</p>
+            <p id='notes'>
+              The following characters cannot be used in the title.
+            </p>
             <p  id='notes'>'! @$%#^&*()=+\[\]{};':"\\|,<>\/?'</p>
             <div class="columns">
                 <div class="column is-6" id="input-field-wrapper">

@@ -1,5 +1,5 @@
-import { onTextAreaKeyDown } from '../models/editor.js';
-import { escape, partialDescape } from '../models/markdown-mathjax.js';
+import {onTextAreaKeyDown} from '../models/editor.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 
 export const updateExplanation = {
   data() {
@@ -23,7 +23,8 @@ export const updateExplanation = {
     reload_Explanation() {
       return axios.get(this.url).then((response) => {
         const explanations = response.data.explanation;
-        this.explanationText = this.getTextByTitle(explanations, this.explanationTitle);
+        this.explanationText =
+        this.getTextByTitle(explanations, this.explanationTitle);
         this.preview = document.getElementById('preview-field');
         this.buffer = document.getElementById('preview-buffer');
         this.content = this.explanationText;
@@ -38,10 +39,10 @@ export const updateExplanation = {
 
         return this.explanationTitle, this.explanationText;
       })
-        .catch((error) => console.log(error));
+          .catch((error) => console.log(error));
     },
     getTextByTitle(dataArray, title) {
-      const element = dataArray.find(item => item.title === title);
+      const element = dataArray.find((item) => item.title === title);
       return element ? element.text : null;
     },
     changeExplanation() {
@@ -51,10 +52,10 @@ export const updateExplanation = {
         '/update', {
         text: this.explanationText,
       })
-        .then(() => {
-          location.href = '/explanation';
-        })
-        .catch((error) => console.log(error));
+          .then(() => {
+            location.href = '/explanation';
+          })
+          .catch((error) => console.log(error));
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
@@ -75,14 +76,14 @@ export const updateExplanation = {
     },
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function (event) {
+      inputField.onkeydown = function(event) {
         onTextAreaKeyDown(event, this);
       };
     },
     reloadDetail_form() {
       this.$router.push({
         name: 'Detail',
-        params: { title: this.explanationTitle },
+        params: {title: this.explanationTitle},
       });
       location.reload();
     },

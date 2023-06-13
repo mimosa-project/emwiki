@@ -26,7 +26,7 @@ class ExplanationTitleView(View):
         return JsonResponse({'index': [
             dict(id=explanation.id, title=explanation.title) for explanation in explanations
         ]})
-    
+
 
 class ExplanationView(View):
     def get(self, request, title=None):
@@ -49,7 +49,7 @@ class ExplanationView(View):
 
         if Explanation.objects.exclude(id=blog_id).filter(title=title).exists():
             raise ValidationError('Title must be unique.')
-    
+
     def post(self, request):
         post = json.loads(request.body)
         posted_id = post.get('id', None)
@@ -59,16 +59,16 @@ class ExplanationView(View):
             username = request.user.username
             User = get_user_model()
             user = User.objects.get(username=username)
-        
+
         try:
             self.validate_explanation_title(posted_id, posted_title)
         except ValidationError as e:
             errors = e.messages[0]
             return JsonResponse({'errors': errors}, status=400)
-        
+
         createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, author=user)
         createdExplanatoin.commit_explanation_creates()
-        
+
         return redirect('explanation:index')
 
 

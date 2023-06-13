@@ -1,4 +1,4 @@
-import { escape, partialDescape } from '../models/markdown-mathjax.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 
 export const ExplanationView = {
   data: () => ({
@@ -14,7 +14,7 @@ export const ExplanationView = {
   methods: {
     reloadExplanation() {
       return axios.get(this.url,
-        { params: { title: this.explanationTitle } }
+          {params: {title: this.explanationTitle}},
       ).then((response) => {
         this.explanationText = response.data;
         // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
@@ -26,23 +26,23 @@ export const ExplanationView = {
         });
         return this.explanationTitle, this.explanationText;
       })
-        .catch((error) => console.log(error));
+          .catch((error) => console.log(error));
     },
     getTextByTitle(dataArray, title) {
-      const element = dataArray.find(item => item.title === title);
+      const element = dataArray.find((item) => item.title === title);
       return element ? element.text : null;
     },
     reloadUpdate_form() {
       this.$router.push({
         name: 'Update',
-        params: { title: this.explanationTitle },
+        params: {title: this.explanationTitle},
       });
       location.reload();
     },
     reloadDelete_form() {
       this.$router.push({
         name: 'Delete',
-        params: { title: this.explanationTitle },
+        params: {title: this.explanationTitle},
       });
     },
   },
