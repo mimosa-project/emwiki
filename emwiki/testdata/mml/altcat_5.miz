@@ -1,0 +1,1057 @@
+:: Products in Categories without Uniqueness of { \bf cod } and { \bf dom
+:: }
+::  by Artur Korni{\l}owicz
+::
+:: Received August 19, 2012
+:: Copyright (c) 2012-2019 Association of Mizar Users
+::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).
+:: This code can be distributed under the GNU General Public Licence
+:: version 3.0 or later, or the Creative Commons Attribution-ShareAlike
+:: License version 3.0 or later, subject to the binding interpretation
+:: detailed in file COPYING.interpretation.
+:: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these
+:: licenses, or see http://www.gnu.org/licenses/gpl.html and
+:: http://creativecommons.org/licenses/by-sa/3.0/.
+
+environ
+
+ vocabularies ALTCAT_1, CAT_1, RELAT_1, ALTCAT_3, CAT_3, FUNCT_1, PBOOLE,
+      ALTCAT_5, FUNCOP_1, CARD_1, FUNCT_2, XBOOLE_0, SUBSET_1, STRUCT_0,
+      TARSKI, PARTFUN1, CARD_3, MSUALG_6;
+ notations TARSKI, XBOOLE_0, SUBSET_1, RELAT_1, FUNCT_1, RELSET_1, PARTFUN1,
+      FUNCT_2, PBOOLE, CARD_3, FUNCOP_1, NUMBERS, STRUCT_0, ALTCAT_1, ALTCAT_3;
+ constructors ALTCAT_3, RELSET_1, CARD_3, NUMBERS;
+ registrations XBOOLE_0, RELSET_1, FUNCOP_1, STRUCT_0, ALTCAT_1, FUNCT_2,
+      FUNCT_1, CARD_3, RELAT_1;
+ requirements SUBSET, BOOLE, NUMERALS;
+ definitions TARSKI, RELAT_1, FUNCOP_1, PARTFUN1, ALTCAT_3;
+ equalities ALTCAT_1, ORDINAL1;
+ expansions PARTFUN1;
+ theorems FUNCT_2, FUNCOP_1, CARD_1, TARSKI, ALTCAT_1, FUNCT_5, FUNCT_1,
+      ALTCAT_3, PARTFUN1, YELLOW17, RELAT_1, CARD_3, PBOOLE;
+ schemes PBOOLE, CLASSES1;
+
+begin
+
+reserve
+  I for set,
+  E for non empty set;
+
+registration
+  cluster empty -> {}-defined for Relation;
+  coherence
+  proof
+    let R be Relation;
+    assume R is empty;
+    hence dom R c= {};
+  end;
+end;
+
+definition
+  let C be AltGraph;
+  attr C is functional means
+:Def1:
+  for a, b being Object of C holds <^a,b^> is functional;
+end;
+
+registration
+  let E;
+  cluster EnsCat E -> functional;
+  coherence
+  proof
+    let a, b be Object of EnsCat E;
+    <^a,b^> = Funcs(a,b) by ALTCAT_1:def 14;
+    hence thesis;
+  end;
+end;
+
+registration
+  cluster functional strict for category;
+  existence
+  proof
+    take EnsCat {{}};
+    thus thesis;
+  end;
+end;
+
+registration
+  let C be functional AltCatStr;
+  cluster the AltGraph of C -> functional;
+  coherence
+  proof
+    let a,b be Object of the AltGraph of C;
+    reconsider a1 = a, b1 = b as Object of C;
+    <^a1,b1^> is functional by Def1;
+    hence thesis;
+  end;
+end;
+
+registration
+  cluster functional strict for AltGraph;
+  existence
+  proof
+    take the AltGraph of EnsCat {{}};
+    thus thesis;
+  end;
+end;
+
+registration
+  cluster functional strict for category;
+  existence
+  proof
+    take EnsCat {{}};
+    thus thesis;
+  end;
+end;
+
+registration
+  let C be functional AltGraph;
+  let a,b be Object of C;
+  cluster <^a,b^> -> functional;
+  coherence by Def1;
+end;
+
+reconsider a = 0, b = 1 as Element of 2 by CARD_1:50,TARSKI:def 2;
+
+set C = EnsCat {{}};
+
+Lm1: the carrier of C = {0} by ALTCAT_1:def 14;
+
+reconsider o = {} as Object of C by Lm1,TARSKI:def 1;
+
+Lm2: Funcs({} qua set,{} qua set) = {{}} by FUNCT_5:57;
+
+Lm3:
+now
+  let o1,o be Object of C;
+A1: o1 = {} & o = {} by Lm1,TARSKI:def 1;
+  <^o1,o^> = Funcs(o1,o) by ALTCAT_1:def 14;
+  hence {} is Morphism of o1,o & {} in <^o1,o^> by A1,Lm1,Lm2;
+end;
+
+Lm4:
+now
+  let o1, o be Object of C;
+  let m1 be Morphism of o1,o;
+A1: o = {} & o1 = {} by Lm1,TARSKI:def 1;
+  <^o1,o^> = Funcs(o1,o) by ALTCAT_1:def 14;
+  hence m1 = {} by A1,Lm2,TARSKI:def 1;
+end;
+
+Lm5:
+now
+  let o1,o be Object of C;
+  o = {} & o1 = {} by Lm1,TARSKI:def 1;
+  hence o1 = o;
+end;
+
+Lm6:
+now
+  let o1,o be Object of C;
+  let m1,m be Morphism of o1,o;
+  thus m1 = {} by Lm4
+  .= m by Lm4;
+end;
+
+definition
+  let C be non empty AltCatStr;
+  let I be set;
+  mode ObjectsFamily of I,C is Function of I,C;
+end;
+
+definition
+  let C be non empty AltCatStr;
+  let o be Object of C;
+  let I be set;
+  let f be ObjectsFamily of I,C;
+  mode MorphismsFamily of o,f -> ManySortedSet of I means
+:Def2:
+  for i being object st i in I
+   ex o1 being Object of C st o1 = f.i & it.i is Morphism of o,o1;
+  existence
+  proof
+    defpred P[object,object] means ex o1 being Object of C st o1 = f.$1 &
+    $2 is Morphism of o,o1;
+A1: for i being object st i in I ex j being object st P[i,j]
+    proof
+      let i be object;
+      assume i in I;
+      then reconsider o1 = f.i as Object of C by FUNCT_2:5;
+      take the Morphism of o,o1;
+      thus thesis;
+    end;
+    ex f being ManySortedSet of I st
+    for i being object st i in I holds P[i,f.i] from PBOOLE:sch 3(A1);
+    hence thesis;
+  end;
+end;
+
+definition
+  let C be non empty AltCatStr;
+  let o be Object of C;
+  let I be non empty set;
+  let f be ObjectsFamily of I,C;
+  redefine mode MorphismsFamily of o,f means
+:Def3:
+  for i being Element of I holds it.i is Morphism of o,f.i;
+  compatibility
+  proof
+    let F be ManySortedSet of I;
+    hereby
+      assume
+A1:   F is MorphismsFamily of o,f;
+      let i be Element of I;
+      ex o1 being Object of C st o1 = f.i & F.i is Morphism of o,o1
+      by A1,Def2;
+      hence F.i is Morphism of o,f.i;
+    end;
+    assume
+A2: for i being Element of I holds F.i is Morphism of o,f.i;
+    let i be object;
+    assume i in I;
+    then reconsider j = i as Element of I;
+    take f.j;
+    thus thesis by A2;
+  end;
+end;
+
+definition
+  let C be non empty AltCatStr;
+  let o be Object of C;
+  let I be non empty set;
+  let f be ObjectsFamily of I,C;
+  let M be MorphismsFamily of o,f;
+  let i be Element of I;
+  redefine func M.i -> Morphism of o,f.i;
+  coherence by Def3;
+end;
+
+registration
+  let C be functional non empty AltCatStr;
+  let o be Object of C;
+  let I be set;
+  let f be ObjectsFamily of I,C;
+  cluster -> Function-yielding for MorphismsFamily of o,f;
+  coherence
+  proof
+    let F be MorphismsFamily of o,f;
+    let i be object;
+    assume i in dom F;
+    then ex o1 being Object of C st
+    o1 = f.i & F.i is Morphism of o,o1 by Def2;
+    hence thesis;
+  end;
+end;
+
+theorem Th1:
+  for C being non empty AltCatStr, o being Object of C
+  for f being ObjectsFamily of {},C holds
+  {} is MorphismsFamily of o,f
+  proof
+    let C be non empty AltCatStr, o be Object of C, f be ObjectsFamily of {},C;
+    reconsider A = {} as {}-defined Relation;
+    A is total;
+    then reconsider A = {} as ManySortedSet of {};
+    A is MorphismsFamily of o,f
+    proof
+      let i be object;
+      thus thesis;
+    end;
+    hence thesis;
+ end;
+
+definition
+  let C be non empty AltCatStr;
+  let I be set;
+  let A be ObjectsFamily of I,C;
+  let B be Object of C;
+  let P be MorphismsFamily of B,A;
+  attr P is feasible means
+  for i being set st i in I ex o being Object of C st o = A.i & P.i in <^B,o^>;
+end;
+
+definition
+  let C be non empty AltCatStr;
+  let I be non empty set;
+  let A be ObjectsFamily of I,C;
+  let B be Object of C;
+  let P be MorphismsFamily of B,A;
+  redefine attr P is feasible means :Def5:
+  for i being Element of I holds P.i in <^B,A.i^>;
+  compatibility
+  proof
+    thus P is feasible implies
+    for i being Element of I holds P.i in <^B,A.i^>
+    proof
+      assume
+A1:   P is feasible;
+      let i be Element of I;
+      ex o being Object of C st o = A.i & P.i in <^B,o^> by A1;
+      hence thesis;
+    end;
+    assume
+A2: for i being Element of I holds P.i in <^B,A.i^>;
+    let i be set;
+    assume i in I;
+    then reconsider i as Element of I;
+    reconsider A as ObjectsFamily of I,C;
+    take A.i;
+    thus thesis by A2;
+  end;
+end;
+
+definition
+  let C be category;
+  let I be set;
+  let A be ObjectsFamily of I,C;
+  let B be Object of C; :: product object
+  let P be MorphismsFamily of B,A; :: product family
+  attr P is projection-morphisms means
+  for X being Object of C, F being MorphismsFamily of X,A
+  st F is feasible
+  ex f being Morphism of X,B st f in <^X,B^> &
+::existence
+  (for i being set st i in I
+  ex si being Object of C, Pi being Morphism of B,si st
+  si = A.i & Pi = P.i & F.i = Pi * f) &
+::uniqueness
+  for f1 being Morphism of X,B st for i being set st i in I
+  ex si being Object of C, Pi being Morphism of B,si st
+  si = A.i & Pi = P.i & F.i = Pi * f1
+  holds f = f1;
+end;
+
+definition
+  let C be category;
+  let I be non empty set;
+  let A be ObjectsFamily of I,C;
+  let B be Object of C;
+  let P be MorphismsFamily of B,A;
+  redefine attr P is projection-morphisms means
+
+  for X being Object of C, F being MorphismsFamily of X,A st F is feasible
+   ex f being Morphism of X,B st f in <^X,B^> &
+::existence
+    (for i being Element of I holds F.i = P.i * f) &
+::uniqueness
+    for f1 being Morphism of X,B st
+      for i being Element of I holds F.i = P.i * f1
+    holds f = f1;
+  correctness
+  proof
+    thus P is projection-morphisms implies
+    for Y being Object of C, F being MorphismsFamily of Y,A st F is feasible
+    ex f being Morphism of Y,B st f in <^Y,B^> &
+    (for i being Element of I holds F.i = P.i * f) &
+    for f1 being Morphism of Y,B st
+    for i being Element of I holds F.i = P.i * f1
+    holds f = f1
+    proof
+      assume
+A1:   P is projection-morphisms;
+      let Y be Object of C, F be MorphismsFamily of Y,A;
+      assume
+A2:   F is feasible;
+      consider f being Morphism of Y,B such that
+A3:   f in <^Y,B^> and
+A4:   for i being set st i in I
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f and
+A5:   for f1 being Morphism of Y,B st for i being set st i in I
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f1
+      holds f = f1 by A2,A1;
+      take f;
+      thus f in <^Y,B^> by A3;
+      hereby
+        let i be Element of I;
+        ex si being Object of C, Pi being Morphism of B,si st
+        si = A.i & Pi = P.i & F.i = Pi * f by A4;
+        hence F.i = P.i * f;
+      end;
+      let f1 be Morphism of Y,B such that
+A6:   for i being Element of I holds F.i = P.i * f1;
+      for i being set st i in I
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f1
+      proof
+        let i be set;
+        assume i in I;
+        then reconsider i as Element of I;
+        reconsider si = A.i as Object of C;
+        reconsider Pi = P.i as Morphism of B,si;
+        take si, Pi;
+        thus thesis by A6;
+      end;
+      hence thesis by A5;
+    end;
+    assume
+A7: for Y being Object of C, F being MorphismsFamily of Y,A st F is feasible
+    ex f being Morphism of Y,B st f in <^Y,B^> &
+    (for i being Element of I holds F.i = P.i * f) &
+    for f1 being Morphism of Y,B st
+    for i being Element of I holds F.i = P.i * f1
+    holds f = f1;
+    let Y be Object of C, F be MorphismsFamily of Y,A;
+    assume F is feasible;
+    then consider f be Morphism of Y,B such that
+A8: f in <^Y,B^> and
+A9: for i being Element of I holds F.i = P.i * f and
+A10: for f1 being Morphism of Y,B st
+    for i being Element of I holds F.i = P.i * f1
+    holds f = f1 by A7;
+    take f;
+    thus f in <^Y,B^>  by A8;
+    thus for i being set st i in I
+    ex si being Object of C, Pi being Morphism of B,si st
+    si = A.i & Pi = P.i & F.i = Pi * f
+    proof
+      let i be set;
+      assume i in I;
+      then reconsider j = i as Element of I;
+      take A.j, P.j;
+      thus thesis by A9;
+    end;
+    let f1 be Morphism of Y,B such that
+A11: for i being set st i in I
+    ex si being Object of C, Pi being Morphism of B,si st
+    si = A.i & Pi = P.i & F.i = Pi * f1;
+    now
+      let i be Element of I;
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f1 by A11;
+      hence F.i = P.i * f1;
+    end;
+    hence thesis by A10;
+  end;
+end;
+
+registration
+  let C be category, A be ObjectsFamily of {},C;
+  let B be Object of C;
+  cluster -> feasible for MorphismsFamily of B,A;
+  coherence;
+end;
+
+theorem Th2:
+  for C being category, A being ObjectsFamily of {},C
+  for B being Object of C st B is terminal holds
+  ex P being MorphismsFamily of B,A st P is empty projection-morphisms
+  proof
+    let C be category;
+    let A be ObjectsFamily of {},C;
+    let B be Object of C;
+    assume
+A1: B is terminal;
+    reconsider P = {} as MorphismsFamily of B,A by Th1;
+    take P;
+    thus P is empty;
+    let X be Object of C, F be MorphismsFamily of X,A;
+    assume F is feasible;
+    consider f being Morphism of X,B such that
+A2: f in <^X,B^> &
+    for M1 being Morphism of X,B st M1 in <^X,B^> holds f = M1
+    by A1,ALTCAT_3:27;
+    take f;
+    thus thesis by A2;
+  end;
+
+theorem Th3:
+  for A being ObjectsFamily of I,EnsCat {{}}, o being Object of EnsCat {{}}
+  holds I --> {} is MorphismsFamily of o,A
+  proof
+    let A be ObjectsFamily of I,C;
+    let o be Object of C;
+    let i be object such that
+A1: i in I;
+    reconsider I as non empty set by A1;
+    reconsider j = i as Element of I by A1;
+    reconsider A1 = A as ObjectsFamily of I,C;
+    reconsider o1 = A1.j as Object of C;
+    take o1;
+    thus o1 = A.i;
+    thus thesis by Lm3;
+  end;
+
+theorem Th4:
+  for A being ObjectsFamily of I,EnsCat {{}},
+      o being Object of EnsCat {{}},
+      P being MorphismsFamily of o,A st P = I --> {} holds
+   P is feasible projection-morphisms
+   proof
+     let A be ObjectsFamily of I,EnsCat {{}};
+     let o be Object of EnsCat {{}};
+     let P be MorphismsFamily of o,A;
+     assume
+A1:  P = I --> {};
+     thus P is feasible
+     proof
+       let i be set;
+       assume
+A2:    i in I;
+       then reconsider I as non empty set;
+       reconsider i as Element of I by A2;
+       reconsider A as ObjectsFamily of I,C;
+       P.i = {} by A1;
+       then P.i in <^o,A.i^> by Lm3;
+       hence thesis;
+     end;
+     let Y be Object of C, F being MorphismsFamily of Y,A;
+     assume F is feasible;
+     reconsider f = {} as Morphism of Y,o by Lm3;
+     take f;
+     thus f in <^Y,o^> by Lm3;
+     thus for i being set st i in I
+     ex si being Object of C, Pi being Morphism of o,si st
+     si = A.i & Pi = P.i & F.i = Pi * f
+     proof
+       let i be set;
+       assume
+A3:    i in I;
+       then reconsider I as non empty set;
+       reconsider j = i as Element of I by A3;
+       reconsider M = {} as Morphism of o,o by Lm3;
+       reconsider A1 = A as ObjectsFamily of I,C;
+       reconsider F1 = F as MorphismsFamily of Y,A1;
+       take o, M;
+       A1.j = {} by Lm1,TARSKI:def 1;
+       hence o = A.i by Lm5;
+       thus M = P.i by A1;
+       F1.j is Morphism of Y,o & M*f is Morphism of Y,o by Lm5;
+       hence thesis by Lm6;
+     end;
+     thus thesis by Lm4;
+   end;
+
+definition
+  let C be category;
+  attr C is with_products means
+:Def8:
+  for I being set, A being ObjectsFamily of I,C
+   ex B being Object of C, P being MorphismsFamily of B,A st
+    P is feasible projection-morphisms;
+end;
+
+registration
+  cluster EnsCat {{}} -> with_products;
+  coherence
+  proof
+    let I be set, A be ObjectsFamily of I,C;
+    reconsider P = I --> {} as MorphismsFamily of o,A by Th3;
+    take o,P;
+    thus thesis by Th4;
+  end;
+end;
+
+registration
+  cluster with_products for category;
+  existence
+  proof
+    take EnsCat {{}};
+    thus thesis;
+  end;
+end;
+
+definition
+  let C be category;
+  let I be set, A be ObjectsFamily of I,C;
+  let B be Object of C;
+  attr B is A-CatProduct-like means
+
+  ex P being MorphismsFamily of B,A st P is feasible projection-morphisms;
+end;
+
+registration
+  let C be with_products category;
+  let I be set, A be ObjectsFamily of I,C;
+  cluster A-CatProduct-like for Object of C;
+  existence
+  proof
+    consider B being Object of C, P being MorphismsFamily of B,A such that
+A1: P is feasible projection-morphisms by Def8;
+    take B,P;
+    thus thesis by A1;
+  end;
+end;
+
+registration
+  let C be category;
+  let A be ObjectsFamily of {},C;
+  cluster A-CatProduct-like -> terminal for Object of C;
+  coherence
+  proof
+    let B be Object of C such that
+A1: B is A-CatProduct-like;
+    for X being Object of C
+    ex M being Morphism of X,B st M in <^X,B^> &
+    for M1 being Morphism of X,B st M1 in <^X,B^> holds M = M1
+    proof
+      let X be Object of C;
+      consider P being MorphismsFamily of B,A such that
+A2:   P is feasible projection-morphisms by A1;
+      set F = the MorphismsFamily of X,A;
+      consider f being Morphism of X,B such that
+A3:   f in <^X,B^> and
+      for i being set st i in {}
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f and
+A4:   for f1 being Morphism of X,B st for i being set st i in {}
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * f1
+      holds f = f1 by A2;
+      take f;
+      thus f in <^X,B^> by A3;
+      let M be Morphism of X,B;
+      for i being set st i in {}
+      ex si being Object of C, Pi being Morphism of B,si st
+      si = A.i & Pi = P.i & F.i = Pi * M;
+      hence thesis by A4;
+    end;
+    hence thesis by ALTCAT_3:27;
+  end;
+end;
+
+theorem
+  for C being category, A being ObjectsFamily of {},C
+  for B being Object of C st B is terminal holds
+  B is A-CatProduct-like
+  proof
+    let C be category;
+    let A be ObjectsFamily of {},C;
+    let B be Object of C;
+    assume B is terminal;
+    then ex P being MorphismsFamily of B,A st
+    P is empty projection-morphisms by Th2;
+    hence thesis;
+  end;
+
+theorem
+  for C being category, A being ObjectsFamily of I,C,
+      C1,C2 being Object of C
+  st C1 is A-CatProduct-like & C2 is A-CatProduct-like
+  holds C1,C2 are_iso
+  proof
+    let C be category;
+    let A be ObjectsFamily of I,C;
+    let C1,C2 be Object of C;
+    assume that
+A1: C1 is A-CatProduct-like and
+A2: C2 is A-CatProduct-like;
+    per cases;
+    suppose I is empty;
+      hence thesis by A1,A2,ALTCAT_3:28;
+    end;
+    suppose I is non empty;
+      then reconsider I as non empty set;
+      reconsider A as ObjectsFamily of I,C;
+      consider P1 being MorphismsFamily of C1,A such that
+A3:   P1 is feasible and
+A4:   P1 is projection-morphisms by A1;
+      consider P2 being MorphismsFamily of C2,A such that
+A5:   P2 is feasible and
+A6:   P2 is projection-morphisms by A2;
+      consider f1 being Morphism of C2,C1 such that
+A7:   f1 in <^C2,C1^> and
+A8:   for i being Element of I holds P2.i = P1.i * f1 and
+      for fa being Morphism of C2,C1 st
+      for i being Element of I holds P2.i = P1.i * fa
+      holds f1 = fa by A4,A5;
+      consider g1 being Morphism of C1,C1 such that
+      g1 in <^C1,C1^> and
+      for i being Element of I holds P1.i = P1.i * g1 and
+A9:   for fa being Morphism of C1,C1 st
+      for i being Element of I holds P1.i = P1.i * fa
+      holds g1 = fa by A3,A4;
+      consider f2 being Morphism of C1,C2 such that
+A10:   f2 in <^C1,C2^> and
+A11:   for i being Element of I holds P1.i = P2.i * f2 and
+      for fa being Morphism of C1,C2 st
+      for i being Element of I holds P1.i = P2.i * fa
+      holds f2 = fa by A3,A6;
+      consider g2 being Morphism of C2,C2 such that
+      g2 in <^C2,C2^> and
+      for i being Element of I holds P2.i = P2.i * g2 and
+A12:  for fa being Morphism of C2,C2 st
+      for i being Element of I holds P2.i = P2.i * fa
+      holds g2 = fa by A5,A6;
+      thus <^C1,C2^> <> {} & <^C2,C1^> <> {} by A7,A10;
+      take f2;
+A13:  f2 is retraction
+      proof
+        take f1;
+        now
+          let i be Element of I;
+          P2.i in <^C2,A.i^> by A5;
+          hence P2.i = P2.i * idm C2 by ALTCAT_1:def 17;
+        end;
+        then
+A14:    g2 = idm C2 by A12;
+        now
+          let i be Element of I;
+          P2.i in <^C2,A.i^> by A5;
+          hence P2.i * (f2 * f1) = P2.i * f2 * f1 by A7,A10,ALTCAT_1:21
+          .= P1.i * f1 by A11
+          .= P2.i by A8;
+        end;
+        hence f2 * f1 = idm C2 by A14,A12;
+      end;
+      f2 is coretraction
+      proof
+        take f1;
+        now
+          let i be Element of I;
+          P1.i in <^C1,A.i^> by A3;
+          hence P1.i = P1.i * idm C1 by ALTCAT_1:def 17;
+        end;
+        then
+A15:    g1 = idm C1 by A9;
+        now
+          let i be Element of I;
+          P1.i in <^C1,A.i^> by A3;
+          hence P1.i * (f1 * f2) = P1.i * f1 * f2 by A7,A10,ALTCAT_1:21
+          .= P2.i * f2 by A8
+          .= P1.i by A11;
+        end;
+        hence f1 * f2 = idm C1 by A15,A9;
+      end;
+      hence thesis by A7,A10,A13,ALTCAT_3:6;
+    end;
+  end;
+
+reserve A for ObjectsFamily of I,EnsCat E;
+
+definition
+  let I,E,A;
+  assume
+A1: product A in E;
+  func EnsCatProductObj A -> Object of EnsCat E equals :Def10:
+  product A;
+  coherence by A1,ALTCAT_1:def 14;
+end;
+
+definition
+  let I,E,A;
+  assume
+A1: product A in E;
+  func EnsCatProduct A -> MorphismsFamily of EnsCatProductObj A,A
+  means :Def11:
+  for i being set st i in I holds it.i = proj(A,i);
+  existence
+  proof
+    deffunc F(object) = proj(A,$1);
+    consider P being ManySortedSet of I such that
+A2: for i being object st i in I holds P.i = F(i) from PBOOLE:sch 4;
+    set B = EnsCatProductObj A;
+A3: B = product A by A1,Def10;
+    P is MorphismsFamily of B,A
+    proof
+      let i be object such that
+A4:   i in I;
+      reconsider I as non empty set by A4;
+      reconsider i as Element of I by A4;
+      reconsider A as ObjectsFamily of I,EnsCat E;
+      take A.i;
+A5:   <^B,A.i^> = Funcs(B,A.i) by ALTCAT_1:def 14;
+      dom A = I by PARTFUN1:def 2;
+      then
+A6:   rng proj(A,i) c= A.i by YELLOW17:3;
+      dom proj(A,i) = B by A3,PARTFUN1:def 2;
+      then proj(A,i) in Funcs(B,A.i) by A6,FUNCT_2:def 2;
+      hence thesis by A2,A5;
+    end;
+    then reconsider P as MorphismsFamily of B,A;
+    take P;
+    thus thesis by A2;
+  end;
+  uniqueness
+  proof
+    let f,g be MorphismsFamily of EnsCatProductObj A,A such that
+A7: for i being set st i in I holds f.i = proj(A,i) and
+A8: for i being set st i in I holds g.i = proj(A,i);
+    now
+      let i be object;
+      assume
+A9:   i in I;
+      hence f.i = proj(A,i) by A7
+      .= g.i by A8,A9;
+    end;
+    hence thesis by PBOOLE:3;
+  end;
+end;
+
+theorem Th7:
+  product A in E & product A = {} implies EnsCatProduct A = I --> {}
+  proof
+    assume that
+A1: product A in E and
+A2: product A = {};
+    now
+      let i be object;
+      assume
+   i in I;
+      hence (EnsCatProduct A).i = proj(A,i) by A1,Def11
+      .= {} by A2
+      .= (I --> {}).i;
+    end;
+    hence thesis by PBOOLE:3;
+  end;
+
+theorem Th8:
+  product A in E implies EnsCatProduct A is feasible projection-morphisms
+  proof
+    set B = EnsCatProductObj A;
+    set P = EnsCatProduct A;
+    assume
+A1: product A in E; then
+A2: B = product A by Def10;
+    per cases;
+    suppose
+A3: product A <> {};
+A4: dom A = I by PARTFUN1:def 2;
+A5: now
+      let i be set;
+      assume i in I;
+      then A.i in rng A by A4,FUNCT_1:def 3;
+      hence A.i <> {} by A3,CARD_3:26;
+    end;
+    thus P is feasible
+    proof
+      let i be set;
+      assume
+A6:   i in I;
+      then reconsider I as non empty set;
+      reconsider i as Element of I by A6;
+      reconsider A as ObjectsFamily of I,EnsCat E;
+      reconsider P as MorphismsFamily of B,A;
+      take A.i;
+A7:   <^B,A.i^> = Funcs(B,A.i) by ALTCAT_1:def 14;
+      A.i <> {} by A5;
+      then Funcs(B,A.i) <> {};
+      then P.i in <^B,A.i^> by A7;
+      hence thesis;
+    end;
+    let X be Object of EnsCat E, F be MorphismsFamily of X,A;
+    assume F is feasible;
+A8: <^X,B^> = Funcs(X,B) by ALTCAT_1:def 14;
+    defpred P[object,object] means
+    ex M being ManySortedSet of I st
+    (for i being set st i in I holds M.i = F.i.$1) & $2 = M;
+A9: for x being object st x in X ex u being object st P[x,u]
+    proof
+      let x be object;
+      assume x in X;
+      deffunc I(object) = F.$1.x;
+      consider f being ManySortedSet of I such that
+A10:  for i being object st i in I holds f.i = I(i) from PBOOLE:sch 4;
+      take f,f;
+      thus thesis by A10;
+    end;
+    consider ff being Function such that
+A11: dom ff = X and
+A12: for x being object st x in X holds P[x,ff.x] from CLASSES1:sch 1(A9);
+A13: rng ff c= B
+     proof
+       let y be object;
+       assume y in rng ff;
+       then consider x being object such that
+A14:   x in dom ff and
+A15:   ff.x = y by FUNCT_1:def 3;
+       consider M being ManySortedSet of I such that
+A16:   for i being set st i in I holds M.i = F.i.x and
+A17:   ff.x = M by A11,A12,A14;
+A18:   dom M = I by PARTFUN1:def 2;
+       now
+         let i be object;
+         assume
+A19:     i in dom A;
+         then reconsider I as non empty set;
+         reconsider j = i as Element of I by A19;
+         reconsider A1 = A as ObjectsFamily of I,EnsCat E;
+         reconsider F1 = F as MorphismsFamily of X,A1;
+A20:     <^X,A1.j^> = Funcs(X,A1.j) by ALTCAT_1:def 14;
+         A1.j <> {} by A5;
+         then
+A21:     dom(F1.j) = X & rng(F1.j) c= A1.j by A20,FUNCT_2:92;
+         then
+A22:     F1.j.x in rng(F1.j) by A14,A11,FUNCT_1:def 3;
+         M.j = F.j.x by A16;
+         hence M.i in A.i by A22,A21;
+       end;
+       hence thesis by A2,A4,A15,A17,A18,CARD_3:9;
+     end;
+     then reconsider ff as Morphism of X,B by A8,A11,FUNCT_2:def 2;
+     take ff;
+     thus
+A23: ff in <^X,B^> by A8,A13,A11,FUNCT_2:def 2;
+     thus for i being set st i in I
+     ex si being Object of EnsCat E, Pi being Morphism of B,si st
+     si = A.i & Pi = P.i & F.i = Pi * ff
+     proof
+       let i be set;
+       assume
+A24:   i in I;
+       then reconsider I as non empty set;
+       reconsider j = i as Element of I by A24;
+       reconsider A1 = A as ObjectsFamily of I,EnsCat E;
+       reconsider P1 = P as MorphismsFamily of B,A1;
+       reconsider F1 = F as MorphismsFamily of X,A1;
+       take A1.j;
+       take P1.j;
+       thus A1.j = A.i & P1.j = P.i;
+       reconsider p = P1.j as Function;
+A25:   <^B,A1.j^> = Funcs(B,A1.j) by ALTCAT_1:def 14;
+A26:   A1.j <> {} by A5;
+       then <^X,A1.j^> <> {} by A25,A23,ALTCAT_1:def 2;
+       then
+A27:   P1.j * ff = p * ff by A23,A26,A25,ALTCAT_1:16;
+A28:   <^X,A1.j^> = Funcs(X,A1.j) by ALTCAT_1:def 14;
+       then
+A29:   dom(P1.j*ff) = X by A26,FUNCT_2:92;
+A30:   dom(F1.j) = X by A26,A28,FUNCT_2:92;
+       now
+         let x be object;
+         assume
+A31:     x in dom(F1.j);
+         then consider M being ManySortedSet of I such that
+A32:     for i being set st i in I holds M.i = F.i.x and
+A33:     ff.x = M by A12,A30;
+A34:     dom proj(A,j) = B by A2,CARD_3:def 16;
+A35:     ff.x in rng ff by A11,A30,A31,FUNCT_1:def 3;
+         thus (p*ff).x = p.(ff.x) by A11,A30,A31,FUNCT_1:13
+         .= proj(A,j).(ff.x) by A1,Def11
+         .= M.j by A33,A34,A35,A13,CARD_3:def 16
+         .= F1.j.x by A32;
+       end;
+       hence F.i = P1.j * ff by A27,A29,A26,A28,FUNCT_2:92,FUNCT_1:2;
+     end;
+     let f1 be Morphism of X,B such that
+A36: for i being set st i in I
+     ex si being Object of EnsCat E, Pi being Morphism of B,si st
+     si = A.i & Pi = P.i & F.i = Pi * f1;
+A37: f1 is Function of X,B by A8,A23,FUNCT_2:66;
+     then
+A38: dom f1 = X by A3,A2,FUNCT_2:def 1;
+A39: rng f1 c= B by A37,RELAT_1:def 19;
+     now
+       let x be object;
+       assume
+A40:   x in dom ff;
+       then
+A41:   f1.x in rng f1 by A11,A38,FUNCT_1:def 3;
+       reconsider h = f1.x as Function by A2,A37;
+       consider M being ManySortedSet of I such that
+A42:   for i being set st i in I holds M.i = F.i.x and
+A43:   ff.x = M by A11,A12,A40;
+A44:   dom h = I by A2,A4,A41,A39,CARD_3:9;
+       now
+         let i be object;
+         assume
+A45:     i in dom M;
+         then consider si being Object of EnsCat E, Pi being Morphism of B,si
+         such that
+A46:     si = A.i & Pi = P.i and
+A47:     F.i = Pi * f1 by A36;
+A48:     P.i = proj(A,i) by A1,A45,Def11;
+A49:     dom proj(A,i) = B by A2,CARD_3:def 16;
+A50:     <^B,si^> = Funcs(B,si) by ALTCAT_1:def 14;
+A51:     si <> {} by A5,A45,A46;
+         then
+A52:     <^X,si^> <> {} by A50,A23,ALTCAT_1:def 2;
+         thus M.i = (Pi*f1).x by A47,A42,A45
+         .= (Pi qua Function*f1).x by A50,A23,A51,A52,ALTCAT_1:16
+         .= Pi.h by A38,A11,A40,FUNCT_1:13
+         .= h.i by A39,A41,A46,A48,A49,CARD_3:def 16;
+       end;
+       hence ff.x = f1.x by A44,A43,FUNCT_1:2,PARTFUN1:def 2;
+     end;
+     hence thesis by A11,A38,FUNCT_1:2;
+   end;
+   suppose
+A53: product A = {};
+    thus P is feasible
+    proof
+      let i be set such that
+A54:   i in I;
+      reconsider I as non empty set by A54;
+      reconsider i as Element of I by A54;
+      reconsider A as ObjectsFamily of I,EnsCat E;
+      take A.i;
+A55:   <^B,A.i^> = Funcs(B,A.i) by ALTCAT_1:def 14
+      .= {{}} by A2,A53,FUNCT_5:57;
+      P.i = (I-->{}).i by A1,A53,Th7
+      .= {};
+      hence thesis by A55,TARSKI:def 1;
+    end;
+    let X be Object of EnsCat E, F be MorphismsFamily of X,A;
+    assume
+A56: F is feasible;
+A57: now
+      assume
+A58:  X <> {};
+      {} in rng A by A53,CARD_3:26;
+      then consider i being object such that
+A59:  i in dom A and
+A60:  A.i = {} by FUNCT_1:def 3;
+      reconsider I as non empty set by A59;
+      reconsider i as Element of I by A59;
+      reconsider A as ObjectsFamily of I,EnsCat E;
+      <^X,A.i^> = Funcs(X,A.i) by ALTCAT_1:def 14
+      .= {} by A58,A60;
+      hence contradiction by A56,Def5;
+    end;
+A61: <^X,B^> = Funcs(X,B) by ALTCAT_1:def 14
+     .= {{}} by A57,FUNCT_5:57;
+     then reconsider f = {} as Morphism of X,B by TARSKI:def 1;
+     take f;
+     thus f in <^X,B^> by A61;
+     thus for i being set st i in I
+     ex si being Object of EnsCat E, Pi being Morphism of B,si st
+     si = A.i & Pi = P.i & F.i = Pi * f
+     proof
+       let i be set such that
+A62:   i in I;
+       reconsider J = I as non empty set by A62;
+       reconsider j = i as Element of J by A62;
+       reconsider A1 = A as ObjectsFamily of J,EnsCat E;
+       reconsider P1 = P as MorphismsFamily of B,A1;
+       reconsider si = A1.j as Object of EnsCat E;
+       reconsider Pi = P1.j as Morphism of B,si;
+       reconsider F1 = F as MorphismsFamily of X,A1;
+       reconsider F2 = F1.j as Morphism of X,si;
+       take si, Pi;
+       thus si = A.i & Pi = P.i;
+A63:   <^B,si^> = Funcs(B,si) by ALTCAT_1:def 14
+       .= {{}} by A2,A53,FUNCT_5:57;
+       then
+A64:   <^X,si^> <> {} by A61,ALTCAT_1:def 2;
+A65:   Funcs(X,si) = {{}} by A57,FUNCT_5:57;
+A66:   <^X,si^> = Funcs(X,si) by ALTCAT_1:def 14;
+       thus F.i = F2
+       .= {} by A65,A66,TARSKI:def 1
+       .= Pi qua Function * f
+       .= Pi * f by A63,A61,A64,ALTCAT_1:16;
+     end;
+     let f1 be Morphism of X,B;
+     thus thesis by A61,TARSKI:def 1;
+   end;
+ end;
+
+theorem
+  product A in E implies EnsCatProductObj A is A-CatProduct-like
+  proof
+    assume
+A1: product A in E;
+    take EnsCatProduct A;
+    thus thesis by A1,Th8;
+end;
+
+theorem
+  (for I,A holds product A in E) implies EnsCat E is with_products
+  proof
+    assume
+A1: for I,A holds product A in E;
+    let I,A;
+    take EnsCatProductObj A, EnsCatProduct A;
+    product A in E by A1;
+    hence thesis by Th8;
+  end;

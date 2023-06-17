@@ -1,0 +1,45 @@
+#graph{
+    height: 100%;
+    width: 100%;
+}
+
+.color_index{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+}
+
+.color_labels .number_row{
+    width: 20px;
+    text-align: center;
+}
+
+.color_labels .color_row{
+    width: 40px;
+}
+
+.color_labels .generation_param_row{
+    width: 140px;
+    font-size: 100%;
+}
+
+.color_labels .node_size_param_row{
+    width: 80px;
+}
+
+.cy-context-menus-cxt-menu {
+    background-color: #f5f5f5;
+    font-size: 20px;
+}
+
+.cy-context-menus-cxt-menuitem {
+    background-color: #f5f5f5;
+}
+
+#help-dialog {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    margin: 16px;
+    z-index: 4;
+}
