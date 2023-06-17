@@ -1,8 +1,8 @@
-import {ArticleService} from '../services/article-service.js';
+import {context} from '../../../js/context.js';
 import {Article} from '../models/article.js';
 import {Comment} from '../models/comment.js';
 import {Parser} from '../models/parser.js';
-import {context} from '../../../js/context.js';
+import {ArticleService} from '../services/article-service.js';
 
 export const ArticleView = {
   data: () => ({
@@ -35,7 +35,7 @@ export const ArticleView = {
               const aTagElements = this.$el.getElementsByTagName('a');
               for (let i = 0; i < aTagElements.length; i++) {
                 if (aTagElements[i].href !== 'javascript:()' &&
-                    aTagElements[i].href !== '') {
+                  aTagElements[i].href !== '') {
                   aTagElements[i].addEventListener('click', (event) => {
                     event.preventDefault();
                     return window.open(event.target.href, '_blank');
@@ -123,7 +123,10 @@ export const ArticleView = {
       }
     },
   },
+
+
   template: `
+
       <v-container id="article" fluid>
           <v-row>
               <v-col class='display-3'>$( articleName )</v-col>

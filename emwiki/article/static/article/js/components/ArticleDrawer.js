@@ -1,6 +1,6 @@
-import {ArticleService} from '../services/article-service.js';
-import {Searcher} from '../../../js/Searcher.js';
 import {context} from '../../../js/context.js';
+import {Searcher} from '../../../js/Searcher.js';
+import {ArticleService} from '../services/article-service.js';
 
 /**
  * ArticleDrawer
@@ -39,7 +39,7 @@ export const ArticleDrawer = {
       this.searcher.run(
           newQueryText,
           (items) => this.items = items,
-          (items) => items.forEach((item) => this.items.push(item)) );
+          (items) => items.forEach((item) => this.items.push(item)));
     },
   },
   template: `
