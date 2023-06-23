@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Move to Working Directory
-cd "$(dirname "$0")/../.."
-
-# Main
-pipenv run flake8
