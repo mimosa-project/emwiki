@@ -1,9 +1,0 @@
-[run]
-branch = True
-omit = 
-    *migrations*
-    *tests*
-    *wsgi.py
-command_line = manage.py test
-debug = True
-source = .
