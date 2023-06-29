@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "njpwerner.autodocstring",
+        "ms-python.python",
+        "dbaeumer.vscode-eslint"
+    ]
+}
