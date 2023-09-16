@@ -181,6 +181,8 @@ TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(
     TEST_OUTPUTS_DIR, 'product_symbol_html')
 TEST_RAW_MML_MML_DIR = os.path.join(TEST_DATA_DIR, 'mml')
 TEST_MML_MML_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
+TEST_EXPLANATION_DIR = os.path.join(TEST_DATA_DIR, 'explanation_edited')
+
 TEST_MML_HTML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(
     TEST_DATA_DIR, 'product_htmlized_mml')
