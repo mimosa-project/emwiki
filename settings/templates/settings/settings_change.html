@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<v-row justify="center mt-5">
+    <v-col cols="12" sm="10" md="8" lg="6">
+        <v-card ref="form">
+            <form action="" method="post">
+                <v-card-text>
+                    <p class="text-h4 text--primary mb-12">New Settings</p>
+                    <v-text-field id="github_id" name="github_id" label="ID for GitHub" type="text"
+                        required></v-text-field>
+                    <v-text-field id="repository_url" name="repository_url" label="URL of the GitHub repository"
+                        type="text" required></v-text-field>
+                    {% csrf_token %}
+                </v-card-text>
+                <v-btn type="submit" block>Change</v-btn>
+            </form>
+        </v-card>
+    </v-col>
+</v-row>
+{% endblock %}
