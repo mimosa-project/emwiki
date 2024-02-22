@@ -46,11 +46,14 @@
 
         <v-btn href="{% url 'home:index' %}" text>Home</v-btn>
         <v-btn href="{% url 'explanation:index' %}" text>Document</v-btn>
+        <v-btn href="{% url 'settings:develop' %}" text>Develop</v-btn>
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}" text>Article</v-btn>
         <v-btn href="{% url 'symbol:index' '0' %}" text>Symbol</v-btn>
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}?target=theorem" text>Theorem</v-btn>
         <v-btn href="{% url 'graph:index' %}" text>Graph</v-btn>
-
+        {% if user.is_authenticated %}
+          <v-btn href="{% url 'settings:index' %}" text>Settings</v-btn>
+        {% endif %}
         <v-menu offset-y>
           {% if user.is_authenticated %}
           <template v-slot:activator="{ on, attrs }">
