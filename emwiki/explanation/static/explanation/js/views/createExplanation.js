@@ -1,5 +1,7 @@
 import {onTextAreaKeyDown} from '../models/editor.js';
 import {escape, partialDescape} from '../models/markdown-mathjax.js';
+import {ArticleService} from '../../../article/js/services/article-service.js';
+import {context} from '../../../js/context.js';
 export const createExplanation = {
   data() {
     return {
@@ -7,10 +9,17 @@ export const createExplanation = {
       text: '',
       preview: '',
       input: '',
+      output:'',
       buffer: '',
       url: '/explanation/explanation',
-      articleHtml: '',
+      articleHtmls: [],
     };
+  },
+  mounted() {
+    // ArticleService.getIndex(context['article_names_uri']).then((index) => {
+    //   this.index = index;
+    //   console.log(this.index);
+    // });
   },
   methods: {
     createExplanation() {
@@ -19,6 +28,7 @@ export const createExplanation = {
       axios.post(this.url, {
         title: this.title,
         text: this.text,
+        preview: this.preview,
       })
           .then(() => {
             location.href = '/explanation';
@@ -29,18 +39,20 @@ export const createExplanation = {
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
-      this.preview = document.getElementById('preview-field');
+      this.output = document.getElementById('preview-field');
       this.buffer = document.getElementById('preview-buffer');
       this.input = document.getElementById('input-field');
       // 入力した文字を取得
       let content = this.input.value;
       // content内の文字列をエスケープする
+      this.embedArticle();
       content = escape(content);
+      content = content.replace("embed(/article/abcmiz_0#D1)", this.articleHtmls[0])
       // preview-bufferにcontentを代入する
       this.buffer.innerHTML = content;
       // MathJaxを適用する
       MathJax.typesetPromise([this.buffer]).then(() => {
-        this.preview.innerHTML =
+        this.output.innerHTML =
           marked(partialDescape(this.buffer.innerHTML));
       });
     },
@@ -59,30 +71,28 @@ export const createExplanation = {
         this.title = '';
       }
     },
-    // insertArticle() {
-    //   const Articlefield = document.getElementById('Article-field');
-    //   Articlefield.style.display = 'block'; // inputを表示する
-    //   Articlefield.focus(); // inputにフォーカスを当てる
+    embedArticle(){
+      const inputText = document.getElementById('input-field').value;
+      var regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
+      var matches = [];
+      var match;
 
-    //   document.getElementById('Article-field')
-    // .addEventListener('keyup', function (event) {
-    //     if (event.key === 'Enter') { // Enterキーが押されたら
-    //       const inputField = document.getElementById('input-field');
-    //       const articleName = event.target.value; //入力された値をarticleNameに代入
-    //       // const articleurl = "/article/htmls";
-    //       ExplanationService.getArticle(
-    //         context['article_html_base_uri'],
-    //         articleName,
-    //       ).then((articleHtml) => {
-    //         this.articleHtml = articleHtml;
-    //         console.log(this.articleHtml);
-    //       });
-    //       inputField.value = `${inputField.value}${articleName}`;
-    //       event.target.style.display = 'none'; // inputを隠す
-    //       event.target.value = ''; // 入力欄をリセットする
-    //     }
-    //   });
-    // },
+      while ((match = regex.exec(inputText)) !== null) {
+        var name = match[1];
+        var fragment = match[2];
+        var number = match[3];
+        matches.push({ name: name, fragment: fragment, number: number });
+      }
+      for(let i = 0; i < matches.length; i++){
+        ArticleService.getHtml(
+          context['article_html_base_uri'],
+          matches[i].name,
+        ).then((articleHtml) => {
+          this.articleHtmls[i] = articleHtml;
+        });
+      }
+      // console.log(this.articleHtmls);
+    },
   },
   template:
     `<div class="container" id="app">

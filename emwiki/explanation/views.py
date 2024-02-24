@@ -7,17 +7,41 @@ from django.core.exceptions import ValidationError
 from django.views import generic
 from django.views.generic.base import TemplateView
 from django.views.generic import View
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model
 
 
+# extra_context = {
+#     "context_for_js": {
+#         'article_html_base_uri': reverse_lazy('article:htmls'),
+#         'explanation_base_uri': reverse_lazy('explanation:explanation'),
+#         'explanation_create_uri': reverse_lazy('explanation:create'),
+#         'explanation_title_uri': None,  # 引数が不要な場合はNoneを設定
+#         'explanation_detail_uri': None,  # 引数が不要な場合はNoneを設定
+#         'explanation_update_uri': None,  # 引数が不要な場合はNoneを設定
+#         'explanation_delete_uri': None,  # 引数が不要な場合はNoneを設定
+#     }
+# }
+
 class IndexView(TemplateView):
     template_name = 'explanation/index.html'
+    extra_context = {
+        'context_for_js': {
+            'article_names_uri': reverse_lazy('article:names'),
+            'article_html_base_uri': reverse_lazy('article:htmls'),
+        }
+    }
 
 
 class CreateView(generic.CreateView):
     model = Explanation
     fields = ['title', 'text', 'author', 'created_at', 'updated_at']
+    extra_context = {
+        'context_for_js': {
+            'article_names_uri': reverse_lazy('article:names'),
+            'article_html_base_uri': reverse_lazy('article:htmls'),
+        }
+    }
 
 
 class ExplanationTitleView(View):
@@ -114,3 +138,18 @@ class DeleteView(View):
         deleteExplanation = Explanation.objects.get(title=title)
         deleteExplanation.delete()
         return render(request, 'explanation/index.html')
+
+class ProofView(View):
+    def redirect_article(request):
+        target_url = 'explanation:index'
+        return redirect(target_url)
+
+class RefView(View):
+    def redirect_article(request):
+        target_url = 'explanation:index'
+        return redirect(target_url)
+
+class ArticleView(View):
+    def redirect_article(request):
+        target_url = "'explanation:index'"
+        return redirect(target_url)
