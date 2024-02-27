@@ -11,26 +11,18 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model
 
 
-# extra_context = {
-#     "context_for_js": {
-#         'article_html_base_uri': reverse_lazy('article:htmls'),
-#         'explanation_base_uri': reverse_lazy('explanation:explanation'),
-#         'explanation_create_uri': reverse_lazy('explanation:create'),
-#         'explanation_title_uri': None,  # 引数が不要な場合はNoneを設定
-#         'explanation_detail_uri': None,  # 引数が不要な場合はNoneを設定
-#         'explanation_update_uri': None,  # 引数が不要な場合はNoneを設定
-#         'explanation_delete_uri': None,  # 引数が不要な場合はNoneを設定
-#     }
-# }
+extra_context = {
+    "context_for_js": {
+        'article_base_uri': reverse_lazy('article:names'),
+        'article_html_base_uri': reverse_lazy('article:htmls'),
+        'article_index_uri': reverse_lazy('article:index'),
+        'article_proof_uri': reverse_lazy('article:proofs'),
+        'article_ref_uri': reverse_lazy('article:refs'),
+    }
+}
 
 class IndexView(TemplateView):
     template_name = 'explanation/index.html'
-    extra_context = {
-        'context_for_js': {
-            'article_names_uri': reverse_lazy('article:names'),
-            'article_html_base_uri': reverse_lazy('article:htmls'),
-        }
-    }
 
 
 class CreateView(generic.CreateView):
@@ -40,6 +32,7 @@ class CreateView(generic.CreateView):
         'context_for_js': {
             'article_names_uri': reverse_lazy('article:names'),
             'article_html_base_uri': reverse_lazy('article:htmls'),
+            # 'article_index_uri': reverse_lazy('article:index'),
         }
     }
 
@@ -139,17 +132,17 @@ class DeleteView(View):
         deleteExplanation.delete()
         return render(request, 'explanation/index.html')
 
+class ArticleView(View):
+    def get(self, request, name_or_filename):
+        target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
+        return redirect(target_url)
+
 class ProofView(View):
-    def redirect_article(request):
-        target_url = 'explanation:index'
+    def get(self, request, article_name, proof_name):
+        target_url = reverse('article:proofs', kwargs={'article_name': article_name, 'proof_name': proof_name})
         return redirect(target_url)
 
 class RefView(View):
-    def redirect_article(request):
-        target_url = 'explanation:index'
-        return redirect(target_url)
-
-class ArticleView(View):
-    def redirect_article(request):
-        target_url = "'explanation:index'"
+    def get(self, request, article_name, ref_name):
+        target_url = reverse('article:refs', kwargs={'article_name': article_name, 'ref_name': ref_name})
         return redirect(target_url)

@@ -10,8 +10,8 @@ urlpatterns = [
     path('detail/<str:title>', views.DetailView.as_view(), name='detail'),
     path('detail/<str:title>/update', views.UpdateView.as_view(), name='update'),
     path('detail/<str:title>/delete', views.DeleteView.as_view(), name='delete'),
+    path('<str:name_or_filename>', views.ArticleView.as_view(), name='article'),
     path('proofs/<str:article_name>/<str:proof_name>', views.ProofView.as_view(), name='proofs'),
     path('refs/<str:article_name>/<str:ref_name>', views.RefView.as_view(), name='refs'),
-    path('<str:name_or_filename>', views.ArticleView.as_view(), name='article'),
     # path('names', views.ArticleIndexView.as_view(), name='names'),
 ]
