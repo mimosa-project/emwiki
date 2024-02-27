@@ -7,12 +7,13 @@ from django.utils import timezone
 class Explanation(models.Model):
     title = models.CharField(max_length=200, unique=True)
     text = models.TextField()
+    preview = models.TextField(default='no preview')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.title, self.author, self.created_at, self.updated_at
+        return f"{self.title}, {self.author}"
 
     def save(self, *args, **kwargs):
         self.updated_at = timezone.now()

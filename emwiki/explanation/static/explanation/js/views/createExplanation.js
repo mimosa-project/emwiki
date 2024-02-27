@@ -35,7 +35,7 @@ export const createExplanation = {
       axios.post(this.url, {
         title: this.title,
         text: this.text,
-        preview: this.preview,
+        preview: this.output.innerHTML,
       })
           .then(() => {
             location.href = '/explanation';
@@ -77,10 +77,10 @@ export const createExplanation = {
         let url = this.Articles[i].url;
         let html = this.Articles[i].html;
         let regex = new RegExp(url, 'g');
-        console.log(regex);
         content = content.replace(url, html);
       }
       this.content = content;
+      // console.log(this.output);
 
       // preview-bufferにcontentを代入する
       this.buffer.innerHTML = this.content;

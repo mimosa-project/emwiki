@@ -4,6 +4,7 @@ export const ExplanationView = {
   data: () => ({
     explanationTitle: '',
     explanationText: '',
+    explanationPreview: '',
     content: '',
     url: '/explanation/explanation',
   }),
@@ -16,15 +17,10 @@ export const ExplanationView = {
       return axios.get(this.url,
           {params: {title: this.explanationTitle}},
       ).then((response) => {
-        this.explanationText = response.data;
-        // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
+        this.explanationPreview = response.data.preview;
         this.content = document.getElementById('explanationText');
-        this.content.innerHTML = escape(this.explanationText);
-        MathJax.typesetPromise([this.content]).then(() => {
-          this.content.innerHTML =
-            marked(partialDescape(this.content.innerHTML));
-        });
-        return this.explanationTitle, this.explanationText;
+        this.content.innerHTML = this.explanationPreview;
+        return this.explanationTitle;
       })
           .catch((error) => console.log(error));
     },

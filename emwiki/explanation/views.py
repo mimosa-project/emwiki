@@ -32,7 +32,6 @@ class CreateView(generic.CreateView):
         'context_for_js': {
             'article_names_uri': reverse_lazy('article:names'),
             'article_html_base_uri': reverse_lazy('article:htmls'),
-            # 'article_index_uri': reverse_lazy('article:index'),
         }
     }
 
@@ -50,7 +49,8 @@ class ExplanationView(View):
         if 'title' in request.GET:
             selectedExplanation = get_object_or_404(Explanation, title=request.GET.get('title'))
             selected_text = selectedExplanation.text
-            return HttpResponse(selected_text)
+            selected_preview = selectedExplanation.preview
+            return JsonResponse({'text': selected_text, 'preview': selected_preview})
         else:
             explanations = humansorted(list(Explanation.objects.all()), key=lambda a: a.title)
             return JsonResponse({'explanation': [
@@ -72,6 +72,8 @@ class ExplanationView(View):
         posted_id = post.get('id', None)
         posted_title = post.get('title', None)
         posted_text = post.get('text', None)
+        posted_preview = post.get('preview', None)
+        print(posted_title, posted_text, posted_preview)
         if request.user.is_authenticated:
             username = request.user.username
             User = get_user_model()
@@ -83,8 +85,8 @@ class ExplanationView(View):
             errors = e.messages[0]
             return JsonResponse({'errors': errors}, status=400)
 
-        createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, author=user)
-        createdExplanatoin.commit_explanation_creates()
+        createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
+        # createdExplanatoin.commit_explanation_creates()
 
         return redirect('explanation:index')
 
