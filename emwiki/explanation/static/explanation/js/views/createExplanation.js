@@ -11,16 +11,23 @@ export const createExplanation = {
       input: '',
       output:'',
       buffer: '',
+      content: '',
       url: '/explanation/explanation',
-      articleHtmls: [],
+      regex: '',
+      embedUrl: '',
+      embedHtml: '',
+      endhtml: '',
+      embedSources: [],
+      embedHtmls: [],
+      Articles: [],
     };
   },
-  mounted() {
-    // ArticleService.getIndex(context['article_names_uri']).then((index) => {
-    //   this.index = index;
-    //   console.log(this.index);
-    // });
-  },
+  // mounted() {
+  //   ArticleService.getIndex(context['article_names_uri']).then((index) => {
+  //     this.index = index;
+  //     console.log(this.index);
+  //   });
+  // },
   methods: {
     createExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
@@ -43,13 +50,40 @@ export const createExplanation = {
       this.buffer = document.getElementById('preview-buffer');
       this.input = document.getElementById('input-field');
       // 入力した文字を取得
-      let content = this.input.value;
+      var content = this.input.value;
       // content内の文字列をエスケープする
       this.embedArticle();
       content = escape(content);
-      content = content.replace("embed(/article/abcmiz_0#D1)", this.articleHtmls[0])
+
+      // this.content = content;
+      for (let i = 0; i < this.embedSources.length; i++) {
+        this.regex.lastIndex = 0;
+        let match = this.regex.exec(this.embedSources[i]);
+        var articleName = match[1];
+        var fragment = match[2] + match[3];
+        ArticleService.getHtml(
+          context['article_html_base_uri'],
+          articleName,
+        ).then((articleHtml) => {
+          var htmls = articleHtml.split('<span class="kw">end;</span>');
+          this.endhtml = '<span class="kw">end;</span>'
+          this.embedHtml = htmls.filter(html => html.includes('about="#' + fragment + '"'));
+          this.embedHtml += this.endhtml;
+          this.Articles.push({ url: this.embedSources[i], html: this.embedHtml});
+          // this.content = content.replace(this.embedSources[i], this.embedHtml);
+        });
+      }
+      for (let i = 0; i < this.Articles.length; i++) {
+        let url = this.Articles[i].url;
+        let html = this.Articles[i].html;
+        let regex = new RegExp(url, 'g');
+        console.log(regex);
+        content = content.replace(url, html);
+      }
+      this.content = content;
+
       // preview-bufferにcontentを代入する
-      this.buffer.innerHTML = content;
+      this.buffer.innerHTML = this.content;
       // MathJaxを適用する
       MathJax.typesetPromise([this.buffer]).then(() => {
         this.output.innerHTML =
@@ -73,25 +107,20 @@ export const createExplanation = {
     },
     embedArticle(){
       const inputText = document.getElementById('input-field').value;
-      var regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
+      this.regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
       var matches = [];
       var match;
 
-      while ((match = regex.exec(inputText)) !== null) {
+      while ((match = this.regex.exec(inputText)) !== null) {
+        var url = match[0];
         var name = match[1];
-        var fragment = match[2];
-        var number = match[3];
-        matches.push({ name: name, fragment: fragment, number: number });
+        var fragment = match[2] + match[3];
+        matches.push({ name: name, fragment: fragment});
+
+        if (!this.embedSources.includes(url)) {
+          this.embedSources.push(url);
+        }
       }
-      for(let i = 0; i < matches.length; i++){
-        ArticleService.getHtml(
-          context['article_html_base_uri'],
-          matches[i].name,
-        ).then((articleHtml) => {
-          this.articleHtmls[i] = articleHtml;
-        });
-      }
-      // console.log(this.articleHtmls);
     },
   },
   template:
