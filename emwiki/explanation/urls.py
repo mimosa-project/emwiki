@@ -13,5 +13,9 @@ urlpatterns = [
     path('<str:name_or_filename>', views.ArticleView.as_view(), name='article'),
     path('proofs/<str:article_name>/<str:proof_name>', views.ProofView.as_view(), name='proofs'),
     path('refs/<str:article_name>/<str:ref_name>', views.RefView.as_view(), name='refs'),
-    # path('names', views.ArticleIndexView.as_view(), name='names'),
+    path('detail/proofs/<str:article_name>/<str:proof_name>', views.Detail_ProofView.as_view(), name='detail_proofs'),
+    path('detail/refs/<str:article_name>/<str:ref_name>', views.Detail_RefView.as_view(), name='detail_refs'),
+    path('detail/<str:title>/<str:name_or_filename>', views.Update_ArticleView.as_view(), name='update'),
+    path('detail/<str:title>/proofs/<str:article_name>/<str:proof_name>', views.Update_ProofView.as_view(), name='update_proofs'),
+    path('detail/<str:title>/refs/<str:article_name>/<str:ref_name>', views.Update_RefView.as_view(), name='update_refs'),
 ]

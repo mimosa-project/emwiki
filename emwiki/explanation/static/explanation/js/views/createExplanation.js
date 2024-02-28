@@ -22,12 +22,7 @@ export const createExplanation = {
       Articles: [],
     };
   },
-  // mounted() {
-  //   ArticleService.getIndex(context['article_names_uri']).then((index) => {
-  //     this.index = index;
-  //     console.log(this.index);
-  //   });
-  // },
+ 
   methods: {
     createExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
@@ -51,28 +46,25 @@ export const createExplanation = {
       this.input = document.getElementById('input-field');
       // 入力した文字を取得
       var content = this.input.value;
-      // content内の文字列をエスケープする
       this.embedArticle();
+      // content内の文字列をエスケープする
       content = escape(content);
 
-      // this.content = content;
-      for (let i = 0; i < this.embedSources.length; i++) {
-        this.regex.lastIndex = 0;
-        let match = this.regex.exec(this.embedSources[i]);
-        var articleName = match[1];
-        var fragment = match[2] + match[3];
-        ArticleService.getHtml(
-          context['article_html_base_uri'],
-          articleName,
-        ).then((articleHtml) => {
-          var htmls = articleHtml.split('<span class="kw">end;</span>');
-          this.endhtml = '<span class="kw">end;</span>'
-          this.embedHtml = htmls.filter(html => html.includes('about="#' + fragment + '"'));
-          this.embedHtml += this.endhtml;
-          this.Articles.push({ url: this.embedSources[i], html: this.embedHtml});
-          // this.content = content.replace(this.embedSources[i], this.embedHtml);
-        });
-      }
+      this.processEmbedSources();
+      // for (let i = 0; i < this.embedSources.length; i++) {
+      //   this.regex.lastIndex = 0;
+      //   let match = this.regex.exec(this.embedSources[i]);
+      //   var articleName = match[1];
+      //   var fragment = match[2] + match[3];
+      //   ArticleService.getHtml(
+      //     context['article_html_base_uri'],
+      //     articleName,
+      //   ).then((articleHtml) => {
+      //     var htmls = articleHtml.split('\n</div>\n<br>');
+      //     this.embedHtml = htmls.filter(html => html.includes('name="' + fragment + '"'));
+      //     this.Articles.push({ url: this.embedSources[i], html: this.embedHtml});
+      //   });
+      // }
       for (let i = 0; i < this.Articles.length; i++) {
         let url = this.Articles[i].url;
         let html = this.Articles[i].html;
@@ -119,6 +111,27 @@ export const createExplanation = {
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
+        }
+      }
+    },
+    async  processEmbedSources() {
+      for (let i = 0; i < this.embedSources.length; i++) {
+        this.regex.lastIndex = 0;
+        let match = this.regex.exec(this.embedSources[i]);
+        var articleName = match[1];
+        var fragment = match[2] + match[3];
+    
+        try {
+          const articleHtml = await ArticleService.getHtml(
+            context['article_html_base_uri'],
+            articleName,
+          );
+          var htmls = articleHtml.split('\n</div>\n<br>');
+          this.embedHtmls[i] = htmls.filter(html => html.includes('name="' + fragment + '"'));
+          this.Articles.push({ url: this.embedSources[i], html: this.embedHtmls[i]});
+        } catch (error) {
+          console.error('Error fetching HTML:', error);
+          // Handle error as needed
         }
       }
     },
