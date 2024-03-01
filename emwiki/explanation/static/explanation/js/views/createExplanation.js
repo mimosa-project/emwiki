@@ -68,6 +68,7 @@ export const createExplanation = {
       for (let i = 0; i < this.Articles.length; i++) {
         let url = this.Articles[i].url;
         let html = this.Articles[i].html;
+        // this.removePattern(html);
         let regex = new RegExp(url, 'g');
         content = content.replace(url, html);
       }
@@ -126,14 +127,24 @@ export const createExplanation = {
             context['article_html_base_uri'],
             articleName,
           );
-          var htmls = articleHtml.split('\n</div>\n<br>');
+          var htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
           this.embedHtmls[i] = htmls.filter(html => html.includes('name="' + fragment + '"'));
+          // console.log(typeof JSON.stringify(this.embedHtmls[i]));
+          // this.removePattern(JSON.stringify(this.embedHtmls[i]));
           this.Articles.push({ url: this.embedSources[i], html: this.embedHtmls[i]});
         } catch (error) {
           console.error('Error fetching HTML:', error);
           // Handle error as needed
         }
       }
+    },
+    removePattern(text) {
+      var pattern = /<body class="no-mathjax">[\s\S]*?<br><br><div><\/div>/;
+      
+      // パターンにマッチする部分を空文字列に置換して削除
+      var result = text.replace(pattern, '');
+      
+      return result;
     },
   },
   template:
