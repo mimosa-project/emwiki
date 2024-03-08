@@ -1,7 +1,7 @@
-import {onTextAreaKeyDown} from '../models/editor.js';
-import {escape, partialDescape} from '../models/markdown-mathjax.js';
 import {ArticleService} from '../../../article/js/services/article-service.js';
 import {context} from '../../../js/context.js';
+import {onTextAreaKeyDown} from '../models/editor.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 export const createExplanation = {
   data() {
     return {
@@ -9,7 +9,7 @@ export const createExplanation = {
       text: '',
       preview: '',
       input: '',
-      output:'',
+      output: '',
       buffer: '',
       content: '',
       url: '/explanation/explanation',
@@ -22,7 +22,7 @@ export const createExplanation = {
       Articles: [],
     };
   },
- 
+
   methods: {
     createExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
@@ -45,31 +45,17 @@ export const createExplanation = {
       this.buffer = document.getElementById('preview-buffer');
       this.input = document.getElementById('input-field');
       // 入力した文字を取得
-      var content = this.input.value;
+      const content = this.input.value;
       this.embedArticle();
       // content内の文字列をエスケープする
       content = escape(content);
 
       this.processEmbedSources();
-      // for (let i = 0; i < this.embedSources.length; i++) {
-      //   this.regex.lastIndex = 0;
-      //   let match = this.regex.exec(this.embedSources[i]);
-      //   var articleName = match[1];
-      //   var fragment = match[2] + match[3];
-      //   ArticleService.getHtml(
-      //     context['article_html_base_uri'],
-      //     articleName,
-      //   ).then((articleHtml) => {
-      //     var htmls = articleHtml.split('\n</div>\n<br>');
-      //     this.embedHtml = htmls.filter(html => html.includes('name="' + fragment + '"'));
-      //     this.Articles.push({ url: this.embedSources[i], html: this.embedHtml});
-      //   });
-      // }
       for (let i = 0; i < this.Articles.length; i++) {
-        let url = this.Articles[i].url;
-        let html = this.Articles[i].html;
+        const url = this.Articles[i].url;
+        const html = this.Articles[i].html;
         // this.removePattern(html);
-        let regex = new RegExp(url, 'g');
+        // const regex = new RegExp(url, 'g');
         content = content.replace(url, html);
       }
       this.content = content;
@@ -98,40 +84,44 @@ export const createExplanation = {
         this.title = '';
       }
     },
-    embedArticle(){
+    embedArticle() {
       const inputText = document.getElementById('input-field').value;
       this.regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
-      var matches = [];
-      var match;
+      const matches = [];
+      let match;
 
       while ((match = this.regex.exec(inputText)) !== null) {
-        var url = match[0];
-        var name = match[1];
-        var fragment = match[2] + match[3];
-        matches.push({ name: name, fragment: fragment});
+        const url = match[0];
+        const name = match[1];
+        const fragment = match[2] + match[3];
+        matches.push({name: name, fragment: fragment});
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
         }
       }
     },
-    async  processEmbedSources() {
+    async processEmbedSources() {
       for (let i = 0; i < this.embedSources.length; i++) {
         this.regex.lastIndex = 0;
-        let match = this.regex.exec(this.embedSources[i]);
-        var articleName = match[1];
-        var fragment = match[2] + match[3];
-    
+        const match = this.regex.exec(this.embedSources[i]);
+        const articleName = match[1];
+        const fragment = match[2] + match[3];
+
         try {
           const articleHtml = await ArticleService.getHtml(
-            context['article_html_base_uri'],
-            articleName,
+              context['article_html_base_uri'],
+              articleName,
           );
-          var htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
-          this.embedHtmls[i] = htmls.filter(html => html.includes('name="' + fragment + '"'));
+          const htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
+          this.embedHtmls[i] = htmls.filter((html) =>
+            html.includes('name="' + fragment + '"'));
           // console.log(typeof JSON.stringify(this.embedHtmls[i]));
           // this.removePattern(JSON.stringify(this.embedHtmls[i]));
-          this.Articles.push({ url: this.embedSources[i], html: this.embedHtmls[i]});
+          this.Articles.push({
+            url: this.embedSources[i],
+            html: this.embedHtmls[i],
+          });
         } catch (error) {
           console.error('Error fetching HTML:', error);
           // Handle error as needed
@@ -139,11 +129,9 @@ export const createExplanation = {
       }
     },
     removePattern(text) {
-      var pattern = /<body class="no-mathjax">[\s\S]*?<br><br><div><\/div>/;
-      
+      const pattern = /<body class="no-mathjax">[\s\S]*?<br><br><div><\/div>/;
       // パターンにマッチする部分を空文字列に置換して削除
-      var result = text.replace(pattern, '');
-      
+      const result = text.replace(pattern, '');
       return result;
     },
   },

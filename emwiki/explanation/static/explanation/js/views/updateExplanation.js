@@ -33,7 +33,7 @@ export const updateExplanation = {
   methods: {
     reload_Explanation() {
       return axios.get(this.url,
-        {params: {title: this.explanationTitle}},
+          {params: {title: this.explanationTitle}},
       ).then((response) => {
         this.explanationText = response.data.text;
         this.explanationPreview = response.data.preview;
@@ -41,11 +41,11 @@ export const updateExplanation = {
         this.output = document.getElementById('preview-field');
         this.input.value = this.explanationText;
         this.output.innerHTML = this.explanationPreview;
-        
+
         this.regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
-        var match;
+        let match;
         while ((match = this.regex.exec(this.input.value)) !== null) {
-          var url = match[0];
+          const url = match[0];
           if (!this.embedSources.includes(url)) {
             this.embedSources.push(url);
           }
@@ -75,16 +75,16 @@ export const updateExplanation = {
     createPreview() {
       this.buffer = document.getElementById('preview-buffer');
       // 入力した文字を取得
-      var content = this.input.value;
+      let content = this.input.value;
       this.embedArticle();
       // content内の文字列をエスケープする
       content = escape(content);
       this.processEmbedSources();
 
       for (let i = 0; i < this.Articles.length; i++) {
-        let url = this.Articles[i].url;
-        let html = this.Articles[i].html;
-        let regex = new RegExp(url, 'g');
+        const url = this.Articles[i].url;
+        const html = this.Articles[i].html;
+        // const regex = new RegExp(url, 'g');
         content = content.replace(url, html);
       }
       this.content = content;
@@ -103,17 +103,17 @@ export const updateExplanation = {
         onTextAreaKeyDown(event, this);
       };
     },
-    embedArticle(){
+    embedArticle() {
       const inputText = document.getElementById('input-field').value;
       this.regex = /embed\(\/article\/([^\/]+)#([^#\d]+)(\d+)\)/g;
-      var matches = [];
-      var match;
+      const matches = [];
+      let match;
 
       while ((match = this.regex.exec(inputText)) !== null) {
-        var url = match[0];
-        var name = match[1];
-        var fragment = match[2] + match[3];
-        matches.push({ name: name, fragment: fragment});
+        const url = match[0];
+        const name = match[1];
+        const fragment = match[2] + match[3];
+        matches.push({name: name, fragment: fragment});
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
@@ -123,18 +123,20 @@ export const updateExplanation = {
     async  processEmbedSources() {
       for (let i = 0; i < this.embedSources.length; i++) {
         this.regex.lastIndex = 0;
-        let match = this.regex.exec(this.embedSources[i]);
-        var articleName = match[1];
-        var fragment = match[2] + match[3];
-    
+        const match = this.regex.exec(this.embedSources[i]);
+        const articleName = match[1];
+        const fragment = match[2] + match[3];
+
         try {
           const articleHtml = await ArticleService.getHtml(
-            context['article_html_base_uri'],
-            articleName,
+              context['article_html_base_uri'],
+              articleName,
           );
-          var htmls = articleHtml.split('\n</div>\n<br>');
-          this.embedHtmls[i] = htmls.filter(html => html.includes('name="' + fragment + '"'));
-          this.Articles.push({ url: this.embedSources[i], html: this.embedHtmls[i]});
+          const htmls = articleHtml.split('\n</div>\n<br>');
+          this.embedHtmls[i] = htmls.filter((html) =>
+            html.includes('name="' + fragment + '"'));
+          this.Articles.push({url: this.embedSources[i],
+            html: this.embedHtmls[i]});
         } catch (error) {
           console.error('Error fetching HTML:', error);
           // Handle error as needed

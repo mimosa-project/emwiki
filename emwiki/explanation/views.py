@@ -1,7 +1,7 @@
 import json
 from natsort import humansorted
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from .models import Explanation
 from django.core.exceptions import ValidationError
 from django.views import generic
@@ -20,6 +20,7 @@ extra_context = {
         'article_ref_uri': reverse_lazy('article:refs'),
     }
 }
+
 
 class IndexView(TemplateView):
     template_name = 'explanation/index.html'
@@ -73,7 +74,6 @@ class ExplanationView(View):
         posted_title = post.get('title', None)
         posted_text = post.get('text', None)
         posted_preview = post.get('preview', None)
-        print(posted_title, posted_text, posted_preview)
         if request.user.is_authenticated:
             username = request.user.username
             User = get_user_model()
@@ -86,7 +86,7 @@ class ExplanationView(View):
             return JsonResponse({'errors': errors}, status=400)
 
         createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
-        # createdExplanatoin.commit_explanation_creates()
+        createdExplanatoin.commit_explanation_creates()
 
         return redirect('explanation:index')
 
@@ -104,7 +104,7 @@ class DetailView(View):
         else:
             target_url = reverse('article:index', kwargs={'name_or_filename': title})
             return redirect(target_url)
-        
+
 
 class UpdateView(View):
     def get(self, request, title):
@@ -125,7 +125,7 @@ class UpdateView(View):
         updatedExplanation.preview = post.get('preview', None)
         updatedExplanation.author = update_author
         updatedExplanation.save()
-        # updatedExplanation.commit_explanation_changes()
+        updatedExplanation.commit_explanation_changes()
         return render(request, 'explanation/index.html')
 
 
@@ -142,40 +142,48 @@ class DeleteView(View):
         deleteExplanation.delete()
         return render(request, 'explanation/index.html')
 
+
 class ArticleView(View):
     def get(self, request, name_or_filename):
         target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
         return redirect(target_url)
+
 
 class ProofView(View):
     def get(self, request, article_name, proof_name):
         target_url = reverse('article:proofs', kwargs={'article_name': article_name, 'proof_name': proof_name})
         return redirect(target_url)
 
+
 class RefView(View):
     def get(self, request, article_name, ref_name):
         target_url = reverse('article:refs', kwargs={'article_name': article_name, 'ref_name': ref_name})
         return redirect(target_url)
+
 
 class Detail_ProofView(View):
     def get(self, request, article_name, proof_name):
         target_url = reverse('article:proofs', kwargs={'article_name': article_name, 'proof_name': proof_name})
         return redirect(target_url)
 
+
 class Detail_RefView(View):
     def get(self, request, article_name, ref_name):
         target_url = reverse('article:refs', kwargs={'article_name': article_name, 'ref_name': ref_name})
         return redirect(target_url)
+
 
 class Update_ArticleView(View):
     def get(self, request, name_or_filename, title):
         target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
         return redirect(target_url)
 
+
 class Update_ProofView(View):
     def get(self, request, article_name, proof_name, title):
         target_url = reverse('article:proofs', kwargs={'article_name': article_name, 'proof_name': proof_name})
         return redirect(target_url)
+
 
 class Update_RefView(View):
     def get(self, request, article_name, ref_name, title):

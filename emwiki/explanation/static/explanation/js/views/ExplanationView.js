@@ -1,5 +1,3 @@
-import {escape, partialDescape} from '../models/markdown-mathjax.js';
-
 export const ExplanationView = {
   data: () => ({
     explanationTitle: '',
