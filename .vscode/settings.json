@@ -16,7 +16,7 @@
         "./emwiki"
     ],
     "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
     },
     "python.analysis.extraPaths": [
         "./emwiki"
