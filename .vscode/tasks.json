@@ -72,15 +72,6 @@
             "problemMatcher": [],
         },
         {
-            "label": "Install python3.7",
-            "type": "shell",
-            "command": "sh scripts/setup/install-python3.7.sh",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-        },
-        {
             "label": "Clone emwiki-contents",
             "type": "shell",
             "command": "sh scripts/setup/emwiki-contents.sh",
@@ -117,9 +108,9 @@
             "problemMatcher": [],
         },
         {
-            "label": "Build emparser",
+            "label": "Build mizcore",
             "type": "shell",
-            "command": "sh scripts/setup/emparser.sh",
+            "command": "sh scripts/setup/mizcore.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -224,7 +215,7 @@
                 "Install packages",
                 "Clone emwiki-contents",
                 "Decompress mmlfiles",
-                "Build emparser",
+                "Build mizcore",
                 "Install python packages",
                 "install node packages",
                 "Create services for development",

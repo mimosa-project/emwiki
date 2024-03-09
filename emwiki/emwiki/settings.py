@@ -189,6 +189,8 @@ TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(
 TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
 TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')
 TEST_SEARCH_INDEX_DIR = os.path.join(TEST_DATA_DIR, 'search_index')
+TEST_ABS_DIR = os.path.join(TEST_DATA_DIR, 'abstr')
+TEST_VCT_PATH = os.path.join(TEST_DATA_DIR, 'mml.vct')
 
 # emwiki-contents
 mml_config = configparser.ConfigParser()
