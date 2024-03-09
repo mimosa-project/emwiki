@@ -53,8 +53,6 @@ export const ExplanationDrawer = {
                 </p>
             </template>
         </v-data-table>
-        <v-btn style="width: 100%;" @click=reloadCreate_form()>Create New
-        </v-btn>
     </div>
     `,
   delimiters: ['$(', ')'],
