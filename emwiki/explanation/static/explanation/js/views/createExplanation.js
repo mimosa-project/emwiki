@@ -1,7 +1,7 @@
-import {ArticleService} from '../../../article/js/services/article-service.js';
-import {context} from '../../../js/context.js';
-import {onTextAreaKeyDown} from '../models/editor.js';
-import {escape, partialDescape} from '../models/markdown-mathjax.js';
+import { ArticleService } from '../../../article/js/services/article-service.js';
+import { context } from '../../../js/context.js';
+import { onTextAreaKeyDown } from '../models/editor.js';
+import { escape, partialDescape } from '../models/markdown-mathjax.js';
 export const createExplanation = {
   data() {
     return {
@@ -32,12 +32,12 @@ export const createExplanation = {
         text: this.text,
         preview: this.output.innerHTML,
       })
-          .then(() => {
-            location.href = '/explanation';
-          })
-          .catch((error) => {
-            alert(error.response.data.errors);
-          });
+        .then(() => {
+          location.href = '/explanation';
+        })
+        .catch((error) => {
+          alert(error.response.data.errors);
+        });
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
@@ -45,7 +45,7 @@ export const createExplanation = {
       this.buffer = document.getElementById('preview-buffer');
       this.input = document.getElementById('input-field');
       // 入力した文字を取得
-      const content = this.input.value;
+      let content = this.input.value;
       this.embedArticle();
       // content内の文字列をエスケープする
       content = escape(content);
@@ -72,7 +72,7 @@ export const createExplanation = {
 
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function(event) {
+      inputField.onkeydown = function (event) {
         onTextAreaKeyDown(event, this);
       };
     },
@@ -94,7 +94,7 @@ export const createExplanation = {
         const url = match[0];
         const name = match[1];
         const fragment = match[2] + match[3];
-        matches.push({name: name, fragment: fragment});
+        matches.push({ name: name, fragment: fragment });
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
@@ -110,8 +110,8 @@ export const createExplanation = {
 
         try {
           const articleHtml = await ArticleService.getHtml(
-              context['article_html_base_uri'],
-              articleName,
+            context['article_html_base_uri'],
+            articleName,
           );
           const htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
           this.embedHtmls[i] = htmls.filter((html) =>
@@ -136,42 +136,43 @@ export const createExplanation = {
     },
   },
   template:
-    `<div class="container" id="app">
-        <v-form ref="explanationForm">
-            <div class="flex-container">
-                <p class='display-3'>TITLE:</p>
-                <input id="title" v-model='title' class='display-3' 
-                    @keyup="checkTitle"/>
-            </div>
-            <p id='notes'>
-              The following characters cannot be used in the title.
-            </p>
-            <p  id='notes'>'! @$%#^&*()=+\[\]{};':"\\|,<>\/?'</p>
-            <div class="columns">
-                <div class="column is-6" id="input-field-wrapper">
-                    <h2><i class="fas fa-edit"></i> Input</h2>
-                    <textarea class="input-field" name="input-field" 
-                        id="input-field" v-model="text" 
-                        v-model="text" @keyup="createPreview(); 
-                        complementwords()" spellcheck="false"><br>
-                    </textarea>
-                </div>
-                <div class="column is-6" id="preview-field-wrapper">
-                    <h2><i class="fas fa-eye"></i> Preview</h2>
-                    <div class="content" id="preview-field" v-model="preview">
-                    </div>
-                    <div class="buffer content" id="preview-buffer" 
-                    style="display:none;
-                    position:absolute; 
-                    top:0; left: 0"></div>
-                </div>
-            </div>
+    `<v-container id="app" fluid>
+    <v-form ref="explanationForm">
+        <div class="flex-container">
+            <p class='display-3'>TITLE:</p>
+            <input id="title" v-model='title' class='display-3' 
+                @keyup="checkTitle"/>
+        </div>
+        <p id='notes'>
+          The following characters cannot be used in the title.
+        </p>
+        <p  id='notes'>'! @$%#^&*()=+\[\]{};':"\\|,<>\/?'</p>
 
-            <v-btn class="ma-2" outlined color="green" 
-                @click="createExplanation()">submit</v-btn>
-            <v-btn class="ma-2" outlined color="red" 
-                @click="history.back()">cancel</v-btn>
-        </v-form>
-    </div>`,
+        <div class="columns">
+            <div class="column is-6" id="input-field-wrapper">
+                <h2><i class="fas fa-edit"></i> Input</h2>
+                <textarea class="input-field" name="input-field" 
+                    id="input-field" v-model="text" 
+                    v-model="text" @keyup="createPreview(); 
+                    complementwords()" spellcheck="false"><br>
+                </textarea>
+            </div>
+            <div class="column is-6" id="preview-field-wrapper">
+                <h2><i class="fas fa-eye"></i> Preview</h2>
+                <div class="content" id="preview-field" v-model="preview">
+                </div>
+                <div class="buffer content" id="preview-buffer" 
+                style="display:none;
+                position:absolute; 
+                top:0; left: 0"></div>
+            </div>
+        </div>
+
+        <v-btn class="ma-2" outlined color="green" 
+            @click="createExplanation()">submit</v-btn>
+        <v-btn class="ma-2" outlined color="red" 
+            @click="history.back()">cancel</v-btn>
+    </v-form>
+</v-container>`,
   delimiters: ['$(', ')'],
 };
