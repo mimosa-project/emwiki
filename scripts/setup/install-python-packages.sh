@@ -2,6 +2,7 @@
 
 # Move to Working Directory
 cd "$(dirname "$0")/../../mizcore/build/lib.linux-x86_64-cpython-39"
+ls
 touch mizcore.cpython-39-x86_64-linux-gnu.so
 ls
 
