@@ -2,6 +2,7 @@
 
 # Move to Working Directory
 cd "$(dirname "$0")/../../mizcore"
+touch mizcore.cpython-39-x86_64-linux-gnu.so
 ls
 
 echo "Change directory to build"
