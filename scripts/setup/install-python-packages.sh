@@ -12,7 +12,7 @@ touch mizcore.cpython-39-x86_64-linux-gnu.so
 echo "Created mizcore.cpython-39-x86_64-linux-gnu.so"
 ls
 
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/../../.."
 
 # Main
 pipenv sync --dev
