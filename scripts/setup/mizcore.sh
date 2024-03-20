@@ -5,3 +5,4 @@ cd "$(dirname "$0")/../../mizcore"
 
 # Main
 python setup.py build
+ls
