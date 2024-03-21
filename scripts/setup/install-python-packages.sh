@@ -5,6 +5,9 @@ cd "$(dirname "$0")/../../mizcore"
 # touch "mizcore.cpython-39-x86_64-linux-gnu.so"
 # touch "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
 ls -a
+cd "lib.linux-x86_64-3.9"
+echo "create lib.linux-x86_64-3.9"
+ls -a
 # echo "mizcore.cpython-39-x86_64-linux-gnu.so" > "mizcore.pth"
 
 
