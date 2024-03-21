@@ -3,8 +3,8 @@
 # Move to Working Directory
 cd "$(dirname "$0")/../../mizcore"
 touch "mizcore.cpython-39-x86_64-linux-gnu.so"
-touch "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
-echo "mizcore.cpython-39-x86_64-linux-gnu.so" > "mizcore.pth"
+# touch "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
+# echo "mizcore.cpython-39-x86_64-linux-gnu.so" > "mizcore.pth"
 
 
 cd "build"
