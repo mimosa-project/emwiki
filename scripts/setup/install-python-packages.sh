@@ -16,6 +16,8 @@ ls -a
 echo "change lib.linux-x86_64-3.9"
 cd "lib.linux-x86_64-3.9"
 ls -a
+echo "open py_miz_controller.cpython-39-x86_64-linux-gnu.so"
+cat "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
 # mkdir "lib.linux-x86_64-cpython-39"
 
 # cd "lib.linux-x86_64-cpython-39"
