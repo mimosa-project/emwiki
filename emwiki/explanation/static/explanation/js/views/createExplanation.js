@@ -1,7 +1,7 @@
-import { ArticleService } from '../../../article/js/services/article-service.js';
-import { context } from '../../../js/context.js';
-import { onTextAreaKeyDown } from '../models/editor.js';
-import { escape, partialDescape } from '../models/markdown-mathjax.js';
+import {ArticleService} from '../../../article/js/services/article-service.js';
+import {context} from '../../../js/context.js';
+import {onTextAreaKeyDown} from '../models/editor.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 export const createExplanation = {
   data() {
     return {
@@ -32,12 +32,12 @@ export const createExplanation = {
         text: this.text,
         preview: this.output.innerHTML,
       })
-        .then(() => {
-          location.href = '/explanation';
-        })
-        .catch((error) => {
-          alert(error.response.data.errors);
-        });
+          .then(() => {
+            location.href = '/explanation';
+          })
+          .catch((error) => {
+            alert(error.response.data.errors);
+          });
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
@@ -72,7 +72,7 @@ export const createExplanation = {
 
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function (event) {
+      inputField.onkeydown = function(event) {
         onTextAreaKeyDown(event, this);
       };
     },
@@ -94,7 +94,7 @@ export const createExplanation = {
         const url = match[0];
         const name = match[1];
         const fragment = match[2] + match[3];
-        matches.push({ name: name, fragment: fragment });
+        matches.push({name: name, fragment: fragment});
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
@@ -110,8 +110,8 @@ export const createExplanation = {
 
         try {
           const articleHtml = await ArticleService.getHtml(
-            context['article_html_base_uri'],
-            articleName,
+              context['article_html_base_uri'],
+              articleName,
           );
           const htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
           this.embedHtmls[i] = htmls.filter((html) =>
