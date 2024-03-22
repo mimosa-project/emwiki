@@ -1,0 +1,212 @@
+/* explanation_form.html */
+#title {
+    border: 2px solid #dfe2e9;
+    /* Widen as much as possible */
+    flex-grow: 1;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+.flex-container {
+    display: flex;
+}
+
+p {
+    margin: 0;
+    padding-right: 10px;
+}
+
+#input-field-wrapper,
+#preview-field-wrapper {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+#input-field {
+    width: 100%;
+    height: 600px;
+    resize: both;
+    overflow: auto;
+}
+
+#preview-field {
+    background-color: #f1f1f1;
+    width: 100%;
+    height: 600px;
+    resize: both;
+    overflow: auto;
+
+}
+
+#notes {
+    color: #9f9898;
+    padding-left: 170px;
+}
+
+@media only screen and (min-width: 768px) {
+    .columns {
+        flex-direction: row;
+    }
+
+    #input-field-wrapper,
+    #preview-field-wrapper {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+}
+
+/* explanation_detail.html */
+#explanationTitle {
+    border-bottom: double 5px #dfe2e9;
+}
+
+#explanationText {
+    margin: 5vh 30px 10px 30px;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #dfe2e9;
+}
+
+/* embedArticle.css */
+div {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+div.add {
+    padding-left: 3mm;
+    padding-bottom: 0mm;
+    margin: 0 0 0 0;
+}
+
+div.box {
+    border-width: thin;
+    border-color: blue;
+    border-style: solid;
+}
+
+p {
+    margin: 0 0 0 0;
+}
+
+body {
+    font-family: monospace;
+    margin: 0px;
+}
+
+a {
+    text-decoration: none
+}
+
+a:hover {
+    color: red;
+}
+
+a.ref {
+    font-size: x-small;
+}
+
+a.ref:link {
+    color: green;
+}
+
+a.ref:hover {
+    color: red;
+}
+
+a.txt:link {
+    color: black;
+}
+
+a.txt:hover {
+    color: red;
+}
+
+.wikiactions ul {
+    background-color: DarkSeaGreen;
+    color: blue;
+    margin: 0;
+    padding: 6px;
+    list-style-type: none;
+    border-bottom: 1px solid #000;
+}
+
+.wikiactions li {
+    display: inline;
+    padding: .2em .4em;
+}
+
+.wikiactions a {
+    text-decoration: underline;
+}
+
+span.kw {
+    font-weight: bold;
+}
+
+span.lab {
+    font-style: italic;
+}
+
+span.comment {
+    font-style: italic;
+}
+
+span.hide {
+    display: none;
+}
+
+span.p1:hover {
+    color: inherit;
+    background-color: #BAFFFF;
+}
+
+span.p2:hover {
+    color: inherit;
+    background-color: #FFCACA;
+}
+
+span.p3:hover {
+    color: inherit;
+    background-color: #FFFFBA;
+}
+
+span.p4:hover {
+    color: inherit;
+    background-color: #CACAFF;
+}
+
+span.p5:hover {
+    color: inherit;
+    background-color: #CAFFCA;
+}
+
+span.p0:hover {
+    color: inherit;
+    background-color: #FFBAFF;
+}
+
+.default {
+    background-color: white;
+    color: black;
+}
+
+.default:hover {
+    background-color: white;
+    color: black;
+}
+
+#tt {
+    position: absolute;
+    display: block;
+    font-size: small;
+    background: LightYellow;
+    padding: 2px 12px 3px 7px;
+    margin-left: 5px;
+}
+
+:target {
+    background: #5D9BF7;
+    border: solid 1px #aaa;
+}

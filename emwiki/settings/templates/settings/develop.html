@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<v-row justify="center mt-5">
+    <v-col cols="12" sm="10" md="8" lg="6">
+        <v-card ref="form">
+            <form action="" method="post">
+                <v-card-text>
+                    <p class="text-h4 text--primary mb-12">Preparation procedure for using this feature</p>
+                    <li>Fork <a
+                            href="https://github.com/mimosa-project/mizar-server-contents">https://github.com/mimosa-project/mizar-server-contents</a>
+                        in advance.</li>
+                    <li>Set your GitHub ID and repository URL on the settings page.</li>
+                    <li>Transition to VS Code for the Web.</li>
+                    <li>Install the extension "emvscode-web".</li>
+                    <li>Obtain the OAuth Token.</li>
+                    <li>Configure the OAuth Token for VS Code for the Web.</li>
+                    <br>
+                    <input type="checkbox" id="checkbox" name="checkbox">
+                    <label for="checkbox">Do not show this page again</label>
+                    {% csrf_token %}
+                </v-card-text>
+                <v-btn type="submit" block target="_blank">Develop</v-btn>
+            </form>
+        </v-card>
+    </v-col>
+</v-row>
+{% endblock %}

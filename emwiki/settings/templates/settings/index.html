@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<v-row justify="center mt-5">
+    <v-col cols="12" sm="10" md="8" lg="6">
+        <v-card ref="form">
+            <form action="" method="post">
+                <v-card-text>
+                    <p class="text-h4 text--primary mb-12">Settings</p>
+                    {% if github_id %}
+                    {% else %}
+                    <p class="text-h6 text--primary mb-12">※Please set the following items</p>
+                    {% endif %}
+                    <v-row class="d-flex">
+                        <v-col class="font-weight-black">ID for GitHub: </v-col>
+                        <v-col class="mr-auto">{{ github_id }}</v-col>
+                    </v-row>
+                    <v-divider class="mb-3"></v-divider>
+                    <v-row class="d-flex">
+                        <v-col class="font-weight-black">URL of the GitHub repository:</v-col>
+                        <v-col class="mr-auto">{{ repository_url }}</v-col>
+                    </v-row>
+                    <v-divider class="mb-3"></v-divider>
+                </v-card-text>
+            </form>
+            {% if github_id %}
+            <v-btn href="{% url 'settings:change' %}" block>Change</v-btn>
+            {% else %}
+            <v-btn href="{% url 'settings:registration' %}" block>Registration</v-btn>
+            {% endif %}
+        </v-card>
+    </v-col>
+</v-row>
+{% endblock %}

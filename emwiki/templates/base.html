@@ -33,7 +33,8 @@
   {% csrf_token %}
   <div id="app">
     <v-app>
-      <v-navigation-drawer app v-model="drawerExists" :width="drawerWidth" :disable-resize-watcher="disableResizeWatcher" >
+      <v-navigation-drawer app v-model="drawerExists" :width="drawerWidth"
+        :disable-resize-watcher="disableResizeWatcher">
         {% block drawer %}{% endblock %}
       </v-navigation-drawer>
 
@@ -44,44 +45,50 @@
         <v-spacer></v-spacer>
 
         <v-btn href="{% url 'home:index' %}" text>Home</v-btn>
+        <v-btn href="{% url 'explanation:index' %}" text>Document</v-btn>
+        {% if user.is_authenticated %}
+          <v-btn href="{% url 'settings:develop' %}" text>Develop</v-btn>
+        {% endif %}
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}" text>Article</v-btn>
         <v-btn href="{% url 'symbol:index' '0' %}" text>Symbol</v-btn>
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}?target=theorem" text>Theorem</v-btn>
         <v-btn href="{% url 'graph:index' %}" text>Graph</v-btn>
-
+        {% if user.is_authenticated %}
+          <v-btn href="{% url 'settings:index' %}" text>Settings</v-btn>
+        {% endif %}
         <v-menu offset-y>
           {% if user.is_authenticated %}
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" text>
-                {{ user.get_username }}
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item-group>
-                <v-list-item href="{% url 'accounts:user_detail' user.pk %}">
-                  User information
-                </v-list-item>
-                <v-list-item href="{% url 'accounts:logout' %}">
-                  Logout
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" text>
+              {{ user.get_username }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item href="{% url 'accounts:user_detail' user.pk %}">
+                User information
+              </v-list-item>
+              <v-list-item href="{% url 'accounts:logout' %}">
+                Logout
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
           {% else %}
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" text>
-                Account
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item-group>
-                <v-list-item href="{% url 'accounts:signup' %}">
-                  Sign up
-                </v-list-item>
-                <v-list-item href="{% url 'accounts:login' %}">
-                  Login
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" text>
+              Account
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item href="{% url 'accounts:signup' %}">
+                Sign up
+              </v-list-item>
+              <v-list-item href="{% url 'accounts:login' %}">
+                Login
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
           {% endif %}
         </v-menu>
       </v-app-bar>
@@ -93,9 +100,11 @@
   </div>
 
   <!-- base CSS, JavaScript -->
-  <link rel='stylesheet' href="{% static 'css/base.css' %}" type='text/css'></link>
+  <link rel='stylesheet' href="{% static 'css/base.css' %}" type='text/css'>
+  </link>
   {% block foot %}
   <script src="{% static 'js/main.js' %}"></script>
   {% endblock %}
 </body>
+
 </html>

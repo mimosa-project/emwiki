@@ -79,7 +79,7 @@ export class Editor {
           editButton.style.display = 'none';
         } else {
           alert('Editing is only allowed to registered users \n' +
-                'Please login or signup');
+            'Please login or signup');
         }
         event.stopPropagation();
       });

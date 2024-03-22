@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# from django.views.generic import RedirectView
 
 urlpatterns = [
     path('search/', include('search.urls')),
@@ -22,6 +23,8 @@ urlpatterns = [
     path('article/', include('article.urls')),
     path('symbol/', include('symbol.urls')),
     path('accounts/', include('accounts.urls')),
+    path('explanation/', include('explanation.urls')),
+    path('settings/', include('settings.urls')),
     path('admin/', admin.site.urls),
     path('', include('home.urls'))
 ]
