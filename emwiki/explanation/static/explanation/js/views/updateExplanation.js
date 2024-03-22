@@ -1,7 +1,7 @@
-import { ArticleService } from '../../../article/js/services/article-service.js';
-import { context } from '../../../js/context.js';
-import { onTextAreaKeyDown } from '../models/editor.js';
-import { escape, partialDescape } from '../models/markdown-mathjax.js';
+import {ArticleService} from '../../../article/js/services/article-service.js';
+import {context} from '../../../js/context.js';
+import {onTextAreaKeyDown} from '../models/editor.js';
+import {escape, partialDescape} from '../models/markdown-mathjax.js';
 
 export const updateExplanation = {
   data() {
@@ -33,7 +33,7 @@ export const updateExplanation = {
   methods: {
     reload_Explanation() {
       return axios.get(this.url,
-        { params: { title: this.explanationTitle } },
+          {params: {title: this.explanationTitle}},
       ).then((response) => {
         this.explanationText = response.data.text;
         this.explanationPreview = response.data.preview;
@@ -52,7 +52,7 @@ export const updateExplanation = {
         }
         return this.explanationTitle;
       })
-        .catch((error) => console.log(error));
+          .catch((error) => console.log(error));
     },
     getTextByTitle(dataArray, title) {
       const element = dataArray.find((item) => item.title === title);
@@ -66,10 +66,10 @@ export const updateExplanation = {
         text: this.explanationText,
         preview: this.output.innerHTML,
       })
-        .then(() => {
-          location.href = '/explanation';
-        })
-        .catch((error) => console.log(error));
+          .then(() => {
+            location.href = '/explanation';
+          })
+          .catch((error) => console.log(error));
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
@@ -99,7 +99,7 @@ export const updateExplanation = {
     },
     complementwords() {
       const inputField = document.getElementById('input-field');
-      inputField.onkeydown = function (event) {
+      inputField.onkeydown = function(event) {
         onTextAreaKeyDown(event, this);
       };
     },
@@ -113,7 +113,7 @@ export const updateExplanation = {
         const url = match[0];
         const name = match[1];
         const fragment = match[2] + match[3];
-        matches.push({ name: name, fragment: fragment });
+        matches.push({name: name, fragment: fragment});
 
         if (!this.embedSources.includes(url)) {
           this.embedSources.push(url);
@@ -129,15 +129,15 @@ export const updateExplanation = {
 
         try {
           const articleHtml = await ArticleService.getHtml(
-            context['article_html_base_uri'],
-            articleName,
+              context['article_html_base_uri'],
+              articleName,
           );
           const htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
           this.embedHtmls[i] = htmls.filter((html) =>
             html.includes('name="' + fragment + '"'));
           this.Articles.push({
             url: this.embedSources[i],
-            html: this.embedHtmls[i]
+            html: this.embedHtmls[i],
           });
         } catch (error) {
           console.error('Error fetching HTML:', error);
@@ -154,7 +154,7 @@ export const updateExplanation = {
     reloadDetail_form() {
       this.$router.push({
         name: 'Detail',
-        params: { title: this.explanationTitle },
+        params: {title: this.explanationTitle},
       });
       location.reload();
     },
