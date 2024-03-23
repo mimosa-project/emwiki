@@ -4,6 +4,7 @@
 cd "$(dirname "$0")/../../mizcore"
 touch "mizcore.cpython-39-x86_64-linux-gnu.so"
 touch "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
+ls
 
 cd "build"
 mkdir "lib.linux-x86_64-cpython-39"
