@@ -11,9 +11,10 @@ mkdir "lib.linux-x86_64-cpython-39"
 cd lib.linux-x86_64-3.9
 ls
 cd ..
+ls
 cd "lib.linux-x86_64-cpython-39"
 touch "mizcore.cpython-39-x86_64-linux-gnu.so"
-cp lib.linux-x86_64-3.9/py_miz_controller.cpython-39-x86_64-linux-gnu.so mizcore.cpython-39-x86_64-linux-gnu.so
+cp lib.linux-x86_64-3.9/py_miz_controller.cpython-39-x86_64-linux-gnu.so lib.linux-x86_64-cpython-39/mizcore.cpython-39-x86_64-linux-gnu.so
 cat mizcore.cpython-39-x86_64-linux-gnu.so
 
 cd ../../
