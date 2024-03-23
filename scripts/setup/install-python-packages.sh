@@ -6,7 +6,6 @@ touch "mizcore.cpython-39-x86_64-linux-gnu.so"
 touch "py_miz_controller.cpython-39-x86_64-linux-gnu.so"
 
 cd "build"
-ls
 mkdir "lib.linux-x86_64-cpython-39"
 cd lib.linux-x86_64-3.9
 ls
