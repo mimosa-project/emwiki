@@ -27,16 +27,8 @@ class Explanation(models.Model):
         commit_message = f'Create {self.title}\n {self.author}\n'
         settings.EMWIKI_CONTENTS_EXPLANATION_REPO.git.add(self.get_explanationfile_path())
         settings.EMWIKI_CONTENTS_EXPLANATION_REPO.index.commit(commit_message)
-        # with open(self.get_explanationfile_path(), 'w', encoding='utf-8') as file:
-        #     file.write(f'Create {self.title}\n {self.text}\n {self.author}\n')
-        #     settings.EMWIKI_CONTENTS_EXPLANATION_REPO.git.add(self.get_explanationfile_path())
-        #     settings.EMWIKI_CONTENTS_EXPLANATION_REPO.git.commit('--allow-empty', '-m', commit_message)
 
     def commit_explanation_changes(self):
         commit_message = f'Update {self.title}\n {self.author}\n'
         settings.EMWIKI_CONTENTS_EXPLANATION_REPO.git.add(self.get_explanationfile_path())
         settings.EMWIKI_CONTENTS_EXPLANATION_REPO.index.commit(commit_message)
-        # with open(self.get_explanationfile_path(), 'w', encoding='utf-8') as file:
-        #     file.write(f'Create {self.title}\n {self.text}\n {self.author}\n')
-        #     settings.EMWIKI_CONTENTS_EXPLANATION_REPO.git.add(self.get_explanationfile_path())
-        #     settings.EMWIKI_CONTENTS_EXPLANATION_REPO.index.commit(commit_message)
