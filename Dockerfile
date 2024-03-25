@@ -25,7 +25,7 @@ RUN python setup.py build
 
 # Install python dependencies
 WORKDIR /emwiki
-RUN pipenv sync --dev
+RUN sh scripts/setup/install-python-packages.sh
 
 # Install npm dependencies
 WORKDIR /emwiki
