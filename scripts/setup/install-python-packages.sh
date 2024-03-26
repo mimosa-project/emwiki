@@ -11,9 +11,7 @@ touch "mizcore.cpython-39-x86_64-linux-gnu.so"
 
 
 cd ../../
-ls
 cp build/lib.linux-x86_64-3.9/py_miz_controller.cpython-39-x86_64-linux-gnu.so py_miz_controller.cpython-39-x86_64-linux-gnu.so
-cat py_miz_controller.cpython-39-x86_64-linux-gnu.so
 
 cd "$(dirname "$0")/../../.."
 
