@@ -1,10 +1,10 @@
+import {context} from '../../../js/context.js';
 export const ExplanationView = {
   data: () => ({
     explanationTitle: '',
     explanationText: '',
     explanationPreview: '',
     content: '',
-    url: '/explanation/explanation',
   }),
   mounted() {
     this.explanationTitle = this.$route.params.title;
@@ -12,7 +12,7 @@ export const ExplanationView = {
   },
   methods: {
     reloadExplanation() {
-      return axios.get(this.url,
+      return axios.get(context['explanation_uri'],
           {params: {title: this.explanationTitle}},
       ).then((response) => {
         this.explanationPreview = response.data.preview;

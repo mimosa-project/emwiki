@@ -22,8 +22,6 @@ export const updateExplanation = {
       embedSources: [],
       embedHtmls: [],
       Articles: [],
-      url: '/explanation/explanation',
-      detailurl: '/explanation/detail/',
     };
   },
   mounted() {
@@ -32,7 +30,7 @@ export const updateExplanation = {
   },
   methods: {
     reload_Explanation() {
-      return axios.get(this.url,
+      return axios.get(context['explanation_uri'],
           {params: {title: this.explanationTitle}},
       ).then((response) => {
         this.explanationText = response.data.text;
@@ -61,13 +59,15 @@ export const updateExplanation = {
     changeExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-      axios.put(this.detailurl + this.explanationTitle +
-        '/update', {
+      axios.put(this.$router.resolve({
+        name: 'Update',
+        params: {title: this.explanationTitle},
+      }).href, {
         text: this.explanationText,
         preview: this.output.innerHTML,
       })
           .then(() => {
-            location.href = '/explanation';
+            location.href = context['base_uri'];
           })
           .catch((error) => console.log(error));
     },

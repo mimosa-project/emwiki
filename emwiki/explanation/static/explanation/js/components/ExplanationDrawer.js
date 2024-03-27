@@ -1,4 +1,4 @@
-// import { context } from '../../../js/context.js';
+import {context} from '../../../js/context.js';
 import {ExplanationService} from '../services/explanation-service.js';
 export const ExplanationDrawer = {
   data() {
@@ -10,24 +10,15 @@ export const ExplanationDrawer = {
     };
   },
   mounted() {
-    ExplanationService.getTitle('/explanation/titles')
+    ExplanationService.getTitle(context['titles_uri'])
         .then((titles) => {
           this.Titles = titles;
         })
         .catch((error) => console.log(error));
   },
   methods: {
-    getTitle() {
-      return axios.get('/explanation/titles').then((response) => {
-        return response.data.index;
-      });
-    },
     onExplanationRowClick(row) {
-      this.selectedTitle = row.title;
-      location.href = '/explanation/detail/' + this.selectedTitle;
-    },
-    reloadCreate_form() {
-      location.href = '/explanation/create';
+      location.href = context['base_uri'] + 'detail/' + row.title;
     },
   },
 
