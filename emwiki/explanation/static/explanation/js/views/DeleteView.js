@@ -1,12 +1,11 @@
+import {context} from '../../../js/context.js';
 
 export const deleteExplanation = {
   data: () => ({
     explanationTitle: '',
-    url: '/explanation/explanation',
-    detailurl: '/explanation/detail/',
   }),
   mounted() {
-    return axios.get(this.url, {
+    return axios.get(context['explanation_uri'], {
     }).then(() => {
       this.explanationTitle = this.$route.params.title;
       return this.explanationTitle;
@@ -17,11 +16,13 @@ export const deleteExplanation = {
     Explanationdelete() {
       axios.defaults.xsrfCookieName = 'csrftoken',
       axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN',
-      axios.delete(this.detailurl + this.explanationTitle +
-          '/delete', {
+      axios.delete(this.$router.resolve({
+        name: 'Delete',
+        params: {title: this.explanationTitle},
+      }).href, {
       })
           .then(() => {
-            location.href = '/explanation';
+            location.href = context['base_uri'];
           })
           .catch((error) => console.log(error));
     },
