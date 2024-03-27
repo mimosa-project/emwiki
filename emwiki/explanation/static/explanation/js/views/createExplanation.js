@@ -12,7 +12,6 @@ export const createExplanation = {
       output: '',
       buffer: '',
       content: '',
-      url: '/explanation/explanation',
       regex: '',
       embedUrl: '',
       embedHtml: '',
@@ -27,13 +26,13 @@ export const createExplanation = {
     createExplanation() {
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-      axios.post(this.url, {
+      axios.post(context['explanation_uri'], {
         title: this.title,
         text: this.text,
         preview: this.output.innerHTML,
       })
           .then(() => {
-            location.href = '/explanation';
+            location.href = context['base_uri'];
           })
           .catch((error) => {
             alert(error.response.data.errors);

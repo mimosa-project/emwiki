@@ -13,6 +13,8 @@ from django.contrib.auth import get_user_model
 
 extra_context = {
     "context_for_js": {
+        'base_uri': reverse_lazy('explanation:index'),
+        'titles_uri': reverse_lazy('explanation:titles'),
         'article_base_uri': reverse_lazy('article:names'),
         'article_html_base_uri': reverse_lazy('article:htmls'),
         'article_index_uri': reverse_lazy('article:index'),
@@ -24,6 +26,12 @@ extra_context = {
 
 class IndexView(TemplateView):
     template_name = 'explanation/index.html'
+    extra_context = {
+        "context_for_js": {
+            'base_uri': reverse_lazy('explanation:index'),
+            'titles_uri': reverse_lazy('explanation:titles'),
+        }
+    }
 
 
 class CreateView(generic.CreateView):
@@ -31,6 +39,9 @@ class CreateView(generic.CreateView):
     fields = ['title', 'text', 'author', 'created_at', 'updated_at']
     extra_context = {
         'context_for_js': {
+            'base_uri': reverse_lazy('explanation:index'),
+            'titles_uri': reverse_lazy('explanation:titles'),
+            'explanation_uri': reverse_lazy('explanation:explanation'),
             'article_names_uri': reverse_lazy('article:names'),
             'article_html_base_uri': reverse_lazy('article:htmls'),
         }
@@ -99,6 +110,9 @@ class DetailView(View):
             context = dict()
             context["context_for_js"] = {
                 'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
+                'base_uri': reverse_lazy('explanation:index'),
+                'titles_uri': reverse_lazy('explanation:titles'),
+                'explanation_uri': reverse_lazy('explanation:explanation'),
             }
             return render(request, 'explanation/explanation_detail.html', context)
         else:
@@ -111,6 +125,9 @@ class UpdateView(View):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
+            'base_uri': reverse_lazy('explanation:index'),
+            'titles_uri': reverse_lazy('explanation:titles'),
+            'explanation_uri': reverse_lazy('explanation:explanation'),
             'article_html_base_uri': reverse_lazy('article:htmls'),
         }
         return render(request, 'explanation/explanation_change.html', context)
@@ -134,6 +151,9 @@ class DeleteView(View):
         context = dict()
         context["context_for_js"] = {
             'explanation_detail_uri': reverse('explanation:detail', kwargs=dict(title="temp")).replace('temp', ''),
+            'base_uri': reverse_lazy('explanation:index'),
+            'titles_uri': reverse_lazy('explanation:titles'),
+            'explanation_uri': reverse_lazy('explanation:explanation'),
         }
         return render(request, 'explanation/explanation_confirm_delete.html', context)
 

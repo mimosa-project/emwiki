@@ -8,9 +8,7 @@ export const router = new VueRouter({
     {
       path: '/:name',
       name: 'Article',
-      components: {
-        'article-view': ArticleView,
-      },
+      component: ArticleView,
     },
   ],
 });
