@@ -69,7 +69,8 @@ export const updateExplanation = {
           .then(() => {
             location.href = context['base_uri'];
           })
-          .catch((error) => console.log(error));
+          .catch(() => alert('Editing is only allowed to registered users \n' +
+          'Please login or signup'));
     },
     // https://github.com/kerzol/markdown-mathjax/blob/master/editor.htmlを参考に作成
     createPreview() {
