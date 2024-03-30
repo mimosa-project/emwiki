@@ -24,7 +24,8 @@ export const deleteExplanation = {
           .then(() => {
             location.href = context['base_uri'];
           })
-          .catch((error) => console.log(error));
+          .catch(() => alert('Deleting is only allowed to registered users \n' +
+            'Please login or signup'));
     },
     reloadDetail_form() {
       this.$router.push({

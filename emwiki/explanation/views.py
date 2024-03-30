@@ -9,6 +9,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic import View
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 extra_context = {
@@ -79,6 +81,7 @@ class ExplanationView(View):
         if Explanation.objects.exclude(id=blog_id).filter(title=title).exists():
             raise ValidationError('Title must be unique.')
 
+    @method_decorator(login_required)
     def post(self, request):
         post = json.loads(request.body)
         posted_id = post.get('id', None)
@@ -133,6 +136,9 @@ class UpdateView(View):
         return render(request, 'explanation/explanation_change.html', context)
 
     def put(self, request, title):
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': 'Authentication required'}, status=401)
+
         post = json.loads(request.body)
         updatedExplanation = Explanation.objects.get(title=title)
         User = get_user_model()
@@ -158,6 +164,9 @@ class DeleteView(View):
         return render(request, 'explanation/explanation_confirm_delete.html', context)
 
     def delete(self, request, title):
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': 'Authentication required'}, status=401)
+
         deleteExplanation = Explanation.objects.get(title=title)
         deleteExplanation.delete()
         return render(request, 'explanation/index.html')
