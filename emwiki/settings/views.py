@@ -24,9 +24,7 @@ class RegistrationView(TemplateView):
 
     def post(self, request):
         if request.method == 'POST':
-            user_instance = get_user_model().objects.get(username=request.user.username)
-
-            user_name = user_instance
+            user_name = get_user_model().objects.get(username=request.user.username)
             id = request.POST.get('github_id')
             url = request.POST.get('repository_url')
             new_settings = Settings.objects.create(user=user_name, github_id=id, repository_url=url)
@@ -40,8 +38,7 @@ class ChangeView(TemplateView):
 
     def post(self, request):
         if request.method == 'POST':
-            user_instance = get_user_model().objects.get(username=request.user.username)
-            change_settings = Settings.objects.filter(user=user_instance).first()
+            change_settings = Settings.objects.filter(user=get_user_model().objects.get(username=request.user.username)).first()
             change_settings.github_id = request.POST.get('github_id')
             change_settings.repository_url = request.POST.get('repository_url')
             change_settings.save()
@@ -53,8 +50,7 @@ class DevelopView(TemplateView):
     template_name = 'settings/develop.html'
 
     def get(self, request):
-        user = get_user_model().objects.get(username=request.user.username)
-        settings = Settings.objects.filter(user=user).first()
+        settings = Settings.objects.filter(user=get_user_model().objects.get(username=request.user.username)).first()
 
         if settings is not None:
             id = settings.github_id
@@ -65,14 +61,12 @@ class DevelopView(TemplateView):
             else:
                 return render(request, 'settings/develop.html', {'github_id': id, 'repository_url': url})
         else:
-            return render(request, 'settings/index.html')
+            return redirect('settings:index')
 
     def post(self, request):
         if request.method == 'POST':
-            user = get_user_model().objects.get(username=request.user.username)
-            settings = Settings.objects.filter(user=user).first()
+            settings = Settings.objects.filter(user=get_user_model().objects.get(username=request.user.username)).first()
             checkbox_value = request.POST.get('checkbox')
-            settings.isChecked = checkbox_value
             settings.isChecked = checkbox_value == 'on'
             settings.save()
 

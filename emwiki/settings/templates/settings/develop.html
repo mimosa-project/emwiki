@@ -6,20 +6,21 @@
             <form action="" method="post">
                 <v-card-text>
                     <p class="text-h4 text--primary mb-12">Preparation procedure for using this feature</p>
-                    <li>Fork <a
-                            href="https://github.com/mimosa-project/mizar-server-contents">https://github.com/mimosa-project/mizar-server-contents</a>
-                        in advance.</li>
-                    <li>Set your GitHub ID and repository URL on the settings page.</li>
-                    <li>Transition to VS Code for the Web.</li>
-                    <li>Install the extension "emvscode-web".</li>
-                    <li>Obtain the OAuth Token.</li>
-                    <li>Configure the OAuth Token for VS Code for the Web.</li>
+                    <li>Fork <a href="https://github.com/mimosa-project/mizar-server-contents">the Mizar server contents
+                            repository</a>
+                        on GitHub.</li>
+                    <li>Set your GitHub ID and the URL of the repository you forked in step 1 on the settings page of
+                        emwiki.</li>
+                    <li>Navigate to VS Code for the Web.</li>
+                    <li>Install the "emvscode-web" extension.</li>
+                    <li>Obtain an OAuth Token (a token used to authenticate access to the GitHub API).</li>
+                    <li>Set the OAuth Token in the settings of VS Code for the Web.</li>
                     <br>
                     <input type="checkbox" id="checkbox" name="checkbox">
                     <label for="checkbox">Do not show this page again</label>
                     {% csrf_token %}
                 </v-card-text>
-                <v-btn type="submit" block target="_blank">Develop</v-btn>
+                <v-btn type="submit" block>Develop</v-btn>
             </form>
         </v-card>
     </v-col>
