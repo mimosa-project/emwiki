@@ -47,7 +47,7 @@
         <v-btn href="{% url 'home:index' %}" text>Home</v-btn>
         <v-btn href="{% url 'explanation:index' %}" text>Document</v-btn>
         {% if user.is_authenticated %}
-        <v-btn href="{% url 'settings:develop' %}" text target="_blank">Develop</v-btn>
+        <v-btn href="{% url 'settings:develop' %}" text>Develop</v-btn>
         {% endif %}
         <v-btn href="{% url 'article:index' 'abcmiz_0' %}" text>Article</v-btn>
         <v-btn href="{% url 'symbol:index' '0' %}" text>Symbol</v-btn>

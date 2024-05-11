@@ -13,8 +13,8 @@ class IndexView(TemplateView):
 
         if settings is not None:
             id = settings.github_id
-            url = settings.repository_url
-            return render(request, 'settings/index.html', {'github_id': id, 'repository_url': url})
+            repository_url = settings.repository_url
+            return render(request, 'settings/index.html', {'github_id': id, 'repository_url': repository_url})
         else:
             return render(request, 'settings/index.html')
 
@@ -26,8 +26,8 @@ class RegistrationView(TemplateView):
         if request.method == 'POST':
             user_name = get_user_model().objects.get(username=request.user.username)
             id = request.POST.get('github_id')
-            url = request.POST.get('repository_url')
-            new_settings = Settings.objects.create(user=user_name, github_id=id, repository_url=url)
+            repository_url = request.POST.get('repository_url')
+            new_settings = Settings.objects.create(user=user_name, github_id=id, repository_url=repository_url)
             new_settings.save()
 
             return redirect('settings:index')
@@ -35,6 +35,12 @@ class RegistrationView(TemplateView):
 
 class ChangeView(TemplateView):
     template_name = 'settings/settings_change.html'
+
+    def get(self, request):
+        user = get_user_model().objects.get(username=request.user.username)
+        settings = Settings.objects.filter(user=user).first()
+
+        return render(request, 'settings/settings_change.html', {'settings': settings})
 
     def post(self, request):
         if request.method == 'POST':
@@ -54,20 +60,8 @@ class DevelopView(TemplateView):
 
         if settings is not None:
             id = settings.github_id
-            url = settings.repository_url
-            checkbox = settings.isChecked
-            if checkbox:
-                return redirect('https://github.dev/' + settings.github_id + '/' + settings.repository_url)
-            else:
-                return render(request, 'settings/develop.html', {'github_id': id, 'repository_url': url})
+            repository_url = settings.repository_url
+
+            return render(request, 'settings/develop.html', {'github_id': id, 'repository_url': repository_url})
         else:
-            return redirect('settings:index')
-
-    def post(self, request):
-        if request.method == 'POST':
-            settings = Settings.objects.filter(user=get_user_model().objects.get(username=request.user.username)).first()
-            checkbox_value = request.POST.get('checkbox')
-            settings.isChecked = checkbox_value == 'on'
-            settings.save()
-
-            return redirect('https://github.dev/' + settings.github_id + '/' + settings.repository_url)
+            return render(request, 'settings/develop.html')
