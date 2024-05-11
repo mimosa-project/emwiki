@@ -7,9 +7,10 @@
             <form action="" method="post">
                 <v-card-text>
                     <p class="text-h4 text--primary mb-12">New Settings</p>
-                    <v-text-field id="github_id" name="github_id" label="GitHub ID" type="text" required></v-text-field>
-                    <v-text-field id="repository_url" name="repository_url" label="URL of the repository" type="text"
-                        required></v-text-field>
+                    <v-text-field id="github_id" name="github_id" label="GitHub ID" type="text" required
+                        value="{{settings.github_id}}"></v-text-field>
+                    <v-text-field id="repository_url" name="repository_url" label="GitHub repository name" type="text"
+                        required value="{{settings.repository_url}}"></v-text-field>
                     {% csrf_token %}
                 </v-card-text>
                 <v-btn type="submit" block>Change</v-btn>
