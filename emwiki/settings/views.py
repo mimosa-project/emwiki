@@ -13,8 +13,8 @@ class IndexView(TemplateView):
 
         if settings is not None:
             id = settings.github_id
-            repository_url = settings.repository_url
-            return render(request, 'settings/index.html', {'github_id': id, 'repository_url': repository_url})
+            repository_name = settings.repository_name
+            return render(request, 'settings/index.html', {'github_id': id, 'repository_name': repository_name})
         else:
             return render(request, 'settings/index.html')
 
@@ -26,8 +26,8 @@ class RegistrationView(TemplateView):
         if request.method == 'POST':
             user_name = get_user_model().objects.get(username=request.user.username)
             id = request.POST.get('github_id')
-            repository_url = request.POST.get('repository_url')
-            new_settings = Settings.objects.create(user=user_name, github_id=id, repository_url=repository_url)
+            repository_name = request.POST.get('repository_name')
+            new_settings = Settings.objects.create(user=user_name, github_id=id, repository_name=repository_name)
             new_settings.save()
 
             return redirect('settings:index')
@@ -46,7 +46,7 @@ class ChangeView(TemplateView):
         if request.method == 'POST':
             change_settings = Settings.objects.filter(user=get_user_model().objects.get(username=request.user.username)).first()
             change_settings.github_id = request.POST.get('github_id')
-            change_settings.repository_url = request.POST.get('repository_url')
+            change_settings.repository_name = request.POST.get('repository_name')
             change_settings.save()
 
             return redirect('settings:index')
@@ -60,8 +60,8 @@ class DevelopView(TemplateView):
 
         if settings is not None:
             id = settings.github_id
-            repository_url = settings.repository_url
+            repository_name = settings.repository_name
 
-            return render(request, 'settings/develop.html', {'github_id': id, 'repository_url': repository_url})
+            return render(request, 'settings/develop.html', {'github_id': id, 'repository_name': repository_name})
         else:
             return render(request, 'settings/develop.html')

@@ -24,7 +24,7 @@
                             repository name&gt;</li>
                         {% if github_id %}
                         <li>Transition to VSCode for the Web by clicking the <a
-                                href="https://github.dev/{{github_id}}/{{repository_url}}" target="_blank"
+                                href="https://github.dev/{{github_id}}/{{repository_name}}" target="_blank"
                                 rel="noopener noreferrer">
                                 [DEVELOP]
                             </a>button.</li>
@@ -34,7 +34,7 @@
                         <li>Install the "emvscode-web" VSCode for the Web extension <a
                                 href="{% static 'settings/img/emvscode-web_install.png' %}" target="_blank">ℹ️</a>.</li>
                         <li>Obtain an OAuth Token (a personal access token (classic, scope: repo)) at <a
-                                href="https://github.com/settings/tokens">GitHub</a> <a
+                                href="https://github.com/settings/tokens" target="_blank">GitHub</a> <a
                                 href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic"
                                 target="_blank">ℹ️</a>.</li>
                         <li>Configure the OAuth Token for VSCode for the Web <a
@@ -43,7 +43,8 @@
                     </ol>
                 </v-card-text>
                 {% if github_id %}
-                <a href="https://github.dev/{{github_id}}/{{repository_url}}" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.dev/{{github_id}}/{{repository_name}}" target="_blank"
+                    rel="noopener noreferrer">
                     <v-btn block>Develop</v-btn>
                 </a>
                 {% else %}
