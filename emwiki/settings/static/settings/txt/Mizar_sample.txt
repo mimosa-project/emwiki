@@ -1,0 +1,16 @@
+environ
+
+ vocabularies TARSKI;
+ theorems TARSKI_0;
+ schemes TARSKI_0;
+
+begin
+
+ reserve x for object;
+ reserve X,Y for set;
+
+theorem :: Everything is a set
+  for x being object holds x is set by TARSKI_0:1;
+
+theorem :: Extensionality
+  (for x being object holds x in X iff x in Y) implies X = Y by TARSKI_0:2;
