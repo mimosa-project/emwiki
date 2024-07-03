@@ -205,10 +205,10 @@ class DeleteView(View):
         return render(request, 'explanation/index.html')
 
 
-class ArticleView(View):
-    def get(self, request, name_or_filename):
-        target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
-        return redirect(target_url)
+# class ArticleView(View):
+#     def get(self, request, name_or_filename):
+#         target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
+#         return redirect(target_url)
 
 
 class ProofView(View):
