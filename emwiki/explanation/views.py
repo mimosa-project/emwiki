@@ -2,7 +2,7 @@ import json
 import re
 from natsort import humansorted
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from .models import Explanation
 from article.models import Article
 from django.core.exceptions import ValidationError
@@ -110,15 +110,18 @@ class ExplanationView(View):
             errors = e.messages[0]
             return JsonResponse({'errors': errors}, status=400)
 
-        createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
+        createExplanation = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
 
-        pattern = r'/article/(\w+)#[A-Z]\d'
+        pattern = r"embed\(/article/([^#]+)#.*\)"
         article_names = re.findall(pattern, posted_text)
         for article_name in article_names:
-            article = get_object_or_404(Article, name=article_name)
-            createdExplanatoin.related_articles.add(article)
+            try:
+                article = get_object_or_404(Article, name=article_name)
+                createExplanation.related_articles.add(article)
+            except Http404:
+                print(f"Article with name {article_name} not found.")
 
-        createdExplanatoin.commit_explanation_creates()
+        createExplanation.commit_explanation_creates()
 
         return redirect('explanation:index')
 
@@ -168,11 +171,14 @@ class UpdateView(View):
 
         updatedExplanation.related_articles.clear()
 
-        pattern = r'/article/(\w+)#[A-Z]\d'
+        pattern = r"embed\(/article/([^#]+)#.*\)"
         article_names = re.findall(pattern, updatedExplanation.text)
         for article_name in article_names:
-            article = get_object_or_404(Article, name=article_name)
-            updatedExplanation.related_articles.add(article)
+            try:
+                article = get_object_or_404(Article, name=article_name)
+                updatedExplanation.related_articles.add(article)
+            except Http404:
+                print(f"Article with name {article_name} not found.")
 
         updatedExplanation.save()
         updatedExplanation.commit_explanation_changes()
