@@ -1,8 +1,10 @@
 import json
+import re
 from natsort import humansorted
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from .models import Explanation
+from article.models import Article
 from django.core.exceptions import ValidationError
 from django.views import generic
 from django.views.generic.base import TemplateView
@@ -65,6 +67,14 @@ class ExplanationView(View):
             selected_text = selectedExplanation.text
             selected_preview = selectedExplanation.preview
             return JsonResponse({'text': selected_text, 'preview': selected_preview})
+
+        elif 'article_name' in request.GET:
+            explanations = Explanation.objects.filter(related_articles=request.GET.get('article_name'))
+            related_titles = []
+            for explanation in explanations:
+                related_titles.append(explanation.title)
+            return JsonResponse({"related_documents": related_titles})
+
         else:
             explanations = humansorted(list(Explanation.objects.all()), key=lambda a: a.title)
             return JsonResponse({'explanation': [
@@ -88,6 +98,7 @@ class ExplanationView(View):
         posted_title = post.get('title', None)
         posted_text = post.get('text', None)
         posted_preview = post.get('preview', None)
+
         if request.user.is_authenticated:
             username = request.user.username
             User = get_user_model()
@@ -99,8 +110,18 @@ class ExplanationView(View):
             errors = e.messages[0]
             return JsonResponse({'errors': errors}, status=400)
 
-        createdExplanatoin = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
-        createdExplanatoin.commit_explanation_creates()
+        createExplanation = Explanation.objects.create(title=posted_title, text=posted_text, preview=posted_preview, author=user)
+
+        pattern = r"embed\(/article/([^#]+)#.*\)"
+        article_names = re.findall(pattern, posted_text)
+        for article_name in article_names:
+            try:
+                article = get_object_or_404(Article, name=article_name)
+                createExplanation.related_articles.add(article)
+            except Http404:
+                print(f"Article with name {article_name} not found.")
+
+        createExplanation.commit_explanation_creates()
 
         return redirect('explanation:index')
 
@@ -147,6 +168,18 @@ class UpdateView(View):
         updatedExplanation.text = post.get('text', None)
         updatedExplanation.preview = post.get('preview', None)
         updatedExplanation.author = update_author
+
+        updatedExplanation.related_articles.clear()
+
+        pattern = r"embed\(/article/([^#]+)#.*\)"
+        article_names = re.findall(pattern, updatedExplanation.text)
+        for article_name in article_names:
+            try:
+                article = get_object_or_404(Article, name=article_name)
+                updatedExplanation.related_articles.add(article)
+            except Http404:
+                print(f"Article with name {article_name} not found.")
+
         updatedExplanation.save()
         updatedExplanation.commit_explanation_changes()
         return render(request, 'explanation/index.html')
@@ -172,10 +205,10 @@ class DeleteView(View):
         return render(request, 'explanation/index.html')
 
 
-class ArticleView(View):
-    def get(self, request, name_or_filename):
-        target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
-        return redirect(target_url)
+# class ArticleView(View):
+#     def get(self, request, name_or_filename):
+#         target_url = reverse('article:index', kwargs={'name_or_filename': name_or_filename})
+#         return redirect(target_url)
 
 
 class ProofView(View):

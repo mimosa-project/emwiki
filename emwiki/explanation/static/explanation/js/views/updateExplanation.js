@@ -65,6 +65,7 @@ export const updateExplanation = {
       }).href, {
         text: this.explanationText,
         preview: this.output.innerHTML,
+        embedSources: this.embedSources,
       })
           .then(() => {
             location.href = context['base_uri'];

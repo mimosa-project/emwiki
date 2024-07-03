@@ -36,4 +36,16 @@ export class ArticleService {
       return response.data.bib_text;
     });
   }
+
+  /**
+   * Get related documents of the article.
+   * @param {string} url
+   * @param {string} name
+   * @return {Promise}
+   */
+  static getRelated_documents(url, name) {
+    return axios.get(url, {params: {article_name: name}}).then((response) => {
+      return response.data;
+    });
+  }
 };

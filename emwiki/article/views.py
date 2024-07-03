@@ -22,7 +22,9 @@ class ArticleView(TemplateView):
             'comments_uri': reverse_lazy('article:comments'),
             'bibs_uri': reverse_lazy('article:bibs'),
             'names_uri': reverse_lazy('article:names'),
-            'search_uri': reverse_lazy('search:index')
+            'search_uri': reverse_lazy('search:index'),
+            'related_documents_uri': reverse_lazy('explanation:explanation'),
+            'base_uri': reverse_lazy('explanation:index'),
         }
     }
 

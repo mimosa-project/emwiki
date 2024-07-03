@@ -47,7 +47,7 @@ export const ExplanationView = {
             <div id="explanationText" name="content"></div>
 
                 <v-btn class="ma-2" outlined color="green" 
-                    @click=reloadUpdate_form()>update</v-btn>
+                    @click=reloadUpdate_form()>edit</v-btn>
                 <v-btn class="ma-2" outlined color="red" 
                     @click=reloadDelete_form()>delete</v-btn>
         </v-container>`,

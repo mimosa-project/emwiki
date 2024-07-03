@@ -53,12 +53,10 @@ export const createExplanation = {
       for (let i = 0; i < this.Articles.length; i++) {
         const url = this.Articles[i].url;
         const html = this.Articles[i].html;
-        // this.removePattern(html);
-        // const regex = new RegExp(url, 'g');
+
         content = content.replace(url, html);
       }
       this.content = content;
-      // console.log(this.output);
 
       // preview-bufferにcontentを代入する
       this.buffer.innerHTML = this.content;
@@ -115,15 +113,12 @@ export const createExplanation = {
           const htmls = this.removePattern(articleHtml).split('\n</div>\n<br>');
           this.embedHtmls[i] = htmls.filter((html) =>
             html.includes('name="' + fragment + '"'));
-          // console.log(typeof JSON.stringify(this.embedHtmls[i]));
-          // this.removePattern(JSON.stringify(this.embedHtmls[i]));
           this.Articles.push({
             url: this.embedSources[i],
             html: this.embedHtmls[i],
           });
         } catch (error) {
           console.error('Error fetching HTML:', error);
-          // Handle error as needed
         }
       }
     },

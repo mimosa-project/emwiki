@@ -9,6 +9,7 @@ export const ArticleView = {
     bibTooltip: 'no bibs found',
     articleHtml: '',
     articleName: '',
+    related_documents: [],
   }),
   mounted() {
     this.reloadArticle(this.$route.params.name.replace('.html', ''))
@@ -23,6 +24,11 @@ export const ArticleView = {
         ArticleService.getBib(context['bibs_uri'], this.articleName)
             .then((bibText) => {
               this.bibTooltip = bibText;
+            });
+        ArticleService.getRelated_documents(
+            context['related_documents_uri'], this.articleName)
+            .then((relatedDocuments) => {
+              this.related_documents = relatedDocuments.related_documents;
             });
         ArticleService.getHtml(
             context['article_html_base_uri'],
@@ -104,6 +110,11 @@ export const ArticleView = {
         newHashElement.scrollIntoView();
       }
     },
+    navigateToDocument(title) {
+      const baseUrl = context['base_uri'] + 'detail/'; // ベースURL部分を明示的に指定
+      const targetUrl = `${baseUrl}${title}`;
+      window.location.href = targetUrl;
+    },
   },
   watch: {
     async $route(newRoute, oldRoute) {
@@ -139,6 +150,16 @@ export const ArticleView = {
                   </template>
                   <pre>$(bibTooltip)</pre>
                 </v-tooltip>
+              </v-col>
+              
+              <v-col>
+                <v-col class='display-1'>Related Documents</v-col>
+                <ul>
+                  <li v-for="title in related_documents" 
+                  :key="title" @click="navigateToDocument(title)">
+                    <a>$( title )</a>
+                  </li>
+                </ul>
               </v-col>
           </v-row>
           <v-row>

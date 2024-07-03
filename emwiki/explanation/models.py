@@ -12,6 +12,7 @@ class Explanation(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(null=True, blank=True)
+    related_articles = models.ManyToManyField('article.Article', related_name='explanations')
 
     def __str__(self):
         return f"{self.title}, {self.author}"
