@@ -14,7 +14,7 @@ networkx = "~=2.5"
 matplotlib = "*"
 
 [packages]
-django = ">=3.2, <4.0"
+django = ">=3.2,<5.0"
 psycopg2 = "*"
 uwsgi = "*"
 lxml = "*"
