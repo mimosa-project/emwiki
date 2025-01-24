@@ -23,9 +23,9 @@
                 </v-card-text>
             </form>
             {% if github_id %}
-            <v-btn href="{% url 'settings:change' %}" block>Change</v-btn>
+            <v-btn href="{% url 'develop:change' %}" block>Change</v-btn>
             {% else %}
-            <v-btn href="{% url 'settings:registration' %}" block>Registration</v-btn>
+            <v-btn href="{% url 'develop:registration' %}" block>Registration</v-btn>
             {% endif %}
         </v-card>
     </v-col>

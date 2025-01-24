@@ -171,7 +171,9 @@ export const updateExplanation = {
                             id="input-field" 
                             v-model="explanationText" 
                             @keyup="createPreview(); complementwords()" 
-                            spellcheck="false"><br>
+                            spellcheck="false"
+                            style="padding: 10px; box-sizing: border-box; 
+                            resize: both; max-width: 100%;"><br>
                         </textarea>
                     </div>
                     <div class="column is-6" id="preview-field-wrapper">

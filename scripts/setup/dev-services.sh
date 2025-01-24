@@ -4,4 +4,4 @@
 cd "$(dirname "$0")/../.."
 
 # Main
-docker-compose up -d
+docker compose up -d

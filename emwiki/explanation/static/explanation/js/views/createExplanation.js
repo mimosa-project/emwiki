@@ -140,15 +140,17 @@ export const createExplanation = {
         <p id='notes'>
           The following characters cannot be used in the title.
         </p>
-        <p  id='notes'>'! @$%#^&*()=+\[\]{};':"\\|,<>\/?'</p>
+        <p id='notes'>'! @$%#^&*()=+\[\]{};':"\\|,<>\/?'</p>
 
         <div class="columns">
             <div class="column is-6" id="input-field-wrapper">
                 <h2><i class="fas fa-edit"></i> Input</h2>
                 <textarea class="input-field" name="input-field" 
                     id="input-field" v-model="text" 
-                    v-model="text" @keyup="createPreview(); 
-                    complementwords()" spellcheck="false"><br>
+                    @keyup="createPreview(); 
+                    complementwords()" spellcheck="false"
+                    style="padding: 10px; box-sizing: border-box; 
+                    resize: both; max-width: 100%;"><br>
                 </textarea>
             </div>
             <div class="column is-6" id="preview-field-wrapper">

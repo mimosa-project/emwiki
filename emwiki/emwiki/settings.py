@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'graph.apps.GraphConfig',
     'explanation.apps.ExplanationConfig',
-    'settings.apps.SettingsConfig',
+    'develop.apps.DevelopConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
